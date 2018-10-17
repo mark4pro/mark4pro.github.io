@@ -59,11 +59,11 @@ var spin;
 function startGame() {
 	player = new component(30, 30, "red", 50, 150);
 	player2 = new component(30, 30, "blue", 400, 150);
-	obstacle = new component(10, 500, "wall.jpg", 0, 0, "image");
-	obstacle2 = new component(10, 500, "wall.jpg", 490, 0, "image");
-	obstacle3 = new component(500, 1, "wall.jpg", 0, 299, "image");
-	obstacle4 = new component(500, 1, "wall.jpg", 0, 0, "image");
-	spin = new spin(10, 100, "wall.jpg", 250, 40, "image");
+	obstacle = new component(10, 500, "yellow", 0, 0);
+	obstacle2 = new component(10, 500, "yellow", 490, 0);
+	obstacle3 = new component(500, 1, "yellow", 0, 299);
+	obstacle4 = new component(500, 1, "yellow", 0, 0);
+	spin = new spin(10, 100, "yellow", 250, 40);
 	time = new component("30px", "Consolas", "black", 300, 40, "text");
 	myGameArea.start();
 	updateGameArea();
@@ -108,7 +108,14 @@ function component(width, height, color, x, y, type) {
 			this.y,
 			this.width, this.height);
 		}
-		
+		if (this.type == "text") {
+		  ctx.font =this.width + " " + this.height;
+		  ctx.fillStyle = color;
+		  ctx.fillText(this.text, this.x, this.y);
+		} else {
+		ctx.fillStyle = color;
+		ctx.fillRect(this.x, this.y, this.width, this.height);
+		}
 	}
 	this.newPos = function() {
 		this.x += this.speedX;
@@ -132,14 +139,7 @@ function component(width, height, color, x, y, type) {
 	   }
 	   return crash;
 	}
-	if (this.type == "text") {
-		  ctx.font =this.width + " " + this.height;
-		  ctx.fillStyle = color;
-		  ctx.fillText(this.text, this.x, this.y);
-		} else {
-		ctx.fillStyle = color;
-		ctx.fillRect(this.x, this.y, this.width, this.height);
-		}
+	
 }
 
 function spin(width, height, color, x, y, type) {
