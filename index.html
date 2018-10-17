@@ -225,6 +225,8 @@ function updateGameArea() {
 	obstacle4.update();
 	spin.update();
 	spin.newPos();
+	background.newPos(); 
+        background.update();
 	spin.angle += 1 * Math.PI / 180; 
 	time.text="TIME: " + myGameArea.frameNo;
 	time.update();
