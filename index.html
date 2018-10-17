@@ -325,6 +325,23 @@ function clearmove2() {
     <div id="joystickContent">
     </div>
 	
+	<script type="text/javascript">
+        $(document).ready(function(){
+            var joystickView = new JoystickView(150, function(callbackView){
+                $("#joystickContent").append(callbackView.render().el);
+                setTimeout(function(){
+                    callbackView.renderSprite();
+                }, 0);
+            });
+            joystickView.bind("moveup", function(-y){
+                $("#yVal").html(-y);
+            });
+            joystickView.bind("moveleft", function(-x){
+                $("#xVal").html(-x);
+            });
+        });
+    </script>
+	
 <div style="text-align:left;width:450px;">
   player1<br>
   <button onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()">UP</button><br><br>
