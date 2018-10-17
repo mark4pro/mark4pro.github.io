@@ -14,10 +14,6 @@
     <link rel=“stylesheet” href=“css/framework7-TwitterDarkMode.css”>
     <link rel="stylesheet" href="https://rawgit.com/S0n1cDev/TDM/master/Framework7-TwitterDarkMode.css">
    
-	 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
-        <script type="text/javascript" src="js/underscore-min.js"></script>
-        <script type="text/javascript" src="js/backbone-min.js"></script>
-        <script type="text/javascript" src="js/joystick_view.js"></script>
 	
 <style>
 body {
@@ -317,30 +313,7 @@ function clearmove2() {
 
 </script>
 	
-	   <script type="text/html" id="joystick-view">
-    <canvas id="joystickCanvas" width="<%= squareSize %>" height="<%= squareSize %>" style="width: <%= squareSize %>px; height: <%= squareSize %>px;">
-        </canvas>
-    </script>
-
-    <div id="joystickContent">
-    </div>
 	
-	<script type="text/javascript">
-        $(document).ready(function(){
-            var joystickView = new JoystickView(150, function(callbackView){
-                $("#joystickContent").append(callbackView.render().el);
-                setTimeout(function(){
-                    callbackView.renderSprite();
-                }, 0);
-            });
-            joystickView.bind("moveup", function(-y){
-                $("#yVal").html(-y);
-            });
-            joystickView.bind("moveleft", function(-x){
-                $("#xVal").html(-x);
-            });
-        });
-    </script>
 	
 <div style="text-align:left;width:450px;">
   player1<br>
