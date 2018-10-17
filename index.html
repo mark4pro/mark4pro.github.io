@@ -316,6 +316,15 @@ function clearmove2() {
 }
 
 </script>
+	
+	   <script type="text/html" id="joystick-view">
+    <canvas id="joystickCanvas" width="<%= squareSize %>" height="<%= squareSize %>" style="width: <%= squareSize %>px; height: <%= squareSize %>px;">
+        </canvas>
+    </script>
+
+    <div id="joystickContent">
+    </div>
+	
 <div style="text-align:left;width:450px;">
   player1<br>
   <button onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()">UP</button><br><br>
