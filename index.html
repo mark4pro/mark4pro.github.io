@@ -51,6 +51,7 @@ var time;
 var soundfx;
 var Music;
 var spin;
+var background;
 
 function startGame() {
 	player = new component(30, 30, "red", 50, 150);
@@ -60,6 +61,7 @@ function startGame() {
 	obstacle3 = new component(500, 1, "yellow", 0, 299);
 	obstacle4 = new component(500, 1, "yellow", 0, 0);
 	spin = new spin(10, 100, "yellow", 250, 40);
+	background = new component(500, 300, "background.jpg", 0, 0, "image");
 	time = new component("30px", "Consolas", "black", 300, 40, "text");
 	myGameArea.start();
 	updateGameArea();
