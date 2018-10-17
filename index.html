@@ -55,16 +55,17 @@ var time;
 var soundfx;
 var Music;
 var spin;
-
+var background;
 
 function startGame() {
 	player = new component(30, 30, "red", 50, 150);
 	player2 = new component(30, 30, "blue", 400, 150);
-	obstacle = new component(10, 500, "wall.JPG", 0, 0, "image");
-	obstacle2 = new component(10, 500, "wall.JPG", 490, 0, "image");
-	obstacle3 = new component(500, 1, "wall.JPG", 0, 299, "image");
-	obstacle4 = new component(500, 1, "wall.JPG", 0, 0, "image");
-	spin = new spin(10, 100, "wall.JPG", 250, 40, "image");
+	obstacle = new component(10, 500, "wall.jpg", 0, 0, "image");
+	obstacle2 = new component(10, 500, "wall.jpg", 490, 0, "image");
+	obstacle3 = new component(500, 1, "wall.jpg", 0, 299, "image");
+	obstacle4 = new component(500, 1, "wall.jpg", 0, 0, "image");
+	spin = new spin(10, 100, "wall.jpg", 250, 40, "image");
+	background = new component(656, 270, "background.jpg", 0, 0, "image");
 	time = new component("30px", "Consolas", "black", 300, 40, "text");
 	myGameArea.start();
 	updateGameArea();
