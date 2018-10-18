@@ -17,7 +17,8 @@
    
 	
 <style>
-	div {
+
+.unselectable {
     -webkit-user-select: none; /* Safari 3.1+ */
     -moz-user-select: none; /* Firefox 2+ */
     -ms-user-select: none; /* IE 10+ */
@@ -324,7 +325,7 @@ function clearmove2() {
 </script>
 	
 	
-	
+<label class="unselectable">
 <div style="text-align:left;width:450px;">
   player1<br>
   <button onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()">UP</button><br><br>
@@ -344,6 +345,7 @@ function clearmove2() {
   <button onmousedown="moveright2()" onmouseup="clearmove2()" ontouchstart="moveright2()">RIGHT</button><br><br>
   <button onmousedown="movedown2()" onmouseup="clearmove2()" ontouchstart="movedown2()">DOWN</button>
 </div>
+</label>
 
 <p style="background-color:orange; border:1px solid darkred;">A lot of this code comes from w3schools!
 Go check it out!</p>
