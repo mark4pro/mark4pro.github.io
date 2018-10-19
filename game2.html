@@ -56,9 +56,7 @@ var obstacle;
 var time;
 var soundfx;
 var Music;
-var spin;
 var bullet;
-var f;
 
 
 function startGame() {
@@ -69,8 +67,6 @@ function startGame() {
 	obstacle3 = new component(500, 1, "yellow", 0, 299);
 	obstacle4 = new component(500, 1, "yellow", 0, 0);
 	obstacle5 = new component(10, 10, "yellow", 250, 150);
-	ammo = new component(10, 10, "pink", 150, 150);
-	spin = new spin(10, 100, "yellow", 250, 40);
 	time = new component("30px", "Consolas", "black", 300, 40, "text");
 	myGameArea.start();
 	updateGameArea();
@@ -255,66 +251,6 @@ function bullet(width, height, color, x, y, type) {
 }
 
 
-function spin(width, height, color, x, y, type) {
-	this.type = type;
-	if (type == "image") {
-	  this.image = new Image();
-	  this.image.src = color;
-	}
-	this.width = width;
-	this.height = height;
-	this.speedX = 0;
-	this.speedY = 0;
-	this.angle = 360;
-	this.moveAngle = 0;
-	this.speed = 1;
-	this.x = x;
-	this.y = y;	
-	this.update = function() {
-		ctx = myGameArea.context;
-		if (type == "image") {
-		  ctx.drawImage(this.image,
-			this.x,
-			this.y,
-			this.width, this.height);
-		}
-		if (this.type == "text") {
-		  ctx.font =this.width + " " + this.height;
-		  ctx.fillStyle = color;
-		  ctx.fillText(this.text, this.x, this.y);
-		} else {
-		ctx.fillStyle = color;
-		ctx.fillRect(this.x, this.y, this.width, this.height);
-		}
-	}
-	this.newPos = function() {
-		this.x += this.speedX;
-		this.y += this.speedY;		
-	}
-	this.newPos = function() {
-		this.angle += this.moveAngle * Math.PI / 360;
-		this.x += this.speed * Math.sin(this.angle);
-		this.y -= this.speed * Math.cos(this.angle);
-	}
-	this.crashWith = function(otherobj) {
-		var myleft = this.x;
-		var myright = this.x + (this.width);
-		var mytop = this.y;
-		var mybottom = this.y + (this.height);
-		var otherleft = otherobj.x;
-		var otherright = otherobj.x + (otherobj.width);
-		var othertop = otherobj.y;
-		var otherbottom = otherobj.y + (otherobj.height);
-		var crash = true;
-		if ((mybottom < othertop) ||
-			   (mytop > otherbottom) ||
-			   (myright < otherleft) ||
-			   (myleft > otherright)) {
-			crash = false;
-	   }
-	   return crash;
-	}	
-}
 
 function updateGameArea() {
 	if (player2.crashWith(obstacle)) {
@@ -341,12 +277,12 @@ function updateGameArea() {
 		win.update();
 		myGameArea.stop();
 		} 
-	if (player2.crashWith(spin)) {
-	   win = new component("30px", "Consolas", "black", 250, 150, "text");
-	   win.text="You win!";
-		win.update();
+	if (player2.crashWith(obstacle5)) {
+	   loose = new component("30px", "Consolas", "black", 250, 150, "text");
+	   loose.text="You loose!";
+		loose.update();
 		myGameArea.stop();
-		}  
+		} 
 	if (player.crashWith(obstacle)) {
 	   loose = new component("30px", "Consolas", "black", 250, 150, "text");
 	   loose.text="You loose!";
@@ -371,16 +307,16 @@ function updateGameArea() {
 		loose.update();
 		myGameArea.stop();
 		}
+	if (player.crashWith(obstacle5)) {
+	   loose = new component("30px", "Consolas", "black", 250, 150, "text");
+	   loose.text="You loose!";
+		loose.update();
+		myGameArea.stop();
+		}
 	if (player.crashWith(player2)) {
 	   death = new component("30px", "Consolas", "black", 250, 150, "text");
 	   death.text="You died!";
 		death.update();
-		myGameArea.stop();
-		}
-	if (player.crashWith(spin)) {
-	   loose = new component("30px", "Consolas", "black", 250, 150, "text");
-	   loose.text="You loose!";
-		loose.update();
 		myGameArea.stop();
 		} else {
 	myGameArea.clear();
