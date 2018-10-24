@@ -69,8 +69,6 @@ function startGame() {
 	obstacle5 = new component(10, 50, "yellow", 250, 0);
 	ammo = new component(10, 10, "lightblue", 270, 50);
 	time = new component("30px", "Consolas", "black", 300, 40, "text");
-	Music = new sound("battle.mp3");
-	music.play();
 	myGameArea.start();
 	updateGameArea();
 }
@@ -465,10 +463,14 @@ function bull() {
 		myGameArea.stop();
 	} 
 }
+function play() {
+	Music = new sound("battle.mp3");
+	music.play();
+}
 
 </script>
 	<label class="unselectable">
-<div style="text-align:left;width:450px;">
+<div style="text-align:center;width:450px;">
   player1<br>
   <button onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()">UP</button><br><br>
   <button onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()">LEFT</button>
@@ -476,11 +478,12 @@ function bull() {
   <button onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()">DOWN</button>
 </div>
 
-<div style="text-align:center;width:450px;">
+<div style="text-align:left;width:450px;">
 <input type="button" value="Reset" onClick="document.location.reload(true)">
+<input type="button" value="Play Music" onClick="play()">
 </div>
 
-<div style="text-align:center;width:450px;">
+<div style="text-align:right;width:450px;">
  <button onmousedown="fire()" onmouseup="" ontouchstart="fire()">FIRE!</button>
 	</label>
 
