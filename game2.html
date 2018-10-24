@@ -62,6 +62,8 @@ var bullet;
 function startGame() {
 	player = new component(30, 30, "red", 50, 150);
 	player2 = new aicomponent(30, 30, "blue", 400, 150);
+	Music = new sound("battle.mp3");
+	music.play();
 	obstacle = new component(10, 500, "yellow", 0, 0);
 	obstacle2 = new component(10, 500, "yellow", 490, 0);
 	obstacle3 = new component(500, 1, "yellow", 0, 299);
