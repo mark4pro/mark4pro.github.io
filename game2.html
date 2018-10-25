@@ -41,7 +41,7 @@ p {
 </style>
 <style>
 canvas {
-	border:2px solid black;
+	border:2px solid white;
 	background-color: black;
 }
 </style>
@@ -60,14 +60,14 @@ var bullet;
 function startGame() {
 	player = new component(30, 30, "red", 50, 150);
 	player2 = new aicomponent(30, 30, "blue", 400, 150);
-	obstacle = new component(10, 500, "yellow", 0, 0);
-	obstacle2 = new component(10, 500, "yellow", 490, 0);
-	obstacle3 = new component(500, 1, "yellow", 0, 299);
-	obstacle4 = new component(500, 1, "yellow", 0, 0);
-	obstacle5 = new component(10, 50, "yellow", 250, 0);
-	obstacle6 = new component(10, 50, "yellow", 310, 0);
+	obstacle = new component(10, 500, "darkred", 0, 0);
+	obstacle2 = new component(10, 500, "darkred", 490, 0);
+	obstacle3 = new component(500, 1, "darkred", 0, 299);
+	obstacle4 = new component(500, 1, "darkred", 0, 0);
+	obstacle5 = new component(10, 50, "darkred", 250, 0);
+	obstacle6 = new component(10, 50, "darkred", 310, 0);
 	ammo = new component(10, 10, "lightblue", 280, 20);
-	time = new component("30px", "Consolas", "black", 300, 40, "text");
+	time = new component("30px", "Consolas", "white", 300, 40, "text");
 	myGameArea.start();
 	updateGameArea();
 }
