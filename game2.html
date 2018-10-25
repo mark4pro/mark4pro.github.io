@@ -65,6 +65,7 @@ function startGame() {
 	obstacle3 = new component(500, 1, "yellow", 0, 299);
 	obstacle4 = new component(500, 1, "yellow", 0, 0);
 	obstacle5 = new component(10, 50, "yellow", 250, 0);
+	obstacle6 = new component(10, 50, "yellow", 310, 0);
 	ammo = new component(10, 10, "lightblue", 280, 20);
 	time = new component("30px", "Consolas", "black", 300, 40, "text");
 	myGameArea.start();
@@ -282,6 +283,12 @@ function updateGameArea() {
 		loose.update();
 		myGameArea.stop();
 		} 
+	if (player2.crashWith(obstacle6)) {
+	   loose = new component("30px", "Consolas", "black", 250, 150, "text");
+	   loose.text="You loose!";
+		loose.update();
+		myGameArea.stop();
+		}
 	if (player.crashWith(obstacle)) {
 	   loose = new component("30px", "Consolas", "black", 250, 150, "text");
 	   loose.text="You loose!";
@@ -312,6 +319,12 @@ function updateGameArea() {
 		loose.update();
 		myGameArea.stop();
 		}
+	if (player.crashWith(obstacle6)) {
+	   loose = new component("30px", "Consolas", "black", 250, 150, "text");
+	   loose.text="You loose!";
+		loose.update();
+		myGameArea.stop();
+		}
 	if (player.crashWith(player2)) {
 	   death = new component("30px", "Consolas", "black", 250, 150, "text");
 	   death.text="You died!";
@@ -325,6 +338,7 @@ function updateGameArea() {
 	obstacle3.update();
 	obstacle4.update();
 	obstacle5.update();
+	obstacle6.update();
 	time.text="TIME: " + myGameArea.frameNo;
 	time.update();
 	player.newPos();	
