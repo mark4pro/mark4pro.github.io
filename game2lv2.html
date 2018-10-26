@@ -53,7 +53,7 @@ var time;
 var bullet;
 function startGame() {
 	player = new component(30, 30, "red", 50, 150);
-	player2 = new aicomponent(30, 30, "blue", 400, 150);
+	player2 = new aicomponent(30, 30, "blue", 700, 150);
 	obstacle = new component(10, 500, "darkred", 0, 0);
 	obstacle2 = new component(10, 500, "darkred", 790, 0);
 	obstacle3 = new component(800, 1, "darkred", 0, 299);
@@ -349,16 +349,16 @@ if (player.crashWith(ammo)) {
 }
 function player2ai() {
  if (player.x < player2.x){
- player2.speedX = -2;
+ player2.speedX = -3;
  } 
  if (player.x > player2.x){
- player2.speedX = 2;
+ player2.speedX = 3;
  }
  if (player.y < player2.y){
- player2.speedY = -2;
+ player2.speedY = -3;
  } 
  if (player.y > player2.y){
- player2.speedY = 2;
+ player2.speedY = 3;
    }
  }
 function bulletai() {
@@ -376,7 +376,7 @@ function bulletai() {
    }
  }
 function moveup() {
-	player.speedY = -2.5;
+	player.speedY = -2;
 	player2ai();
 	if (player.crashWith(player2)) {
 	   loose5 = new component("30px", "Consolas", "white", 250, 150, "text");
@@ -386,7 +386,7 @@ function moveup() {
 	} 
 }
 function movedown() {
-	player.speedY = 2.5; 
+	player.speedY = 2; 
 	player2ai();
 	if (player.crashWith(player2)) {
 	   loose4 = new component("30px", "Consolas", "white", 250, 150, "text");
@@ -396,7 +396,7 @@ function movedown() {
 	} 
 }
 function moveleft() {
-	player.speedX = -2.5; 
+	player.speedX = -2; 
 	player2ai();
 	if (player.crashWith(player2)) {
 	   loose3 = new component("30px", "Consolas", "white", 250, 150, "text");
@@ -406,7 +406,7 @@ function moveleft() {
 	} 
 }
 function moveright() {
-	player.speedX = 2.5; 
+	player.speedX = 2; 
 	player2ai();
 	if (player.crashWith(player2)) {
 	   loose2 = new component("30px", "Consolas", "white", 250, 150, "text");
