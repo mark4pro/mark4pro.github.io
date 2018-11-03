@@ -1,8 +1,0 @@
-{
-    "imports": {
-        "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" },
-        "inheritance": { "name": "PENGO.shared.inheritance", "version": "0.0.1" },
-        "events": { "name": "PENGO.shared.events", "version": "0.0.1" },
-        "require": { "name": "PENGO.client.igloo.require", "version": "*" }
-    }
-}
