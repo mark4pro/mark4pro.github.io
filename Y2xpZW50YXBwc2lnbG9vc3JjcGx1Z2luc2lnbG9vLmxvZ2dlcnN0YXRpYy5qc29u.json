@@ -1,5 +1,0 @@
-{
-    "imports": {
-        "log": { "name": "PENGO.shared.log", "version": "0.0.1" }
-    }
-}
