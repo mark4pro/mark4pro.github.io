@@ -1,0 +1,27 @@
+{
+    "id": "matchDataStorage",
+    "provides": ["matchDataStorage"],
+    "consumes": [
+        "igloo.logger",
+        "igloo.fatal",
+        "igloo.eventsManager",
+        "net",
+        "game.gameManager"
+    ],
+    "config": {
+        "errorsStore": "matchDataStorage",
+        "remoteService": "matchdatastorage",
+        "standalone": false
+    },
+    "activator": "PENGO.client.plugins.matchDataStorage.activator",
+    "src" : {
+        "baseURL": "/client/plugins/matchDataStorage/src/",
+        "js": {
+            "autoRequires": true,
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled": "matchDataStorage.min.js",
+            "notCompiled": ["errors.js", "controller.js", "staticOps.js", "module.js", "activator.js"]
+        }
+    }
+}

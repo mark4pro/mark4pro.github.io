@@ -1,0 +1,46 @@
+{
+    "id": "uiManager",
+    "provides": ["uiManager"],
+    "consumes": [
+        "igloo.logger",
+        "igloo.fatal",
+        "igloo.eventsManager",
+        "theme",
+        "languageManager",
+        "uitools.toolbar",
+        "support"
+    ],
+    "config": {
+        "errorsStore": "uiManager"
+    },
+    "activator": "PENGO.client.plugins.uiManager.activator",
+    "src" : {
+        "baseURL": "/client/plugins/uiManager/src/",
+        "js": {
+            "autoRequires": true,
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled": "uiManager.min.js",
+            "notCompiled": [
+                "uiManagerErrors.js",
+                "uiManagerModel.js",
+                "uiManagerView.js",
+                "uiManagerController.js",
+                "uiManagerModule.js",
+                "uiManagerActivator.js"
+            ]
+        },
+        "template": "uiManager.template"
+    },
+    "res":{
+        "baseURL":"/client/plugins/uiManager/res/",
+        "text": "texts_#.json",
+        "images":"images",
+        "css": {
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled" : "uiManager.css",
+            "notCompiled": [ "uiManager.css" ]
+        }
+    }
+}

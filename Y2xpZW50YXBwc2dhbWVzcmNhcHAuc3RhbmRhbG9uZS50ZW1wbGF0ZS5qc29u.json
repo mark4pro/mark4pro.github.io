@@ -1,0 +1,218 @@
+{
+    "id": "game.launcher",
+    "defInstallation": "url",
+    "defDescriptor": "plugin.json",
+    "defStatic": "static.json",
+    "defCompound": false,
+    "test": false,
+    "version": "0.6.2",
+    "appkey": null,
+    "type": "package",
+    "plugins": {
+        "languageManager": {
+            "baseURL": "client/plugins/languageManager/src/",
+            "src": {
+                "baseURL": "client/plugins/languageManager/src/"
+            },
+            "res": {
+                "baseURL": "client/plugins/languageManager/res/"
+            }
+        },
+        "uiManager": {
+            "baseURL": "client/plugins/uiManager/src/",
+            "src": {
+                "baseURL": "client/plugins/uiManager/src/"
+            },
+            "res": {
+                "baseURL": "client/plugins/uiManager/res/"
+            }
+        },
+        "theme": {
+            "baseURL": "client/plugins/theme/src/",
+            "src": {
+                "baseURL": "client/plugins/theme/src/"
+            },
+            "res": {
+                "baseURL": "client/plugins/theme/res/"
+            }
+        },
+        "stats": {
+            "baseURL": "client/plugins/stats/src/",
+            "src": {
+                "baseURL": "client/plugins/stats/src/"
+            },
+            "res": {
+                "baseURL": "client/plugins/stats/res/"
+            },
+            "config": {
+                "compound": true,
+                "data": {
+                    "default": {
+                        "errorsStore": "stats",
+                        "transports": []
+                    },
+                    "preproduction": {
+                        "transports": []
+                    },
+                    "production": {
+                        "transports": []
+                    }
+                }
+            }
+        },
+        "game.uiManager": {
+            "baseURL": "client/plugins/game.uiManager/src/",
+            "src": {
+                "baseURL": "client/plugins/game.uiManager/src/"
+            },
+            "res": {
+                "baseURL": "client/plugins/game.uiManager/res/"
+            },
+            "config": {
+                "compound": true,
+                "data": {
+                    "default": {
+                        "showCookieAlert": false,
+                        "showCookiePolicyAcceptance": false
+                    },
+                    "preproduction": {
+                        "PWLDomain": [ "predeveloper.wimi5.com", "prelabs.wimi5.com" ]
+                    },
+                    "production": {
+                        "PWLDomain": [ "developer.wimi5.com", "labs.wimi5.com" ]
+                    }
+                }
+            }
+        },
+        "game.gameManager": {
+            "baseURL": "client/plugins/game.gameManager/src/",
+            "src": {
+                "baseURL": "client/plugins/game.gameManager/src/"
+            },
+            "res": {
+                "baseURL": "client/plugins/game.gameManager/res/"
+            },
+            "config": {
+                "compound": true,
+                "data": {
+                    "default": {
+                        "mode": "packed",
+                        "resourcesPath": ""
+                    }
+                }
+            }
+        },
+        "game.loader": {
+            "baseURL": "client/plugins/game.loader/src/",
+            "src": {
+                "baseURL": "client/plugins/game.loader/src/"
+            },
+            "res": {
+                "baseURL": "client/plugins/game.loader/res/"
+            },
+            "config": {
+                "compound": true,
+                "data": {
+                    "default": {
+                        "resourcesPath": ""
+                    }
+                }
+            }
+        },
+        "game.runnerManager": {
+            "baseURL": "client/plugins/game.runnerManager/src/",
+            "src": {
+                "baseURL": "client/plugins/game.runnerManager/src/"
+            },
+            "res": {
+                "baseURL": "client/plugins/game.runnerManager/res/"
+            },
+            "config": {
+                "compound": true,
+                "data": {
+                    "default": {
+                        "managersMapPath": "client/sharedByRequire/runEngine/src/managersMapLauncher.json",
+                        "needVG": false,
+                        "needDS": false,
+                        "needRanking": false,
+                        "needAM": false
+                    }
+                }
+            }
+        },
+        "game.adsManager": {
+            "baseURL": "client/plugins/game.adsManager/src/",
+            "src": {
+                "baseURL": "client/plugins/game.adsManager/src/"
+            },
+            "res": {
+                "baseURL": "client/plugins/game.adsManager/res/"
+            },
+            "config": {
+                "compound": true,
+                "data": {
+                    "default": {
+                        "errorsStore": "gameAdsManagerManager",
+                        "PWLDomain": [ "localhost:8082", "localhost:8084" ],
+                        "defaultTimeout": 30000,
+                        "adsProviders": [ 
+                            {
+                                "name": "adsense",
+                                "enabled": true,
+                                "config": {
+                                    "desktop": "client/plugins/game.adsManager/src/adsProviders/adsense/ads.html",
+                                    "mobile": "client/plugins/game.adsManager/src/adsProviders/adsense/adsmobile.html",
+                                    "timeout": 30000,
+                                    "containertimeout": 3000,
+                                    "div": "outstreamContainer"
+                                }
+                            }
+			]
+                    },
+                    "preproduction": {
+                        "PWLDomain": [ "predeveloper.wimi5.com", "prelabs.wimi5.com" ]
+                    },
+                    "production": {
+                        "PWLDomain": [ "developer.wimi5.com", "labs.wimi5.com" ]
+                    }
+                }
+            }
+        },
+        "support": {
+            "baseURL": "client/plugins/support/src/",
+            "src": {
+                "baseURL": "client/plugins/support/src/"
+            },
+            "config": {
+                "compound": true,
+                "data": {
+                    "default": {
+                        "enabled": false,
+                        "errorsURL": "http://localhost:8085/support/errors"
+                    },
+                    "preproduction": {
+                        "errorsURL": "https://preaccounts.wimi5.com/support/errors"
+                    },
+                    "production": {
+                        "errorsURL": "https://accounts.wimi5.com/support/errors"
+                    }
+                }
+            }
+        },
+        "uitools.slideshow": {
+            "baseURL": "client/plugins/uitools.slideshow/src/",
+            "src": {
+                "baseURL": "client/plugins/uitools.slideshow/src/"
+            },
+            "res": {
+                "baseURL": "client/plugins/uitools.slideshow/res/"
+            },
+            "config": {
+                "compound": true,
+                "data": {
+                    "wimilogo": "client/plugins/uitools.slideshow/res/images/wimi.png"
+                }
+            }
+        }
+    }
+}

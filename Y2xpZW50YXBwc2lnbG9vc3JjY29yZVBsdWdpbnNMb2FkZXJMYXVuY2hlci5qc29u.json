@@ -1,0 +1,10 @@
+{
+    "DESCRIPTOR": "/plugin.json",
+    "STATIC": "/static.json",
+    "URL": "client/apps/igloo/src/plugins/",
+    "LOGGER": "igloo.logger",
+    "others": {
+        "EVENTS_MANAGER": "igloo.eventsManager",
+        "FATAL": "igloo.fatal"
+    }
+}

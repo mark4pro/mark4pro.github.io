@@ -1,0 +1,7 @@
+{
+    "imports": {
+        "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" },
+        "util": { "name": "PENGO.shared.util", "version": "0.0.1" },
+        "storage": { "name": "PENGO.client.shared.storage", "version": "0.0.1" }
+    }
+}

@@ -1,0 +1,154 @@
+{
+    "PENGO.shared.error": {
+        "0.0.1": {
+            "url": "shared/error/src/",
+            "js": ["error.min.js"],
+            "imports": {
+                "util": { "name": "PENGO.shared.util", "version": "0.0.1"  },
+                "inheritance": { "name": "PENGO.shared.inheritance", "version": "0.0.1" }
+            }
+        }
+    },
+    "PENGO.shared.inheritance": {
+        "0.0.1": {
+            "url": "shared/inheritance/src/",
+            "js": ["inheritance.min.js"]
+        }
+    },
+    "PENGO.shared.servicesManager": {
+        "0.0.1": {
+            "url": "shared/servicesManager/src/",
+            "js": ["servicesManager.min.js"],
+            "imports": {
+                "servicesMgr": {"name": "PENGO.shared.servicesManager", "version": "0.0.1" },
+                "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" }
+            }
+        }
+    },
+    "PENGO.shared.util": {
+        "0.0.1": {
+            "url": "shared/util/src/",
+            "js": ["util.min.js"]
+        }
+    },
+    "PENGO.shared.log": {
+        "0.0.1": {
+            "url": "shared/log/src/",
+            "js": ["log.min.js"],
+            "imports": {
+                "log": { "name": "PENGO.shared.log", "version": "0.0.1" },
+                "util": { "name": "PENGO.shared.util", "version": "0.0.1"  },
+                "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" }
+            }
+        }
+    },
+    "PENGO.shared.events": {
+        "0.0.1": {
+            "url": "shared/events/src/",
+            "js": ["events.min.js"],
+            "imports": {
+                "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" }
+            }
+        }
+    },
+    "PENGO.shared.net": {
+        "0.0.1": {
+            "url": "shared/net/src/",
+            "js": ["msg.min.js"],
+            "imports": {
+                "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" }
+            }
+        }
+    },
+    "PENGO.shared.rpc": {
+        "0.0.1": {
+            "url": "shared/rpc/src/",
+            "js": ["rpc.min.js"],
+            "imports": {
+                "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" }
+            }
+        }
+    },
+    "PENGO.shared.user": {
+        "0.0.1": {
+            "url": "shared/user/src/",
+            "js": ["user.min.js"]
+        }
+    },
+    "PENGO.shared.resource": {
+        "0.0.1": {
+            "url": "shared/resource/src/",
+            "js": ["staticRes.min.js"],
+            "imports": {
+                "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" },
+                "staticRes": { "name": "PENGO.shared.resource", "version": "0.0.1" }
+            }
+        }
+    },
+    "PENGO.client.shared.deviceDetection": {
+        "0.0.1": {
+            "url": "client/shared/deviceDetection/src/",
+            "js": ["deviceDetection.min.js"],
+            "imports": {
+                "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" }
+            }
+        }
+    },
+    "PENGO.client.shared.uiManager": {
+        "0.0.1": {
+            "url": "client/shared/uiManager/src/",
+            "js": ["uiManager.min.js"],
+            "imports": {
+                "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" },
+                "bbWrappers": { "name": "PENGO.client.shared.backboneWrappers", "version": "0.0.1" }
+            }
+        }
+    },
+    "PENGO.client.shared.social": {
+        "0.0.1": {
+            "url": "client/shared/social/src/",
+            "js": ["social.min.js"],
+            "imports": {
+                "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" }
+            }
+        }
+    },
+    "PENGO.client.shared.fullScreen": {
+        "0.0.1": {
+            "url": "client/shared/fullScreen/src/",
+            "js": ["fullScreen.min.js"],
+            "imports": {
+                "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" }
+            }
+        }
+    },
+    "PENGO.client.shared.backboneWrappers": {
+        "0.0.1": {
+            "url": "client/shared/backboneWrappers/src/",
+            "js": ["backboneWrappers.min.js"],
+            "imports": {
+                "bbWrappers": { "name": "PENGO.client.shared.backboneWrappers", "version": "0.0.1" },
+                "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" }
+            }
+        }
+    },
+    "PENGO.client.shared.file": {
+        "0.0.1": {
+            "url": "client/shared/file/src/",
+            "js": ["file.min.js"],
+            "imports": {
+                "pengoFile": { "name": "PENGO.client.shared.file", "version": "0.0.1" },
+                "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" }
+            }
+        }
+    },
+    "PENGO.client.shared.storage": {
+        "0.0.1": {
+            "url": "client/shared/storage/src/",
+            "js": ["storage.min.js"],
+            "imports": {
+                "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" }
+            }
+        }
+    }
+}

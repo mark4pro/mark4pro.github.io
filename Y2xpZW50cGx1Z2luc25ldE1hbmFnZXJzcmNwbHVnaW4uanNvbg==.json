@@ -1,0 +1,33 @@
+{
+    "id": "netManager",
+    "provides": ["netManager"],
+    "consumes": [
+        "igloo.logger",
+        "igloo.eventsManager",
+        "igloo.fatal",
+        "languageManager",
+        "accountManager",
+        "uiManager",
+        "uiMainbar",
+        "net",
+        "game.uiManager"
+    ],
+    "config": {
+        "reconnect": 30
+    },
+    "activator": "PENGO.client.plugins.netManager.activator",
+    "src" : {
+        "baseURL": "/client/plugins/netManager/src/",
+        "js": {
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled": "netManager.min.js",
+            "notCompiled": ["wsManager.js", "activator.js"]
+        },
+        "template": "netManager.template"
+    },
+    "res":{
+        "baseURL":"/client/plugins/netManager/res/",
+        "text": "texts_#.json"
+    }
+}
