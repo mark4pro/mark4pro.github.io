@@ -1,8 +1,0 @@
-{
-    "0.0.1": {
-        "exports": "PENGO.client.shared.storage",
-        "imports": [
-            { "name": "PENGO.client.shared.storage", "version": "0.0.1", "alias": "pengoStorage" }
-        ]
-    }
-}
