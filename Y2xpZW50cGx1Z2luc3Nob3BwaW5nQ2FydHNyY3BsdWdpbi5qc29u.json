@@ -1,0 +1,55 @@
+{
+    "id":"shoppingCart",
+    "provides": ["shoppingCart"],
+    "consumes": [
+        "igloo.logger",
+        "igloo.fatal",
+        "net",
+        "languageManager",
+        "igloo.eventsManager",
+        "wsclient",
+        "game.uiManager",
+        "virtualGoods.orders",
+        "virtualGoods.execution",
+        "virtualGoods.cart",
+        "game.loader",
+        "game.gameManager",
+        "paymentsMgr",
+        "game.accountManager",
+        "stats"
+    ],
+    "config": {
+        "errorsStore": "gameVirtualGoods",
+        "payRedirect": {
+            "link": "/payments/redirect.html",
+            "cdmOrigin": "http://localhost:8083"
+        },
+        "payResponse": {
+            "cdmOrigin": "http://localhost:8083,http://devgames.wimi5.com:8083"
+        },
+        "pgm": "pYL"
+    },
+    "activator": "PENGO.client.plugins.shoppingCart.activator",
+    "src": {
+        "baseURL":"/client/plugins/shoppingCart/src/",
+        "js": {
+            "autoRequires": true,
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled": "shoppingCart.min.js",
+            "notCompiled": ["payment.js","errors.js", "view.js", "model.js", "controller.js", "module.js", "activator.js"]
+        },
+        "template":"shoppingCart.template"
+    },
+    "res":{
+        "baseURL":"/client/plugins/shoppingCart/res/",
+        "text": "texts_#.json",
+        "images":"images",
+        "css": {
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled" : "shoppingCart.css",
+            "notCompiled":  ["shoppingCart.css"]
+        }
+    }
+}

@@ -1,0 +1,121 @@
+@!pengoTemplate=module!@
+<div id='mainView' class='modal-menu-body aside cart' >
+ <div class='toolbarView'>
+    <div class='toolbar-dummy'></div>
+        <div id='closeCartBut' class='toolbar-remove'></div>
+    </div>
+    <h1 id='title'></h1>
+    <div id='container'>
+        <div class='modal-form-divTable-shop gvgContainer'>
+            <div id='main-items' class='modal-menu-options '>
+                <p id='error' class='error-text'></p>
+                <p id='empty' class='modal-menu-option-noprojs error-text'></p>
+            </div>
+            <div class='gvg-total sc-tool-text horizontal'>
+                <div id='checkoutSubTotal' class='item-name'></div>
+                <div id='cart-subtotal' class='item-price'></div>
+            </div>
+            <div class='gvg-total sc-tool-text horizontal'>
+                <div id='checkoutTaxes' class='item-name'></div>
+                <div id='cart-taxes' class='item-price'></div>
+            </div>
+            <div class='gvg-total sc-tool-text horizontal'>
+                <div id='checkoutTotal' class='item-name'></div>
+                <div id='cart-total' class='item-price'></div> 
+            </div>
+        </div>
+        <div class='action-bar'>
+            <input id='btnPay' type='button' class='modal-form-button type1' onclick='' value='Pay with Paypal'/>
+            <span class='gvg-paypal'></span>
+            <p id='errorContainerPay' class='error-text'></p>
+        </div>
+        <p id='errorContainer' class='error-text'></p>
+    </div>
+</div>
+<div class='modal-menu-body background-side'>
+    <div id='pauseText'>PAUSED</div>
+</div>
+@!pengoTemplate!@
+
+@!pengoTemplate=moduleG2A!@
+<div id='mainView' class='modal-menu-body aside cart' >
+ <div class='toolbarView'>
+    <div class='toolbar-dummy'></div>
+        <div id='closeCartBut' class='toolbar-remove'></div>
+    </div>
+    <h1 id='title'></h1>
+    <div id='container'>
+        <div class='modal-form-divTable-shop gvgContainer'>
+            <div id='main-items' class='modal-menu-options '>
+                <p id='error' class='error-text'></p>
+                <p id='empty' class='modal-menu-option-noprojs error-text'></p>
+            </div>
+            <div class='gvg-total sc-tool-text horizontal'>
+                <div id='checkoutSubTotal' class='item-name'></div>
+                <div id='cart-subtotal' class='item-price'></div>
+            </div>
+            <div class='gvg-total sc-tool-text horizontal'>
+                <div id='checkoutTaxes' class='item-name'></div>
+                <div id='cart-taxes' class='item-price'></div>
+            </div>
+            <div class='gvg-total sc-tool-text horizontal'>
+                <div id='checkoutTotal' class='item-name'></div>
+                <div id='cart-total' class='item-price'></div>
+            </div>
+        </div>
+        <div class='action-bar'>
+            <input id='btnPay' type='button' class='modal-form-button type1' onclick='' value='Pay with G2A'/>
+            <p id='errorContainerPay' class='error-text'></p>
+        </div>
+        <p id='errorContainer' class='error-text'></p>
+    </div>
+</div>
+<div class='modal-menu-body background-side'>
+    <div id='pauseText'>PAUSED</div>
+</div>
+@!pengoTemplate!@
+
+@!pengoTemplate=item!@
+<div class='item'>
+    <div class='sc-tool-image'></div>
+    <div class='sc-tool-text'>
+       <div class='item-name'></div>
+       <div class='item-desc'></div>
+    </div>
+    <div class='gvgAmount'>
+        <div id='vgAdd' class='vgMore'>+</div>
+        <div id='vgRemove' class='vgLess'>-</div>
+    </div>
+    <div class='gvgBuy has-tooltip'>
+        <div id='price' class='item-price'></div>
+        <div id='vgQuantity' class='item-quantity'>1</div>
+        <i class='icon-shoppingcart '> </i>
+        <span class='help' id='buyVGLabel'></span>
+    </div>
+</div>
+@!pengoTemplate!@
+
+@!pengoTemplate=itemFtm!@
+<div class='item ftm'>
+    <div class='sc-tool-image'></div>
+    <div class='sc-tool-text'>
+       <div class='item-name'></div>
+       <div class='item-desc'></div>
+    </div>
+    <div class='gvgBuy has-tooltip'>
+        <div id="payByMobile">Pay by <strong>MOBILE</strong><span class='icon-pay-mobile '></span></div>
+    </div>
+</div>
+@!pengoTemplate!@
+
+@!pengoTemplate=paymentMethod!@
+    <input type='checkbox'/><img/>
+@!pengoTemplate!@
+
+@!pengoTemplate=toolbarHome!@
+    <span id='homeButton' class='toolbar-button-home'/>
+@!pengoTemplate!@
+
+@!pengoTemplate=notification!@
+    <p id='notificationContainer' class='notification-text ko'>Virtual Goods purchased successfully</p>
+@!pengoTemplate!@

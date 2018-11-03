@@ -1,0 +1,44 @@
+{
+    "id": "uitools.slideshow",
+    "provides": ["uitools.slideshow"],
+    "consumes": [
+        "igloo.logger",
+        "igloo.fatal",
+        "igloo.eventsManager",
+        "languageManager"
+    ],
+    "config": {
+        "errorsStore": "uitoolsSlideshow",
+        "wimilogo": "/client/plugins/uitools.slideshow/res/images/wimi.png"
+    },
+    "activator": "PENGO.client.plugins.uitools.slideshow.activator",
+    "src" : {
+        "baseURL": "/client/plugins/uitools.slideshow/src/",
+        "js": {
+            "autoRequires": true,
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled": "uitools.slideshow.min.js",
+            "notCompiled": [
+                "uitoolsSlideshowErrors.js",
+                "uitoolsSlideshowModel.js",
+                "uitoolsSlideshowView.js",
+                "uitoolsSlideshowController.js",
+                "uitoolsSlideshowModule.js",
+                "uitoolsSlideshowActivator.js"
+            ]
+        },
+        "template": "uitoolsSlideshow.template"
+    },
+    "res":{
+        "baseURL":"/client/plugins/uitools.slideshow/res/",
+        "text": "texts_#.json",
+        "images":"images",
+        "css": {
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled" : "uitoolsSlideshow.css",
+            "notCompiled": [ "uitoolsSlideshow.css" ]
+        }
+    }
+}

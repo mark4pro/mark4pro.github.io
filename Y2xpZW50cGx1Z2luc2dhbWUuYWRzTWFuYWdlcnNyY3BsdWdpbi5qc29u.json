@@ -1,0 +1,99 @@
+{
+    "id": "game.adsManager",
+    "provides": ["game.adsManager"],
+    "consumes": [
+        "igloo.logger",
+        "igloo.fatal",
+        "igloo.eventsManager",
+        "game.uiManager",
+        "game.gameManager",
+        "game.runnerManager",
+        "stats"
+    ],
+    "config": {
+        "enabled": true,
+        "errorsStore": "gameAdsManager",
+        "PWLDomain": [ "localhost:8082", "localhost:8084" ],
+        "PWLGameID": [ 
+                "54cb8582fe7dc7af24000005",
+                "5630211250701a5d3700207f",
+                "5670edbcbf61ce6a7a002913",
+                "56a6ecd840f696013b003135",
+                "56305b9a50701a5d37002098",
+                "56349f3c50701a5d3700284e",
+                "5636b47a50701a5d370029db",
+                "5637186250701a5d37002a19",
+                "5639a7537c4dd7795f00053a",
+                "5664fc70bf61ce6a7a00173d",
+                "5670edbcbf61ce6a7a002913",
+                "56e0fc7bead000e80f003e6c",
+                "56e949bbead000e80f00590e",
+                "564f6f4c823f50b82f00081b",
+                "566b4f83bf61ce6a7a0020e2",
+                "563fb2ed7c4dd7795f0011a9",
+                "56ac9f9440f696013b004a0d",
+                "56ad0c1e40f696013b004c1e",
+                "56ae25f640f696013b004e4b",
+                "565eff20bf61ce6a7a000d1a",
+                "565f3e2fbf61ce6a7a000da1",
+                "5638fee07c4dd7795f00032b",
+                "565f3a08bf61ce6a7a000d9d",
+                "565f40f8bf61ce6a7a000db3",
+                "56efab8eead000e80f0069f6",
+                "56f16d4f47178a5c1e000348",
+                "56f24ab647178a5c1e00054a",
+                "5660d5a0bf61ce6a7a000eda",
+                "56ba0bae40f696013b007fc7",
+                "56f2fc04f359e9be26000112",
+                "56ae7f6e40f696013b005068",
+                "567326cbb7d266a6290005c9",
+                "566cb49fbf61ce6a7a0022e7",
+                "5668a462bf61ce6a7a001d28",
+                "571cfd860f2ef4a225001cb9",
+                "56b8873040f696013b0077db",
+                "571d04ff0f2ef4a225001ce9",
+                "571d0bc50f2ef4a225001d23",
+                "571d0fca0f2ef4a225001d72",
+                "571d17c10f2ef4a225001db1",
+                "571d15e80f2ef4a225001d9d",
+                "56687645bf61ce6a7a001c84",
+                "571d32da0f2ef4a225001dd4",
+                "57201b110f2ef4a225002476"
+	],
+        "defaultTimeout": 30000,
+        "containerType": "iframe",
+        "adsProvidersInterface": [ "init", "finish", "showAds" ],
+        "adsProviders": [
+            {
+                "name": "ad4games",
+                "enabled": true,
+                "config": {
+                    "desktop": "/client/plugins/game.adsManager/src/adsProviders/ad4games/ads.html",
+                    "mobile": "/client/plugins/game.adsManager/src/adsProviders/ad4games/adsmobile.html",
+                    "containertimeout": 3000,
+                    "timeout": 30000,
+                    "div": "A4Gwrap"
+                }
+            }
+        ]
+    },
+    "activator": "PENGO.client.plugins.game.adsManager.activator",
+    "src" : {
+        "baseURL": "/client/plugins/game.adsManager/src/",
+        "js": {
+            "autoRequires": true,
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled": "game.adsManager.min.js",
+            "notCompiled": [
+                "errors.js",
+                "model.js",
+                "controller.js",
+                "module.js",
+                "adsProviders/generic.js",
+                "adsProviders/blockerDetector.js",
+                "activator.js"
+            ]
+        }
+    }
+}

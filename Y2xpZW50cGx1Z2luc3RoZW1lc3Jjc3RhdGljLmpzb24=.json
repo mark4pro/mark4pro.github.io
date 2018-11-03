@@ -1,0 +1,5 @@
+{
+    "imports": {
+        "require": { "name": "PENGO.client.igloo.require", "version": "*" }
+    }
+}

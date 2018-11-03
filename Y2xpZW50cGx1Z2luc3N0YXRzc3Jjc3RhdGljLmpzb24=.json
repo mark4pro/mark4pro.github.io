@@ -1,0 +1,6 @@
+{
+    "imports": {
+        "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" },
+        "require": { "name": "PENGO.client.igloo.require", "version": "*" }
+    }
+}

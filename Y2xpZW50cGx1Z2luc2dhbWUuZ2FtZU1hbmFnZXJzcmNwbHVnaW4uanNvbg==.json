@@ -1,0 +1,29 @@
+{
+    "id": "game.gameManager",
+    "provides": ["game.gameManager"],
+    "consumes": [
+        "igloo.logger",
+        "igloo.fatal"
+    ],
+    "config": {
+        "mode": "integrated",
+        "errorsStore": "gameManager",
+        "gameDescriptor": "game.json",
+        "resourcesPath": "/resources"
+    },
+    "activator": "PENGO.client.plugins.game.gameManager.activator",
+    "src": {
+        "baseURL":"/client/plugins/game.gameManager/src/",
+        "js": {
+            "autoRequires": true,
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled":"gameManager.min.js",
+            "notCompiled":[
+                "errors.js",
+                "module.js",
+                "activator.js"
+            ]
+        }
+    }
+}

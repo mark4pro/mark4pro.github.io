@@ -1,0 +1,34 @@
+{
+    "id": "gameRankings",
+    "provides": [
+        "gameRankings.execution",
+        "gameRankings.edition"
+    ],
+    "consumes": [
+        "igloo.logger",
+        "igloo.fatal",
+        "igloo.eventsManager",
+        "net"
+    ],
+    "config": {
+        "errorsStore": "gameRankings",
+        "staticResURL": "/store/#id?token=#token"
+    },
+    "activator": "PENGO.client.plugins.gameRankings.activator",
+    "src" : {
+        "baseURL": "/client/plugins/gameRankings/src/",
+        "js": {
+            "autoRequires": true,
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled": "gameRankings.min.js",
+            "notCompiled": [
+                "gameRankingsErrors.js",
+                "gameRankingsModel.js",
+                "gameRankingsController.js",
+                "gameRankingsModule.js",
+                "gameRankingsActivator.js"
+            ]
+        }
+    }
+}

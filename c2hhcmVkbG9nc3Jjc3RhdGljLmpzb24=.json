@@ -1,0 +1,10 @@
+{
+    "0.0.1": {
+        "exports": "PENGO.shared.logger",
+        "imports": [
+            { "name": "PENGO.shared.log", "version": "0.0.1", "alias": "log" },
+            { "name": "PENGO.shared.util", "version": "0.0.1", "alias": "util" },
+            { "name": "PENGO.shared.error", "version": "0.0.1", "alias": "pengoError" }
+        ]
+    }
+}

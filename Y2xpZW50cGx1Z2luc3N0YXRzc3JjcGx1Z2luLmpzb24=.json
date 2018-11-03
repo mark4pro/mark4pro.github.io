@@ -1,0 +1,24 @@
+{
+    "id": "stats",
+    "provides": ["stats"],
+    "consumes": [
+        "igloo.logger",
+        "igloo.fatal",
+        "igloo.eventsManager"
+    ],
+    "config": {
+        "errorsStore": "stats",
+        "transports": []
+    },
+    "activator": "PENGO.client.plugins.stats.activator",
+    "src" : {
+        "baseURL": "/client/plugins/stats/src/",
+        "js": {
+            "autoRequires": true,
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled": "stats.min.js",
+            "notCompiled": ["errors.js", "model.js", "controller.js", "transports/ga.js", "transports/piwik.js", "transports/wimi5tracker.js", "transports/wimi5.js", "module.js", "activator.js"]
+        }
+    }
+}

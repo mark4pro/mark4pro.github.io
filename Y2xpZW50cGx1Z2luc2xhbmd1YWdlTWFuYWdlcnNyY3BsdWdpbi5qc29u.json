@@ -1,0 +1,19 @@
+{
+    "id": "languageManager",
+    "provides": ["languageManager"],
+    "consumes": ["igloo.logger", "igloo.eventsManager"],
+    "config": {
+        "defLang": "en",
+        "supportedLangs": ["en", "es"]
+    },
+    "activator": "PENGO.client.plugins.languageManager.activator",
+    "src" : {
+        "baseURL": "/client/plugins/languageManager/src/",
+        "js": {
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled" : "languageManager.min.js",
+            "notCompiled":  ["languageManager.js", "activator.js"]
+        }
+    }
+}

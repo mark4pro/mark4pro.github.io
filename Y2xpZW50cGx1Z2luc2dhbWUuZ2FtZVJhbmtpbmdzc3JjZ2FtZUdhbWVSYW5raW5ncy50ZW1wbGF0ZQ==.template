@@ -1,0 +1,40 @@
+@!pengoTemplate=module!@
+<div id='mainView' class='modal-menu-body aside'>
+    <div class='toolbarView'>
+        <div class='toolbar-dummy'></div>
+        <i id='closeRankingsBut' class='toolbar-remove'></i>
+    </div>
+    <h1 id='title'></h1>
+    <div id='userRankingContainer' class='modal-form-body fixed'>
+        <h2 class='modal-line header'></h2>
+    </div>
+    <h2 class='modal-line header'></h2>
+    <div id='container' class='modal-form-body'>
+        <div id='gameRankings' class='gameRankingsMain full'>
+            <div id='rankingsContainer' class='modal-container'>
+                <div class="error"/>
+            </div>
+        </div>
+    </div>
+    <div class='WaitView'>
+        <div class='wait-background'/>
+        <div class='wait-image RotateDiv'/>
+    </div>
+</div>
+<div class='modal-menu-body background-side'>
+    <div id='pauseText'>PAUSED</div>
+</div>
+@!pengoTemplate!@
+
+
+@!pengoTemplate=RankingRow!@
+<div class='gameData modal-line'>
+    <div id='rank' class=''><%= rank %></div>
+    <div id='username' class=''><%= user %></div>
+    <div id='points' class=''><%= points %></div>
+</div>
+@!pengoTemplate!@
+
+@!pengoTemplate=RankingRowPointed!@
+    <!-- <div id='ttyou' class='animated small tooltip left'>You</div> -->
+@!pengoTemplate!@

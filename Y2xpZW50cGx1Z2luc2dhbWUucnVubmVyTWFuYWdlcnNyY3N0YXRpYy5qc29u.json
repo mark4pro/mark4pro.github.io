@@ -1,0 +1,9 @@
+{
+    "imports": {
+        "deviceDetection": { "name": "PENGO.client.shared.deviceDetection", "version": "0.0.1" },
+        "pengoError": { "name": "PENGO.shared.error", "version": "0.0.1" },
+        "inheritance": { "name": "PENGO.shared.inheritance", "version": "0.0.1" },
+        "require": { "name": "PENGO.client.igloo.require", "version": "*" },
+        "storage": { "name": "PENGO.client.shared.storage", "version": "0.0.1" }
+    }
+}

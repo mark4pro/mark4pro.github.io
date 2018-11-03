@@ -1,0 +1,73 @@
+{
+    "id": "accountManager",
+    "provides": ["accountManager"],
+    "consumes": [
+        "igloo.logger",
+        "igloo.eventsManager",
+        "igloo.fatal",
+        "languageManager",
+        "uiManager",
+        "uiMainbar",
+        "stats",
+        "support"
+    ],
+    "config": {
+        "data": {
+            "mode": "account",
+            "app": null,
+            "type": 1,
+            "accountURL": "http://localhost:8085/?op=#op&app=#app&guest=#guest&returnTo=#returnTo",
+            "accountSignUpURL": "http://localhost:8085/?op=signup",
+            "defaultReturnTo": "http://localhost:8086/",
+            "recaptcha": {
+                "enabled": true,
+                "publicKey": "6LcXdfISAAAAACZdQ1_MGpMxMhQrSzTa5sFJH-9X"
+            },
+            "signInURL": "/auth/password",
+            "signOutURL": "/signout",
+            "signUpURL": "/signup",
+            "signInAnonymousURL": "/auth/anonymous",
+            "postSignUpURL": "http://wimi5.com/help",
+            "verifyURL": "/verify",
+            "verifyNameURL": "/verify/name",
+            "verifyEmailURL": "/verify/email",
+            "activateURL": "/activate",
+            "recoverURL": "/recover",
+            "getSessionInfoURL": "/session",
+            "eulaURL": "http://wimi5.com/privacy-policy/",
+            "returnTo": "http://localhost:8086/",
+            "signUpFormCloseButton": true,
+            "appkey": "appkey",
+            "guest": true,
+            "key": 13
+        }
+    },
+    "activator": "PENGO.client.plugins.accountManager.activator",
+    "src" : {
+        "baseURL": "/client/plugins/accountManager/src/",
+        "js": {
+            "autoRequires": true,
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled": "accountManager.min.js",
+            "notCompiled": [
+                "accountManagerController.js",
+                "accountManagerView.js",
+                "accountManagerModel.js",
+                "accountManagerModule.js",
+                "accountManagerActivator.js"
+            ]
+        },
+        "template": "accountManager.template"
+    },
+    "res":{
+        "baseURL":"/client/plugins/accountManager/res/",
+        "text": "texts_#.json",
+        "css": {
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled" : "accountManager.css",
+            "notCompiled":  [ "accountManager.css" ]
+        }
+    }
+}

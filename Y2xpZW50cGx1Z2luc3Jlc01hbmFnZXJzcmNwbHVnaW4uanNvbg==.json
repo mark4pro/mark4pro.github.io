@@ -1,0 +1,27 @@
+{
+    "id": "resManager",
+    "provides": ["resManager"],
+    "consumes": [
+        "igloo.logger",
+        "igloo.fatal",
+        "igloo.eventsManager",
+        "net"
+    ],
+    "config": {
+        "errorsStore": "resManager",
+        "remoteService": "resourceManager",
+        "staticResURL": "/store/#id?v=#v",
+        "staticResURLWithToken": "/store/#id?v=#v&token=#token"
+    },
+    "activator": "PENGO.client.plugins.resManager.activator",
+    "src" : {
+        "baseURL": "/client/plugins/resManager/src/",
+        "js": {
+            "autoRequires": true,
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled": "resManager.min.js",
+            "notCompiled": ["errors.js", "model.js", "controller.js", "module.js", "activator.js"]
+        }
+    }
+}

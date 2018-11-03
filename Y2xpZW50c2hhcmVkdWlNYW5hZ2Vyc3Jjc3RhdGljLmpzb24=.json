@@ -1,0 +1,9 @@
+{
+    "0.0.1": {
+        "exports": "PENGO.client.shared.uiManager",
+        "imports": [
+            { "name": "PENGO.shared.error", "version": "0.0.1", "alias": "pengoError" },
+            { "name": "PENGO.client.shared.backboneWrappers", "version": "0.0.1", "alias": "bbWrappers" }
+        ]
+    }
+}

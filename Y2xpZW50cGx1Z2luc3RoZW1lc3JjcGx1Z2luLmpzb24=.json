@@ -1,0 +1,26 @@
+{
+    "id": "theme",
+    "provides": [ "theme"],
+    "consumes": [ "igloo.logger" ],
+    "activator": "PENGO.client.plugins.theme.activator",
+    "src" : {
+        "baseURL": "/client/plugins/theme/src/",
+        "js": {
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled" : "theme.min.js",
+            "notCompiled": [
+                "activator.js"
+            ]
+        }
+    },
+    "res": {
+        "baseURL": "/client/plugins/theme/res/",
+        "css": {
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled" : "theme.css",
+            "notCompiled": [ "theme.css" ]
+        }
+    }
+}

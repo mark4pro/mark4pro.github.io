@@ -1,0 +1,16 @@
+{
+    "id": "ws",
+    "provides": ["ws","wsfactory"],
+    "consumes": ["igloo.logger"],
+    "activator": "PENGO.client.plugins.ws.websocket.activator",
+    "src" : {
+        "baseURL": "/client/plugins/ws/src/",
+        "js": {
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled" : "ws.min.js",
+            "notCompiled": ["ws.js", "wsmgr.js", "activator.js"]
+        },
+        "templates": "TODO"
+    }
+}

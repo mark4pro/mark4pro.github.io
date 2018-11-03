@@ -1,0 +1,34 @@
+@!pengoTemplate=module!@
+@!pengoTemplate!@
+
+@!pengoTemplate=slideshow!@
+    	<header class="toolbarView">
+    		<h1>Learn <img src="<%= wimilogo %>" alt="Wimi5"></h1>
+    		<div class="toolbar-dummy"></div>
+    		<div class="toolbar-message">
+    			<input id="dontShow" type="checkbox"><label for="dontShow"><span></span></label>
+    		</div>
+    		<i class="toolbar-remove"></i>
+    	</header>
+    	<article class="slideshow">
+    		<header>
+    			<h2>Create a project</h2>
+    		</header>
+    		<div class="slides">
+    			<i class="icon-arrow-left"></i>
+	    		<i class="icon-arrow-right"></i>
+    			<div class="slidesWrap">
+    			</div>
+                <div class="slideAnim">
+                    <div></div>
+                    <div></div>
+                </div>
+    		</div>
+    	</article>
+    	<footer class="action-bar">
+    	</footer>
+@!pengoTemplate!@
+
+@!pengoTemplate=slideshowDot!@
+    <span id="<%= id %>" class="icon-dot"></span>
+@!pengoTemplate!@

@@ -1,0 +1,26 @@
+{
+    "id": "paymentsMgr",
+    "provides": ["paymentsMgr"],
+    "consumes": [
+        "igloo.logger",
+        "igloo.fatal",
+        "igloo.eventsManager",
+        "net"
+    ],
+    "config": {
+        "errorsStore": "paymentsMgr",
+        "remoteService": "vgOrdersMgr.payments",
+        "staticResURL": "/store/#id?token=#token"
+    },
+    "activator": "PENGO.client.plugins.paymentsMgr.activator",
+    "src" : {
+        "baseURL": "/client/plugins/paymentsMgr/src/",
+        "js": {
+            "autoRequires": true,
+            "loadMode-dwm": "notCompiled",
+            "loadMode": "compiled",
+            "compiled": "paymentsMgr.min.js",
+            "notCompiled": ["errors.js", "model.js", "controller.js", "staticOps.js", "module.js", "activator.js"]
+        }
+    }
+}
