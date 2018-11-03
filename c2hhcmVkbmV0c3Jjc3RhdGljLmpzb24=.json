@@ -1,8 +1,0 @@
-{
-    "0.0.1": {
-        "exports": "PENGO.shared.net",
-        "imports": [
-            { "name": "PENGO.shared.error", "version": "0.0.1", "alias": "pengoError" }
-        ]
-    }
-}
