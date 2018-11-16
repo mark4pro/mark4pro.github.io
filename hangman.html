@@ -20,7 +20,7 @@
 // Please keep notice intact
 
 var can_play = true;
-var words = new Array("CAT", "DOG", "MOUSE", "RABBIT", "HOURSE", "MISSISSIPPI", "LOGO", "HAT", "COMPUTER", "ANTHEM", "ACER", "COMPACT", "TELL", "KILL", "NEW", "WORLD", "WEIRD", "ACCOMMODATE", "HANDKERCHIEF", "INDICT", "DIFFICULT", "OXFORD", "BLOG", "LIST", "CAKE", "COFFEE", "FROTH", "LATTE", "HEAT", "SKY", "TUTORIAL", "RECORD", "PHONE", "VIDEO", "DRINK", "WATER", "SANDWICH", "OPEN", "LAKE", "GREAT", "QUALITY", "GIANT", "ANT", "ON", "OFF", "DELETE", "END", "INSERT", "PAGE", "HOME", "ACCOUNT", "BILLS", "BORROW", "ALARM", "CASH", "CASHIER", "CHECK", "COINS", "COIN", "CREDIT", "CARD", "CURRENCY", "CUSTOMER", "DEPOSIT", "INTEREST", "LEND", "LOAN", "MANAGER", "MONEY", "MORTGAGE", "PAY", "SAVE", "SAVINGS", "GUARD", "TELLER", "VAULT", "WITHDRAW");
+var words = new Array("CAT", "DOG", "MOUSE", "RABBIT", "HOURSE", "MISSISSIPPI", "LOGO", "HAT", "COMPUTER", "ANTHEM", "ACER", "COMPACT", "TELL", "KILL", "NEW", "WORLD", "WEIRD", "ACCOMMODATE", "HANDKERCHIEF", "INDICT", "DIFFICULT", "OXFORD", "BLOG", "LIST", "CAKE", "COFFEE", "FROTH", "LATTE", "HEAT", "SKY", "TUTORIAL", "RECORD", "PHONE", "VIDEO", "DRINK", "WATER", "SANDWICH", "OPEN", "LAKE", "GREAT", "QUALITY", "GIANT", "ANT", "ON", "OFF", "DELETE", "END", "INSERT", "PAGE", "HOME", "ACCOUNT", "BILLS", "BORROW", "ALARM", "CASH", "CASHIER", "CHECK", "COINS", "COIN", "CREDIT", "CARD", "CURRENCY", "CUSTOMER", "DEPOSIT", "INTEREST", "LEND", "LOAN", "MANAGER", "MONEY", "MORTGAGE", "PAY", "SAVE", "SAVINGS", "GUARD", "TELLER", "VAULT", "WITHDRAW", "HELL", "GOD", "HELP", "KISS", "LEAD", "MOP", "PLEASE", "MOM", "DAD", "GRANDMA", "GRANDPA", "HEAL", "HEALTH", "MEAL", "DIE", "CANCEL", "EDIT", "WEB", "PEWDIEPIE", "EXPLORE", "DICK", "HANG", "RETURN", "COOL", "COLD", "MEET", "BALL", "BALLS");
 
 var to_guess = "";
 var display_word = "";
@@ -68,7 +68,7 @@ document.game.displayWord.value = display_word;
 if (display_word.indexOf("#") == -1)
 {
 // won
-alert("Well done, you have won!");
+alert("Wow, you have won!");
 can_play = false;
 }
 }
@@ -81,7 +81,7 @@ eval("document.hm.src=\"hm" + wrong_guesses + ".gif\"");
 if (wrong_guesses == 10)
 {
 // lost
-alert("Sorry, you have lost!");
+alert("Sorry, you lost!");
 can_play = false;
 }
 }
@@ -128,7 +128,7 @@ return mask;
 <body style="background-color:powderblue;" onLoad="reset(); return true;">
 
 
-<h1>Hangman v2.5</h1>
+<h1>Hangman v3</h1>
 
 <p><img src="hmstart.gif" height="125" width="75" name="hm"></p>
 <form name="game">
@@ -169,8 +169,8 @@ Used Letters: <input type="text" name="usedLetters"></p>
 
 <h1>Subscribe to Mark 4</h1>
 <a href="Words.txt">Words</a>
-<p>LAST WORD WAS WITHDRAW!</p>
-<p>77 Words</p>
+<p>LAST WORD WAS BALLS!</p>
+<p>105 Words</p>
 </body>
 </html>
 
