@@ -48,6 +48,7 @@ p {
 	  
 	  function start() {
 		 money = new money("15px", "Consolas", "black", 300, 40, "text");
+		 logo = new img(30, 30, "clicker.PNG", 10, 120, "image");
 		 Board.start();
 		  updateGameArea();
 	  }
@@ -111,6 +112,7 @@ function img(width, height, color, x, y, type) {
 	Board.clear();
 	money.text="$" +		 Board.frameNo;
 	money.update();
+        logo.update();
 	if (Board.frameNo <= 9999999) {
 	if (n1 == 1) {
 		Board.frameNo += 0.001;
