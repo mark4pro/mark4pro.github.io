@@ -112,7 +112,6 @@ function img(width, height, color, x, y, type) {
 	Board.clear();
 	money.text="$" +		 Board.frameNo;
 	money.update();
-        logo.update();
 	if (Board.frameNo <= 9999999) {
 	if (n1 == 1) {
 		Board.frameNo += 0.001;
@@ -123,6 +122,7 @@ function img(width, height, color, x, y, type) {
 	if (n1 == 3){
 		Board.frameNo += 0.01;
 	}
+	logo.update();
   }
 }
 	
