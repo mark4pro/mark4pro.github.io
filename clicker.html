@@ -48,7 +48,6 @@ p {
 	  
 	  function start() {
 		 money = new money("15px", "Consolas", "black", 300, 40, "text");
-		 logo = new img(30, 30, "clicker.PNG", 10, 120, "image");
 		 Board.start();
 		  updateGameArea();
 	  }
@@ -62,7 +61,6 @@ p {
 		document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 		this.frameNo = 50;
 		this.interval = setInterval(updateGameArea, 20);
-		logo.update();
 	},
 	clear : function() {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -87,26 +85,7 @@ function money(width, height, color, x, y, type) {
 		}
 	}
 }
-function img(width, height, color, x, y, type) {
-    this.type = type;
-    if (type == "image") {
-        this.image = new Image();
-        this.image.src = color;
-    }
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;    
-    this.update = function() {
-        ctx = myGameArea.context;
-        if (type == "image") {
-            ctx.drawImage(this.image, 
-                this.x, 
-                this.y,
-                this.width, this.height);
-        }
-    }
- }
+
 	  
 	  
 	  function updateGameArea() {
