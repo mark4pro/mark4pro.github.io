@@ -126,6 +126,27 @@ function money(width, height, color, x, y, type) {
 	  }
 	}
 	
+	function upgrade2() {
+	if (Board.frameNo >= 110) {
+		if (n2 == 0) {
+			n2 += 1;
+			Board.frameNo -= 110;
+		}
+	  }
+	if (Board.frameNo >= 170) {
+		if (n2 == 1) {
+			n2 += 1;
+			Board.frameNo -= 170;
+		}
+	  }
+	 if (Board.frameNo >= 150) {
+		if (n2 == 2) {
+			n2 += 1;
+			Board.frameNo -= 220;
+		}
+	  }
+	}
+	
 	function tapUpgrade() {
 		if (Board.frameNo >= 80) {
 			if (tapUp == 0) {
