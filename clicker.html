@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="clicker.PNG" />
+    <!-- Path to Framework7 Library CSS-->
+    <link rel="stylesheet" href="css/framework7.ios.min.css">
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="css/my-app.css">
+    <link rel=“stylesheet” href=“css/framework7-TwitterDarkMode.css”>
+    <link rel="stylesheet" href="https://rawgit.com/S0n1cDev/TDM/master/Framework7-TwitterDarkMode.css">
+		<title>Clicker V0.0.1</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<style>
+		canvas {
+	border:2px solid black;
+	background-color: green;
+}
+	  </style>
+	  <style>
+.unselectable {
+    -webkit-user-select: none; /* Safari 3.1+ */
+    -moz-user-select: none; /* Firefox 2+ */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none; /* Standard syntax */
+}
+body {
+	background-color: gray;
+}
+h1 {
+	color: darkred;
+	text-align: left;
+}
+p {
+	color: brown;
+	text-align: left;
+	font-family: verdana;
+	font-size: 10px;
+}
+</style>
+	</head>
+	<body onload="start()">
+	  <script>
+	  var money;
+	  
+	  
+	  function start() {
+		 money = new money("15px", "Consolas", "black", 300, 40, "text");
+		 Board.start();
+		  updateGameArea();
+	  }
+	  
+	  var Board = {
+	canvas : document.createElement("canvas"),
+	start : function() {
+		this.canvas.width = 500;
+		this.canvas.height = 500;
+		this.context = this.canvas.getContext("2d");
+		document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+		this.frameNo = 50;
+		this.interval = setInterval(updateGameArea, 20);
+	},
+	clear : function() {
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	},
+	stop : function() {
+		clearInterval(this.interval);
+	}
+}
+
+function money(width, height, color, x, y, type) {
+	this.type = type;
+	this.width = width;
+	this.height = height;
+	this.x = x;
+	this.y = y;	
+	this.update = function() {
+		ctx = Board.context;
+		if (this.type == "text") {
+		  ctx.font =this.width + " " + this.height;
+		  ctx.fillStyle = color;
+		  ctx.fillText(this.text, this.x, this.y);
+		}
+	}
+}
+
+
+	  
+	  function updateGameArea() {
+	Board.clear();
+	money.text="$" +		 Board.frameNo;
+	money.update();
+	if (Board.frameNo <= 9999999) {
+	if (n1 == 1) {
+		Board.frameNo += 0.001;
+	}
+	if (n1 == 2) {
+		Board.frameNo += 0.005;
+	}
+	if (n1 == 3){
+		Board.frameNo += 0.01;
+	}
+  }
+}
+	
+	function upgrade1() {
+	if (Board.frameNo >= 50) {
+		if (n1 == 0) {
+			n1 += 1;
+			Board.frameNo -= 50;
+		}
+	  }
+	if (Board.frameNo >= 100) {
+		if (n1 == 1) {
+			n1 += 1;
+			Board.frameNo -= 100;
+		}
+	  }
+	 if (Board.frameNo >= 150) {
+		if (n1 == 2) {
+			n1 += 1;
+			Board.frameNo -= 150;
+		}
+	  }
+	}
+	
+	function tapUpgrade() {
+		if (Board.frameNo >= 80) {
+			if (tapUp == 0) {
+				tapUp += 1;
+				Board.frameNo -= 80;
+			}
+		}
+		if (Board.frameNo >= 160) {
+			if (tapUp == 1) {
+				tapUp += 1;
+				Board.frameNo -= 160;
+			}
+		}
+	}
+	
+	var n1 = 0
+	var tapUp = 0
+	
+	function tap() {
+	  if (Board.frameNo <= 9999999) {
+	   if (tapUp == 0) {
+		 Board.frameNo += 1;
+		 }
+	   if (tapUp == 1) {
+		 Board.frameNo += 2;
+	   }
+	   if (tapUp == 2) {
+		 Board.frameNo += 4;
+	   }
+	  }
+	}
+	  </script>
+	  <label class="unselectable">
+	  <br><button ontouchstart="tapUpgrade()">Tap Upgrade</button><br>
+	  <button ontouchstart="tap()">  Tap  </button>
+	  <button ontouchstart="upgrade1()">Lemonade Stand 🍋</button>
+	  </label><//label>
+	</body>
+</html>
