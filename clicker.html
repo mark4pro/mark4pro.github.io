@@ -102,6 +102,15 @@ function money(width, height, color, x, y, type) {
 	if (n1 == 3){
 		Board.frameNo += 0.01;
 	}
+	if (n2 == 1) {
+		Board.frameNo += 0.02;
+	}
+	if (n2 == 2) {
+		Board.frameNo += 0.1;
+	}
+	if (n2 == 3){
+		Board.frameNo += 0.4;
+	}
   }
 }
 	
@@ -183,6 +192,7 @@ function money(width, height, color, x, y, type) {
 	  <br><button ontouchstart="tapUpgrade()">Tap Upgrade</button><br>
 	  <button ontouchstart="tap()">  Tap  </button>
 	  <button ontouchstart="upgrade1()">Lemonade Stand 🍋</button>
+	  <button ontouchstart="upgrade2()">Chicken Nuget Stand 🍘</button>
 	  </label><//label>
 	</body>
 </html>
