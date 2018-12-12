@@ -169,6 +169,12 @@ function money(width, height, color, x, y, type) {
 				Board.frameNo -= 160;
 			}
 		}
+		if (Board.frameNo >= 240) {
+			if (tapUp == 2) {
+				tapUp += 1;
+				Board.frameNo -= 240;
+			}
+		}
 	}
 	
 	var n1 = 0
@@ -185,6 +191,9 @@ function money(width, height, color, x, y, type) {
 	   }
 	   if (tapUp == 2) {
 		 Board.frameNo += 4;
+	   }
+	  if (tapUp == 3) {
+		 Board.frameNo += 8;
 	   }
 	  }
 	}
