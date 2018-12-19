@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html> 
+	<head>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="apple-touch-icon" href="clicker.PNG" />
+	<!-- Path to Framework7 Library CSS-->
+	<link rel="stylesheet" href="css/framework7.ios.min.css">
+	<!-- Path to your custom app styles-->
+	<link rel="stylesheet" href="css/my-app.css">
+	<link rel=“stylesheet” href=“css/framework7-TwitterDarkMode.css”>
+	<link rel="stylesheet" href="https://rawgit.com/S0n1cDev/TDM/master/Framework7-TwitterDarkMode.css">
+		<title>Clicker V0.0.5</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<style>
+		canvas {
+	border:2px solid black;
+	background-color: blue;
+	border-radius: 25px;
+	box-shadow: 2px 2px 5px lightblue;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	width: 600px;
+}
+	  </style>
+	  <style>
+.unselectable {
+	-webkit-user-select: none; /* Safari 3.1+ */
+	-moz-user-select: none; /* Firefox 2+ */
+	-ms-user-select: none; /* IE 10+ */
+	user-select: none; /* Standard syntax */
+}
+body {
+	background-image: background.png;
+ background-color: gray;
+}
+h1 {
+	color: darkred;
+	text-align: left;
+	text-shadow: 2px 2px 5px red;
+}
+p {
+	color: brown;
+	text-align: left;
+	font-family: verdana;
+	font-size: 10px;
+	text-shadow: 2px 2px 5px darkred;
+}
+.button {
+  background-color: lightgrey;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 25px;
+  text-shadow: 2px 2px 4px #000000;
+  box-shadow: 2px 2px 5px black;
+}
+</style>
+	</head>
+	<body onload="start()">
+	  <script>
+	  var money;
+	  
+	  
+	  function start() {
+		 money = new money("15px", "Consolas", "black", 300, 40, "text");
+		 Board.start();
+		  updateGameArea();
+	  }
+	  
+	  var Board = {
+	canvas : document.createElement("canvas"),
+	start : function() {
+		this.canvas.width = 500;
+		this.canvas.height = 400;
+		this.context = this.canvas.getContext("2d");
+		document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+		this.frameNo = 50;
+		this.interval = setInterval(updateGameArea, 20);
+	},
+	clear : function() {
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	},
+	stop : function() {
+		clearInterval(this.interval);
+	}
+}
+function money(width, height, color, x, y, type) {
+	this.type = type;
+	this.width = width;
+	this.height = height;
+	this.x = x;
+	this.y = y;	
+	this.update = function() {
+		ctx = Board.context;
+		if (this.type == "text") {
+		  ctx.font =this.width + " " + this.height;
+		  ctx.fillStyle = color;
+		  ctx.fillText(this.text, this.x, this.y);
+		}
+	}
+}
+
+function text(width, height, color, x, y, type) {
+	this.type = type;
+	this.width = width;
+	this.height = height;
+	this.x = x;
+	this.y = y;	
+	this.update = function() {
+		ctx = Board.context;
+		if (this.type == "text") {
+		  ctx.font =this.width + " " + this.height;
+		  ctx.fillStyle = color;
+		  ctx.fillText(this.text, this.x, this.y);
+		}
+	}
+}
+	  
+	  function updateGameArea() {
+	Board.clear();
+	money.text="$" +		 Board.frameNo;
+	money.update();
+	if (Board.frameNo <= 9999999) {
+	if (n1 == 1) {
+		Board.frameNo += 0.001;
+	}
+	if (n1 == 2) {
+		Board.frameNo += 0.005;
+	}
+	if (n1 == 3){
+		Board.frameNo += 0.01;
+	}
+	if (n1 == 4){
+		Board.frameNo += 0.05;
+	}
+	if (n1 == 5){
+		Board.frameNo += 0.1;
+	}
+	if (n2 == 1) {
+		Board.frameNo += 0.02;
+	}
+	if (n2 == 2) {
+		Board.frameNo += 0.1;
+	}
+	if (n2 == 3){
+		Board.frameNo += 0.4;
+	}
+	if (n3 == 1) {
+		Board.frameNo += 0.5;
+	}
+	if (n3 == 2) {
+		Board.frameNo += 0.8;
+	}
+	if (n3 == 3){
+		Board.frameNo += 1;
+	}
+	if (n4 == 1) {
+		Board.frameNo += 0.45;
+	}
+	if (n4 == 2) {
+		Board.frameNo += 0.95;
+	}
+	if (n4 == 3){
+		Board.frameNo += 1.57;
+	}
+  } else {
+  if (Board.frameNo >= 9999998) {
+  win = new text("50px", "Consolas", "black", 150, 200, "text");
+  win.text="YOU WIN!";
+  win.update();
+  Board.stop();
+  }
+ }
+}
+	
+	function upgrade1() {
+	if (Board.frameNo >= 50) {
+		if (n1 == 0) {
+			n1 += 1;
+			Board.frameNo -= 50;
+		}
+	  }
+	if (Board.frameNo >= 100) {
+		if (n1 == 1) {
+			n1 += 1;
+			Board.frameNo -= 100;
+		}
+	  }
+	 if (Board.frameNo >= 150) {
+		if (n1 == 2) {
+			n1 += 1;
+			Board.frameNo -= 150;
+		}
+	  }
+	  if (Board.frameNo >= 200) {
+		if (n1 == 3) {
+			n1 += 1;
+			Board.frameNo -= 200;
+		}
+	  }
+	  if (Board.frameNo >= 250) {
+		if (n1 == 4) {
+			n1 += 1;
+			Board.frameNo -= 250;
+		}
+	  }
+	}
+	
+	function upgrade2() {
+	if (Board.frameNo >= 110) {
+		if (n2 == 0) {
+			n2 += 1;
+			Board.frameNo -= 110;
+		}
+	  }
+	if (Board.frameNo >= 170) {
+		if (n2 == 1) {
+			n2 += 1;
+			Board.frameNo -= 170;
+		}
+	  }
+	 if (Board.frameNo >= 220) {
+		if (n2 == 2) {
+			n2 += 1;
+			Board.frameNo -= 220;
+		}
+	  }
+	}
+	
+	function upgrade3() {
+	if (Board.frameNo >= 800) {
+		if (n3 == 0) {
+			n3 += 1;
+			Board.frameNo -= 800;
+		}
+	  }
+	if (Board.frameNo >= 1000) {
+		if (n3 == 1) {
+			n3 += 1;
+			Board.frameNo -= 1000;
+		}
+	  }
+	 if (Board.frameNo >= 1200) {
+		if (n3 == 2) {
+			n3 += 1;
+			Board.frameNo -= 1200;
+		}
+	  }
+	}
+	
+	function upgrade4() {
+	if (Board.frameNo >= 700) {
+		if (n4 == 0) {
+			n4 += 1;
+			Board.frameNo -= 700;
+		}
+	  }
+	if (Board.frameNo >= 900) {
+		if (n4 == 1) {
+			n4 += 1;
+			Board.frameNo -= 900;
+		}
+	  }
+	 if (Board.frameNo >= 1100) {
+		if (n4 == 2) {
+			n4 += 1;
+			Board.frameNo -= 1100;
+		}
+	  }
+	}
+	
+	function tapUpgrade() {
+		if (Board.frameNo >= 80) {
+			if (tapUp == 0) {
+				tapUp += 1;
+				Board.frameNo -= 80;
+			}
+		}
+		if (Board.frameNo >= 160) {
+			if (tapUp == 1) {
+				tapUp += 1;
+				Board.frameNo -= 160;
+			}
+		}
+		if (Board.frameNo >= 240) {
+			if (tapUp == 2) {
+				tapUp += 1;
+				Board.frameNo -= 240;
+			}
+		}
+		if (Board.frameNo >= 320) {
+			if (tapUp == 3) {
+				tapUp += 1;
+				Board.frameNo -= 320;
+			}
+		}
+		if (Board.frameNo >= 450) {
+			if (tapUp == 4) {
+				tapUp += 1;
+				Board.frameNo -= 450;
+			}
+		}
+	}
+	
+	var n1 = 0
+	var n2 = 0
+	var n3 = 0
+	var n4 = 0
+	var tapUp = 0
+	
+	function tap() {
+	  if (Board.frameNo <= 9999999) {
+	   if (tapUp == 0) {
+		 Board.frameNo += 1;
+		 }
+	   if (tapUp == 1) {
+		 Board.frameNo += 2;
+	   }
+	   if (tapUp == 2) {
+		 Board.frameNo += 4;
+	   }
+	   if (tapUp == 3) {
+		 Board.frameNo += 8;
+	   }
+	   if (tapUp == 4) {
+		 Board.frameNo += 10;
+	   }
+	   if (tapUp == 5) {
+		 Board.frameNo += 14;
+	   }
+	  }
+	}
+	  </script>
+	  <label class="unselectable">
+	  <br><button class="button" ontouchstart="tapUpgrade()">Tap Upgrade</button><br>
+	  <button class="button" ontouchstart="tap()">  Tap  </button>
+	  <button class="button" ontouchstart="upgrade1()">Lemonade Stand 🍋</button>
+	  <button class="button" ontouchstart="upgrade2()">Chicken Nuget Stand 🍘</button>
+	  <button class="button" ontouchstart="upgrade3()">Cake Shop 🍰</button>
+	  <button class="button" ontouchstart="upgrade4()">BBQ Sauce Company</button>
+	  <h1>Get to $9,999,999 to Win!</h1>
+	  <h1>Tap Upgrade</h1>
+	  <p>1st upgrade cost = $80 tap = $2</p>
+	  <p>2nd upgrade cost = $160 tap = $4</p>
+	  <p>3rd upgrade cost = $240 tap = $8</p>
+	  <p>4th upgrade cost = $320 tap = $10</p>
+	  <p>5th upgrade cost = $450 tap = $14</p>
+	  <h1>Lemonade Stand Upgrade</h1>
+	  <p>1st upgrade cost = $50 cons. tap = $0.001</p>
+	  <p>2nd upgrade cost = $100 cons. tap = $0.005</p>
+	  <p>3rd upgrade cost = $150 cons. tap = $0.01</p>
+	  <p>4th upgrade cost = $200 tap = $0.05</p>
+	  <p>5th upgrade cost = $250 tap = $0.1</p>
+	  <h1>Chicken Nuget Stand Upgrade</h1>
+	  <p>1st upgrade cost = $110 cons. tap = $0.02</p>
+	  <p>2nd upgrade cost = $170 cons. tap = $0.1</p>
+	  <p>3rd upgrade cost = $220 cons. tap = $0.4</p>
+	  <h1>Cake Shop Upgrade</h1>
+	  <p>1st upgrade cost = $800 cons. tap = $0.5</p>
+	  <p>2nd upgrade cost = $1000 cons. tap = $0.8</p>
+	  <p>3rd upgrade cost = $1200 cons. tap = $1</p>
+	  <h1>BBQ Sauce Company</h1>
+	  <p>1st upgrade cost = $700 cons. tap = $0.45</p>
+	  <p>2nd upgrade cost = $900 cons. tap = $0.95</p>
+	  <p>3rd upgrade cost = $1100 cons. tap = $1.57</p>
+	  </label>
+	</body>
+</html>
