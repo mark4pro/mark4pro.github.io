@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+		<title>SlayTheCube2</title>
+		<style>
+		canvas {
+	border:2px solid black;
+	background-color: blue;
+	border-radius: 25px;
+	box-shadow: 2px 1px 5px lightblue;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	width: 600px;
+}
+	  body {
+		  background-image: linear-gradient(red, yellow);
+	  }
+	  h1 {
+		  font-size: 50px;
+		  background-color: darkblue;
+		  border:5px solid darkgray;
+		  border-radius: 30px;
+		  text-shadow: 2px 1px 5px red;
+		  box-shadow: 5px 5px 5px;
+	  }
+	  p {
+	     text-shadow: 2px 2px 5px lightblue;
+	  }
+	  button {
+		 width:60px;
+		 height:30px;
+		 border-radius: 30px;
+		 background-color: black;
+		 color: white;
+		 text-align: center;
+		 text-shadow: 2px 2px 5px;
+	  }
+	  input {
+		 width:60px;
+		 height:30px;
+		 border-radius: 30px;
+		 background-color: darkgray;
+		 color: darkwhite;
+		 text-align: center;
+		 text-shadow: 2px 2px 5px;
+	  }
+	  .unselectable {
+	-webkit-user-select: none; /* Safari 3.1+ */
+	-moz-user-select: none; /* Firefox 2+ */
+	-ms-user-select: none; /* IE 10+ */
+	user-select: none; /* Standard syntax */
+}
+		</style>
+		<!-- Were Images Go -->
+		<img id="background" width="0" height="0" src="background.png">
+	</head>
+	<body onload="start()">
+	<script>
+	function start() {
+	     ammo = new component(10, 10, "darkorange", 455, 30, "rec");
+		 p1 = new component("50px", "Consolas", "white", 43, 150, "text");
+		 ai = new component("50px", "Consolas", "white", 443, 150, "text");
+		 box = new component(30, 30, "blue", 35, 135, "rec");
+		 circle = new component(1, 1, "darkred", 50, 150, "cir", 15, "black", 1);
+		 box2 = new component(30, 30, "blue", 435, 135, "rec");
+		 aicircle = new component(1, 1, "purple", 450, 150, "cir", 15, "red", 1);
+		 wall = new component(20, 300, "black", -10, 0, "rec");
+		 wall2 = new component(20, 300, "black", 490, 0, "rec");
+		 wall3 = new component(500, 20, "black", 0, -10, "rec");
+		 wall4 = new component(500, 20, "black", 0, 290, "rec");
+		 background =new component(500, 300, "black", 0, 0, "img");
+		 Board.start();
+		  updateGameArea();
+	  }
+	
+	var Board = {
+	canvas : document.createElement("canvas"),
+	start : function() {
+		this.canvas.width = 500;
+		this.canvas.height = 300;
+		this.context = this.canvas.getContext("2d");
+		document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+		this.frameNo = 50;
+		this.interval = setInterval(updateGameArea, 20);
+	},
+	clear : function() {
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	},
+	stop : function() {
+		clearInterval(this.interval);
+	}
+}
+
+function component(width, height, color ,x ,y, type, radius, outcolor, thickness) {
+	this.type = type;
+	this.speedX = 0;
+	this.speedY = 0;
+	this.x = x;
+	this.y = y;
+	this.thickness = thickness;
+	this.outcolor = outcolor;
+	this.radius = radius;
+	this.update = function() {
+		ctx = Board.context;
+		if (this.type == "text") {
+		  ctx.font =this.width + " " + this.height;
+		  ctx.fillStyle = color;
+		  ctx.fillText(this.text, this.x, this.y);
+		} else {
+		if (type == "rec") {
+		this.width = width;
+		this.height = height;
+		ctx.fillStyle = color;
+		ctx.fillRect(this.x, this.y, this.width, this.height);        
+		  } else {
+		  if (type == "cir") {
+			  ctx.beginPath();
+	  ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI, true);
+	  ctx.fillStyle = color;
+	  ctx.fill();
+	  ctx.lineWidth = thickness;
+	  ctx.strokeStyle = outcolor;
+	  ctx.stroke();
+		 } else {
+		 if (type == "img") {
+		 this.width = width;
+		 this.height = height;
+		 var img = document.getElementById("background");
+		ctx.drawImage(img, this.x, this.y, this.width, this.height);
+		 }
+		}
+	   }
+	  }
+	}
+	this.newPos = function() {
+		this.x += this.speedX;
+		this.y += this.speedY;		
+	}
+	this.crashWith = function(otherobj) {
+		var myleft = this.x;
+		var myright = this.x + (this.width);
+		var mytop = this.y;
+		var mybottom = this.y + (this.height);
+		var otherleft = otherobj.x;
+		var otherright = otherobj.x + (otherobj.width);
+		var othertop = otherobj.y;
+		var otherbottom = otherobj.y + (otherobj.height);
+		var crash = true;
+		if ((mybottom < othertop) ||
+			   (mytop > otherbottom) ||
+			   (myright < otherleft) ||
+			   (myleft > otherright)) {
+			crash = false;
+	   }
+	   return crash;
+	}
+}
+
+function shapes(length, tall, color, th1, type) {
+this.type = type;
+this.length = length;
+ this.tall = tall;
+ this.th1 = th1;
+ this.ans1 = this.length;
+ this.ans2 = this.tall;
+ this.ans3 = this.th1
+ this.update = function() {
+		ctx = Board.context;
+ if (type == tri) {
+ctx.beginPath();
+ctx.moveTo(this.ans1, this.ans1);
+ctx.lineTo(this.ans1, this.ans3);
+ctx.lineTo(this.ans2, this.ans2);
+ctx.closePath();
+ctx.strokeStyle = '#666666';
+ctx.stroke();
+ctx.fillStyle = color;
+ctx.fill();
+  }
+ }
+this.newPos = function() {
+		this.x += this.speedX;
+		this.y += this.speedY;		
+	}
+ }
+
+function updateGameArea() {
+	Board.clear();
+	box.update();
+	box2.update();
+	background.update();
+	wall.update();
+	wall2.update();
+	wall3.update();
+	wall4.update();
+	ammo.update();
+	circle.update();
+	p1.update();
+	aicircle.update();
+	ai.update();
+	box.newPos();
+    box2.newPos();	
+	ammo.newPos();
+	circle.newPos();
+	p1.newPos();
+	aicircle.newPos();
+	ai.newPos();
+	p1.text="P1";
+	ai.text="AI";
+	if (box.crashWith(wall)) {
+	   clearmove();
+	   box.speedX += 1;
+	   circle.speedX += 1;
+	   p1.speedX += 1;
+		}
+	if (box.crashWith(wall2)) {
+	   clearmove();
+	   box.speedX -= 1;
+	   circle.speedX -= 1;
+	   p1.speedX -= 1;
+		}
+	if (box.crashWith(wall3)) {
+	   clearmove();
+	   box.speedY += 1;
+	   circle.speedY += 1;
+	   p1.speedY += 1;
+		}
+	if (box.crashWith(wall4)) {
+	   clearmove();
+	   box.speedY -= 1;
+	   circle.speedY -= 1;
+	   p1.speedY -= 1;
+		}
+	if (box2.crashWith(wall)) {
+	   box2.speedX += 1;
+	   aicircle.speedX += 1;
+	   ai.speedX += 1;
+		}
+	if (box2.crashWith(wall2)) {
+	   box2.speedX -= 1;
+	   aicircle.speedX -= 1;
+	   ai.speedX -= 1;
+		}
+	if (box2.crashWith(wall3)) {
+	   box2.speedY += 1;
+	   aicircle.speedY += 1;
+	   ai.speedY += 1;
+		}
+	if (box2.crashWith(wall4)) {
+	   box2.speedY -= 1;
+	   aicircle.speedY -= 1;
+	   ai.speedY -= 1;
+		}
+	if (box.crashWith(box2)) {
+	   death = new component("400px", "Consolas", "white", 230, 150, "text");
+	   death.text="YOU DIED!";
+		death.update();
+		Board.stop();
+		}
+	bullet.update();
+	bullet.newPos();
+	bulletai();
+	bull();
+}
+	
+	function aicircleai() {
+ if (box.x < box2.x){
+ aicircle.speedX -= 2;
+ box2.speedX -= 2;
+ ai.speedX -= 2;
+ } 
+ if (box.x > box2.x){
+ aicircle.speedX += 2;
+ box2.speedX += 2;
+ ai.speedX += 2;
+ }
+ if (box.y < box2.y){
+ aicircle.speedY -= 2;
+ box2.speedY -= 2;
+ ai.speedY -= 2;
+ } 
+ if (box.y > box2.y){
+ aicircle.speedY += 2;
+ box2.speedY += 2;
+ ai.speedY += 2;
+   }
+ }
+ 
+ function fire() {
+  bullet = new component(10, 10, "gray", 40 + box.x, 10 + box.y, "rec");
+}
+
+function fire2() {
+  run();
+}
+
+function bulletai() {
+ if (bullet.x > box2.x){
+ bullet.speedX = -2;
+ } 
+ if (bullet.x < box2.x){
+ bullet.speedX = 2;
+ }
+ if (bullet.y > box2.y){
+ bullet.speedY = -2;
+ } 
+ if (bullet.y < box2.y){
+ bullet.speedY = 2;
+   }
+ }
+ 
+function run() {
+if (box.crashWith(ammo)) {
+		fire();
+		bulletai();
+		}
+}
+
+function bull() {
+  if (bullet.crashWith(box2)) {
+	   win = new component("30px", "Consolas", "white", 250, 150, "text");
+	   win.text="You win!";
+	   end = new component(500, 300, "black", 0, 0, "rec");
+	    end.update();
+		win.update();
+		myGameArea.stop();
+	} 
+}
+	
+function moveUp() {
+	circle.speedY -= 2.5;
+	box.speedY -= 2.5;
+	p1.speedY -= 2.5;
+	aicircleai();
+}
+
+function moveDown() {
+	circle.speedY += 2.5;
+	box.speedY += 2.5;
+	p1.speedY += 2.5;
+	aicircleai();
+}
+
+function moveLeft() {
+	circle.speedX -= 2.5;
+	box.speedX -= 2.5;
+	p1.speedX -= 2.5;
+	aicircleai();
+}
+
+function moveRight() {
+	circle.speedX += 2.5;
+	box.speedX += 2.5;
+	p1.speedX += 2.5;
+	aicircleai();
+}
+
+function clearmove() {
+	circle.speedX = 0; 
+	circle.speedY = 0; 
+	box.speedX = 0;
+	box.speedY = 0;
+	p1.speedX = 0;
+	p1.speedY = 0;
+	aicircle.speedX = 0; 
+	aicircle.speedY = 0; 
+	box2.speedX = 0;
+	box2.speedY = 0;
+	ai.speedX = 0;
+	ai.speedY = 0;
+}
+	</script>
+	<label class="unselectable">
+	<h1 align=center>
+	SlayTheCube2
+	</h1>
+	<p align="left">
+	<button onmousedown="moveUp()" onmouseup="clearmove()" ontouchstart="moveUp()">UP</button>
+	<button onmousedown="moveDown()" onmouseup="clearmove()" ontouchstart="moveDown()">DOWN</button><br>
+	</p>
+	<p align="right">
+	<button onmousedown="fire2()" onmouseup="" ontouchstart="fire2()">FIRE</button><br>
+	<button onmousedown="moveLeft()" onmouseup="clearmove()" ontouchstart="moveLeft()">LEFT</button>
+	<button onmousedown="moveRight()" onmouseup="clearmove()" ontouchstart="moveRight()">RIGHT</button>
+	</p>
+	<div style="text-align:left;width:450px;">
+<input type="button" value="Reset" onClick="document.location.reload(true)">
+</div>
+    <p align="center">A remake of SlayTheCube!</p>
+	<p align="center">Made in my new engine called "Partical Engine v1"!</p>
+	</label>
+	</body>
+</html>
