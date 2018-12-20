@@ -261,7 +261,9 @@ function updateGameArea() {
 		Board.stop();
 		}
 	bullet.update();
+	bulletcase.update();
 	bullet.newPos();
+	bulletcase.newPos();
 	bulletai();
 	bull();
 }
@@ -291,6 +293,7 @@ function updateGameArea() {
  
  function fire() {
   bullet = new component(10, 10, "gray", 40 + box.x, 10 + box.y, "rec");
+  bulletcase = new component(1, 1, "gray", 45 + box.x, 20 + box.y, "cir", 5, "white", 1);
 }
 
 function fire2() {
@@ -299,16 +302,20 @@ function fire2() {
 
 function bulletai() {
  if (bullet.x > box2.x){
- bullet.speedX = -2;
+ bullet.speedX = -1;
+ bulletcase.speedX = -1;
  } 
  if (bullet.x < box2.x){
- bullet.speedX = 2;
+ bullet.speedX = 1;
+ bulletcase.speedX = 1;
  }
- if (bullet.y > box2.y){
- bullet.speedY = -2;
+ if (bullet.y > box2.y + 7.5){
+ bullet.speedY = -1;
+ bulletcase.speedY = -1;
  } 
- if (bullet.y < box2.y){
- bullet.speedY = 2;
+ if (bullet.y < box2.y + 7.5){
+ bullet.speedY = 1;
+ bulletcase.speedY = 1;
    }
  }
  
@@ -321,6 +328,7 @@ if (box.crashWith(ammo)) {
 
 function bull() {
   if (bullet.crashWith(box2)) {
+	   won +=1;
 	   win = new component("30px", "Consolas", "white", 250, 150, "text");
 	   win.text="You win!";
 	   end = new component(500, 300, "black", 0, 0, "rec");
@@ -358,6 +366,14 @@ function moveRight() {
 	aicircleai();
 }
 
+function nxtlvl() {
+   if (won >= 1) {
+    window.location = 'https://mark4pro.github.io/STC2LVL2.html'
+	}
+}
+		
+var won = 0	
+		
 function clearmove() {
 	circle.speedX = 0; 
 	circle.speedY = 0; 
