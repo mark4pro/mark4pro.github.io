@@ -372,6 +372,22 @@ function nxtlvl() {
 	}
 }
 		
+function easy() {
+    window.location = 'https://mark4pro.github.io/STC2E.html'
+}
+		
+function normal() {
+    window.location = 'https://mark4pro.github.io/STC2.html'
+}
+		
+function hard() {
+    window.location = 'https://mark4pro.github.io/STC2H.html'
+}
+		
+function imp() {
+    window.location = 'https://mark4pro.github.io/STC2I.html'
+}
+		
 var won = 0	
 		
 function clearmove() {
@@ -396,7 +412,7 @@ function clearmove() {
 	<p align="left">
 	<button onmousedown="moveUp()" onmouseup="clearmove()" ontouchstart="moveUp()">UP</button>
 	<button onmousedown="moveDown()" onmouseup="clearmove()" ontouchstart="moveDown()">DOWN</button><br>
-	<button onmousedown="nxtlvl()" ontouchstart="nxtlvl()">NEXT</button><br>
+	<button onmousedown="nxtlvl()" ontouchstart="nxtlvl()">NEXT</button>
 	</p>
 	<p align="right">
 	<button onmousedown="fire2()" onmouseup="" ontouchstart="fire2()">FIRE</button><br>
@@ -407,6 +423,10 @@ function clearmove() {
 <input type="button" value="Reset" onClick="document.location.reload(true)">
 </div>
 	<p align="center">Normal Mode</p>
+	<button onmousedown="easy()" ontouchstart="easy()">EASY</button>
+	<button onmousedown="normal()" ontouchstart="normal()">NORMAL</button>
+	<button onmousedown="hard()" ontouchstart="hard()">HARD</button>
+	<button onmousedown="imp()" ontouchstart="imp()">IMP</button>
         <p align="center">A remake of SlayTheCube!</p>
 	<p align="center">Made in my new engine called "Partical Engine v1"!</p>
 	</label>
