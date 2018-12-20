@@ -325,7 +325,9 @@ function updateGameArea() {
 }
 
 function fire2() {
+  if (won == 0) {
   run();
+  }
 }
 
 function bulletai() {
@@ -398,6 +400,22 @@ function nxtlvl() {
    if (won >= 1) {
     window.location = 'https://mark4pro.github.io/STC2LVL3.html'
 	}
+}
+
+function easy() {
+    window.location = 'https://mark4pro.github.io/STC2E.html'
+}
+		
+function normal() {
+    window.location = 'https://mark4pro.github.io/STC2.html'
+}
+		
+function hard() {
+    window.location = 'https://mark4pro.github.io/STC2H.html'
+}
+		
+function imp() {
+    window.location = 'https://mark4pro.github.io/STC2I.html'
 }
 
 var won = 0
