@@ -60,7 +60,7 @@
 	<body onload="start()">
 	<script>
 	function start() {
-	     ammo = new component(10, 10, "darkorange", Math.floor(Math.random() * 420) + 40, Math.floor(Math.random() * 220) + 40, "rec");
+	     ammo = new component(10, 10, "darkorange", Math.floor(Math.random() * 200) + 260, Math.floor(Math.random() * 220) + 40, "rec");
 		 p1 = new component("50px", "Consolas", "white", 43, 150, "text");
 		 ai = new component("50px", "Consolas", "white", 443, 150, "text");
 		 box = new component(30, 30, "blue", 35, 135, "rec");
@@ -396,6 +396,7 @@ function clearmove() {
 	<p align="left">
 	<button onmousedown="moveUp()" onmouseup="clearmove()" ontouchstart="moveUp()">UP</button>
 	<button onmousedown="moveDown()" onmouseup="clearmove()" ontouchstart="moveDown()">DOWN</button><br>
+	<button onmousedown="nxtlvl()" ontouchstart="nxtlvl()">NEXT</button><br>
 	</p>
 	<p align="right">
 	<button onmousedown="fire2()" onmouseup="" ontouchstart="fire2()">FIRE</button><br>
