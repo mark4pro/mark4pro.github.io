@@ -305,12 +305,14 @@ function updateGameArea() {
 		death.update();
 		Board.stop();
 		}
+	if (firef == 1) {
 	bullet.update();
 	bulletcase.update();
 	bullet.newPos();
 	bulletcase.newPos();
 	bulletai();
 	bull();
+	}
 }
 	
 	function aicircleai() {
@@ -343,6 +345,7 @@ function updateGameArea() {
 
 function fire2() {
  if (won == 0) {
+  firef += 1;
   run();
  }
 }
@@ -436,6 +439,7 @@ function imp() {
 }
 		
 var won = 0	
+var firef = 0
 		
 function clearmove() {
 	circle.speedX = 0; 
