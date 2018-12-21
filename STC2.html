@@ -351,11 +351,11 @@ function fire2() {
 }
 
 function bulletai() {
- if (bullet.x > box2.x){
+ if (bullet.x > box2.x + 7.5){
  bullet.speedX = -1;
  bulletcase.speedX = -1;
  } 
- if (bullet.x < box2.x){
+ if (bullet.x < box2.x + 7.5){
  bullet.speedX = 1;
  bulletcase.speedX = 1;
  }
