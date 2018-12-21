@@ -53,6 +53,48 @@
 	-ms-user-select: none; /* IE 10+ */
 	user-select: none; /* Standard syntax */
 }
+			.slidecontainer {
+  border: 5px solid red;
+  width: 100%;
+  height: 180px;
+  border-radius: 25px;
+  background: gray;
+  
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 300px;
+  height: 15px;
+  border-radius: 5px; 
+  background: black;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: red;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
 		</style>
 		<!-- Were Images Go -->
 		<img id="background" width="0" height="0" src="background.png">
@@ -406,6 +448,39 @@ function clearmove() {
 	ai.speedX = 0;
 	ai.speedY = 0;
 }
+	var sound = 0
+	
+function playSound() {
+   if (sound == 0) {
+    document.getElementById('myaudio').play();
+	}
+   if (sound == 1) {
+    document.getElementById('myaudio2').play();
+	}
+}
+
+function SetVolume(val)
+    {
+        var player = document.getElementById('myaudio');
+		var player2 = document.getElementById('myaudio2');
+        console.log('Before: ' + player.volume);
+        player.volume = val / 100;
+        console.log('After: ' + player.volume);
+		console.log('Before: ' + player2.volume);
+        player2.volume = val / 100;
+        console.log('After: ' + player2.volume);
+    }
+
+function skipSound() {
+   myaudio.pause();
+   myaudio.currentTime = 0;
+   myaudio2.pause();
+   myaudio2.currentTime = 0;
+   sound += 1;
+   if (sound == 2) {
+   sound -= 2;
+   }
+}	
 	</script>
 	<label class="unselectable">
 	<h1 align=center>
@@ -431,6 +506,15 @@ function clearmove() {
 	<button onmousedown="hard()" ontouchstart="hard()">HARD</button>
 	<button onmousedown="imp()" ontouchstart="imp()">IMP</button>
 	</p>
+	<div align="center" class="slidecontainer">
+<p align="center">
+<p align="center">Music Player V1</p>
+<button onclick="playSound()">PLAY</button>
+<button onclick="skipSound()">SKIP</button>
+  <p align="center">Volume:</p>
+  <input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input>
+  </p>
+</div>
         <p align="center">A remake of SlayTheCube!</p>
 	<p align="center">Made in my new engine called "Partical Engine v1"!</p>
 	</label>
