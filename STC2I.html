@@ -208,25 +208,21 @@ function updateGameArea() {
 	p1.text="P1";
 	ai.text="AI";
 	if (box.crashWith(wall)) {
-	   clearmove();
 	   box.speedX += 1;
 	   circle.speedX += 1;
 	   p1.speedX += 1;
 		}
 	if (box.crashWith(wall2)) {
-	   clearmove();
 	   box.speedX -= 1;
 	   circle.speedX -= 1;
 	   p1.speedX -= 1;
 		}
 	if (box.crashWith(wall3)) {
-	   clearmove();
 	   box.speedY += 1;
 	   circle.speedY += 1;
 	   p1.speedY += 1;
 		}
 	if (box.crashWith(wall4)) {
-	   clearmove();
 	   box.speedY -= 1;
 	   circle.speedY -= 1;
 	   p1.speedY -= 1;
