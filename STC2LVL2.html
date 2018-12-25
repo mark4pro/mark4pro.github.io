@@ -109,9 +109,9 @@
 		 p1 = new component("50px", "Consolas", "white", 43, 150, "text");
 		 ai = new component("50px", "Consolas", "white", 443, 150, "text");
 		 box = new component(30, 30, "blue", 35, 135, "rec");
-		 circle = new component(1, 1, "lime", 50, 150, "cir", 15, "olive", 1);
+		 circle = new component(1, 1, "purple", 50, 150, "cir", 15, "blue", 1);
 		 box2 = new component(30, 30, "blue", 435, 135, "rec");
-		 aicircle = new component(1, 1, "maroon", 450, 150, "cir", 15, "aqua", 1);
+		 aicircle = new component(1, 1, "yellow", 450, 150, "cir", 15, "aqua", 1);
 		 wall = new component(20, 300, "black", -10, 0, "rec");
 		 wall2 = new component(20, 300, "black", 490, 0, "rec");
 		 wall3 = new component(500, 20, "black", 0, -10, "rec");
@@ -261,71 +261,71 @@ function updateGameArea() {
 	ai.text="AI";
 	if (box.crashWith(wall)) {
 	   clearmove();
-	   box.speedX += 1;
-	   circle.speedX += 1;
-	   p1.speedX += 1;
+	   box.speedX += 2;
+	   circle.speedX += 2;
+	   p1.speedX += 2;
 		}
 	if (box.crashWith(wall2)) {
 	   clearmove();
-	   box.speedX -= 1;
-	   circle.speedX -= 1;
-	   p1.speedX -= 1;
+	   box.speedX -= 2;
+	   circle.speedX -= 2;
+	   p1.speedX -= 2;
 		}
 	if (box.crashWith(wall3)) {
 	   clearmove();
-	   box.speedY += 1;
-	   circle.speedY += 1;
-	   p1.speedY += 1;
+	   box.speedY += 2;
+	   circle.speedY += 2;
+	   p1.speedY += 2;
 		}
 	if (box.crashWith(wall4)) {
 	   clearmove();
-	   box.speedY -= 1;
-	   circle.speedY -= 1;
-	   p1.speedY -= 1;
+	   box.speedY -= 2;
+	   circle.speedY -= 2;
+	   p1.speedY -= 2;
 		}
 	if (box.crashWith(bwall)) {
 	   clearmove();
-	   box.speedX -= 1;
-	   circle.speedX -= 1;
-	   p1.speedX -= 1;
+	   box.speedX -= 2;
+	   circle.speedX -= 2;
+	   p1.speedX -= 2;
 		}
 	if (box.crashWith(bwall2)) {
 	   clearmove();
-	   box.speedX += 1;
-	   circle.speedX += 1;
-	   p1.speedX += 1;
+	   box.speedX += 2;
+	   circle.speedX += 2;
+	   p1.speedX += 2;
 		}
 	if (box2.crashWith(wall)) {
-	   box2.speedX += 1;
-	   aicircle.speedX += 1;
-	   ai.speedX += 1;
+	   box2.speedX += 5;
+	   aicircle.speedX += 5;
+	   ai.speedX += 5;
 		}
 	if (box2.crashWith(wall2)) {
-	   box2.speedX -= 1;
-	   aicircle.speedX -= 1;
-	   ai.speedX -= 1;
+	   box2.speedX -= 5;
+	   aicircle.speedX -= 5;
+	   ai.speedX -= 5;
 		}
 	if (box2.crashWith(wall3)) {
-	   box2.speedY += 1;
-	   aicircle.speedY += 1;
-	   ai.speedY += 1;
+	   box2.speedY += 5;
+	   aicircle.speedY += 5;
+	   ai.speedY += 5;
 		}
 	if (box2.crashWith(wall4)) {
-	   box2.speedY -= 1;
-	   aicircle.speedY -= 1;
-	   ai.speedY -= 1;
+	   box2.speedY -= 5;
+	   aicircle.speedY -= 5;
+	   ai.speedY -= 5;
 		}
 	if (box2.crashWith(bwall)) {
 	   clearmove2();
-	   box2.speedX -= 1;
-	   aicircle.speedX -= 1;
-	   ai.speedX -= 1;
+	   box2.speedX -= 5;
+	   aicircle.speedX -= 5;
+	   ai.speedX -= 5;
 		}
 	if (box2.crashWith(bwall2)) {
 	   clearmove2();
-	   box2.speedX += 1;
-	   aicircle.speedX += 1;
-	   ai.speedX += 1;
+	   box2.speedX += 5;
+	   aicircle.speedX += 5;
+	   ai.speedX += 5;
 		}
 	if (box.crashWith(box2)) {
 	   death = new component("400px", "Consolas", "white", 230, 150, "text");
@@ -345,24 +345,24 @@ function updateGameArea() {
 	
 	function aicircleai() {
  if (box.x < box2.x){
- aicircle.speedX -= 3;
- box2.speedX -= 3;
- ai.speedX -= 3;
+ aicircle.speedX -= 4;
+ box2.speedX -= 4;
+ ai.speedX -= 4;
  } 
  if (box.x > box2.x){
- aicircle.speedX += 3;
- box2.speedX += 3;
- ai.speedX += 3;
+ aicircle.speedX += 4;
+ box2.speedX += 4;
+ ai.speedX += 4;
  }
  if (box.y < box2.y){
- aicircle.speedY -= 3;
- box2.speedY -= 3;
- ai.speedY -= 3;
+ aicircle.speedY -= 4;
+ box2.speedY -= 4;
+ ai.speedY -= 4;
  } 
  if (box.y > box2.y){
- aicircle.speedY += 3;
- box2.speedY += 3;
- ai.speedY += 3;
+ aicircle.speedY += 4;
+ box2.speedY += 4;
+ ai.speedY += 4;
    }
  }
  
@@ -417,30 +417,30 @@ function bull() {
 }
 	
 function moveUp() {
-	circle.speedY -= 2.5;
-	box.speedY -= 2.5;
-	p1.speedY -= 2.5;
+	circle.speedY -= 2;
+	box.speedY -= 2;
+	p1.speedY -= 2;
 	aicircleai();
 }
 
 function moveDown() {
-	circle.speedY += 2.5;
-	box.speedY += 2.5;
-	p1.speedY += 2.5;
+	circle.speedY += 2;
+	box.speedY += 2;
+	p1.speedY += 2;
 	aicircleai();
 }
 
 function moveLeft() {
-	circle.speedX -= 2.5;
-	box.speedX -= 2.5;
-	p1.speedX -= 2.5;
+	circle.speedX -= 2;
+	box.speedX -= 2;
+	p1.speedX -= 2;
 	aicircleai();
 }
 
 function moveRight() {
-	circle.speedX += 2.5;
-	box.speedX += 2.5;
-	p1.speedX += 2.5;
+	circle.speedX += 2;
+	box.speedX += 2;
+	p1.speedX += 2;
 	aicircleai();
 }
 
