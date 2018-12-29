@@ -253,37 +253,31 @@ function updateGameArea() {
 	p1.text="P1";
 	ai.text="AI";
 	if (box.crashWith(wall)) {
-	   clearmove();
 	   box.speedX += 2;
 	   circle.speedX += 2;
 	   p1.speedX += 2;
 		}
 	if (box.crashWith(wall2)) {
-	   clearmove();
 	   box.speedX -= 2;
 	   circle.speedX -= 2;
 	   p1.speedX -= 2;
 		}
 	if (box.crashWith(wall3)) {
-	   clearmove();
 	   box.speedY += 2;
 	   circle.speedY += 2;
 	   p1.speedY += 2;
 		}
 	if (box.crashWith(wall4)) {
-	   clearmove();
 	   box.speedY -= 2;
 	   circle.speedY -= 2;
 	   p1.speedY -= 2;
 		}
 	if (box.crashWith(bwall)) {
-	   clearmove();
 	   box.speedX -= 2;
 	   circle.speedX -= 2;
 	   p1.speedX -= 2;
 		}
 	if (box.crashWith(bwall2)) {
-	   clearmove();
 	   box.speedX += 2;
 	   circle.speedX += 2;
 	   p1.speedX += 2;
