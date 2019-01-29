@@ -126,7 +126,7 @@ function text(width, height, color, x, y, type) {
 	  
 	  function updateGameArea() {
 	Board.clear();
-	money.text="$" +		 Board.frameNo;
+	money.text="$" +		 Math.round(Board.frameNo);
 	money.update();
 	if (Board.frameNo <= 9999999) {
 	if (n1 == 1) {
