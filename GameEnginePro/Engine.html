@@ -228,20 +228,17 @@ this.y += this.speedY;
 }
  }
 
-var m1 = 0;
-var m2 = 0;
-
 var isMobile = {
     Android: function() {
         return navigator.userAgent.match(/Android/i);
-        m1 = 1;
+        window.location.assign("https://mark4pro.github.io")
     },
     BlackBerry: function() {
         return navigator.userAgent.match(/BlackBerry/i);
     },
     iOS: function() {
         return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        m2 = 1;
+        window.location.assign("https://mark4pro.github.io");
     },
     Opera: function() {
         return navigator.userAgent.match(/Opera Mini/i);
@@ -345,9 +342,6 @@ if (box.crashWith(wall3)) {
 }
 if (box.crashWith(wall4)) {
  touchbottom = 1;
-}
-if (m2 == 1) {
- window.location.assign("https://mark4pro.github.io")
 }
 }
 	
