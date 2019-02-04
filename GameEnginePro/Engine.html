@@ -228,20 +228,20 @@ this.y += this.speedY;
 }
  }
 
-var mios = false;
-var mandroid = false;
+var m1 = 0;
+var m2 = 0;
 
 var isMobile = {
     Android: function() {
         return navigator.userAgent.match(/Android/i);
-        mandroid = true;
+        m1 = 1;
     },
     BlackBerry: function() {
         return navigator.userAgent.match(/BlackBerry/i);
     },
     iOS: function() {
         return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        mios = true;
+        m2 = 1;
     },
     Opera: function() {
         return navigator.userAgent.match(/Opera Mini/i);
