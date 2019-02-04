@@ -227,6 +227,33 @@ this.x += this.speedX;
 this.y += this.speedY;
 }
  }
+
+var mios = false;
+var mandroid = false;
+
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+        mandroid = true;
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        mios = true;
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
+
 function updateGameArea() {
 Board.clear();
 playSound();
@@ -320,6 +347,9 @@ if (box.crashWith(wall4)) {
  touchbottom = 1;
 }
 }
+	
+
+	
 var touchleft = 0;
 var touchright = 0;
 var touchtop = 0;
