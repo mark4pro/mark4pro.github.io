@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Engine v0.0.6</title>
+<style>
+canvas {
+border:2px solid black;
+background-color: blue;
+border-radius: 25px;
+box-shadow: 2px 2px 5px lightblue;
+margin-left: auto;
+margin-right: auto;
+display: block;
+width: 600px;
+}
+ body {
+ background-color: lightblue;
+ }
+ button{
+ width:50px;
+ height:50px;
+ border-radius: 30px;
+ background-color: black;
+ color: white;
+ text-align: center;
+ }
+ .unselectable {
+-webkit-user-select: none; /* Safari 3.1+ */
+-moz-user-select: none; /* Firefox 2+ */
+-ms-user-select: none; /* IE 10+ */
+user-select: none; /* Standard syntax */
+}
+#container {
+			width		: 50%;
+			height		: 50%;
+			overflow	: hidden;
+			padding		: 0;
+			margin		: 0;
+			-webkit-user-select	: none;
+			-moz-user-select	: none; 
+		}
+#locator { position: absolute; visibility: visible; left: 50px; top: 80px; z-index: 200; } 
+#locator2 { position: absolute; visibility: visible; left: 20px; top: 120px; z-index: 200; } 
+#locator3 { position: absolute; visibility: visible; left: 80px; top: 120px; z-index: 200; } 
+#locator4 { position: absolute; visibility: visible; left: 50px; top: 160px; z-index: 200; } 
+#locator5 { position: absolute; visibility: visible; left: 500px; top: 460px; z-index: 200; } 
+#locator6 { position: absolute; visibility: visible; left: 460px; top: 480px; z-index: 200; } 
+#locator7 { position: absolute; visibility: visible; left: 460px; top: 525px; z-index: 200; } 
+#locator8 { position: absolute; visibility: visible; left: 430px; top: 390px; z-index: 200; font-size: 15px;
+ background-color: darkblue; border:5px solid darkgray; border-radius: 30px; } 
+</style>
+<!-- Were Images Go -->
+<img id="playerimg" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/player.png">
+<!-- Were Sounds Go -->
+		<audio id="level1" src="audio/level1.mp3"></audio>
+		<audio id="level2" src="audio/level2.mp3"></audio>
+</head>
+<body onload="start()">
+<script>
+var playerX = 22;
+var playerY = 180;
+var playerHealth = 100;
+
+function start() {
+ box = new component(25, 25, "black", playerX, playerY, "rec");
+ circle = new component(90, 90, "darkblue", playerX - 29.5, playerY - 21.5, "img");
+ wallleft = new component(20, 400, "black", -10, 0, "rec");
+ wallright = new component(20, 400, "black", 790, 0, "rec");
+ wall3 = new component(800, 20, "black", 0, -10, "rec");
+ wall4 = new component(800, 20, "black", 0, 390, "rec");
+ ui = new component(800, 200, "white", 0, 400, "rec");
+ test = new component(10, 10, "red", 60, 60, "rec")
+ Board.start();
+ updateGameArea();
+ }
+var Board = {
+canvas : document.createElement("canvas"),
+start : function() {
+this.canvas.width = 800;
+this.canvas.height = 500;
+this.context = this.canvas.getContext("2d");
+document.body.insertBefore(this.canvas,
+document.body.childNodes[0]);
+this.frameNo = 60;
+this.interval = setInterval(updateGameArea, 10);
+},
+clear : function() {
+this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+},
+}
+function component(width, height, color ,x ,y, type, radius, outcolor, thickness) {
+this.type = type;
+this.speedX = 0;
+this.speedY = 0;
+this.x = x;
+this.y = y;
+this.thickness = thickness;
+this.outcolor = outcolor;
+this.radius = radius;
+this.update = function() {
+ctx = Board.context;
+if (this.type == "text") {
+ ctx.font = this.font;
+ ctx.fillStyle = color;
+ ctx.fillText(this.text, this.x, this.y);
+} else {
+if (type == "rec") {
+this.width = width;
+this.height = height;
+ctx.fillStyle = color;
+ctx.fillRect(this.x, this.y, this.width, this.height);
+ }
+ if (type == "cir") {
+ ctx.beginPath();
+ ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI, true);
+ ctx.fillStyle = color;
+ ctx.fill();
+ ctx.lineWidth = thickness;
+ ctx.strokeStyle = outcolor;
+ ctx.stroke();
+ } else {
+ if (type == "img") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("playerimg");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+}
+ }
+}
+this.newPos = function() {
+this.x += this.speedX;
+this.y += this.speedY;
+}
+this.crashWith = function(otherobj) {
+var myleft = this.x;
+var myright = this.x + (this.width);
+var mytop = this.y;
+var mybottom = this.y + (this.height);
+var otherleft = otherobj.x;
+var otherright = otherobj.x + (otherobj.width);
+var othertop = otherobj.y;
+var otherbottom = otherobj.y + (otherobj.height);
+var crash = true;
+if ((mybottom < othertop) ||
+ (mytop > otherbottom) ||
+ (myright < otherleft) ||
+ (myleft > otherright)) {
+crash = false;
+ }
+ return crash;
+}
+}
+
+var HealthX = 30;
+var HealthY = 450;
+var HealthWidth = 103;
+var HealthHeight = 30;
+var Death1 = 0;
+var texth;
+var word = "Health:";
+var hcolor = "Darkgreen";
+function Health1() {
+ w1 = new component(5, 48, "black", HealthX - 5, HealthY - 17, "rec");
+ w2 = new component(5, 48, "black", HealthX + 103, HealthY - 17, "rec");
+ w3 = new component(113, 5, "black", HealthX - 5, HealthY - 22, "rec");
+ w4 = new component(113, 5, "black", HealthX - 5, HealthY + 30, "rec");
+ g = new component(HealthWidth, HealthHeight, "gray", HealthX, HealthY - 17, "rec");
+ texth = new component("30px", "Consolas", "red", HealthX + 2, HealthY - 2, "text");
+ base = new component(HealthWidth, HealthHeight, "gray", HealthX, HealthY, "rec");
+ full = new component(playerHealth, HealthHeight - 5, hcolor, HealthX + 1.5, HealthY + 2.5, "rec");
+ w1.update();
+ w2.update();
+ w3.update();
+ w4.update();
+ g.update();
+ texth.font="18px Consolas";
+ texth.text=word + Math.round(playerHealth);;
+ texth.update();
+ base.update();
+ full.update();
+ if (playerHealth < 75) {
+ hcolor = "green";
+ }
+ if (playerHealth < 50) {
+ hcolor = "yellow";
+ }
+ if (playerHealth < 25) {
+ hcolor = "orange";
+ }
+ if (playerHealth < 10) {
+ hcolor = "red";
+ }
+ if (playerHealth < 1) {
+Death1 = 1;
+ }
+ if (playerHealth > 1) {
+Death1 = 0;
+ }
+}
+
+function shapes(length, tall, color, th1, type) {
+this.type = type;
+this.length = length;
+ this.tall = tall;
+ this.th1 = th1;
+ this.ans1 = this.length;
+ this.ans2 = this.tall;
+ this.ans3 = this.th1
+ this.update = function() {
+ctx = Board.context;
+ if (type == tri) {
+ctx.beginPath();
+ctx.moveTo(this.ans1, this.ans1);
+ctx.lineTo(this.ans1, this.ans3);
+ctx.lineTo(this.ans2, this.ans2);
+ctx.closePath();
+ctx.strokeStyle = '#666666';
+ctx.stroke();
+ctx.fillStyle = color;
+ctx.fill();
+ }
+ }
+this.newPos = function() {
+this.x += this.speedX;
+this.y += this.speedY;
+}
+}
+
+var mios = false;
+var mandroid = false;
+
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+        mandroid = true;
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        mios = true;
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
+
+function updateGameArea() {
+Board.clear();
+playSound();
+skipSound();
+ui.update();
+box.update();
+test.update();
+wallleft.update();
+wallright.update();
+wall3.update();
+wall4.update();
+if (Death1 == 0) {
+circle.update();
+box.newPos();
+circle.newPos();
+}
+Health1();
+name();
+playerMoney();
+if (up == 1) {
+ if (touchtop == 0) {
+ if (box.speedY >= -4) {
+ box.speedY -= 0.05;
+ circle.speedY -= 0.05;
+ } else {
+ box.speedY = -4;
+ circle.speedY = -4;
+ }
+ } else {
+ box.speedY = 0;
+ circle.speedY = 0;
+ }
+}
+if (down == 1) {
+ if (touchbottom == 0){
+ if (box.speedY <= 4) {
+ circle.speedY += 0.05;
+ box.speedY += 0.05;
+ } else {
+ box.speedY = 4;
+ circle.speedY = 4;
+ }
+ } else {
+ box.speedY = 0;
+ circle.speedY = 0;
+ }
+}
+if (left == 1) {
+ if (touchleft == 0) {
+ if (box.speedX >= -4) {
+ circle.speedX -= 0.05;
+ box.speedX -= 0.05;
+ } else {
+ box.speedX = -4;
+ circle.speedX = -4;
+ }
+ } else {
+ box.speedX = 0;
+ circle.speedX = 0;
+ }
+}
+if (right == 1) {
+ if (touchright == 0) {
+ if (box.speedX <= 4) {
+ circle.speedX += 0.05;
+ box.speedX += 0.05;
+ } else {
+ box.speedX = 4;
+ circle.speedX = 4;
+ }
+ } else {
+ box.speedX = 0;
+ circle.speedX = 0;
+ }
+} 
+if (box.crashWith(test)) {
+ if (playerHealth > 0) {
+ playerHealth -= 0.1;
+ }
+}
+if (box.crashWith(wallleft)) {
+ touchleft = 1;
+}
+if (box.crashWith(wallright)) {
+ touchright = 1;
+}
+if (box.crashWith(wall3)) {
+ touchtop = 1;
+}
+if (box.crashWith(wall4)) {
+ touchbottom = 1;
+}
+if (mios == true) {
+ window.location = url;
+}
+}
+
+var url= "https://mark4pro.github.io/GameEnginePro/Engine.html"; 
+
+var touchleft = 0;
+var touchright = 0;
+var touchtop = 0;
+var touchbottom = 0;
+var up = 0;
+var down = 0;
+var left = 0;
+var right = 0;
+function moveUp() {
+ if (touchtop == 0) {
+up = 1;
+}
+}
+function moveDown() {
+ if (touchbottom == 0) {
+down = 1;
+}
+}
+function moveLeft() {
+ if (touchleft == 0) {
+left = 1;
+}
+}
+function moveRight() {
+ if (touchright == 0) {
+right = 1;
+}
+}
+function clearmoveud() {
+ if (box.crashWith(wall3) == false) {
+ touchtop = 0;
+ }
+ if (box.crashWith(wall4) == false) {
+ touchbottom = 0;
+ }
+ up = 0;
+ down = 0;
+circle.speedY = 0;
+box.speedY = 0;
+}
+function clearmovelr() {
+ if (box.crashWith(wallleft) == false) {
+ touchleft = 0;
+ }
+ if (box.crashWith(wallright) == false) {
+ touchright = 0;
+ }
+ left = 0;
+ right = 0;
+circle.speedX = 0;
+box.speedX = 0;
+}
+
+var sound = 0
+	
+function playSound() {
+	if (sound == 0) {
+	document.getElementById('level1').play();
+	 }
+	if (sound == 1) {
+	document.getElementById('level2').play();
+	 }
+	if (sound > 1) {
+	sound = 0;
+	}
+}
+function SetVolume(val) {
+		var player = document.getElementById('level1');
+		player.volume = val / 100;
+		var player2 = document.getElementById('level2');
+		player2.volume = val / 100;
+	}
+function skipSound() {
+   if (sound > 0) {
+   level1.pause();
+   level1.currentTime = 0;
+   }
+   if (sound < 1) {
+   level2.pause();
+   level2.currentTime = 0;
+   }
+}
+
+var namebX = 620;
+var namebY = 450;
+
+function name() {
+   var nameg = "Name:"
+   var name = document.getElementById('name');
+   namef = new component("30px", "Consolas", "white", namebX, namebY, "text");
+   m = new component(300, 20, "gray", namebX - 5, namebY - 15, "rec");
+   namef.font="20px Consolas";
+   namef.text=nameg + name.value;
+   m.update();
+   namef.update();
+}
+
+var money = 100;
+var mbX = 580;
+var mbY = 480;
+
+function playerMoney() {
+   var moneyg = "$"
+   moneyf = new component("30px", "Consolas", "green", mbX, mbY, "text");
+   q = new component(300, 100, "gray", mbX - 5, mbY - 25, "rec");
+   k1 = new component(5, 100, "black", mbX - 10, mbY - 25, "rec");
+   k2 = new component(45, 5, "black", mbX - 10, mbY - 30, "rec");
+   k3 = new component(5, 15, "black", mbX + 30, mbY - 45, "rec");
+   k4 = new component(200, 5, "black", mbX + 30, mbY - 50, "rec");
+   moneyf.font="30px Consolas";
+   moneyf.text=moneyg + money;
+   q.update();
+   k1.update();
+   k2.update();
+   k3.update();
+   k4.update();
+   moneyf.update();
+}
+</script>
+<label class="unselectable">
+<div id="locator8">
+<h1>
+ Engine V0.0.6
+</h1>
+</div>
+<div id="locator">
+<button onmousedown="moveUp()" onmouseup="clearmoveud()" ontouchend="clearmoveud()" ontouchstart="moveUp()">UP</button><br>
+</div>
+<div id="locator2">
+<button onmousedown="moveLeft()" onmouseup="clearmovelr()" ontouchend="clearmovelr()" ontouchstart="moveLeft()">LEFT</button>
+</div>
+<div id="locator3">
+<button onmousedown="moveRight()" onmouseup="clearmovelr()" ontouchend="clearmovelr()" ontouchstart="moveRight()">RIGHT</button><br>
+</div>
+<div id="locator4">
+<button onmousedown="moveDown()" onmouseup="clearmoveud()" ontouchend="clearmoveud()" ontouchstart="moveDown()">DOWN</button>
+</div>
+<div id="locator5">
+<p align="center">Volume:</p>
+</div>
+<div id="locator6">
+<p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
+</div>
+<div id="locator7">
+<input type="text" id="name" value="Bob">
+</div>
+</label>
+</body>
+</html>
