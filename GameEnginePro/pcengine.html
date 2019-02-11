@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Engine v0.1.1</title>
+<title>Engine v0.0.6</title>
 <style>
 canvas {
 border:2px solid black;
@@ -205,6 +205,9 @@ function Health1() {
  texth.update();
  base.update();
  full.update();
+ if (playerHealth > 75) {
+ hcolor = "Darkgreen";
+ }
  if (playerHealth < 75) {
  hcolor = "green";
  }
@@ -250,8 +253,18 @@ ctx.fill();
 this.newPos = function() {
 this.x += this.speedX;
 this.y += this.speedY;
-}
  }
+}
+
+function relive() {
+if (Death1 > 0) {
+if (money == 100) {
+ money -= 100;
+ playerHealth = 100;
+ }
+ }
+}
+
 function updateGameArea() {
 Board.clear();
 playSound();
@@ -371,6 +384,9 @@ document.onkeydown = function(e) {
             break;
 		case 83:
             moveDown();
+            break;
+		case 82:
+            relive();
             break;
     }
 };
