@@ -213,6 +213,9 @@ function Health1() {
  texth.update();
  base.update();
  full.update();
+ if (playerHealth > 75) {
+ hcolor = "darkgreen";
+ }
  if (playerHealth < 75) {
  hcolor = "green";
  }
@@ -230,6 +233,15 @@ Death1 = 1;
  }
  if (playerHealth > 1) {
 Death1 = 0;
+ }
+}
+
+function relive() {
+if (Death1 > 0) {
+if (money >= 100) {
+ money -= 100;
+ playerHealth = 100;
+ }
  }
 }
 
@@ -386,6 +398,9 @@ document.onkeydown = function(e) {
             break;
 		case 83:
             moveDown();
+            break;
+		case 82:
+            relive();
             break;
     }
 };
