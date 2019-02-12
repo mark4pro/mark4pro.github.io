@@ -52,12 +52,17 @@ margin : 0;
 #locator3 { position: absolute; visibility: visible; left: 80px; top: 120px; z-index: 200; }
 #locator4 { position: absolute; visibility: visible; left: 50px; top: 160px; z-index: 200; }
 #locator5 { position: absolute; visibility: visible; left: 50px; top: 360px; z-index: 200; }
+#locator6 { position: absolute; visibility: visible; left: 850px; top: 80px; z-index: 200; }
+#locator7 { position: absolute; visibility: visible; left: 820px; top: 120px; z-index: 200; }
+#locator8 { position: absolute; visibility: visible; left: 880px; top: 120px; z-index: 200; }
+#locator9 { position: absolute; visibility: visible; left: 850px; top: 160px; z-index: 200; }
 </style>
 <!-- Were Images Go -->
 <img id="playerimg" width="0" height="0" src="image/player.png">
 <img id="uiimg" width="0" height="0" src="image/uitexture.png">
 <img id="healthbo" width="0" height="0" src="image/healthborder.png">
 <img id="healthba" width="0" height="0" src="image/healthback.png">
+<img id="wave1t5" width="0" height="0" src="image/wave1-5.png">
 <!-- Were Sounds Go -->
 		<audio id="level1" src="audio/level1.mp3"></audio>
 	    <audio id="level2" src="audio/level2.mp3"></audio>
@@ -69,7 +74,8 @@ var playerY = 180;
 var playerHealth = 100;
 function start() {
  box = new component(25, 25, "black", playerX, playerY, "rec");
- circle = new component(90, 90, "darkblue", playerX - 29.5, playerY - 21.5, "img");
+ circle = new component(32, 32, "darkblue", playerX - 3.5, playerY - 3.5, "img");
+ w1t5 = new component(800, 500, "darkblue", 0, 0, "img5");
  wallleft = new component(20, 400, "black", -10, 0, "rec");
  wallright = new component(20, 400, "black", 790, 0, "rec");
  wall3 = new component(800, 20, "black", 0, -10, "rec");
@@ -147,6 +153,12 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  this.width = width;
  this.height = height;
  var img = document.getElementById("healthba");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "img5") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("wave1t5");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
 }
@@ -261,12 +273,18 @@ if (money == 100) {
  }
  }
 }
+
+var wave = 0;
+
 function updateGameArea() {
 Board.clear();
 playSound();
 skipSound();
-ui.update();
 box.update();
+if (wave < 5) {
+w1t5.update();
+}
+ui.update();
 test.update();
 wallleft.update();
 wallright.update();
@@ -280,6 +298,7 @@ circle.newPos();
 Health1();
 playerMoney();
 name();
+waveammoweapon();
 if (up == 1) {
  if (touchtop == 0) {
  if (box.speedY >= -4) {
@@ -354,6 +373,50 @@ if (box.crashWith(wall4)) {
  touchbottom = 1;
 }
 }
+
+var weapon = 0;
+var ammo = 160;
+var weapname = "pistol";
+
+function waveammoweapon() {
+if (weapon == 0) {
+  weapname = "pistol";
+}
+obo = new component(100, 80, "gray", 350, 430, "img3");
+oba = new component(90, 80, "gray", 355, 435, "img4");
+bam = new component(83, 15, "gray", 358, 438, "rec");
+bwa = new component(83, 15, "gray", 358, 477, "rec");
+ammotxt = new component("30px", "Consolas", "orange", 360, 450, "text");
+ammotxt.font="18px Consolas";
+ammotxt.text="Ammo:" + ammo;
+weaptxt = new component("30px", "Consolas", "black", 358, 470, "text");
+weaptxt.font="14px Consolas bold";
+weaptxt.text="Weapon:" + weapname;
+wavetxt = new component("30px", "Consolas", "lightgray", 360, 490, "text");
+wavetxt.font="18px Consolas";
+wavetxt.text="Wave:" + wave;
+obo.update();
+oba.update();
+bam.update();
+bwa.update();
+ammotxt.update();
+weaptxt.update();
+wavetxt.update();
+}
+
+function shootUp() {
+
+}
+function shootDown() {
+
+}
+function shootLeft() {
+
+}
+function shootRight() {
+
+}
+
 var touchleft = 0;
 var touchright = 0;
 var touchtop = 0;
@@ -483,6 +546,18 @@ ontouchstart="moveRight()">RIGHT</button><br>
 <div id="locator4">
 <button onmousedown="moveDown()" onmouseup="clearmoveud()" ontouchend="clearmoveud()"
 ontouchstart="moveDown()">DOWN</button>
+</div>
+<div id="locator6">
+<button onmousedown="shootUp()" ontouchstart="shootUp()">UP</button><br>
+</div>
+<div id="locator7">
+<button onmousedown="shootLeft()" ontouchstart="shootLeft()">LEFT</button>
+</div>
+<div id="locator8">
+<button onmousedown="shootRight()" ontouchstart="shootRight()">RIGHT</button><br>
+</div>
+<div id="locator9">
+<button onmousedown="shootDown()" ontouchstart="shootDown()">Down</button>
 </div>
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1"
