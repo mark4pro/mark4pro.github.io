@@ -50,10 +50,11 @@ user-select: none; /* Standard syntax */
 
 </style>
 <!-- Were Images Go -->
-<img id="playerimg" width="0" height="0" src="image/player.png">
+<img id="playerimg" width="0" height="0" src="image/player1.png">
 <img id="uiimg" width="0" height="0" src="image/uitexture.png">
 <img id="healthbo" width="0" height="0" src="image/healthborder.png">
 <img id="healthba" width="0" height="0" src="image/healthback.png">
+<img id="wave1t5" width="0" height="0" src="image/wave1-5.png">
 <!-- Were Sounds Go -->
 		<audio id="level1" src="audio/level1.mp3"></audio>
 	    <audio id="level2" src="audio/level2.mp3"></audio>
@@ -66,8 +67,9 @@ var playerHealth = 100;
 
 function start() {
  uif = new component(800, 200, "darkblue", 0, 400, "img2");
+ w1t5 = new component(800, 500, "darkblue", 0, 0, "img5");
  box = new component(25, 25, "black", playerX, playerY, "rec");
- circle = new component(90, 90, "darkblue", playerX - 29.5, playerY - 21.5, "img");
+ circle = new component(32, 32, "darkblue", playerX - 3.5, playerY - 3.5, "img");
  wallleft = new component(20, 400, "black", -10, 0, "rec");
  wallright = new component(20, 400, "black", 790, 0, "rec");
  wall3 = new component(800, 20, "black", 0, -10, "rec");
@@ -149,6 +151,12 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  var img = document.getElementById("healthba");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
+ if (type == "img5") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("wave1t5");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
 }
  }
 }
@@ -205,9 +213,6 @@ function Health1() {
  texth.update();
  base.update();
  full.update();
- if (playerHealth > 75) {
- hcolor = "Darkgreen";
- }
  if (playerHealth < 75) {
  hcolor = "green";
  }
@@ -253,24 +258,20 @@ ctx.fill();
 this.newPos = function() {
 this.x += this.speedX;
 this.y += this.speedY;
- }
 }
-
-function relive() {
-if (Death1 > 0) {
-if (money == 100) {
- money -= 100;
- playerHealth = 100;
  }
- }
-}
-
+ 
+var wave = 0;
+ 
 function updateGameArea() {
 Board.clear();
 playSound();
 skipSound();
-uif.update();
 box.update();
+if (wave < 5) {
+w1t5.update();
+}
+uif.update();
 test.update();
 wallleft.update();
 wallright.update();
@@ -284,6 +285,7 @@ circle.newPos();
 Health1();
 playerMoney();
 name();
+waveammoweapon();
 if (up == 1) {
  if (touchtop == 0) {
  if (box.speedY >= -4) {
@@ -362,16 +364,16 @@ if (box.crashWith(wall4)) {
 document.onkeydown = function(e) {
     switch (e.keyCode) {
         case 37:
-            moveLeft();
+            shootLeft();
             break;
         case 38:
-            moveUp();
+            shootUp();
             break;
         case 39:
-            moveRight();
+            shootRight();
             break;
         case 40:
-            moveDown();
+            shootDown();
             break;
 		case 87:
             moveUp();
@@ -384,9 +386,6 @@ document.onkeydown = function(e) {
             break;
 		case 83:
             moveDown();
-            break;
-		case 82:
-            relive();
             break;
     }
 };
@@ -419,6 +418,49 @@ document.onkeyup = function(e) {
             break;
     }
 };
+
+var weapon = 0;
+var ammo = 160;
+var weapname = "pistol";
+
+function waveammoweapon() {
+if (weapon == 0) {
+  weapname = "pistol";
+}
+obo = new component(100, 80, "gray", 350, 430, "img3");
+oba = new component(90, 80, "gray", 355, 435, "img4");
+bam = new component(83, 15, "gray", 358, 438, "rec");
+bwa = new component(83, 15, "gray", 358, 477, "rec");
+ammotxt = new component("30px", "Consolas", "orange", 360, 450, "text");
+ammotxt.font="18px Consolas";
+ammotxt.text="Ammo:" + ammo;
+weaptxt = new component("30px", "Consolas", "black", 358, 470, "text");
+weaptxt.font="14px Consolas bold";
+weaptxt.text="Weapon:" + weapname;
+wavetxt = new component("30px", "Consolas", "lightgray", 360, 490, "text");
+wavetxt.font="18px Consolas";
+wavetxt.text="Wave:" + wave;
+obo.update();
+oba.update();
+bam.update();
+bwa.update();
+ammotxt.update();
+weaptxt.update();
+wavetxt.update();
+}
+
+function shootUp() {
+
+}
+function shootDown() {
+
+}
+function shootLeft() {
+
+}
+function shootRight() {
+
+}
 
 var touchleft = 0;
 var touchright = 0;
