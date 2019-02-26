@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html> 
+<html>
 <head>
 <title>Engine v0.0.6</title>
 <style>
@@ -59,10 +59,12 @@ margin : 0;
 </style>
 <!-- Were Images Go -->
 <img id="playerimg" width="0" height="0" src="image/player1.png">
+<img id="badguy1img" width="0" height="0" src="image/enemy.png">
 <img id="uiimg" width="0" height="0" src="image/uitexture.png">
 <img id="healthbo" width="0" height="0" src="image/healthborder.png">
 <img id="healthba" width="0" height="0" src="image/healthback.png">
 <img id="wave1t5" width="0" height="0" src="image/wave1-5.png">
+<img id="bullpic" width="0" height="0" src="image/bullet.png">
 <!-- Were Sounds Go -->
 		<audio id="level1" src="audio/level1.mp3"></audio>
 	    <audio id="level2" src="audio/level2.mp3"></audio>
@@ -72,7 +74,15 @@ margin : 0;
 var playerX = 22;
 var playerY = 180;
 var playerHealth = 100;
+var menu = 0;
+
 function start() {
+ badguypic1= new component(25, 25, "red", 500, 180, "img7");
+ badguy1= new component(25, 25, "red", 500, 180, "rec");
+ badpos1 = new component(25, 25, "orange", 700, 180, "rec");
+ badwavebox1 = new component(35, 35, "black", 695, 175, "rec");
+ bullbox = new component(10, 10, "orange", 400, 180, "rec");
+ bpic = new component(10, 10, "orange", 400, 180, "img6");
  box = new component(25, 25, "black", playerX, playerY, "rec");
  circle = new component(32, 32, "darkblue", playerX - 3.5, playerY - 3.5, "img");
  w1t5 = new component(800, 500, "darkblue", 0, 0, "img5");
@@ -81,10 +91,14 @@ function start() {
  wall3 = new component(800, 20, "black", 0, -10, "rec");
  wall4 = new component(800, 20, "black", 0, 390, "rec");
  ui = new component(800, 200, "white", 0, 400, "img2");
- test = new component(10, 10, "red", 60, 60, "rec")
+ menuboard = new component(800, 500, "black", 0, 0, "rec");
+ menutxt = new component("30px", "Consolas", "white", 300, 250, "text");
+ menutxt.font="20px Consolas";
+ menutxt.text="Any FIRE Button To Start!";
  Board.start();
  updateGameArea();
  }
+ 
 var Board = {
 canvas : document.createElement("canvas"),
 start : function() {
@@ -100,6 +114,7 @@ clear : function() {
 this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 },
 }
+
 function component(width, height, color ,x ,y, type, radius, outcolor, thickness) {
 this.type = type;
 this.speedX = 0;
@@ -161,6 +176,18 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  var img = document.getElementById("wave1t5");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
+ if (type == "img6") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("bullpic");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "img7") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("badguy1img");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
 }
 }
 }
@@ -187,6 +214,7 @@ crash = false;
  return crash;
 }
 }
+
 var HealthX = 30;
 var HealthY = 450;
 var HealthWidth = 103;
@@ -195,6 +223,7 @@ var Death1 = 0;
 var texth;
 var word = "Health:";
 var hcolor = "Darkgreen";
+
 function Health1() {
  bo = new component(113, 56.5, "darkblue", 25, 428, "img3");
  w1 = new component(5, 48, "black", HealthX - 5, HealthY - 17, "rec");
@@ -238,33 +267,7 @@ Death1 = 1;
 Death1 = 0;
  }
 }
-function shapes(length, tall, color, th1, type) {
-this.type = type;
-this.length = length;
- this.tall = tall;
- this.th1 = th1;
- this.ans1 = this.length;
- this.ans2 = this.tall;
- this.ans3 = this.th1
- this.update = function() {
-ctx = Board.context;
- if (type == tri) {
-ctx.beginPath();
-ctx.moveTo(this.ans1, this.ans1);
-ctx.lineTo(this.ans1, this.ans3);
-ctx.lineTo(this.ans2, this.ans2);
-ctx.closePath();
-ctx.strokeStyle = '#666666';
-ctx.stroke();
-ctx.fillStyle = color;
-ctx.fill();
- }
- }
-this.newPos = function() {
-this.x += this.speedX;
-this.y += this.speedY;
-}
-}
+
 function relive() {
 if (Death1 > 0) {
 if (money >= 100) {
@@ -281,24 +284,65 @@ Board.clear();
 playSound();
 skipSound();
 box.update();
+if (fire > 0) {
+if (menu > 0) {
+bullbox.update();
+ }
+}
+if (wave < 5) {
+if (BadDeath < 1) {
+if (Death1 == 0) {
+badguy1.update();
+  }
+ }
+}
+badwavebox1.update();
+badpos1.update();
 if (wave < 5) {
 w1t5.update();
 }
 ui.update();
-test.update();
+if (fire > 0) {
+bpic.update();
+}
 wallleft.update();
 wallright.update();
 wall3.update();
 wall4.update();
+if (wave < 5) {
+if (BadDeath < 1) {
+if (Death1 == 0) {
+badguypic1.update();
+  }
+ }
+}
+badboxspawn();
 if (Death1 == 0) {
 circle.update();
+if (menu > 0) {
 box.newPos();
 circle.newPos();
+ }
 }
+bullbox.newPos();
+badguypic1.newPos();
+badguy1.newPos();
+bpic.newPos();
 Health1();
 playerMoney();
 name();
 waveammoweapon();
+bulletai();
+badai1();
+countwave();
+if (menu == 0) {
+menuboard.update();
+menutxt.update();
+}
+if (menu == 1) {
+ammo = 160;
+menu += 1;
+}
 if (up == 1) {
  if (touchtop == 0) {
  if (box.speedY >= -4) {
@@ -355,11 +399,6 @@ if (right == 1) {
  circle.speedX = 0;
  }
 }
-if (box.crashWith(test)) {
- if (playerHealth > 0) {
- playerHealth -= 0.1;
- }
-}
 if (box.crashWith(wallleft)) {
  touchleft = 1;
 }
@@ -404,18 +443,254 @@ weaptxt.update();
 wavetxt.update();
 }
 
+var count = 0;
+var numofbad = 10;
+
+function countwave() {
+if (menu > 0) {
+if (wave < 5) {
+if (BadDeath > 0) {
+if (badguy1.crashWith(badwavebox1)) {
+count += 1;
+   }
+  }
+ }
+}
+ if (count == numofbad) {
+ wave += 1
+ }
+ if (count >= numofbad) {
+ count = 0;
+ }
+}
+
+var BadDeath = 1;
+var Badhealth1 = 0;
+var PlayerDamageDeal = 50;
+var Bad1DamageDeal = 0.5;
+
+function badboxspawn() {
+if (wave < 5) {
+if (badguy1.crashWith(bullbox)) {
+if (Badhealth1 >= 0) {
+if (fire > 0) {
+Badhealth1 -= PlayerDamageDeal;
+ }
+ }
+}
+if (Badhealth1 >= 0) {
+BadDeath = 0;
+ }
+if (Badhealth1 == 0) {
+BadDeath = 1;
+ }
+ }
+}
+
+function badai1() {
+if (wave < 5) {
+if (BadDeath > 0) {
+if (badguy1.x > badpos1.x) {
+badguypic1.speedX = -5;
+badguy1.speedX = -5;
+}
+if (badguy1.x < badpos1.x) {
+badguypic1.speedX = 5;
+badguy1.speedX = 5;
+}
+if (badguy1.crashWith(badpos1)) {
+badguypic1.speedX = 0;
+badguypic1.speedY = 0;
+badguy1.speedY = 0;
+badguy1.speedX = 0;
+Badhealth1 = 100;
+BadDeath = 0;
+ }
+if (badguy1.y > badpos1.y) {
+badguypic1.speedY = -5;
+badguy1.speedY = -5;
+}
+if (badguy1.y < badpos1.y) {
+badguypic1.speedY = 5;
+badguy1.speedY = 5;
+}
+ }
+if (BadDeath < 1) {
+if (menu > 0) {
+if (badguy1.x > box.x + 22) {
+badguypic1.speedX = -1;
+badguy1.speedX = -1;
+}
+if (badguy1.x < box.x + 22) {
+badguypic1.speedX = 1;
+badguy1.speedX = 1;
+}
+if (badguy1.y > box.y) {
+badguypic1.speedY = -1;
+badguy1.speedY = -1;
+}
+if (badguy1.y < box.y) {
+badguypic1.speedY = 1;
+badguy1.speedY = 1;
+}
+if (box.crashWith(badguy1)) {
+if (playerHealth > 0) {
+playerHealth -= Bad1DamageDeal;
+}
+}
+ }
+ }
+ }
+}
+
+var fire = 0;
+var fireR = 0;
+var fireL = 0;
+var fireU = 0;
+var fireD = 0;
+
 function shootUp() {
-
+console.log(fire);
+if (Death1 == 0) {
+if (fire == 0) {
+if (ammo > 0) {
+if (box.crashWith(bullbox)) {
+fire += 1;
+fireU += 1;
+ammo -= 1;
+if (menu == 0) {
+menu += 1;
 }
+    }
+   }
+  }
+ }
+}
+
 function shootDown() {
-
+console.log(fire);
+if (Death1 == 0) {
+if (fire == 0) {
+if (ammo > 0) {
+if (box.crashWith(bullbox)) {
+fire += 1;
+fireD += 1;
+ammo -= 1;
+if (menu == 0) {
+menu += 1;
 }
+    }
+   }
+  }
+ }
+}
+
 function shootLeft() {
-
+console.log(fire);
+if (Death1 == 0) {
+if (fire == 0) {
+if (ammo > 0) {
+if (box.crashWith(bullbox)) {
+fire += 1;
+fireL += 1;
+ammo -= 1;
+if (menu == 0) {
+menu += 1;
 }
+    }
+   }
+  }
+ }
+}
+
 function shootRight() {
-
+console.log(fire);
+if (Death1 == 0) {
+if (fire == 0) {
+if (ammo > 0) {
+if (box.crashWith(bullbox)) {
+fire += 1;
+fireR += 1;
+ammo -= 1;
+if (menu == 0) {
+menu += 1;
 }
+    }
+   }
+  }
+ }
+}
+
+var bullrange = 3;
+
+function bulletai() {
+if (fire < 1) {
+if (-10 + bullbox.x > box.x) {
+    bullbox.speedX = -5;
+	bpic.speedX = -5;
+}
+if (-10 + bullbox.x < box.x) {
+    bullbox.speedX = 5;
+	bpic.speedX = 5;
+}
+if (box.crashWith(bullbox)) {
+    bullbox.speedX = 0;
+	bpic.speedX = 0;
+ }
+if (-10 + bullbox.y > box.y) {
+    bullbox.speedY = -5;
+	bpic.speedY = -5;
+}
+if (-10 + bullbox.y < box.y) {
+    bullbox.speedY = 5;
+	bpic.speedY = 5;
+}
+if (box.crashWith(bullbox)) {
+    bullbox.speedY = 0;
+	bpic.speedY = 0;
+ }
+}
+if (fire > 0) {
+ if (fireL > 0) {
+  bullbox.speedX -= bullrange;
+  bullbox.speedY = 0;
+  bpic.speedX -= bullrange;
+  bpic.speedY = 0;
+  bullettime += 0.5;
+  }
+ if (fireR > 0) {
+  bullbox.speedX += bullrange;
+  bullbox.speedY = 0;
+  bpic.speedX += bullrange;
+  bpic.speedY = 0;
+  bullettime += 0.5;
+  }
+  if (fireU > 0) {
+  bullbox.speedX = 0;
+  bullbox.speedY -= bullrange;
+  bpic.speedY -= bullrange;
+  bpic.speedX = 0;
+  bullettime += 0.5;
+  }
+  if (fireD > 0) {
+  bullbox.speedX = 0;
+  bullbox.speedY += bullrange;
+  bpic.speedY += bullrange;
+  bpic.speedX = 0;
+  bullettime += 0.5;
+  }
+ if (bullettime >= 5) {
+  fire = 0;
+  fireR = 0;
+  fireL = 0;
+  fireU = 0;
+  fireD = 0;
+  bullettime = 0;
+  }
+ }
+}
+
+var bullettime = 0;
 
 var touchleft = 0;
 var touchright = 0;
@@ -425,26 +700,31 @@ var up = 0;
 var down = 0;
 var left = 0;
 var right = 0;
+
 function moveUp() {
  if (touchtop == 0) {
 up = 1;
 }
 }
+
 function moveDown() {
  if (touchbottom == 0) {
 down = 1;
 }
 }
+
 function moveLeft() {
  if (touchleft == 0) {
 left = 1;
 }
 }
+
 function moveRight() {
  if (touchright == 0) {
 right = 1;
 }
 }
+
 function clearmoveud() {
  if (box.crashWith(wall3) == false) {
  touchtop = 0;
@@ -457,6 +737,7 @@ function clearmoveud() {
 circle.speedY = 0;
 box.speedY = 0;
 }
+
 function clearmovelr() {
  if (box.crashWith(wallleft) == false) {
  touchleft = 0;
@@ -469,7 +750,9 @@ function clearmovelr() {
 circle.speedX = 0;
 box.speedX = 0;
 }
+
 var sound = 0
+
 function playSound() {
 if (sound == 0) {
 document.getElementById('level1').play();
@@ -481,12 +764,14 @@ if (sound > 1) {
 sound = 0;
 }
 }
+
 function SetVolume(val) {
 var player = document.getElementById('level1');
 player.volume = val / 100;
 var player2 = document.getElementById('level2');
 player2.volume = val / 100;
 }
+
 function skipSound() {
  if (sound > 0) {
  level1.pause();
@@ -497,8 +782,14 @@ function skipSound() {
  level2.currentTime = 0;
  }
 }
+
 var namebX = 620;
 var namebY = 450;
+var ammocheat = "moreammo";
+var healthcheat = "morehealth";
+var wavebonus = "ryanmace";
+var resetcheat = "reset";
+
 function name() {
  var nameg = "Name:"
  var name = document.getElementById('name');
@@ -508,7 +799,20 @@ function name() {
  namef.text=nameg + name.value;
  m.update();
  namef.update();
+ if (name.value == ammocheat) {
+ ammo = 160;
+ }
+ if (name.value == healthcheat) {
+ playerHealth = 100;
+ }
+ if (name.value == wavebonus) {
+ wave = 9000;
+ }
+ if (name.value == resetcheat) {
+ document.location.reload(true);
+ }
 }
+
 var money = 100;
 var mbX = 580;
 var mbY = 480;
