@@ -1,6 +1,6 @@
 var playerX = 22;
 var playerY = 180;
-
+ 
 function start() {
  player = new component(25, 25, "black", playerX, playerY, "rec");
  wallleft = new component(20, 500, "black", -10, 0, "rec");
