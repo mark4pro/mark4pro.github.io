@@ -47,6 +47,7 @@ margin : 0;
 -webkit-user-select : none;
 -moz-user-select : none;
 }
+
 #locator { position: absolute; visibility: visible; left: 50px; top: 80px; z-index: 200; }
 #locator2 { position: absolute; visibility: visible; left: 20px; top: 120px; z-index: 200; }
 #locator3 { position: absolute; visibility: visible; left: 80px; top: 120px; z-index: 200; }
@@ -56,15 +57,20 @@ margin : 0;
 #locator7 { position: absolute; visibility: visible; left: 820px; top: 120px; z-index: 200; }
 #locator8 { position: absolute; visibility: visible; left: 880px; top: 120px; z-index: 200; }
 #locator9 { position: absolute; visibility: visible; left: 850px; top: 160px; z-index: 200; }
+#locator10 { position: absolute; visibility: visible; left: 880px; top: 360px; z-index: 200; }
+
 </style>
 <!-- Were Images Go -->
-<img id="playerimg" width="0" height="0" src="image/player1.png">
+<img id="playerimg" width="0" height="0" src="image/player.png">
 <img id="badguy1img" width="0" height="0" src="image/enemy.png">
 <img id="uiimg" width="0" height="0" src="image/uitexture.png">
 <img id="healthbo" width="0" height="0" src="image/healthborder.png">
 <img id="healthba" width="0" height="0" src="image/healthback.png">
 <img id="wave1t5" width="0" height="0" src="image/wave1-5.png">
 <img id="bullpic" width="0" height="0" src="image/bullet.png">
+<img id="ammopic1" width="0" height="0" src="image/ammocrate1pic.png">
+<img id="healthpic1" width="0" height="0" src="image/healthcrate1pic.png">
+
 <!-- Were Sounds Go -->
 		<audio id="level1" src="audio/level1.mp3"></audio>
 	    <audio id="level2" src="audio/level2.mp3"></audio>
@@ -192,8 +198,20 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  var img = document.getElementById("badguy1img");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
-}
-}
+ if (type == "img8") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("ammopic1");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "img9") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("healthpic1");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+  }
+ }
 }
 this.newPos = function() {
 this.x += this.speedX;
@@ -284,6 +302,18 @@ if (money >= 100) {
  }
 }
 
+var crate1X = 400;
+var crate1Y = 200;
+var crateh1X = 500;
+var crateh1Y = 200;
+
+function ammocrate() {
+ammocrate1 = new component(20, 20, "yellow", crate1X, crate1Y, "rec");
+healthcrate1 = new component(20, 20, "red", crateh1X, crateh1Y, "rec");
+ammocrate1picO = new component(20, 20, "yellow", crate1X, crate1Y, "img8");
+healthcrate1picO = new component(20, 20, "red", crateh1X, crateh1Y, "img9");
+}
+
 var wave = 1;
 
 function updateGameArea() {
@@ -314,6 +344,16 @@ badwavebox1.update();
 badpos1.update();
 badwavebox2.update();
 badpos2.update();
+if (menu > 0) {
+if (cratespawn > 0) {
+ammocrate1.update();
+ }
+}
+if (menu > 0) {
+if (cratespawn2 > 0) {
+healthcrate1.update();
+ }
+}
 if (wave < 5) {
 w1t5.update();
 }
@@ -325,6 +365,16 @@ wallleft.update();
 wallright.update();
 wall3.update();
 wall4.update();
+if (menu > 0) {
+if (cratespawn > 0) {
+ammocrate1picO.update();
+ }
+}
+if (menu > 0) {
+if (cratespawn2 > 0) {
+healthcrate1picO.update();
+ }
+}
 if (wave < 5) {
 if (BadDeath < 1) {
 if (Death1 == 0) {
@@ -341,6 +391,22 @@ badguypic2.update();
 }
 badboxspawn();
 badboxspawn2();
+if (cratespawn > 0) {
+if (box.crashWith(ammocrate1)) {
+if (ammo < 75) {
+ cratespawn = 0;
+ ammo += 50;
+ }
+ }
+}
+if (cratespawn2 > 0) {
+if (box.crashWith(healthcrate1)) {
+if (playerHealth < 75) {
+ cratespawn2 = 0;
+ playerHealth += 25;
+ }
+ }
+}
 if (Death1 == 0) {
 circle.update();
 if (menu > 0) {
@@ -358,6 +424,7 @@ Health1();
 playerMoney();
 name();
 waveammoweapon();
+ammocrate();
 bulletai();
 badai1();
 badai2();
@@ -446,7 +513,14 @@ var weapname = "pistol";
 
 function waveammoweapon() {
 if (weapon == 0) {
-  weapname = "pistol";
+ weapname = "pistol";
+ PlayerDamageDeal = 20;
+ bullrange = 3;
+}
+if (weapon == 1) {
+ weapname = "Hi-Beam";
+ PlayerDamageDeal = 30;
+ bullrange = 6;
 }
 obo = new component(100, 80, "gray", 350, 430, "img3");
 oba = new component(90, 80, "gray", 355, 435, "img4");
@@ -456,7 +530,7 @@ ammotxt = new component("30px", "Consolas", "orange", 360, 450, "text");
 ammotxt.font="18px Consolas";
 ammotxt.text="Ammo:" + ammo;
 weaptxt = new component("30px", "Consolas", "black", 358, 470, "text");
-weaptxt.font="14px Consolas bold";
+weaptxt.font="12px Consolas bold";
 weaptxt.text="Weapon:" + weapname;
 wavetxt = new component("30px", "Consolas", "lightgray", 360, 490, "text");
 wavetxt.font="18px Consolas";
@@ -474,14 +548,30 @@ var count = 0;
 var numofbad = 100;
 var moneyperwave = 10;
 var moneyperendie = 0.2;
+var cratespawn = 0;
+var cratespawn2 = 0
+var chanceofdrop = 21;
+var chanceofdrop2 = 26;
 
 function countwave() {
 if (menu > 0) {
-if (wave < 5) {
 if (BadDeath > 0) {
 if (badguy1.crashWith(badwavebox1)) {
+if (Math.floor(Math.random() * chanceofdrop) == 7) {
+if (ammo < 100) {
+cratespawn += 1;
+ }
+}
+if (badguy1.crashWith(badwavebox1)) {
+if (Math.floor(Math.random() * chanceofdrop2) == 10) {
+if (playerHealth < 100) {
+cratespawn2 += 1;
+ }
+}
+if (wave < 5) {
 money += moneyperendie;
 count += 1;
+    }
    }
   }
  }
@@ -907,14 +997,18 @@ var sound = 0
 
 function playSound() {
 if (sound == 0) {
+if (menu > 0) {
 document.getElementById('level1').play();
+  }
  }
 if (sound == 1) {
+if (menu > 0) {
 document.getElementById('level2').play();
+  }
  }
 if (sound > 1) {
 sound = 0;
-}
+ }
 }
 
 function SetVolume(val) {
@@ -941,6 +1035,7 @@ var ammocheat = "moreammo";
 var healthcheat = "morehealth";
 var wavebonus = "ryanmace";
 var resetcheat = "reset";
+var fullcheat = "FULLYMAXED"
 
 function name() {
  var nameg = "Name:"
@@ -956,6 +1051,10 @@ function name() {
  }
  if (name.value == healthcheat) {
  playerHealth = 100;
+ }
+ if (name.value == fullcheat) {
+ playerHealth = 100;
+ ammo = 160;
  }
  if (name.value == wavebonus) {
  wave = 9000;
@@ -981,6 +1080,9 @@ function playerMoney() {
  mbo.update();
  q.update();
  moneyf.update();
+}
+function swapweap() {
+
 }
 </script>
 <label class="unselectable">
@@ -1021,6 +1123,9 @@ oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
 <p align="center"><input type="text" id="name" value="Bob"></p>
 <div id="locator5">
 <button onmousedown="relive()" ontouchstart="relive()">Revive</button>
+</div>
+<div id="locator10">
+<button onmousedown="swapweap()" ontouchstart="swapweap()">Swap Weap</button>
 </div>
 </label>
 </body>
