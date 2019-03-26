@@ -664,16 +664,11 @@ if (BadDeath > 0) {
 if (badguy1.crashWith(badwavebox1)) {
 if (upgrademenu == 0) {
 if (Math.floor(Math.random() * chanceofdrop) == 2) {
-if (ammo < 100) {
-cratespawn += 1;
-  }
- }
-}
-if (badguy1.crashWith(badwavebox1)) {
-if (upgrademenu == 0) {
-if (Math.floor(Math.random() * chanceofdrop2) == 2) {
 if (playerHealth < 100) {
 cratespawn2 += 1;
+  }
+if (ammo < 100) {
+cratespawn += 1;
   }
  }
 }
@@ -694,16 +689,12 @@ money += moneyperendie;
 count += 1;
 }
 if (wave > 2 && wave < 6) {
-if (Math.floor(Math.random() * chanceofdrop) == 2) {
-if (ammo < 100) {
-cratespawn += 1;
-  }
- }
-}
-if (wave > 2 && wave < 6) {
 if (Math.floor(Math.random() * chanceofdrop2) == 2) {
 if (playerHealth < 100) {
 cratespawn2 += 1;
+  }
+if (ammo < 100) {
+cratespawn += 1;
   }
  }
 }
@@ -721,10 +712,9 @@ cratespawn2 += 1;
  }
  if (wave == 2) {
 numofbad = 20;
-    }
  }
 }
-
+	
 var BadDeath = 1;
 var Badhealth1 = 0;
 var PlayerDamageDeal = 20;
