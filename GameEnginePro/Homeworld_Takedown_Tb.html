@@ -656,8 +656,8 @@ var moneyperwave = 10;
 var moneyperendie = 0.2;
 var cratespawn = 0;
 var cratespawn2 = 0
-var chanceofdrop = 11;
-var chanceofdrop2 = 16;
+var chanceofdrop = 6;
+var chanceofdrop2 = 6;
 function countwave() {
 if (menu > 0) {
 if (BadDeath > 0) {
@@ -694,14 +694,14 @@ money += moneyperendie;
 count += 1;
 }
 if (wave > 2 && wave < 6) {
-if (Math.floor(Math.random() * chanceofdrop) == 7) {
+if (Math.floor(Math.random() * chanceofdrop) == 3) {
 if (ammo < 100) {
 cratespawn += 1;
   }
  }
 }
 if (wave > 2 && wave < 6) {
-if (Math.floor(Math.random() * chanceofdrop2) == 5) {
+if (Math.floor(Math.random() * chanceofdrop2) == 3) {
 if (playerHealth < 100) {
 cratespawn2 += 1;
   }
