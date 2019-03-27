@@ -31,6 +31,9 @@ width: 600px;
  visibility: visible; 
  z-index: 200; 
  }
+ p {
+ color: white;
+ }
  .unselectable {
 -webkit-user-select: none; /* Safari 3.1+ */
 -moz-user-select: none; /* Firefox 2+ */
@@ -100,8 +103,8 @@ function start() {
  backtxt.text = "BACK";
  upgrade1buttonnodetect = new component(160, 50, backbttncolor, upgrade1X - 100, upgrade1Y + 100, "img4");
  upgrade1txt = new component("30px", "Consolas", "white", upgrade1X - 96, upgrade1Y + 130, "text");
- upgrade1txt.font = "20px Consolas";
- upgrade1txt.text = "Weapon Upgrade";
+ upgrade1txt.font = "15px Consolas";
+ upgrade1txt.text = "#1 Weapon Upgrade";
  max1 = new component(160, 50, "gray", upgrade1X - 100, upgrade1Y + 100, "img4");
  max1txt = new component("30px", "Consolas", "white", upgrade1X - 50, upgrade1Y + 130, "text");
  max1txt.font = "20px Consolas";
@@ -1425,6 +1428,16 @@ function upgrade1func() {
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
 <p align="center"><input type="text" id="name" value="Bob"></p>
+<p align="center">Controls:</p>
+<p align="center">Arrow key to shoot.</p>
+<p align="center">WASD to move.</p>
+<p align="center">R to revive. (costs $100)</p>
+<p align="center">Number keys to switch weapons. (NOT THE NUM PAD! aslo get weapons by upgrading your weapon)</p>
+<p align="center">Num pad to upgrade. (numbers correspond with numbers in the upgrade menu labeled with # in front of it)</p>
+<p align="center">About:</p>
+<p align="center">Flying Enemies- Rage mode: if the enemy's health drops below 50 it will move faster. </p>
+<p align="center">Flying Enemies- Swarm: if they get near you they will frantically go left and right thus making them hard to hit.</p>
+<p align="center">Homeworld Takedown is a top down wave based game. You play as an alien space ship trying to defend you home planet from the "Drars"</p>
 </label>
 </body>
 </html>
