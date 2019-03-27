@@ -1,17 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="apple-touch-icon" href="image/icon/hticon.png" />
-   <!-- ath to Framework7 Library CSS-->
-    <link rel="stylesheet" href="css/framework7.ios.min.css">
-    <!-- Path to your custom app styles-->
-    <link rel="stylesheet" href="css/my-app.css">
-    <link rel=“stylesheet” href=“css/framework7-TwitterDarkMode.css”>
-    <link rel="stylesheet" href="https://rawgit.com/S0n1cDev/TDM/master/Framework7-TwitterDarkMode.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Homeworld Takedown V0.2.0</title>
 <style>
 canvas {
@@ -24,7 +13,7 @@ margin-right: auto;
 display: block;
 width: 600px;
 }
-  body {
+ body {
  background-image: url("image/uitexture.png");
  }
  button{
@@ -41,6 +30,9 @@ width: 600px;
  border:5px solid darkgray;
  visibility: visible; 
  z-index: 200; 
+ }
+ p {
+ color: white;
  }
  .unselectable {
 -webkit-user-select: none; /* Safari 3.1+ */
@@ -71,7 +63,7 @@ margin : 0;
 
 </style>
 <!-- Were Images Go -->
-<img id="playerimg" width="0" height="0" src="image/player1.png">
+<img id="playerimg" width="0" height="0" src="image/player.png">
 <img id="badguy1img" width="0" height="0" src="image/enemy.png">
 <img id="uiimg" width="0" height="0" src="image/uitexture.png">
 <img id="healthbo" width="0" height="0" src="image/healthborder.png">
@@ -96,7 +88,7 @@ var backY = 350;
 var upgrade1X = 430;
 var upgrade1Y = 250;
 function start() {
-  badguypic1 = new component(25, 25, "red", 650, 180, "img7");
+ badguypic1 = new component(25, 25, "red", 650, 180, "img7");
  badguy1 = new component(25, 25, "red", 650, 180, "rec");
  badpos1 = new component(25, 25, "orange", 760, 180, "rec");
  badwavebox1 = new component(35, 35, "black", 755, 175, "rec");
@@ -715,7 +707,7 @@ moneyperendie = 4;
   }
  }
 }
-	
+
 var BadDeath = 1;
 var Badhealth1 = 0;
 var PlayerDamageDeal = 20;
@@ -738,6 +730,7 @@ BadDeath = 1;
  }
  }
 }
+
 
 function crashhitai1() {
   if (BadDeath < 1) {
@@ -1393,16 +1386,16 @@ ontouchstart="moveRight()">RIGHT</button><br>
 ontouchstart="moveDown()">DOWN</button>
 </div>
 <div id="locator6">
-<button onmousedown="shootUp()" ontouchstart="shootUp()">UP</button><br>
+<button onmousedown="shootUp()" ontouchstart="shootUp()">Shoot UP</button><br>
 </div>
 <div id="locator7">
-<button onmousedown="shootLeft()" ontouchstart="shootLeft()">LEFT</button>
+<button onmousedown="shootLeft()" ontouchstart="shootLeft()">Shoot LEFT</button>
 </div>
 <div id="locator8">
-<button onmousedown="shootRight()" ontouchstart="shootRight()">RIGHT</button><br>
+<button onmousedown="shootRight()" ontouchstart="shootRight()">Shoot RIGHT</button><br>
 </div>
 <div id="locator9">
-<button onmousedown="shootDown()" ontouchstart="shootDown()">Down</button>
+<button onmousedown="shootDown()" ontouchstart="shootDown()">Shoot Down</button>
 </div>
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1"
@@ -1414,6 +1407,11 @@ oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
 <div id="locator10">
 <button onmouseup="stopswapweap()" onmousedown="swapweap()" ontouchend="stopswapweap()" ontouchstart="swapweap()">Swap Weap</button>
 </div>
+<p align="center">About:</p>
+<p align="center">(Revive costs $100)</p>
+<p align="center">Flying Enemies- Rage mode: if the enemy's health drops below 50 it will move faster. </p>
+<p align="center">Flying Enemies- Swarm: if they get near you they will frantically go left and right thus making them hard to hit.</p>
+<p align="center">Homeworld Takedown is a top down wave based game. You play as an alien space ship trying to defend you home planet from the "Drars"</p>
 </label>
 </body>
 </html>
