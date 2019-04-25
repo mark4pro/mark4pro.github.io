@@ -771,11 +771,15 @@ if (BadDeath > 0) {
 if (badguy1.crashWith(badwavebox1)) {
 if (upgrademenu == 0) {
 if (Math.floor(Math.random() * chanceofdrop) == 1) {
+if (cratespawn2 == 0) {
 if (playerHealth < 100) {
 cratespawn2 += 1;
   }
+ }
+if (cratespawn == 0) {
 if (ammo < 160) {
 cratespawn += 1;
+   }
   }
  }
 }
@@ -797,11 +801,15 @@ count += 1;
 }
 if (wave > 2 && wave < 6) {
 if (Math.floor(Math.random() * chanceofdrop2) == 1) {
+if (cratespawn2 == 0) {
 if (playerHealth < 100) {
 cratespawn2 += 1;
   }
+ }
+if (cratespawn == 0) {
 if (ammo < 160) {
 cratespawn += 1;
+   }
   }
  }
 }
@@ -817,11 +825,15 @@ count += 1;
 }
 if (wave > 4 && wave < 7) {
 if (Math.floor(Math.random() * chanceofdrop3) == 1) {
+if (cratespawn2 == 0) {
 if (playerHealth < 100) {
 cratespawn2 += 1;
   }
+ } 
+ if (cratespawn == 0) {
 if (ammo < 160) {
 cratespawn += 1;
+   }
   }
  }
 }
@@ -829,16 +841,26 @@ cratespawn += 1;
   }
  }
  if (upgrademenu == 0) {
+ if (wave < 7 || wave > 7) {
  if (count == numofbad) {
  money += moneyperwave;
  wave += 1;
  }
+}
  if (count >= numofbad) {
  count = 0;
  }
- if (wave == 2) {
+ if (wave == 3) {
 numofbad = 20;
 moneyperendie = 4;
+  }
+ if (wave == 5) {
+numofbad = 25;
+moneyperendie = 6;
+  }
+ if (wave == 6) {
+moneyperendie = 8;
+moneyperendie2 = 10;
   }
  }
 }
@@ -1250,7 +1272,7 @@ if (weapon == 1) {
 }
 
 var Badhealth3 = 0;
-var Bad3DamageDeal = 0.1;
+var Bad3DamageDeal = 0.12;
 function badtriboxspawn() {
 if (wave > 4 && wave < 7) {
 if (bullbox.crashWith(tribox)) {
@@ -1278,8 +1300,8 @@ var touchwallupbad3 = 0;
 var touchwalldownbad3 = 0;
 var badspeedai3 = 1;
 var negbadspeedai3 = -1;
-var badhurtspeedai3 = 1.5;
-var negbadhurtspeedai3 = -1.5;
+var badhurtspeedai3 = 1.6;
+var negbadhurtspeedai3 = -1.6;
 function triangleAI() {
 if (wave > 4 && wave < 7) {
 if (BadDeath3 > 0) {
@@ -1300,7 +1322,7 @@ trienemyleft.speedX = 0;
 trienemyleft.speedY = 0;
 tribox.speedY = 0;
 tribox.speedX = 0;
-Badhealth3 = 100;
+Badhealth3 = 120;
 BadDeath3 = 0;
 badspeedai3 = 1;
 negbadspeedai3 = -1;
@@ -1386,10 +1408,10 @@ playerHealth -= Bad3DamageDeal;
 if (weapon == 1) {
  if (bullbox.crashWith(tribox)) {
   if (fire > 0) {
- badspeedai3 = 0.1;
- negbadspeedai3 = -0.1;
- badhurtspeedai3 = 0.2;
- negbadhurtspeedai3 = -0.2;
+ badspeedai3 = 0.2;
+ negbadspeedai3 = -0.2;
+ badhurtspeedai3 = 0.5;
+ negbadhurtspeedai3 = -0.5;
    }
   }
 }
@@ -1675,7 +1697,6 @@ function name() {
  }
  if (name.value == testwave) {
  wave = 5;
- numofbad = 20;
  }
  if (name.value == resetcheat) {
  document.location.reload(true);
