@@ -81,13 +81,18 @@ margin : 0;
 <img id="bullpic" width="0" height="0" src="image/bullet.png">
 <img id="ammopic1" width="0" height="0" src="image/ammocrate1pic.png">
 <img id="healthpic1" width="0" height="0" src="image/healthcrate1pic.png">
+<img id="menupic" width="0" height="0" src="image/menu.png">
+<img id="triimgleft" width="0" height="0" src="image/tri-enemy-left.png">
+<img id="triimgright" width="0" height="0" src="image/tri-enemy-right.png">
 
 <!-- Were Sounds Go -->
-		<audio id="level1" src="audio/level1.mp3"></audio>
+            <audio id="level1" src="audio/level1.mp3"></audio>
 	    <audio id="level2" src="audio/level2.mp3"></audio>
 </head>
 <body onload="start()">
 <script>
+var w = window.innerWidth;
+var h = window.innerHeight;
 var playerX = 22;
 var playerY = 180;
 var playerHealth = 100;
@@ -105,6 +110,11 @@ function start() {
  badguy2 = new component(25, 25, "red", 650, 180, "rec");
  badpos2 = new component(25, 25, "orange", 760, 180, "rec");
  badwavebox2 = new component(35, 35, "black", 755, 175, "rec");
+ trienemyleft = new component(35, 35, "black", 430, 158, "rotleft");
+ trienemyright = new component(35, 35, "black", 430, 158, "rotright");
+ tribox = new component(35, 35, "red", 430, 158, "rec");
+ tripos1 = new component(25, 25, "orange", 760, 180, "rec");
+ triwavebox1 = new component(35, 35, "black", 755, 175, "rec");
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
  bpic = new component(10, 10, "orange", 400, 180, "img6");
  box = new component(25, 25, "black", playerX, playerY, "rec");
@@ -122,21 +132,20 @@ function start() {
  backtxt.text = "BACK";
  upgrade1button = new component(160, 50, "gray", upgrade1X, upgrade1Y, "rec");
  upgrade1buttonnodetect = new component(160, 50, backbttncolor, upgrade1X - 100, upgrade1Y + 100, "img4");
- upgrade1txt = new component("30px", "Consolas", "white", upgrade1X - 87, upgrade1Y + 130, "text");
- upgrade1txt.font = "20px Consolas";
- upgrade1txt.text = "Weapon Upgrade";
+ upgrade1txt = new component("30px", "Consolas", "white", upgrade1X - 96, upgrade1Y + 130, "text");
+ upgrade1txt.font = "15px Consolas";
+ upgrade1txt.text = "#1 Weapon Upgrade";
  max1 = new component(160, 50, "gray", upgrade1X - 100, upgrade1Y + 100, "img4");
- max1txt = new component("30px", "Consolas", "white", upgrade1X - 55, upgrade1Y + 130, "text");
+ max1txt = new component("30px", "Consolas", "white", upgrade1X - 50, upgrade1Y + 130, "text");
  max1txt.font = "20px Consolas";
  max1txt.text = "MAXED";
  upgradeboard = new component(800, 500, "black", 0, 0, "img2");
  upgradetxt = new component("30px", "Consolas", "white", 350, 20, "text");
  upgradetxt.font = "20px Consolas";
  upgradetxt.text = "Upgrade Menu";
- menuboard = new component(800, 500, "black", 0, 0, "rec");
- menutxt = new component("30px", "Consolas", "white", 300, 250, "text");
- menutxt.font = "20px Consolas";
- menutxt.text = "Any FIRE Button To Start!";
+ menuboard = new component(800, 500, "black", 0, 0, "img10");
+ console.log("width" + w);
+ console.log("height" + h);
  Board.start();
  updateGameArea();
  }
@@ -259,6 +268,24 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  var img = document.getElementById("healthpic1");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
+ if (type == "img10") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("menupic");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "rotleft") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("triimgleft");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "rotright") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("triimgright");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
   }
  }
 }
@@ -296,6 +323,32 @@ crash = false;
  return crash;
 }
 }
+
+function componentrotate(width, height, color, x, y, type) {   
+ this.x = x;
+ this.y = y;
+ this.angle = 0;
+    this.update = function() {
+ if (type == "rot") {
+ this.x = x;
+ this.y = y;
+ this.width = width;
+ this.height = height;
+ ctx = Board.context;
+ ctx.save();
+ ctx.translate(this.x, this.y);        
+ ctx.rotate(this.angle);
+ var img = document.getElementById("testimg");
+ ctx.drawImage(img, this.width / -2, this.height / -1.5, this.width, this.height);
+ ctx.restore();
+  } 
+ }
+this.newPos = function() {
+this.x += this.speedX;
+this.y += this.speedY;
+ } 
+}
+
 var HealthX = 30;
 var HealthY = 450;
 var HealthWidth = 103;
@@ -381,6 +434,17 @@ function checkwave() {
 	}
 }
 
+var frame = 0;
+var tickCount = 0;
+var ticksPerFrame = 0;
+function framerate() {
+tickCount += 1;	
+        if (tickCount > ticksPerFrame) {
+        	tickCount = 0;
+            frameIndex += 1; 
+        }
+}
+
 function updateGameArea() {
 Board.clear();
 playSound();
@@ -417,6 +481,11 @@ badguy2.update();
   }
  }
 }
+if (wave > 4 && wave < 7) {
+if (BadDeath3 == 0) {
+tribox.update();
+ }
+}
 if (wave < 5) {
 if (BadDeath < 1) {
 if (Death1 == 0) {
@@ -427,6 +496,8 @@ badguy1.update();
 badwavebox1.update();
 badpos1.update();
 badwavebox2.update();
+triwavebox1.update();
+tripos1.update();
 badpos2.update();
 if (menu > 0) {
 if (cratespawn > 0) {
@@ -441,7 +512,6 @@ healthcrate1.update();
 if (wave < 5) {
 w1t5.update();
 }
-console.log(count);
 ui.update();
 if (fire > 0) {
 bpic.update();
@@ -474,7 +544,17 @@ badguypic2.update();
   }
  }
 }
+if (wave > 4 && wave < 7) {
+if (BadDeath3 == 0) {
+if (box.x < tribox.x) {
+trienemyleft.update();
+} else {
+trienemyright.update();
+  } 
+ }
+}
 badboxspawn();
+badtriboxspawn();
 badboxspawn2();
 if (cratespawn > 0) {
 if (box.crashWith(ammocrate1)) {
@@ -507,6 +587,9 @@ badguypic1.newPos();
 badguy1.newPos();
 badguypic2.newPos();
 badguy2.newPos();
+tribox.newPos();
+trienemyright.newPos();
+trienemyleft.newPos();
 bpic.newPos();
 }
 Health1();
@@ -517,12 +600,12 @@ waveammoweapon();
 ammocrate();
 bulletai();
 badai1();
+triangleAI();
 crashhitai1();
 badai2();
 countwave();
 if (menu == 0) {
 menuboard.update();
-menutxt.update();
 }
 if (upgrademenu == 1) {
 upgradeboard.update();
@@ -655,16 +738,18 @@ var count = 0;
 var numofbad = 10;
 var moneyperwave = 10;
 var moneyperendie = 2;
+var moneyperendie2 = 6;
 var cratespawn = 0;
 var cratespawn2 = 0
-var chanceofdrop = 4;
-var chanceofdrop2 = 4;
+var chanceofdrop = 3;
+var chanceofdrop2 = 3;
+var chanceofdrop3 = 2;
 function countwave() {
 if (menu > 0) {
 if (BadDeath > 0) {
 if (badguy1.crashWith(badwavebox1)) {
 if (upgrademenu == 0) {
-if (Math.floor(Math.random() * chanceofdrop) == 2) {
+if (Math.floor(Math.random() * chanceofdrop) == 1) {
 if (playerHealth < 100) {
 cratespawn2 += 1;
   }
@@ -690,7 +775,27 @@ money += moneyperendie;
 count += 1;
 }
 if (wave > 2 && wave < 6) {
-if (Math.floor(Math.random() * chanceofdrop2) == 2) {
+if (Math.floor(Math.random() * chanceofdrop2) == 1) {
+if (playerHealth < 100) {
+cratespawn2 += 1;
+  }
+if (ammo < 160) {
+cratespawn += 1;
+  }
+ }
+}
+   }
+  }
+ }
+if (wave > 4 && wave < 7) {
+if (BadDeath3 > 0) {
+if (tribox.crashWith(triwavebox1)) {
+if (upgrademenu == 0) {
+money += moneyperendie2;
+count += 1;
+}
+if (wave > 4 && wave < 7) {
+if (Math.floor(Math.random() * chanceofdrop3) == 1) {
 if (playerHealth < 100) {
 cratespawn2 += 1;
   }
@@ -783,6 +888,8 @@ function crashhitai1() {
 	if (badguy1.crashWith(wall4) == false) {
 	  touchwalldownbad1 = 0;
 	}
+   }
+   if (BadDeath2 < 1) {
 	if (badguy2.crashWith(wallright)) {
 		touchwallrightbad2 = 1;
 		if (touchwallrightbad2 == 1) {
@@ -822,6 +929,52 @@ function crashhitai1() {
 	}
 	if (badguy2.crashWith(wall4) == false) {
 	  touchwalldownbad2 = 0;
+	 }
+	}
+	if (BadDeath3 < 1) {
+	if (tribox.crashWith(wallright)) {
+		touchwallrightbad3 = 1;
+		if (touchwallrightbad3 == 1) {
+		    tribox.speedX = -1;
+			trienemyleft.speedX = -1;
+			trienemyright.speedX = -1;
+		}
+	}
+	if (tribox.crashWith(wallright) == false) {
+	  touchwallrightbad3 = 0;
+	}
+	if (tribox.crashWith(wallleft)) {
+		touchwallrightbad3 = 1;
+		if (touchwallleftbad3 == 1) {
+		    tribox.speedX = 1;
+			trienemyleft.speedX = 1;
+			trienemyright.speedX = 1;
+		}
+	}
+	if (tribox.crashWith(wallleft) == false) {
+	  touchwallleftbad3 = 0;
+	}
+	if (tribox.crashWith(wall3)) {
+		touchwallupbad3 = 1;
+		if (touchwallupbad3 == 1) {
+		    tribox.speedY = 1;
+			trienemyleft.speedY = 1;
+			trienemyright.speedY = 1;
+		}
+	}
+	if (tribox.crashWith(wall3) == false) {
+	  touchwallupbad3 = 0;
+	}
+	if (tribox.crashWith(wall4)) {
+		touchwalldownbad3 = 1;
+		if (touchwalldownbad3 == 1) {
+		    tribox.speedY = -1;
+			trienemyleft.speedY = -1;
+			trienemyright.speedY = -1;
+		}
+	}
+	if (tribox.crashWith(wall4) == false) {
+	  touchwalldownbad3 = 0;
 	}
   }
 }
@@ -1074,6 +1227,155 @@ if (weapon == 1) {
  }
 }
 
+var Badhealth3 = 0;
+var Bad3DamageDeal = 0.1;
+function badtriboxspawn() {
+if (wave > 4 && wave < 7) {
+if (bullbox.crashWith(tribox)) {
+if (Badhealth3 >= 0) {
+if (fire > 0) {
+Badhealth3 -= PlayerDamageDeal;
+fire = 0;
+  }
+ }
+}
+if (Badhealth3 >= 0) {
+BadDeath3 = 0;
+ }
+if (Badhealth3 == 0) {
+BadDeath3 = 1;
+ }
+ }
+}
+
+var BadDeath3 = 1;
+var sidebad3 = 0;
+var touchwallrightbad3 = 0;
+var touchwallleftbad3 = 0;
+var touchwallupbad3 = 0;
+var touchwalldownbad3 = 0;
+var badspeedai3 = 1;
+var negbadspeedai3 = -1;
+var badhurtspeedai3 = 1.5;
+var negbadhurtspeedai3 = -1.5;
+function triangleAI() {
+if (wave > 4 && wave < 7) {
+if (BadDeath3 > 0) {
+if (tribox.x > tripos1.x) {
+trienemyright.speedX = -5;
+trienemyleft.speedX = -5;
+tribox.speedX = -5;
+}
+if (tribox.x < tripos1.x) {
+trienemyright.speedX = 5;
+trienemyleft.speedX = 5;
+tribox.speedX = 5;
+}
+if (tribox.crashWith(tripos1)) {
+trienemyright.speedX = 0;
+trienemyright.speedY = 0;
+trienemyleft.speedX = 0;
+trienemyleft.speedY = 0;
+tribox.speedY = 0;
+tribox.speedX = 0;
+Badhealth3 = 100;
+BadDeath3 = 0;
+badspeedai3 = 1;
+negbadspeedai3 = -1;
+badhurtspeedai3 = 1.5;
+negbadhurtspeedai3 = -1.5;
+ }
+if (tribox.y > tripos1.y) {
+trienemyright.speedY = -5;
+trienemyleft.speedY = -5;
+tribox.speedY = -5;
+}
+if (tribox.y < tripos1.y) {
+trienemyright.speedY = 5;
+trienemyleft.speedY = 5;
+tribox.speedY = 5;
+}
+ }
+if (BadDeath3 < 1) {
+if (menu > 0) {
+if (tribox.crashWith(wallright) == false) {
+if (tribox.crashWith(wallleft) == false) {
+if (tribox.crashWith(wall3) == false) {
+if (tribox.crashWith(wall4) == false) {
+if (tribox.x + 5 > box.x + 23) {
+    sidebad3 = 0;
+}
+if (tribox.x < box.x - 23) {
+    sidebad3 = 1;
+}
+if (sidebad3 == 0) {
+if (tribox.x + 5 > box.x + 23) {
+trienemyright.speedX = negbadspeedai3;
+trienemyleft.speedX = negbadspeedai3;
+tribox.speedX = negbadspeedai3;
+if (Badhealth3 <= 50) {
+trienemyright.speedX = negbadhurtspeedai3;
+trienemyleft.speedX = negbadhurtspeedai3;
+tribox.speedX = negbadhurtspeedai3;
+  }
+ }
+}
+if (sidebad3 == 1) {
+if (tribox.x < box.x - 23) {
+trienemyright.speedX = badspeedai3;
+trienemyleft.speedX = badspeedai3;
+tribox.speedX = badspeedai3;
+if (Badhealth3 <= 50) {
+trienemyright.speedX = badhurtspeedai3;
+trienemyleft.speedX = badhurtspeedai3;
+tribox.speedX = badhurtspeedai3;
+  }
+ }
+}
+if (tribox.y + 5 > box.y) {
+trienemyright.speedY = negbadspeedai3;
+trienemyleft.speedY = negbadspeedai3;
+tribox.speedY = negbadspeedai3;
+if (Badhealth3 <= 50) {
+trienemyright.speedY = negbadhurtspeedai3;
+trienemyleft.speedY = negbadhurtspeedai3;
+tribox.speedY = negbadhurtspeedai3;
+ }
+}
+if (tribox.y + 5 < box.y) {
+trienemyright.speedY = badspeedai3;
+trienemyleft.speedY = badspeedai3;
+tribox.speedY = badspeedai3;
+if (Badhealth3 <= 50) {
+trienemyright.speedY = badhurtspeedai3;
+trienemyleft.speedY = badhurtspeedai3;
+tribox.speedY = badhurtspeedai3;
+     }
+    }
+   }
+  }
+ }
+}
+if (box.crashWith(tribox)) {
+if (playerHealth > 0) {
+playerHealth -= Bad3DamageDeal;
+ }
+}
+if (weapon == 1) {
+ if (bullbox.crashWith(tribox)) {
+  if (fire > 0) {
+ badspeedai3 = 0.1;
+ negbadspeedai3 = -0.1;
+ badhurtspeedai3 = 0.2;
+ negbadhurtspeedai3 = -0.2;
+   }
+  }
+}
+ }
+ }
+ }
+}
+
 var fire = 0;
 var fireR = 0;
 var fireL = 0;
@@ -1309,6 +1611,7 @@ var namebY = 450;
 var ammocheat = "moreammo";
 var healthcheat = "morehealth";
 var wavebonus = "ryanmace";
+var testwave = "test";
 var resetcheat = "reset";
 var fullcheat = "FULLYMAXED"
 function name() {
@@ -1332,6 +1635,10 @@ function name() {
  }
  if (name.value == wavebonus) {
  wave = 9000;
+ }
+ if (name.value == testwave) {
+ wave = 5;
+ numofbad = 20;
  }
  if (name.value == resetcheat) {
  document.location.reload(true);
@@ -1376,7 +1683,7 @@ if (stopper > 0) {
 </script>
 <label class="unselectable">
 <h1 align="center">
- Homeworld Takedown V0.2.0
+ Homeworld Takedown V0.3.0
 </h1>
 <div id="locator">
 <button onmousedown="moveUp()" onmouseup="clearmoveud()" ontouchend="clearmoveud()"
@@ -1404,7 +1711,7 @@ ontouchstart="moveDown()">DOWN</button>
 <button onmousedown="shootRight()" ontouchstart="shootRight()">Shoot RIGHT</button><br>
 </div>
 <div id="locator9">
-<button onmousedown="shootDown()" ontouchstart="shootDown()">Shoot DOWN</button>
+<button onmousedown="shootDown()" ontouchstart="shootDown()">Shoot Down</button>
 </div>
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1"
