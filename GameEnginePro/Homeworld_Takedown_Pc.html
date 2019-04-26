@@ -52,7 +52,7 @@ margin : 0;
 
 </style>
 <!-- Were Images Go -->
-<img id="playerimg" width="0" height="0" src="image/player1.png">
+<img id="playerimg" width="0" height="0" src="image/player.png">
 <img id="badguy1img" width="0" height="0" src="image/enemy.png">
 <img id="uiimg" width="0" height="0" src="image/uitexture.png">
 <img id="healthbo" width="0" height="0" src="image/healthborder.png">
@@ -121,6 +121,9 @@ function start() {
  upgradetxt = new component("30px", "Consolas", "white", 350, 20, "text");
  upgradetxt.font = "20px Consolas";
  upgradetxt.text = "Upgrade Menu";
+ costToRevive = new component("30px", "Consolas", "white", 20, 30, "text");
+ costToRevive.font = "20px Consolas";
+ costToRevive.text = "You must have $" + revivecost + " to revive";
  menuboard = new component(800, 500, "black", 0, 0, "img10");
  console.log("width" + w);
  console.log("height" + h);
@@ -379,16 +382,26 @@ Death1 = 0;
  }
 }
 
+var showmessage = 0;
+var payback = 30;
+var revivecost = 100;
 function relive() {
 if (Death1 > 0) {
-if (money >= 100) {
- money -= 100;
+if (money >= revivecost) {
+ money -= revivecost;
  playerHealth = 100;
  if (ammo < 50) {
-	ammo += 30;
+	ammo += payback;
    }
   }
+if (money < revivecost) {
+showmessage = 1;
+  }  
  }
+}
+
+function stopshow() {
+showmessage = 0;
 }
 
 var crate1X = 400;
@@ -581,6 +594,9 @@ max1.update();
 max1txt.update();
 }
 }
+if (showmessage == 1) {
+costToRevive.update();
+}
 if (menu == 1) {
 ammo = 160;
 menu += 1;
@@ -712,6 +728,9 @@ document.onkeyup = function(e) {
             break;
 		case 83:
             clearmoved();
+            break;
+		case 82:
+            stopshow();
             break;
     }
 };
@@ -854,12 +873,16 @@ cratespawn += 1;
 numofbad = 20;
 moneyperendie = 4;
   }
+ if (wave == 4) {
+revivecost = 150;
+  }
  if (wave == 5) {
 numofbad = 25;
 moneyperendie = 6;
   }
  if (wave == 6) {
 moneyperendie = 8;
+revivecost = 200;
 moneyperendie2 = 10;
   }
  }
@@ -1756,7 +1779,7 @@ function upgrade1func() {
 <p align="center">Controls:</p>
 <p align="center">Arrow key to shoot.</p>
 <p align="center">WASD to move.</p>
-<p align="center">R to revive. (costs $100)</p>
+<p align="center">R to revive.</p>
 <p align="center">Number keys to switch weapons. (NOT THE NUM PAD! aslo get weapons by upgrading your weapon)</p>
 <p align="center">Num pad to upgrade. (numbers correspond with numbers in the upgrade menu labeled with # in front of it)</p>
 <p align="center">About:</p>
