@@ -143,6 +143,9 @@ function start() {
  upgradetxt = new component("30px", "Consolas", "white", 350, 20, "text");
  upgradetxt.font = "20px Consolas";
  upgradetxt.text = "Upgrade Menu";
+ costToRevive = new component("30px", "Consolas", "white", 20, 30, "text");
+ costToRevive.font = "20px Consolas";
+ costToRevive.text = "You must have $" + revivecost + " to revive";
  menuboard = new component(800, 500, "black", 0, 0, "img10");
  console.log("width" + w);
  console.log("height" + h);
@@ -401,16 +404,26 @@ Death1 = 0;
  }
 }
 
+var showmessage = 0;
+var payback = 30;
+var revivecost = 100;
 function relive() {
 if (Death1 > 0) {
-if (money >= 100) {
- money -= 100;
+if (money >= revivecost) {
+ money -= revivecost;
  playerHealth = 100;
  if (ammo < 50) {
-	ammo += 30;
+	ammo += payback;
    }
   }
+if (money < revivecost) {
+showmessage = 1;
+  }  
  }
+}
+
+function stopshow() {
+showmessage = 0;
 }
 
 var crate1X = 400;
@@ -620,6 +633,9 @@ if (weaponupgrade1 > 0) {
 max1.update();
 max1txt.update();
 }
+}
+if (showmessage == 1) {
+costToRevive.update();
 }
 if (menu == 1) {
 ammo = 160;
@@ -1740,7 +1756,7 @@ ontouchstart="moveDown()">DOWN</button>
 oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
 <p align="center"><input type="text" id="name" value="Bob"></p>
 <div id="locator5">
-<button onmousedown="relive()" ontouchstart="relive()">Revive</button>
+<button onmouseup="stopshow()" onmousedown="relive()" ontouchend="stopshow()" ontouchstart="relive()">Revive</button>
 </div>
 <div id="locator10">
 <button onmouseup="stopswapweap()" onmousedown="swapweap()" ontouchend="stopswapweap()" ontouchstart="swapweap()">Swap Weap</button>
