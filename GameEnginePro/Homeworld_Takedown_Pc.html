@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head> 
+<head>
 <title>Homeworld Takedown V0.3.0</title>
 <style>
 canvas {
@@ -64,6 +64,8 @@ margin : 0;
 <img id="menupic" width="0" height="0" src="image/menu.png">
 <img id="triimgleft" width="0" height="0" src="image/tri-enemy-left.png">
 <img id="triimgright" width="0" height="0" src="image/tri-enemy-right.png">
+<img id="1-5platform" width="0" height="0" src="image/platform.png">
+<img id="1-5sideborder" width="0" height="0" src="image/1-5border.png">
 
 <!-- Were Sounds Go -->
 		<audio id="level1" src="audio/level1.mp3"></audio>
@@ -104,7 +106,7 @@ function start() {
  wallright = new component(20, 400, "black", 790, 0, "rec");
  wall3 = new component(800, 20, "black", 0, -10, "rec");
  wall4 = new component(800, 20, "black", 0, 390, "rec");
- ui = new component(800, 200, "white", 0, 400, "img2");
+ ui = new component(800, 300, "white", 0, 390, "img2");
  backbuttonnodetect = new component(120, 50, backbttncolor, backX - 100, backY + 100, "img4");
  backtxt = new component("30px", "Consolas", "white", backX - 65, backY + 130, "text");
  backtxt.font = "20px Consolas";
@@ -125,6 +127,8 @@ function start() {
  costToRevive.font = "20px Consolas";
  costToRevive.text = "You must have $" + revivecost + " to revive";
  menuboard = new component(800, 500, "black", 0, 0, "img10");
+ formplat = new component(75, 75, "black", 362.5, 157.5, "plat");
+ border1_5 = new component(800, 390, "black", 0, 0, "bor");
  console.log("width" + w);
  console.log("height" + h);
  Board.start();
@@ -164,6 +168,7 @@ clear : function() {
 this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 },
 }
+
 function component(width, height, color ,x ,y, type, radius, outcolor, thickness) {
 this.type = type;
 this.speedX = 0;
@@ -265,6 +270,18 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  this.width = width;
  this.height = height;
  var img = document.getElementById("triimgright");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "plat") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("1-5platform");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "bor") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("1-5sideborder");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
   }
@@ -404,10 +421,10 @@ function stopshow() {
 showmessage = 0;
 }
 
-var crate1X = 400;
-var crate1Y = 200;
-var crateh1X = 500;
-var crateh1Y = 200;
+var crate1X = 377.5;
+var crate1Y = 184.5;
+var crateh1X = 403.5;
+var crateh1Y = 184.5;
 function ammocrate() {
 ammocrate1 = new component(20, 20, "yellow", crate1X, crate1Y, "rec");
 healthcrate1 = new component(20, 20, "red", crateh1X, crateh1Y, "rec");
@@ -425,10 +442,10 @@ function checkwave() {
 	}
 }
 
-var frame = 0;
 var tickCount = 0;
-var ticksPerFrame = 0;
-function framerate() {
+function framerate(ticksPerFrame, frameIndex) {
+this.frameIndex = frameIndex;
+this.ticksPerFrame = ticksPerFrame;
 tickCount += 1;	
         if (tickCount > ticksPerFrame) {
         	tickCount = 0;
@@ -481,18 +498,18 @@ if (cratespawn2 > 0) {
 healthcrate1.update();
  }
 }
-if (wave < 5) {
-w1t5.update();
-}
-console.log("Count: " + count);
-ui.update();
-if (fire > 0) {
-bpic.update();
-}
 wallleft.update();
 wallright.update();
 wall3.update();
 wall4.update();
+if (wave < 5) {
+w1t5.update();
+formplat.update();
+}
+console.log("Count: " + count);
+if (fire > 0) {
+bpic.update();
+}
 if (menu > 0) {
 if (cratespawn > 0) {
 ammocrate1picO.update();
@@ -553,6 +570,10 @@ box.newPos();
 circle.newPos();
   }
  }
+}
+ui.update();
+if (wave < 5) {
+border1_5.update();
 }
 if (upgrademenu == 0) {
 bullbox.newPos();
