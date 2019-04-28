@@ -507,6 +507,7 @@ insidehouse1 = 0;
 }
 
 function updateGameArea() {
+resetfire();
 Board.clear();
 playSound();
 skipSound();
@@ -531,9 +532,7 @@ backbutton.update();
 upgrade1button.update();
 }
 if (fire > 0) {
-if (menu > 0) {
 bullbox.update();
- }
 }
 if (wave < 7 && wave > 1) {
 if (BadDeath2 < 1) {
@@ -1866,7 +1865,7 @@ fire += 1;
 fireU += 1;
 ammo -= 1;
 if (menu == 0) {
-menu += 1;
+starttime = 1;
 }
 	}
    }
@@ -1883,7 +1882,7 @@ fire += 1;
 fireD += 1;
 ammo -= 1;
 if (menu == 0) {
-menu += 1;
+starttime = 1;
 }
 	}
    }
@@ -1900,7 +1899,7 @@ fire += 1;
 fireL += 1;
 ammo -= 1;
 if (menu == 0) {
-menu += 1;
+starttime = 1;
 }
 	}
    }
@@ -1917,11 +1916,25 @@ fire += 1;
 fireR += 1;
 ammo -= 1;
 if (menu == 0) {
-menu += 1;
+starttime = 1;
 }
 	}
    }
   }
+ }
+}
+
+var starttime = 0;
+var timeforbullet = 0;
+function resetfire() {
+if (starttime == 1) {
+timeforbullet += 1;
+ }
+if (timeforbullet > 100) {
+menu += 1;
+ }
+if (menu > 0) {
+starttime = 0;
  }
 }
 
