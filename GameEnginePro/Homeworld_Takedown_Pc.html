@@ -439,7 +439,7 @@ if (money >= revivecost) {
  if (ammo < 50) {
 	ammo += payback;
    }
-  }
+  } else
 if (money < revivecost) {
 showmessage = 1;
   }  
@@ -591,7 +591,7 @@ badtriboxspawn();
 badboxspawn2();
 if (cratespawn > 0) {
 if (box.crashWith(ammocrate1)) {
-if (ammo < 110) {
+if (ammo < 111) {
  cratespawn = 0;
  ammo += 50;
  }
@@ -599,7 +599,7 @@ if (ammo < 110) {
 }
 if (cratespawn2 > 0) {
 if (box.crashWith(healthcrate1)) {
-if (playerHealth < 75) {
+if (playerHealth < 76) {
  cratespawn2 = 0;
  playerHealth += 25;
  }
