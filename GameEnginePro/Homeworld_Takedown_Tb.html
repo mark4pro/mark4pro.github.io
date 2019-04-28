@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head> 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<link rel="apple-touch-icon" href="image/icon/hticon.PNG" />
-<link rel="stylesheet" href="css/framework7.ios.min.css">
-<link rel="stylesheet" href="css/my-app.css">
-<link rel=“stylesheet” href=“css/framework7-TwitterDarkMode.css”>
-<link rel="stylesheet" href="https://rawgit.com/S0n1cDev/TDM/master/Framework7-TwitterDarkMode.css">
+<head>
 <title>Homeworld Takedown V0.3.0</title>
 <style>
 canvas {
@@ -84,17 +75,21 @@ margin : 0;
 <img id="menupic" width="0" height="0" src="image/menu.png">
 <img id="triimgleft" width="0" height="0" src="image/tri-enemy-left.png">
 <img id="triimgright" width="0" height="0" src="image/tri-enemy-right.png">
+<img id="1-5platform" width="0" height="0" src="image/platform.png">
+<img id="1-5sideborder" width="0" height="0" src="image/1-5border1.png">
+<img id="housefloor1" width="0" height="0" src="image/floor1.png">
+<img id="houseroof1" width="0" height="0" src="image/roof1.png">
 
 <!-- Were Sounds Go -->
-            <audio id="level1" src="audio/level1.mp3"></audio>
+		<audio id="level1" src="audio/level1.mp3"></audio>
 	    <audio id="level2" src="audio/level2.mp3"></audio>
 </head>
 <body onload="start()">
 <script>
 var w = window.innerWidth;
 var h = window.innerHeight;
-var playerX = 22;
-var playerY = 180;
+var playerX = 100;
+var playerY = 280;
 var playerHealth = 100;
 var menu = 0;
 var backX = 450;
@@ -124,7 +119,22 @@ function start() {
  wallright = new component(20, 400, "black", 790, 0, "rec");
  wall3 = new component(800, 20, "black", 0, -10, "rec");
  wall4 = new component(800, 20, "black", 0, 390, "rec");
- ui = new component(800, 200, "white", 0, 400, "img2");
+ roofhouse1 = new component(140, 130, "black", 70, 70, "houseroof1_img");
+ insidedetect1 = new component(120, 140, "gray", 80, 80, "rec");
+ floorhouse1 = new component(120, 120, "black", 80, 80, "housefloor1_img");
+ wallhouse1 = new component(120, 10, "grey", 80, 80, "rec");
+ wallhouse1_2 = new component(120, 10, "grey", 80, 70, "rec");
+ wallhouse2 = new component(10, 100, "grey", 80, 90, "rec");
+ wallhouse2_2 = new component(10, 120, "grey", 70, 70, "rec");
+ wallhouse3 = new component(10, 100, "grey", 190, 90, "rec");
+ wallhouse3_2 = new component(10, 120, "grey", 200, 70, "rec");
+ wallhouse4 = new component(20, 10, "grey", 90, 180, "rec");
+ wallhouse4_2 = new component(40, 10, "grey", 70, 190, "rec");
+ wallhouse5 = new component(10, 20, "grey", 100, 180, "rec");
+ wallhouse6 = new component(30, 10, "grey", 160, 180, "rec");
+ wallhouse6_2 = new component(50, 10, "grey", 160, 190, "rec");
+ wallhouse7 = new component(10, 20, "grey", 160, 180, "rec");
+ ui = new component(800, 300, "white", 0, 390, "img2");
  backbutton = new component(120, 50, "gray", backX, backY, "rec");
  backbuttonnodetect = new component(120, 50, backbttncolor, backX - 100, backY + 100, "img4");
  backtxt = new component("30px", "Consolas", "white", backX - 65, backY + 130, "text");
@@ -147,6 +157,8 @@ function start() {
  costToRevive.font = "20px Consolas";
  costToRevive.text = "You must have $" + revivecost + " to revive";
  menuboard = new component(800, 500, "black", 0, 0, "img10");
+ formplat = new component(75, 75, "black", 362.5, 157.5, "plat");
+ border1_5 = new component(800, 390, "black", 0, 0, "bor");
  console.log("width" + w);
  console.log("height" + h);
  Board.start();
@@ -289,6 +301,30 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  var img = document.getElementById("triimgright");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
+ if (type == "plat") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("1-5platform");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "bor") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("1-5sideborder");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "housefloor1_img") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("housefloor1");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "houseroof1_img") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("houseroof1");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
   }
  }
 }
@@ -415,7 +451,7 @@ if (money >= revivecost) {
  if (ammo < 50) {
 	ammo += payback;
    }
-  }
+  } else
 if (money < revivecost) {
 showmessage = 1;
   }  
@@ -426,10 +462,10 @@ function stopshow() {
 showmessage = 0;
 }
 
-var crate1X = 400;
-var crate1Y = 200;
-var crateh1X = 500;
-var crateh1Y = 200;
+var crate1X = 377.5;
+var crate1Y = 184.5;
+var crateh1X = 403.5;
+var crateh1Y = 184.5;
 function ammocrate() {
 ammocrate1 = new component(20, 20, "yellow", crate1X, crate1Y, "rec");
 healthcrate1 = new component(20, 20, "red", crateh1X, crateh1Y, "rec");
@@ -447,15 +483,27 @@ function checkwave() {
 	}
 }
 
-var frame = 0;
 var tickCount = 0;
-var ticksPerFrame = 0;
-function framerate() {
+function framerate(ticksPerFrame, frameIndex) {
+this.frameIndex = frameIndex;
+this.ticksPerFrame = ticksPerFrame;
 tickCount += 1;	
         if (tickCount > ticksPerFrame) {
         	tickCount = 0;
             frameIndex += 1; 
         }
+}
+
+var insidehouse1 = 0;
+function housecontrols() {
+if (wave < 5) {
+if (box.crashWith(insidedetect1)) {
+insidehouse1 = 1;
+  }
+if (box.crashWith(insidedetect1) == false) {
+insidehouse1 = 0; 
+  }
+ }
 }
 
 function updateGameArea() {
@@ -522,17 +570,19 @@ if (cratespawn2 > 0) {
 healthcrate1.update();
  }
 }
-if (wave < 5) {
-w1t5.update();
-}
-ui.update();
-if (fire > 0) {
-bpic.update();
-}
 wallleft.update();
 wallright.update();
 wall3.update();
 wall4.update();
+if (wave < 5) {
+insidedetect1.update();
+w1t5.update();
+formplat.update();
+floorhouse1.update();
+}
+if (fire > 0) {
+bpic.update();
+}
 if (menu > 0) {
 if (cratespawn > 0) {
 ammocrate1picO.update();
@@ -571,7 +621,7 @@ badtriboxspawn();
 badboxspawn2();
 if (cratespawn > 0) {
 if (box.crashWith(ammocrate1)) {
-if (ammo < 110) {
+if (ammo < 111) {
  cratespawn = 0;
  ammo += 50;
  }
@@ -579,7 +629,7 @@ if (ammo < 110) {
 }
 if (cratespawn2 > 0) {
 if (box.crashWith(healthcrate1)) {
-if (playerHealth < 75) {
+if (playerHealth < 76) {
  cratespawn2 = 0;
  playerHealth += 25;
  }
@@ -593,6 +643,27 @@ box.newPos();
 circle.newPos();
   }
  }
+}
+if (wave < 5) {
+wallhouse1.update();
+wallhouse1_2.update();
+wallhouse2.update();
+wallhouse2_2.update();
+wallhouse3.update();
+wallhouse3_2.update();
+wallhouse4.update();
+wallhouse4_2.update();
+wallhouse5.update();
+wallhouse6.update();
+wallhouse6_2.update();
+wallhouse7.update();
+if (insidehouse1 == 0) {
+roofhouse1.update();
+ }
+}
+ui.update();
+if (wave < 5) {
+border1_5.update();
 }
 if (upgrademenu == 0) {
 bullbox.newPos();
@@ -614,6 +685,7 @@ ammocrate();
 bulletai();
 badai1();
 triangleAI();
+housecontrols();
 crashhitai1();
 badai2();
 countwave();
@@ -709,6 +781,44 @@ if (box.crashWith(wall3)) {
 if (box.crashWith(wall4)) {
  touchbottom = 1;
 }
+if (wave < 5) {
+if (box.crashWith(wallhouse1)) {
+ touchtop = 1;
+}
+if (box.crashWith(wallhouse1_2)) {
+ touchbottom = 1;
+}
+if (box.crashWith(wallhouse2)) {
+ touchleft = 1;
+}
+if (box.crashWith(wallhouse2_2)) {
+ touchright = 1;
+}
+if (box.crashWith(wallhouse3_2)) {
+ touchleft = 1;
+}
+if (box.crashWith(wallhouse3)) {
+ touchright = 1;
+}
+if (box.crashWith(wallhouse4_2)) {
+ touchtop = 1;
+}
+if (box.crashWith(wallhouse4)) {
+ touchbottom = 1;
+}
+if (box.crashWith(wallhouse5)) {
+ touchleft = 1;
+}
+if (box.crashWith(wallhouse6_2)) {
+ touchtop = 1;
+}
+if (box.crashWith(wallhouse6)) {
+ touchbottom = 1;
+}
+if (box.crashWith(wallhouse7)) {
+ touchright = 1;
+}
+ }
 }
 
 var weaponupgrade1 = 0;
@@ -750,6 +860,7 @@ weaptxt.update();
 wavetxt.update();
 }
 
+var spawncrate1pos = Math.floor(Math.random() * 2);
 var count = 0;
 var numofbad = 10;
 var moneyperwave = 10;
@@ -771,10 +882,26 @@ if (playerHealth < 100) {
 cratespawn2 += 1;
   }
  }
+}
+if (Math.floor(Math.random() * chanceofdrop) == 1) {
 if (cratespawn == 0) {
 if (ammo < 160) {
 cratespawn += 1;
    }
+  }
+ }
+if (cratespawn == 0) {
+if (wave < 5) {
+if (spawncrate1pos == 1) {
+ crate1X = 90;
+ crate1Y = 90;
+ } else {
+ crate1X = 377.5;
+ crate1Y = 184.5;
+   }
+  } else {
+ crate1X = 377.5;
+ crate1Y = 184.5;
   }
  }
 }
@@ -801,10 +928,26 @@ if (playerHealth < 100) {
 cratespawn2 += 1;
   }
  }
+}
+if (Math.floor(Math.random() * chanceofdrop2) == 1) {
 if (cratespawn == 0) {
 if (ammo < 160) {
 cratespawn += 1;
+  }
+ }
+}
+if (cratespawn == 0) {
+if (wave < 5) {
+if (spawncrate1pos == 1) {
+ crate1X = 90;
+ crate1Y = 90;
+ } else {
+ crate1X = 377.5;
+ crate1Y = 184.5;
    }
+  } else {
+ crate1X = 377.5;
+ crate1Y = 184.5;
   }
  }
 }
@@ -825,7 +968,9 @@ if (playerHealth < 100) {
 cratespawn2 += 1;
   }
  } 
- if (cratespawn == 0) {
+}
+if (Math.floor(Math.random() * chanceofdrop3) == 1) {
+if (cratespawn == 0) {
 if (ammo < 160) {
 cratespawn += 1;
    }
@@ -849,12 +994,16 @@ cratespawn += 1;
 numofbad = 20;
 moneyperendie = 4;
   }
+ if (wave == 4) {
+revivecost = 150;
+  }
  if (wave == 5) {
 numofbad = 25;
 moneyperendie = 6;
   }
  if (wave == 6) {
 moneyperendie = 8;
+revivecost = 200;
 moneyperendie2 = 10;
   }
  }
@@ -883,7 +1032,6 @@ BadDeath = 1;
  }
 }
 
-
 function crashhitai1() {
   if (BadDeath < 1) {
 	if (badguy1.crashWith(wallright)) {
@@ -893,17 +1041,77 @@ function crashhitai1() {
 			badguy1.speedX = -1;
 		}
 	}
+	if (badguy1.crashWith(wallhouse3)) {
+		touchwallrightbad1 = 1;
+		if (touchwallrightbad1 == 1) {
+			badguypic1.speedX = -1;
+			badguy1.speedX = -1;
+		}
+	}
+	if (badguy1.crashWith(wallhouse7)) {
+		touchwallrightbad1 = 1;
+		if (touchwallrightbad1 == 1) {
+			badguypic1.speedX = -1;
+			badguy1.speedX = -1;
+		}
+	}
+	if (badguy1.crashWith(wallhouse2_2)) {
+		touchwallrightbad1 = 1;
+		if (touchwallrightbad1 == 1) {
+			badguypic1.speedX = -1;
+			badguy1.speedX = -1;
+		}
+	}
 	if (badguy1.crashWith(wallright) == false) {
 	  touchwallrightbad1 = 0;
 	}
+	if (badguy1.crashWith(wallhouse3) == false) {
+	  touchwallrightbad1 = 0;
+	}
+	if (badguy1.crashWith(wallhouse2_2) == false) {
+	  touchwallrightbad1 = 0;
+	}
+	if (badguy1.crashWith(wallhouse7) == false) {
+	  touchwallrightbad1 = 0;
+	}
 	if (badguy1.crashWith(wallleft)) {
-		touchwallrightbad1 = 1;
+		touchwallleftbad1 = 1;
+		if (touchwallleftbad1 == 1) {
+			badguypic1.speedX = 1;
+			badguy1.speedX = 1;
+		}
+	}
+	if (badguy1.crashWith(wallhouse3_2)) {
+		touchwallleftbad1 = 1;
+		if (touchwallleftbad1 == 1) {
+			badguypic1.speedX = 1;
+			badguy1.speedX = 1;
+		}
+	}
+	if (badguy1.crashWith(wallhouse2)) {
+		touchwallleftbad1 = 1;
+		if (touchwallleftbad1 == 1) {
+			badguypic1.speedX = 1;
+			badguy1.speedX = 1;
+		}
+	}
+	if (badguy1.crashWith(wallhouse5)) {
+		touchwallleftbad1 = 1;
 		if (touchwallleftbad1 == 1) {
 			badguypic1.speedX = 1;
 			badguy1.speedX = 1;
 		}
 	}
 	if (badguy1.crashWith(wallleft) == false) {
+	  touchwallleftbad1 = 0;
+	}
+	if (badguy1.crashWith(wallhouse3_2) == false) {
+	  touchwallleftbad1 = 0;
+	}
+	if (badguy1.crashWith(wallhouse2) == false) {
+	  touchwallleftbad1 = 0;
+	}
+	if (badguy1.crashWith(wallhouse5) == false) {
 	  touchwallleftbad1 = 0;
 	}
 	if (badguy1.crashWith(wall3)) {
@@ -913,7 +1121,37 @@ function crashhitai1() {
 			badguy1.speedY = 1;
 		}
 	}
+	if (badguy1.crashWith(wallhouse1)) {
+		touchwallupbad1 = 1;
+		if (touchwallupbad1 == 1) {
+			badguypic1.speedY = 1;
+			badguy1.speedY = 1;
+		}
+	}
+	if (badguy1.crashWith(wallhouse4_2)) {
+		touchwallupbad1 = 1;
+		if (touchwallupbad1 == 1) {
+			badguypic1.speedY = 1;
+			badguy1.speedY = 1;
+		}
+	}
+	if (badguy1.crashWith(wallhouse6_2)) {
+		touchwallupbad1 = 1;
+		if (touchwallupbad1 == 1) {
+			badguypic1.speedY = 1;
+			badguy1.speedY = 1;
+		}
+	}
 	if (badguy1.crashWith(wall3) == false) {
+	  touchwallupbad1 = 0;
+	}
+	if (badguy1.crashWith(wallhouse1) == false) {
+	  touchwallupbad1 = 0;
+	}
+	if (badguy1.crashWith(wallhouse4_2) == false) {
+	  touchwallupbad1 = 0;
+	}
+	if (badguy1.crashWith(wallhouse6_2) == false) {
 	  touchwallupbad1 = 0;
 	}
 	if (badguy1.crashWith(wall4)) {
@@ -923,7 +1161,37 @@ function crashhitai1() {
 			badguy1.speedY = -1;
 		}
 	}
+	if (badguy1.crashWith(wallhouse1_2)) {
+		touchwalldownbad1 = 1;
+		if (touchwalldownbad1 == 1) {
+			badguypic1.speedY = -1;
+			badguy1.speedY = -1;
+		}
+	}
+	if (badguy1.crashWith(wallhouse4)) {
+		touchwalldownbad1 = 1;
+		if (touchwalldownbad1 == 1) {
+			badguypic1.speedY = -1;
+			badguy1.speedY = -1;
+		}
+	}
+	if (badguy1.crashWith(wallhouse6)) {
+		touchwalldownbad1 = 1;
+		if (touchwalldownbad1 == 1) {
+			badguypic1.speedY = -1;
+			badguy1.speedY = -1;
+		}
+	}
 	if (badguy1.crashWith(wall4) == false) {
+	  touchwalldownbad1 = 0;
+	}
+	if (badguy1.crashWith(wallhouse1_2) == false) {
+	  touchwalldownbad1 = 0;
+	}
+	if (badguy1.crashWith(wallhouse4) == false) {
+	  touchwalldownbad1 = 0;
+	}
+	if (badguy1.crashWith(wallhouse6) == false) {
 	  touchwalldownbad1 = 0;
 	}
    }
@@ -939,7 +1207,7 @@ function crashhitai1() {
 	  touchwallrightbad2 = 0;
 	}
 	if (badguy2.crashWith(wallleft)) {
-		touchwallrightbad2 = 1;
+		touchwallleftbad2 = 1;
 		if (touchwallleftbad2 == 1) {
 			badguypic2.speedX = 1;
 			badguy2.speedX = 1;
@@ -968,6 +1236,128 @@ function crashhitai1() {
 	if (badguy2.crashWith(wall4) == false) {
 	  touchwalldownbad2 = 0;
 	 }
+	if (wave < 5) {
+	if (badguy2.crashWith(wallhouse3)) {
+		touchwallrightbad2 = 1;
+		if (touchwallrightbad2 == 1) {
+			badguypic2.speedX = -1;
+			badguy2.speedX = -1;
+		}
+	}
+	if (badguy2.crashWith(wallhouse2_2)) {
+		touchwallrightbad2 = 1;
+		if (touchwallrightbad2 == 1) {
+			badguypic2.speedX = -1;
+			badguy2.speedX = -1;
+		}
+	}
+	if (badguy2.crashWith(wallhouse7)) {
+		touchwallrightbad2 = 1;
+		if (touchwallrightbad2 == 1) {
+			badguypic2.speedX = -1;
+			badguy2.speedX = -1;
+		}
+	}
+	if (badguy2.crashWith(wallhouse3) == false) {
+	  touchwallrightbad2 = 0;
+	}
+	if (badguy2.crashWith(wallhouse2_2) == false) {
+	  touchwallrightbad2 = 0;
+	}
+	if (badguy2.crashWith(wallhouse7) == false) {
+	  touchwallrightbad2 = 0;
+	}
+	if (badguy2.crashWith(wallhouse3_2)) {
+		touchwallleftbad2 = 1;
+		if (touchwallleftbad2 == 1) {
+			badguypic2.speedX = 1;
+			badguy2.speedX = 1;
+		}
+	}
+	if (badguy2.crashWith(wallhouse2)) {
+		touchwallleftbad2 = 1;
+		if (touchwallleftbad2 == 1) {
+			badguypic2.speedX = 1;
+			badguy2.speedX = 1;
+		}
+	}
+	if (badguy2.crashWith(wallhouse5)) {
+		touchwallleftbad2 = 1;
+		if (touchwallleftbad2 == 1) {
+			badguypic2.speedX = 1;
+			badguy2.speedX = 1;
+		}
+	}
+	if (badguy2.crashWith(wallhouse3_2) == false) {
+	  touchwallleftbad2 = 0;
+	}
+	if (badguy2.crashWith(wallhouse2) == false) {
+	  touchwallleftbad2 = 0;
+	}
+	if (badguy2.crashWith(wallhouse5) == false) {
+	  touchwallleftbad2 = 0;
+	}
+	if (badguy2.crashWith(wallhouse1)) {
+		touchwallupbad1 = 1;
+		if (touchwallupbad1 == 1) {
+			badguypic2.speedY = 1;
+			badguy2.speedY = 1;
+		}
+	}
+	if (badguy2.crashWith(wallhouse4_2)) {
+		touchwallupbad1 = 1;
+		if (touchwallupbad1 == 1) {
+			badguypic2.speedY = 1;
+			badguy2.speedY = 1;
+		}
+	}
+	if (badguy2.crashWith(wallhouse6_2)) {
+		touchwallupbad1 = 1;
+		if (touchwallupbad1 == 1) {
+			badguypic2.speedY = 1;
+			badguy2.speedY = 1;
+		}
+	}
+	if (badguy2.crashWith(wallhouse1) == false) {
+	  touchwallupbad2 = 0;
+	}
+	if (badguy2.crashWith(wallhouse4_2) == false) {
+	  touchwallupbad2 = 0;
+	}
+	if (badguy2.crashWith(wallhouse6_2) == false) {
+	  touchwallupbad2 = 0;
+	}
+	if (badguy2.crashWith(wallhouse1_2)) {
+		touchwalldownbad2 = 1;
+		if (touchwalldownbad2 == 1) {
+			badguypic2.speedY = -1;
+			badguy2.speedY = -1;
+		}
+	}
+	if (badguy2.crashWith(wallhouse4)) {
+		touchwalldownbad2 = 1;
+		if (touchwalldownbad2 == 1) {
+			badguypic2.speedY = -1;
+			badguy2.speedY = -1;
+		}
+	}
+	if (badguy2.crashWith(wallhouse6)) {
+		touchwalldownbad2 = 1;
+		if (touchwalldownbad2 == 1) {
+			badguypic2.speedY = -1;
+			badguy2.speedY = -1;
+		}
+	}
+	if (badguy2.crashWith(wallhouse1_2) == false) {
+	  touchwalldownbad2 = 0;
+	  }
+	if (badguy2.crashWith(wallhouse4) == false) {
+	  touchwalldownbad2 = 0;
+	  }
+	if (badguy2.crashWith(wallhouse6) == false) {
+	  touchwalldownbad2 = 0;
+	  }
+	 }
 	}
 	if (BadDeath3 < 1) {
 	if (tribox.crashWith(wallright)) {
@@ -982,7 +1372,7 @@ function crashhitai1() {
 	  touchwallrightbad3 = 0;
 	}
 	if (tribox.crashWith(wallleft)) {
-		touchwallrightbad3 = 1;
+		touchwallleftbad3 = 1;
 		if (touchwallleftbad3 == 1) {
 		    tribox.speedX = 1;
 			trienemyleft.speedX = 1;
@@ -1064,6 +1454,18 @@ if (badguy1.crashWith(wallright) == false) {
 if (badguy1.crashWith(wallleft) == false) {
 if (badguy1.crashWith(wall3) == false) {
 if (badguy1.crashWith(wall4) == false) {
+if (badguy2.crashWith(wallhouse3) == false) {
+if (badguy2.crashWith(wallhouse2_2) == false) {
+if (badguy2.crashWith(wallhouse7) == false) {
+if (badguy2.crashWith(wallhouse3_2) == false) {
+if (badguy2.crashWith(wallhouse2) == false) {
+if (badguy2.crashWith(wallhouse5) == false) {
+if (badguy2.crashWith(wallhouse1) == false) {
+if (badguy2.crashWith(wallhouse4_2) == false) {
+if (badguy2.crashWith(wallhouse6_2) == false) {
+if (badguy2.crashWith(wallhouse1_2) == false) {
+if (badguy2.crashWith(wallhouse4) == false) {
+if (badguy2.crashWith(wallhouse6) == false) {
 if (badguy1.x + 5 > box.x + 23) {
     sidebad1 = 0;
 }
@@ -1071,7 +1473,7 @@ if (badguy1.x < box.x - 23) {
     sidebad1 = 1;
 }
 if (sidebad1 == 0) {
-if (badguy1.x + 5> box.x + 23) {
+if (badguy1.x + 5 > box.x + 23) {
 badguypic1.speedX = negbadspeedai1;
 badguy1.speedX = negbadspeedai1;
 if (Badhealth1 <= 50) {
@@ -1104,6 +1506,18 @@ badguy1.speedY = badspeedai1;
 if (Badhealth1 <= 50) {
 badguypic1.speedY = badhurtspeedai1;
 badguy1.speedY = badhurtspeedai1;
+                 }
+	            }
+	           }
+	          }
+	         }
+	        }
+	       }
+	      }
+	     }
+	    }
+	   }
+	  }
      }
     }
    }
@@ -1199,6 +1613,18 @@ if (badguy2.crashWith(wallright) == false) {
 if (badguy2.crashWith(wallleft) == false) {
 if (badguy2.crashWith(wall3) == false) {
 if (badguy2.crashWith(wall4) == false) {
+if (badguy2.crashWith(wallhouse3) == false) {
+if (badguy2.crashWith(wallhouse2_2) == false) {
+if (badguy2.crashWith(wallhouse7) == false) {
+if (badguy2.crashWith(wallhouse3_2) == false) {
+if (badguy2.crashWith(wallhouse2) == false) {
+if (badguy2.crashWith(wallhouse5) == false) {
+if (badguy2.crashWith(wallhouse1) == false) {
+if (badguy2.crashWith(wallhouse4_2) == false) {
+if (badguy2.crashWith(wallhouse6_2) == false) {
+if (badguy2.crashWith(wallhouse1_2) == false) {
+if (badguy2.crashWith(wallhouse4) == false) {
+if (badguy2.crashWith(wallhouse6) == false) {
 if (badguy2.x + 5 > box.x + 23) {
     sidebad2 = 0;
 }
@@ -1239,6 +1665,18 @@ badguy2.speedY = badspeedai2;
 if (Badhealth2 <= 50) {
 badguypic2.speedY = badhurtspeedai2;
 badguy2.speedY = badhurtspeedai2;
+                 }
+	            }
+	           }
+	          }
+	         }
+	        }
+	       }
+	      }
+	     }
+	    }
+	   }
+	  }
      }
     }
    }
@@ -1413,7 +1851,7 @@ if (weapon == 1) {
  }
  }
 }
-	
+
 var fire = 0;
 var fireR = 0;
 var fireL = 0;
@@ -1553,6 +1991,9 @@ if (fire > 0) {
   bullettime = 0;
   }
  }
+if (bullbox.crashWith(wallright) || bullbox.crashWith(wallleft) || bullbox.crashWith(wall3) || bullbox.crashWith(wall4) || bullbox.crashWith(wallhouse3) || bullbox.crashWith(wallhouse2_2) || bullbox.crashWith(wallhouse7) || bullbox.crashWith(wallhouse3_2) || bullbox.crashWith(wallhouse2) || bullbox.crashWith(wallhouse5) || bullbox.crashWith(wallhouse1) || bullbox.crashWith(wallhouse4_2) || bullbox.crashWith(wallhouse6_2) || bullbox.crashWith(wallhouse1_2) || bullbox.crashWith(wallhouse4) || bullbox.crashWith(wallhouse6)) {
+fire = 0;
+ }
 }
 
 var bullettime = 0;
@@ -1569,41 +2010,100 @@ function moveUp() {
 up = 1;
 }
 }
+
 function moveDown() {
  if (touchbottom == 0) {
 down = 1;
 }
 }
+
 function moveLeft() {
  if (touchleft == 0) {
 left = 1;
 }
 }
+
 function moveRight() {
  if (touchright == 0) {
 right = 1;
 }
 }
-function clearmoveud() {
+
+function clearmoveu() {
  if (box.crashWith(wall3) == false) {
  touchtop = 0;
  }
+ if (wave < 5) {
+ if (box.crashWith(wallhouse1) == false) {
+ touchtop = 0;
+ }
+ if (box.crashWith(wallhouse4_2) == false) {
+ touchtop = 0;
+ }
+ if (box.crashWith(wallhouse6_2) == false) {
+ touchtop = 0;
+ }
+}
+ up = 0;
+circle.speedY = 0;
+box.speedY = 0;
+}
+
+function clearmoved() {
  if (box.crashWith(wall4) == false) {
  touchbottom = 0;
  }
- up = 0;
+ if (wave < 5) {
+ if (box.crashWith(wallhouse1_2) == false) {
+ touchbottom = 0;
+ }
+ if (box.crashWith(wallhouse4) == false) {
+ touchbottom = 0;
+ }
+ if (box.crashWith(wallhouse6) == false) {
+ touchbottom = 0;
+ }
+}
  down = 0;
 circle.speedY = 0;
 box.speedY = 0;
 }
-function clearmovelr() {
+
+function clearmovel() {
  if (box.crashWith(wallleft) == false) {
  touchleft = 0;
  }
+ if (wave < 5) {
+ if (box.crashWith(wallhouse2) == false) {
+ touchleft = 0;
+ }
+ if (box.crashWith(wallhouse3_2) == false) {
+ touchleft = 0;
+ }
+ if (box.crashWith(wallhouse5) == false) {
+ touchbottom = 0;
+ }
+}
+ left = 0;
+circle.speedX = 0;
+box.speedX = 0;
+}
+
+function clearmover() {
  if (box.crashWith(wallright) == false) {
  touchright = 0;
  }
- left = 0;
+ if (wave < 5) {
+ if (box.crashWith(wallhouse2_2) == false) {
+ touchright = 0;
+ }
+ if (box.crashWith(wallhouse3) == false) {
+ touchright = 0;
+ }
+ if (box.crashWith(wallhouse7) == false) {
+ touchright = 0;
+ }
+}
  right = 0;
 circle.speedX = 0;
 box.speedX = 0;
@@ -1724,19 +2224,19 @@ if (stopper > 0) {
  Homeworld Takedown V0.3.0
 </h1>
 <div id="locator">
-<button onmousedown="moveUp()" onmouseup="clearmoveud()" ontouchend="clearmoveud()"
+<button onmousedown="moveUp()" onmouseup="clearmoveu()" ontouchend="clearmoveu()"
 ontouchstart="moveUp()">UP</button><br>
 </div>
 <div id="locator2">
-<button onmousedown="moveLeft()" onmouseup="clearmovelr()" ontouchend="clearmovelr()"
+<button onmousedown="moveLeft()" onmouseup="clearmovel()" ontouchend="clearmovel()"
 ontouchstart="moveLeft()">LEFT</button>
 </div>
 <div id="locator3">
-<button onmousedown="moveRight()" onmouseup="clearmovelr()" ontouchend="clearmovelr()"
+<button onmousedown="moveRight()" onmouseup="clearmover()" ontouchend="clearmover()"
 ontouchstart="moveRight()">RIGHT</button><br>
 </div>
 <div id="locator4">
-<button onmousedown="moveDown()" onmouseup="clearmoveud()" ontouchend="clearmoveud()"
+<button onmousedown="moveDown()" onmouseup="clearmoved()" ontouchend="clearmoved()"
 ontouchstart="moveDown()">DOWN</button>
 </div>
 <div id="locator6">
