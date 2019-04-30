@@ -142,7 +142,6 @@ function start() {
  upgradetxt.text = "Upgrade Menu";
  costToRevive = new component("30px", "Consolas", "white", 20, 30, "text");
  costToRevive.font = "20px Consolas";
- costToRevive.text = "You must have $" + revivecost + " to revive";
  menuboard = new component(800, 500, "black", 0, 0, "img10");
  formplat = new component(75, 75, "black", 362.5, 157.5, "plat");
  border1_5 = new component(800, 390, "black", 0, 0, "bor");
@@ -497,6 +496,7 @@ insidehouse1 = 0;
 function updateGameArea() {
 resetfire();
 Board.clear();
+costToRevive.text = "You must have $" + revivecost + " to revive";
 playSound();
 skipSound();
 box.update();
