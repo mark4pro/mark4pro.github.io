@@ -503,14 +503,14 @@ function checkwave() {
 	}
 }
 
-var tickCount = 0;
-function framerate(ticksPerFrame, frameIndex) {
+function framerate(ticksPerFrame, frameIndex, tickCount) {
+this.tickCount = tickCount;
 this.frameIndex = frameIndex;
 this.ticksPerFrame = ticksPerFrame;
-tickCount += 1;	
-        if (tickCount > ticksPerFrame) {
-        	tickCount = 0;
-            frameIndex += 1; 
+this.tickCount += 1;	
+        if (this.tickCount > this.ticksPerFrame) {
+        	this.tickCount = 0;
+            this.frameIndex += 1; 
         }
 }
 
@@ -1015,6 +1015,7 @@ if (Math.floor(Math.random() * chanceofdrop) == 1) {
 if (cratespawn2 == 0) {
 if (playerHealth < 100) {
 cratespawn2 += 1;
+spawncrate2pos = Math.floor(Math.random() * 2);
   }
  }
 }
@@ -1022,6 +1023,7 @@ if (Math.floor(Math.random() * chanceofdrop) == 1) {
 if (cratespawn == 0) {
 if (ammo < 160) {
 cratespawn += 1;
+spawncrate1pos = Math.floor(Math.random() * 2);
    }
   }
  }
@@ -1075,6 +1077,7 @@ if (Math.floor(Math.random() * chanceofdrop2) == 1) {
 if (cratespawn2 == 0) {
 if (playerHealth < 100) {
 cratespawn2 += 1;
+spawncrate2pos = Math.floor(Math.random() * 2);
   }
  }
 }
@@ -1082,6 +1085,7 @@ if (Math.floor(Math.random() * chanceofdrop2) == 1) {
 if (cratespawn == 0) {
 if (ammo < 160) {
 cratespawn += 1;
+spawncrate1pos = Math.floor(Math.random() * 2);
   }
  }
 }
