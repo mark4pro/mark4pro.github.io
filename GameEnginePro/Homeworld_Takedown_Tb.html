@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.1</title>
+<title>Homeworld Takedown V0.4.2</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon" href="https://mark4pro.github.io/GameEnginePro/image/icon/hticon.PNG" />
@@ -663,10 +663,12 @@ badguypic2.update();
 }
 if (wave > 4 && wave < 7) {
 if (BadDeath3 == 0) {
+if (Death1 == 0) {
 if (box.x < tribox.x) {
 trienemyleft.update();
 } else {
 trienemyright.update();
+   }
   } 
  }
 }
@@ -2700,7 +2702,7 @@ if (stopper > 0) {
 </script>
 <label class="unselectable">
 <h1 align="center">
- Homeworld Takedown V0.4.1
+ Homeworld Takedown V0.4.2
 </h1>
 <div id="locator">
 <button onmousedown="moveUp()" onmouseup="clearmoveu()" ontouchend="clearmoveu()"
