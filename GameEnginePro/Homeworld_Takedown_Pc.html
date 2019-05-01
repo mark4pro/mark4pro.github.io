@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.1</title>
+<title>Homeworld Takedown V0.4.2</title>
 <style>
 canvas {
 border:2px solid black;
@@ -623,10 +623,12 @@ badguypic2.update();
 }
 if (wave > 4 && wave < 7) {
 if (BadDeath3 == 0) {
+if (Death1 == 0) {
 if (box.x < tribox.x) {
 trienemyleft.update();
 } else {
 trienemyright.update();
+   }
   } 
  }
 }
@@ -2731,7 +2733,7 @@ function upgrade1func() {
 </script>
 <label class="unselectable">
 <h1 align=center>
- Homeworld Takedown V0.4.1
+ Homeworld Takedown V0.4.2
 </h1>
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
