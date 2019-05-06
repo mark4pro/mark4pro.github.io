@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.2</title>
+<title>Homeworld Takedown V0.4.3</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon" href="https://mark4pro.github.io/GameEnginePro/image/icon/hticon.PNG" />
@@ -90,7 +90,7 @@ margin : 0;
 <img id="housefloor1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/floor1_1.png">
 <img id="houseroof1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/roof1_1.png">
 <img id="tree" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tree1_1.png">
-<img id="wave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave5-7.png">
+<img id="wave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave5-7_1.png">
 
 <!-- Were Sounds Go -->
 		<audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
@@ -523,15 +523,64 @@ function checkwave() {
 	}
 }
 
-function framerate(ticksPerFrame, frameIndex, tickCount) {
-this.tickCount = tickCount;
-this.frameIndex = frameIndex;
-this.ticksPerFrame = ticksPerFrame;
-this.tickCount += 1;	
-        if (this.tickCount > this.ticksPerFrame) {
-        	this.tickCount = 0;
-            this.frameIndex += 1; 
+var resetframe = 6;
+var tickCount = 0;
+var frameIndex = 0;
+var ticksPerFrame = 60;
+var startTime = 0;
+function framerate() {
+if (startTime == 1) {
+        tickCount += 1;	
+        if (tickCount > ticksPerFrame) {
+        	tickCount = 0;
+            frameIndex += 1; 
         }
+		if (frameIndex == resetframe) {
+		    tickCount = 0;
+            frameIndex = 0;
+            startTime = 0;			
+        }
+	}
+}
+	
+var resetframe2 = 6;
+var tickCount2 = 0;
+var frameIndex2 = 0;
+var ticksPerFrame2 = 60;
+var startTime2 = 0;
+function framerate2() {
+if (startTime2 == 1) {
+        tickCount2 += 1;	
+        if (tickCount2 > ticksPerFrame2) {
+        	tickCount2 = 0;
+            frameIndex2 += 1; 
+        }
+		if (frameIndex2 == resetframe2) {
+		    tickCount2 = 0;
+            frameIndex2 = 0;
+            startTime2 = 0;			
+        }
+	}
+}
+
+var resetframe3 = 3;
+var tickCount3 = 0;
+var frameIndex3 = 0;
+var ticksPerFrame3 = 60;
+var startTime3 = 0;
+function framerate3() {
+if (startTime3 == 1) {
+        tickCount3 += 1;	
+        if (tickCount3 > ticksPerFrame3) {
+        	tickCount3 = 0;
+            frameIndex3 += 1; 
+        }
+		if (frameIndex3 == resetframe3) {
+		    tickCount3 = 0;
+            frameIndex3 = 0;
+            startTime3 = 0;			
+        }
+	}
 }
 
 var insidehouse1 = 0;
@@ -554,6 +603,9 @@ inside2house1 = 0;
 }
 
 function updateGameArea() {
+framerate();
+framerate2();
+framerate3();
 resetfire();
 Board.clear();
 costToRevive.text = "You must have $" + revivecost + " to revive";
@@ -1819,6 +1871,7 @@ badspeedai1 = 1;
 negbadspeedai1 = -1;
 badhurtspeedai1 = 1.5;
 negbadhurtspeedai1 = -1.5;
+startTime = 0;
  }
 if (badguy1.y > badpos1.y) {
 badguypic1.speedY = -5;
@@ -1888,14 +1941,25 @@ playerHealth -= Bad1DamageDeal;
 }
 if (weapon == 1) {
  if (bullbox.crashWith(badguy1)) {
-  if (fire > 0) {
- badspeedai1 = 0.1;
- negbadspeedai1 = -0.1;
- badhurtspeedai1 = 0.2;
- negbadhurtspeedai1 = -0.2;
+ if (fire > 0) {
+  if (startTime == 0) {
+  startTime = 1;
+    }
    }
   }
 }
+if (startTime == 1) {
+ badspeedai1 = 0.1;
+ negbadspeedai1 = -0.1;
+ badhurtspeedai1 = 0.2;
+ negbadhurtspeedai1 = -0.1;
+   } else 
+if (startTime == 0) {
+ badspeedai1 = 1;
+ negbadspeedai1 = -1;
+ badhurtspeedai1 = 1.5;
+ negbadhurtspeedai1 = -1.5;
+   }
  }
  }
  }
@@ -1954,6 +2018,7 @@ badspeedai2 = 1;
 negbadspeedai2 = -1;
 badhurtspeedai2 = 1.5;
 negbadhurtspeedai2 = -1.5;
+startTime2 = 0;
  }
 if (badguy2.y > badpos2.y) {
 badguypic2.speedY = -5;
@@ -2118,14 +2183,25 @@ playerHealth -= Bad2DamageDeal;
 }
 if (weapon == 1) {
  if (bullbox.crashWith(badguy2)) {
-  if (fire > 0) {
+ if (fire > 0) {
+  if (startTime2 == 0) {
+  startTime2 = 1;
+    }
+   }
+  }
+}
+if (startTime2 == 1) {
  badspeedai2 = 0.1;
  negbadspeedai2 = -0.1;
  badhurtspeedai2 = 0.2;
  negbadhurtspeedai2 = -0.1;
+   } else 
+if (startTime2 == 0) {
+ badspeedai2 = 1;
+ negbadspeedai2 = -1;
+ badhurtspeedai2 = 1.5;
+ negbadhurtspeedai2 = -1.5;
    }
-  }
-}
  }
  }
  }
@@ -2188,6 +2264,7 @@ badspeedai3 = 1;
 negbadspeedai3 = -1;
 badhurtspeedai3 = 1.5;
 negbadhurtspeedai3 = -1.5;
+startTime3 = 0;
  }
 if (tribox.y > tripos1.y) {
 trienemyright.speedY = -5;
@@ -2267,14 +2344,25 @@ playerHealth -= Bad3DamageDeal;
 }
 if (weapon == 1) {
  if (bullbox.crashWith(tribox)) {
-  if (fire > 0) {
- badspeedai3 = 0.2;
- negbadspeedai3 = -0.2;
- badhurtspeedai3 = 0.5;
- negbadhurtspeedai3 = -0.5;
+ if (fire > 0) {
+  if (startTime3 == 0) {
+  startTime3 = 1;
+    }
    }
   }
 }
+if (startTime3 == 1) {
+ badspeedai3 = 0.5;
+ negbadspeedai3 = -0.3;
+ badhurtspeedai3 = 0.5;
+ negbadhurtspeedai3 = -0.3;
+   } else 
+if (startTime3 == 0) {
+ badspeedai3 = 1;
+ negbadspeedai3 = -1;
+ badhurtspeedai3 = 1.6;
+ negbadhurtspeedai3 = -1.6;
+   }
  }
  }
  }
@@ -2704,7 +2792,7 @@ if (stopper > 0) {
 </script>
 <label class="unselectable">
 <h1 align="center">
- Homeworld Takedown V0.4.2
+ Homeworld Takedown V0.4.3
 </h1>
 <div id="locator">
 <button onmousedown="moveUp()" onmouseup="clearmoveu()" ontouchend="clearmoveu()"
