@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.4</title>
+<title>Homeworld Takedown V0.4.5</title>
 <style>
 canvas {
 border:2px solid black;
@@ -88,20 +88,26 @@ var backX = 450;
 var backY = 350;
 var upgrade1X = 430;
 var upgrade1Y = 250;
+var bad1posX = 760;
+var bad1posY = 300;
+var bad2posX = 20;
+var bad2posY = 100;
+var tri1posX = 760;
+var tri1posY = 180;
 function start() {
- badguypic1 = new component(25, 25, "red", 650, 180, "img7");
- badguy1 = new component(25, 25, "red", 650, 180, "rec");
- badpos1 = new component(25, 25, "orange", 760, 180, "rec");
- badwavebox1 = new component(35, 35, "black", 755, 175, "rec");
- badguypic2 = new component(25, 25, "red", 650, 180, "img7");
- badguy2 = new component(25, 25, "red", 650, 180, "rec");
- badpos2 = new component(25, 25, "orange", 760, 180, "rec");
- badwavebox2 = new component(35, 35, "black", 755, 175, "rec");
+ badguypic1 = new component(25, 25, "red", 650, 300, "img7");
+ badguy1 = new component(25, 25, "red", 650, 300, "rec");
+ badpos1 = new component(25, 25, "orange", bad1posX, bad1posY, "rec");
+ badwavebox1 = new component(35, 35, "black", bad1posX - 5, bad1posY - 5, "rec");
+ badguypic2 = new component(25, 25, "red", 40, 150, "img7");
+ badguy2 = new component(25, 25, "red", 40, 150, "rec");
+ badpos2 = new component(25, 25, "orange", bad2posX, bad2posY, "rec");
+ badwavebox2 = new component(35, 35, "black", bad2posX - 5, bad2posY - 5, "rec");
  trienemyleft = new component(35, 35, "black", 430, 158, "rotleft");
  trienemyright = new component(35, 35, "black", 430, 158, "rotright");
  tribox = new component(35, 35, "red", 430, 158, "rec");
- tripos1 = new component(25, 25, "orange", 760, 180, "rec");
- triwavebox1 = new component(35, 35, "black", 755, 175, "rec");
+ tripos1 = new component(25, 25, "orange", tri1posX, tri1posY, "rec");
+ triwavebox1 = new component(35, 35, "black", tri1posX - 5, tri1posY - 5, "rec");
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
  bpic = new component(10, 10, "orange", 400, 180, "img6");
  box = new component(25, 25, "black", playerX, playerY, "rec");
@@ -140,7 +146,7 @@ function start() {
  wall2house6_2 = new component(100, 10, "grey", 610, 200, "rec");
  wall2house7 = new component(10, 20, "grey", 610, 190, "rec");
  roof2house1 = new component(210, 120, "black", 500, 90, "houseroof1_img");
- inside2detect1 = new component(210, 140, "gray", 500, 90, "rec");
+ inside2detect1 = new component(190, 130, "gray", 510, 100, "rec");
  floor2house1 = new component(200, 120, "black", 500, 90, "housefloor1_img");
  tree1 = new component(50, 50, "black", 150, 250, "tree_img");
  tree2 = new component(50, 50, "black", 650, 270, "tree_img");
@@ -1282,8 +1288,10 @@ function crashhitai1() {
 	if (badguy1.crashWith(wallhouse7)) {
 		touchwallrightbad1 = 1;
 		if (touchwallrightbad1 == 1) {
-			badguypic1.speedX = -1;
-			badguy1.speedX = -1;
+			badguypic1.speedX = -2;
+			badguy1.speedX = -2;
+			badguypic1.speedY = 2;
+			badguy1.speedY = 2;
 		}
 	}
 	if (badguy1.crashWith(wallhouse2_2)) {
@@ -1303,8 +1311,10 @@ function crashhitai1() {
 	if (badguy1.crashWith(wall2house7)) {
 		touchwallrightbad1 = 1;
 		if (touchwallrightbad1 == 1) {
-			badguypic1.speedX = -1;
-			badguy1.speedX = -1;
+			badguypic1.speedX = -2;
+			badguy1.speedX = -2;
+			badguypic1.speedY = 2;
+			badguy1.speedY = 2;
 		}
 	}
 	if (badguy1.crashWith(wall2house2_2)) {
@@ -1359,8 +1369,10 @@ function crashhitai1() {
 	if (badguy1.crashWith(wallhouse5)) {
 		touchwallleftbad1 = 1;
 		if (touchwallleftbad1 == 1) {
-			badguypic1.speedX = 1;
-			badguy1.speedX = 1;
+			badguypic1.speedX = 2;
+			badguy1.speedX = 2;
+			badguypic1.speedY = 2;
+			badguy1.speedY = 2;
 		}
 	}
 	if (badguy1.crashWith(wall2house3_2)) {
@@ -1380,8 +1392,10 @@ function crashhitai1() {
 	if (badguy1.crashWith(wall2house5)) {
 		touchwallleftbad1 = 1;
 		if (touchwallleftbad1 == 1) {
-			badguypic1.speedX = 1;
-			badguy1.speedX = 1;
+			badguypic1.speedX = 2;
+			badguy1.speedX = 2;
+			badguypic1.speedY = 2;
+			badguy1.speedY = 2;
 		}
 	}
 	if (badguy1.crashWith(wallleft) == false) {
@@ -1605,8 +1619,10 @@ function crashhitai1() {
 	if (badguy2.crashWith(wallhouse7)) {
 		touchwallrightbad2 = 1;
 		if (touchwallrightbad2 == 1) {
-			badguypic2.speedX = -1;
-			badguy2.speedX = -1;
+			badguypic2.speedX = -2;
+			badguy2.speedX = -2;
+			badguypic2.speedY = 2;
+			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wall2house3)) {
@@ -1626,8 +1642,10 @@ function crashhitai1() {
 	if (badguy2.crashWith(wall2house7)) {
 		touchwallrightbad2 = 1;
 		if (touchwallrightbad2 == 1) {
-			badguypic2.speedX = -1;
-			badguy2.speedX = -1;
+			badguypic2.speedX = -2;
+			badguy2.speedX = -2;
+			badguypic2.speedY = 2;
+			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wallhouse3) == false) {
@@ -1665,8 +1683,10 @@ function crashhitai1() {
 	if (badguy2.crashWith(wallhouse5)) {
 		touchwallleftbad2 = 1;
 		if (touchwallleftbad2 == 1) {
-			badguypic2.speedX = 1;
-			badguy2.speedX = 1;
+			badguypic2.speedX = 2;
+			badguy2.speedX = 2;
+			badguypic2.speedY = 2;
+			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wall2house3_2)) {
@@ -1686,8 +1706,10 @@ function crashhitai1() {
 	if (badguy2.crashWith(wall2house5)) {
 		touchwallleftbad2 = 1;
 		if (touchwallleftbad2 == 1) {
-			badguypic2.speedX = 1;
-			badguy2.speedX = 1;
+			badguypic2.speedX = 2;
+			badguy2.speedX = 2;
+			badguypic2.speedY = 2;
+			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wallhouse3_2) == false) {
@@ -2823,6 +2845,9 @@ function backfunc() {
    if (upgrademenu > 0) {
 			upgrademenu = 0;
 		}
+	if (Death1 > 0) {
+	document.location.reload(true);
+	}
 }
 	
 function upgrade1func() {	
@@ -2836,7 +2861,7 @@ function upgrade1func() {
 </script>
 <label class="unselectable">
 <h1 align=center>
- Homeworld Takedown V0.4.4
+ Homeworld Takedown V0.4.5
 </h1>
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
@@ -2845,8 +2870,9 @@ function upgrade1func() {
 <p align="center">Arrow key to shoot.</p>
 <p align="center">WASD to move.</p>
 <p align="center">R to revive.</p>
+<p align="center">Esc to exit the upgrade menu. (Also will reset the game if you are dead.)</p>
 <p align="center">Number keys to switch weapons. (NOT THE NUM PAD! aslo get weapons by upgrading your weapon)</p>
-<p align="center">Num pad to upgrade. (numbers correspond with numbers in the upgrade menu labeled with # in front of it)</p>
+<p align="center">Use the Num Key on the key pad to upgrade. (numbers correspond with numbers in the upgrade menu labeled with # in front of it)</p>
 <p align="center">About:</p>
 <p align="center">Flying Enemies- Rage mode: if the enemy's health drops below 50 it will move faster. </p>
 <p align="center">Flying Enemies- Swarm: if they get near you they will frantically go left and right thus making them hard to hit.</p>
