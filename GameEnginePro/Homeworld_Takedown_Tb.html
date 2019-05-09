@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.3</title>
+<title>Homeworld Takedown V0.4.4</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="apple-touch-icon" href="https://mark4pro.github.io/GameEnginePro/image/icon/hticon.PNG" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="apple-touch-icon" href="https://mark4pro.github.io/GameEnginePro/image/icon/hticon.PNG" />
    <!-- Path to Framework7 Library CSS-->
-    <link rel="stylesheet" href="css/framework7.ios.min.css">
-    <!-- Path to your custom app styles-->
-    <link rel="stylesheet" href="css/my-app.css">
-    <link rel=“stylesheet” href=“css/framework7-TwitterDarkMode.css”>
-    <link rel="stylesheet" href="https://rawgit.com/S0n1cDev/TDM/master/Framework7-TwitterDarkMode.css">
+	<link rel="stylesheet" href="css/framework7.ios.min.css">
+	<!-- Path to your custom app styles-->
+	<link rel="stylesheet" href="css/my-app.css">
+	<link rel=“stylesheet” href=“css/framework7-TwitterDarkMode.css”>
+	<link rel="stylesheet" href="https://rawgit.com/S0n1cDev/TDM/master/Framework7-TwitterDarkMode.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <style>
 canvas {
@@ -91,10 +91,11 @@ margin : 0;
 <img id="houseroof1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/roof1_1.png">
 <img id="tree" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tree1_1.png">
 <img id="wave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave5-7_1.png">
+<img id="DeathScr" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/DeathScreen.png">
 
 <!-- Were Sounds Go -->
 		<audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
-	    <audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/level2.mp3"></audio>
+		<audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/level2.mp3"></audio>
 </head>
 <body onload="start()">
 <script>
@@ -184,11 +185,12 @@ function start() {
  upgradetxt = new component("30px", "Consolas", "white", 350, 20, "text");
  upgradetxt.font = "20px Consolas";
  upgradetxt.text = "Upgrade Menu";
- costToRevive = new component("30px", "Consolas", "white", 20, 30, "text");
- costToRevive.font = "20px Consolas";
+ costToRevive = new component("30px", "Consolas", "darkred", 40, 490, "text");
+ costToRevive.font = "30px Consolas";
  menuboard = new component(800, 500, "black", 0, 0, "img10");
  formplat = new component(75, 75, "black", 362.5, 157.5, "plat");
  border1_5 = new component(800, 390, "black", 0, 0, "bor");
+ DeathForPlayer = new component(800, 500, "black", 0, 0, "DeathScreenPlayer");
  Board.start();
  updateGameArea();
  }
@@ -365,6 +367,12 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  var img = document.getElementById("wave5t7");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
+ if (type == "DeathScreenPlayer") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("DeathScr");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
   }
  }
 }
@@ -407,7 +415,7 @@ function componentrotate(width, height, color, x, y, type) {
  this.x = x;
  this.y = y;
  this.angle = 0;
-    this.update = function() {
+	this.update = function() {
  if (type == "rot") {
  this.x = x;
  this.y = y;
@@ -415,7 +423,7 @@ function componentrotate(width, height, color, x, y, type) {
  this.height = height;
  ctx = Board.context;
  ctx.save();
- ctx.translate(this.x, this.y);        
+ ctx.translate(this.x, this.y);		
  ctx.rotate(this.angle);
  var img = document.getElementById("testimg");
  ctx.drawImage(img, this.width / -2, this.height / -1.5, this.width, this.height);
@@ -530,16 +538,16 @@ var ticksPerFrame = 60;
 var startTime = 0;
 function framerate() {
 if (startTime == 1) {
-        tickCount += 1;	
-        if (tickCount > ticksPerFrame) {
-        	tickCount = 0;
-            frameIndex += 1; 
-        }
+		tickCount += 1;	
+		if (tickCount > ticksPerFrame) {
+			tickCount = 0;
+			frameIndex += 1; 
+		}
 		if (frameIndex == resetframe) {
-		    tickCount = 0;
-            frameIndex = 0;
-            startTime = 0;			
-        }
+			tickCount = 0;
+			frameIndex = 0;
+			startTime = 0;			
+		}
 	}
 }
 	
@@ -550,16 +558,16 @@ var ticksPerFrame2 = 60;
 var startTime2 = 0;
 function framerate2() {
 if (startTime2 == 1) {
-        tickCount2 += 1;	
-        if (tickCount2 > ticksPerFrame2) {
-        	tickCount2 = 0;
-            frameIndex2 += 1; 
-        }
+		tickCount2 += 1;	
+		if (tickCount2 > ticksPerFrame2) {
+			tickCount2 = 0;
+			frameIndex2 += 1; 
+		}
 		if (frameIndex2 == resetframe2) {
-		    tickCount2 = 0;
-            frameIndex2 = 0;
-            startTime2 = 0;			
-        }
+			tickCount2 = 0;
+			frameIndex2 = 0;
+			startTime2 = 0;			
+		}
 	}
 }
 
@@ -570,16 +578,16 @@ var ticksPerFrame3 = 60;
 var startTime3 = 0;
 function framerate3() {
 if (startTime3 == 1) {
-        tickCount3 += 1;	
-        if (tickCount3 > ticksPerFrame3) {
-        	tickCount3 = 0;
-            frameIndex3 += 1; 
-        }
+		tickCount3 += 1;	
+		if (tickCount3 > ticksPerFrame3) {
+			tickCount3 = 0;
+			frameIndex3 += 1; 
+		}
 		if (frameIndex3 == resetframe3) {
-		    tickCount3 = 0;
-            frameIndex3 = 0;
-            startTime3 = 0;			
-        }
+			tickCount3 = 0;
+			frameIndex3 = 0;
+			startTime3 = 0;			
+		}
 	}
 }
 
@@ -829,6 +837,9 @@ if (weaponupgrade1 > 0) {
 max1.update();
 max1txt.update();
 }
+}
+if (Death1 > 0) {
+DeathForPlayer.update();
 }
 if (showmessage == 1) {
 costToRevive.update();
@@ -1796,7 +1807,7 @@ function crashhitai1() {
 	if (tribox.crashWith(wallright)) {
 		touchwallrightbad3 = 1;
 		if (touchwallrightbad3 == 1) {
-		    tribox.speedX = -1;
+			tribox.speedX = -1;
 			trienemyleft.speedX = -1;
 			trienemyright.speedX = -1;
 		}
@@ -1807,7 +1818,7 @@ function crashhitai1() {
 	if (tribox.crashWith(wallleft)) {
 		touchwallleftbad3 = 1;
 		if (touchwallleftbad3 == 1) {
-		    tribox.speedX = 1;
+			tribox.speedX = 1;
 			trienemyleft.speedX = 1;
 			trienemyright.speedX = 1;
 		}
@@ -1818,7 +1829,7 @@ function crashhitai1() {
 	if (tribox.crashWith(wall3)) {
 		touchwallupbad3 = 1;
 		if (touchwallupbad3 == 1) {
-		    tribox.speedY = 1;
+			tribox.speedY = 1;
 			trienemyleft.speedY = 1;
 			trienemyright.speedY = 1;
 		}
@@ -1829,7 +1840,7 @@ function crashhitai1() {
 	if (tribox.crashWith(wall4)) {
 		touchwalldownbad3 = 1;
 		if (touchwalldownbad3 == 1) {
-		    tribox.speedY = -1;
+			tribox.speedY = -1;
 			trienemyleft.speedY = -1;
 			trienemyright.speedY = -1;
 		}
@@ -1889,10 +1900,10 @@ if (badguy1.crashWith(wallleft) == false) {
 if (badguy1.crashWith(wall3) == false) {
 if (badguy1.crashWith(wall4) == false) {
 if (badguy1.x + 5 > box.x + 23) {
-    sidebad1 = 0;
+	sidebad1 = 0;
 }
 if (badguy1.x < box.x - 23) {
-    sidebad1 = 1;
+	sidebad1 = 1;
 }
 if (sidebad1 == 0) {
 if (badguy1.x + 5 > box.x + 23) {
@@ -1944,7 +1955,7 @@ if (weapon == 1) {
  if (fire > 0) {
   if (startTime == 0) {
   startTime = 1;
-    }
+	}
    }
   }
 }
@@ -2061,10 +2072,10 @@ if (badguy2.crashWith(wall2house1_2) == false) {
 if (badguy2.crashWith(wall2house4) == false) {
 if (badguy2.crashWith(wall2house6) == false) {
 if (badguy2.x + 5 > box.x + 23) {
-    sidebad2 = 0;
+	sidebad2 = 0;
 }
 if (badguy2.x < box.x - 23) {
-    sidebad2 = 1;
+	sidebad2 = 1;
 }
 if (sidebad2 == 0) {
 if (badguy2.x + 5> box.x + 23) {
@@ -2102,38 +2113,38 @@ badguypic2.speedY = badhurtspeedai2;
 badguy2.speedY = badhurtspeedai2;
  }
 }
-                    } 
-	                }
-	                }
-	                }
-	                }
-	                }
-	                }
-	                }
-	               }
-	              }
-	             } 
-	            }
-	           }
-	          }
-	         }
-	        }
-	       }
-	      }
-	     }
-	    }
-       }
-      }
-     }
-    }
+					} 
+					}
+					}
+					}
+					}
+					}
+					}
+					}
+				   }
+				  }
+				 } 
+				}
+			   }
+			  }
+			 }
+			}
+		   }
+		  }
+		 }
+		}
+	   }
+	  }
+	 }
+	}
    }
 if (wave < 7 && wave > 4) {
 //put wall detect here!!//
 if (badguy2.x + 5 > box.x + 23) {
-    sidebad2 = 0;
+	sidebad2 = 0;
 }
 if (badguy2.x < box.x - 23) {
-    sidebad2 = 1;
+	sidebad2 = 1;
 }
 if (sidebad2 == 0) {
 if (badguy2.x + 5> box.x + 23) {
@@ -2186,7 +2197,7 @@ if (weapon == 1) {
  if (fire > 0) {
   if (startTime2 == 0) {
   startTime2 = 1;
-    }
+	}
    }
   }
 }
@@ -2284,10 +2295,10 @@ if (tribox.crashWith(wallleft) == false) {
 if (tribox.crashWith(wall3) == false) {
 if (tribox.crashWith(wall4) == false) {
 if (tribox.x + 5 > box.x + 23) {
-    sidebad3 = 0;
+	sidebad3 = 0;
 }
 if (tribox.x < box.x - 23) {
-    sidebad3 = 1;
+	sidebad3 = 1;
 }
 if (sidebad3 == 0) {
 if (tribox.x + 5 > box.x + 23) {
@@ -2331,8 +2342,8 @@ if (Badhealth3 <= 50) {
 trienemyright.speedY = badhurtspeedai3;
 trienemyleft.speedY = badhurtspeedai3;
 tribox.speedY = badhurtspeedai3;
-     }
-    }
+	 }
+	}
    }
   }
  }
@@ -2347,7 +2358,7 @@ if (weapon == 1) {
  if (fire > 0) {
   if (startTime3 == 0) {
   startTime3 = 1;
-    }
+	}
    }
   }
 }
@@ -2792,7 +2803,7 @@ if (stopper > 0) {
 </script>
 <label class="unselectable">
 <h1 align="center">
- Homeworld Takedown V0.4.3
+ Homeworld Takedown V0.4.4
 </h1>
 <div id="locator">
 <button onmousedown="moveUp()" onmouseup="clearmoveu()" ontouchend="clearmoveu()"
@@ -2825,7 +2836,7 @@ ontouchstart="moveDown()">DOWN</button>
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1"
 oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
-<p align="center"><input type="text" id="name" value="Bob"></p>
+<p align="center"><input type="text" id="name" value=""></p>
 <div id="locator5">
 <button onmouseup="stopshow()" onmousedown="relive()" ontouchend="stopshow()" ontouchstart="relive()">Revive</button>
 </div>
