@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.4</title>
+<title>Homeworld Takedown V0.4.5</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<link rel="apple-touch-icon" href="https://mark4pro.github.io/GameEnginePro/image/icon/hticon.PNG" />
@@ -109,20 +109,26 @@ var backX = 450;
 var backY = 350;
 var upgrade1X = 430;
 var upgrade1Y = 250;
+var bad1posX = 760;
+var bad1posY = 300;
+var bad2posX = 20;
+var bad2posY = 100;
+var tri1posX = 760;
+var tri1posY = 180;
 function start() {
- badguypic1 = new component(25, 25, "red", 650, 180, "img7");
- badguy1 = new component(25, 25, "red", 650, 180, "rec");
- badpos1 = new component(25, 25, "orange", 760, 180, "rec");
- badwavebox1 = new component(35, 35, "black", 755, 175, "rec");
- badguypic2 = new component(25, 25, "red", 650, 180, "img7");
- badguy2 = new component(25, 25, "red", 650, 180, "rec");
- badpos2 = new component(25, 25, "orange", 760, 180, "rec");
- badwavebox2 = new component(35, 35, "black", 755, 175, "rec");
+ badguypic1 = new component(25, 25, "red", 650, 300, "img7");
+ badguy1 = new component(25, 25, "red", 650, 300, "rec");
+ badpos1 = new component(25, 25, "orange", bad1posX, bad1posY, "rec");
+ badwavebox1 = new component(35, 35, "black", bad1posX - 5, bad1posY - 5, "rec");
+ badguypic2 = new component(25, 25, "red", 40, 150, "img7");
+ badguy2 = new component(25, 25, "red", 40, 150, "rec");
+ badpos2 = new component(25, 25, "orange", bad2posX, bad2posY, "rec");
+ badwavebox2 = new component(35, 35, "black", bad2posX - 5, bad2posY - 5, "rec");
  trienemyleft = new component(35, 35, "black", 430, 158, "rotleft");
  trienemyright = new component(35, 35, "black", 430, 158, "rotright");
  tribox = new component(35, 35, "red", 430, 158, "rec");
- tripos1 = new component(25, 25, "orange", 760, 180, "rec");
- triwavebox1 = new component(35, 35, "black", 755, 175, "rec");
+ tripos1 = new component(25, 25, "orange", tri1posX, tri1posY, "rec");
+ triwavebox1 = new component(35, 35, "black", tri1posX - 5, tri1posY - 5, "rec");
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
  bpic = new component(10, 10, "orange", 400, 180, "img6");
  box = new component(25, 25, "black", playerX, playerY, "rec");
@@ -161,7 +167,7 @@ function start() {
  wall2house6_2 = new component(100, 10, "grey", 610, 200, "rec");
  wall2house7 = new component(10, 20, "grey", 610, 190, "rec");
  roof2house1 = new component(210, 120, "black", 500, 90, "houseroof1_img");
- inside2detect1 = new component(210, 140, "gray", 500, 90, "rec");
+ inside2detect1 = new component(190, 130, "gray", 510, 100, "rec");
  floor2house1 = new component(200, 120, "black", 500, 90, "housefloor1_img");
  tree1 = new component(50, 50, "black", 150, 250, "tree_img");
  tree2 = new component(50, 50, "black", 650, 270, "tree_img");
@@ -1255,8 +1261,10 @@ function crashhitai1() {
 	if (badguy1.crashWith(wallhouse7)) {
 		touchwallrightbad1 = 1;
 		if (touchwallrightbad1 == 1) {
-			badguypic1.speedX = -1;
-			badguy1.speedX = -1;
+			badguypic1.speedX = -2;
+			badguy1.speedX = -2;
+			badguypic1.speedY = 2;
+			badguy1.speedY = 2;
 		}
 	}
 	if (badguy1.crashWith(wallhouse2_2)) {
@@ -1276,8 +1284,10 @@ function crashhitai1() {
 	if (badguy1.crashWith(wall2house7)) {
 		touchwallrightbad1 = 1;
 		if (touchwallrightbad1 == 1) {
-			badguypic1.speedX = -1;
-			badguy1.speedX = -1;
+			badguypic1.speedX = -2;
+			badguy1.speedX = -2;
+			badguypic1.speedY = 2;
+			badguy1.speedY = 2;
 		}
 	}
 	if (badguy1.crashWith(wall2house2_2)) {
@@ -1332,8 +1342,10 @@ function crashhitai1() {
 	if (badguy1.crashWith(wallhouse5)) {
 		touchwallleftbad1 = 1;
 		if (touchwallleftbad1 == 1) {
-			badguypic1.speedX = 1;
-			badguy1.speedX = 1;
+			badguypic1.speedX = 2;
+			badguy1.speedX = 2;
+			badguypic1.speedY = 2;
+			badguy1.speedY = 2;
 		}
 	}
 	if (badguy1.crashWith(wall2house3_2)) {
@@ -1353,8 +1365,10 @@ function crashhitai1() {
 	if (badguy1.crashWith(wall2house5)) {
 		touchwallleftbad1 = 1;
 		if (touchwallleftbad1 == 1) {
-			badguypic1.speedX = 1;
-			badguy1.speedX = 1;
+			badguypic1.speedX = 2;
+			badguy1.speedX = 2;
+			badguypic1.speedY = 2;
+			badguy1.speedY = 2;
 		}
 	}
 	if (badguy1.crashWith(wallleft) == false) {
@@ -1578,8 +1592,10 @@ function crashhitai1() {
 	if (badguy2.crashWith(wallhouse7)) {
 		touchwallrightbad2 = 1;
 		if (touchwallrightbad2 == 1) {
-			badguypic2.speedX = -1;
-			badguy2.speedX = -1;
+			badguypic2.speedX = -2;
+			badguy2.speedX = -2;
+			badguypic2.speedY = 2;
+			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wall2house3)) {
@@ -1599,8 +1615,10 @@ function crashhitai1() {
 	if (badguy2.crashWith(wall2house7)) {
 		touchwallrightbad2 = 1;
 		if (touchwallrightbad2 == 1) {
-			badguypic2.speedX = -1;
-			badguy2.speedX = -1;
+			badguypic2.speedX = -2;
+			badguy2.speedX = -2;
+			badguypic2.speedY = 2;
+			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wallhouse3) == false) {
@@ -1638,8 +1656,10 @@ function crashhitai1() {
 	if (badguy2.crashWith(wallhouse5)) {
 		touchwallleftbad2 = 1;
 		if (touchwallleftbad2 == 1) {
-			badguypic2.speedX = 1;
-			badguy2.speedX = 1;
+			badguypic2.speedX = 2;
+			badguy2.speedX = 2;
+			badguypic2.speedY = 2;
+			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wall2house3_2)) {
@@ -1659,8 +1679,10 @@ function crashhitai1() {
 	if (badguy2.crashWith(wall2house5)) {
 		touchwallleftbad2 = 1;
 		if (touchwallleftbad2 == 1) {
-			badguypic2.speedX = 1;
-			badguy2.speedX = 1;
+			badguypic2.speedX = 2;
+			badguy2.speedX = 2;
+			badguypic2.speedY = 2;
+			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wallhouse3_2) == false) {
@@ -1807,7 +1829,7 @@ function crashhitai1() {
 	if (tribox.crashWith(wallright)) {
 		touchwallrightbad3 = 1;
 		if (touchwallrightbad3 == 1) {
-			tribox.speedX = -1;
+		    tribox.speedX = -1;
 			trienemyleft.speedX = -1;
 			trienemyright.speedX = -1;
 		}
@@ -1818,7 +1840,7 @@ function crashhitai1() {
 	if (tribox.crashWith(wallleft)) {
 		touchwallleftbad3 = 1;
 		if (touchwallleftbad3 == 1) {
-			tribox.speedX = 1;
+		    tribox.speedX = 1;
 			trienemyleft.speedX = 1;
 			trienemyright.speedX = 1;
 		}
@@ -1829,7 +1851,7 @@ function crashhitai1() {
 	if (tribox.crashWith(wall3)) {
 		touchwallupbad3 = 1;
 		if (touchwallupbad3 == 1) {
-			tribox.speedY = 1;
+		    tribox.speedY = 1;
 			trienemyleft.speedY = 1;
 			trienemyright.speedY = 1;
 		}
@@ -1840,7 +1862,7 @@ function crashhitai1() {
 	if (tribox.crashWith(wall4)) {
 		touchwalldownbad3 = 1;
 		if (touchwalldownbad3 == 1) {
-			tribox.speedY = -1;
+		    tribox.speedY = -1;
 			trienemyleft.speedY = -1;
 			trienemyright.speedY = -1;
 		}
@@ -2803,7 +2825,7 @@ if (stopper > 0) {
 </script>
 <label class="unselectable">
 <h1 align="center">
- Homeworld Takedown V0.4.4
+ Homeworld Takedown V0.4.5
 </h1>
 <div id="locator">
 <button onmousedown="moveUp()" onmouseup="clearmoveu()" ontouchend="clearmoveu()"
