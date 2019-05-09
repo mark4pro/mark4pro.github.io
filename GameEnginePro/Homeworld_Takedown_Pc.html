@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.3</title>
+<title>Homeworld Takedown V0.4.4</title>
 <style>
 canvas {
 border:2px solid black;
@@ -70,6 +70,7 @@ margin : 0;
 <img id="houseroof1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/roof1_1.png">
 <img id="tree" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tree1_1.png">
 <img id="wave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave5-7_1.png">
+<img id="DeathScr" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/DeathScreen.png">
 
 <!-- Were Sounds Go -->
 		<audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
@@ -161,11 +162,12 @@ function start() {
  upgradetxt = new component("30px", "Consolas", "white", 350, 20, "text");
  upgradetxt.font = "20px Consolas";
  upgradetxt.text = "Upgrade Menu";
- costToRevive = new component("30px", "Consolas", "white", 20, 30, "text");
- costToRevive.font = "20px Consolas";
+ costToRevive = new component("30px", "Consolas", "darkred", 40, 490, "text");
+ costToRevive.font = "30px Consolas";
  menuboard = new component(800, 500, "black", 0, 0, "img10");
  formplat = new component(75, 75, "black", 362.5, 157.5, "plat");
  border1_5 = new component(800, 390, "black", 0, 0, "bor");
+ DeathForPlayer = new component(800, 500, "black", 0, 0, "DeathScreenPlayer");
  console.log("width" + w);
  console.log("height" + h);
  Board.start();
@@ -343,6 +345,12 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  this.width = width;
  this.height = height;
  var img = document.getElementById("wave5t7");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "DeathScreenPlayer") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("DeathScr");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
   }
@@ -791,6 +799,9 @@ if (weaponupgrade1 > 0) {
 max1.update();
 max1txt.update();
 }
+}
+if (Death1 > 0) {
+DeathForPlayer.update();
 }
 if (showmessage == 1) {
 costToRevive.update();
@@ -2825,11 +2836,11 @@ function upgrade1func() {
 </script>
 <label class="unselectable">
 <h1 align=center>
- Homeworld Takedown V0.4.3
+ Homeworld Takedown V0.4.4
 </h1>
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
-<p align="center"><input type="text" id="name" value="Bob"></p>
+<p align="center"><input type="text" id="name" value=""></p>
 <p align="center">Controls:</p>
 <p align="center">Arrow key to shoot.</p>
 <p align="center">WASD to move.</p>
