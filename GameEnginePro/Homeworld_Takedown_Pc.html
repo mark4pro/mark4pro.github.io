@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.5</title>
+<title>Homeworld Takedown V0.4.6</title>
 <style>
 canvas {
 border:2px solid black;
@@ -71,6 +71,7 @@ margin : 0;
 <img id="tree" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tree1_1.png">
 <img id="wave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave5-7_1.png">
 <img id="DeathScr" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/DeathScreen.png">
+<img id="Rectangle" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/squ-enemy.png">
 
 <!-- Were Sounds Go -->
 		<audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
@@ -94,7 +95,13 @@ var bad2posX = 20;
 var bad2posY = 100;
 var tri1posX = 760;
 var tri1posY = 180;
+var rec1posX = 350;
+var rec1posY = 40;
 function start() {
+ recenemypic1 = new component(25, 25, "red", 450, 60, "rec-enemypic");
+ recbox1 = new component(25, 25, "red", 450, 60, "rec");
+ recpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec");
+ recwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
  badguypic1 = new component(25, 25, "red", 650, 300, "img7");
  badguy1 = new component(25, 25, "red", 650, 300, "rec");
  badpos1 = new component(25, 25, "orange", bad1posX, bad1posY, "rec");
@@ -359,6 +366,12 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  var img = document.getElementById("DeathScr");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
+ if (type == "rec-enemypic") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("Rectangle");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
   }
  }
 }
@@ -395,31 +408,6 @@ crash = false;
  }
  return crash;
 }
-}
-
-function componentrotate(width, height, color, x, y, type) {   
- this.x = x;
- this.y = y;
- this.angle = 0;
-    this.update = function() {
- if (type == "rot") {
- this.x = x;
- this.y = y;
- this.width = width;
- this.height = height;
- ctx = Board.context;
- ctx.save();
- ctx.translate(this.x, this.y);        
- ctx.rotate(this.angle);
- var img = document.getElementById("testimg");
- ctx.drawImage(img, this.width / -2, this.height / -1.5, this.width, this.height);
- ctx.restore();
-  } 
- }
-this.newPos = function() {
-this.x += this.speedX;
-this.y += this.speedY;
- } 
 }
 
 var HealthX = 30;
@@ -577,6 +565,26 @@ if (startTime3 == 1) {
 	}
 }
 
+var resetframe4 = 5;
+var tickCount4 = 0;
+var frameIndex4 = 0;
+var ticksPerFrame4 = 60;
+var startTime4 = 0;
+function framerate4() {
+if (startTime4 == 1) {
+        tickCount4 += 1;	
+        if (tickCount4 > ticksPerFrame4) {
+        	tickCount4 = 0;
+            frameIndex4 += 1; 
+        }
+		if (frameIndex4 == resetframe4) {
+		    tickCount4 = 0;
+            frameIndex4 = 0;
+            startTime4 = 0;			
+        }
+	}
+}
+
 var insidehouse1 = 0;
 var inside2house1 = 0;
 function housecontrols() {
@@ -600,6 +608,7 @@ function updateGameArea() {
 framerate();
 framerate2();
 framerate3();
+framerate4();
 resetfire();
 Board.clear();
 costToRevive.text = "You must have $" + revivecost + " to revive";
@@ -616,6 +625,11 @@ badguy2.update();
   }
  }
 }
+if (wave > 2 && wave < 5) {
+if (BadDeath4 == 0) {
+recbox1.update();
+ }
+}
 if (wave > 4 && wave < 7) {
 if (BadDeath3 == 0) {
 tribox.update();
@@ -628,6 +642,8 @@ badguy1.update();
   }
  }
 }
+recpos1.update();
+recwavebox1.update();
 badwavebox1.update();
 badpos1.update();
 badwavebox2.update();
@@ -698,9 +714,17 @@ trienemyright.update();
   } 
  }
 }
+if (wave > 2 && wave < 5) {
+if (BadDeath4 == 0) {
+if (Death1 == 0) {
+recenemypic1.update();
+  }
+ }
+}
 badboxspawn();
 badtriboxspawn();
 badboxspawn2();
+badrecspawn1();
 if (cratespawn > 0) {
 if (box.crashWith(ammocrate1)) {
 if (ammo < 111) {
@@ -766,6 +790,8 @@ if (wave < 5) {
 border1_5.update();
 }
 if (upgrademenu == 0) {
+recenemypic1.newPos();
+recbox1.newPos();
 bullbox.newPos();
 badguypic1.newPos();
 badguy1.newPos();
@@ -788,6 +814,7 @@ triangleAI();
 housecontrols();
 crashhitai1();
 badai2();
+badrecai1();
 countwave();
 if (menu == 0) {
 menuboard.update();
@@ -1070,12 +1097,21 @@ var numofbad = 10;
 var moneyperwave = 10;
 var moneyperendie = 2;
 var moneyperendie2 = 6;
+var moneyperendie3 = 10;
+var moneyperendie4 = 8;
 var cratespawn = 0;
 var cratespawn2 = 0
 var chanceofdrop = 3;
 var chanceofdrop2 = 3;
 var chanceofdrop3 = 2;
+var chanceofdrop4 = 2.5;
 function countwave() {
+if (wave > 4 && wave < 8) {
+ crate1X = 90;
+ crate1Y = 90;
+ crateh1X = 250;
+ crateh1Y = 40;
+}
 if (menu > 0) {
 if (BadDeath > 0) {
 if (badguy1.crashWith(badwavebox1)) {
@@ -1138,10 +1174,10 @@ if (wave < 7 && wave > 1) {
 if (BadDeath2 > 0) {
 if (badguy2.crashWith(badwavebox2)) {
 if (upgrademenu == 0) {
-money += moneyperendie;
+money += moneyperendie2;
 count += 1;
 }
-if (wave > 2 && wave < 6) {
+if (wave > 1 && wave < 7) {
 if (Math.floor(Math.random() * chanceofdrop2) == 1) {
 if (cratespawn2 == 0) {
 if (playerHealth < 100) {
@@ -1190,11 +1226,67 @@ if (spawncrate2pos == 1) {
    }
   }
  }
+if (wave < 5 && wave > 2) {
+if (BadDeath4 > 0) {
+if (recbox1.crashWith(recwavebox1)) {
+if (upgrademenu == 0) {
+money += moneyperendie4;
+count += 1;
+}
+if (wave > 2 && wave < 5) {
+if (Math.floor(Math.random() * chanceofdrop4) == 1) {
+if (cratespawn2 == 0) {
+if (playerHealth < 100) {
+cratespawn2 += 1;
+spawncrate2pos = Math.floor(Math.random() * 2);
+  }
+ }
+}
+if (Math.floor(Math.random() * chanceofdrop4) == 1) {
+if (cratespawn == 0) {
+if (ammo < 160) {
+cratespawn += 1;
+spawncrate1pos = Math.floor(Math.random() * 2);
+  }
+ }
+}
+if (cratespawn == 0) {
+if (wave < 5) {
+if (spawncrate1pos == 1) {
+ crate1X = 90;
+ crate1Y = 90;
+ } else {
+ crate1X = 377.5;
+ crate1Y = 184.5;
+   }
+  } else {
+ crate1X = 377.5;
+ crate1Y = 184.5;
+  }
+ }
+if (cratespawn2 == 0) {
+if (wave < 5) {
+if (spawncrate2pos == 1) {
+ crateh1X = 520;
+ crateh1Y = 110;
+ } else {
+ crateh1X = 403.5;
+ crateh1Y = 184.5;
+   }
+  } else {
+ crateh1X = 403.5;
+ crateh1Y = 184.5;
+  }
+ }
+}
+   }
+  }
+ }
 if (wave > 4 && wave < 7) {
 if (BadDeath3 > 0) {
 if (tribox.crashWith(triwavebox1)) {
 if (upgrademenu == 0) {
-money += moneyperendie2;
+money += moneyperendie3;
 count += 1;
 }
 if (wave > 4 && wave < 7) {
@@ -1232,6 +1324,7 @@ moneyperendie = 4;
   }
  if (wave == 4) {
 revivecost = 150;
+moneyperendie4 = 10;
   }
  if (wave == 5) {
 numofbad = 25;
@@ -1241,6 +1334,7 @@ moneyperendie = 6;
 moneyperendie = 8;
 revivecost = 200;
 moneyperendie2 = 10;
+moneyperendie3 = 15;
   }
  }
 }
@@ -1262,12 +1356,14 @@ fire = 0;
 if (Badhealth1 >= 0) {
 BadDeath = 0;
  }
-if (Badhealth1 == 0) {
+if (Badhealth1 <= 0) {
 BadDeath = 1;
  }
+if (Badhealth1 < 0) {
+Badhealth1 = 0;
+  }
  }
 }
-
 
 function crashhitai1() {
   if (BadDeath < 1) {
@@ -1582,7 +1678,7 @@ function crashhitai1() {
 	  touchwallleftbad2 = 0;
 	}
 	if (badguy2.crashWith(wall3)) {
-		touchwallupbad1 = 1;
+		touchwallupbad2 = 1;
 		if (touchwallupbad1 == 1) {
 			badguypic2.speedY = 1;
 			badguy2.speedY = 1;
@@ -1731,43 +1827,43 @@ function crashhitai1() {
 	  touchwallleftbad2 = 0;
 	}
 	if (badguy2.crashWith(wallhouse1)) {
-		touchwallupbad1 = 1;
-		if (touchwallupbad1 == 1) {
+		touchwallupbad2 = 1;
+		if (touchwallupbad2 == 1) {
 			badguypic2.speedY = 1;
 			badguy2.speedY = 1;
 		}
 	}
 	if (badguy2.crashWith(wallhouse4_2)) {
-		touchwallupbad1 = 1;
-		if (touchwallupbad1 == 1) {
+		touchwallupbad2 = 1;
+		if (touchwallupbad2 == 1) {
 			badguypic2.speedY = 1;
 			badguy2.speedY = 1;
 		}
 	}
 	if (badguy2.crashWith(wallhouse6_2)) {
-		touchwallupbad1 = 1;
-		if (touchwallupbad1 == 1) {
+		touchwallupbad2 = 1;
+		if (touchwallupbad2 == 1) {
 			badguypic2.speedY = 1;
 			badguy2.speedY = 1;
 		}
 	}
 	if (badguy2.crashWith(wall2house1)) {
-		touchwallupbad1 = 1;
-		if (touchwallupbad1 == 1) {
+		touchwallupbad2 = 1;
+		if (touchwallupbad2 == 1) {
 			badguypic2.speedY = 1;
 			badguy2.speedY = 1;
 		}
 	}
 	if (badguy2.crashWith(wall2house4_2)) {
-		touchwallupbad1 = 1;
-		if (touchwallupbad1 == 1) {
+		touchwallupbad2 = 1;
+		if (touchwallupbad2 == 1) {
 			badguypic2.speedY = 1;
 			badguy2.speedY = 1;
 		}
 	}
 	if (badguy2.crashWith(wall2house6_2)) {
-		touchwallupbad1 = 1;
-		if (touchwallupbad1 == 1) {
+		touchwallupbad2 = 1;
+		if (touchwallupbad2 == 1) {
 			badguypic2.speedY = 1;
 			badguy2.speedY = 1;
 		}
@@ -1898,6 +1994,298 @@ function crashhitai1() {
 	  touchwalldownbad3 = 0;
 	}
   }
+  if (BadDeath4 < 1) {
+	if (recbox1.crashWith(wallright)) {
+		touchwallrightbad4 = 1;
+		if (touchwallrightbad4 == 1) {
+			recenemypic1.speedX = -1;
+			recbox1.speedX = -1;
+		}
+	}
+	if (recbox1.crashWith(wallright) == false) {
+	  touchwallrightbad4 = 0;
+	}
+	if (recbox1.crashWith(wallleft)) {
+		touchwallleftbad4 = 1;
+		if (touchwallleftbad4 == 1) {
+			recenemypic1.speedX = 1;
+			recbox1.speedX = 1;
+		}
+	}
+	if (recbox1.crashWith(wallleft) == false) {
+	  touchwallleftbad4 = 0;
+	}
+	if (recbox1.crashWith(wall3)) {
+		touchwallupbad4 = 1;
+		if (touchwallupbad4 == 1) {
+			recenemypic1.speedY = 1;
+			recbox1.speedY = 1;
+		}
+	}
+	if (recbox1.crashWith(wall3) == false) {
+	  touchwallupbad4 = 0;
+	}
+	if (recbox1.crashWith(wall4)) {
+		touchwalldownbad4 = 1;
+		if (touchwalldownbad4 == 1) {
+			recenemypic1.speedY = -1;
+			recbox1.speedY = -1;
+		}
+	}
+	if (recbox1.crashWith(wall4) == false) {
+	  touchwalldownbad4 = 0;
+	 }
+	if (wave < 5 && wave > 2) {
+	if (recbox1.crashWith(wallhouse3)) {
+		touchwallrightbad4 = 1;
+		if (touchwallrightbad4 == 1) {
+			recenemypic1.speedX = -1;
+			recbox1.speedX = -1;
+		}
+	}
+	if (recbox1.crashWith(wallhouse2_2)) {
+		touchwallrightbad4 = 1;
+		if (touchwallrightbad4 == 1) {
+			recenemypic1.speedX = -1;
+			recbox1.speedX = -1;
+		}
+	}
+	if (recbox1.crashWith(wallhouse7)) {
+		touchwallrightbad4 = 1;
+		if (touchwallrightbad4 == 1) {
+			recenemypic1.speedX = -2;
+			recbox1.speedX = -2;
+			recenemypic1.speedY = 2;
+			recbox1.speedY = 2;
+		}
+	}
+	if (recbox1.crashWith(wall2house3)) {
+		touchwallrightbad4 = 1;
+		if (touchwallrightbad4 == 1) {
+			recenemypic1.speedX = -1;
+			recbox1.speedX = -1;
+		}
+	}
+	if (recbox1.crashWith(wall2house2_2)) {
+		touchwallrightbad4 = 1;
+		if (touchwallrightbad4 == 1) {
+			recenemypic1.speedX = -1;
+			recbox1.speedX = -1;
+		}
+	}
+	if (recbox1.crashWith(wall2house7)) {
+		touchwallrightbad4 = 1;
+		if (touchwallrightbad4 == 1) {
+			recenemypic1.speedX = -2;
+			recbox1.speedX = -2;
+			recenemypic1.speedY = 2;
+			recbox1.speedY = 2;
+		}
+	}
+	if (recbox1.crashWith(wallhouse3) == false) {
+	  touchwallrightbad4 = 0;
+	}
+	if (recbox1.crashWith(wallhouse2_2) == false) {
+	  touchwallrightbad4 = 0;
+	}
+	if (recbox1.crashWith(wallhouse7) == false) {
+	  touchwallrightbad4 = 0;
+	}
+	if (recbox1.crashWith(wall2house3) == false) {
+	  touchwallrightbad4 = 0;
+	}
+	if (recbox1.crashWith(wall2house2_2) == false) {
+	  touchwallrightbad4 = 0;
+	}
+	if (recbox1.crashWith(wall2house7) == false) {
+	  touchwallrightbad4 = 0;
+	}
+	if (recbox1.crashWith(wallhouse3_2)) {
+		touchwallleftbad4 = 1;
+		if (touchwallleftbad4 == 1) {
+			recenemypic1.speedX = 1;
+			recbox1.speedX = 1;
+		}
+	}
+	if (recbox1.crashWith(wallhouse2)) {
+		touchwallleftbad4 = 1;
+		if (touchwallleftbad4 == 1) {
+			recenemypic1.speedX = 1;
+			recbox1.speedX = 1;
+		}
+	}
+	if (recbox1.crashWith(wallhouse5)) {
+		touchwallleftbad4 = 1;
+		if (touchwallleftbad4 == 1) {
+			recenemypic1.speedX = 2;
+			recbox1.speedX = 2;
+			recenemypic1.speedY = 2;
+			recbox1.speedY = 2;
+		}
+	}
+	if (recbox1.crashWith(wall2house3_2)) {
+		touchwallleftbad4 = 1;
+		if (touchwallleftbad4 == 1) {
+			recenemypic1.speedX = 1;
+			recbox1.speedX = 1;
+		}
+	}
+	if (recbox1.crashWith(wall2house2)) {
+		touchwallleftbad4 = 1;
+		if (touchwallleftbad4 == 1) {
+			recenemypic1.speedX = 1;
+			recbox1.speedX = 1;
+		}
+	}
+	if (recbox1.crashWith(wall2house5)) {
+		touchwallleftbad4 = 1;
+		if (touchwallleftbad4 == 1) {
+			recenemypic1.speedX = 2;
+			recbox1.speedX = 2;
+			recenemypic1.speedY = 2;
+			recbox1.speedY = 2;
+		}
+	}
+	if (recbox1.crashWith(wallhouse3_2) == false) {
+	  touchwallleftbad4 = 0;
+	}
+	if (recbox1.crashWith(wallhouse2) == false) {
+	  touchwallleftbad4 = 0;
+	}
+	if (recbox1.crashWith(wallhouse5) == false) {
+	  touchwallleftbad4 = 0;
+	}
+	if (recbox1.crashWith(wall2house3_2) == false) {
+	  touchwallleftbad4 = 0;
+	}
+	if (recbox1.crashWith(wall2house2) == false) {
+	  touchwallleftbad4 = 0;
+	}
+	if (recbox1.crashWith(wall2house5) == false) {
+	  touchwallleftbad4 = 0;
+	}
+	if (recbox1.crashWith(wallhouse1)) {
+		touchwallupbad4 = 1;
+		if (touchwallupbad4 == 1) {
+			recenemypic1.speedY = 1;
+			recbox1.speedY = 1;
+		}
+	}
+	if (recbox1.crashWith(wallhouse4_2)) {
+		touchwallupbad4 = 1;
+		if (touchwallupbad4 == 1) {
+			recenemypic1.speedY = 1;
+			recbox1.speedY = 1;
+		}
+	}
+	if (recbox1.crashWith(wallhouse6_2)) {
+		touchwallupbad4 = 1;
+		if (touchwallupbad4 == 1) {
+			recenemypic1.speedY = 1;
+			recbox1.speedY = 1;
+		}
+	}
+	if (recbox1.crashWith(wall2house1)) {
+		touchwallupbad4 = 1;
+		if (touchwallupbad4 == 1) {
+			recenemypic1.speedY = 1;
+			recbox1.speedY = 1;
+		}
+	}
+	if (recbox1.crashWith(wall2house4_2)) {
+		touchwallupbad4 = 1;
+		if (touchwallupbad4 == 1) {
+			recenemypic1.speedY = 1;
+			recbox1.speedY = 1;
+		}
+	}
+	if (recbox1.crashWith(wall2house6_2)) {
+		touchwallupbad4 = 1;
+		if (touchwallupbad4 == 1) {
+			recenemypic1.speedY = 1;
+			recbox1.speedY = 1;
+		}
+	}
+	if (recbox1.crashWith(wallhouse1) == false) {
+	  touchwallupbad4 = 0;
+	}
+	if (recbox1.crashWith(wallhouse4_2) == false) {
+	  touchwallupbad4 = 0;
+	}
+	if (recbox1.crashWith(wallhouse6_2) == false) {
+	  touchwallupbad4 = 0;
+	}
+	if (recbox1.crashWith(wall2house1) == false) {
+	  touchwallupbad4 = 0;
+	}
+	if (recbox1.crashWith(wall2house4_2) == false) {
+	  touchwallupbad4 = 0;
+	}
+	if (recbox1.crashWith(wall2house6_2) == false) {
+	  touchwallupbad4 = 0;
+	}
+	if (recbox1.crashWith(wallhouse1_2)) {
+		touchwalldownbad4 = 1;
+		if (touchwalldownbad4 == 1) {
+			recenemypic1.speedY = -1;
+			recbox1.speedY = -1;
+		}
+	}
+	if (recbox1.crashWith(wallhouse4)) {
+		touchwalldownbad4 = 1;
+		if (touchwalldownbad4 == 1) {
+			recenemypic1.speedY = -1;
+			recbox1.speedY = -1;
+		}
+	}
+	if (recbox1.crashWith(wallhouse6)) {
+		touchwalldownbad4 = 1;
+		if (touchwalldownbad4 == 1) {
+			recenemypic1.speedY = -1;
+			recbox1.speedY = -1;
+		}
+	}
+	if (recbox1.crashWith(wall2house1_2)) {
+		touchwalldownbad4 = 1;
+		if (touchwalldownbad4 == 1) {
+			recenemypic1.speedY = -1;
+			recbox1.speedY = -1;
+		}
+	}
+	if (recbox1.crashWith(wall2house4)) {
+		touchwalldownbad4 = 1;
+		if (touchwalldownbad4 == 1) {
+			recenemypic1.speedY = -1;
+			recbox1.speedY = -1;
+		}
+	}
+	if (recbox1.crashWith(wall2house6)) {
+		touchwalldownbad4 = 1;
+		if (touchwalldownbad4 == 1) {
+			recenemypic1.speedY = -1;
+			recbox1.speedY = -1;
+		}
+	}
+	if (recbox1.crashWith(wallhouse1_2) == false) {
+	  touchwalldownbad4 = 0;
+	  }
+	if (recbox1.crashWith(wallhouse4) == false) {
+	  touchwalldownbad4 = 0;
+	  }
+	if (recbox1.crashWith(wallhouse6) == false) {
+	  touchwalldownbad4 = 0;
+	  }
+	  if (recbox1.crashWith(wall2house1_2) == false) {
+	  touchwalldownbad4 = 0;
+	  }
+	if (recbox1.crashWith(wall2house4) == false) {
+	  touchwalldownbad4 = 0;
+	  }
+	if (recbox1.crashWith(wall2house6) == false) {
+	  touchwalldownbad4 = 0;
+	  }
+	 }
+	}
 }
 
 var sidebad1 = 0;
@@ -2012,7 +2400,7 @@ if (startTime == 1) {
  badspeedai1 = 0.1;
  negbadspeedai1 = -0.1;
  badhurtspeedai1 = 0.2;
- negbadhurtspeedai1 = -0.1;
+ negbadhurtspeedai1 = -0.2;
    } else 
 if (startTime == 0) {
  badspeedai1 = 1;
@@ -2041,9 +2429,12 @@ fire = 0;
 if (Badhealth2 >= 0) {
 BadDeath2 = 0;
  }
-if (Badhealth2 == 0) {
+if (Badhealth2 <= 0) {
 BadDeath2 = 1;
  }
+if (Badhealth2 < 0) {
+Badhealth2 = 0;
+  }
  }
 }
 
@@ -2254,7 +2645,7 @@ if (startTime2 == 1) {
  badspeedai2 = 0.1;
  negbadspeedai2 = -0.1;
  badhurtspeedai2 = 0.2;
- negbadhurtspeedai2 = -0.1;
+ negbadhurtspeedai2 = -0.2;
    } else 
 if (startTime2 == 0) {
  badspeedai2 = 1;
@@ -2268,7 +2659,7 @@ if (startTime2 == 0) {
 }
 
 var Badhealth3 = 0;
-var Bad3DamageDeal = 0.12;
+var Bad3DamageDeal = 0.15;
 function badtriboxspawn() {
 if (wave > 4 && wave < 7) {
 if (bullbox.crashWith(tribox)) {
@@ -2282,9 +2673,12 @@ fire = 0;
 if (Badhealth3 >= 0) {
 BadDeath3 = 0;
  }
-if (Badhealth3 == 0) {
+if (Badhealth3 <= 0) {
 BadDeath3 = 1;
  }
+if (Badhealth3 < 0) {
+Badhealth3 = 0;
+  }
  }
 }
 
@@ -2412,16 +2806,261 @@ if (weapon == 1) {
   }
 }
 if (startTime3 == 1) {
- badspeedai3 = 0.5;
+ badspeedai3 = 0.3;
  negbadspeedai3 = -0.3;
  badhurtspeedai3 = 0.5;
- negbadhurtspeedai3 = -0.3;
+ negbadhurtspeedai3 = -0.5;
    } else 
 if (startTime3 == 0) {
  badspeedai3 = 1;
  negbadspeedai3 = -1;
  badhurtspeedai3 = 1.6;
  negbadhurtspeedai3 = -1.6;
+   }
+ }
+ }
+ }
+}
+
+var BadDeath4 = 1;
+var Badhealth4 = 0;
+var Bad4DamageDeal = 0.13;
+function badrecspawn1() {
+if (wave < 5 && wave > 2) {
+if (recbox1.crashWith(bullbox)) {
+if (Badhealth4 >= 0) {
+if (fire > 0) {
+Badhealth4 -= PlayerDamageDeal;
+fire = 0;
+  }
+ }
+}
+if (Badhealth4 >= 0) {
+BadDeath4 = 0;
+ }
+if (Badhealth4 <= 0) {
+BadDeath4 = 1;
+ }
+if (Badhealth4 < 0) {
+Badhealth4 = 0;
+ }
+ }
+}
+
+var sidebad4 = 0;
+var touchwallrightbad4 = 0;
+var touchwallleftbad4 = 0;
+var touchwallupbad4 = 0;
+var touchwalldownbad4 = 0;
+var badspeedai4 = 1.2;
+var negbadspeedai4 = -1.2;
+var badhurtspeedai4 = 1.6;
+var negbadhurtspeedai4 = -1.6;
+function badrecai1() {
+if (wave < 5 && wave > 2) {
+if (BadDeath4 > 0) {
+if (recbox1.x > recpos1.x) {
+recenemypic1.speedX = -5;
+recbox1.speedX = -5;
+}
+if (recbox1.x < recpos1.x) {
+recenemypic1.speedX = 5;
+recbox1.speedX = 5;
+}
+if (recbox1.crashWith(recpos1)) {
+recenemypic1.speedX = 0;
+recenemypic1.speedY = 0;
+recbox1.speedY = 0;
+recbox1.speedX = 0;
+Badhealth4 = 120;
+BadDeath4 = 0;
+badspeedai4 = 1;
+negbadspeedai4 = -1;
+badhurtspeedai4 = 1.5;
+negbadhurtspeedai4 = -1.5;
+startTime4 = 0;
+ }
+if (recbox1.y > recpos1.y) {
+recenemypic1.speedY = -5;
+recbox1.speedY = -5;
+}
+if (recbox1.y < recpos1.y) {
+recenemypic1.speedY = 5;
+recbox1.speedY = 5;
+}
+ }
+if (BadDeath4 < 1) {
+if (menu > 0) {
+if (recbox1.crashWith(wallright) == false) {
+if (recbox1.crashWith(wallleft) == false) {
+if (recbox1.crashWith(wall3) == false) {
+if (recbox1.crashWith(wall4) == false) {
+if (wave < 5) {
+if (recbox1.crashWith(wallhouse3) == false) {
+if (recbox1.crashWith(wallhouse2_2) == false) {
+if (recbox1.crashWith(wallhouse7) == false) {
+if (recbox1.crashWith(wallhouse3_2) == false) {
+if (recbox1.crashWith(wallhouse2) == false) {
+if (recbox1.crashWith(wallhouse5) == false) {
+if (recbox1.crashWith(wallhouse1) == false) {
+if (recbox1.crashWith(wallhouse4_2) == false) {
+if (recbox1.crashWith(wallhouse6_2) == false) {
+if (recbox1.crashWith(wallhouse1_2) == false) {
+if (recbox1.crashWith(wallhouse4) == false) {
+if (recbox1.crashWith(wallhouse6) == false) {
+if (recbox1.crashWith(wall2house3) == false) {
+if (recbox1.crashWith(wall2house2_2) == false) {
+if (recbox1.crashWith(wall2house7) == false) {
+if (recbox1.crashWith(wall2house3_2) == false) {
+if (recbox1.crashWith(wall2house2) == false) {
+if (recbox1.crashWith(wall2house5) == false) {
+if (recbox1.crashWith(wall2house1) == false) {
+if (recbox1.crashWith(wall2house4_2) == false) {
+if (recbox1.crashWith(wall2house6_2) == false) {
+if (recbox1.crashWith(wall2house1_2) == false) {
+if (recbox1.crashWith(wall2house4) == false) {
+if (recbox1.crashWith(wall2house6) == false) {
+if (recbox1.x + 5 > box.x + 23) {
+    sidebad4 = 0;
+}
+if (recbox1.x < box.x - 23) {
+    sidebad4 = 1;
+}
+if (sidebad4 == 0) {
+if (recbox1.x + 5> box.x + 23) {
+recenemypic1.speedX = negbadspeedai4;
+recbox1.speedX = negbadspeedai4;
+if (Badhealth4 <= 50) {
+recenemypic1.speedX = negbadhurtspeedai4;
+recbox1.speedX = negbadhurtspeedai4;
+  }
+ }
+}
+if (sidebad4 == 1) {
+if (recbox1.x < box.x - 23) {
+recenemypic1.speedX = badspeedai4;
+recbox1.speedX = badspeedai4;
+if (Badhealth4 <= 50) {
+recenemypic1.speedX = badhurtspeedai4;
+recbox1.speedX = badhurtspeedai4;
+  }
+ }
+}
+if (recbox1.y > box.y) {
+recenemypic1.speedY = negbadspeedai4;
+recbox1.speedY = negbadspeedai4;
+if (Badhealth4 <= 50) {
+recenemypic1.speedY = negbadhurtspeedai4;
+recbox1.speedY = negbadhurtspeedai4;
+ }
+}
+if (recbox1.y < box.y) {
+recenemypic1.speedY = badspeedai4;
+recbox1.speedY = badspeedai4;
+if (Badhealth4 <= 50) {
+recenemypic1.speedY = badhurtspeedai4;
+recbox1.speedY = badhurtspeedai4;
+ }
+}
+                    } 
+	                }
+	                }
+	                }
+	                }
+	                }
+	                }
+	                }
+	               }
+	              }
+	             } 
+	            }
+	           }
+	          }
+	         }
+	        }
+	       }
+	      }
+	     }
+	    }
+       }
+      }
+     }
+    }
+   }
+if (wave < 7 && wave > 4) {
+//put wall detect here!!//
+if (recbox1.x + 5 > box.x + 23) {
+    sidebad4 = 0;
+}
+if (recbox1.x < box.x - 23) {
+    sidebad4 = 1;
+}
+if (sidebad4 == 0) {
+if (recbox1.x + 5> box.x + 23) {
+recenemypic1.speedX = negbadspeedai4;
+recbox1.speedX = negbadspeedai4;
+if (Badhealth4 <= 50) {
+recenemypic1.speedX = negbadhurtspeedai4;
+recbox1.speedX = negbadhurtspeedai4;
+  }
+ }
+}
+if (sidebad4 == 1) {
+if (recbox1.x < box.x - 23) {
+recenemypic1.speedX = badspeedai4;
+recbox1.speedX = badspeedai4;
+if (Badhealth4 <= 50) {
+recenemypic1.speedX = badhurtspeedai4;
+recbox1.speedX = badhurtspeedai4;
+  }
+ }
+}
+if (recbox1.y > box.y) {
+recenemypic1.speedY = negbadspeedai4;
+recbox1.speedY = negbadspeedai4;
+if (Badhealth4 <= 50) {
+recenemypic1.speedY = negbadhurtspeedai4;
+recbox1.speedY = negbadhurtspeedai4;
+ }
+}
+if (recbox1.y < box.y) {
+recenemypic1.speedY = badspeedai4;
+recbox1.speedY = badspeedai4;
+if (Badhealth4 <= 50) {
+recenemypic1.speedY = badhurtspeedai4;
+recbox1.speedY = badhurtspeedai4;
+ }
+}
+ }
+   }
+  }
+ }
+}
+if (box.crashWith(recbox1)) {
+if (playerHealth > 0) {
+playerHealth -= Bad4DamageDeal;
+}
+}
+if (weapon == 1) {
+ if (bullbox.crashWith(recbox1)) {
+ if (fire > 0) {
+  if (startTime4 == 0) {
+  startTime4 = 1;
+    }
+   }
+  }
+}
+if (startTime4 == 1) {
+ badspeedai4 = 0.15;
+ negbadspeedai4 = -0.15;
+ badhurtspeedai4 = 0.25;
+ negbadhurtspeedai4 = -0.25;
+   } else 
+if (startTime4 == 0) {
+ badspeedai4 = 1.2;
+ negbadspeedai4 = -1.2;
+ badhurtspeedai4 = 1.6;
+ negbadhurtspeedai4 = -1.6;
    }
  }
  }
@@ -2861,7 +3500,7 @@ function upgrade1func() {
 </script>
 <label class="unselectable">
 <h1 align=center>
- Homeworld Takedown V0.4.5
+ Homeworld Takedown V0.4.6
 </h1>
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
