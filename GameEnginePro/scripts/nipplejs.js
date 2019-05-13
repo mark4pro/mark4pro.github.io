@@ -1,5 +1,5 @@
-import Super from 'https://mark4pro.github.io/GameEnginePro/scripts/super.js';
-import * as u from 'https://mark4pro.github.io/GameEnginePro/scripts/utils.js';
+import Super from './super';
+import * as u from './utils';
 
 ///////////////////////
 ///   THE NIPPLE    ///
