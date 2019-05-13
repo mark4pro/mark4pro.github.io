@@ -1,7 +1,7 @@
 ///////////////////////
 ///   SUPER CLASS   ///
 ///////////////////////
-import * as u from 'https://mark4pro.github.io/GameEnginePro/scripts/utils';
+import * as u from './utils';
 
 // Constants
 var isTouch = !!('ontouchstart' in window);
