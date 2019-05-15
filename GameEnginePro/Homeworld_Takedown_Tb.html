@@ -101,7 +101,12 @@ margin : 0;
 <body onload="start()">
 <div id="zone_joystick"></div>
 <script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/nipplejs.js"></script>
+<script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/ScrollLocking.js"></script>
 <script>
+const disableBodyScroll = bodyScrollLock.disableBodyScroll;
+const targetElement = document.querySelector("body");
+disableBodyScroll(targetElement);
+	
 var options = {
 		zone: document.getElementById('zone_joystick'),
 		mode: 'static',
