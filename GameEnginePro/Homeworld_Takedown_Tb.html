@@ -22,9 +22,13 @@ margin-left: auto;
 margin-right: auto;
 display: block;
 width: 600px;
+left: 20%;
+right: 20%;
+position: fixed;
 }
  body {
  background-image: url("https://mark4pro.github.io/GameEnginePro/image/uitexture.png");
+ position: fixed;
  }
  button{
  width:80px;
@@ -40,9 +44,14 @@ width: 600px;
  border:5px solid darkgray;
  visibility: visible; 
  z-index: 200; 
+ top: 55%;
+ left: 20%;
+ right: 20%;
+ position: fixed;
  }
  p {
  color: white;
+ font-size: 15px;
  }
  .unselectable {
 -webkit-user-select: none; /* Safari 3.1+ */
@@ -60,12 +69,16 @@ margin : 0;
 -moz-user-select : none;
 }
 
-#locator5 { position: absolute; visibility: visible; left: 50px; top: 350px; z-index: 200; }
-#locator6 { position: absolute; visibility: visible; right: 65px; top: 80px; z-index: 200; }
-#locator7 { position: absolute; visibility: visible; right: 110px; top: 160px; z-index: 200; }
-#locator8 { position: absolute; visibility: visible; right: 20px; top: 160px; z-index: 200; }
-#locator9 { position: absolute; visibility: visible; right: 65px; top: 240px; z-index: 200; }
-#locator10 { position: absolute; visibility: visible; right: 50px; top: 350px; z-index: 200; }
+#locator5 { position: fixed; visibility: visible; left: 50px; top: 350px; z-index: 200; }
+#locator6 { position: fixed; visibility: visible; right: 65px; top: 80px; z-index: 200; }
+#locator7 { position: fixed; visibility: visible; right: 110px; top: 160px; z-index: 200; }
+#locator8 { position: fixed; visibility: visible; right: 20px; top: 160px; z-index: 200; }
+#locator9 { position: fixed; visibility: visible; right: 65px; top: 240px; z-index: 200; }
+#locator10 { position: fixed; visibility: visible; right: 50px; top: 350px; z-index: 200; }
+#zone_joystick { position: fixed;}
+#vol { position: fixed; top: 80%; left: 20%; right: 20%; }
+#slidercon { position: fixed; top: 85%; left: 20%; right: 20%; }
+#namecon { position: fixed; top: 90%; left: 20%; right: 20%; }
 
 </style>
 <!-- Were Images Go -->
@@ -97,18 +110,10 @@ margin : 0;
 <body onload="start()">
 <div id="zone_joystick"></div>
 <script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/nipplejs.js"></script>
-<script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/ScrollLocking.js"></script>
 <script>
-const disableBodyScroll = bodyScrollLock.disableBodyScroll;
-const enableBodyScroll = bodyScrollLock.enableBodyScroll;
-const targetElement = document.querySelector("body");
-const targetElement2 = document.getElementById("zone_joystick");
-disableBodyScroll(targetElement);
-enableBodyScroll(targetElement2);
-	
 var options = {
-		zone: document.getElementById("zone_joystick"),
-		mode: 'static',
+	   zone: document.getElementById("zone_joystick"),
+	   mode: 'static',
 	   color: 'darkgray',
 	   identifier: 0,
 	   size: 200,
@@ -3528,10 +3533,16 @@ if (stopper > 0) {
 <div id="locator9">
 <button onmousedown="shootDown()" ontouchstart="shootDown()">FIRE DOWN</button>
 </div>
+<div id="vol">
 <p align="center">Volume:</p>
+</div>
+<div id="slidercon">
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1"
 oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
+</div>
+<div id="namecon">
 <p align="center"><input type="text" id="name" value=""></p>
+</div>
 <div id="locator5">
 <button onmouseup="stopshow()" onmousedown="relive()" ontouchend="stopshow()" ontouchstart="relive()">Revive</button>
 </div>
