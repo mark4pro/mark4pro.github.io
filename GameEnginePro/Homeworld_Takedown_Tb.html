@@ -102,7 +102,48 @@ margin : 0;
 <div id="zone_joystick"></div>
 <script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/nipplejs.js"></script>
 <script>
+var options = {
+		zone: document.getElementById('zone_joystick'),
+		mode: 'static',
+	   color: 'darkgray',
+	   identifier: 0,
+	   size: 200,
+	   restOpacity: 1,
+	   position:{x: 105, y: 220}
+	};
+	var manager = nipplejs.create(options);
 
+function bindings() {
+ manager.on('0:start', function(evt, data) {
+	manager.on('dir:up', function(evt, data) {
+		moveUp();
+		clearmovel();
+		clearmover();
+	}).on('dir:down', function(evt, data) {
+		moveDown();
+		clearmovel();
+		clearmover();
+	}).on('dir:left', function(evt, data) {
+		moveLeft();
+		clearmoveu();
+		clearmoved();
+	}).on('dir:right', function(evt, data) {
+		moveRight();
+		clearmoveu();
+		clearmoved();
+	});
+  });
+  manager.on('0:end', function(evt, data) {
+		clearmoveu();
+	}).on('0:end', function(evt, data) {
+		clearmoved();
+	}).on('0:end', function(evt, data) {
+		clearmovel();
+	}).on('0:end', function(evt, data) {
+		clearmover();
+	});
+}
+	
 var w = window.innerWidth;
 var h = window.innerHeight;
 var playerX = 100;
@@ -628,6 +669,7 @@ inside2house1 = 0;
 }
 
 function updateGameArea() {
+bindings();
 framerate();
 framerate2();
 framerate3();
@@ -3470,33 +3512,17 @@ if (stopper > 0) {
 <h1 align="center">
  Homeworld Takedown V0.4.6
 </h1>
-<div id="locator">
-<button onmousedown="moveUp()" onmouseup="clearmoveu()" ontouchend="clearmoveu()"
-ontouchstart="moveUp()">UP</button><br>
-</div>
-<div id="locator2">
-<button onmousedown="moveLeft()" onmouseup="clearmovel()" ontouchend="clearmovel()"
-ontouchstart="moveLeft()">LEFT</button>
-</div>
-<div id="locator3">
-<button onmousedown="moveRight()" onmouseup="clearmover()" ontouchend="clearmover()"
-ontouchstart="moveRight()">RIGHT</button><br>
-</div>
-<div id="locator4">
-<button onmousedown="moveDown()" onmouseup="clearmoved()" ontouchend="clearmoved()"
-ontouchstart="moveDown()">DOWN</button>
-</div>
 <div id="locator6">
-<button onmousedown="shootUp()" ontouchstart="shootUp()">Shoot UP</button><br>
+<button onmousedown="shootUp()" ontouchstart="shootUp()">FIRE UP</button><br>
 </div>
 <div id="locator7">
-<button onmousedown="shootLeft()" ontouchstart="shootLeft()">Shoot LEFT</button>
+<button onmousedown="shootLeft()" ontouchstart="shootLeft()">FIRE LEFT</button>
 </div>
 <div id="locator8">
-<button onmousedown="shootRight()" ontouchstart="shootRight()">Shoot RIGHT</button><br>
+<button onmousedown="shootRight()" ontouchstart="shootRight()">FIRE RIGHT</button><br>
 </div>
 <div id="locator9">
-<button onmousedown="shootDown()" ontouchstart="shootDown()">Shoot Down</button>
+<button onmousedown="shootDown()" ontouchstart="shootDown()">FIRE DOWN</button>
 </div>
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1"
