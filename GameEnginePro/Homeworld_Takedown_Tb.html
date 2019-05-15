@@ -97,14 +97,18 @@ margin : 0;
 <!-- Were Sounds Go -->
 		<audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
 		<audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/level2.mp3"></audio>
+       <div id="zone_joystick"></div>
 </head>
 <body onload="start()">
 <script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/nipplejs.js"></script>
 <script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/ScrollLocking.js"></script>
 <script>
 const disableBodyScroll = bodyScrollLock.disableBodyScroll;
+const enableBodyScroll = bodyScrollLock.enableBodyScroll;
 const targetElement = document.querySelector("body");
+const targetElement2 = document.getElementById("zone_joystick");
 disableBodyScroll(targetElement);
+enableBodyScroll(targetElement2);
 	
 var options = {
 		zone: document.querySelector("body"),
