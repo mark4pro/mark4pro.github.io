@@ -143,6 +143,7 @@ function start() {
  wallhouse6 = new component(30, 10, "grey", 160, 180, "rec");
  wallhouse6_2 = new component(50, 10, "grey", 160, 190, "rec");
  wallhouse7 = new component(10, 20, "grey", 160, 180, "rec");
+ wallhouse8 = new component(120, 20, "grey", 80, 190, "rec");
  wall2house1 = new component(190, 10, "grey", 510, 100, "rec");
  wall2house1_2 = new component(200, 10, "grey", 500, 90, "rec");
  wall2house2 = new component(10, 80, "grey", 510, 110, "rec");
@@ -155,6 +156,7 @@ function start() {
  wall2house6 = new component(90, 10, "grey", 610, 190, "rec");
  wall2house6_2 = new component(100, 10, "grey", 610, 200, "rec");
  wall2house7 = new component(10, 20, "grey", 610, 190, "rec");
+ wall2house8 = new component(190, 20, "grey", 510, 200, "rec");
  roof2house1 = new component(210, 120, "black", 500, 90, "houseroof1_img");
  inside2detect1 = new component(190, 130, "gray", 510, 100, "rec");
  floor2house1 = new component(200, 120, "black", 500, 90, "housefloor1_img");
@@ -687,6 +689,8 @@ wallright.update();
 wall3.update();
 wall4.update();
 if (wave < 5) {
+wall2house8.update();
+wallhouse8.update();
 insidedetect1.update();
 inside2detect1.update();
 w1t5.update();
@@ -1586,6 +1590,24 @@ function crashhitai1() {
 			badguy1.speedY = 1;
 		}
 	}
+	if (insidehouse1 == 0) {
+	if (badguy1.crashWith(wallhouse8)) {
+		touchwalldownbad1 = 1;
+		if (touchwalldownbad1 == 1) {
+			badguypic1.speedY = 1;
+			badguy1.speedY = 1;
+		}
+	 }
+	}
+	if (inside2house1 == 0) {
+	if (badguy1.crashWith(wall2house8)) {
+		touchwalldownbad1 = 1;
+		if (touchwalldownbad1 == 1) {
+			badguypic1.speedY = 1;
+			badguy1.speedY = 1;
+		}
+	 }
+	}
 	if (badguy1.crashWith(wall3) == false) {
 	  touchwallupbad1 = 0;
 	}
@@ -1605,6 +1627,12 @@ function crashhitai1() {
 	  touchwallupbad1 = 0;
 	}
 	if (badguy1.crashWith(wall2house6_2) == false) {
+	  touchwallupbad1 = 0;
+	}
+	if (badguy1.crashWith(wallhouse8) == false) {
+	  touchwallupbad1 = 0;
+	}
+	if (badguy1.crashWith(wall2house8) == false) {
 	  touchwallupbad1 = 0;
 	}
 	if (badguy1.crashWith(wall4)) {
@@ -1890,6 +1918,24 @@ function crashhitai1() {
 			badguy2.speedY = 1;
 		}
 	}
+	if (insidehouse1 == 0) {
+	if (badguy2.crashWith(wallhouse8)) {
+		touchwalldownbad2 = 1;
+		if (touchwalldownbad2 == 1) {
+			badguypic2.speedY = 1;
+			badguy2.speedY = 1;
+		}
+	 }
+	}
+	if (inside2house1 == 0) {
+	if (badguy2.crashWith(wall2house8)) {
+		touchwalldownbad2 = 1;
+		if (touchwalldownbad2 == 1) {
+			badguypic2.speedY = 1;
+			badguy2.speedY = 1;
+		}
+	 }
+	}
 	if (badguy2.crashWith(wallhouse1) == false) {
 	  touchwallupbad2 = 0;
 	}
@@ -1906,6 +1952,12 @@ function crashhitai1() {
 	  touchwallupbad2 = 0;
 	}
 	if (badguy2.crashWith(wall2house6_2) == false) {
+	  touchwallupbad2 = 0;
+	}
+	if (badguy2.crashWith(wallhouse8) == false) {
+	  touchwallupbad2 = 0;
+        }
+	if (badguy2.crashWith(wall2house8) == false) {
 	  touchwallupbad2 = 0;
 	}
 	if (badguy2.crashWith(wallhouse1_2)) {
