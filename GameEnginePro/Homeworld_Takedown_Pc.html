@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.6</title>
+<title>Homeworld Takedown V0.4.7</title>
 <style>
 canvas {
 border:2px solid black;
@@ -74,8 +74,9 @@ margin : 0;
 <img id="Rectangle" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/squ-enemy.png">
 
 <!-- Were Sounds Go -->
-		<audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
+	    <audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
 	    <audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/level2.mp3"></audio>
+	    <audio id="firesound" src="https://mark4pro.github.io/GameEnginePro/audio/LaserGunSound.mp3"></audio>
 </head>
 <body onload="start()">
 <script>
@@ -98,6 +99,8 @@ var tri1posY = 180;
 var rec1posX = 350;
 var rec1posY = 40;
 function start() {
+ document.getElementById("volume").value = "15";
+ SetVolume(15);
  recenemypic1 = new component(25, 25, "red", 450, 60, "rec-enemypic");
  recbox1 = new component(25, 25, "red", 450, 60, "rec");
  recpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec");
@@ -584,6 +587,24 @@ if (startTime4 == 1) {
         }
 	}
 }
+var resetframe5 = 3;
+var tickCount5 = 0;
+var frameIndex5 = 0;
+var ticksPerFrame5 = 10;
+function framerate5() {
+if (firesoundstart == 1) {
+        tickCount5 += 1;	
+        if (tickCount5 > ticksPerFrame5) {
+        	tickCount5 = 0;
+            frameIndex5 += 1; 
+        }
+		if (frameIndex5 == resetframe5) {
+		    tickCount5 = 0;
+            frameIndex5 = 0;
+            firesoundstart = 0;			
+        }
+	}
+}
 
 var insidehouse1 = 0;
 var inside2house1 = 0;
@@ -609,6 +630,7 @@ framerate();
 framerate2();
 framerate3();
 framerate4();
+framerate5();
 resetfire();
 Board.clear();
 costToRevive.text = "You must have $" + revivecost + " to revive";
@@ -3083,12 +3105,17 @@ ammo -= 1;
 if (menu == 0) {
 starttime = 1;
 }
+if (menu > 0) {
+if (frameIndex5 == 0) {
+firesoundstart = 1;
+ }
+}
 	}
    }
   }
  }
 }
-
+	
 function shootDown() {
 if (Death1 == 0) {
 if (fire == 0) {
@@ -3100,12 +3127,17 @@ ammo -= 1;
 if (menu == 0) {
 starttime = 1;
 }
+if (menu > 0) {
+if (frameIndex5 == 0) {
+firesoundstart = 1;
+ }
+}
 	}
    }
   }
  }
 }
-
+	
 function shootLeft() {
 if (Death1 == 0) {
 if (fire == 0) {
@@ -3117,12 +3149,17 @@ ammo -= 1;
 if (menu == 0) {
 starttime = 1;
 }
+if (menu > 0) {
+if (frameIndex5 == 0) {
+firesoundstart = 1;
+ }
+}
 	}
    }
   }
  }
 }
-
+	
 function shootRight() {
 if (Death1 == 0) {
 if (fire == 0) {
@@ -3133,6 +3170,11 @@ fireR += 1;
 ammo -= 1;
 if (menu == 0) {
 starttime = 1;
+}
+if (menu > 0) {
+if (frameIndex5 == 0) {
+firesoundstart = 1;
+ }
 }
 	}
    }
@@ -3379,6 +3421,7 @@ circle.speedX = 0;
 box.speedX = 0;
 }
 
+var firesoundstart = 0;
 var sound = 0
 function playSound() {
 if (sound == 0) {
@@ -3391,18 +3434,25 @@ if (menu > 0) {
 document.getElementById('level2').play();
   }
  }
+if (firesoundstart > 0) {
+if (menu > 0) {
+document.getElementById('firesound').play();
+ }
+}
 if (sound > 1) {
 sound = 0;
  }
 }
-
+	
 function SetVolume(val) {
 var player = document.getElementById('level1');
 player.volume = val / 100;
 var player2 = document.getElementById('level2');
 player2.volume = val / 100;
+var fireVolume = document.getElementById('firesound');
+fireVolume.volume = val / 100;
 }
-
+	
 function skipSound() {
  if (sound > 0) {
  level1.pause();
@@ -3411,6 +3461,12 @@ function skipSound() {
  if (sound < 1) {
  level2.pause();
  level2.currentTime = 0;
+ }
+ if (fire == 0) {
+ if (frameIndex5 == 1) {
+ firesound.pause();
+ firesound.currentTime = 0;
+  }
  }
 }
 
@@ -3500,7 +3556,7 @@ function upgrade1func() {
 </script>
 <label class="unselectable">
 <h1 align=center>
- Homeworld Takedown V0.4.6
+ Homeworld Takedown V0.4.7
 </h1>
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
