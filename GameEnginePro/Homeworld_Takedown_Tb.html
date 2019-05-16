@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.6</title>
+<title>Homeworld Takedown V0.4.7</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<link rel="apple-touch-icon" href="https://mark4pro.github.io/GameEnginePro/image/icon/hticon.PNG" />
@@ -112,6 +112,7 @@ margin : 0;
 <!-- Were Sounds Go -->
 		<audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
 		<audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/level2.mp3"></audio>
+	        <audio id="firesound" src="https://mark4pro.github.io/GameEnginePro/audio/LaserGunSound.mp3"></audio>
 </head>
 <body onload="start()">
 <div id="zone_joystick"></div>
@@ -122,39 +123,43 @@ var options = {
 	   mode: 'static',
 	   color: 'darkgray',
 	   identifier: 0,
+	   threshold: 0.2,
 	   size: 200,
 	   restOpacity: 1,
 	   position:{x: 105, y: 220}
 	};
 	var manager = nipplejs.create(options);
-
 function bindings() {
  manager.on('0:start', function(evt, data) {
 	manager.on('dir:up', function(evt, data) {
 		moveUp();
-		clearmovel();
-		clearmover();
+		down = 0;
+		left = 0;
+		right = 0;
 	}).on('dir:down', function(evt, data) {
 		moveDown();
-		clearmovel();
-		clearmover();
+		up = 0;
+		left = 0;
+		right = 0;
 	}).on('dir:left', function(evt, data) {
 		moveLeft();
-		clearmoveu();
-		clearmoved();
+		down = 0;
+		up = 0;
+		right = 0;
 	}).on('dir:right', function(evt, data) {
 		moveRight();
-		clearmoveu();
-		clearmoved();
+		down = 0;
+		left = 0;
+		up = 0;
 	});
   });
-  manager.on('0:end', function(evt, data) {
+  manager.on('0:end dir', function(evt, data) {
 		clearmoveu();
-	}).on('0:end', function(evt, data) {
+	}).on('0:end dir', function(evt, data) {
 		clearmoved();
-	}).on('0:end', function(evt, data) {
+	}).on('0:end dir', function(evt, data) {
 		clearmovel();
-	}).on('0:end', function(evt, data) {
+	}).on('0:end dir', function(evt, data) {
 		clearmover();
 	});
 }
@@ -178,6 +183,8 @@ var tri1posY = 180;
 var rec1posX = 350;
 var rec1posY = 40;
 function start() {
+ document.getElementById("volume").value = "15";
+ SetVolume(15);
  recenemypic1 = new component(25, 25, "red", 450, 60, "rec-enemypic");
  recbox1 = new component(25, 25, "red", 450, 60, "rec");
  recpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec");
@@ -663,6 +670,24 @@ if (startTime4 == 1) {
         }
 	}
 }
+var resetframe5 = 3;
+var tickCount5 = 0;
+var frameIndex5 = 0;
+var ticksPerFrame5 = 10;
+function framerate5() {
+if (firesoundstart == 1) {
+        tickCount5 += 1;	
+        if (tickCount5 > ticksPerFrame5) {
+        	tickCount5 = 0;
+            frameIndex5 += 1; 
+        }
+		if (frameIndex5 == resetframe5) {
+		    tickCount5 = 0;
+            frameIndex5 = 0;
+            firesoundstart = 0;			
+        }
+	}
+}
 
 var insidehouse1 = 0;
 var inside2house1 = 0;
@@ -683,12 +708,29 @@ inside2house1 = 0;
  }
 }
 
+function firehandler() {
+if (autoUpVar == 1) {
+shootUp();
+ }
+if (autoDownVar == 1) {
+shootDown();
+ }
+if (autoLeftVar == 1) {
+shootLeft();
+ }
+if (autoRightVar == 1) {
+shootRight();
+ }
+}	
+	
 function updateGameArea() {
+firehandler();
 bindings();
 framerate();
 framerate2();
 framerate3();
 framerate4();
+framerate5();
 resetfire();
 Board.clear();
 costToRevive.text = "You must have $" + revivecost + " to revive";
@@ -3101,6 +3143,33 @@ if (startTime4 == 0) {
  }
 }
 
+var autoUpVar = 0;
+var autoDownVar = 0;
+var autoLeftVar = 0;
+var autoRightVar = 0;
+function autoUp() {
+autoUpVar = 1;
+}
+	
+function autoDown() {
+autoDownVar = 1;
+}
+	
+function autoLeft() {
+autoLeftVar = 1;
+}
+	
+function autoRight() {
+autoRightVar = 1;
+}
+	
+function clearAuto() {
+autoUpVar = 0;
+autoDownVar = 0;
+autoLeftVar = 0;
+autoRightVar = 0;
+}
+	
 var fire = 0;
 var fireR = 0;
 var fireL = 0;
@@ -3117,12 +3186,17 @@ ammo -= 1;
 if (menu == 0) {
 starttime = 1;
 }
+if (menu > 0) {
+if (frameIndex5 == 0) {
+firesoundstart = 1;
+ }
+}
 	}
    }
   }
  }
 }
-
+	
 function shootDown() {
 if (Death1 == 0) {
 if (fire == 0) {
@@ -3134,12 +3208,17 @@ ammo -= 1;
 if (menu == 0) {
 starttime = 1;
 }
+if (menu > 0) {
+if (frameIndex5 == 0) {
+firesoundstart = 1;
+ }
+}
 	}
    }
   }
  }
 }
-
+	
 function shootLeft() {
 if (Death1 == 0) {
 if (fire == 0) {
@@ -3151,12 +3230,17 @@ ammo -= 1;
 if (menu == 0) {
 starttime = 1;
 }
+if (menu > 0) {
+if (frameIndex5 == 0) {
+firesoundstart = 1;
+ }
+}
 	}
    }
   }
  }
 }
-
+	
 function shootRight() {
 if (Death1 == 0) {
 if (fire == 0) {
@@ -3167,6 +3251,11 @@ fireR += 1;
 ammo -= 1;
 if (menu == 0) {
 starttime = 1;
+}
+if (menu > 0) {
+if (frameIndex5 == 0) {
+firesoundstart = 1;
+ }
 }
 	}
    }
@@ -3413,6 +3502,7 @@ circle.speedX = 0;
 box.speedX = 0;
 }
 
+var firesoundstart = 0;
 var sound = 0
 function playSound() {
 if (sound == 0) {
@@ -3425,18 +3515,25 @@ if (menu > 0) {
 document.getElementById('level2').play();
   }
  }
+if (firesoundstart > 0) {
+if (menu > 0) {
+document.getElementById('firesound').play();
+ }
+}
 if (sound > 1) {
 sound = 0;
  }
 }
-
+	
 function SetVolume(val) {
 var player = document.getElementById('level1');
 player.volume = val / 100;
 var player2 = document.getElementById('level2');
 player2.volume = val / 100;
+var fireVolume = document.getElementById('firesound');
+fireVolume.volume = val / 100;
 }
-
+	
 function skipSound() {
  if (sound > 0) {
  level1.pause();
@@ -3445,6 +3542,12 @@ function skipSound() {
  if (sound < 1) {
  level2.pause();
  level2.currentTime = 0;
+ }
+ if (fire == 0) {
+ if (frameIndex5 == 1) {
+ firesound.pause();
+ firesound.currentTime = 0;
+  }
  }
 }
 
@@ -3528,16 +3631,16 @@ if (stopper > 0) {
  Homeworld Takedown V0.4.6
 </h1>
 <div id="locator6">
-<button onmousedown="shootUp()" ontouchstart="shootUp()">FIRE UP</button><br>
+<button onmouseup="clearAuto()" onmousedown="autoUp()" ontouchend="clearAuto()" ontouchstart="autoUp()">FIRE UP</button><br>
 </div>
 <div id="locator7">
-<button onmousedown="shootLeft()" ontouchstart="shootLeft()">FIRE LEFT</button>
+<button onmouseup="clearAuto()" onmousedown="autoLeft()" ontouchend="clearAuto()" ontouchstart="autoLeft()">FIRE LEFT</button>
 </div>
 <div id="locator8">
-<button onmousedown="shootRight()" ontouchstart="shootRight()">FIRE RIGHT</button><br>
+<button onmouseup="clearAuto()" onmousedown="autoRight()" ontouchend="clearAuto()" ontouchstart="autoRight()">FIRE RIGHT</button><br>
 </div>
 <div id="locator9">
-<button onmousedown="shootDown()" ontouchstart="shootDown()">FIRE DOWN</button>
+<button onmouseup="clearAuto()" onmousedown="autoDown()" ontouchend="clearAuto()" ontouchstart="autoDown()">FIRE DOWN</button>
 </div>
 <div id="vol">
 <p align="center">Volume:</p>
