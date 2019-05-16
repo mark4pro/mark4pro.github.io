@@ -1,0 +1,4 @@
+This game made from scratch by me and also uses great scripts which are:
+howler.js - for playing audio on mobile and just enhances me audio engine. github link: https://github.com/goldfire/howler.js
+nipplejs.js - for the mobile joystick. github link: https://github.com/yoannmoinet/nipplejs
+I do not claim these scripts as mine!
