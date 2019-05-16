@@ -3678,13 +3678,19 @@ if (stopper > 0) {
 	}
  }
 }
+	
+var startsoundvar = new Howl({
+  src: ['https://mark4pro.github.io/GameEnginePro/audio/start_sound.mp3'],
+  onplayerror: function() {
+    sound.once('unlock', function() {
+      startsoundvar.play();
+    });
+  }
+});
+
 function soundint() {
 if (confirm("Do you want sound?")) {
-  playSound();
-  document.getElementById('startsound').play();
-  startsoundvar = 0;
-  var startplayer = document.getElementById('startsound');
-  startplayer.volume = val / 100;  
+  startsoundvar.play();  
   }
 }
 </script>
