@@ -113,6 +113,7 @@ margin : 0;
 		<audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
 		<audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/level2.mp3"></audio>
 	        <audio id="firesound" src="https://mark4pro.github.io/GameEnginePro/audio/LaserGunSound.mp3"></audio>
+                <audio id="startsound" src="https://mark4pro.github.io/GameEnginePro/audio/start_sound.mp3"></audio>
 </head>
 <body onload="start()">
 <div id="zone_joystick"></div>
@@ -3673,9 +3674,18 @@ if (stopper > 0) {
    stopper = 0;
    }
    if (weapon > 1.5) {
-		weapon = 0;
+	weapon = 0;
 	}
  }
+}
+function soundint() {
+if (confirm("Do you want sound?")) {
+  playSound();
+  document.getElementById('startsound').play();
+  startsoundvar = 0;
+  var startplayer = document.getElementById('startsound');
+  startplayer.volume = val / 100;  
+  }
 }
 </script>
 <label class="unselectable">
@@ -3698,7 +3708,7 @@ if (stopper > 0) {
 <p align="center">Volume:</p>
 </div>
 <div id="slidercon">
-<p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1"
+<p align="center"><input onmousedown="soundint()" ontouchstart="soundint()" type="range" min="0" max="100" id="volume" class="slider" step="1"
 oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
 </div>
 <div id="namecon">
