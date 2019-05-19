@@ -626,8 +626,24 @@ inside2house1 = 0;
   }
  }
 }
+	
+function firehandler() {
+if (autoUpVar == 1) {
+shootUp();
+ }
+if (autoDownVar == 1) {
+shootDown();
+ }
+if (autoLeftVar == 1) {
+shootLeft();
+ }
+if (autoRightVar == 1) {
+shootRight();
+ }
+}	
 
 function updateGameArea() {
+firehandler();
 framerate();
 framerate2();
 framerate3();
@@ -1016,16 +1032,16 @@ if (box.crashWith(wall2house7)) {
 document.onkeydown = function(e) {
     switch (e.keyCode) {
         case 37:
-            shootLeft();
+            autoLeft();
             break;
         case 38:
-            shootUp();
+            autoUp();
             break;
         case 39:
-            shootRight();
+            autoRight();
             break;
         case 40:
-            shootDown();
+            autoDown();
             break;
 		case 87:
             moveUp();
@@ -1054,6 +1070,18 @@ document.onkeydown = function(e) {
 		case 97:
 		    upgrade1func();
 			break;
+		case 37:
+            clearAuto();
+            break;
+        case 38:
+            clearAuto();
+            break;
+        case 39:
+            clearAuto();
+            break;
+        case 40:
+            clearAuto();
+            break;
     }
 };
 
@@ -3144,6 +3172,33 @@ if (startTime4 == 0) {
  }
  }
 }
+	
+var autoUpVar = 0;
+var autoDownVar = 0;
+var autoLeftVar = 0;
+var autoRightVar = 0;
+function autoUp() {
+autoUpVar = 1;
+}
+	
+function autoDown() {
+autoDownVar = 1;
+}
+	
+function autoLeft() {
+autoLeftVar = 1;
+}
+	
+function autoRight() {
+autoRightVar = 1;
+}
+	
+function clearAuto() {
+autoUpVar = 0;
+autoDownVar = 0;
+autoLeftVar = 0;
+autoRightVar = 0;
+}	
 
 var fire = 0;
 var fireR = 0;
