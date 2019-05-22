@@ -10,15 +10,19 @@
 	function start() {
 	run = setInterval(run, 60);
 	}
+	function iframeDidLoad() {
+    alert('Done');
+    }
 	function run() {
 	  var inp = document.getElementById("inputbox").value;  
 	  console.log(inp);
 	}
 	function goto() {
-	window.location.href = "https://www.yt-download.org/@api/button/videos/" + inp;    
+	document.getElementById('Iframe').src = "https://soundclouddownloader.info/iframe-api/?t=" + inp;   
 	}
 	</script>
 	<input type="text" id="inputbox" name="input" value="">
-	<button onmousedown="goto()" ontouchstart="goto()"></button>
+	<button  onmousedown="goto()" ontouchstart="goto()"></button>
+	<iframe id="Iframe" src="" onLoad="iframeDidLoad();"></iframe>
 	</body>
 </html>
