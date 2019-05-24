@@ -2,51 +2,98 @@
 <html>
 	<head>
 	<meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <link rel="apple-touch-icon" href="image/youtube_soundcloud.JPG" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="apple-touch-icon" href="image/youtube_soundcloud.png" />
 	<style>
 	html {
-		background-color: black;
+		background-color: white;
 	}
 	p {
+		color: black;
+	}
+	.controls {
+	    background-color: lightgrey;
+	}
+	.scre {
+	    background-color: grey;
+	    height: 400px;
+        width: 800px;
+        border-radius: 50px;
+	}
+	.top {
+	    background-color: black;
+	}
+	.text {
 	    color: white;
+	}
+	.in {
+	    background-color: white;
 	}
 	</style>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
 		<title>SoundCloud/YouTube Downloader</title>
 	</head>
-	<body>
+	<body onload="start()">
 	<script>
+	function start() {
+	    update = setInterval(plus, 60);
+	}
 	function goto() {
-	var lnk = document.getElementById('lnk');
 	var inp = document.getElementById("input").value;  
 	if (youtube == 1) {
-	lnk.href = "https://www.yt-download.org/@api/button/videos/" + inp;
-	window.location = "https://www.yt-download.org/@api/button/videos/" + inp;
+	window.frames[0].location = "https://www.yt-download.org/@api/button/videos/" + inp;
 	 }
 	if (youtube == 0) {
-	lnk.href = "https://soundclouddownloader.info/iframe-api/?t=" + inp;
-	window.location = "https://soundclouddownloader.info/iframe-api/?t=" + inp;
+	window.frames[0].location = "https://soundclouddownloader.info/iframe-api/?t=" + inp;
 	 }
 	}
 	var youtube = 0;
+	var colorflash = 0;
+	var startc = 0;
+	function plus() {
+	    if (startc == 1) {
+	    colorflash += 1;
+	    }
+	    if (startc == 0) {
+	    colorflash = 0;
+	    }
+	    if (colorflash > 9) {
+	    colorflash = 0;   
+	    startc = 0; 
+	    }
+	    if (startc == 1) {
+	        color();
+	    }
+	}
+	function color() {
+	if (colorflash < 5) {
+	document.getElementById("input").style.backgroundColor = "red";
+	}
+	if (colorflash > 5) {
+	document.getElementById("input").style.backgroundColor = "white";
+	 }    
+	}
 	function change() {
-	var x = document.getElementById("check"); 
+	startc = 1;
+	var x = document.getElementById("check");
 	if (x.checked == true) {
-	    document.getElementById("input").value = "youtube id";  
-	    youtube = 1;
+		document.getElementById("input").value = "youtube id";  
+		youtube = 1;
 	}
 	if (x.checked == false) {
-	    document.getElementById("input").value = "soundcloud url";  
-	    youtube = 0;
+		document.getElementById("input").value = "soundcloud url";  
+		youtube = 0;
 	}
 	}
 	</script>
-	
-	<input type="text" id="input" name="input" value="soundcloud url">
+	<div class="controls" align="center">
+	<div class="top" align="center"><p>y</p></div><br>
+	<iframe class="scre" id="screen"></iframe><br>
+	<input type="text" id="input" class="in" name="input" value="soundcloud url">
 	<input type="button" onmousedown="goto()" ontouchstart="goto()" value="Enter">
-	<p>Youtube:</p><input type="checkbox" onclick="change()" id="check">
-	<a href="" id=lnk></a> <br>
+	<p>Youtube:</p><input type="checkbox" onmouseup="" ontouchend="" onmousedown="" ontouchstart="" onclick="change()" id="check">
+	<div class="top" align="center"><p class="text">Code by: James Richard</p></div>
+	</div>
 	</body>
 </html>
