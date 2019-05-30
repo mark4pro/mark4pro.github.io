@@ -121,14 +121,14 @@ button {
 	<script src=".\Scripts\engine.js"></script>
 <label class="unselectable">
 <p align="left">
-	<button onmousedown="moveUp()" onmouseup="clearmoveu()" ontouchstart="moveUp()">UP</button>
-	<button onmousedown="moveDown()" onmouseup="clearmoved()" ontouchstart="moveDown()">DOWN</button><br>
+	<button onmousedown="moveUp()" onmouseup="clearmoveu()" ontouchend="clearmoveu()" ontouchstart="moveUp()">UP</button>
+	<button onmousedown="moveDown()" onmouseup="clearmoved()" ontouchend="clearmoved()" ontouchstart="moveDown()">DOWN</button><br>
 	</p>
 	<p align="right">
 	<button onmousedown="enter()" onmouseup="" ontouchstart="enter()">A</button>
 	<button onmousedown="back()" onmouseup="" ontouchstart="back()">B</button><br>
-	<button onmousedown="moveLeft()" onmouseup="clearmovel()" ontouchstart="moveLeft()">LEFT</button>
-	<button onmousedown="moveRight()" onmouseup="clearmover()" ontouchstart="moveRight()">RIGHT</button>
+	<button onmousedown="moveLeft()" onmouseup="clearmovel()" ontouchend="clearmovel()" ontouchstart="moveLeft()">LEFT</button>
+	<button onmousedown="moveRight()" onmouseup="clearmover()" ontouchend="clearmover()" ontouchstart="moveRight()">RIGHT</button>
 	</p>
 	<div style="text-align:left;width:450px;">
 <input type="button" value="Reset" onClick="document.location.reload(true)">
