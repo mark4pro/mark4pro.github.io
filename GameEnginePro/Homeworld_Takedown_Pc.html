@@ -15,16 +15,11 @@ margin-right: auto;
 display: block;
 width: 600px;
 }
+html {
+overflow: hidden;
+}
  body {
  background-image: url("https://mark4pro.github.io/GameEnginePro/image/uitexture.png");
- }
- button{
- width:80px;
- height:80px;
- border-radius: 50px;
- background-image: url("https://mark4pro.github.io/GameEnginePro/image/healthback.png");
- color: white;
- text-align: center;
  }
  h1 {
  font-size: 50px;
@@ -51,6 +46,14 @@ margin : 0;
 -webkit-user-select : none;
 -moz-user-select : none;
 }
+#content{
+    overflow: auto;
+	height: 80px;/*..very important if you want scroll bar...*/
+ overfow:auto; /*..will introduce scroll bar when needed..*/
+ padding: 20px;
+ margin-left: auto;
+ margin-right: auto;
+ }
 
 </style>
 <!-- Where Images Go -->
@@ -3714,6 +3717,7 @@ function upgrade1func() {
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
 <p align="center"><input type="text" id="name" value=""></p>
+<div id="content">
 <p align="center">Controls:</p>
 <p align="center">Arrow key to shoot.</p>
 <p align="center">WASD to move.</p>
@@ -3725,6 +3729,7 @@ function upgrade1func() {
 <p align="center">Flying Enemies- Rage mode: if the enemy's health drops below 50 it will move faster. </p>
 <p align="center">Flying Enemies- Swarm: if they get near you they will frantically go left and right thus making them hard to hit.</p>
 <p align="center">Homeworld Takedown is a top down wave based game. You play as an alien from the "Drars" race and you don't agree on taking over Earth so you fight back.</p>
+</div>
 </label>
 </body>
 </html>
