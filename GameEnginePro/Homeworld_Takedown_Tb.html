@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.7</title>
+<title>Homeworld Takedown V0.4.8</title>
+<link rel="icon" type="image/vnd.microsoft.icon"
+     href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
 <meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<link rel="apple-touch-icon" href="https://mark4pro.github.io/GameEnginePro/image/icon/hticon.PNG" />
@@ -1042,88 +1044,200 @@ if (right == 1) {
  }
 }
 if (box.crashWith(wallleft)) {
+ clearmovel(); 
  touchleft = 1;
 }
+if (box.crashWith(wallleft) == false) {
+ touchleft = 0;
+ }
 if (box.crashWith(wallright)) {
+ clearmover();
  touchright = 1;
 }
+if (box.crashWith(wallright) == false) {
+ touchright = 0;
+ }
 if (box.crashWith(wall3)) {
+ clearmoveu(); 
  touchtop = 1;
 }
+if (box.crashWith(wall3) == false) {
+ touchtop = 0;
+ }
 if (box.crashWith(wall4)) {
+ clearmoved();
  touchbottom = 1;
 }
-if (wave < 5) {
+if (box.crashWith(wall4) == false) {
+ touchbottom = 0;
+ }
+ if (wave < 5) {
+ if (box.crashWith(wallhouse2_2) == false) {
+ touchright = 0;
+ }
+ if (box.crashWith(wallhouse3) == false) {
+ touchright = 0;
+ }
+ if (box.crashWith(wallhouse7) == false) {
+ touchright = 0;
+ }
+ if (box.crashWith(wall2house2_2) == false) {
+ touchright = 0;
+ }
+ if (box.crashWith(wall2house3) == false) {
+ touchright = 0;
+ }
+ if (box.crashWith(wall2house7) == false) {
+ touchright = 0;
+ }
+  if (box.crashWith(wallhouse1) == false) {
+ touchtop = 0;
+ }
+ if (box.crashWith(wallhouse4_2) == false) {
+ touchtop = 0;
+ }
+ if (box.crashWith(wallhouse6_2) == false) {
+ touchtop = 0;
+ }
+ if (box.crashWith(wall2house1) == false) {
+ touchtop = 0;
+ }
+ if (box.crashWith(wall2house4_2) == false) {
+ touchtop = 0;
+ }
+ if (box.crashWith(wall2house6_2) == false) {
+ touchtop = 0;
+ }
+ if (box.crashWith(wallhouse1_2) == false) {
+ touchbottom = 0;
+ }
+ if (box.crashWith(wallhouse4) == false) {
+ touchbottom = 0;
+ }
+ if (box.crashWith(wallhouse6) == false) {
+ touchbottom = 0;
+ }
+ if (box.crashWith(wall2house1_2) == false) {
+ touchbottom = 0;
+ }
+ if (box.crashWith(wall2house4) == false) {
+ touchbottom = 0;
+ }
+ if (box.crashWith(wall2house6) == false) {
+ touchbottom = 0;
+ }
+ if (box.crashWith(wallhouse2) == false) {
+ touchleft = 0;
+ }
+ if (box.crashWith(wallhouse3_2) == false) {
+ touchleft = 0;
+ }
+ if (box.crashWith(wallhouse5) == false) {
+ touchbottom = 0;
+ }
+ if (box.crashWith(wall2house2) == false) {
+ touchleft = 0;
+ }
+ if (box.crashWith(wall2house3_2) == false) {
+ touchleft = 0;
+ }
+ if (box.crashWith(wall2house5) == false) {
+ touchbottom = 0;
+ }
 if (box.crashWith(wallhouse1)) {
+ clearmoveu();
  touchtop = 1;
 }
 if (box.crashWith(wallhouse1_2)) {
+ clearmoved();
  touchbottom = 1;
 }
 if (box.crashWith(wallhouse2)) {
+ clearmovel();
  touchleft = 1;
 }
 if (box.crashWith(wallhouse2_2)) {
+ clearmover();
  touchright = 1;
 }
 if (box.crashWith(wallhouse3_2)) {
+ clearmovel();
  touchleft = 1;
 }
 if (box.crashWith(wallhouse3)) {
+ clearmover();
  touchright = 1;
 }
 if (box.crashWith(wallhouse4_2)) {
+ clearmoveu();
  touchtop = 1;
 }
 if (box.crashWith(wallhouse4)) {
+ clearmoved();
  touchbottom = 1;
 }
 if (box.crashWith(wallhouse5)) {
+ clearmovel();
  touchleft = 1;
 }
 if (box.crashWith(wallhouse6_2)) {
+ clearmoveu();
  touchtop = 1;
 }
 if (box.crashWith(wallhouse6)) {
+ clearmoved();
  touchbottom = 1;
 }
 if (box.crashWith(wallhouse7)) {
+ clearmover();
  touchright = 1;
 }
 if (box.crashWith(wall2house1)) {
+ clearmoveu();
  touchtop = 1;
 }
 if (box.crashWith(wall2house1_2)) {
+ clearmoved();
  touchbottom = 1;
 }
 if (box.crashWith(wall2house2)) {
+ clearmovel();
  touchleft = 1;
 }
 if (box.crashWith(wall2house2_2)) {
+ clearmover();
  touchright = 1;
 }
 if (box.crashWith(wall2house3_2)) {
+ clearmovel();
  touchleft = 1;
 }
 if (box.crashWith(wall2house3)) {
+ clearmover();
  touchright = 1;
 }
 if (box.crashWith(wall2house4_2)) {
+ clearmoveu();
  touchtop = 1;
 }
 if (box.crashWith(wall2house4)) {
+ clearmoved();
  touchbottom = 1;
 }
 if (box.crashWith(wall2house5)) {
+ clearmovel();
  touchleft = 1;
 }
 if (box.crashWith(wall2house6_2)) {
+ clearmoveu();
  touchtop = 1;
 }
 if (box.crashWith(wall2house6)) {
+ clearmoved();
  touchbottom = 1;
 }
 if (box.crashWith(wall2house7)) {
+ clearmover();
  touchright = 1;
 }
  }
@@ -3412,6 +3526,10 @@ var touchleft = 0;
 var touchright = 0;
 var touchtop = 0;
 var touchbottom = 0;
+var upE = 0;
+var downE = 0;
+var leftE = 0;
+var rightE = 0;
 var up = 0;
 var down = 0;
 var left = 0;
@@ -3419,141 +3537,65 @@ var right = 0;
 function moveUp() {
  if (touchtop == 0) {
 up = 1;
-}
+upE = 1;
+ }
 }
 
 function moveDown() {
  if (touchbottom == 0) {
 down = 1;
-}
+downE = 1;
+ }
 }
 
 function moveLeft() {
  if (touchleft == 0) {
 left = 1;
-}
+leftE = 1;
+ }
 }
 
 function moveRight() {
  if (touchright == 0) {
 right = 1;
-}
+rightE = 1;
+ }
 }
 
 function clearmoveu() {
- if (box.crashWith(wall3) == false) {
- touchtop = 0;
- }
- if (wave < 5) {
- if (box.crashWith(wallhouse1) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wallhouse4_2) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wallhouse6_2) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wall2house1) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wall2house4_2) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wall2house6_2) == false) {
- touchtop = 0;
- }
-}
+if (upE > 0) {
  up = 0;
+ upE = 0;
 circle.speedY = 0;
 box.speedY = 0;
+ }
 }
 
 function clearmoved() {
- if (box.crashWith(wall4) == false) {
- touchbottom = 0;
- }
- if (wave < 5) {
- if (box.crashWith(wallhouse1_2) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wallhouse4) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wallhouse6) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wall2house1_2) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wall2house4) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wall2house6) == false) {
- touchbottom = 0;
- }
-}
+if (downE > 0) {
  down = 0;
+ downE = 0;
 circle.speedY = 0;
 box.speedY = 0;
+ }
 }
 
 function clearmovel() {
- if (box.crashWith(wallleft) == false) {
- touchleft = 0;
- }
- if (wave < 5) {
- if (box.crashWith(wallhouse2) == false) {
- touchleft = 0;
- }
- if (box.crashWith(wallhouse3_2) == false) {
- touchleft = 0;
- }
- if (box.crashWith(wallhouse5) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wall2house2) == false) {
- touchleft = 0;
- }
- if (box.crashWith(wall2house3_2) == false) {
- touchleft = 0;
- }
- if (box.crashWith(wall2house5) == false) {
- touchbottom = 0;
- }
-}
+if (leftE > 0) {
  left = 0;
+ leftE = 0;
 circle.speedX = 0;
 box.speedX = 0;
+ }
 }
 
 function clearmover() {
- if (box.crashWith(wallright) == false) {
- touchright = 0;
- }
- if (wave < 5) {
- if (box.crashWith(wallhouse2_2) == false) {
- touchright = 0;
- }
- if (box.crashWith(wallhouse3) == false) {
- touchright = 0;
- }
- if (box.crashWith(wallhouse7) == false) {
- touchright = 0;
- }
- if (box.crashWith(wall2house2_2) == false) {
- touchright = 0;
- }
- if (box.crashWith(wall2house3) == false) {
- touchright = 0;
- }
- if (box.crashWith(wall2house7) == false) {
- touchright = 0;
- }
-}
+if (rightE > 0) {
  right = 0;
+ rightE = 0;
 circle.speedX = 0;
 box.speedX = 0;
+ }
 }
 
 var firesoundstart = 0;
@@ -3697,7 +3739,7 @@ if (confirm("Do you want sound?")) {
 </script>
 <label class="unselectable">
 <h1 align="center">
- Homeworld Takedown V0.4.7
+ Homeworld Takedown V0.4.8
 </h1>
 <div id="locator6">
 <button onmouseup="clearAuto()" onmousedown="autoUp()" ontouchend="clearAuto()" ontouchstart="autoUp()">FIRE UP</button><br>
