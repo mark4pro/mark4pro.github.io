@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.8</title>
+<title>Homeworld Takedown V0.4.9</title>
 <link rel="icon" type="image/vnd.microsoft.icon"
      href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
 <style>
@@ -32,10 +32,10 @@ overflow: hidden;
  color: white;
  }
  .unselectable {
--webkit-user-select: none; /* Safari 3.1+ */
--moz-user-select: none; /* Firefox 2+ */
--ms-user-select: none; /* IE 10+ */
-user-select: none; /* Standard syntax */
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
 }
 #container {
 width : 50%;
@@ -47,9 +47,10 @@ margin : 0;
 -moz-user-select : none;
 }
 #content{
-    overflow: auto;
-	height: 80px;/*..very important if you want scroll bar...*/
- overfow:auto; /*..will introduce scroll bar when needed..*/
+ background-image: url("https://mark4pro.github.io/GameEnginePro/image/healthback.png");
+ overflow: auto;
+ height: 80px;
+ overfow:auto;
  padding: 20px;
  margin-left: auto;
  margin-right: auto;
@@ -64,6 +65,8 @@ margin : 0;
 <img id="healthba" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/healthback.png">
 <img id="wave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave1-5.png">
 <img id="bullpic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/bullet.png">
+<img id="bullpic2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/bullet2.png">
+<img id="bullpic3" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/bullet3.png">
 <img id="ammopic1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ammocrate1pic.png">
 <img id="healthpic1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/healthcrate1pic.png">
 <img id="menupic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/menu.png">
@@ -84,17 +87,20 @@ margin : 0;
 	    <audio id="firesound" src="https://mark4pro.github.io/GameEnginePro/audio/LaserGunSound.mp3"></audio>
 </head>
 <body onload="start()">
+<script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/controller.js"></script>
 <script>
 var w = window.innerWidth;
 var h = window.innerHeight;
 var playerX = 100;
 var playerY = 280;
+var playerXwave5 = 30;
+var playerYwave5 = 30;
 var playerHealth = 100;
 var menu = 0;
-var backX = 450;
+var backX = 430;
 var backY = 350;
 var upgrade1X = 430;
-var upgrade1Y = 250;
+var upgrade1Y = 50;
 var bad1posX = 760;
 var bad1posY = 450;
 var bad2posX = 20;
@@ -124,7 +130,9 @@ function start() {
  tripos1 = new component(25, 25, "orange", tri1posX, tri1posY, "rec");
  triwavebox1 = new component(35, 35, "black", tri1posX - 5, tri1posY - 5, "rec");
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
- bpic = new component(10, 10, "orange", 400, 180, "img6");
+ bpic = new component(10, 10, "orange", 400, 180, "b1");
+ bpic2 = new component(10, 10, "orange", 400, 180, "b2");
+ bpic3 = new component(10, 10, "orange", 400, 180, "b3");
  box = new component(25, 25, "black", playerX, playerY, "rec");
  circle = new component(32, 32, "darkblue", playerX - 3.5, playerY - 3.5, "img");
  w1t5 = new component(800, 500, "darkblue", 0, 0, "img5");
@@ -169,20 +177,60 @@ function start() {
  tree2 = new component(50, 50, "black", 650, 270, "tree_img");
  tree3 = new component(50, 50, "black", 250, 80, "tree_img");
  ui = new component(800, 300, "white", 0, 390, "img2");
- backbuttonnodetect = new component(120, 50, backbttncolor, backX - 100, backY + 100, "img4");
- backtxt = new component("30px", "Consolas", "white", backX - 65, backY + 130, "text");
- backtxt.font = "20px Consolas";
- backtxt.text = "BACK";
- upgrade1buttonnodetect = new component(160, 50, backbttncolor, upgrade1X - 100, upgrade1Y + 100, "img4");
- upgrade1txt = new component("30px", "Consolas", "white", upgrade1X - 96, upgrade1Y + 130, "text");
+ backbutton = new component(160, 50, "grey", backX - 100, backY + 100, "img4");
+ backtxt = new component("30px", "Consolas", "white", backX - 90, backY + 130, "text");
+ backtxt.font = "15px Consolas";
+ backtxt.text = "Press ESC To Exit";
+ backtxtinfo = new component("30px", "Consolas", "white", 45, backY + 130, "text");
+ backtxtinfo.font = "15px Consolas";
+ backtxtinfo.text = "Exits the upgrade menu. ->";
+ upgrade1button = new component(205, 50, "grey", upgrade1X - 100, upgrade1Y, "img4");
+ upgrade1txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 30, "text");
  upgrade1txt.font = "15px Consolas";
- upgrade1txt.text = "#1 Weapon Upgrade";
- max1 = new component(160, 50, "gray", upgrade1X - 100, upgrade1Y + 100, "img4");
- max1txt = new component("30px", "Consolas", "white", upgrade1X - 50, upgrade1Y + 130, "text");
+ upgrade1txt.text = "#1 Weapon Upgrade (1/2)";
+ upgrade1txtinfo = new component("30px", "Consolas", "white", 45, upgrade1Y + 30, "text");
+ upgrade1txtinfo.font = "15px Consolas";
+ upgrade1txtinfo.text = "Weapon Upgrade (1/2) ->";
+ upgrade1txtinfo2 = new component("30px", "Consolas", "white", 45, upgrade1Y + 45, "text");
+ upgrade1txtinfo2.font = "15px Consolas";
+ upgrade1txtinfo2.text = "Name: Hi-Beam";
+ upgrade1txtinfo3 = new component("30px", "Consolas", "white", 45, upgrade1Y + 60, "text");
+ upgrade1txtinfo3.font = "15px Consolas";
+ upgrade1txtinfo3.text = "Cost: $100";
+ upgrade1txtinfo4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
+ upgrade1txtinfo4.font = "15px Consolas";
+ upgrade1txtinfo4.text = "Damage: 25(+5)";
+ upgrade1txtinfo5 = new component("30px", "Consolas", "white", 45, upgrade1Y + 90, "text");
+ upgrade1txtinfo5.font = "15px Consolas";
+ upgrade1txtinfo5.text = "Range: 2(-1)";
+ upgrade1txtinfo6 = new component("30px", "Consolas", "white", 45, upgrade1Y + 105, "text");
+ upgrade1txtinfo6.font = "15px Consolas";
+ upgrade1txtinfo6.text = "Special: Slows Enemies";
+ upgrade1_2txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 30, "text");
+ upgrade1_2txt.font = "15px Consolas";
+ upgrade1_2txt.text = "#1 Weapon Upgrade (2/2)";
+ upgrade1_2txtinfo = new component("30px", "Consolas", "white", 45, upgrade1Y + 30, "text");
+ upgrade1_2txtinfo.font = "15px Consolas";
+ upgrade1_2txtinfo.text = "Weapon Upgrade (2/2) ->";
+ upgrade1_2txtinfo2 = new component("30px", "Consolas", "white", 45, upgrade1Y + 45, "text");
+ upgrade1_2txtinfo2.font = "15px Consolas";
+ upgrade1_2txtinfo2.text = "Name: Zapper";
+ upgrade1_2txtinfo3 = new component("30px", "Consolas", "white", 45, upgrade1Y + 60, "text");
+ upgrade1_2txtinfo3.font = "15px Consolas";
+ upgrade1_2txtinfo3.text = "Cost: $200";
+ upgrade1_2txtinfo4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
+ upgrade1_2txtinfo4.font = "15px Consolas";
+ upgrade1_2txtinfo4.text = "Damage: 35(+10)";
+ upgrade1_2txtinfo5 = new component("30px", "Consolas", "white", 45, upgrade1Y + 90, "text");
+ upgrade1_2txtinfo5.font = "15px Consolas";
+ upgrade1_2txtinfo5.text = "Range: 4(+1)";
+ max1txt = new component("30px", "Consolas", "white", upgrade1X - 25, upgrade1Y + 30, "text");
  max1txt.font = "20px Consolas";
  max1txt.text = "MAXED";
+ infoboard = new component(300, 500, "grey", 0, 0, "rec");
+ infoboard2 = new component(310, 500, "darkgrey", 0, 0, "rec");
  upgradeboard = new component(800, 500, "black", 0, 0, "img2");
- upgradetxt = new component("30px", "Consolas", "white", 350, 20, "text");
+ upgradetxt = new component("30px", "Consolas", "white", 345, 30, "text");
  upgradetxt.font = "20px Consolas";
  upgradetxt.text = "Upgrade Menu";
  costToRevive = new component("30px", "Consolas", "darkred", 40, 490, "text");
@@ -196,8 +244,6 @@ function start() {
  Board.start();
  updateGameArea();
  }
- 
-var backbttncolor = "gray";
  
 var Board = {
 canvas : document.createElement("canvas"),
@@ -225,6 +271,9 @@ window.addEventListener('mousedown', function (e) {
 			Board.x = false;
 			Board.y = false;
 		})
+},
+stop : function() {
+        clearInterval(this.interval);
 },
 clear : function() {
 this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -292,7 +341,7 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  var img = document.getElementById("wave1t5");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
- if (type == "img6") {
+ if (type == "b1") {
  this.width = width;
  this.height = height;
  var img = document.getElementById("bullpic");
@@ -382,20 +431,21 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  var img = document.getElementById("Rectangle");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
+ if (type == "b2") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("bullpic2");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "b3") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("bullpic3");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
   }
  }
 }
-this.clicked = function() {
-	   var myleft = this.x;
-	   var myright = this.x + (this.width);
-	   var mytop = this.y;
-	   var mybottom = this.y + (this.height);
-		var clicked = true;
-		if ((mybottom < Board.y) || (mytop > Board.y) || (myright < Board.x) || (myleft > Board.x)) {
-			clicked = false;
-		}
-		return clicked;
-	}
 this.newPos = function() {
 this.x += this.speedX;
 this.y += this.speedY;
@@ -647,6 +697,8 @@ shootRight();
  }
 }	
 
+var switchpos = 0;
+
 function updateGameArea() {
 firehandler();
 framerate();
@@ -722,7 +774,6 @@ floor2house1.update();
 if (wave > 4 && wave < 8) {
 w5t7.update();
 }
-console.log("Count: " + count);
 if (menu > 0) {
 if (cratespawn > 0) {
 ammocrate1picO.update();
@@ -734,7 +785,15 @@ healthcrate1picO.update();
  }
 }
 if (fire > 0) {
+if (weapon == 0) {
 bpic.update();
+ }
+if (weapon == 1) {
+bpic2.update();
+ }
+if (weapon == 2) {
+bpic3.update();
+ }
 }
 if (wave < 5) {
 if (BadDeath < 1) {
@@ -848,10 +907,30 @@ tribox.newPos();
 trienemyright.newPos();
 trienemyleft.newPos();
 bpic.newPos();
+bpic2.newPos();
+bpic3.newPos();
+if (wave == 5) {
+if (switchpos == 0) {
+switchpos = 1;
+}
+if (switchpos == 1) {
+box.x = playerXwave5;
+box.y = playerYwave5;
+circle.x = playerXwave5 - 3.5;
+circle.y = playerYwave5 - 3.5;
+switchpos = 2;
+ }
+}
+if (wave == 6) {
+switchpos = 0;
+ }
+badpos2.x = bad2posX;
+badpos2.y = bad2posY;
+badwavebox2.x = bad2posX - 5;
+badwavebox2.y = bad2posY - 5;
 }
 Health1();
 checkwave();
-playerMoney();
 name();
 waveammoweapon();
 ammocrate();
@@ -863,22 +942,42 @@ crashhitai1();
 badai2();
 badrecai1();
 countwave();
-if (menu == 0) {
-menuboard.update();
-}
 if (upgrademenu == 1) {
 upgradeboard.update();
+infoboard2.update();
+infoboard.update();
 upgradetxt.update();
-backbuttonnodetect.update();
+backbutton.update();
 backtxt.update();
+backtxtinfo.update();
+upgrade1button.update();
 if (weaponupgrade1 == 0) {
-upgrade1buttonnodetect.update();
 upgrade1txt.update();
+upgrade1txtinfo.update();
+upgrade1txtinfo2.update();
+upgrade1txtinfo3.update();
+upgrade1txtinfo4.update();
+upgrade1txtinfo5.update();
+upgrade1txtinfo6.update();
  }
-if (weaponupgrade1 > 0) {
-max1.update();
+if (weaponupgrade1 == 1) {
+upgrade1_2txt.update();
+upgrade1_2txtinfo.update();
+upgrade1_2txtinfo2.update();
+upgrade1_2txtinfo3.update();
+upgrade1_2txtinfo4.update();
+upgrade1_2txtinfo5.update();
+}
+if (weaponupgrade1 > 1) {
 max1txt.update();
 }
+}
+playerMoney();
+name();
+if (menu == 0) {
+if (upgrademenu == 0) {
+menuboard.update();
+ }
 }
 if (Death1 > 0) {
 DeathForPlayer.update();
@@ -1189,6 +1288,9 @@ document.onkeydown = function(e) {
 		case 50:
 		    swapweap2();
 			break;
+		case 51:
+		    swapweap3();
+			break;
 		case 27:
 		    backfunc();
 			break;
@@ -1216,16 +1318,16 @@ document.onkeyup = function(e) {
             stopshow();
             break;
 		case 37:
-            clearAuto();
+            clearAutoL();
             break;
         case 38:
-            clearAuto();
+            clearAutoU();
             break;
         case 39:
-            clearAuto();
+            clearAutoR();
             break;
         case 40:
-            clearAuto();
+            clearAutoD();
             break;
     }
 };
@@ -1241,10 +1343,17 @@ if (weapon == 0) {
  bullrange = 3;
 }
 if (weapon == 1) {
-if (weaponupgrade1 == 1) {
+if (weaponupgrade1 > 0) {
  weapname = "Hi-Beam";
- PlayerDamageDeal = 20;
+ PlayerDamageDeal = 25;
  bullrange = 2;
+ }
+}
+if (weapon == 2) {
+if (weaponupgrade1 > 1) {
+ weapname = "Zapper";
+ PlayerDamageDeal = 35;
+ bullrange = 4;
  }
 }
 obo = new component(100, 80, "gray", 350, 430, "img3");
@@ -1269,6 +1378,7 @@ weaptxt.update();
 wavetxt.update();
 }
 
+var spawnbad2pos = Math.floor(Math.random() * 2);
 var spawncrate2pos = Math.floor(Math.random() * 2);
 var spawncrate1pos = Math.floor(Math.random() * 2);
 var count = 0;
@@ -1344,6 +1454,7 @@ if (wave < 5) {
 if (upgrademenu == 0) {
 money += moneyperendie;
 count += 1;
+console.log("Count: " + count);
 }
 	}
    }
@@ -1352,9 +1463,13 @@ count += 1;
 if (wave < 7 && wave > 1) {
 if (BadDeath2 > 0) {
 if (badguy2.crashWith(badwavebox2)) {
+if (wave > 4 && wave < 7) {
+spawnbad2pos = Math.floor(Math.random() * 2);
+}
 if (upgrademenu == 0) {
 money += moneyperendie2;
 count += 1;
+console.log("Count: " + count);
 }
 if (wave > 1 && wave < 7) {
 if (Math.floor(Math.random() * chanceofdrop2) == 1) {
@@ -1372,6 +1487,18 @@ cratespawn += 1;
 spawncrate1pos = Math.floor(Math.random() * 2);
   }
  }
+}
+if (wave > 4 && wave < 7) {
+if (spawnbad2pos == 0) {
+bad2posX = 20;
+bad2posY = 100;
+ } else {
+bad2posX = 300;
+bad2posY = 40; 
+ }
+} else {
+bad2posX = 20;
+bad2posY = 100;
 }
 if (cratespawn == 0) {
 if (wave < 5) {
@@ -1411,6 +1538,7 @@ if (recbox1.crashWith(recwavebox1)) {
 if (upgrademenu == 0) {
 money += moneyperendie4;
 count += 1;
+console.log("Count: " + count);
 }
 if (wave > 2 && wave < 5) {
 if (Math.floor(Math.random() * chanceofdrop4) == 1) {
@@ -1467,6 +1595,7 @@ if (tribox.crashWith(triwavebox1)) {
 if (upgrademenu == 0) {
 money += moneyperendie3;
 count += 1;
+console.log("Count: " + count);
 }
 if (wave > 4 && wave < 7) {
 if (Math.floor(Math.random() * chanceofdrop3) == 1) {
@@ -2610,8 +2739,10 @@ badguy1.speedY = badhurtspeedai1;
  }
 }
 if (box.crashWith(badguy1)) {
+if (upgrademenu == 0) {
 if (playerHealth > 0) {
 playerHealth -= Bad1DamageDeal;
+  }
  }
 }
 if (weapon == 1) {
@@ -2859,9 +2990,11 @@ badguy2.speedY = badhurtspeedai2;
  }
 }
 if (box.crashWith(badguy2)) {
+if (upgrademenu == 0) {
 if (playerHealth > 0) {
 playerHealth -= Bad2DamageDeal;
-}
+  }
+ }
 }
 if (weapon == 1) {
  if (bullbox.crashWith(badguy2)) {
@@ -3023,8 +3156,10 @@ tribox.speedY = badhurtspeedai3;
  }
 }
 if (box.crashWith(tribox)) {
+if (upgrademenu == 0) {
 if (playerHealth > 0) {
 playerHealth -= Bad3DamageDeal;
+  }
  }
 }
 if (weapon == 1) {
@@ -3268,9 +3403,11 @@ recbox1.speedY = badhurtspeedai4;
  }
 }
 if (box.crashWith(recbox1)) {
+if (upgrademenu == 0) {
 if (playerHealth > 0) {
 playerHealth -= Bad4DamageDeal;
-}
+  }
+ }
 }
 if (weapon == 1) {
  if (bullbox.crashWith(recbox1)) {
@@ -3303,27 +3440,42 @@ var autoDownVar = 0;
 var autoLeftVar = 0;
 var autoRightVar = 0;
 function autoUp() {
+if (upgrademenu == 0) {
 autoUpVar = 1;
+ }
 }
 	
 function autoDown() {
+if (upgrademenu == 0) {
 autoDownVar = 1;
+ }
 }
 	
 function autoLeft() {
+if (upgrademenu == 0) {
 autoLeftVar = 1;
+ }
 }
 	
 function autoRight() {
+if (upgrademenu == 0) {
 autoRightVar = 1;
+ }
 }
 	
-function clearAuto() {
+function clearAutoU() {
 autoUpVar = 0;
-autoDownVar = 0;
-autoLeftVar = 0;
-autoRightVar = 0;
 }	
+
+function clearAutoD() {
+autoDownVar = 0;
+}
+function clearAutoL() {
+autoLeftVar = 0;
+}
+function clearAutoR() {
+autoRightVar = 0;
+}
 
 var fire = 0;
 var fireR = 0;
@@ -3438,26 +3590,38 @@ if (fire < 1) {
 if (-10 + bullbox.x > box.x) {
 	bullbox.speedX = -5;
 	bpic.speedX = -5;
+	bpic2.speedX = -5;
+	bpic3.speedX = -5;
 }
 if (-10 + bullbox.x < box.x) {
 	bullbox.speedX = 5;
 	bpic.speedX = 5;
+	bpic2.speedX = 5;
+	bpic3.speedX = 5;
 }
 if (box.crashWith(bullbox)) {
 	bullbox.speedX = 0;
 	bpic.speedX = 0;
+	bpic2.speedX = 0;
+	bpic3.speedX = 0;
  }
 if (-10 + bullbox.y > box.y) {
 	bullbox.speedY = -5;
 	bpic.speedY = -5;
+	bpic2.speedY = -5;
+	bpic3.speedY = -5;
 }
 if (-10 + bullbox.y < box.y) {
 	bullbox.speedY = 5;
 	bpic.speedY = 5;
+	bpic2.speedY = 5;
+	bpic3.speedY = 5;
 }
 if (box.crashWith(bullbox)) {
 	bullbox.speedY = 0;
 	bpic.speedY = 0;
+	bpic2.speedY = 0;
+	bpic3.speedY = 0;
  }
 }
 if (fire > 0) {
@@ -3466,6 +3630,10 @@ if (fire > 0) {
   bullbox.speedY = 0;
   bpic.speedX -= bullrange;
   bpic.speedY = 0;
+  bpic2.speedX -= bullrange;
+  bpic2.speedY = 0;
+  bpic3.speedX -= bullrange;
+  bpic3.speedY = 0;
   bullettime += 0.5;
   }
  if (fireR > 0) {
@@ -3473,6 +3641,10 @@ if (fire > 0) {
   bullbox.speedY = 0;
   bpic.speedX += bullrange;
   bpic.speedY = 0;
+  bpic2.speedX += bullrange;
+  bpic2.speedY = 0;
+  bpic3.speedX += bullrange;
+  bpic3.speedY = 0;
   bullettime += 0.5;
   }
   if (fireU > 0) {
@@ -3480,6 +3652,10 @@ if (fire > 0) {
   bullbox.speedY -= bullrange;
   bpic.speedY -= bullrange;
   bpic.speedX = 0;
+  bpic2.speedY -= bullrange;
+  bpic2.speedX = 0;
+  bpic3.speedY -= bullrange;
+  bpic3.speedX = 0;
   bullettime += 0.5;
   }
   if (fireD > 0) {
@@ -3487,6 +3663,10 @@ if (fire > 0) {
   bullbox.speedY += bullrange;
   bpic.speedY += bullrange;
   bpic.speedX = 0;
+  bpic2.speedY += bullrange;
+  bpic2.speedX = 0;
+  bpic3.speedY += bullrange;
+  bpic3.speedX = 0;
   bullettime += 0.5;
   }
  if (bullettime >= 5) {
@@ -3579,7 +3759,9 @@ box.speedX = 0;
 
 var firesoundstart = 0;
 var sound = 0
+var work = 0;
 function playSound() {
+if (work == 1) {
 if (sound == 0) {
 if (menu > 0) {
 document.getElementById('level1').play();
@@ -3590,6 +3772,7 @@ if (menu > 0) {
 document.getElementById('level2').play();
   }
  }
+}
 if (firesoundstart > 0) {
 if (menu > 0) {
 document.getElementById('firesound').play();
@@ -3606,7 +3789,7 @@ player.volume = val / 100;
 var player2 = document.getElementById('level2');
 player2.volume = val / 100;
 var fireVolume = document.getElementById('firesound');
-fireVolume.volume = val / 100;
+fireVolume.volume = val / 50;
 }
 	
 function skipSound() {
@@ -3658,13 +3841,14 @@ function name() {
  }
  if (name.value == testwave) {
  wave = 5;
+ money = 120;
  }
  if (name.value == resetcheat) {
  document.location.reload(true);
  }
 }
 
-var money = 100;
+var money = 50;
 var mbX = 580;
 var mbY = 480;
 function playerMoney() {
@@ -3681,14 +3865,19 @@ function playerMoney() {
  moneyf.update();
 }
 
-var stopper = 0;
 function swapweap1() {
 	weapon = 0;
 }
 
 function swapweap2() {
-if (weaponupgrade1 == 1) {
+if (weaponupgrade1 > 0) {
     weapon = 1;
+ }
+}
+
+function swapweap3() {
+if (weaponupgrade1 > 1) {
+    weapon = 2;
  }
 }
 
@@ -3701,19 +3890,28 @@ function backfunc() {
 	}
 }
 	
-function upgrade1func() {	
+var nextUpgrade = 0;
+function upgrade1func() {
+        nextUpgrade = 1;	
 		if (weaponupgrade1 == 0) {
 		if (money >= 100) {
 			weaponupgrade1 = 1;
 			money -= 100;
+			nextUpgrade = 0;
+		}
+	   }
+	   if (nextUpgrade == 1) {
+	    if (weaponupgrade1 == 1) {
+		 if (money >= 200) {
+			weaponupgrade1 = 2;
+			money -= 200;
+		 }
 		}
 	   }
 }
 </script>
 <label class="unselectable">
-<h1 align=center>
- Homeworld Takedown V0.4.8
-</h1>
+<h1 align=center>Homeworld Takedown V0.4.9</h1>
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
 <p align="center"><input type="text" id="name" value=""></p>
