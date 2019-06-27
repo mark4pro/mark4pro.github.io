@@ -3835,7 +3835,7 @@ function name() {
  }
  if (name.value == testwave) {
  wave = 5;
- money = 120;
+ money = 200;
  weaponupgrade1 = 1;
  }
  if (name.value == resetcheat) {
@@ -3874,6 +3874,15 @@ if (stopper > 0) {
    stopper = 0;
    }
    if (weapon > 1.5) {
+	weapon = 0;
+	}
+ }
+ if (weaponupgrade1 == 2) {
+if (stopper > 0) {
+   weapon += 0.5;
+   stopper = 0;
+   }
+   if (weapon > 2.5) {
 	weapon = 0;
 	}
  }
