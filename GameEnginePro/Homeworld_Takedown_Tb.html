@@ -5,8 +5,8 @@
 <link rel="icon" type="image/vnd.microsoft.icon"
      href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
 <meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<link rel="apple-touch-icon" href="https://mark4pro.github.io/GameEnginePro/image/icon/hticon.PNG" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" href="https://mark4pro.github.io/GameEnginePro/image/icon/hticon.PNG" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <style>
 body {
@@ -108,9 +108,9 @@ margin : 0;
 <img id="Rectangle" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/squ-enemy.png">
 
 <!-- Were Sounds Go -->
-		<audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
-		<audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/level2.mp3"></audio>
-	        <audio id="firesound" src="https://mark4pro.github.io/GameEnginePro/audio/LaserGunSound.mp3"></audio>
+<audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
+<audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/level2.mp3"></audio>
+       <audio id="firesound" src="https://mark4pro.github.io/GameEnginePro/audio/LaserGunSound.mp3"></audio>
                 <audio id="startsound" src="https://mark4pro.github.io/GameEnginePro/audio/start_sound.mp3"></audio>
 </head>
 <body onload="start()">
@@ -132,7 +132,7 @@ var menu = 0;
 var backX = 430;
 var backY = 350;
 var upgrade1X = 430;
-var upgrade1Y = -50;
+var upgrade1Y = 50;
 var bad1posX = 760;
 var bad1posY = 450;
 var bad2posX = 20;
@@ -211,55 +211,55 @@ function start() {
  ui = new component(800, 300, "white", 0, 390, "img2");
  backbutton = new component(160, 50, "gray", backX, backY, "rec");
  backbuttonnodetect = new component(160, 50, "grey", backX - 100, backY + 100, "img4");
- backtxt = new component("30px", "Consolas", "white", backX - 40, backY + 135, "text");
+ backtxt = new component("30px", "Consolas", "white", backX - 45, backY + 135, "text");
  backtxt.font = "20px Consolas";
  backtxt.text = "BACK";
  backtxtinfo = new component("30px", "Consolas", "white", 45, backY + 130, "text");
  backtxtinfo.font = "15px Consolas";
  backtxtinfo.text = "Exits the upgrade menu. ->";
- upgrade1button = new component(205, 50, "gray", upgrade1X, upgrade1Y, "rec");
- upgrade1button2 = new component(205, 50, "gray", upgrade1X, upgrade1Y, "rec");
- upgrade1buttonnodetect = new component(205, 50, "grey", upgrade1X - 100, upgrade1Y + 100, "img4");
- upgrade1txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 130, "text");
+ upgrade1button = new component(175, 50, "gray", upgrade1X, upgrade1Y, "rec");
+ upgrade1button2 = new component(175, 50, "gray", upgrade1X, upgrade1Y, "rec");
+ upgrade1buttonnodetect = new component(175, 50, "grey", upgrade1X - 100, upgrade1Y + 50, "img4");
+ upgrade1txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 80, "text");
  upgrade1txt.font = "15px Consolas";
  upgrade1txt.text = "#1 Weapon Upgrade (1/2)";
- upgrade1txtinfo = new component("30px", "Consolas", "white", 45, upgrade1Y + 130, "text");
+ upgrade1txtinfo = new component("30px", "Consolas", "white", 45, upgrade1Y + 80, "text");
  upgrade1txtinfo.font = "15px Consolas";
  upgrade1txtinfo.text = "Weapon Upgrade (1/2) ->";
- upgrade1txtinfo2 = new component("30px", "Consolas", "white", 45, upgrade1Y + 145, "text");
+ upgrade1txtinfo2 = new component("30px", "Consolas", "white", 45, upgrade1Y + 95, "text");
  upgrade1txtinfo2.font = "15px Consolas";
  upgrade1txtinfo2.text = "Name: Hi-Beam";
- upgrade1txtinfo3 = new component("30px", "Consolas", "white", 45, upgrade1Y + 160, "text");
+ upgrade1txtinfo3 = new component("30px", "Consolas", "white", 45, upgrade1Y + 110, "text");
  upgrade1txtinfo3.font = "15px Consolas";
  upgrade1txtinfo3.text = "Cost: $100";
- upgrade1txtinfo4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 175, "text");
+ upgrade1txtinfo4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 125, "text");
  upgrade1txtinfo4.font = "15px Consolas";
  upgrade1txtinfo4.text = "Damage: 25(+5)";
- upgrade1txtinfo5 = new component("30px", "Consolas", "white", 45, upgrade1Y + 190, "text");
+ upgrade1txtinfo5 = new component("30px", "Consolas", "white", 45, upgrade1Y + 140, "text");
  upgrade1txtinfo5.font = "15px Consolas";
  upgrade1txtinfo5.text = "Range: 2(-1)";
- upgrade1txtinfo6 = new component("30px", "Consolas", "white", 45, upgrade1Y + 205, "text");
+ upgrade1txtinfo6 = new component("30px", "Consolas", "white", 45, upgrade1Y + 155, "text");
  upgrade1txtinfo6.font = "15px Consolas";
  upgrade1txtinfo6.text = "Special: Slows Enemies";
- upgrade1_2txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 130, "text");
+ upgrade1_2txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 80, "text");
  upgrade1_2txt.font = "15px Consolas";
  upgrade1_2txt.text = "#1 Weapon Upgrade (2/2)";
- upgrade1_2txtinfo = new component("30px", "Consolas", "white", 45, upgrade1Y + 130, "text");
+ upgrade1_2txtinfo = new component("30px", "Consolas", "white", 45, upgrade1Y + 80, "text");
  upgrade1_2txtinfo.font = "15px Consolas";
  upgrade1_2txtinfo.text = "Weapon Upgrade (2/2) ->";
- upgrade1_2txtinfo2 = new component("30px", "Consolas", "white", 45, upgrade1Y + 145, "text");
+ upgrade1_2txtinfo2 = new component("30px", "Consolas", "white", 45, upgrade1Y + 95, "text");
  upgrade1_2txtinfo2.font = "15px Consolas";
  upgrade1_2txtinfo2.text = "Name: Zapper";
- upgrade1_2txtinfo3 = new component("30px", "Consolas", "white", 45, upgrade1Y + 160, "text");
+ upgrade1_2txtinfo3 = new component("30px", "Consolas", "white", 45, upgrade1Y + 110, "text");
  upgrade1_2txtinfo3.font = "15px Consolas";
  upgrade1_2txtinfo3.text = "Cost: $200";
- upgrade1_2txtinfo4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 175, "text");
+ upgrade1_2txtinfo4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 125, "text");
  upgrade1_2txtinfo4.font = "15px Consolas";
  upgrade1_2txtinfo4.text = "Damage: 35(+10)";
- upgrade1_2txtinfo5 = new component("30px", "Consolas", "white", 45, upgrade1Y + 190, "text");
+ upgrade1_2txtinfo5 = new component("30px", "Consolas", "white", 45, upgrade1Y + 140, "text");
  upgrade1_2txtinfo5.font = "15px Consolas";
  upgrade1_2txtinfo5.text = "Range: 4(+1)";
- max1txt = new component("30px", "Consolas", "white", upgrade1X - 25, upgrade1Y + 30, "text");
+ max1txt = new component("30px", "Consolas", "white", upgrade1X - 45, upgrade1Y + 80, "text");
  max1txt.font = "20px Consolas";
  max1txt.text = "MAXED";
  infoboard = new component(300, 500, "grey", 0, 0, "rec");
@@ -289,21 +289,21 @@ document.body.childNodes[0]);
 this.frameNo = 60;
 this.interval = setInterval(updateGameArea, 10);
 window.addEventListener('mousedown', function (e) {
-			Board.x = e.pageX;
-			Board.y = e.pageY;
-		})
-		window.addEventListener('mouseup', function (e) {
-			Board.x = false;
-			Board.y = false;
-		})
-		window.addEventListener('touchstart', function (e) {
-			Board.x = e.pageX;
-			Board.y = e.pageY;
-		})
-		window.addEventListener('touchend', function (e) {
-			Board.x = false;
-			Board.y = false;
-		})
+Board.x = e.pageX;
+Board.y = e.pageY;
+})
+window.addEventListener('mouseup', function (e) {
+Board.x = false;
+Board.y = false;
+})
+window.addEventListener('touchstart', function (e) {
+Board.x = e.pageX;
+Board.y = e.pageY;
+})
+window.addEventListener('touchend', function (e) {
+Board.x = false;
+Board.y = false;
+})
 },
 stop : function() {
         clearInterval(this.interval);
@@ -480,16 +480,16 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
 }
 this.clicked = function() {
-	   var myleft = this.x;
-	   var myright = this.x + (this.width);
-	   var mytop = this.y;
-	   var mybottom = this.y + (this.height);
-		var clicked = true;
-		if ((mybottom < Board.y) || (mytop > Board.y) || (myright < Board.x) || (myleft > Board.x)) {
-			clicked = false;
-		}
-		return clicked;
-	}
+  var myleft = this.x;
+  var myright = this.x + (this.width);
+  var mytop = this.y;
+  var mybottom = this.y + (this.height);
+var clicked = true;
+if ((mybottom < Board.y) || (mytop > Board.y) || (myright < Board.x) || (myleft > Board.x)) {
+clicked = false;
+}
+return clicked;
+}
 this.newPos = function() {
 this.x += this.speedX;
 this.y += this.speedY;
@@ -575,7 +575,7 @@ if (money >= revivecost) {
  money -= revivecost;
  playerHealth = 100;
  if (ammo < 50) {
-	ammo += payback;
+ammo += payback;
    }
   } else
 if (money < revivecost) {
@@ -603,10 +603,10 @@ var wave = 1;
 var oldwave = 1;
 var upgrademenu = 0;
 function checkwave() {
-	if (oldwave != wave){
-		upgrademenu = 1;
-		oldwave += 1;
-	}
+if (oldwave != wave){
+upgrademenu = 1;
+oldwave += 1;
+}
 }
 
 var resetframe = 6;
@@ -616,19 +616,19 @@ var ticksPerFrame = 60;
 var startTime = 0;
 function framerate() {
 if (startTime == 1) {
-		tickCount += 1;	
-		if (tickCount > ticksPerFrame) {
-			tickCount = 0;
-			frameIndex += 1; 
-		}
-		if (frameIndex == resetframe) {
-			tickCount = 0;
-			frameIndex = 0;
-			startTime = 0;			
-		}
-	}
+tickCount += 1;	
+if (tickCount > ticksPerFrame) {
+tickCount = 0;
+frameIndex += 1; 
 }
-	
+if (frameIndex == resetframe) {
+tickCount = 0;
+frameIndex = 0;
+startTime = 0;	
+}
+}
+}
+
 var resetframe2 = 6;
 var tickCount2 = 0;
 var frameIndex2 = 0;
@@ -636,17 +636,17 @@ var ticksPerFrame2 = 60;
 var startTime2 = 0;
 function framerate2() {
 if (startTime2 == 1) {
-		tickCount2 += 1;	
-		if (tickCount2 > ticksPerFrame2) {
-			tickCount2 = 0;
-			frameIndex2 += 1; 
-		}
-		if (frameIndex2 == resetframe2) {
-			tickCount2 = 0;
-			frameIndex2 = 0;
-			startTime2 = 0;			
-		}
-	}
+tickCount2 += 1;	
+if (tickCount2 > ticksPerFrame2) {
+tickCount2 = 0;
+frameIndex2 += 1; 
+}
+if (frameIndex2 == resetframe2) {
+tickCount2 = 0;
+frameIndex2 = 0;
+startTime2 = 0;	
+}
+}
 }
 
 var resetframe3 = 3;
@@ -656,17 +656,17 @@ var ticksPerFrame3 = 60;
 var startTime3 = 0;
 function framerate3() {
 if (startTime3 == 1) {
-		tickCount3 += 1;	
-		if (tickCount3 > ticksPerFrame3) {
-			tickCount3 = 0;
-			frameIndex3 += 1; 
-		}
-		if (frameIndex3 == resetframe3) {
-			tickCount3 = 0;
-			frameIndex3 = 0;
-			startTime3 = 0;			
-		}
-	}
+tickCount3 += 1;	
+if (tickCount3 > ticksPerFrame3) {
+tickCount3 = 0;
+frameIndex3 += 1; 
+}
+if (frameIndex3 == resetframe3) {
+tickCount3 = 0;
+frameIndex3 = 0;
+startTime3 = 0;	
+}
+}
 }
 
 var resetframe4 = 5;
@@ -678,15 +678,15 @@ function framerate4() {
 if (startTime4 == 1) {
         tickCount4 += 1;	
         if (tickCount4 > ticksPerFrame4) {
-        	tickCount4 = 0;
+        tickCount4 = 0;
             frameIndex4 += 1; 
         }
-		if (frameIndex4 == resetframe4) {
-		    tickCount4 = 0;
+if (frameIndex4 == resetframe4) {
+   tickCount4 = 0;
             frameIndex4 = 0;
-            startTime4 = 0;			
+            startTime4 = 0;	
         }
-	}
+}
 }
 var resetframe5 = 3;
 var tickCount5 = 0;
@@ -696,15 +696,36 @@ function framerate5() {
 if (firesoundstart == 1) {
         tickCount5 += 1;	
         if (tickCount5 > ticksPerFrame5) {
-        	tickCount5 = 0;
+        tickCount5 = 0;
             frameIndex5 += 1; 
         }
-		if (frameIndex5 == resetframe5) {
-		    tickCount5 = 0;
+if (frameIndex5 == resetframe5) {
+   tickCount5 = 0;
             frameIndex5 = 0;
-            firesoundstart = 0;			
+            firesoundstart = 0;	
         }
-	}
+}
+}
+
+var resetframe6 = 1;
+var tickCount6 = 0;
+var frameIndex6 = 0;
+var ticksPerFrame6 = 5;
+var nextupgrade = 0;
+var startthing = 0;
+function framerate6() {
+if (startthing == 1) {
+        tickCount6 += 1;	
+        if (tickCount6 > ticksPerFrame6) {
+        tickCount6 = 0;
+        frameIndex6 += 1; 
+        }
+if (frameIndex6 == resetframe6) {
+            tickCount6 = 0;
+            frameIndex6 = 0;
+            nextupgrade = 1;	
+        }
+}
 }
 
 var insidehouse1 = 0;
@@ -742,7 +763,7 @@ shootRight();
 }
 
 var switchpos = 0;	
-	
+
 function updateGameArea() {
 firehandler();
 bindings();
@@ -751,6 +772,7 @@ framerate2();
 framerate3();
 framerate4();
 framerate5();
+framerate6();
 resetfire();
 Board.clear();
 costToRevive.text = "You must have $" + revivecost + " to revive";
@@ -759,27 +781,30 @@ skipSound();
 box.update();
 if (Board.x && Board.y) {
    if (upgrademenu == 1) {
-		if (backbutton.clicked()) {
-			upgrademenu = 0;
-		}
-		if (upgrade1button.clicked()) {
-		if (weaponupgrade1 == 0) {
-		if (money >= 100) {
-			weaponupgrade1 = 1;
-			money -= 100;
-		  }
-	     }
-	    }
-		if (upgrade1button2.clicked()) {
-		if (weaponupgrade1 == 1) {
-		if (money >= 200) {
-			weaponupgrade1 = 2;
-			money -= 200;
-		  }
-	     }
-	    }
-	 }
-	}
+if (backbutton.clicked()) {
+upgrademenu = 0;
+}
+if (upgrade1button.clicked()) {
+if (weaponupgrade1 == 0) {
+if (money >= 100) {
+weaponupgrade1 = 1;
+money -= 100;
+startthing = 1;
+ }
+    }
+   }
+if (nextupgrade == 1) {
+if (upgrade1button2.clicked()) {
+if (weaponupgrade1 == 1) {
+if (money >= 200) {
+weaponupgrade1 = 2;
+money -= 200;
+ }
+    }
+   }
+  }
+}
+}
 if (upgrademenu == 1) {
 backbutton.update();
 if (weaponupgrade1 == 0) {
@@ -862,13 +887,13 @@ healthcrate1picO.update();
  }
 }
 if (fire > 0) {
-if (weapon == 0) {
+if (weapon >= 0 && weapon < 1) {
 bpic.update();
  }
-if (weapon == 1) {
+if (weapon >= 1 && weapon < 2) {
 bpic2.update();
  }
-if (weapon == 2) {
+if (weapon >= 2 && weapon < 3) {
 bpic3.update();
  }
 }
@@ -1446,7 +1471,7 @@ money += moneyperendie;
 count += 1;
 console.log("Count: " + count);
 }
-	}
+}
    }
   }
  }
@@ -1665,973 +1690,973 @@ Badhealth1 = 0;
 
 function crashhitai1() {
   if (BadDeath < 1) {
-	if (badguy1.crashWith(wallright)) {
-		touchwallrightbad1 = 1;
-		if (touchwallrightbad1 == 1) {
-			badguypic1.speedX = -1;
-			badguy1.speedX = -1;
-		}
-	}
-	if (badguy1.crashWith(wallhouse3)) {
-		touchwallrightbad1 = 1;
-		if (touchwallrightbad1 == 1) {
-			badguypic1.speedX = -1;
-			badguy1.speedX = -1;
-		}
-	}
-	if (badguy1.crashWith(wallhouse7)) {
-		touchwallrightbad1 = 1;
-		if (touchwallrightbad1 == 1) {
-			badguypic1.speedX = -2;
-			badguy1.speedX = -2;
-			badguypic1.speedY = 2;
-			badguy1.speedY = 2;
-		}
-	}
-	if (badguy1.crashWith(wallhouse2_2)) {
-		touchwallrightbad1 = 1;
-		if (touchwallrightbad1 == 1) {
-			badguypic1.speedX = -1;
-			badguy1.speedX = -1;
-		}
-	}
-	if (badguy1.crashWith(wall2house3)) {
-		touchwallrightbad1 = 1;
-		if (touchwallrightbad1 == 1) {
-			badguypic1.speedX = -1;
-			badguy1.speedX = -1;
-		}
-	}
-	if (badguy1.crashWith(wall2house7)) {
-		touchwallrightbad1 = 1;
-		if (touchwallrightbad1 == 1) {
-			badguypic1.speedX = -2;
-			badguy1.speedX = -2;
-			badguypic1.speedY = 2;
-			badguy1.speedY = 2;
-		}
-	}
-	if (badguy1.crashWith(wall2house2_2)) {
-		touchwallrightbad1 = 1;
-		if (touchwallrightbad1 == 1) {
-			badguypic1.speedX = -1;
-			badguy1.speedX = -1;
-		}
-	}
-	if (badguy1.crashWith(wallright) == false) {
-	  touchwallrightbad1 = 0;
-	}
-	if (badguy1.crashWith(wallhouse3) == false) {
-	  touchwallrightbad1 = 0;
-	}
-	if (badguy1.crashWith(wallhouse2_2) == false) {
-	  touchwallrightbad1 = 0;
-	}
-	if (badguy1.crashWith(wallhouse7) == false) {
-	  touchwallrightbad1 = 0;
-	}
-	if (badguy1.crashWith(wall2house3) == false) {
-	  touchwallrightbad1 = 0;
-	}
-	if (badguy1.crashWith(wall2house2_2) == false) {
-	  touchwallrightbad1 = 0;
-	}
-	if (badguy1.crashWith(wall2house7) == false) {
-	  touchwallrightbad1 = 0;
-	}
-	if (badguy1.crashWith(wallleft)) {
-		touchwallleftbad1 = 1;
-		if (touchwallleftbad1 == 1) {
-			badguypic1.speedX = 1;
-			badguy1.speedX = 1;
-		}
-	}
-	if (badguy1.crashWith(wallhouse3_2)) {
-		touchwallleftbad1 = 1;
-		if (touchwallleftbad1 == 1) {
-			badguypic1.speedX = 1;
-			badguy1.speedX = 1;
-		}
-	}
-	if (badguy1.crashWith(wallhouse2)) {
-		touchwallleftbad1 = 1;
-		if (touchwallleftbad1 == 1) {
-			badguypic1.speedX = 1;
-			badguy1.speedX = 1;
-		}
-	}
-	if (badguy1.crashWith(wallhouse5)) {
-		touchwallleftbad1 = 1;
-		if (touchwallleftbad1 == 1) {
-			badguypic1.speedX = 2;
-			badguy1.speedX = 2;
-			badguypic1.speedY = 2;
-			badguy1.speedY = 2;
-		}
-	}
-	if (badguy1.crashWith(wall2house3_2)) {
-		touchwallleftbad1 = 1;
-		if (touchwallleftbad1 == 1) {
-			badguypic1.speedX = 1;
-			badguy1.speedX = 1;
-		}
-	}
-	if (badguy1.crashWith(wall2house2)) {
-		touchwallleftbad1 = 1;
-		if (touchwallleftbad1 == 1) {
-			badguypic1.speedX = 1;
-			badguy1.speedX = 1;
-		}
-	}
-	if (badguy1.crashWith(wall2house5)) {
-		touchwallleftbad1 = 1;
-		if (touchwallleftbad1 == 1) {
-			badguypic1.speedX = 2;
-			badguy1.speedX = 2;
-			badguypic1.speedY = 2;
-			badguy1.speedY = 2;
-		}
-	}
-	if (badguy1.crashWith(wallleft) == false) {
-	  touchwallleftbad1 = 0;
-	}
-	if (badguy1.crashWith(wallhouse3_2) == false) {
-	  touchwallleftbad1 = 0;
-	}
-	if (badguy1.crashWith(wallhouse2) == false) {
-	  touchwallleftbad1 = 0;
-	}
-	if (badguy1.crashWith(wallhouse5) == false) {
-	  touchwallleftbad1 = 0;
-	}
-	if (badguy1.crashWith(wall2house3_2) == false) {
-	  touchwallleftbad1 = 0;
-	}
-	if (badguy1.crashWith(wall2house2) == false) {
-	  touchwallleftbad1 = 0;
-	}
-	if (badguy1.crashWith(wall2house5) == false) {
-	  touchwallleftbad1 = 0;
-	}
-	if (badguy1.crashWith(wall3)) {
-		touchwallupbad1 = 1;
-		if (touchwallupbad1 == 1) {
-			badguypic1.speedY = 1;
-			badguy1.speedY = 1;
-		}
-	}
-	if (badguy1.crashWith(wallhouse1)) {
-		touchwallupbad1 = 1;
-		if (touchwallupbad1 == 1) {
-			badguypic1.speedY = 1;
-			badguy1.speedY = 1;
-		}
-	}
-	if (badguy1.crashWith(wallhouse4_2)) {
-		touchwallupbad1 = 1;
-		if (touchwallupbad1 == 1) {
-			badguypic1.speedY = 1;
-			badguy1.speedY = 1;
-		}
-	}
-	if (badguy1.crashWith(wallhouse6_2)) {
-		touchwallupbad1 = 1;
-		if (touchwallupbad1 == 1) {
-			badguypic1.speedY = 1;
-			badguy1.speedY = 1;
-		}
-	}
-	if (badguy1.crashWith(wall2house1)) {
-		touchwallupbad1 = 1;
-		if (touchwallupbad1 == 1) {
-			badguypic1.speedY = 1;
-			badguy1.speedY = 1;
-		}
-	}
-	if (badguy1.crashWith(wall2house4_2)) {
-		touchwallupbad1 = 1;
-		if (touchwallupbad1 == 1) {
-			badguypic1.speedY = 1;
-			badguy1.speedY = 1;
-		}
-	}
-	if (badguy1.crashWith(wall2house6_2)) {
-		touchwallupbad1 = 1;
-		if (touchwallupbad1 == 1) {
-			badguypic1.speedY = 1;
-			badguy1.speedY = 1;
-		}
-	}
-	if (insidehouse1 == 0) {
-	if (badguy1.crashWith(wallhouse8)) {
-		touchwalldownbad1 = 1;
-		if (touchwalldownbad1 == 1) {
-			badguypic1.speedY = 1;
-			badguy1.speedY = 1;
-		}
-	 }
-	}
-	if (inside2house1 == 0) {
-	if (badguy1.crashWith(wall2house8)) {
-		touchwalldownbad1 = 1;
-		if (touchwalldownbad1 == 1) {
-			badguypic1.speedY = 1;
-			badguy1.speedY = 1;
-		}
-	 }
-	}
-	if (badguy1.crashWith(wall3) == false) {
-	  touchwallupbad1 = 0;
-	}
-	if (badguy1.crashWith(wallhouse1) == false) {
-	  touchwallupbad1 = 0;
-	}
-	if (badguy1.crashWith(wallhouse4_2) == false) {
-	  touchwallupbad1 = 0;
-	}
-	if (badguy1.crashWith(wallhouse6_2) == false) {
-	  touchwallupbad1 = 0;
-	}
-	if (badguy1.crashWith(wall2house1) == false) {
-	  touchwallupbad1 = 0;
-	}
-	if (badguy1.crashWith(wall2house4_2) == false) {
-	  touchwallupbad1 = 0;
-	}
-	if (badguy1.crashWith(wall2house6_2) == false) {
-	  touchwallupbad1 = 0;
-	}
-	if (badguy1.crashWith(wallhouse8) == false) {
-	  touchwallupbad1 = 0;
-	}
-	if (badguy1.crashWith(wall2house8) == false) {
-	  touchwallupbad1 = 0;
-	}
-	if (badguy1.crashWith(wall4)) {
-		touchwalldownbad1 = 1;
-		if (touchwalldownbad1 == 1) {
-			badguypic1.speedY = -1;
-			badguy1.speedY = -1;
-		}
-	}
-	if (badguy1.crashWith(wallhouse1_2)) {
-		touchwalldownbad1 = 1;
-		if (touchwalldownbad1 == 1) {
-			badguypic1.speedY = -1;
-			badguy1.speedY = -1;
-		}
-	}
-	if (badguy1.crashWith(wallhouse4)) {
-		touchwalldownbad1 = 1;
-		if (touchwalldownbad1 == 1) {
-			badguypic1.speedY = -1;
-			badguy1.speedY = -1;
-		}
-	}
-	if (badguy1.crashWith(wallhouse6)) {
-		touchwalldownbad1 = 1;
-		if (touchwalldownbad1 == 1) {
-			badguypic1.speedY = -1;
-			badguy1.speedY = -1;
-		}
-	}
-	if (badguy1.crashWith(wall2house1_2)) {
-		touchwalldownbad1 = 1;
-		if (touchwalldownbad1 == 1) {
-			badguypic1.speedY = -1;
-			badguy1.speedY = -1;
-		}
-	}
-	if (badguy1.crashWith(wall2house4)) {
-		touchwalldownbad1 = 1;
-		if (touchwalldownbad1 == 1) {
-			badguypic1.speedY = -1;
-			badguy1.speedY = -1;
-		}
-	}
-	if (badguy1.crashWith(wall2house6)) {
-		touchwalldownbad1 = 1;
-		if (touchwalldownbad1 == 1) {
-			badguypic1.speedY = -1;
-			badguy1.speedY = -1;
-		}
-	}
-	if (badguy1.crashWith(wall4) == false) {
-	  touchwalldownbad1 = 0;
-	}
-	if (badguy1.crashWith(wallhouse1_2) == false) {
-	  touchwalldownbad1 = 0;
-	}
-	if (badguy1.crashWith(wallhouse4) == false) {
-	  touchwalldownbad1 = 0;
-	}
-	if (badguy1.crashWith(wallhouse6) == false) {
-	  touchwalldownbad1 = 0;
-	}
-	if (badguy1.crashWith(wall2house1_2) == false) {
-	  touchwalldownbad1 = 0;
-	}
-	if (badguy1.crashWith(wall2house4) == false) {
-	  touchwalldownbad1 = 0;
-	}
-	if (badguy1.crashWith(wall2house6) == false) {
-	  touchwalldownbad1 = 0;
-	}
+if (badguy1.crashWith(wallright)) {
+touchwallrightbad1 = 1;
+if (touchwallrightbad1 == 1) {
+badguypic1.speedX = -1;
+badguy1.speedX = -1;
+}
+}
+if (badguy1.crashWith(wallhouse3)) {
+touchwallrightbad1 = 1;
+if (touchwallrightbad1 == 1) {
+badguypic1.speedX = -1;
+badguy1.speedX = -1;
+}
+}
+if (badguy1.crashWith(wallhouse7)) {
+touchwallrightbad1 = 1;
+if (touchwallrightbad1 == 1) {
+badguypic1.speedX = -2;
+badguy1.speedX = -2;
+badguypic1.speedY = 2;
+badguy1.speedY = 2;
+}
+}
+if (badguy1.crashWith(wallhouse2_2)) {
+touchwallrightbad1 = 1;
+if (touchwallrightbad1 == 1) {
+badguypic1.speedX = -1;
+badguy1.speedX = -1;
+}
+}
+if (badguy1.crashWith(wall2house3)) {
+touchwallrightbad1 = 1;
+if (touchwallrightbad1 == 1) {
+badguypic1.speedX = -1;
+badguy1.speedX = -1;
+}
+}
+if (badguy1.crashWith(wall2house7)) {
+touchwallrightbad1 = 1;
+if (touchwallrightbad1 == 1) {
+badguypic1.speedX = -2;
+badguy1.speedX = -2;
+badguypic1.speedY = 2;
+badguy1.speedY = 2;
+}
+}
+if (badguy1.crashWith(wall2house2_2)) {
+touchwallrightbad1 = 1;
+if (touchwallrightbad1 == 1) {
+badguypic1.speedX = -1;
+badguy1.speedX = -1;
+}
+}
+if (badguy1.crashWith(wallright) == false) {
+ touchwallrightbad1 = 0;
+}
+if (badguy1.crashWith(wallhouse3) == false) {
+ touchwallrightbad1 = 0;
+}
+if (badguy1.crashWith(wallhouse2_2) == false) {
+ touchwallrightbad1 = 0;
+}
+if (badguy1.crashWith(wallhouse7) == false) {
+ touchwallrightbad1 = 0;
+}
+if (badguy1.crashWith(wall2house3) == false) {
+ touchwallrightbad1 = 0;
+}
+if (badguy1.crashWith(wall2house2_2) == false) {
+ touchwallrightbad1 = 0;
+}
+if (badguy1.crashWith(wall2house7) == false) {
+ touchwallrightbad1 = 0;
+}
+if (badguy1.crashWith(wallleft)) {
+touchwallleftbad1 = 1;
+if (touchwallleftbad1 == 1) {
+badguypic1.speedX = 1;
+badguy1.speedX = 1;
+}
+}
+if (badguy1.crashWith(wallhouse3_2)) {
+touchwallleftbad1 = 1;
+if (touchwallleftbad1 == 1) {
+badguypic1.speedX = 1;
+badguy1.speedX = 1;
+}
+}
+if (badguy1.crashWith(wallhouse2)) {
+touchwallleftbad1 = 1;
+if (touchwallleftbad1 == 1) {
+badguypic1.speedX = 1;
+badguy1.speedX = 1;
+}
+}
+if (badguy1.crashWith(wallhouse5)) {
+touchwallleftbad1 = 1;
+if (touchwallleftbad1 == 1) {
+badguypic1.speedX = 2;
+badguy1.speedX = 2;
+badguypic1.speedY = 2;
+badguy1.speedY = 2;
+}
+}
+if (badguy1.crashWith(wall2house3_2)) {
+touchwallleftbad1 = 1;
+if (touchwallleftbad1 == 1) {
+badguypic1.speedX = 1;
+badguy1.speedX = 1;
+}
+}
+if (badguy1.crashWith(wall2house2)) {
+touchwallleftbad1 = 1;
+if (touchwallleftbad1 == 1) {
+badguypic1.speedX = 1;
+badguy1.speedX = 1;
+}
+}
+if (badguy1.crashWith(wall2house5)) {
+touchwallleftbad1 = 1;
+if (touchwallleftbad1 == 1) {
+badguypic1.speedX = 2;
+badguy1.speedX = 2;
+badguypic1.speedY = 2;
+badguy1.speedY = 2;
+}
+}
+if (badguy1.crashWith(wallleft) == false) {
+ touchwallleftbad1 = 0;
+}
+if (badguy1.crashWith(wallhouse3_2) == false) {
+ touchwallleftbad1 = 0;
+}
+if (badguy1.crashWith(wallhouse2) == false) {
+ touchwallleftbad1 = 0;
+}
+if (badguy1.crashWith(wallhouse5) == false) {
+ touchwallleftbad1 = 0;
+}
+if (badguy1.crashWith(wall2house3_2) == false) {
+ touchwallleftbad1 = 0;
+}
+if (badguy1.crashWith(wall2house2) == false) {
+ touchwallleftbad1 = 0;
+}
+if (badguy1.crashWith(wall2house5) == false) {
+ touchwallleftbad1 = 0;
+}
+if (badguy1.crashWith(wall3)) {
+touchwallupbad1 = 1;
+if (touchwallupbad1 == 1) {
+badguypic1.speedY = 1;
+badguy1.speedY = 1;
+}
+}
+if (badguy1.crashWith(wallhouse1)) {
+touchwallupbad1 = 1;
+if (touchwallupbad1 == 1) {
+badguypic1.speedY = 1;
+badguy1.speedY = 1;
+}
+}
+if (badguy1.crashWith(wallhouse4_2)) {
+touchwallupbad1 = 1;
+if (touchwallupbad1 == 1) {
+badguypic1.speedY = 1;
+badguy1.speedY = 1;
+}
+}
+if (badguy1.crashWith(wallhouse6_2)) {
+touchwallupbad1 = 1;
+if (touchwallupbad1 == 1) {
+badguypic1.speedY = 1;
+badguy1.speedY = 1;
+}
+}
+if (badguy1.crashWith(wall2house1)) {
+touchwallupbad1 = 1;
+if (touchwallupbad1 == 1) {
+badguypic1.speedY = 1;
+badguy1.speedY = 1;
+}
+}
+if (badguy1.crashWith(wall2house4_2)) {
+touchwallupbad1 = 1;
+if (touchwallupbad1 == 1) {
+badguypic1.speedY = 1;
+badguy1.speedY = 1;
+}
+}
+if (badguy1.crashWith(wall2house6_2)) {
+touchwallupbad1 = 1;
+if (touchwallupbad1 == 1) {
+badguypic1.speedY = 1;
+badguy1.speedY = 1;
+}
+}
+if (insidehouse1 == 0) {
+if (badguy1.crashWith(wallhouse8)) {
+touchwalldownbad1 = 1;
+if (touchwalldownbad1 == 1) {
+badguypic1.speedY = 1;
+badguy1.speedY = 1;
+}
+}
+}
+if (inside2house1 == 0) {
+if (badguy1.crashWith(wall2house8)) {
+touchwalldownbad1 = 1;
+if (touchwalldownbad1 == 1) {
+badguypic1.speedY = 1;
+badguy1.speedY = 1;
+}
+}
+}
+if (badguy1.crashWith(wall3) == false) {
+ touchwallupbad1 = 0;
+}
+if (badguy1.crashWith(wallhouse1) == false) {
+ touchwallupbad1 = 0;
+}
+if (badguy1.crashWith(wallhouse4_2) == false) {
+ touchwallupbad1 = 0;
+}
+if (badguy1.crashWith(wallhouse6_2) == false) {
+ touchwallupbad1 = 0;
+}
+if (badguy1.crashWith(wall2house1) == false) {
+ touchwallupbad1 = 0;
+}
+if (badguy1.crashWith(wall2house4_2) == false) {
+ touchwallupbad1 = 0;
+}
+if (badguy1.crashWith(wall2house6_2) == false) {
+ touchwallupbad1 = 0;
+}
+if (badguy1.crashWith(wallhouse8) == false) {
+ touchwallupbad1 = 0;
+}
+if (badguy1.crashWith(wall2house8) == false) {
+ touchwallupbad1 = 0;
+}
+if (badguy1.crashWith(wall4)) {
+touchwalldownbad1 = 1;
+if (touchwalldownbad1 == 1) {
+badguypic1.speedY = -1;
+badguy1.speedY = -1;
+}
+}
+if (badguy1.crashWith(wallhouse1_2)) {
+touchwalldownbad1 = 1;
+if (touchwalldownbad1 == 1) {
+badguypic1.speedY = -1;
+badguy1.speedY = -1;
+}
+}
+if (badguy1.crashWith(wallhouse4)) {
+touchwalldownbad1 = 1;
+if (touchwalldownbad1 == 1) {
+badguypic1.speedY = -1;
+badguy1.speedY = -1;
+}
+}
+if (badguy1.crashWith(wallhouse6)) {
+touchwalldownbad1 = 1;
+if (touchwalldownbad1 == 1) {
+badguypic1.speedY = -1;
+badguy1.speedY = -1;
+}
+}
+if (badguy1.crashWith(wall2house1_2)) {
+touchwalldownbad1 = 1;
+if (touchwalldownbad1 == 1) {
+badguypic1.speedY = -1;
+badguy1.speedY = -1;
+}
+}
+if (badguy1.crashWith(wall2house4)) {
+touchwalldownbad1 = 1;
+if (touchwalldownbad1 == 1) {
+badguypic1.speedY = -1;
+badguy1.speedY = -1;
+}
+}
+if (badguy1.crashWith(wall2house6)) {
+touchwalldownbad1 = 1;
+if (touchwalldownbad1 == 1) {
+badguypic1.speedY = -1;
+badguy1.speedY = -1;
+}
+}
+if (badguy1.crashWith(wall4) == false) {
+ touchwalldownbad1 = 0;
+}
+if (badguy1.crashWith(wallhouse1_2) == false) {
+ touchwalldownbad1 = 0;
+}
+if (badguy1.crashWith(wallhouse4) == false) {
+ touchwalldownbad1 = 0;
+}
+if (badguy1.crashWith(wallhouse6) == false) {
+ touchwalldownbad1 = 0;
+}
+if (badguy1.crashWith(wall2house1_2) == false) {
+ touchwalldownbad1 = 0;
+}
+if (badguy1.crashWith(wall2house4) == false) {
+ touchwalldownbad1 = 0;
+}
+if (badguy1.crashWith(wall2house6) == false) {
+ touchwalldownbad1 = 0;
+}
    }
    if (BadDeath2 < 1) {
-	if (badguy2.crashWith(wallright)) {
-		touchwallrightbad2 = 1;
-		if (touchwallrightbad2 == 1) {
-			badguypic2.speedX = -1;
-			badguy2.speedX = -1;
-		}
-	}
-	if (badguy2.crashWith(wallright) == false) {
-	  touchwallrightbad2 = 0;
-	}
-	if (badguy2.crashWith(wallleft)) {
-		touchwallleftbad2 = 1;
-		if (touchwallleftbad2 == 1) {
-			badguypic2.speedX = 1;
-			badguy2.speedX = 1;
-		}
-	}
-	if (badguy2.crashWith(wallleft) == false) {
-	  touchwallleftbad2 = 0;
-	}
-	if (badguy2.crashWith(wall3)) {
-		touchwallupbad2 = 1;
-		if (touchwallupbad1 == 1) {
-			badguypic2.speedY = 1;
-			badguy2.speedY = 1;
-		}
-	}
-	if (badguy2.crashWith(wall3) == false) {
-	  touchwallupbad2 = 0;
-	}
-	if (badguy2.crashWith(wall4)) {
-		touchwalldownbad2 = 1;
-		if (touchwalldownbad2 == 1) {
-			badguypic2.speedY = -1;
-			badguy2.speedY = -1;
-		}
-	}
-	if (badguy2.crashWith(wall4) == false) {
-	  touchwalldownbad2 = 0;
-	 }
-	if (wave < 5) {
-	if (badguy2.crashWith(wallhouse3)) {
-		touchwallrightbad2 = 1;
-		if (touchwallrightbad2 == 1) {
-			badguypic2.speedX = -1;
-			badguy2.speedX = -1;
-		}
-	}
-	if (badguy2.crashWith(wallhouse2_2)) {
-		touchwallrightbad2 = 1;
-		if (touchwallrightbad2 == 1) {
-			badguypic2.speedX = -1;
-			badguy2.speedX = -1;
-		}
-	}
-	if (badguy2.crashWith(wallhouse7)) {
-		touchwallrightbad2 = 1;
-		if (touchwallrightbad2 == 1) {
-			badguypic2.speedX = -2;
-			badguy2.speedX = -2;
-			badguypic2.speedY = 2;
-			badguy2.speedY = 2;
-		}
-	}
-	if (badguy2.crashWith(wall2house3)) {
-		touchwallrightbad2 = 1;
-		if (touchwallrightbad2 == 1) {
-			badguypic2.speedX = -1;
-			badguy2.speedX = -1;
-		}
-	}
-	if (badguy2.crashWith(wall2house2_2)) {
-		touchwallrightbad2 = 1;
-		if (touchwallrightbad2 == 1) {
-			badguypic2.speedX = -1;
-			badguy2.speedX = -1;
-		}
-	}
-	if (badguy2.crashWith(wall2house7)) {
-		touchwallrightbad2 = 1;
-		if (touchwallrightbad2 == 1) {
-			badguypic2.speedX = -2;
-			badguy2.speedX = -2;
-			badguypic2.speedY = 2;
-			badguy2.speedY = 2;
-		}
-	}
-	if (badguy2.crashWith(wallhouse3) == false) {
-	  touchwallrightbad2 = 0;
-	}
-	if (badguy2.crashWith(wallhouse2_2) == false) {
-	  touchwallrightbad2 = 0;
-	}
-	if (badguy2.crashWith(wallhouse7) == false) {
-	  touchwallrightbad2 = 0;
-	}
-	if (badguy2.crashWith(wall2house3) == false) {
-	  touchwallrightbad2 = 0;
-	}
-	if (badguy2.crashWith(wall2house2_2) == false) {
-	  touchwallrightbad2 = 0;
-	}
-	if (badguy2.crashWith(wall2house7) == false) {
-	  touchwallrightbad2 = 0;
-	}
-	if (badguy2.crashWith(wallhouse3_2)) {
-		touchwallleftbad2 = 1;
-		if (touchwallleftbad2 == 1) {
-			badguypic2.speedX = 1;
-			badguy2.speedX = 1;
-		}
-	}
-	if (badguy2.crashWith(wallhouse2)) {
-		touchwallleftbad2 = 1;
-		if (touchwallleftbad2 == 1) {
-			badguypic2.speedX = 1;
-			badguy2.speedX = 1;
-		}
-	}
-	if (badguy2.crashWith(wallhouse5)) {
-		touchwallleftbad2 = 1;
-		if (touchwallleftbad2 == 1) {
-			badguypic2.speedX = 2;
-			badguy2.speedX = 2;
-			badguypic2.speedY = 2;
-			badguy2.speedY = 2;
-		}
-	}
-	if (badguy2.crashWith(wall2house3_2)) {
-		touchwallleftbad2 = 1;
-		if (touchwallleftbad2 == 1) {
-			badguypic2.speedX = 1;
-			badguy2.speedX = 1;
-		}
-	}
-	if (badguy2.crashWith(wall2house2)) {
-		touchwallleftbad2 = 1;
-		if (touchwallleftbad2 == 1) {
-			badguypic2.speedX = 1;
-			badguy2.speedX = 1;
-		}
-	}
-	if (badguy2.crashWith(wall2house5)) {
-		touchwallleftbad2 = 1;
-		if (touchwallleftbad2 == 1) {
-			badguypic2.speedX = 2;
-			badguy2.speedX = 2;
-			badguypic2.speedY = 2;
-			badguy2.speedY = 2;
-		}
-	}
-	if (badguy2.crashWith(wallhouse3_2) == false) {
-	  touchwallleftbad2 = 0;
-	}
-	if (badguy2.crashWith(wallhouse2) == false) {
-	  touchwallleftbad2 = 0;
-	}
-	if (badguy2.crashWith(wallhouse5) == false) {
-	  touchwallleftbad2 = 0;
-	}
-	if (badguy2.crashWith(wall2house3_2) == false) {
-	  touchwallleftbad2 = 0;
-	}
-	if (badguy2.crashWith(wall2house2) == false) {
-	  touchwallleftbad2 = 0;
-	}
-	if (badguy2.crashWith(wall2house5) == false) {
-	  touchwallleftbad2 = 0;
-	}
-	if (badguy2.crashWith(wallhouse1)) {
-		touchwallupbad2 = 1;
-		if (touchwallupbad2 == 1) {
-			badguypic2.speedY = 1;
-			badguy2.speedY = 1;
-		}
-	}
-	if (badguy2.crashWith(wallhouse4_2)) {
-		touchwallupbad2 = 1;
-		if (touchwallupbad2 == 1) {
-			badguypic2.speedY = 1;
-			badguy2.speedY = 1;
-		}
-	}
-	if (badguy2.crashWith(wallhouse6_2)) {
-		touchwallupbad2 = 1;
-		if (touchwallupbad2 == 1) {
-			badguypic2.speedY = 1;
-			badguy2.speedY = 1;
-		}
-	}
-	if (badguy2.crashWith(wall2house1)) {
-		touchwallupbad2 = 1;
-		if (touchwallupbad2 == 1) {
-			badguypic2.speedY = 1;
-			badguy2.speedY = 1;
-		}
-	}
-	if (badguy2.crashWith(wall2house4_2)) {
-		touchwallupbad2 = 1;
-		if (touchwallupbad2 == 1) {
-			badguypic2.speedY = 1;
-			badguy2.speedY = 1;
-		}
-	}
-	if (badguy2.crashWith(wall2house6_2)) {
-		touchwallupbad2 = 1;
-		if (touchwallupbad2 == 1) {
-			badguypic2.speedY = 1;
-			badguy2.speedY = 1;
-		}
-	}
-	if (insidehouse1 == 0) {
-	if (badguy2.crashWith(wallhouse8)) {
-		touchwalldownbad2 = 1;
-		if (touchwalldownbad2 == 1) {
-			badguypic2.speedY = 1;
-			badguy2.speedY = 1;
-		}
-	 }
-	}
-	if (inside2house1 == 0) {
-	if (badguy2.crashWith(wall2house8)) {
-		touchwalldownbad2 = 1;
-		if (touchwalldownbad2 == 1) {
-			badguypic2.speedY = 1;
-			badguy2.speedY = 1;
-		}
-	 }
-	}
-	if (badguy2.crashWith(wallhouse1) == false) {
-	  touchwallupbad2 = 0;
-	}
-	if (badguy2.crashWith(wallhouse4_2) == false) {
-	  touchwallupbad2 = 0;
-	}
-	if (badguy2.crashWith(wallhouse6_2) == false) {
-	  touchwallupbad2 = 0;
-	}
-	if (badguy2.crashWith(wall2house1) == false) {
-	  touchwallupbad2 = 0;
-	}
-	if (badguy2.crashWith(wall2house4_2) == false) {
-	  touchwallupbad2 = 0;
-	}
-	if (badguy2.crashWith(wall2house6_2) == false) {
-	  touchwallupbad2 = 0;
-	}
-	if (badguy2.crashWith(wallhouse8) == false) {
-	  touchwallupbad2 = 0;
-	}
-	if (badguy2.crashWith(wall2house8) == false) {
-	  touchwallupbad2 = 0;
-	}
-	if (badguy2.crashWith(wallhouse1_2)) {
-		touchwalldownbad2 = 1;
-		if (touchwalldownbad2 == 1) {
-			badguypic2.speedY = -1;
-			badguy2.speedY = -1;
-		}
-	}
-	if (badguy2.crashWith(wallhouse4)) {
-		touchwalldownbad2 = 1;
-		if (touchwalldownbad2 == 1) {
-			badguypic2.speedY = -1;
-			badguy2.speedY = -1;
-		}
-	}
-	if (badguy2.crashWith(wallhouse6)) {
-		touchwalldownbad2 = 1;
-		if (touchwalldownbad2 == 1) {
-			badguypic2.speedY = -1;
-			badguy2.speedY = -1;
-		}
-	}
-	if (badguy2.crashWith(wall2house1_2)) {
-		touchwalldownbad2 = 1;
-		if (touchwalldownbad2 == 1) {
-			badguypic2.speedY = -1;
-			badguy2.speedY = -1;
-		}
-	}
-	if (badguy2.crashWith(wall2house4)) {
-		touchwalldownbad2 = 1;
-		if (touchwalldownbad2 == 1) {
-			badguypic2.speedY = -1;
-			badguy2.speedY = -1;
-		}
-	}
-	if (badguy2.crashWith(wall2house6)) {
-		touchwalldownbad2 = 1;
-		if (touchwalldownbad2 == 1) {
-			badguypic2.speedY = -1;
-			badguy2.speedY = -1;
-		}
-	}
-	if (badguy2.crashWith(wallhouse1_2) == false) {
-	  touchwalldownbad2 = 0;
-	  }
-	if (badguy2.crashWith(wallhouse4) == false) {
-	  touchwalldownbad2 = 0;
-	  }
-	if (badguy2.crashWith(wallhouse6) == false) {
-	  touchwalldownbad2 = 0;
-	  }
-	  if (badguy2.crashWith(wall2house1_2) == false) {
-	  touchwalldownbad2 = 0;
-	  }
-	if (badguy2.crashWith(wall2house4) == false) {
-	  touchwalldownbad2 = 0;
-	  }
-	if (badguy2.crashWith(wall2house6) == false) {
-	  touchwalldownbad2 = 0;
-	  }
-	 }
-	}
-	if (BadDeath3 < 1) {
-	if (tribox.crashWith(wallright)) {
-		touchwallrightbad3 = 1;
-		if (touchwallrightbad3 == 1) {
-		    tribox.speedX = -1;
-			trienemyleft.speedX = -1;
-			trienemyright.speedX = -1;
-		}
-	}
-	if (tribox.crashWith(wallright) == false) {
-	  touchwallrightbad3 = 0;
-	}
-	if (tribox.crashWith(wallleft)) {
-		touchwallleftbad3 = 1;
-		if (touchwallleftbad3 == 1) {
-		    tribox.speedX = 1;
-			trienemyleft.speedX = 1;
-			trienemyright.speedX = 1;
-		}
-	}
-	if (tribox.crashWith(wallleft) == false) {
-	  touchwallleftbad3 = 0;
-	}
-	if (tribox.crashWith(wall3)) {
-		touchwallupbad3 = 1;
-		if (touchwallupbad3 == 1) {
-		    tribox.speedY = 1;
-			trienemyleft.speedY = 1;
-			trienemyright.speedY = 1;
-		}
-	}
-	if (tribox.crashWith(wall3) == false) {
-	  touchwallupbad3 = 0;
-	}
-	if (tribox.crashWith(wall4)) {
-		touchwalldownbad3 = 1;
-		if (touchwalldownbad3 == 1) {
-		    tribox.speedY = -1;
-			trienemyleft.speedY = -1;
-			trienemyright.speedY = -1;
-		}
-	}
-	if (tribox.crashWith(wall4) == false) {
-	  touchwalldownbad3 = 0;
-	}
+if (badguy2.crashWith(wallright)) {
+touchwallrightbad2 = 1;
+if (touchwallrightbad2 == 1) {
+badguypic2.speedX = -1;
+badguy2.speedX = -1;
+}
+}
+if (badguy2.crashWith(wallright) == false) {
+ touchwallrightbad2 = 0;
+}
+if (badguy2.crashWith(wallleft)) {
+touchwallleftbad2 = 1;
+if (touchwallleftbad2 == 1) {
+badguypic2.speedX = 1;
+badguy2.speedX = 1;
+}
+}
+if (badguy2.crashWith(wallleft) == false) {
+ touchwallleftbad2 = 0;
+}
+if (badguy2.crashWith(wall3)) {
+touchwallupbad2 = 1;
+if (touchwallupbad1 == 1) {
+badguypic2.speedY = 1;
+badguy2.speedY = 1;
+}
+}
+if (badguy2.crashWith(wall3) == false) {
+ touchwallupbad2 = 0;
+}
+if (badguy2.crashWith(wall4)) {
+touchwalldownbad2 = 1;
+if (touchwalldownbad2 == 1) {
+badguypic2.speedY = -1;
+badguy2.speedY = -1;
+}
+}
+if (badguy2.crashWith(wall4) == false) {
+ touchwalldownbad2 = 0;
+}
+if (wave < 5) {
+if (badguy2.crashWith(wallhouse3)) {
+touchwallrightbad2 = 1;
+if (touchwallrightbad2 == 1) {
+badguypic2.speedX = -1;
+badguy2.speedX = -1;
+}
+}
+if (badguy2.crashWith(wallhouse2_2)) {
+touchwallrightbad2 = 1;
+if (touchwallrightbad2 == 1) {
+badguypic2.speedX = -1;
+badguy2.speedX = -1;
+}
+}
+if (badguy2.crashWith(wallhouse7)) {
+touchwallrightbad2 = 1;
+if (touchwallrightbad2 == 1) {
+badguypic2.speedX = -2;
+badguy2.speedX = -2;
+badguypic2.speedY = 2;
+badguy2.speedY = 2;
+}
+}
+if (badguy2.crashWith(wall2house3)) {
+touchwallrightbad2 = 1;
+if (touchwallrightbad2 == 1) {
+badguypic2.speedX = -1;
+badguy2.speedX = -1;
+}
+}
+if (badguy2.crashWith(wall2house2_2)) {
+touchwallrightbad2 = 1;
+if (touchwallrightbad2 == 1) {
+badguypic2.speedX = -1;
+badguy2.speedX = -1;
+}
+}
+if (badguy2.crashWith(wall2house7)) {
+touchwallrightbad2 = 1;
+if (touchwallrightbad2 == 1) {
+badguypic2.speedX = -2;
+badguy2.speedX = -2;
+badguypic2.speedY = 2;
+badguy2.speedY = 2;
+}
+}
+if (badguy2.crashWith(wallhouse3) == false) {
+ touchwallrightbad2 = 0;
+}
+if (badguy2.crashWith(wallhouse2_2) == false) {
+ touchwallrightbad2 = 0;
+}
+if (badguy2.crashWith(wallhouse7) == false) {
+ touchwallrightbad2 = 0;
+}
+if (badguy2.crashWith(wall2house3) == false) {
+ touchwallrightbad2 = 0;
+}
+if (badguy2.crashWith(wall2house2_2) == false) {
+ touchwallrightbad2 = 0;
+}
+if (badguy2.crashWith(wall2house7) == false) {
+ touchwallrightbad2 = 0;
+}
+if (badguy2.crashWith(wallhouse3_2)) {
+touchwallleftbad2 = 1;
+if (touchwallleftbad2 == 1) {
+badguypic2.speedX = 1;
+badguy2.speedX = 1;
+}
+}
+if (badguy2.crashWith(wallhouse2)) {
+touchwallleftbad2 = 1;
+if (touchwallleftbad2 == 1) {
+badguypic2.speedX = 1;
+badguy2.speedX = 1;
+}
+}
+if (badguy2.crashWith(wallhouse5)) {
+touchwallleftbad2 = 1;
+if (touchwallleftbad2 == 1) {
+badguypic2.speedX = 2;
+badguy2.speedX = 2;
+badguypic2.speedY = 2;
+badguy2.speedY = 2;
+}
+}
+if (badguy2.crashWith(wall2house3_2)) {
+touchwallleftbad2 = 1;
+if (touchwallleftbad2 == 1) {
+badguypic2.speedX = 1;
+badguy2.speedX = 1;
+}
+}
+if (badguy2.crashWith(wall2house2)) {
+touchwallleftbad2 = 1;
+if (touchwallleftbad2 == 1) {
+badguypic2.speedX = 1;
+badguy2.speedX = 1;
+}
+}
+if (badguy2.crashWith(wall2house5)) {
+touchwallleftbad2 = 1;
+if (touchwallleftbad2 == 1) {
+badguypic2.speedX = 2;
+badguy2.speedX = 2;
+badguypic2.speedY = 2;
+badguy2.speedY = 2;
+}
+}
+if (badguy2.crashWith(wallhouse3_2) == false) {
+ touchwallleftbad2 = 0;
+}
+if (badguy2.crashWith(wallhouse2) == false) {
+ touchwallleftbad2 = 0;
+}
+if (badguy2.crashWith(wallhouse5) == false) {
+ touchwallleftbad2 = 0;
+}
+if (badguy2.crashWith(wall2house3_2) == false) {
+ touchwallleftbad2 = 0;
+}
+if (badguy2.crashWith(wall2house2) == false) {
+ touchwallleftbad2 = 0;
+}
+if (badguy2.crashWith(wall2house5) == false) {
+ touchwallleftbad2 = 0;
+}
+if (badguy2.crashWith(wallhouse1)) {
+touchwallupbad2 = 1;
+if (touchwallupbad2 == 1) {
+badguypic2.speedY = 1;
+badguy2.speedY = 1;
+}
+}
+if (badguy2.crashWith(wallhouse4_2)) {
+touchwallupbad2 = 1;
+if (touchwallupbad2 == 1) {
+badguypic2.speedY = 1;
+badguy2.speedY = 1;
+}
+}
+if (badguy2.crashWith(wallhouse6_2)) {
+touchwallupbad2 = 1;
+if (touchwallupbad2 == 1) {
+badguypic2.speedY = 1;
+badguy2.speedY = 1;
+}
+}
+if (badguy2.crashWith(wall2house1)) {
+touchwallupbad2 = 1;
+if (touchwallupbad2 == 1) {
+badguypic2.speedY = 1;
+badguy2.speedY = 1;
+}
+}
+if (badguy2.crashWith(wall2house4_2)) {
+touchwallupbad2 = 1;
+if (touchwallupbad2 == 1) {
+badguypic2.speedY = 1;
+badguy2.speedY = 1;
+}
+}
+if (badguy2.crashWith(wall2house6_2)) {
+touchwallupbad2 = 1;
+if (touchwallupbad2 == 1) {
+badguypic2.speedY = 1;
+badguy2.speedY = 1;
+}
+}
+if (insidehouse1 == 0) {
+if (badguy2.crashWith(wallhouse8)) {
+touchwalldownbad2 = 1;
+if (touchwalldownbad2 == 1) {
+badguypic2.speedY = 1;
+badguy2.speedY = 1;
+}
+}
+}
+if (inside2house1 == 0) {
+if (badguy2.crashWith(wall2house8)) {
+touchwalldownbad2 = 1;
+if (touchwalldownbad2 == 1) {
+badguypic2.speedY = 1;
+badguy2.speedY = 1;
+}
+}
+}
+if (badguy2.crashWith(wallhouse1) == false) {
+ touchwallupbad2 = 0;
+}
+if (badguy2.crashWith(wallhouse4_2) == false) {
+ touchwallupbad2 = 0;
+}
+if (badguy2.crashWith(wallhouse6_2) == false) {
+ touchwallupbad2 = 0;
+}
+if (badguy2.crashWith(wall2house1) == false) {
+ touchwallupbad2 = 0;
+}
+if (badguy2.crashWith(wall2house4_2) == false) {
+ touchwallupbad2 = 0;
+}
+if (badguy2.crashWith(wall2house6_2) == false) {
+ touchwallupbad2 = 0;
+}
+if (badguy2.crashWith(wallhouse8) == false) {
+ touchwallupbad2 = 0;
+}
+if (badguy2.crashWith(wall2house8) == false) {
+ touchwallupbad2 = 0;
+}
+if (badguy2.crashWith(wallhouse1_2)) {
+touchwalldownbad2 = 1;
+if (touchwalldownbad2 == 1) {
+badguypic2.speedY = -1;
+badguy2.speedY = -1;
+}
+}
+if (badguy2.crashWith(wallhouse4)) {
+touchwalldownbad2 = 1;
+if (touchwalldownbad2 == 1) {
+badguypic2.speedY = -1;
+badguy2.speedY = -1;
+}
+}
+if (badguy2.crashWith(wallhouse6)) {
+touchwalldownbad2 = 1;
+if (touchwalldownbad2 == 1) {
+badguypic2.speedY = -1;
+badguy2.speedY = -1;
+}
+}
+if (badguy2.crashWith(wall2house1_2)) {
+touchwalldownbad2 = 1;
+if (touchwalldownbad2 == 1) {
+badguypic2.speedY = -1;
+badguy2.speedY = -1;
+}
+}
+if (badguy2.crashWith(wall2house4)) {
+touchwalldownbad2 = 1;
+if (touchwalldownbad2 == 1) {
+badguypic2.speedY = -1;
+badguy2.speedY = -1;
+}
+}
+if (badguy2.crashWith(wall2house6)) {
+touchwalldownbad2 = 1;
+if (touchwalldownbad2 == 1) {
+badguypic2.speedY = -1;
+badguy2.speedY = -1;
+}
+}
+if (badguy2.crashWith(wallhouse1_2) == false) {
+ touchwalldownbad2 = 0;
+ }
+if (badguy2.crashWith(wallhouse4) == false) {
+ touchwalldownbad2 = 0;
+ }
+if (badguy2.crashWith(wallhouse6) == false) {
+ touchwalldownbad2 = 0;
+ }
+ if (badguy2.crashWith(wall2house1_2) == false) {
+ touchwalldownbad2 = 0;
+ }
+if (badguy2.crashWith(wall2house4) == false) {
+ touchwalldownbad2 = 0;
+ }
+if (badguy2.crashWith(wall2house6) == false) {
+ touchwalldownbad2 = 0;
+ }
+}
+}
+if (BadDeath3 < 1) {
+if (tribox.crashWith(wallright)) {
+touchwallrightbad3 = 1;
+if (touchwallrightbad3 == 1) {
+   tribox.speedX = -1;
+trienemyleft.speedX = -1;
+trienemyright.speedX = -1;
+}
+}
+if (tribox.crashWith(wallright) == false) {
+ touchwallrightbad3 = 0;
+}
+if (tribox.crashWith(wallleft)) {
+touchwallleftbad3 = 1;
+if (touchwallleftbad3 == 1) {
+   tribox.speedX = 1;
+trienemyleft.speedX = 1;
+trienemyright.speedX = 1;
+}
+}
+if (tribox.crashWith(wallleft) == false) {
+ touchwallleftbad3 = 0;
+}
+if (tribox.crashWith(wall3)) {
+touchwallupbad3 = 1;
+if (touchwallupbad3 == 1) {
+   tribox.speedY = 1;
+trienemyleft.speedY = 1;
+trienemyright.speedY = 1;
+}
+}
+if (tribox.crashWith(wall3) == false) {
+ touchwallupbad3 = 0;
+}
+if (tribox.crashWith(wall4)) {
+touchwalldownbad3 = 1;
+if (touchwalldownbad3 == 1) {
+   tribox.speedY = -1;
+trienemyleft.speedY = -1;
+trienemyright.speedY = -1;
+}
+}
+if (tribox.crashWith(wall4) == false) {
+ touchwalldownbad3 = 0;
+}
   }
   if (BadDeath4 < 1) {
-	if (recbox1.crashWith(wallright)) {
-		touchwallrightbad4 = 1;
-		if (touchwallrightbad4 == 1) {
-			recenemypic1.speedX = -1;
-			recbox1.speedX = -1;
-		}
-	}
-	if (recbox1.crashWith(wallright) == false) {
-	  touchwallrightbad4 = 0;
-	}
-	if (recbox1.crashWith(wallleft)) {
-		touchwallleftbad4 = 1;
-		if (touchwallleftbad4 == 1) {
-			recenemypic1.speedX = 1;
-			recbox1.speedX = 1;
-		}
-	}
-	if (recbox1.crashWith(wallleft) == false) {
-	  touchwallleftbad4 = 0;
-	}
-	if (recbox1.crashWith(wall3)) {
-		touchwallupbad4 = 1;
-		if (touchwallupbad4 == 1) {
-			recenemypic1.speedY = 1;
-			recbox1.speedY = 1;
-		}
-	}
-	if (recbox1.crashWith(wall3) == false) {
-	  touchwallupbad4 = 0;
-	}
-	if (recbox1.crashWith(wall4)) {
-		touchwalldownbad4 = 1;
-		if (touchwalldownbad4 == 1) {
-			recenemypic1.speedY = -1;
-			recbox1.speedY = -1;
-		}
-	}
-	if (recbox1.crashWith(wall4) == false) {
-	  touchwalldownbad4 = 0;
-	 }
-	if (wave < 5 && wave > 2) {
-	if (recbox1.crashWith(wallhouse3)) {
-		touchwallrightbad4 = 1;
-		if (touchwallrightbad4 == 1) {
-			recenemypic1.speedX = -1;
-			recbox1.speedX = -1;
-		}
-	}
-	if (recbox1.crashWith(wallhouse2_2)) {
-		touchwallrightbad4 = 1;
-		if (touchwallrightbad4 == 1) {
-			recenemypic1.speedX = -1;
-			recbox1.speedX = -1;
-		}
-	}
-	if (recbox1.crashWith(wallhouse7)) {
-		touchwallrightbad4 = 1;
-		if (touchwallrightbad4 == 1) {
-			recenemypic1.speedX = -2;
-			recbox1.speedX = -2;
-			recenemypic1.speedY = 2;
-			recbox1.speedY = 2;
-		}
-	}
-	if (recbox1.crashWith(wall2house3)) {
-		touchwallrightbad4 = 1;
-		if (touchwallrightbad4 == 1) {
-			recenemypic1.speedX = -1;
-			recbox1.speedX = -1;
-		}
-	}
-	if (recbox1.crashWith(wall2house2_2)) {
-		touchwallrightbad4 = 1;
-		if (touchwallrightbad4 == 1) {
-			recenemypic1.speedX = -1;
-			recbox1.speedX = -1;
-		}
-	}
-	if (recbox1.crashWith(wall2house7)) {
-		touchwallrightbad4 = 1;
-		if (touchwallrightbad4 == 1) {
-			recenemypic1.speedX = -2;
-			recbox1.speedX = -2;
-			recenemypic1.speedY = 2;
-			recbox1.speedY = 2;
-		}
-	}
-	if (recbox1.crashWith(wallhouse3) == false) {
-	  touchwallrightbad4 = 0;
-	}
-	if (recbox1.crashWith(wallhouse2_2) == false) {
-	  touchwallrightbad4 = 0;
-	}
-	if (recbox1.crashWith(wallhouse7) == false) {
-	  touchwallrightbad4 = 0;
-	}
-	if (recbox1.crashWith(wall2house3) == false) {
-	  touchwallrightbad4 = 0;
-	}
-	if (recbox1.crashWith(wall2house2_2) == false) {
-	  touchwallrightbad4 = 0;
-	}
-	if (recbox1.crashWith(wall2house7) == false) {
-	  touchwallrightbad4 = 0;
-	}
-	if (recbox1.crashWith(wallhouse3_2)) {
-		touchwallleftbad4 = 1;
-		if (touchwallleftbad4 == 1) {
-			recenemypic1.speedX = 1;
-			recbox1.speedX = 1;
-		}
-	}
-	if (recbox1.crashWith(wallhouse2)) {
-		touchwallleftbad4 = 1;
-		if (touchwallleftbad4 == 1) {
-			recenemypic1.speedX = 1;
-			recbox1.speedX = 1;
-		}
-	}
-	if (recbox1.crashWith(wallhouse5)) {
-		touchwallleftbad4 = 1;
-		if (touchwallleftbad4 == 1) {
-			recenemypic1.speedX = 2;
-			recbox1.speedX = 2;
-			recenemypic1.speedY = 2;
-			recbox1.speedY = 2;
-		}
-	}
-	if (recbox1.crashWith(wall2house3_2)) {
-		touchwallleftbad4 = 1;
-		if (touchwallleftbad4 == 1) {
-			recenemypic1.speedX = 1;
-			recbox1.speedX = 1;
-		}
-	}
-	if (recbox1.crashWith(wall2house2)) {
-		touchwallleftbad4 = 1;
-		if (touchwallleftbad4 == 1) {
-			recenemypic1.speedX = 1;
-			recbox1.speedX = 1;
-		}
-	}
-	if (recbox1.crashWith(wall2house5)) {
-		touchwallleftbad4 = 1;
-		if (touchwallleftbad4 == 1) {
-			recenemypic1.speedX = 2;
-			recbox1.speedX = 2;
-			recenemypic1.speedY = 2;
-			recbox1.speedY = 2;
-		}
-	}
-	if (recbox1.crashWith(wallhouse3_2) == false) {
-	  touchwallleftbad4 = 0;
-	}
-	if (recbox1.crashWith(wallhouse2) == false) {
-	  touchwallleftbad4 = 0;
-	}
-	if (recbox1.crashWith(wallhouse5) == false) {
-	  touchwallleftbad4 = 0;
-	}
-	if (recbox1.crashWith(wall2house3_2) == false) {
-	  touchwallleftbad4 = 0;
-	}
-	if (recbox1.crashWith(wall2house2) == false) {
-	  touchwallleftbad4 = 0;
-	}
-	if (recbox1.crashWith(wall2house5) == false) {
-	  touchwallleftbad4 = 0;
-	}
-	if (recbox1.crashWith(wallhouse1)) {
-		touchwallupbad4 = 1;
-		if (touchwallupbad4 == 1) {
-			recenemypic1.speedY = 1;
-			recbox1.speedY = 1;
-		}
-	}
-	if (recbox1.crashWith(wallhouse4_2)) {
-		touchwallupbad4 = 1;
-		if (touchwallupbad4 == 1) {
-			recenemypic1.speedY = 1;
-			recbox1.speedY = 1;
-		}
-	}
-	if (recbox1.crashWith(wallhouse6_2)) {
-		touchwallupbad4 = 1;
-		if (touchwallupbad4 == 1) {
-			recenemypic1.speedY = 1;
-			recbox1.speedY = 1;
-		}
-	}
-	if (recbox1.crashWith(wall2house1)) {
-		touchwallupbad4 = 1;
-		if (touchwallupbad4 == 1) {
-			recenemypic1.speedY = 1;
-			recbox1.speedY = 1;
-		}
-	}
-	if (recbox1.crashWith(wall2house4_2)) {
-		touchwallupbad4 = 1;
-		if (touchwallupbad4 == 1) {
-			recenemypic1.speedY = 1;
-			recbox1.speedY = 1;
-		}
-	}
-	if (recbox1.crashWith(wall2house6_2)) {
-		touchwallupbad4 = 1;
-		if (touchwallupbad4 == 1) {
-			recenemypic1.speedY = 1;
-			recbox1.speedY = 1;
-		}
-	}
-	if (recbox1.crashWith(wallhouse1) == false) {
-	  touchwallupbad4 = 0;
-	}
-	if (recbox1.crashWith(wallhouse4_2) == false) {
-	  touchwallupbad4 = 0;
-	}
-	if (recbox1.crashWith(wallhouse6_2) == false) {
-	  touchwallupbad4 = 0;
-	}
-	if (recbox1.crashWith(wall2house1) == false) {
-	  touchwallupbad4 = 0;
-	}
-	if (recbox1.crashWith(wall2house4_2) == false) {
-	  touchwallupbad4 = 0;
-	}
-	if (recbox1.crashWith(wall2house6_2) == false) {
-	  touchwallupbad4 = 0;
-	}
-	if (recbox1.crashWith(wallhouse1_2)) {
-		touchwalldownbad4 = 1;
-		if (touchwalldownbad4 == 1) {
-			recenemypic1.speedY = -1;
-			recbox1.speedY = -1;
-		}
-	}
-	if (recbox1.crashWith(wallhouse4)) {
-		touchwalldownbad4 = 1;
-		if (touchwalldownbad4 == 1) {
-			recenemypic1.speedY = -1;
-			recbox1.speedY = -1;
-		}
-	}
-	if (recbox1.crashWith(wallhouse6)) {
-		touchwalldownbad4 = 1;
-		if (touchwalldownbad4 == 1) {
-			recenemypic1.speedY = -1;
-			recbox1.speedY = -1;
-		}
-	}
-	if (recbox1.crashWith(wall2house1_2)) {
-		touchwalldownbad4 = 1;
-		if (touchwalldownbad4 == 1) {
-			recenemypic1.speedY = -1;
-			recbox1.speedY = -1;
-		}
-	}
-	if (recbox1.crashWith(wall2house4)) {
-		touchwalldownbad4 = 1;
-		if (touchwalldownbad4 == 1) {
-			recenemypic1.speedY = -1;
-			recbox1.speedY = -1;
-		}
-	}
-	if (recbox1.crashWith(wall2house6)) {
-		touchwalldownbad4 = 1;
-		if (touchwalldownbad4 == 1) {
-			recenemypic1.speedY = -1;
-			recbox1.speedY = -1;
-		}
-	}
-	if (recbox1.crashWith(wallhouse1_2) == false) {
-	  touchwalldownbad4 = 0;
-	  }
-	if (recbox1.crashWith(wallhouse4) == false) {
-	  touchwalldownbad4 = 0;
-	  }
-	if (recbox1.crashWith(wallhouse6) == false) {
-	  touchwalldownbad4 = 0;
-	  }
-	  if (recbox1.crashWith(wall2house1_2) == false) {
-	  touchwalldownbad4 = 0;
-	  }
-	if (recbox1.crashWith(wall2house4) == false) {
-	  touchwalldownbad4 = 0;
-	  }
-	if (recbox1.crashWith(wall2house6) == false) {
-	  touchwalldownbad4 = 0;
-	  }
-	 }
-	}
+if (recbox1.crashWith(wallright)) {
+touchwallrightbad4 = 1;
+if (touchwallrightbad4 == 1) {
+recenemypic1.speedX = -1;
+recbox1.speedX = -1;
+}
+}
+if (recbox1.crashWith(wallright) == false) {
+ touchwallrightbad4 = 0;
+}
+if (recbox1.crashWith(wallleft)) {
+touchwallleftbad4 = 1;
+if (touchwallleftbad4 == 1) {
+recenemypic1.speedX = 1;
+recbox1.speedX = 1;
+}
+}
+if (recbox1.crashWith(wallleft) == false) {
+ touchwallleftbad4 = 0;
+}
+if (recbox1.crashWith(wall3)) {
+touchwallupbad4 = 1;
+if (touchwallupbad4 == 1) {
+recenemypic1.speedY = 1;
+recbox1.speedY = 1;
+}
+}
+if (recbox1.crashWith(wall3) == false) {
+ touchwallupbad4 = 0;
+}
+if (recbox1.crashWith(wall4)) {
+touchwalldownbad4 = 1;
+if (touchwalldownbad4 == 1) {
+recenemypic1.speedY = -1;
+recbox1.speedY = -1;
+}
+}
+if (recbox1.crashWith(wall4) == false) {
+ touchwalldownbad4 = 0;
+}
+if (wave < 5 && wave > 2) {
+if (recbox1.crashWith(wallhouse3)) {
+touchwallrightbad4 = 1;
+if (touchwallrightbad4 == 1) {
+recenemypic1.speedX = -1;
+recbox1.speedX = -1;
+}
+}
+if (recbox1.crashWith(wallhouse2_2)) {
+touchwallrightbad4 = 1;
+if (touchwallrightbad4 == 1) {
+recenemypic1.speedX = -1;
+recbox1.speedX = -1;
+}
+}
+if (recbox1.crashWith(wallhouse7)) {
+touchwallrightbad4 = 1;
+if (touchwallrightbad4 == 1) {
+recenemypic1.speedX = -2;
+recbox1.speedX = -2;
+recenemypic1.speedY = 2;
+recbox1.speedY = 2;
+}
+}
+if (recbox1.crashWith(wall2house3)) {
+touchwallrightbad4 = 1;
+if (touchwallrightbad4 == 1) {
+recenemypic1.speedX = -1;
+recbox1.speedX = -1;
+}
+}
+if (recbox1.crashWith(wall2house2_2)) {
+touchwallrightbad4 = 1;
+if (touchwallrightbad4 == 1) {
+recenemypic1.speedX = -1;
+recbox1.speedX = -1;
+}
+}
+if (recbox1.crashWith(wall2house7)) {
+touchwallrightbad4 = 1;
+if (touchwallrightbad4 == 1) {
+recenemypic1.speedX = -2;
+recbox1.speedX = -2;
+recenemypic1.speedY = 2;
+recbox1.speedY = 2;
+}
+}
+if (recbox1.crashWith(wallhouse3) == false) {
+ touchwallrightbad4 = 0;
+}
+if (recbox1.crashWith(wallhouse2_2) == false) {
+ touchwallrightbad4 = 0;
+}
+if (recbox1.crashWith(wallhouse7) == false) {
+ touchwallrightbad4 = 0;
+}
+if (recbox1.crashWith(wall2house3) == false) {
+ touchwallrightbad4 = 0;
+}
+if (recbox1.crashWith(wall2house2_2) == false) {
+ touchwallrightbad4 = 0;
+}
+if (recbox1.crashWith(wall2house7) == false) {
+ touchwallrightbad4 = 0;
+}
+if (recbox1.crashWith(wallhouse3_2)) {
+touchwallleftbad4 = 1;
+if (touchwallleftbad4 == 1) {
+recenemypic1.speedX = 1;
+recbox1.speedX = 1;
+}
+}
+if (recbox1.crashWith(wallhouse2)) {
+touchwallleftbad4 = 1;
+if (touchwallleftbad4 == 1) {
+recenemypic1.speedX = 1;
+recbox1.speedX = 1;
+}
+}
+if (recbox1.crashWith(wallhouse5)) {
+touchwallleftbad4 = 1;
+if (touchwallleftbad4 == 1) {
+recenemypic1.speedX = 2;
+recbox1.speedX = 2;
+recenemypic1.speedY = 2;
+recbox1.speedY = 2;
+}
+}
+if (recbox1.crashWith(wall2house3_2)) {
+touchwallleftbad4 = 1;
+if (touchwallleftbad4 == 1) {
+recenemypic1.speedX = 1;
+recbox1.speedX = 1;
+}
+}
+if (recbox1.crashWith(wall2house2)) {
+touchwallleftbad4 = 1;
+if (touchwallleftbad4 == 1) {
+recenemypic1.speedX = 1;
+recbox1.speedX = 1;
+}
+}
+if (recbox1.crashWith(wall2house5)) {
+touchwallleftbad4 = 1;
+if (touchwallleftbad4 == 1) {
+recenemypic1.speedX = 2;
+recbox1.speedX = 2;
+recenemypic1.speedY = 2;
+recbox1.speedY = 2;
+}
+}
+if (recbox1.crashWith(wallhouse3_2) == false) {
+ touchwallleftbad4 = 0;
+}
+if (recbox1.crashWith(wallhouse2) == false) {
+ touchwallleftbad4 = 0;
+}
+if (recbox1.crashWith(wallhouse5) == false) {
+ touchwallleftbad4 = 0;
+}
+if (recbox1.crashWith(wall2house3_2) == false) {
+ touchwallleftbad4 = 0;
+}
+if (recbox1.crashWith(wall2house2) == false) {
+ touchwallleftbad4 = 0;
+}
+if (recbox1.crashWith(wall2house5) == false) {
+ touchwallleftbad4 = 0;
+}
+if (recbox1.crashWith(wallhouse1)) {
+touchwallupbad4 = 1;
+if (touchwallupbad4 == 1) {
+recenemypic1.speedY = 1;
+recbox1.speedY = 1;
+}
+}
+if (recbox1.crashWith(wallhouse4_2)) {
+touchwallupbad4 = 1;
+if (touchwallupbad4 == 1) {
+recenemypic1.speedY = 1;
+recbox1.speedY = 1;
+}
+}
+if (recbox1.crashWith(wallhouse6_2)) {
+touchwallupbad4 = 1;
+if (touchwallupbad4 == 1) {
+recenemypic1.speedY = 1;
+recbox1.speedY = 1;
+}
+}
+if (recbox1.crashWith(wall2house1)) {
+touchwallupbad4 = 1;
+if (touchwallupbad4 == 1) {
+recenemypic1.speedY = 1;
+recbox1.speedY = 1;
+}
+}
+if (recbox1.crashWith(wall2house4_2)) {
+touchwallupbad4 = 1;
+if (touchwallupbad4 == 1) {
+recenemypic1.speedY = 1;
+recbox1.speedY = 1;
+}
+}
+if (recbox1.crashWith(wall2house6_2)) {
+touchwallupbad4 = 1;
+if (touchwallupbad4 == 1) {
+recenemypic1.speedY = 1;
+recbox1.speedY = 1;
+}
+}
+if (recbox1.crashWith(wallhouse1) == false) {
+ touchwallupbad4 = 0;
+}
+if (recbox1.crashWith(wallhouse4_2) == false) {
+ touchwallupbad4 = 0;
+}
+if (recbox1.crashWith(wallhouse6_2) == false) {
+ touchwallupbad4 = 0;
+}
+if (recbox1.crashWith(wall2house1) == false) {
+ touchwallupbad4 = 0;
+}
+if (recbox1.crashWith(wall2house4_2) == false) {
+ touchwallupbad4 = 0;
+}
+if (recbox1.crashWith(wall2house6_2) == false) {
+ touchwallupbad4 = 0;
+}
+if (recbox1.crashWith(wallhouse1_2)) {
+touchwalldownbad4 = 1;
+if (touchwalldownbad4 == 1) {
+recenemypic1.speedY = -1;
+recbox1.speedY = -1;
+}
+}
+if (recbox1.crashWith(wallhouse4)) {
+touchwalldownbad4 = 1;
+if (touchwalldownbad4 == 1) {
+recenemypic1.speedY = -1;
+recbox1.speedY = -1;
+}
+}
+if (recbox1.crashWith(wallhouse6)) {
+touchwalldownbad4 = 1;
+if (touchwalldownbad4 == 1) {
+recenemypic1.speedY = -1;
+recbox1.speedY = -1;
+}
+}
+if (recbox1.crashWith(wall2house1_2)) {
+touchwalldownbad4 = 1;
+if (touchwalldownbad4 == 1) {
+recenemypic1.speedY = -1;
+recbox1.speedY = -1;
+}
+}
+if (recbox1.crashWith(wall2house4)) {
+touchwalldownbad4 = 1;
+if (touchwalldownbad4 == 1) {
+recenemypic1.speedY = -1;
+recbox1.speedY = -1;
+}
+}
+if (recbox1.crashWith(wall2house6)) {
+touchwalldownbad4 = 1;
+if (touchwalldownbad4 == 1) {
+recenemypic1.speedY = -1;
+recbox1.speedY = -1;
+}
+}
+if (recbox1.crashWith(wallhouse1_2) == false) {
+ touchwalldownbad4 = 0;
+ }
+if (recbox1.crashWith(wallhouse4) == false) {
+ touchwalldownbad4 = 0;
+ }
+if (recbox1.crashWith(wallhouse6) == false) {
+ touchwalldownbad4 = 0;
+ }
+ if (recbox1.crashWith(wall2house1_2) == false) {
+ touchwalldownbad4 = 0;
+ }
+if (recbox1.crashWith(wall2house4) == false) {
+ touchwalldownbad4 = 0;
+ }
+if (recbox1.crashWith(wall2house6) == false) {
+ touchwalldownbad4 = 0;
+ }
+}
+}
 }
 
 var sidebad1 = 0;
@@ -2904,27 +2929,27 @@ badguy2.speedY = badhurtspeedai2;
  }
 }
                     } 
-	                }
+               }
                         }
                         }
-	                }
-	                }
-	                }
-	                }
-	                }
-	                }
-	               }
-	              }
-	             } 
-	            }
-	           }
-	          }
-	         }
-	        }
-	       }
-	      }
-	     }
-	    }
+               }
+               }
+               }
+               }
+               }
+               }
+              }
+             }
+            } 
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
        }
       }
      }
@@ -3319,25 +3344,25 @@ recbox1.speedY = badhurtspeedai4;
  }
 }
                     } 
-	                }
-	                }
-	                }
-	                }
-	                }
-	                }
-	                }
-	               }
-	              }
-	             } 
-	            }
-	           }
-	          }
-	         }
-	        }
-	       }
-	      }
-	     }
-	    }
+               }
+               }
+               }
+               }
+               }
+               }
+               }
+              }
+             }
+            } 
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
        }
       }
      }
@@ -3424,7 +3449,7 @@ if (startTime4 == 0) {
  }
  }
 }
-	
+
 var autoUpVar = 0;
 var autoDownVar = 0;
 var autoLeftVar = 0;
@@ -3434,25 +3459,25 @@ if (upgrademenu == 0) {
 autoUpVar = 1;
  }
 }
-	
+
 function autoDown() {
 if (upgrademenu == 0) {
 autoDownVar = 1;
  }
 }
-	
+
 function autoLeft() {
 if (upgrademenu == 0) {
 autoLeftVar = 1;
  }
 }
-	
+
 function autoRight() {
 if (upgrademenu == 0) {
 autoRightVar = 1;
  }
 }
-	
+
 function clearAutoU() {
 autoUpVar = 0;
 }	
@@ -3488,12 +3513,12 @@ if (frameIndex5 == 0) {
 firesoundstart = 1;
  }
 }
-	}
+}
    }
   }
  }
 }
-	
+
 function shootDown() {
 if (Death1 == 0) {
 if (fire == 0) {
@@ -3510,12 +3535,12 @@ if (frameIndex5 == 0) {
 firesoundstart = 1;
  }
 }
-	}
+}
    }
   }
  }
 }
-	
+
 function shootLeft() {
 if (Death1 == 0) {
 if (fire == 0) {
@@ -3532,12 +3557,12 @@ if (frameIndex5 == 0) {
 firesoundstart = 1;
  }
 }
-	}
+}
    }
   }
  }
 }
-	
+
 function shootRight() {
 if (Death1 == 0) {
 if (fire == 0) {
@@ -3554,7 +3579,7 @@ if (frameIndex5 == 0) {
 firesoundstart = 1;
  }
 }
-	}
+}
    }
   }
  }
@@ -3578,40 +3603,40 @@ var bullrange = 3;
 function bulletai() {
 if (fire < 1) {
 if (-10 + bullbox.x > box.x) {
-	bullbox.speedX = -5;
-	bpic.speedX = -5;
-	bpic2.speedX = -5;
-	bpic3.speedX = -5;
+bullbox.speedX = -5;
+bpic.speedX = -5;
+bpic2.speedX = -5;
+bpic3.speedX = -5;
 }
 if (-10 + bullbox.x < box.x) {
-	bullbox.speedX = 5;
-	bpic.speedX = 5;
-	bpic2.speedX = 5;
-	bpic3.speedX = 5;
+bullbox.speedX = 5;
+bpic.speedX = 5;
+bpic2.speedX = 5;
+bpic3.speedX = 5;
 }
 if (box.crashWith(bullbox)) {
-	bullbox.speedX = 0;
-	bpic.speedX = 0;
-	bpic2.speedX = 0;
-	bpic3.speedX = 0;
+bullbox.speedX = 0;
+bpic.speedX = 0;
+bpic2.speedX = 0;
+bpic3.speedX = 0;
  }
 if (-10 + bullbox.y > box.y) {
-	bullbox.speedY = -5;
-	bpic.speedY = -5;
-	bpic2.speedY = -5;
-	bpic3.speedY = -5;
+bullbox.speedY = -5;
+bpic.speedY = -5;
+bpic2.speedY = -5;
+bpic3.speedY = -5;
 }
 if (-10 + bullbox.y < box.y) {
-	bullbox.speedY = 5;
-	bpic.speedY = 5;
-	bpic2.speedY = 5;
-	bpic3.speedY = 5;
+bullbox.speedY = 5;
+bpic.speedY = 5;
+bpic2.speedY = 5;
+bpic3.speedY = 5;
 }
 if (box.crashWith(bullbox)) {
-	bullbox.speedY = 0;
-	bpic.speedY = 0;
-	bpic2.speedY = 0;
-	bpic3.speedY = 0;
+bullbox.speedY = 0;
+bpic.speedY = 0;
+bpic2.speedY = 0;
+bpic3.speedY = 0;
  }
 }
 if (fire > 0) {
@@ -3780,7 +3805,7 @@ if (sound > 1) {
 sound = 0;
  }
 }
-	
+
 function SetVolume(val) {
 var player = document.getElementById('level1');
 player.volume = val / 100;
@@ -3789,7 +3814,7 @@ player2.volume = val / 100;
 var fireVolume = document.getElementById('firesound');
 fireVolume.volume = val / 50;
 }
-	
+
 function skipSound() {
  if (sound > 0) {
  level1.pause();
@@ -3866,7 +3891,7 @@ function playerMoney() {
 var stopper = 0;
 function swapweap() {
 if (weaponupgrade1 > 0) {
-	stopper += 1;
+stopper += 1;
  }
 }
 
@@ -3877,8 +3902,8 @@ if (stopper > 0) {
    stopper = 0;
    }
    if (weapon > 1.5) {
-	weapon = 0;
-	}
+weapon = 0;
+}
  }
  if (weaponupgrade1 == 2) {
 if (stopper > 0) {
@@ -3886,11 +3911,11 @@ if (stopper > 0) {
    stopper = 0;
    }
    if (weapon > 2.5) {
-	weapon = 0;
-	}
+weapon = 0;
+}
  }
 }
-	
+
 var startsoundvar = new Howl({
   src: ['https://mark4pro.github.io/GameEnginePro/audio/start_sound.mp3'],
   onplayerror: function() {
