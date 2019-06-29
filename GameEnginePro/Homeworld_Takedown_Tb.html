@@ -218,6 +218,7 @@ function start() {
  backtxtinfo.font = "15px Consolas";
  backtxtinfo.text = "Exits the upgrade menu. ->";
  upgrade1button = new component(205, 50, "gray", upgrade1X, upgrade1Y, "rec");
+ upgrade1button2 = new component(205, 50, "gray", upgrade1X, upgrade1Y, "rec");
  upgrade1buttonnodetect = new component(205, 50, "grey", upgrade1X - 100, upgrade1Y + 100, "img4");
  upgrade1txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 130, "text");
  upgrade1txt.font = "15px Consolas";
@@ -740,8 +741,7 @@ shootRight();
  }
 }
 
-var switchpos = 0;
-var nextUpgrade = 0;	
+var switchpos = 0;	
 	
 function updateGameArea() {
 firehandler();
@@ -763,19 +763,18 @@ if (Board.x && Board.y) {
 			upgrademenu = 0;
 		}
 		if (upgrade1button.clicked()) {
-		nextUpgrade = 1;
 		if (weaponupgrade1 == 0) {
 		if (money >= 100) {
 			weaponupgrade1 = 1;
 			money -= 100;
 		  }
 	     }
-		 if (nextUpgrade == 1) {
-	    if (weaponupgrade1 == 1) {
-		 if (money >= 200) {
+	    }
+		if (upgrade1button2.clicked()) {
+		if (weaponupgrade1 == 1) {
+		if (money >= 200) {
 			weaponupgrade1 = 2;
 			money -= 200;
-		   }
 		  }
 	     }
 	    }
@@ -783,7 +782,12 @@ if (Board.x && Board.y) {
 	}
 if (upgrademenu == 1) {
 backbutton.update();
+if (weaponupgrade1 == 0) {
 upgrade1button.update();
+}
+if (weaponupgrade1 == 1) {
+upgrade1button2.update();
+ }
 }
 if (fire > 0) {
 bullbox.update();
@@ -3836,7 +3840,6 @@ function name() {
  if (name.value == testwave) {
  wave = 5;
  money = 200;
- weaponupgrade1 = 1;
  }
  if (name.value == resetcheat) {
  document.location.reload(true);
