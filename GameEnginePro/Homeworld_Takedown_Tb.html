@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.9</title>
+<title>Homeworld Takedown V0.4.91</title>
 <link rel="icon" type="image/vnd.microsoft.icon"
      href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -106,6 +106,10 @@ margin : 0;
 <img id="wave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave5-7_1.png">
 <img id="DeathScr" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/DeathScreen.png">
 <img id="Rectangle" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/squ-enemy.png">
+<img id="SWPart1_1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_1_Sidewalk.PNG">
+<img id="SWPart2_2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_2_Sidewalk.png">
+<img id="SWPart3_3" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_3_Sidewalk.png">
+<img id="SWPart4_4" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_4_Sidewalk.png">
 
 <!-- Were Sounds Go -->
 <audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
@@ -123,8 +127,8 @@ margin : 0;
 <script>
 var w = window.innerWidth;
 var h = window.innerHeight;
-var playerX = 100;
-var playerY = 280;
+var playerX = 384.5;
+var playerY = 183;
 var playerXwave5 = 30;
 var playerYwave5 = 30;
 var playerHealth = 100;
@@ -205,9 +209,34 @@ function start() {
  roof2house1 = new component(210, 120, "black", 500, 90, "houseroof1_img");
  inside2detect1 = new component(190, 130, "gray", 510, 100, "rec");
  floor2house1 = new component(200, 120, "black", 500, 90, "housefloor1_img");
- tree1 = new component(50, 50, "black", 150, 250, "tree_img");
- tree2 = new component(50, 50, "black", 650, 270, "tree_img");
- tree3 = new component(50, 50, "black", 250, 80, "tree_img");
+ tree1_1 = new component(50, 50, "black", 80, 290, "tree_img");
+ tree1_2 = new component(50, 50, "black", 650, 270, "tree_img");
+ tree1_3 = new component(50, 50, "black", 230, 90, "tree_img");
+ tree1_4 = new component(50, 50, "black", 270, 175, "tree_img");
+ tree1_5 = new component(50, 50, "black", 420, 70, "tree_img");
+ tree1_6 = new component(50, 50, "black", 620, 33, "tree_img");
+ tree1_7 = new component(50, 50, "black", 500, 285, "tree_img");
+ tree1_8 = new component(50, 50, "black", 300, 265, "tree_img");
+ SWPart1 = new component(50, 75, "black", 110, 205.9, "SWP1");
+ SWPart2 = new component(75, 50, "black", 535, 230, "SWP2");
+ SWPart3 = new component(50, 75, "black", 560, 185, "SWP1");
+ SWPart4 = new component(75, 50, "black", 484.5, 230, "SWP2");
+ SWPart5 = new component(75, 50, "black", 434.5, 230, "SWP2");
+ SWPart6 = new component(50, 75, "black", 110, 182, "SWP1");
+ SWPart7 = new component(75, 50, "black", 384.5, 205, "SWP2");
+ SWPart8 = new component(75, 50, "black", 384.5, 230, "SWP2");
+ SWPart9 = new component(75, 50, "black", 334.5, 230, "SWP2");
+ SWPart10 = new component(75, 50, "black", 284.5, 230, "SWP2");
+ SWPart11 = new component(75, 50, "black", 234.5, 230, "SWP2");
+ SWPart12 = new component(75, 50, "black", 184.5, 230, "SWP2");
+ SWPart13 = new component(75, 50, "black", 134.5, 230, "SWP2");
+ SWPart14 = new component(50, 75, "black", 334.5, 205, "SWP1");
+ SWPart15 = new component(75, 50, "black", 334, 135, "SWP3");
+ SWPart16 = new component(50, 75, "black", 334.5, 180.5, "SWP1");
+ SWPart17 = new component(75, 50, "black", 384.5, 180, "SWP2");
+ SWPart18 = new component(75, 50, "black", 384.5, 135, "SWP4");
+ tree2_1 = new component(50, 50, "black", 50, 20, "tree_img");
+ tree2_2 = new component(50, 50, "black", 230, 70, "tree_img");
  ui = new component(800, 300, "white", 0, 390, "img2");
  backbutton = new component(160, 50, "gray", backX, backY, "rec");
  backbuttonnodetect = new component(160, 50, "grey", backX - 100, backY + 100, "img4");
@@ -271,7 +300,7 @@ function start() {
  costToRevive = new component("30px", "Consolas", "darkred", 40, 490, "text");
  costToRevive.font = "30px Consolas";
  menuboard = new component(800, 500, "black", 0, 0, "img10");
- formplat = new component(75, 75, "black", 362.5, 157.5, "plat");
+ formplat = new component(75, 75, "black", 359, 157, "plat");
  border1_5 = new component(800, 390, "black", 0, 0, "bor");
  DeathForPlayer = new component(800, 500, "black", 0, 0, "DeathScreenPlayer");
  Board.start();
@@ -476,6 +505,30 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  var img = document.getElementById("bullpic3");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
+ if (type == "SWP1") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("SWPart1_1");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "SWP2") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("SWPart2_2");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "SWP3") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("SWPart3_3");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "SWP4") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("SWPart4_4");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
   }
  }
 }
@@ -588,9 +641,9 @@ function stopshow() {
 showmessage = 0;
 }
 
-var crate1X = 377.5;
+var crate1X = 374;
 var crate1Y = 184.5;
-var crateh1X = 403.5;
+var crateh1X = 399;
 var crateh1Y = 184.5;
 function ammocrate() {
 ammocrate1 = new component(20, 20, "yellow", crate1X, crate1Y, "rec");
@@ -869,6 +922,24 @@ wallhouse8.update();
 insidedetect1.update();
 inside2detect1.update();
 w1t5.update();
+SWPart6.update();
+SWPart13.update();
+SWPart1.update();
+SWPart3.update();
+SWPart18.update();
+SWPart17.update();
+SWPart16.update();
+SWPart15.update();
+SWPart14.update();
+SWPart7.update();
+SWPart12.update();
+SWPart11.update();
+SWPart10.update();
+SWPart9.update();
+SWPart8.update();
+SWPart5.update();
+SWPart4.update();
+SWPart2.update();
 formplat.update();
 floorhouse1.update();
 floor2house1.update();
@@ -989,9 +1060,18 @@ roof2house1.update();
 if (insidehouse1 == 0) {
 roofhouse1.update();
  }
-tree1.update();
-tree2.update();
-tree3.update();
+tree1_1.update();
+tree1_2.update();
+tree1_3.update();
+tree1_4.update();
+tree1_5.update();
+tree1_6.update();
+tree1_7.update();
+tree1_8.update();
+}
+if (wave > 4 && wave < 8) {
+tree2_1.update();
+tree2_2.update();
 }
 ui.update();
 if (wave < 5) {
@@ -1442,11 +1522,11 @@ if (spawncrate1pos == 1) {
  crate1X = 90;
  crate1Y = 90;
  } else {
- crate1X = 377.5;
+ crate1X = 374;
  crate1Y = 184.5;
    }
   } else {
- crate1X = 377.5;
+ crate1X = 374;
  crate1Y = 184.5;
   }
  }
@@ -1456,11 +1536,11 @@ if (spawncrate2pos == 1) {
  crateh1X = 520;
  crateh1Y = 110;
  } else {
- crateh1X = 403.5;
+ crateh1X = 399;
  crateh1Y = 184.5;
    }
   } else {
- crateh1X = 403.5;
+ crateh1X = 399;
  crateh1Y = 184.5;
   }
  }
@@ -1471,7 +1551,7 @@ money += moneyperendie;
 count += 1;
 console.log("Count: " + count);
 }
-}
+	}
    }
   }
  }
@@ -1521,11 +1601,11 @@ if (spawncrate1pos == 1) {
  crate1X = 90;
  crate1Y = 90;
  } else {
- crate1X = 377.5;
+ crate1X = 374;
  crate1Y = 184.5;
    }
   } else {
- crate1X = 377.5;
+ crate1X = 374;
  crate1Y = 184.5;
   }
  }
@@ -1535,11 +1615,11 @@ if (spawncrate2pos == 1) {
  crateh1X = 520;
  crateh1Y = 110;
  } else {
- crateh1X = 403.5;
+ crateh1X = 399;
  crateh1Y = 184.5;
    }
   } else {
- crateh1X = 403.5;
+ crateh1X = 399;
  crateh1Y = 184.5;
   }
  }
@@ -1578,11 +1658,11 @@ if (spawncrate1pos == 1) {
  crate1X = 90;
  crate1Y = 90;
  } else {
- crate1X = 377.5;
+ crate1X = 374;
  crate1Y = 184.5;
    }
   } else {
- crate1X = 377.5;
+ crate1X = 374;
  crate1Y = 184.5;
   }
  }
@@ -1592,11 +1672,11 @@ if (spawncrate2pos == 1) {
  crateh1X = 520;
  crateh1Y = 110;
  } else {
- crateh1X = 403.5;
+ crateh1X = 399;
  crateh1Y = 184.5;
    }
   } else {
- crateh1X = 403.5;
+ crateh1X = 399;
  crateh1Y = 184.5;
   }
  }
@@ -3932,7 +4012,7 @@ if (confirm("Do you want sound?")) {
 }
 </script>
 <label class="unselectable">
-<h1 align="center">Homeworld Takedown V0.4.9</h1>
+<h1 align="center">Homeworld Takedown V0.4.91</h1>
 <div id="locator6">
 <button onmouseup="clearAutoU()" onmousedown="autoUp()" ontouchend="clearAutoU()" ontouchstart="autoUp()">FIRE UP</button><br>
 </div>
