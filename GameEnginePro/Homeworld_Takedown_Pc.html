@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.91</title>
+<title>Homeworld Takedown V0.4.92</title>
 <link rel="icon" type="image/vnd.microsoft.icon"
      href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
 <style>
@@ -86,8 +86,10 @@ margin : 0;
 <img id="SWPart4_4" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_4_Sidewalk.png">
 
 <!-- Where Sounds Go -->
-	    <audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
-	    <audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/level2.mp3"></audio>
+	    <audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/Musictrack1.mp3"></audio>
+	    <audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/Musictrack2.mp3"></audio>
+		<audio id="Menu" src="https://mark4pro.github.io/GameEnginePro/audio/Menumusictrack.mp3"></audio>
+		<audio id="Death" src="https://mark4pro.github.io/GameEnginePro/audio/Death.mp3"></audio>
 	    <audio id="firesound" src="https://mark4pro.github.io/GameEnginePro/audio/LaserGunSound.mp3"></audio>
 </head>
 <body onload="start()">
@@ -3838,27 +3840,45 @@ box.speedX = 0;
 
 var firesoundstart = 0;
 var sound = 0
-var work = 0;
+var work = 1;
 function playSound() {
 if (work == 1) {
-if (sound == 0) {
+if (upgrademenu == 0) {
+ if (Death1 == 0) {
+if (wave < 5) {
 if (menu > 0) {
 document.getElementById('level1').play();
+   }
   }
  }
-if (sound == 1) {
+}
+if (menu == 0) {
+if (Death1 == 0) {
+document.getElementById('Menu').play();
+ }
+}
+if (Death1 > 0) {
+document.getElementById('Death').play();
+}
+if (upgrademenu > 0) {
+if (Death1 == 0) {
+document.getElementById('Menu').play();
+ }
+}
+if (upgrademenu == 0) {
+if (Death1 == 0) {
+if (wave > 4 && wave < 7) {
 if (menu > 0) {
 document.getElementById('level2').play();
+    }
+   }
   }
  }
 }
 if (firesoundstart > 0) {
 if (menu > 0) {
 document.getElementById('firesound').play();
- }
-}
-if (sound > 1) {
-sound = 0;
+  }
  }
 }
 	
@@ -3867,18 +3887,50 @@ var player = document.getElementById('level1');
 player.volume = val / 100;
 var player2 = document.getElementById('level2');
 player2.volume = val / 100;
+var menus = document.getElementById('Menu');
+menus.volume = val / 100;
+var Dead = document.getElementById('Death');
+Dead.volume = val / 100;
 var fireVolume = document.getElementById('firesound');
-fireVolume.volume = val / 50;
+fireVolume.volume = val / 300;
 }
 	
 function skipSound() {
- if (sound > 0) {
+ if (upgrademenu == 1) {
+ level1.pause();
+ level1.currentTime = 0;
+ level2.pause();
+ level2.currentTime = 0;
+ firesound.pause();
+ firesound.currentTime = 0;
+ }
+ if (Death1 > 0) {
+ level1.pause();
+ level1.currentTime = 0;
+ level2.pause();
+ level2.currentTime = 0;
+ firesound.pause();
+ firesound.currentTime = 0;
+ Menu.pause();
+ Menu.currentTime = 0;
+ }
+ if (Death1 == 0) {
+ Death.pause();
+ Death.currentTime = 0;
+ }
+ if (wave == 5) {
  level1.pause();
  level1.currentTime = 0;
  }
- if (sound < 1) {
+ if (wave == 7) {
  level2.pause();
  level2.currentTime = 0;
+ }
+ if (menu > 0) {
+ if (upgrademenu == 0) {
+ Menu.pause();
+ Menu.currentTime = 0;
+  }
  }
  if (fire == 0) {
  if (frameIndex5 == 1) {
@@ -3989,7 +4041,7 @@ function upgrade1func() {
 }
 </script>
 <label class="unselectable">
-<h1 align=center>Homeworld Takedown V0.4.91</h1>
+<h1 align=center>Homeworld Takedown V0.4.92</h1>
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
 <p align="center"><input type="text" id="name" value=""></p>
