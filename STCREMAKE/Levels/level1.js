@@ -1,5 +1,5 @@
 import { level } from './engine'
-var player; 
+var player;
 var player2;
 var time;
 var bullet;
