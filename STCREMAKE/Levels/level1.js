@@ -1,4 +1,4 @@
-import { level } from './engine'
+import { level } from './engine.js'
 var player;
 var player2;
 var time;
