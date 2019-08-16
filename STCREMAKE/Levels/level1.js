@@ -1,4 +1,4 @@
-import { level } from 'https://mark4pro.github.io/STCREMAKE/Engine/engine.js'
+import { level } from './engine'
 var player; 
 var player2;
 var time;
