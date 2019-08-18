@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="icon" type="image/vnd.microsoft.icon"
+     href="./icon/stc.ico" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" href="./icon/stc.png>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+	<title>SLAYTHECUBE REMAKE</title>
+<style>
+	.unselectable {
+	-webkit-user-select: none; /* Safari 3.1+ */
+	-moz-user-select: none; /* Firefox 2+ */
+	-ms-user-select: none; /* IE 10+ */
+	user-select: none; /* Standard syntax */
+}
+body {
+	background-color: grey;
+	margin: 0;
+	position: fixed;
+}
+html {
+ position: fixed;
+}
+h1 {
+	color: darkred;
+	text-align: center;
+	left: 20%;
+	right: 20%;
+	top: 53%;
+	position: fixed;
+}
+button{
+ width:60px;
+ height:60px;
+ border-radius: 50px;
+ background-color: darkgray;
+ color: white;
+ text-align: center;
+ }
+#Left { position: fixed; visibility: visible; left: 50px; top: 500px; z-index: 200; }
+#Right { position: fixed; visibility: visible; left: 150px; top: 500px; z-index: 200; }
+#Up { position: fixed; visibility: visible; left: 100px; top: 440px; z-index: 200; }
+#Down { position: fixed; visibility: visible; left: 100px; top: 560px; z-index: 200; }
+#Reset { position: fixed; visibility: visible; right: 50px; top: 550px; z-index: 200; }
+#Fire { position: fixed; visibility: visible; right: 50px; top: 460px; z-index: 200; }
+#NextLevel { position: fixed; visibility: visible; right: 120px; top: 505px; z-index: 200; }
+canvas {
+border:2px solid white;
+background-color: black;
+margin-left: auto;
+margin-right: auto;
+display: block;
+width: 600px;
+left: 20%;
+right: 20%;
+position: fixed;
+}
+</style>
+</head>
+<body onload="startGame()">
+<script type="text/javascript" src="./GameEngine/Engine.js"></script>
+	<label class="unselectable">
+<h1 align="center" style="background-color:tomato; border:2px solid darkred;">SLAYTHECUBE REMAKE</h1>
+  <div id="Up">
+  <button onmousedown="moveup()" onmouseup="clearmove()" ontouchend="clearmove()" ontouchstart="moveup()">UP</button>
+  </div>
+  <div id="Left">
+  <button onmousedown="moveleft()" onmouseup="clearmove()" ontouchend="clearmove()" ontouchstart="moveleft()">LEFT</button>
+  </div>
+  <div id="Right">
+  <button onmousedown="moveright()" onmouseup="clearmove()" ontouchend="clearmove()" ontouchstart="moveright()">RIGHT</button>
+  </div>
+  <div id="Down">
+  <button onmousedown="movedown()" onmouseup="clearmove()" ontouchend="clearmove()" ontouchstart="movedown()">DOWN</button>
+  </div>
+
+<div id="Reset">
+<button onclick="ResetGame()">Reset</button>
+</div>
+
+<div id="NextLevel">
+<button onclick="NextLevel()">Next</button>
+</div>
+
+<div id="Fire">
+ <button onmousedown="fire()" onmouseup="" ontouchstart="fire()">FIRE!</button>
+	</label>
+</body>
+</html>
