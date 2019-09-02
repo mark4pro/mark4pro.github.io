@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.92</title>
+<title>Homeworld Takedown V0.4.93</title>
 <link rel="icon" type="image/vnd.microsoft.icon"
      href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
 <style>
@@ -14,29 +14,44 @@ margin-left: auto;
 margin-right: auto;
 display: block;
 width: 600px;
+top: 12.5%;
+left: 20%;
+right: 20%;
+transform:scale(1.6);
+position: fixed;
 }
 html {
 overflow: hidden;
 }
  body {
- background-image: url("https://mark4pro.github.io/GameEnginePro/image/uitexture.png");
+ background-image: url("https://mark4pro.github.io/GameEnginePro/image/Webpagebackground.png");
  }
  h1 {
  font-size: 50px;
- background-image: url("https://mark4pro.github.io/GameEnginePro/image/healthback.png");
- border:5px solid darkgray;
+ background-color: #63218a;
+ border:5px solid black;
  visibility: visible; 
  z-index: 200; 
+ bottom: 25%;
+ left: 20%;
+ right: 20%;
+ position: fixed;
  }
  p {
  color: white;
+ }
+ img {
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering: -webkit-crisp-edges;      /* Webkit */
+    -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+    image-rendering: pixelated;                /* Chrome */
  }
  .unselectable {
 -webkit-user-select: none;
 -moz-user-select: none;
 -ms-user-select: none;
 user-select: none;
-}
+ }
 #container {
 width : 50%;
 height : 50%;
@@ -47,22 +62,40 @@ margin : 0;
 -moz-user-select : none;
 }
 #content{
- background-image: url("https://mark4pro.github.io/GameEnginePro/image/healthback.png");
+ background-color: #63218a;
  overflow: auto;
  height: 80px;
  overfow:auto;
  padding: 20px;
  margin-left: auto;
  margin-right: auto;
+ bottom: 0%;
+ left: 20%;
+ right: 20%;
+ position: fixed;
  }
-
+#volumecontrols{
+bottom: 13%;
+left: 20%;
+right: 20%;
+position: fixed;
+}
+#updateinfo{
+background-color: white;
+top: 5%;
+bottom: 40%;
+left: 2%;
+position: fixed;
+visibility: hidden;
+}
 </style>
+<div id="updateinfo">
+<object width="300" height="500" type="text/plain" data="https://mark4pro.github.io/GameEnginePro/txt/update.txt" border="0" >
+</object>
+</div>
 <!-- Where Images Go -->
 <img id="playerimg" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/player1.png">
 <img id="badguy1img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemy.png">
-<img id="uiimg" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/uitexture.png">
-<img id="healthbo" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/healthborder.png">
-<img id="healthba" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/healthback.png">
 <img id="wave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave1-5.png">
 <img id="bullpic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/bullet.png">
 <img id="bullpic2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/bullet2.png">
@@ -84,6 +117,8 @@ margin : 0;
 <img id="SWPart2_2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_2_Sidewalk.png">
 <img id="SWPart3_3" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_3_Sidewalk.png">
 <img id="SWPart4_4" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_4_Sidewalk.png">
+<img id="UnmutedPic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Unmuted.png">
+<img id="MutedPic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Muted.png">
 
 <!-- Where Sounds Go -->
 	    <audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/Musictrack1.mp3"></audio>
@@ -94,6 +129,18 @@ margin : 0;
 </head>
 <body onload="start()">
 <script>
+var popup = 1;
+function Datechecker() {
+var today_date= new Date()
+var mytoday = today_date.getDate()
+if (popup == 1) {
+if (mytoday >= 2 && mytoday < 8) {
+openpatchinfo = 1;
+popup = 0;
+  }
+ }
+}
+
 var w = window.innerWidth;
 var h = window.innerHeight;
 var playerX = 384.5;
@@ -206,15 +253,15 @@ function start() {
  SWPart18 = new component(75, 50, "black", 384.5, 135, "SWP4");
  tree2_1 = new component(50, 50, "black", 50, 20, "tree_img");
  tree2_2 = new component(50, 50, "black", 230, 70, "tree_img");
- ui = new component(800, 300, "white", 0, 390, "img2");
- backbutton = new component(160, 50, "grey", backX - 100, backY + 100, "img4");
+ ui = new component(800, 300, "#451661", 0, 390, "rec");
+ backbutton = new component(160, 50, "#812bb3", backX - 100, backY + 100, "rec");
  backtxt = new component("30px", "Consolas", "white", backX - 90, backY + 130, "text");
  backtxt.font = "15px Consolas";
  backtxt.text = "Press ESC To Exit";
  backtxtinfo = new component("30px", "Consolas", "white", 45, backY + 130, "text");
  backtxtinfo.font = "15px Consolas";
  backtxtinfo.text = "Exits the upgrade menu. ->";
- upgrade1button = new component(205, 50, "grey", upgrade1X - 100, upgrade1Y, "img4");
+ upgrade1button = new component(205, 50, "#812bb3", upgrade1X - 100, upgrade1Y, "rec");
  upgrade1txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 30, "text");
  upgrade1txt.font = "15px Consolas";
  upgrade1txt.text = "#1 Weapon Upgrade (1/2)";
@@ -257,9 +304,9 @@ function start() {
  max1txt = new component("30px", "Consolas", "white", upgrade1X - 25, upgrade1Y + 30, "text");
  max1txt.font = "20px Consolas";
  max1txt.text = "MAXED";
- infoboard = new component(300, 500, "grey", 0, 0, "rec");
- infoboard2 = new component(310, 500, "darkgrey", 0, 0, "rec");
- upgradeboard = new component(800, 500, "black", 0, 0, "img2");
+ infoboard = new component(300, 500, "#63218a", 0, 0, "rec");
+ infoboard2 = new component(310, 500, "black", 0, 0, "rec");
+ upgradeboard = new component(800, 500, "#451661", 0, 0, "rec");
  upgradetxt = new component("30px", "Consolas", "white", 345, 30, "text");
  upgradetxt.font = "20px Consolas";
  upgradetxt.text = "Upgrade Menu";
@@ -309,7 +356,6 @@ clear : function() {
 this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 },
 }
-
 function component(width, height, color ,x ,y, type, radius, outcolor, thickness) {
 this.type = type;
 this.speedX = 0;
@@ -345,24 +391,6 @@ ctx.fillRect(this.x, this.y, this.width, this.height);
  this.width = width;
  this.height = height;
  var img = document.getElementById("playerimg");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "img2") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("uiimg");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "img3") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("healthbo");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "img4") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("healthba");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
  if (type == "img5") {
@@ -497,6 +525,18 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  var img = document.getElementById("SWPart4_4");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
+ if (type == "UMP") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("UnmutedPic");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "MP") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("MutedPic");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
   }
  }
 }
@@ -523,7 +563,6 @@ crash = false;
  return crash;
 }
 }
-
 var HealthX = 30;
 var HealthY = 450;
 var HealthWidth = 103;
@@ -533,14 +572,14 @@ var texth;
 var word = "Health:";
 var hcolor = "Darkgreen";
 function Health1() {
- bo = new component(113, 56.5, "darkblue", 25, 428, "img3");
+ bo = new component(113, 56.5, "black", 25, 428, "rec");
  w1 = new component(5, 48, "black", HealthX - 5, HealthY - 17, "rec");
  w2 = new component(5, 48, "black", HealthX + 103, HealthY - 17, "rec");
  w3 = new component(113, 5, "black", HealthX - 5, HealthY - 22, "rec");
  w4 = new component(113, 5, "black", HealthX - 5, HealthY + 30, "rec");
- g = new component(HealthWidth, HealthHeight, "gray", HealthX, HealthY - 17, "img4");
+ g = new component(HealthWidth, HealthHeight, "#812bb3", HealthX, HealthY - 17, "rec");
  texth = new component("30px", "Consolas", "red", HealthX + 2, HealthY - 2, "text");
- base = new component(HealthWidth, HealthHeight, "gray", HealthX, HealthY, "rec");
+ base = new component(HealthWidth, HealthHeight, "#63218a", HealthX, HealthY, "rec");
  full = new component(playerHealth, HealthHeight - 5, hcolor, HealthX + 1.5, HealthY + 2.5, "rec");
  w1.update();
  w2.update();
@@ -575,7 +614,6 @@ Death1 = 1;
 Death1 = 0;
  }
 }
-
 var showmessage = 0;
 var payback = 30;
 var revivecost = 100;
@@ -593,11 +631,9 @@ showmessage = 1;
   }  
  }
 }
-
 function stopshow() {
 showmessage = 0;
 }
-
 var crate1X = 374;
 var crate1Y = 184.5;
 var crateh1X = 399;
@@ -608,7 +644,6 @@ healthcrate1 = new component(20, 20, "red", crateh1X, crateh1Y, "rec");
 ammocrate1picO = new component(20, 20, "yellow", crate1X, crate1Y, "img8");
 healthcrate1picO = new component(20, 20, "red", crateh1X, crateh1Y, "img9");
 }
-
 var wave = 1;
 var oldwave = 1;
 var upgrademenu = 0;
@@ -618,7 +653,6 @@ function checkwave() {
 		oldwave += 1;
 	}
 }
-
 var resetframe = 6;
 var tickCount = 0;
 var frameIndex = 0;
@@ -658,7 +692,6 @@ if (startTime2 == 1) {
         }
 	}
 }
-
 var resetframe3 = 3;
 var tickCount3 = 0;
 var frameIndex3 = 0;
@@ -678,7 +711,6 @@ if (startTime3 == 1) {
         }
 	}
 }
-
 var resetframe4 = 5;
 var tickCount4 = 0;
 var frameIndex4 = 0;
@@ -716,7 +748,6 @@ if (firesoundstart == 1) {
         }
 	}
 }
-
 var insidehouse1 = 0;
 var inside2house1 = 0;
 function housecontrols() {
@@ -754,6 +785,14 @@ shootRight();
 var switchpos = 0;
 
 function updateGameArea() {
+Datechecker();
+mute();
+if (openpatchinfo == 1) {
+document.getElementById("updateinfo").style.visibility = "visible";
+ }
+if (openpatchinfo == 0) {
+document.getElementById("updateinfo").style.visibility = "hidden";
+ }
 firehandler();
 framerate();
 framerate2();
@@ -1325,7 +1364,6 @@ if (box.crashWith(wall2house7)) {
 }
  }
 }
-
 document.onkeydown = function(e) {
     switch (e.keyCode) {
         case 37:
@@ -1378,9 +1416,14 @@ document.onkeydown = function(e) {
 		case 97:
 		    upgrade1func();
 			break;
+		case 80:
+		    patchinfo();
+			break;
+		case 77:
+		    mutemusic += 1;
+			break;
     }
 };
-
 document.onkeyup = function(e) {
     switch (e.keyCode) {
 		case 87:
@@ -1413,6 +1456,14 @@ document.onkeyup = function(e) {
     }
 };
 
+var openpatchinfo = 0;
+function patchinfo() { 
+openpatchinfo += 1;
+if (openpatchinfo > 1) {
+openpatchinfo = 0;
+ }
+}
+
 var weaponupgrade1 = 0;
 var weapon = 0;
 var ammo = 160;
@@ -1437,10 +1488,12 @@ if (weaponupgrade1 > 1) {
  bullrange = 4;
  }
 }
-obo = new component(100, 80, "gray", 350, 430, "img3");
-oba = new component(90, 80, "gray", 355, 435, "img4");
-bam = new component(83, 15, "gray", 358, 438, "rec");
-bwa = new component(83, 15, "gray", 358, 477, "rec");
+obo = new component(100, 80, "black", 350, 430, "rec"); 
+obo2 = new component(63, 80, "black", 438, 447, "rec");
+oba = new component(90, 80, "#63218a", 355, 435, "rec");
+oba2 = new component(60, 60, "#63218a", 435, 452, "rec");
+bam = new component(83, 15, "#812bb3", 358, 438, "rec");
+bwa = new component(83, 15, "#812bb3", 358, 477, "rec");
 ammotxt = new component("30px", "Consolas", "orange", 360, 450, "text");
 ammotxt.font="18px Consolas";
 ammotxt.text="Ammo:" + ammo;
@@ -1450,15 +1503,24 @@ weaptxt.text="Weapon:" + weapname;
 wavetxt = new component("30px", "Consolas", "lightgray", 360, 490, "text");
 wavetxt.font="18px Consolas";
 wavetxt.text="Wave:" + wave;
+UnmutedP = new component(50, 50, "black", 446, 450, "UMP");
+MutedP = new component(50, 50, "black", 446, 450, "MP");
 obo.update();
+obo2.update();
 oba.update();
+oba2.update();
 bam.update();
 bwa.update();
 ammotxt.update();
 weaptxt.update();
 wavetxt.update();
+if (mutemusic == 0) {
+UnmutedP.update();
 }
-
+if (mutemusic == 1) {
+MutedP.update();
+ }
+}
 var spawnbad2pos = Math.floor(Math.random() * 2);
 var spawncrate2pos = Math.floor(Math.random() * 2);
 var spawncrate1pos = Math.floor(Math.random() * 2);
@@ -1727,7 +1789,6 @@ moneyperendie3 = 15;
   }
  }
 }
-
 var BadDeath = 1;
 var Badhealth1 = 0;
 var PlayerDamageDeal = 20;
@@ -1753,7 +1814,6 @@ Badhealth1 = 0;
   }
  }
 }
-
 function crashhitai1() {
   if (BadDeath < 1) {
 	if (badguy1.crashWith(wallright)) {
@@ -2724,7 +2784,6 @@ function crashhitai1() {
 	 }
 	}
 }
-
 var sidebad1 = 0;
 var touchwallrightbad1 = 0;
 var touchwallleftbad1 = 0;
@@ -2851,7 +2910,6 @@ if (startTime == 0) {
  }
  }
 }
-
 var BadDeath2 = 1;
 var Badhealth2 = 0;
 var Bad2DamageDeal = 0.1;
@@ -2876,7 +2934,6 @@ Badhealth2 = 0;
   }
  }
 }
-
 var sidebad2 = 0;
 var touchwallrightbad2 = 0;
 var touchwallleftbad2 = 0;
@@ -3102,7 +3159,6 @@ if (startTime2 == 0) {
  }
  }
 }
-
 var Badhealth3 = 0;
 var Bad3DamageDeal = 0.15;
 function badtriboxspawn() {
@@ -3126,7 +3182,6 @@ Badhealth3 = 0;
   }
  }
 }
-
 var BadDeath3 = 1;
 var sidebad3 = 0;
 var touchwallrightbad3 = 0;
@@ -3268,7 +3323,6 @@ if (startTime3 == 0) {
  }
  }
 }
-
 var BadDeath4 = 1;
 var Badhealth4 = 0;
 var Bad4DamageDeal = 0.13;
@@ -3293,7 +3347,6 @@ Badhealth4 = 0;
  }
  }
 }
-
 var sidebad4 = 0;
 var touchwallrightbad4 = 0;
 var touchwallleftbad4 = 0;
@@ -3547,7 +3600,6 @@ autoRightVar = 1;
 function clearAutoU() {
 autoUpVar = 0;
 }	
-
 function clearAutoD() {
 autoDownVar = 0;
 }
@@ -3557,7 +3609,6 @@ autoLeftVar = 0;
 function clearAutoR() {
 autoRightVar = 0;
 }
-
 var fire = 0;
 var fireR = 0;
 var fireL = 0;
@@ -3650,7 +3701,6 @@ firesoundstart = 1;
   }
  }
 }
-
 var starttime = 0;
 var timeforbullet = 0;
 function resetfire() {
@@ -3664,7 +3714,6 @@ if (menu > 0) {
 starttime = 0;
  }
 }
-
 var bullrange = 3;
 function bulletai() {
 if (fire < 1) {
@@ -3768,7 +3817,6 @@ fire = 0;
   }
  }
 }
-
 var bullettime = 0;
 var touchleft = 0;
 var touchright = 0;
@@ -3786,22 +3834,18 @@ function moveUp() {
 up = 1;
 upE = 1;
 }
-
 function moveDown() {
 down = 1;
 downE = 1;
 }
-
 function moveLeft() {
 left = 1;
 leftE = 1;
 }
-
 function moveRight() {
 right = 1;
 rightE = 1;
 }
-
 function clearmoveu() {
 if (upE > 0) {
  up = 0;
@@ -3810,7 +3854,6 @@ circle.speedY = 0;
 box.speedY = 0;
  }
 }
-
 function clearmoved() {
 if (downE > 0) {
  down = 0;
@@ -3819,7 +3862,6 @@ circle.speedY = 0;
 box.speedY = 0;
  }
 }
-
 function clearmovel() {
 if (leftE > 0) {
  left = 0;
@@ -3828,7 +3870,6 @@ circle.speedX = 0;
 box.speedX = 0;
  }
 }
-
 function clearmover() {
 if (rightE > 0) {
  right = 0;
@@ -3837,7 +3878,6 @@ circle.speedX = 0;
 box.speedX = 0;
  }
 }
-
 var firesoundstart = 0;
 var sound = 0
 var work = 1;
@@ -3883,6 +3923,7 @@ document.getElementById('firesound').play();
 }
 	
 function SetVolume(val) {
+if (mutemusic == 0) {
 var player = document.getElementById('level1');
 player.volume = val / 100;
 var player2 = document.getElementById('level2');
@@ -3893,6 +3934,40 @@ var Dead = document.getElementById('Death');
 Dead.volume = val / 100;
 var fireVolume = document.getElementById('firesound');
 fireVolume.volume = val / 300;
+ }
+}
+
+var mutemusic = 0;
+function mute() {
+var val = 0;
+val = document.getElementById("volume").value;
+if (mutemusic == 1) {
+var player = document.getElementById('level1');
+player.volume = 0 / 100;
+var player2 = document.getElementById('level2');
+player2.volume = 0 / 100;
+var menus = document.getElementById('Menu');
+menus.volume = 0 / 100;
+var Dead = document.getElementById('Death');
+Dead.volume = 0 / 100;
+var fireVolume = document.getElementById('firesound');
+fireVolume.volume = 0 / 300;
+ }
+if (mutemusic == 0) {
+var player = document.getElementById('level1');
+player.volume = val / 100;
+var player2 = document.getElementById('level2');
+player2.volume = val / 100;
+var menus = document.getElementById('Menu');
+menus.volume = val / 100;
+var Dead = document.getElementById('Death');
+Dead.volume = val / 100;
+var fireVolume = document.getElementById('firesound');
+fireVolume.volume = val / 300;
+ }
+if (mutemusic > 1) {
+mutemusic = 0;
+ }
 }
 	
 function skipSound() {
@@ -3939,7 +4014,6 @@ function skipSound() {
   }
  }
 }
-
 var namebX = 620;
 var namebY = 450;
 var ammocheat = "moreammo";
@@ -3952,7 +4026,7 @@ function name() {
  var nameg = "Name:"
  var name = document.getElementById('name');
  namef = new component("30px", "Consolas", "white", namebX, namebY, "text");
- m = new component(300, 20, "gray", namebX - 5, namebY - 15, "img4");
+ m = new component(300, 20, "#63218a", namebX - 5, namebY - 15, "rec");
  namef.font="20px Consolas";
  namef.text=nameg + name.value;
  m.update();
@@ -3977,16 +4051,15 @@ function name() {
  document.location.reload(true);
  }
 }
-
 var money = 50;
 var mbX = 580;
 var mbY = 480;
 function playerMoney() {
  var moneyg = "$"
  moneyf = new component("30px", "Consolas", "green", mbX, mbY, "text");
- q = new component(300, 100, "gray", mbX - 5, mbY - 25, "img4");
- mbo = new component(300, 100, "gray", 570, 450, "img3");
- nbo = new component(300, 100, "gray", 610, 430, "img3");
+ q = new component(300, 100, "#63218a", mbX - 5, mbY - 25, "rec");
+ mbo = new component(300, 100, "black", 570, 450, "rec");
+ nbo = new component(300, 100, "black", 610, 430, "rec");
  moneyf.font="30px Consolas";
  moneyf.text=moneyg + Math.round(money);
  nbo.update();
@@ -3994,23 +4067,19 @@ function playerMoney() {
  q.update();
  moneyf.update();
 }
-
 function swapweap1() {
 	weapon = 0;
 }
-
 function swapweap2() {
 if (weaponupgrade1 > 0) {
     weapon = 1;
  }
 }
-
 function swapweap3() {
 if (weaponupgrade1 > 1) {
     weapon = 2;
  }
 }
-
 function backfunc() {
    if (upgrademenu > 0) {
 			upgrademenu = 0;
@@ -4041,17 +4110,21 @@ function upgrade1func() {
 }
 </script>
 <label class="unselectable">
-<h1 align=center>Homeworld Takedown V0.4.92</h1>
+<h1 align=center>Homeworld Takedown V0.4.93</h1>
+<div id="volumecontrols">
 <p align="center">Volume:</p>
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
 <p align="center"><input type="text" id="name" value=""></p>
+</div>
 <div id="content">
 <p align="center">Controls:</p>
-<p align="center">Arrow key to shoot.</p>
-<p align="center">WASD to move.</p>
-<p align="center">R to revive.</p>
-<p align="center">Esc to exit the upgrade menu. (Also will reset the game if you are dead.)</p>
-<p align="center">Number keys to switch weapons. (NOT THE NUM PAD! aslo get weapons by upgrading your weapon)</p>
+<p align="center">Use the arrow key to shoot.</p>
+<p align="center">Use WASD to move.</p>
+<p align="center">Press R to revive.</p>
+<p align="center">Press M to mute the game and press it again to unmute.</p>
+<p align="center">Press P to open the Patch Info and press it again to close it.</p>
+<p align="center">Press Esc to exit the upgrade menu. (Also will reset the game if you are dead.)</p>
+<p align="center">Use the Number keys to switch weapons. (NOT THE NUM PAD! aslo get weapons by upgrading your weapon)</p>
 <p align="center">Use the Num Key on the key pad to upgrade. (numbers correspond with numbers in the upgrade menu labeled with # in front of it)</p>
 <p align="center">About:</p>
 <p align="center">Flying Enemies- Rage mode: if the enemy's health drops below 50 it will move faster. </p>
