@@ -1,0 +1,12 @@
+WHAT'S NEW IN V0.4.93
+
+Well just look at it! Isn't it great!
+This update was kind of a quality of life inprovement.
+You can now mute and unmute the in game music and sounds by toggle using m on your keyboard.
+You can also toggle this amazing Patch Info board here if you like using p on your keyboard.
+The page looks different and also the UI and upgrade menu.
+I also added a UI element so you know the sound is muted or not.
+I sized up the screen and made sure the scaling didn't make the game look bad by some css magic!
+Also the page element are moved around.
+
+This is one step closer to V0.5.0 the next big update should be the wave 5 - 7 level design! 
