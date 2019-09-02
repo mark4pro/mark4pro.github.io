@@ -8,5 +8,6 @@ The page looks different and also the UI and upgrade menu.
 I also added a UI element so you know the sound is muted or not.
 I sized up the screen and made sure the scaling didn't make the game look bad by some css magic!
 Also the page element are moved around.
+I also made the Patch Info Board appear when you load the webpage untill sunday the 8th which is important because I can add time sensitive events like special boss fights and more!!!
 
 This is one step closer to V0.5.0 the next big update should be the wave 5 - 7 level design! 
