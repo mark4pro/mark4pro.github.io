@@ -1,0 +1,11 @@
+:TYPE P AS YOUR NAME TO TOGGLE THE PIB:
+
+WHAT'S NEW IN V0.4.93
+
+Well just look at it! Isn't it great!
+This update was kind of a quality of life inprovement.
+You can also toggle this amazing Patch Info board here if type PIB or pib in the name box.
+The page looks different and also the UI and upgrade menu.
+I also made the Patch Info Board appear when you load the webpage untill sunday the 8th which is important because I can add time sensitive events like special boss fights and more!!!
+
+This is one step closer to V0.5.0 the next big update should be the wave 5 - 7 level design! 
