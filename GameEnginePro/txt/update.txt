@@ -13,3 +13,19 @@ Also the page element are moved around.
 I also made the Patch Info Board appear when you load the webpage untill sunday the 8th which is important because I can add time sensitive events like special boss fights and more!!!
 
 This is one step closer to V0.5.0 the next big update should be the wave 5 - 7 level design! 
+
+:In The Future!:
+So I have a lot of plans for this game! 
+Some will be added. (most will) 
+Somethings that are coming in the near future:
+Secret weapons from bosses or events!
+Saving secret weapons so you don't loose them when you come back.
+Special event and limited time events!
+Themed stages.
+Endless mode! (with 3 difficulties)
+Different ships! (maybe with differant stats but mostly cosmetic)
+Story (It will be a clip to tell you the story of the game so far)
+Special weapon vault (It will show you what all you're missing)
+Stats command (type this in and it will tell you the stats of your current weapon) (coming very soon)
+pause button (coming very soon)
+
