@@ -3861,16 +3861,19 @@ function name() {
  }
  if (name.value == wavebonus) {
  wave = 9000;
+ name.value = "";
  }
  if (name.value == testwave) {
  wave = 5;
- money = 200;
+ name.value = "";
  }
  if (name.value == pibO || name.value == pibO2) {
  openpatchinfo = 1;
+ name.value = "";
  }
  if (name.value == pibC || name.value == pibC2) {
  openpatchinfo = 0;
+ name.value = "";
  }
  if (name.value == resetcheat) {
  document.location.reload(true);
