@@ -109,6 +109,8 @@ visibility: hidden;
 <img id="1-5sideborder" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/1-5border1.png">
 <img id="housefloor1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/floor1_1.png">
 <img id="houseroof1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/roof1_1.png">
+<img id="housefloor4" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/floor4.PNG">
+<img id="houseroof2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/roof2.PNG">
 <img id="tree" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tree1_1.png">
 <img id="wave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave5-7_1.png">
 <img id="DeathScr" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/DeathScreen.png">
@@ -133,14 +135,17 @@ var popup = 1;
 function Datechecker() {
 var today_date= new Date()
 var mytoday = today_date.getDate()
+var mymonth = today_date.getMonth()
+var myyear = today_date.getYear()
 if (popup == 1) {
+if (mymonth == 8) {
 if (mytoday >= 2 && mytoday < 8) {
 openpatchinfo = 1;
 popup = 0;
+   }
   }
  }
 }
-
 var w = window.innerWidth;
 var h = window.innerHeight;
 var playerX = 384.5;
@@ -253,6 +258,7 @@ function start() {
  SWPart18 = new component(75, 50, "black", 384.5, 135, "SWP4");
  tree2_1 = new component(50, 50, "black", 50, 20, "tree_img");
  tree2_2 = new component(50, 50, "black", 230, 70, "tree_img");
+ wall3house1 = new component(120, 10, "grey", 180, 80, "rec");
  ui = new component(800, 300, "#451661", 0, 390, "rec");
  backbutton = new component(160, 50, "#812bb3", backX - 100, backY + 100, "rec");
  backtxt = new component("30px", "Consolas", "white", backX - 90, backY + 130, "text");
@@ -463,6 +469,18 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  this.width = width;
  this.height = height;
  var img = document.getElementById("houseroof1");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "housefloor4_img") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("housefloor4");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+ if (type == "houseroof2_img") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("houseroof2");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
  if (type == "tree_img") {
@@ -1008,6 +1026,7 @@ tree1_7.update();
 tree1_8.update();
 }
 if (wave > 4 && wave < 8) {
+wall3house1.update();
 tree2_1.update();
 tree2_2.update();
 }
@@ -1455,7 +1474,6 @@ document.onkeyup = function(e) {
             break;
     }
 };
-
 var openpatchinfo = 0;
 function patchinfo() { 
 openpatchinfo += 1;
@@ -1463,7 +1481,6 @@ if (openpatchinfo > 1) {
 openpatchinfo = 0;
  }
 }
-
 var weaponupgrade1 = 0;
 var weapon = 0;
 var ammo = 160;
@@ -3936,7 +3953,6 @@ var fireVolume = document.getElementById('firesound');
 fireVolume.volume = val / 300;
  }
 }
-
 var mutemusic = 0;
 function mute() {
 var val = 0;
@@ -4043,9 +4059,11 @@ function name() {
  }
  if (name.value == wavebonus) {
  wave = 9000;
+ name.value = "";
  }
  if (name.value == testwave) {
  wave = 5;
+ name.value = "";
  }
  if (name.value == resetcheat) {
  document.location.reload(true);
