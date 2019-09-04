@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.91</title>
+<title>Homeworld Takedown V0.4.93</title>
 <link rel="icon" type="image/vnd.microsoft.icon"
      href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,8 +17,14 @@ body {
  }
 html {
  position: fixed;
- background-image: url("https://mark4pro.github.io/GameEnginePro/image/uitexture.png");
+ background-image: url("https://mark4pro.github.io/GameEnginePro/image/Webpagebackground.png");
 }
+img {
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering: -webkit-crisp-edges;      /* Webkit */
+    -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+    image-rendering: pixelated;                /* Chrome */
+ }
 canvas {
 border:2px solid black;
 background-color: blue;
@@ -36,16 +42,14 @@ position: fixed;
  width:80px;
  height:80px;
  border-radius: 50px;
- background-image: url("https://mark4pro.github.io/GameEnginePro/image/healthback.png");
+ background-color: #63218a;
  color: white;
  text-align: center;
  }
  h1 {
  font-size: 50px;
- background-image: url("https://mark4pro.github.io/GameEnginePro/image/healthback.png");
- border:5px solid darkgray;
- visibility: visible; 
- z-index: 200; 
+ background-color: #63218a;
+ border:5px solid black;
  top: 55%;
  left: 20%;
  right: 20%;
@@ -61,34 +65,22 @@ position: fixed;
 -ms-user-select: none; /* IE 10+ */
 user-select: none; /* Standard syntax */
 }
-#container {
-width : 50%;
-height : 50%;
-overflow : hidden;
-padding : 0;
-margin : 0;
--webkit-user-select : none;
--moz-user-select : none;
-}
 
-#locator5 { position: fixed; visibility: visible; left: 50px; top: 350px; z-index: 200; }
-#locator6 { position: fixed; visibility: visible; right: 65px; top: 80px; z-index: 200; }
-#locator7 { position: fixed; visibility: visible; right: 110px; top: 160px; z-index: 200; }
-#locator8 { position: fixed; visibility: visible; right: 20px; top: 160px; z-index: 200; }
-#locator9 { position: fixed; visibility: visible; right: 65px; top: 240px; z-index: 200; }
-#locator10 { position: fixed; visibility: visible; right: 50px; top: 350px; z-index: 200; }
+#locator5 { position: fixed; left: 50px; top: 350px;}
+#locator6 { position: fixed; right: 65px; top: 80px;}
+#locator7 { position: fixed; right: 110px; top: 160px;}
+#locator8 { position: fixed; right: 20px; top: 160px;}
+#locator9 { position: fixed; right: 65px; top: 240px;}
+#locator10 { position: fixed; right: 50px; top: 350px;}
 #zone_joystick { position: fixed;}
-#vol { position: fixed; top: 80%; left: 20%; right: 20%; }
-#slidercon { position: fixed; top: 85%; left: 20%; right: 20%; }
 #namecon { position: fixed; top: 90%; left: 20%; right: 20%; }
-
+#updateinfo{ background-color: white; top: 5%; bottom: 40%; left: 2%; position: fixed; visibility: hidden; }
+#nametxt { position: fixed; top: 85%; left: 20%; right: 20%; }
 </style>
+
 <!-- Were Images Go -->
 <img id="playerimg" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/player1.png">
 <img id="badguy1img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemy.png">
-<img id="uiimg" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/uitexture.png">
-<img id="healthbo" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/healthborder.png">
-<img id="healthba" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/healthback.png">
 <img id="wave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave1-5.png">
 <img id="bullpic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/bullet.png">
 <img id="bullpic2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/bullet2.png">
@@ -110,21 +102,31 @@ margin : 0;
 <img id="SWPart2_2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_2_Sidewalk.png">
 <img id="SWPart3_3" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_3_Sidewalk.png">
 <img id="SWPart4_4" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_4_Sidewalk.png">
-
-<!-- Were Sounds Go -->
-<audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/level1.mp3"></audio>
-<audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/level2.mp3"></audio>
-       <audio id="firesound" src="https://mark4pro.github.io/GameEnginePro/audio/LaserGunSound.mp3"></audio>
-                <audio id="startsound" src="https://mark4pro.github.io/GameEnginePro/audio/start_sound.mp3"></audio>
 </head>
 <body onload="start()">
 <label class="unselectable">
 <div id="zone_joystick"></div>
 </label>
 <script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/nipplejs.js"></script>
-<script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/howler.js"></script>
 <script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/joystick.js"></script>
 <script>
+var popup = 1;
+var openpatchinfo = 0;
+function Datechecker() {
+var today_date= new Date()
+var mytoday = today_date.getDate()
+var mymonth = today_date.getMonth()
+var myyear = today_date.getYear()
+if (popup == 1) {
+if (mymonth == 8) {
+if (mytoday >= 2 && mytoday < 8) {
+openpatchinfo = 1;
+popup = 0;
+   }
+  }
+ }
+}
+
 var w = window.innerWidth;
 var h = window.innerHeight;
 var playerX = 384.5;
@@ -146,8 +148,6 @@ var tri1posY = 180;
 var rec1posX = 350;
 var rec1posY = 40;
 function start() {
- document.getElementById("volume").value = "15";
- SetVolume(15);
  recenemypic1 = new component(25, 25, "red", 450, 60, "rec-enemypic");
  recbox1 = new component(25, 25, "red", 450, 60, "rec");
  recpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec");
@@ -237,9 +237,9 @@ function start() {
  SWPart18 = new component(75, 50, "black", 384.5, 135, "SWP4");
  tree2_1 = new component(50, 50, "black", 50, 20, "tree_img");
  tree2_2 = new component(50, 50, "black", 230, 70, "tree_img");
- ui = new component(800, 300, "white", 0, 390, "img2");
+ ui = new component(800, 300, "#451661", 0, 390, "rec");
  backbutton = new component(160, 50, "gray", backX, backY, "rec");
- backbuttonnodetect = new component(160, 50, "grey", backX - 100, backY + 100, "img4");
+ backbuttonnodetect = new component(160, 50, "#812bb3", backX - 100, backY + 100, "rec");
  backtxt = new component("30px", "Consolas", "white", backX - 45, backY + 135, "text");
  backtxt.font = "20px Consolas";
  backtxt.text = "BACK";
@@ -248,10 +248,10 @@ function start() {
  backtxtinfo.text = "Exits the upgrade menu. ->";
  upgrade1button = new component(175, 50, "gray", upgrade1X, upgrade1Y, "rec");
  upgrade1button2 = new component(175, 50, "gray", upgrade1X, upgrade1Y, "rec");
- upgrade1buttonnodetect = new component(175, 50, "grey", upgrade1X - 100, upgrade1Y + 50, "img4");
+ upgrade1buttonnodetect = new component(175, 50, "#812bb3", upgrade1X - 100, upgrade1Y + 50, "rec");
  upgrade1txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 80, "text");
  upgrade1txt.font = "15px Consolas";
- upgrade1txt.text = "#1 Weapon Upgrade (1/2)";
+ upgrade1txt.text = "#1 Weapon Upgrade";
  upgrade1txtinfo = new component("30px", "Consolas", "white", 45, upgrade1Y + 80, "text");
  upgrade1txtinfo.font = "15px Consolas";
  upgrade1txtinfo.text = "Weapon Upgrade (1/2) ->";
@@ -272,7 +272,7 @@ function start() {
  upgrade1txtinfo6.text = "Special: Slows Enemies";
  upgrade1_2txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 80, "text");
  upgrade1_2txt.font = "15px Consolas";
- upgrade1_2txt.text = "#1 Weapon Upgrade (2/2)";
+ upgrade1_2txt.text = "#1 Weapon Upgrade";
  upgrade1_2txtinfo = new component("30px", "Consolas", "white", 45, upgrade1Y + 80, "text");
  upgrade1_2txtinfo.font = "15px Consolas";
  upgrade1_2txtinfo.text = "Weapon Upgrade (2/2) ->";
@@ -291,9 +291,9 @@ function start() {
  max1txt = new component("30px", "Consolas", "white", upgrade1X - 45, upgrade1Y + 80, "text");
  max1txt.font = "20px Consolas";
  max1txt.text = "MAXED";
- infoboard = new component(300, 500, "grey", 0, 0, "rec");
- infoboard2 = new component(310, 500, "darkgrey", 0, 0, "rec");
- upgradeboard = new component(800, 500, "black", 0, 0, "img2");
+ infoboard = new component(300, 500, "#63218a", 0, 0, "rec");
+ infoboard2 = new component(310, 500, "black", 0, 0, "rec");
+ upgradeboard = new component(800, 500, "#451661", 0, 0, "rec");
  upgradetxt = new component("30px", "Consolas", "white", 345, 30, "text");
  upgradetxt.font = "20px Consolas";
  upgradetxt.text = "Upgrade Menu";
@@ -377,24 +377,6 @@ ctx.fillRect(this.x, this.y, this.width, this.height);
  this.width = width;
  this.height = height;
  var img = document.getElementById("playerimg");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "img2") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("uiimg");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "img3") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("healthbo");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "img4") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("healthba");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
  if (type == "img5") {
@@ -576,14 +558,14 @@ var texth;
 var word = "Health:";
 var hcolor = "Darkgreen";
 function Health1() {
- bo = new component(113, 56.5, "darkblue", 25, 428, "img3");
+ bo = new component(113, 56.5, "black", 25, 428, "rec");
  w1 = new component(5, 48, "black", HealthX - 5, HealthY - 17, "rec");
  w2 = new component(5, 48, "black", HealthX + 103, HealthY - 17, "rec");
  w3 = new component(113, 5, "black", HealthX - 5, HealthY - 22, "rec");
  w4 = new component(113, 5, "black", HealthX - 5, HealthY + 30, "rec");
- g = new component(HealthWidth, HealthHeight, "gray", HealthX, HealthY - 17, "img4");
+ g = new component(HealthWidth, HealthHeight, "#812bb3", HealthX, HealthY - 17, "rec");
  texth = new component("30px", "Consolas", "red", HealthX + 2, HealthY - 2, "text");
- base = new component(HealthWidth, HealthHeight, "gray", HealthX, HealthY, "rec");
+ base = new component(HealthWidth, HealthHeight, "#63218a", HealthX, HealthY, "rec");
  full = new component(playerHealth, HealthHeight - 5, hcolor, HealthX + 1.5, HealthY + 2.5, "rec");
  w1.update();
  w2.update();
@@ -741,24 +723,6 @@ if (frameIndex4 == resetframe4) {
         }
 }
 }
-var resetframe5 = 3;
-var tickCount5 = 0;
-var frameIndex5 = 0;
-var ticksPerFrame5 = 10;
-function framerate5() {
-if (firesoundstart == 1) {
-        tickCount5 += 1;	
-        if (tickCount5 > ticksPerFrame5) {
-        tickCount5 = 0;
-            frameIndex5 += 1; 
-        }
-if (frameIndex5 == resetframe5) {
-   tickCount5 = 0;
-            frameIndex5 = 0;
-            firesoundstart = 0;	
-        }
-}
-}
 
 var resetframe6 = 1;
 var tickCount6 = 0;
@@ -818,19 +782,23 @@ shootRight();
 var switchpos = 0;	
 
 function updateGameArea() {
+if (openpatchinfo == 1) {
+document.getElementById("updateinfo").style.visibility = "visible";
+ }
+if (openpatchinfo == 0) {
+document.getElementById("updateinfo").style.visibility = "hidden";
+ }
+Datechecker();
 firehandler();
 bindings();
 framerate();
 framerate2();
 framerate3();
 framerate4();
-framerate5();
 framerate6();
 resetfire();
 Board.clear();
 costToRevive.text = "You must have $" + revivecost + " to revive";
-playSound();
-skipSound();
 box.update();
 if (Board.x && Board.y) {
    if (upgrademenu == 1) {
@@ -1451,10 +1419,10 @@ if (weaponupgrade1 > 1) {
  bullrange = 4;
  }
 }
-obo = new component(100, 80, "gray", 350, 430, "img3");
-oba = new component(90, 80, "gray", 355, 435, "img4");
-bam = new component(83, 15, "gray", 358, 438, "rec");
-bwa = new component(83, 15, "gray", 358, 477, "rec");
+obo = new component(100, 80, "black", 350, 430, "rec");
+oba = new component(90, 80, "#63218a", 355, 435, "rec");
+bam = new component(83, 15, "#812bb3", 358, 438, "rec");
+bwa = new component(83, 15, "#812bb3", 358, 477, "rec");
 ammotxt = new component("30px", "Consolas", "orange", 360, 450, "text");
 ammotxt.font="18px Consolas";
 ammotxt.text="Ammo:" + ammo;
@@ -3860,58 +3828,6 @@ box.speedX = 0;
  }
 }
 
-var firesoundstart = 0;
-var sound = 0
-var work = 0;
-function playSound() {
-if (work == 1) {
-if (sound == 0) {
-if (menu > 0) {
-document.getElementById('level1').play();
-  }
- }
-if (sound == 1) {
-if (menu > 0) {
-document.getElementById('level2').play();
-  }
- }
-}
-if (firesoundstart > 0) {
-if (menu > 0) {
-document.getElementById('firesound').play();
- }
-}
-if (sound > 1) {
-sound = 0;
- }
-}
-
-function SetVolume(val) {
-var player = document.getElementById('level1');
-player.volume = val / 100;
-var player2 = document.getElementById('level2');
-player2.volume = val / 100;
-var fireVolume = document.getElementById('firesound');
-fireVolume.volume = val / 50;
-}
-
-function skipSound() {
- if (sound > 0) {
- level1.pause();
- level1.currentTime = 0;
- }
- if (sound < 1) {
- level2.pause();
- level2.currentTime = 0;
- }
- if (fire == 0) {
- if (frameIndex5 == 1) {
- firesound.pause();
- firesound.currentTime = 0;
-  }
- }
-}
-
 var namebX = 620;
 var namebY = 450;
 var ammocheat = "moreammo";
@@ -3919,12 +3835,16 @@ var healthcheat = "morehealth";
 var wavebonus = "ryanmace";
 var testwave = "test";
 var resetcheat = "reset";
-var fullcheat = "FULLYMAXED"
+var fullcheat = "FULLYMAXED";
+var pibO = "PIB";
+var pibO2 = "pib";
+var pibC = "CLOSE";
+var pibC2 = "close";
 function name() {
  var nameg = "Name:"
  var name = document.getElementById('name');
  namef = new component("30px", "Consolas", "white", namebX, namebY, "text");
- m = new component(300, 20, "gray", namebX - 5, namebY - 15, "img4");
+ m = new component(300, 20, "#63218a", namebX - 5, namebY - 15, "rec");
  namef.font="20px Consolas";
  namef.text=nameg + name.value;
  m.update();
@@ -3946,6 +3866,12 @@ function name() {
  wave = 5;
  money = 200;
  }
+ if (name.value == pibO || name.value == pibO2) {
+ openpatchinfo = 1;
+ }
+ if (name.value == pibC || name.value == pibC2) {
+ openpatchinfo = 0;
+ }
  if (name.value == resetcheat) {
  document.location.reload(true);
  }
@@ -3957,9 +3883,9 @@ var mbY = 480;
 function playerMoney() {
  var moneyg = "$"
  moneyf = new component("30px", "Consolas", "green", mbX, mbY, "text");
- q = new component(300, 100, "gray", mbX - 5, mbY - 25, "img4");
- mbo = new component(300, 100, "gray", 570, 450, "img3");
- nbo = new component(300, 100, "gray", 610, 430, "img3");
+ q = new component(300, 100, "#63218a", mbX - 5, mbY - 25, "rec");
+ mbo = new component(300, 100, "black", 570, 450, "rec");
+ nbo = new component(300, 100, "black", 610, 430, "rec");
  moneyf.font="30px Consolas";
  moneyf.text=moneyg + Math.round(money);
  nbo.update();
@@ -3995,24 +3921,9 @@ weapon = 0;
 }
  }
 }
-
-var startsoundvar = new Howl({
-  src: ['https://mark4pro.github.io/GameEnginePro/audio/start_sound.mp3'],
-  onplayerror: function() {
-    sound.once('unlock', function() {
-      startsoundvar.play();
-    });
-  }
-});
-
-function soundint() {
-if (confirm("Do you want sound?")) {
-  startsoundvar.play();  
-  }
-}
 </script>
 <label class="unselectable">
-<h1 align="center">Homeworld Takedown V0.4.91</h1>
+<h1 align="center">Homeworld Takedown V0.4.93</h1>
 <div id="locator6">
 <button onmouseup="clearAutoU()" onmousedown="autoUp()" ontouchend="clearAutoU()" ontouchstart="autoUp()">FIRE UP</button><br>
 </div>
@@ -4025,12 +3936,8 @@ if (confirm("Do you want sound?")) {
 <div id="locator9">
 <button onmouseup="clearAutoD()" onmousedown="autoDown()" ontouchend="clearAutoD()" ontouchstart="autoDown()">FIRE DOWN</button>
 </div>
-<div id="vol">
-<p align="center">Volume:</p>
-</div>
-<div id="slidercon">
-<p align="center"><input onmousedown="soundint()" ontouchstart="soundint()" type="range" min="0" max="100" id="volume" class="slider" step="1"
-oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
+<div id="nametxt">
+<p align="center">Name:</p>
 </div>
 <div id="namecon">
 <p align="center"><input type="text" id="name" value=""></p>
@@ -4042,5 +3949,9 @@ oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
 <button onmouseup="stopswapweap()" onmousedown="swapweap()" ontouchend="stopswapweap()" ontouchstart="swapweap()">Swap Weap</button>
 </div>
 </label>
+<div id="updateinfo">
+<object width="300" height="500" type="text/plain" data="https://mark4pro.github.io/GameEnginePro/txt/updateTb.txt" border="0" >
+</object>
+</div>
 </body>
 </html>
