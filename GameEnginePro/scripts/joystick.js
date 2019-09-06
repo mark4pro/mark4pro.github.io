@@ -1,7 +1,7 @@
 var options = {
 	   zone: document.getElementById("zone_joystick"),
 	   mode: 'static',
-	   color: 'darkgray',
+	   color: 'purple',
 	   identifier: 0,
 	   threshold: 0.2,
 	   size: 100,
