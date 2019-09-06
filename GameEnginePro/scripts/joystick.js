@@ -4,7 +4,7 @@ var options = {
 	   color: 'darkgray',
 	   identifier: 0,
 	   threshold: 0.2,
-	   size: 150,
+	   size: 100,
 	   restOpacity: 1,
 	   position:{x: 105, y: 220}
 	};
