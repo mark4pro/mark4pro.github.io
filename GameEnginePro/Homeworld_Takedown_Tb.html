@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.93</title>
+<title>Homeworld Takedown V0.4.94</title>
 <link rel="icon" type="image/vnd.microsoft.icon"
      href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -926,7 +926,7 @@ function pausefunc() {
 
 function updateGameArea() {
 Board.clear();
-if (pauseGame > 1) {
+if (pauseGame > 1.5) {
    pauseGame = 0;
    }
 Datechecker();
@@ -1304,7 +1304,7 @@ triangleAI();
 badai2();
 badrecai1();
 }
-if (pauseGame == 1) {
+if (pauseGame >= 1) {
 badguypic1.speedX = 0;
 badguy1.speedX = 0;
 badguypic1.speedY = 0;
@@ -1357,7 +1357,7 @@ if (weaponupgrade1 > 1) {
 max1txt.update();
 }
 }
-if (pauseGame == 1) {
+if (pauseGame >= 1) {
 pausetxt = new component("30px", "Consolas", "white", 345, 30, "text");
 pausetxt.font = "20px Consolas";
 pausetxt.text = "Pause Menu";
@@ -4496,7 +4496,7 @@ function statscommand() {
  stat4_4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 60, "text");
  stat4_4.font = "15px Consolas";
  stat4_4.text = "Special: Uses Less Ammo";
-if (pauseGame == 1) {
+if (pauseGame >= 1) {
 statstxt.update();
 stat1.update();
 stat1_2.update();
@@ -4656,7 +4656,7 @@ weapon = 0;
 }
 </script>
 <label class="unselectable">
-<h1 align="center">Homeworld Takedown V0.4.93</h1>
+<h1 align="center">Homeworld Takedown V0.4.94</h1>
 <div id="locator6">
 <button onmouseup="clearAutoU()" onmousedown="autoUp()" ontouchend="clearAutoU()" ontouchstart="autoUp()">FIRE UP</button><br>
 </div>
