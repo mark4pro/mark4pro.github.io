@@ -1,7 +1,7 @@
 :TYPE PIB AS YOUR NAME TO OPEN THE PIB:
 :TYPE CLOSE TO CLOSE THE PIB:
 
-WHAT'S NEW IN V0.4.93
+WHAT'S NEW IN V0.4.94
 The start of the wave 5 - 7 level design.
 THE PAUSE BUTTON! (also shows stats)
 Bug fixes.
