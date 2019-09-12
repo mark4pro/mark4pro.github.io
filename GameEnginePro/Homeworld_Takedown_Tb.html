@@ -929,6 +929,9 @@ Board.clear();
 if (pauseGame > 1.5) {
    pauseGame = 0;
    }
+if (weapon > 2.5) {
+weapon = 0;
+}
 Datechecker();
 if (openpatchinfo == 1) {
 document.getElementById("updateinfo").style.visibility = "visible";
@@ -1737,7 +1740,7 @@ if (weapon == 0) {
  bullrange = 3;
  ammocon = 1;
 }
-if (weapon == 1) {
+if (weapon >= 1 && weapon < 2) {
 if (weaponupgrade1 > 0) {
  weapname = "Hi-Beam";
  PlayerDamageDeal = 25;
@@ -1745,7 +1748,7 @@ if (weaponupgrade1 > 0) {
  ammocon = 1;
  }
 }
-if (weapon == 2) {
+if (weapon >= 2 && weapon < 3) {
 if (weaponupgrade1 > 1) {
  weapname = "Zapper";
  PlayerDamageDeal = 35;
@@ -1753,7 +1756,7 @@ if (weaponupgrade1 > 1) {
  ammocon = 1;
  }
 }
-if (weapon == 3) {
+if (weapon >= 3 && weapon < 4) {
 if (stcweapon == 1) {
 if (stcget == 1) {
  weapname = "Cube";
@@ -4563,6 +4566,8 @@ function name() {
  if (name.value == wavebonus) {
  wave = 9000;
  oldwave = 9000;
+ weaponupgrade1 = 0;
+ backSwitch = 0;
  name.value = "";
  }
  if (name.value == beginning) {
@@ -4640,18 +4645,12 @@ if (stopper > 0) {
    weapon += 0.5;
    stopper = 0;
    }
-   if (weapon > 1.5) {
-weapon = 0;
-}
  }
  if (weaponupgrade1 == 2) {
 if (stopper > 0) {
    weapon += 0.5;
    stopper = 0;
    }
-   if (weapon > 2.5) {
-weapon = 0;
-}
  }
 }
 </script>
