@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.92</title>
+<title>Homeworld Takedown V0.4.93</title>
 <link rel="icon" type="image/vnd.microsoft.icon"
      href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -917,7 +917,7 @@ function pausefunc() {
    if (backSwitch == 0) {
    if (upgrademenu == 0) {
    if (menu > 0) {
-   pauseGame += 1;
+   pauseGame += 0.5;
    backSwitch = 1;
      }
     }
@@ -943,6 +943,7 @@ framerate3();
 framerate4();
 framerate6();
 resetfire();
+bindings();
 costToRevive.text = "You must have $" + revivecost + " to revive";
 box.update();
 if (Board.x && Board.y) {
@@ -4130,48 +4131,48 @@ var autoLeftVar = 0;
 var autoRightVar = 0;
 function autoUp() {
 if (upgrademenu == 0) {
+if (pauseGame == 0) {
 autoUpVar = 1;
+  }
  }
 }
 
 function autoDown() {
 if (upgrademenu == 0) {
+if (pauseGame == 0) {
 autoDownVar = 1;
+  }
  }
 }
 
 function autoLeft() {
 if (upgrademenu == 0) {
+if (pauseGame == 0) {
 autoLeftVar = 1;
+  }
  }
 }
 
 function autoRight() {
 if (upgrademenu == 0) {
+if (pauseGame == 0) {
 autoRightVar = 1;
+  }
  }
 }
 
 function clearAutoU() {
-if (pauseGame == 0) {
 autoUpVar = 0;
- }
 }	
 
 function clearAutoD() {
-if (pauseGame == 0) {
 autoDownVar = 0;
- }
 }
 function clearAutoL() {
-if (pauseGame == 0) {
 autoLeftVar = 0;
- }
 }
 function clearAutoR() {
-if (pauseGame == 0) {
 autoRightVar = 0;
- }
 }
 
 var fire = 0;
@@ -4191,11 +4192,6 @@ ammo -= ammocon;
 if (menu == 0) {
 starttime = 1;
 }
-if (menu > 0) {
-if (frameIndex5 == 0) {
-firesoundstart = 1;
- }
-}
 	}
    }
   }
@@ -4212,11 +4208,6 @@ fireD += 1;
 ammo -= ammocon;
 if (menu == 0) {
 starttime = 1;
-}
-if (menu > 0) {
-if (frameIndex5 == 0) {
-firesoundstart = 1;
- }
 }
 	}
    }
@@ -4235,11 +4226,6 @@ ammo -= ammocon;
 if (menu == 0) {
 starttime = 1;
 }
-if (menu > 0) {
-if (frameIndex5 == 0) {
-firesoundstart = 1;
- }
-}
 	}
    }
   }
@@ -4256,11 +4242,6 @@ fireR += 1;
 ammo -= ammocon;
 if (menu == 0) {
 starttime = 1;
-}
-if (menu > 0) {
-if (frameIndex5 == 0) {
-firesoundstart = 1;
- }
 }
 	}
    }
@@ -4675,7 +4656,7 @@ weapon = 0;
 }
 </script>
 <label class="unselectable">
-<h1 align="center">Homeworld Takedown V0.4.92</h1>
+<h1 align="center">Homeworld Takedown V0.4.93</h1>
 <div id="locator6">
 <button onmouseup="clearAutoU()" onmousedown="autoUp()" ontouchend="clearAutoU()" ontouchstart="autoUp()">FIRE UP</button><br>
 </div>
