@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Homeworld Takedown V0.4.94 Preview</title>
+<link rel="icon" type="image/vnd.microsoft.icon"
+     href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
+<style>
+canvas {
+border:2px solid black;
+background-color: blue;
+border-radius: 25px;
+box-shadow: 2px 2px 5px lightblue;
+margin-left: auto;
+margin-right: auto;
+display: block;
+width: 600px;
+top: 12.5%;
+left: 20%;
+right: 20%;
+transform:scale(1.6);
+position: fixed;
+}
+html {
+overflow: hidden;
+}
+ body {
+ background-image: url("https://mark4pro.github.io/GameEnginePro/image/Webpagebackground.png");
+ }
+ h1 {
+ font-size: 50px;
+ background-color: #63218a;
+ border:5px solid black;
+ visibility: visible; 
+ z-index: 200; 
+ bottom: 25%;
+ left: 20%;
+ right: 20%;
+ position: fixed;
+ }
+ p {
+ color: white;
+ }
+ img {
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering: -webkit-crisp-edges;      /* Webkit */
+    -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+    image-rendering: pixelated;                /* Chrome */
+ }
+ .unselectable {
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+ }
+#container {
+width : 50%;
+height : 50%;
+overflow : hidden;
+padding : 0;
+margin : 0;
+-webkit-user-select : none;
+-moz-user-select : none;
+}
+#content{
+ background-color: #63218a;
+ overflow: auto;
+ height: 80px;
+ overfow:auto;
+ padding: 20px;
+ margin-left: auto;
+ margin-right: auto;
+ bottom: 0%;
+ left: 20%;
+ right: 20%;
+ position: fixed;
+ }
+#volumecontrols{
+bottom: 13%;
+left: 20%;
+right: 20%;
+position: fixed;
+}
+#updateinfo{
+background-color: white;
+top: 5%;
+bottom: 40%;
+left: 2%;
+position: fixed;
+visibility: hidden;
+}
+</style>
+<div id="updateinfo">
+<object width="300" height="533" type="text/plain" data="https://mark4pro.github.io/GameEnginePro/txt/update.txt" border="0" >
+</object>
+</div>
+<!-- Where Images Go -->
+<img id="playerimg" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/player1.png">
+<img id="badguy1img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemy.png">
+<img id="wave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave1-5.png">
+<img id="Fwave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fwave1-5.PNG">
+<img id="bullpic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/bullet.png">
+<img id="bullpic2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/bullet2.png">
+<img id="bullpic3" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/bullet3.png">
+<img id="bullpic4" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/stcbull.png">
+<img id="ammopic1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ammocrate1pic.png">
+<img id="healthpic1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/healthcrate1pic.png">
+<img id="menupic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/menu.png">
+<img id="triimgleft" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tri-enemy-left.png">
+<img id="triimgright" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tri-enemy-right.png">
+<img id="1-5platform" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/platform1_2.png">
+<img id="1-5sideborder" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/1-5border1.png">
+<img id="housefloor1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/floor1_1.png">
+<img id="houseroof1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/roof1_1.png">
+<img id="housefloor4" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/floor4.PNG">
+<img id="houseroof2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/roof2.PNG">
+<img id="tree" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tree1_1.png">
+<img id="wave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave5-7_1.png">
+<img id="Fwave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fwave5-7_1.PNG">
+<img id="DeathScr" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/DeathScreen.png">
+<img id="Rectangle" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/squ-enemy.png">
+<img id="SWPart1_1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_1_Sidewalk.PNG">
+<img id="SWPart2_2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_2_Sidewalk.png">
+<img id="SWPart3_3" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_3_Sidewalk.png">
+<img id="SWPart4_4" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_4_Sidewalk.png">
+<img id="UnmutedPic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Unmuted.png">
+<img id="MutedPic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Muted.png">
+<img id="Ftrees" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/falltrees.PNG">
+<img id="1-5sideFborder" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/1-5Fborder1_2.png">
+<img id="1-5Fplatform" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fplatform1_2.png">
+
+<!-- Where Sounds Go -->
+	    <audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/Musictrack1.mp3"></audio>
+	    <audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/Musictrack2.mp3"></audio>
+		<audio id="Menu" src="https://mark4pro.github.io/GameEnginePro/audio/Menumusictrack.mp3"></audio>
+		<audio id="Death" src="https://mark4pro.github.io/GameEnginePro/audio/Death1.mp3"></audio>
+	    <audio id="firesound" src="https://mark4pro.github.io/GameEnginePro/audio/LaserGunSound.mp3"></audio>
+</head>
+<body onload="start()">
+<label class="unselectable">
+<h1 align=center>Homeworld Takedown V0.4.94</h1>
+<div id="volumecontrols">
+<p align="center">Volume:</p>
+<p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
+<p align="center"><input type="text" id="name" value=""></p>
+</div>
+<div id="content">
+<p align="center">Controls:</p>
+<p align="center">Use the arrow key to shoot.</p>
+<p align="center">Use WASD to move.</p>
+<p align="center">Press R to revive.</p>
+<p align="center">Press M to mute the game and press it again to unmute.</p>
+<p align="center">Press P to open the Patch Info and press it again to close it.</p>
+<p align="center">Press Esc to exit the upgrade menu. (Also will reset the game if you are dead.)</p>
+<p align="center">Use the Number keys to switch weapons. (NOT THE NUM PAD! aslo get weapons by upgrading your weapon)</p>
+<p align="center">Use the Num Key on the key pad to upgrade. (numbers correspond with numbers in the upgrade menu labeled with # in front of it)</p>
+<p align="center">About:</p>
+<p align="center">Flying Enemies- Rage mode: if the enemy's health drops below 50 it will move faster. </p>
+<p align="center">Flying Enemies- Swarm: if they get near you they will frantically go left and right thus making them hard to hit.</p>
+<p align="center">Homeworld Takedown is a top down wave based game. You play as an alien from the "Drars" race and you don't agree on taking over Earth so you fight back.</p>
+</div>
+</label>
+<script type="text/javascript" src="./engine.js"></script>
+</body>
+</html>
