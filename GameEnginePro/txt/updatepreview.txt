@@ -1,4 +1,4 @@
-:PIB:
+:PRESS P TO TOGGLE THE PIB:
 
 What's new in V0.4.94 PREVIEW-
   The start of the Wave 5-6 level design.
