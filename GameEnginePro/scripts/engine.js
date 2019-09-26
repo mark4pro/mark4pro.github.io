@@ -9,7 +9,7 @@ var mymonth = today_date.getMonth()
 var myyear = today_date.getFullYear()
 if (popup == 1) {
 if (mymonth == 8) {
-if (mytoday >= 11 && mytoday < 22) {
+if (mytoday >= 26 && mytoday < 30) {
 openpatchinfo = 1;
 popup = 0;
    }
