@@ -2,17 +2,17 @@
 
 What's new in V0.4.94 PREVIEW-
   The start of the Wave 5-6 level design.
-  A Secret Weapon is implemented but not yet finished.
   Pause Menu with stats.
   Fall Seasoned levels.
+  Splash screen for secret weapon.
+  Fully implemented Secret Weapon.
   Updated Commands.
-  Bug Fixes.
+  Gameplay Bug Fixes.
   
 What's to come in preview-
   Finished Wave 5-6 level design.
-  Fully implemented Secret Weapon.
   New/Better AI for the triangle enemy.
-  Splash screen for secret weapon.
+  Randomized money for kills and for wave completion. (Balanced)
   
 What might come in this preview- 
   New enemies.
