@@ -1,6 +1,7 @@
 var popup = 1;
 var fallseason = 0;
 var stcweapon = 0;
+var earlystart = 1;
 function Datechecker() {
 var today_date= new Date()
 var mydayofweek = today_date.getDay()
@@ -25,6 +26,11 @@ if (mytoday >= 11 && mytoday < 30) {
 stcweapon = 1;
    }
   }
+if (earlystart == 1) {
+if (mymonth == 9) {
+stcweapon = 1;
+  }
+ }
 }
 var w = window.innerWidth;
 var h = window.innerHeight;
@@ -245,7 +251,6 @@ function start() {
  Board.start();
  updateGameArea();
  }
- 
 var Board = {
 canvas : document.createElement("canvas"),
 start : function() {
@@ -610,11 +615,15 @@ var crate1X = 374;
 var crate1Y = 184.5;
 var crateh1X = 399;
 var crateh1Y = 184.5;
+var cratesw1X = 640;
+var cratesw1Y = 50;
 function ammocrate() {
 ammocrate1 = new component(20, 20, "yellow", crate1X, crate1Y, "rec");
 healthcrate1 = new component(20, 20, "red", crateh1X, crateh1Y, "rec");
 ammocrate1picO = new component(20, 20, "yellow", crate1X, crate1Y, "img8");
 healthcrate1picO = new component(20, 20, "red", crateh1X, crateh1Y, "img9");
+SWeapon1 = new component(10, 10, "orange", cratesw1X, cratesw1Y, "b4");
+SWeapon1Box = new component(10, 10, "orange", cratesw1X, cratesw1Y, "rec");
 }
 var wave = 1;
 var oldwave = 1;
@@ -720,6 +729,24 @@ if (firesoundstart == 1) {
         }
 	}
 }
+var resetframe6 = 1;
+var tickCount6 = 0;
+var frameIndex6 = 0;
+var ticksPerFrame6 = 1;
+function framerate6() {
+if (countSwitch1 == 1) {
+        tickCount6 += 1;	
+        if (tickCount6 > ticksPerFrame6) {
+        	tickCount6 = 0;
+            frameIndex6 += 1; 
+        }
+		if (frameIndex6 == resetframe6) {
+		    tickCount6 = 0;
+            frameIndex6 = 0;
+            countSwitch1 = 0;			
+        }
+	}
+}
 var insidehouse1 = 0;
 var inside2house1 = 0;
 var inside3house1 = 0;
@@ -764,7 +791,7 @@ shootRight();
 }	
 
 var switchpos = 0;
-
+var specialalert1 = 0;
 function weaponswitch() {
 if (switchy >= 2) {
 switchy = 0;
@@ -856,6 +883,15 @@ if (cratespawn2 > 0) {
 healthcrate1.update();
  }
 }
+if (menu > 0) {
+if (wave == 3) {
+if (stcget == 0) {
+if (stcweapon > 0) {
+SWeapon1Box.update();
+   }
+  }
+ }
+}
 wallleft.update();
 wallright.update();
 wall3.update();
@@ -917,6 +953,20 @@ ammocrate1picO.update();
 if (menu > 0) {
 if (cratespawn2 > 0) {
 healthcrate1picO.update();
+ }
+}
+if (menu > 0) {
+if (wave == 3) {
+if (stcget == 0) {
+if (stcweapon > 0) {
+SWeapon1.update();  
+if (box.crashWith(SWeapon1Box)) {
+stcget = 1;
+pauseGame = 1;
+specialalert1 = 1;
+}
+   }
+  }
  }
 }
 if (fire > 0) {
@@ -1194,10 +1244,24 @@ pausetxt.text = "Pause Menu";
 pauseboard = new component(800, 500, "#451661", 0, 0, "rec");
 pauseboard.update();
 pausetxt.update();
+if (specialalert1 == 1) {
+alerttxt1 = new component("30px", "Consolas", "white", 300, 60, "text");
+alerttxt1.font = "20px Consolas";
+alerttxt1.text = "You Found The Cube!";
+alerttxt2 = new component("30px", "Consolas", "white", 65, 80, "text");
+alerttxt2.font = "20px Consolas";
+alerttxt2.text = "Press 1 on top of the keyboard to cycle between this weapon!";
+alert1 = new component(800, 500, "#451661", 0, 0, "rec");
+alert1.update();
+alerttxt1.update();
+alerttxt2.update();
+ }
 }
+if (specialalert1 == 0) {
 statscommand();
 playerMoney();
 name();
+}
 if (menu == 0) {
 if (upgrademenu == 0) {
 menuboard.update();
@@ -1746,6 +1810,10 @@ var spawnbad2pos = Math.floor(Math.random() * 2);
 var spawncrate2pos = Math.floor(Math.random() * 2);
 var spawncrate1pos = Math.floor(Math.random() * 2);
 var count = 0;
+var countSwitch1 = 0;
+var countSwitch2 = 0;
+var countSwitch3 = 0;
+var countSwitch4 = 0;
 var numofbad = 10;
 var moneyperwave = 10;
 var moneyperendie = 2;
@@ -1766,6 +1834,11 @@ if (wave > 4 && wave < 8) {
  crateh1Y = 40;
 }
 if (menu > 0) {
+if (wave < 5) {
+if (BadDeath < 1) {
+countSwitch1 = 0;
+ }
+}
 if (BadDeath > 0) {
 if (badguy1.crashWith(badwavebox1)) {
 if (upgrademenu == 0) {
@@ -1817,29 +1890,38 @@ if (spawncrate2pos == 1) {
 if (wave < 5) {
 if (upgrademenu == 0) {
 if (pauseGame == 0) {
+if (countSwitch1 == 0) {
 money += moneyperendie;
 count += 1;
+countSwitch1 = 1;
 console.log("Count: " + count);
-}
+       }
+      }
      }
 	}
    }
   }
  }
 if (wave < 7 && wave > 1) {
-if (BadDeath2 > 0) {
+if (BadDeath2 < 1) {
 if (badguy2.crashWith(badwavebox2)) {
-if (wave > 4 && wave < 7) {
 spawnbad2pos = Math.floor(Math.random() * 2);
-}
-if (upgrademenu == 0) {
-if (pauseGame == 0) {
-money += moneyperendie2;
-count += 1;
-console.log("Count: " + count);
+countSwitch2 = 0;
  }
 }
-if (wave > 1 && wave < 7) {
+if (BadDeath2 > 0) {
+if (menu > 0) {
+if (badguy2.crashWith(badwavebox2)) {
+if (upgrademenu == 0) {
+if (pauseGame == 0) {
+if (countSwitch2 == 0) {
+money += moneyperendie2;
+count += 1;
+countSwitch2 = 1;
+console.log("Count: " + count);
+  }
+ }
+}
 if (Math.floor(Math.random() * chanceofdrop2) == 1) {
 if (cratespawn2 == 0) {
 if (playerHealth < 100) {
@@ -1894,23 +1976,28 @@ if (spawncrate2pos == 1) {
   } else {
  crateh1X = 399;
  crateh1Y = 184.5;
-  }
  }
 }
+    }
    }
   }
  }
 if (wave < 5 && wave > 2) {
+if (BadDeath4 < 1) {
+countSwitch3 = 0;
+}
 if (BadDeath4 > 0) {
 if (recbox1.crashWith(recwavebox1)) {
 if (upgrademenu == 0) {
 if (pauseGame == 0) {
+if (countSwitch3 == 0) {
 money += moneyperendie4;
 count += 1;
+countSwitch3 = 1;
 console.log("Count: " + count);
+  }
  }
 }
-if (wave > 2 && wave < 5) {
 if (Math.floor(Math.random() * chanceofdrop4) == 1) {
 if (cratespawn2 == 0) {
 if (playerHealth < 100) {
@@ -1955,18 +2042,25 @@ if (spawncrate2pos == 1) {
  crateh1Y = 184.5;
   }
  }
-}
    }
   }
  }
 if (wave > 4 && wave < 7) {
+if (BadDeath3 < 1) {
+if (tribox.crashWith(triwavebox1)) {
+countSwitch4 = 0;
+ }
+}
 if (BadDeath3 > 0) {
 if (tribox.crashWith(triwavebox1)) {
 if (upgrademenu == 0) {
 if (pauseGame == 0) {
+if (countSwitch4 == 0) {
 money += moneyperendie3;
 count += 1;
+countSwitch4 = 1;
 console.log("Count: " + count);
+  }
  }
 }
 if (wave > 4 && wave < 7) {
@@ -4720,12 +4814,17 @@ var pauseGame = 0;
 var backSwitch = 0;
 function backfunc() {
    backSwitch = 0;
+   if (specialalert1 == 0) {
    if (pauseGame == 0) {
    if (upgrademenu > 0) {
             backSwitch = 1;
 			upgrademenu = 0;
 		}
+	  }
 	}
+   if (specialalert1 == 1) {
+   specialalert1 = 0;
+   }
    if (backSwitch == 0) {
    if (upgrademenu == 0) {
    if (menu > 0) {
