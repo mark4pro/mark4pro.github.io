@@ -77,6 +77,19 @@ user-select: none; /* Standard syntax */
 #namecon { position: fixed; top: 90%; left: 20%; right: 20%; }
 #updateinfo{ background-color: white; top: 5%; bottom: 40%; left: 2%; position: fixed; visibility: hidden; }
 #nametxt { position: fixed; top: 85%; left: 20%; right: 20%; }
+
+#loader {
+    opacity: 1;
+    transition: opacity 1s; 
+	visibility: visible;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(https://mark4pro.github.io/GameEnginePro/image/loading.gif) center no-repeat grey;
+}
 </style>
 
 <!-- Were Images Go -->
@@ -119,6 +132,22 @@ user-select: none; /* Standard syntax */
 <script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/nipplejs.js"></script>
 <script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/joystick.js"></script>
 <script>
+var interval = setInterval(function() {
+    if(document.readyState === 'complete') {
+        clearInterval(interval);
+        done();
+    }    
+}, 100);
+
+function done() {
+if (document.getElementById('loader').style.opacity > 0) {
+document.getElementById('loader').style.opacity -= 0.001;
+ }
+if (document.getElementById('loader').style.opacity <= 0) {
+document.getElementById('loader').style.visibility = "hidden";
+ }
+}
+
 var popup = 1;
 var fallseason = 0;
 var stcweapon = 0;
@@ -4662,6 +4691,7 @@ if (stopper > 0) {
  }
 }
 </script>
+<div id="loader"></div>
 <label class="unselectable">
 <h1 align="center">Homeworld Takedown V0.4.94</h1>
 <div id="locator6">
