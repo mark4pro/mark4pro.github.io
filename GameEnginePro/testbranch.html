@@ -88,9 +88,21 @@ left: 2%;
 position: fixed;
 visibility: hidden;
 }
+#loader {
+    opacity: 1;
+    transition: opacity 1s; 
+	visibility: visible;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(https://mark4pro.github.io/GameEnginePro/image/loading.gif) center no-repeat grey;
+}
 </style>
 <div id="updateinfo">
-<object width="300" height="533" type="text/plain" data="https://mark4pro.github.io/GameEnginePro/txt/update.txt" border="0" >
+<object width="300" height="533" type="text/plain" data="https://mark4pro.github.io/GameEnginePro/txt/updatepreview.txt" border="0" >
 </object>
 </div>
 <!-- Where Images Go -->
@@ -136,6 +148,24 @@ visibility: hidden;
 	    <audio id="firesound" src="https://mark4pro.github.io/GameEnginePro/audio/LaserGunSound.mp3"></audio>
 </head>
 <body onload="start()">
+<script>
+var interval = setInterval(function() {
+    if(document.readyState === 'complete') {
+        clearInterval(interval);
+        done();
+    }    
+}, 100);
+
+function done() {
+if (document.getElementById('loader').style.opacity > 0) {
+document.getElementById('loader').style.opacity -= 0.001;
+ }
+if (document.getElementById('loader').style.opacity <= 0) {
+document.getElementById('loader').style.visibility = "hidden";
+ }
+}
+</script>
+<div id="loader"></div>
 <label class="unselectable">
 <h1 align=center>Homeworld Takedown V0.4.94 Preview</h1>
 <div id="volumecontrols">
