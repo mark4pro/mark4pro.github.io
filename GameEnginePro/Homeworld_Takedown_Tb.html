@@ -1835,6 +1835,10 @@ var spawnbad2pos = Math.floor(Math.random() * 2);
 var spawncrate2pos = Math.floor(Math.random() * 2);
 var spawncrate1pos = Math.floor(Math.random() * 2);
 var count = 0;
+var countSwitch1 = 0;
+var countSwitch2 = 0;
+var countSwitch3 = 0;
+var countSwitch4 = 0;
 var numofbad = 10;
 var moneyperwave = 10;
 var moneyperendie = 2;
@@ -1855,6 +1859,11 @@ if (wave > 4 && wave < 8) {
  crateh1Y = 40;
 }
 if (menu > 0) {
+if (wave < 5) {
+if (BadDeath < 1) {
+countSwitch1 = 0;
+ }
+}
 if (BadDeath > 0) {
 if (badguy1.crashWith(badwavebox1)) {
 if (upgrademenu == 0) {
@@ -1906,29 +1915,38 @@ if (spawncrate2pos == 1) {
 if (wave < 5) {
 if (upgrademenu == 0) {
 if (pauseGame == 0) {
+if (countSwitch1 == 0) {
 money += moneyperendie;
 count += 1;
+countSwitch1 = 1;
 console.log("Count: " + count);
-}
+       }
+      }
      }
 	}
    }
   }
  }
 if (wave < 7 && wave > 1) {
-if (BadDeath2 > 0) {
+if (BadDeath2 < 1) {
 if (badguy2.crashWith(badwavebox2)) {
-if (wave > 4 && wave < 7) {
 spawnbad2pos = Math.floor(Math.random() * 2);
-}
-if (upgrademenu == 0) {
-if (pauseGame == 0) {
-money += moneyperendie2;
-count += 1;
-console.log("Count: " + count);
+countSwitch2 = 0;
  }
 }
-if (wave > 1 && wave < 7) {
+if (BadDeath2 > 0) {
+if (menu > 0) {
+if (badguy2.crashWith(badwavebox2)) {
+if (upgrademenu == 0) {
+if (pauseGame == 0) {
+if (countSwitch2 == 0) {
+money += moneyperendie2;
+count += 1;
+countSwitch2 = 1;
+console.log("Count: " + count);
+  }
+ }
+}
 if (Math.floor(Math.random() * chanceofdrop2) == 1) {
 if (cratespawn2 == 0) {
 if (playerHealth < 100) {
@@ -1983,23 +2001,28 @@ if (spawncrate2pos == 1) {
   } else {
  crateh1X = 399;
  crateh1Y = 184.5;
-  }
  }
 }
+    }
    }
   }
  }
 if (wave < 5 && wave > 2) {
+if (BadDeath4 < 1) {
+countSwitch3 = 0;
+}
 if (BadDeath4 > 0) {
 if (recbox1.crashWith(recwavebox1)) {
 if (upgrademenu == 0) {
 if (pauseGame == 0) {
+if (countSwitch3 == 0) {
 money += moneyperendie4;
 count += 1;
+countSwitch3 = 1;
 console.log("Count: " + count);
+  }
  }
 }
-if (wave > 2 && wave < 5) {
 if (Math.floor(Math.random() * chanceofdrop4) == 1) {
 if (cratespawn2 == 0) {
 if (playerHealth < 100) {
@@ -2044,18 +2067,25 @@ if (spawncrate2pos == 1) {
  crateh1Y = 184.5;
   }
  }
-}
    }
   }
  }
 if (wave > 4 && wave < 7) {
+if (BadDeath3 < 1) {
+if (tribox.crashWith(triwavebox1)) {
+countSwitch4 = 0;
+ }
+}
 if (BadDeath3 > 0) {
 if (tribox.crashWith(triwavebox1)) {
 if (upgrademenu == 0) {
 if (pauseGame == 0) {
+if (countSwitch4 == 0) {
 money += moneyperendie3;
 count += 1;
+countSwitch4 = 1;
 console.log("Count: " + count);
+  }
  }
 }
 if (wave > 4 && wave < 7) {
