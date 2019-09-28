@@ -7,12 +7,13 @@ What's new in V0.4.94 PREVIEW-
   Splash screen for secret weapon.
   Fully implemented Secret Weapon.
   Updated Commands.
+  Randomized money for kills and for wave completion. (Balanced)
   Gameplay Bug Fixes.
+  Newgrounds Bug is now fixed.
   
 What's to come in preview-
   Finished Wave 5-6 level design.
   New/Better AI for the triangle enemy.
-  Randomized money for kills and for wave completion. (Balanced)
   
 What might come in this preview- 
   New enemies.
