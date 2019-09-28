@@ -1832,11 +1832,11 @@ var countSwitch2 = 0;
 var countSwitch3 = 0;
 var countSwitch4 = 0;
 var numofbad = 10;
-var moneyperwave = 10;
-var moneyperendie = 2;
-var moneyperendie2 = 6;
-var moneyperendie3 = 10;
-var moneyperendie4 = 8;
+var moneyperwave = Math.floor(Math.random() * 4) + 7;
+var moneyperendie = Math.floor(Math.random() * 2) + 1;
+var moneyperendie2 = Math.floor(Math.random() * 5) + 2;
+var moneyperendie3 = Math.floor(Math.random() * 8) + 3;
+var moneyperendie4 = Math.floor(Math.random() * 6) + 3;
 var cratespawn = 0;
 var cratespawn2 = 0
 var chanceofdrop = 3;
@@ -1909,6 +1909,12 @@ if (upgrademenu == 0) {
 if (pauseGame == 0) {
 if (countSwitch1 == 0) {
 money += moneyperendie;
+if (wave < 3) {
+moneyperendie = Math.floor(Math.random() * 2) + 1;
+}
+if (wave >= 3 && wave < 5) {
+moneyperendie = Math.floor(Math.random() * 3) + 2;
+}
 count += 1;
 countSwitch1 = 1;
 console.log("Count: " + count);
@@ -1933,6 +1939,12 @@ if (upgrademenu == 0) {
 if (pauseGame == 0) {
 if (countSwitch2 == 0) {
 money += moneyperendie2;
+if (wave < 6) {
+moneyperendie2 = Math.floor(Math.random() * 5) + 2;
+}
+if (wave == 6) {
+moneyperendie2 = Math.floor(Math.random() * 6) + 5;
+}
 count += 1;
 countSwitch2 = 1;
 console.log("Count: " + count);
@@ -2010,6 +2022,12 @@ if (pauseGame == 0) {
 if (countSwitch3 == 0) {
 money += moneyperendie4;
 count += 1;
+if (wave < 4) {
+Math.floor(Math.random() * 6) + 3;
+}
+if (wave == 4) {
+moneyperendie4 = Math.floor(Math.random() * 4) + 7;
+}
 countSwitch3 = 1;
 console.log("Count: " + count);
   }
@@ -2075,6 +2093,12 @@ if (pauseGame == 0) {
 if (countSwitch4 == 0) {
 money += moneyperendie3;
 count += 1;
+if (wave < 6) {
+moneyperendie3 = Math.floor(Math.random() * 8) + 3;
+}
+if (wave == 6) {
+moneyperendie3 = Math.floor(Math.random() * 4) + 12;
+}
 countSwitch4 = 1;
 console.log("Count: " + count);
   }
@@ -2103,6 +2127,7 @@ cratespawn += 1;
  if (wave < 7 || wave > 7) {
  if (count == numofbad) {
  money += moneyperwave;
+ moneyperwave = Math.floor(Math.random() * 4) + 7;
  wave += 1;
  }
 }
@@ -2111,21 +2136,19 @@ cratespawn += 1;
  }
  if (wave == 3) {
 numofbad = 20;
-moneyperendie = 4;
+moneyperendie = Math.floor(Math.random() * 3) + 2;
   }
  if (wave == 4) {
 revivecost = 150;
-moneyperendie4 = 10;
+moneyperendie4 = Math.floor(Math.random() * 4) + 7;
   }
  if (wave == 5) {
 numofbad = 25;
-moneyperendie = 6;
   }
  if (wave == 6) {
-moneyperendie = 8;
 revivecost = 200;
-moneyperendie2 = 10;
-moneyperendie3 = 15;
+moneyperendie2 = Math.floor(Math.random() * 6) + 5;
+moneyperendie3 = Math.floor(Math.random() * 4) + 12;
   }
  }
 }
