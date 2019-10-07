@@ -26,8 +26,8 @@ var mytoday = today_date.getDate()
 var mymonth = today_date.getMonth()
 var myyear = today_date.getFullYear()
 if (popup == 1) {
-if (mymonth == 8) {
-if (mytoday >= 26 && mytoday < 30) {
+if (mymonth == 9) {
+if (mytoday >= 7 && mytoday < 20) {
 openpatchinfo = 1;
 popup = 0;
    }
@@ -830,6 +830,16 @@ if (stcweapon == 1) {
  }
 }
 
+var keys1 = 0;
+function keyswitcher() {
+	var checklayout = document.getElementById("layout");
+	if (checklayout.checked == true){
+    keys1 = 1;
+  } else {
+    keys1 = 0;
+  }
+}
+
 function updateGameArea() {
 Board.clear();
 if (pauseGame > 1) {
@@ -844,6 +854,7 @@ if (openpatchinfo == 0) {
 document.getElementById("updateinfo").style.visibility = "hidden";
  }
 weaponswitch();
+keyswitcher();
 firehandler();
 framerate();
 framerate2();
@@ -1638,24 +1649,60 @@ if (box.crashWith(wall3house5_3) == false) {
 document.onkeydown = function(e) {
     switch (e.keyCode) {
         case 37:
+		if (keys1 == 0) {
 		if (pauseGame == 0) {
             autoLeft();
 			}
+		}
             break;
         case 38:
+		if (keys1 == 0) {
 		if (pauseGame == 0) {
             autoUp();
 			}
+		}
             break;
         case 39:
+		if (keys1 == 0) {
 		if (pauseGame == 0) {
             autoRight();
 			}
+		}
             break;
         case 40:
+		if (keys1 == 0) {
 		if (pauseGame == 0) {
             autoDown();
 			}
+		}
+            break;
+		case 74:
+		if (keys1 == 1) {
+		if (pauseGame == 0) {
+            autoLeft();
+			}
+		}
+            break;
+        case 73:
+		if (keys1 == 1) {
+		if (pauseGame == 0) {
+            autoUp();
+			}
+		}
+            break;
+        case 76:
+		if (keys1 == 1) {
+		if (pauseGame == 0) {
+            autoRight();
+			}
+		}
+            break;
+        case 75:
+		if (keys1 == 1) {
+		if (pauseGame == 0) {
+            autoDown();
+			}
+		}
             break;
 		case 87:
 		if (pauseGame == 0) {
@@ -1689,22 +1736,60 @@ document.onkeydown = function(e) {
             relive();
             break;
 	    case 49:
+		if (upgrademenu == 0) {
 		    swapweap1();
+		}
+		if (upgrademenu == 1) {
+		    upgrade1func();
+		}
 			break;
 		case 50:
+		if (upgrademenu == 0) {
 		    swapweap2();
+		}
 			break;
 		case 51:
+		if (upgrademenu == 0) {
 		    swapweap3();
+		}
 			break;
 		case 52:
+		if (upgrademenu == 0) {
 		    swapweap4();
+		}
 			break;
 		case 27:
+		if (keys1 == 0) {
 		    backfunc();
+		}
+			break;
+		case 66:
+		if (keys1 == 1) {
+		    backfunc();
+		}
 			break;
 		case 97:
+		if (upgrademenu == 1) {
 		    upgrade1func();
+		}
+		if (upgrademenu == 0) {
+		    swapweap1();
+		}
+		    break;
+		case 98:
+		if (upgrademenu == 0) {
+		    swapweap2();
+		}
+			break;
+		case 99:
+		if (upgrademenu == 0) {
+		    swapweap3();
+		}
+			break;
+		case 100:
+		if (upgrademenu == 0) {
+		    swapweap4();
+		}
 			break;
 		case 80:
 		    patchinfo();
@@ -1732,16 +1817,44 @@ document.onkeyup = function(e) {
             stopshow();
             break;
 		case 37:
+		if (keys1 == 0) {
             clearAutoL();
+		}
             break;
         case 38:
+		if (keys1 == 0) {
             clearAutoU();
+		}
             break;
         case 39:
+		if (keys1 == 0) {
             clearAutoR();
+		}
             break;
         case 40:
+		if (keys1 == 0) {
             clearAutoD();
+		}
+            break;
+		case 74:
+		if (keys1 == 1) {
+            clearAutoL();
+		}
+            break;
+        case 73:
+		if (keys1 == 1) {
+            clearAutoU();
+		}
+            break;
+        case 76:
+		if (keys1 == 1) {
+            clearAutoR();
+		}
+            break;
+        case 75:
+		if (keys1 == 1) {
+            clearAutoD();
+		}
             break;
     }
 };
