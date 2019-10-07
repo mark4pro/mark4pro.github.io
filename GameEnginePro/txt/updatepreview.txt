@@ -1,6 +1,12 @@
 :PRESS P TO TOGGLE THE PIB:
 
 What's new in V0.4.94 PREVIEW-
+ !!!New controls!!!
+  Now you can use any number keys to upgrade instead of just the number pad. (Same with switching weapons.)
+  There is now a new modified keyboard layout called handicap mode! This mode should be better for shortened keyboards/laptops.
+  Handicap mode changes the fire keys from the arrow keys to IJKL on the keyboard instead and moves the functions of the ESC key to the B key.
+
+Old News-
   The start of the Wave 5-6 level design.
   Pause Menu with stats.
   Fall Seasoned levels.
