@@ -100,6 +100,12 @@ visibility: hidden;
 	z-index: 9999;
 	background: url(https://mark4pro.github.io/GameEnginePro/image/loading.gif) center no-repeat grey;
 }
+#keylayout {
+bottom: 13%;
+left: 55%;
+right: 20%;
+position: fixed;
+}
 </style>
 <div id="updateinfo">
 <object width="300" height="533" type="text/plain" data="https://mark4pro.github.io/GameEnginePro/txt/updatepreview.txt" border="0" >
@@ -155,7 +161,6 @@ var interval = setInterval(function() {
         done();
     }    
 }, 100);
-
 function done() {
 if (document.getElementById('loader').style.opacity > 0) {
 document.getElementById('loader').style.opacity -= 0.001;
@@ -173,18 +178,23 @@ document.getElementById('loader').style.visibility = "hidden";
 <p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
 <p align="center"><input type="text" id="name" value=""></p>
 </div>
+<div id="keylayout">
+<p><input type="checkbox" id="layout" value=""> Handicap Mode</p>
+</div>
 <div id="content">
 <p align="center">Controls:</p>
-<p align="center">Use the arrow key to shoot.</p>
+<p align="center">Handicap Mode- Mac/Laptop Key Layout. This mode is for those who aren't so luck to have a full sized keyboard.</p>
+<p align="center">Use the arrow keys/IJKL to shoot. (IJKL if you have Handicap mode enabled.)</p>
 <p align="center">Use WASD to move.</p>
 <p align="center">Press R to revive.</p>
 <p align="center">Press M to mute the game and press it again to unmute.</p>
 <p align="center">Press P to open the Patch Info and press it again to close it.</p>
-<p align="center">Press Esc to exit the upgrade menu. (Also will reset the game if you are dead.)</p>
-<p align="center">Use the Number keys to switch weapons. (NOT THE NUM PAD! aslo get weapons by upgrading your weapon)</p>
-<p align="center">Use the Num Key on the key pad to upgrade. (numbers correspond with numbers in the upgrade menu labeled with # in front of it)</p>
+<p align="center">Press Esc/B to exit the upgrade menu and it will also will reset the game if you are dead. (B if you have Handicap mode enabled.)</p>
+<p align="center">Use any of the number keys to switch weapons.</p>
+<p align="center">Use the any corresponding Number Keys to upgrade. (The numbers correspond with numbers in the upgrade menu are labeled with a # in front of it.)</p>
 <p align="center">About:</p>
-<p align="center">Flying Enemies- Rage mode: if the enemy's health drops below 50 it will move faster. </p>
+<p align="center">You can get new weapons by upgrading the weapon category in the upgrade menu.</p>
+<p align="center">Flying Enemies- Rage mode: if the enemy's health drops below 50 it will move faster.</p>
 <p align="center">Flying Enemies- Swarm: if they get near you they will frantically go left and right thus making them hard to hit.</p>
 <p align="center">Homeworld Takedown is a top down wave based game. You play as an alien from the "Drars" race and you don't agree on taking over Earth so you fight back.</p>
 </div>
