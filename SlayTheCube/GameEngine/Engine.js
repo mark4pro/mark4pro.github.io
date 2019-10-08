@@ -80,6 +80,23 @@ player3.speedY = 0;
 ammo.x = 400;
 ammo.y = 120;
 }
+if (level == 5) {
+player.x = 20;
+player.y = 20;
+player.speedX = 0;
+player.speedY = 0;
+player2.x = 400;
+player2.y = 150;
+player2.speedX = 0;
+player2.speedY = 0;
+player3.x = 400;
+player3.y = 80;
+player3.speedX = 0;
+player3.speedY = 0;
+ammo.x = 400;
+ammo.y = 120;
+level5obj();
+}
 }
 }
 
@@ -111,6 +128,13 @@ wall8_8 = new component(215, 5, "black", 225, 140);
 wall9 = new component(400, 5, "darkred", 0, 185);
 wall9_1 = new component(400, 5, "darkred", 0, 190);
 wall9_2 = new component(5, 5, "darkred", 395, 187.5);
+}
+
+function level5obj() {
+wall = new component(10, 500, "darkred", 0, 0);
+wall2 = new component(10, 500, "darkred", 490, 0);
+wall4 = new component(500, 10, "darkred", 0, 290);
+wall3 = new component(500, 10, "darkred", 0, 0);
 }
 
 var myGameArea = {
@@ -298,13 +322,17 @@ if (firef > 0) {
 bullet.update();
 bulletai();
 }
+if (level < 6) {
 if (firef == 0) {
 ammo.update();
+ }
 }
+if (level < 6) {
 wall.update();
 wall2.update();
 wall3.update();
 wall4.update();
+}
 if (level == 1) {
 wall5.update();
 wall5_1.update();
@@ -333,16 +361,23 @@ wall8_6.update();
 wall8_7.update();
 }
 }
+if (level < 6) {
 player.newPos();
 player.update();
 player2.newPos();
 player2.update();
 bullet.newPos();
-if (level == 4) {
+}
+if (level == 4 || level == 5) {
 player3.newPos();
 player3.update();
 }
 }
+}
+if (level == 6) {
+thank = new component("50px", "Consolas", "white", 60, 150, "text");
+thank.text="Thanks for playing!";
+thank.update();
 }
 if (Dead == 1) {
 if (won == 0) {
@@ -353,6 +388,8 @@ player.speedX = 0;
 player.speedY = 0;
 player2.speedX = 0;
 player2.speedY = 0;
+player3.speedX = 0;
+player3.speedY = 0;
 }
 }
 if (bullet.crashWith(player2)) {
@@ -575,7 +612,7 @@ player2.speedY -= 1;
 if (player.crashWith(player2)) {
 Dead = 1;
 }
-if (level == 4) {
+if (level == 4 || level == 5) {
 if (player3.crashWith(wall)) {
 clearmove3();
 player3.speedX += 1;
@@ -645,7 +682,7 @@ if (Dead == 0) {
 if (firef == 0) {
 player.speedY = -2.5;
 player2ai();
-if (level == 4) {
+if (level == 4 || level == 5) {
 player3ai();
 }
 }
@@ -656,7 +693,7 @@ if (Dead == 0) {
 if (firef == 0) {
 player.speedY = 2.5;
 player2ai();
-if (level == 4) {
+if (level == 4 || level == 5) {
 player3ai();
 }
 }
@@ -667,7 +704,7 @@ if (Dead == 0) {
 if (firef == 0) {
 player.speedX = -2.5;
 player2ai();
-if (level == 4) {
+if (level == 4 || level == 5) {
 player3ai();
 }
 }
@@ -678,7 +715,7 @@ if (Dead == 0) {
 if (firef == 0) {
 player.speedX = 2.5;
 player2ai();
-if (level == 4) {
+if (level == 4 || level == 5) {
 player3ai();
 }
 }
@@ -689,7 +726,7 @@ player.speedX = 0;
 player.speedY = 0;
 player2.speedX = 0;
 player2.speedY = 0;
-if (level == 4) {
+if (level == 4 || level == 5) {
 player3.speedX = 0;
 player3.speedY = 0;
 }
@@ -708,9 +745,11 @@ player3.speedY = 0;
 function fire() {
 if (won == 0) {
 if (player.crashWith(ammo)) {
+if (firef == 0) {
 firef = 1;
 bullet.x = 20 + player.x;
 bullet.y = 10 + player.y;
+}
 }
 }
 }
