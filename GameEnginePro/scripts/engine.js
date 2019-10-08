@@ -88,6 +88,8 @@ function start() {
  trienemyleft = new component(35, 35, "black", 430, 158, "rotleft");
  trienemyright = new component(35, 35, "black", 430, 158, "rotright");
  tribox = new component(35, 35, "red", 430, 158, "rec");
+ tribpic = new component(10, 10, "orange", 400, 180, "EB");
+ tribbox = new component(10, 10, "orange", 400, 180, "rec");
  tripos1 = new component(25, 25, "orange", tri1posX, tri1posY, "rec");
  triwavebox1 = new component(35, 35, "black", tri1posX - 5, tri1posY - 5, "rec");
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
@@ -96,6 +98,7 @@ function start() {
  bpic3 = new component(10, 10, "orange", 400, 180, "b3");
  bpic4 = new component(10, 10, "orange", 400, 180, "b4");
  box = new component(25, 25, "black", playerX, playerY, "rec");
+ detectbox = new component(100, 100, "black", playerX - 37.5, playerY - 37.5, "rec");
  circle = new component(32, 32, "darkblue", playerX - 3.5, playerY - 3.5, "img");
  w1t5 = new component(800, 500, "darkblue", 0, 0, "img5");
  w5t7 = new component(800, 390, "darkblue", 0, 0, "waveimg5-7");
@@ -531,6 +534,12 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  var img = document.getElementById("MutedPic");
 ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
+ if (type == "EB") {
+ this.width = width;
+ this.height = height;
+ var img = document.getElementById("enemybull");
+ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
   }
  }
 }
@@ -866,8 +875,18 @@ costToRevive.text = "You must have $" + revivecost + " to revive";
 playSound();
 skipSound();
 box.update();
+detectbox.update();
 if (fire > 0) {
 bullbox.update();
+}
+if (wave > 4 && wave < 7) {
+if (BadDeath3 == 0) {
+if (Death1 == 0) {
+if (trifire == 0) {
+tribbox.update();	
+   }
+  }
+ }
 }
 if (wave < 7 && wave > 1) {
 if (BadDeath2 < 1) {
@@ -1025,6 +1044,16 @@ badguypic2.update();
   }
  }
 }
+tribulletai();
+if (wave > 4 && wave < 7) {
+if (BadDeath3 == 0) {
+if (Death1 == 0) {
+if (trifire == 1) {
+tribpic.update();
+   }
+  }
+ }
+}
 if (wave > 4 && wave < 7) {
 if (BadDeath3 == 0) {
 if (Death1 == 0) {
@@ -1068,6 +1097,7 @@ circle.update();
 if (menu > 0) {
 if (upgrademenu == 0) {
 box.newPos();
+detectbox.newPos();
 circle.newPos();
   }
  }
@@ -1180,6 +1210,8 @@ bpic.newPos();
 bpic2.newPos();
 bpic3.newPos();
 bpic4.newPos();
+tribpic.newPos();
+tribbox.newPos();
 if (wave == 5) {
 if (switchpos == 0) {
 switchpos = 1;
@@ -1189,6 +1221,8 @@ box.x = playerXwave5;
 box.y = playerYwave5;
 circle.x = playerXwave5 - 3.5;
 circle.y = playerYwave5 - 3.5;
+detectbox.x = playerXwave5 - 37.5;
+detectbox.y = playerYwave5 - 37.5;
 switchpos = 2;
  }
 }
@@ -1309,13 +1343,16 @@ if (up == 1) {
  if (touchtop == 0) {
  if (box.speedY >= -playerSpeed) {
  box.speedY -= 0.05;
+ detectbox.speedY -= 0.05;
  circle.speedY -= 0.05;
  } else {
  box.speedY = -playerSpeed;
+ detectbox.speedY = -playerSpeed;
  circle.speedY = -playerSpeed;
  }
  } else {
  box.speedY = 0;
+ detectbox.speedY = 0;
  circle.speedY = 0;
  }
 }
@@ -1323,13 +1360,16 @@ if (down == 1) {
  if (touchbottom == 0){
  if (box.speedY <= playerSpeed) {
  circle.speedY += 0.05;
+ detectbox.speedY += 0.05;
  box.speedY += 0.05;
  } else {
  box.speedY = playerSpeed;
+ detectbox.speedY = playerSpeed;
  circle.speedY = playerSpeed;
  }
  } else {
  box.speedY = 0;
+ detectbox.speedY = 0;
  circle.speedY = 0;
  }
 }
@@ -1337,13 +1377,16 @@ if (left == 1) {
  if (touchleft == 0) {
  if (box.speedX >= -playerSpeed) {
  circle.speedX -= 0.05;
+ detectbox.speedX -= 0.05;
  box.speedX -= 0.05;
  } else {
  box.speedX = -playerSpeed;
+ detectbox.speedX = -playerSpeed;
  circle.speedX = -playerSpeed;
  }
  } else {
  box.speedX = 0;
+ detectbox.speedX = 0;
  circle.speedX = 0;
  }
 }
@@ -1351,13 +1394,16 @@ if (right == 1) {
  if (touchright == 0) {
  if (box.speedX <= playerSpeed) {
  circle.speedX += 0.05;
+ detectbox.speedX += 0.05;
  box.speedX += 0.05;
  } else {
  box.speedX = playerSpeed;
+ detectbox.speedX = playerSpeed;
  circle.speedX = playerSpeed;
  }
  } else {
  box.speedX = 0;
+ detectbox.speedX = 0;
  circle.speedX = 0;
  }
 }
@@ -3913,7 +3959,7 @@ if (startTime2 == 0) {
  }
 }
 var Badhealth3 = 0;
-var Bad3DamageDeal = 0.15;
+var Bad3DamageDeal = 0.05;
 function badtriboxspawn() {
 if (wave > 4 && wave < 7) {
 if (bullbox.crashWith(tribox)) {
@@ -3990,14 +4036,14 @@ if (tribox.crashWith(wallright) == false) {
 if (tribox.crashWith(wallleft) == false) {
 if (tribox.crashWith(wall3) == false) {
 if (tribox.crashWith(wall4) == false) {
-if (tribox.x + 5 > box.x + 23) {
+if (tribox.x + 5 > box.x + 60) {
     sidebad3 = 0;
 }
-if (tribox.x < box.x - 23) {
+if (tribox.x < box.x - 60) {
     sidebad3 = 1;
 }
+if (tribox.x + 5 > box.x + 60) {
 if (sidebad3 == 0) {
-if (tribox.x + 5 > box.x + 23) {
 trienemyright.speedX = negbadspeedai3;
 trienemyleft.speedX = negbadspeedai3;
 tribox.speedX = negbadspeedai3;
@@ -4007,9 +4053,8 @@ trienemyleft.speedX = negbadhurtspeedai3;
 tribox.speedX = negbadhurtspeedai3;
   }
  }
-}
+} else if (tribox.x < box.x - 60) {
 if (sidebad3 == 1) {
-if (tribox.x < box.x - 23) {
 trienemyright.speedX = badspeedai3;
 trienemyleft.speedX = badspeedai3;
 tribox.speedX = badspeedai3;
@@ -4020,7 +4065,7 @@ tribox.speedX = badhurtspeedai3;
   }
  }
 }
-if (tribox.y + 5 > box.y) {
+if (tribox.y + 5 > box.y + 60) {
 trienemyright.speedY = negbadspeedai3;
 trienemyleft.speedY = negbadspeedai3;
 tribox.speedY = negbadspeedai3;
@@ -4030,7 +4075,7 @@ trienemyleft.speedY = negbadhurtspeedai3;
 tribox.speedY = negbadhurtspeedai3;
  }
 }
-if (tribox.y + 5 < box.y) {
+if (tribox.y < box.y - 60) {
 trienemyright.speedY = badspeedai3;
 trienemyleft.speedY = badspeedai3;
 tribox.speedY = badspeedai3;
@@ -4050,7 +4095,7 @@ if (playerHealth > 0) {
 playerHealth -= Bad3DamageDeal;
   }
  }
-}
+}//goherenoww//
 if (weapon == 1) {
  if (bullbox.crashWith(tribox)) {
  if (fire > 0) {
@@ -4455,6 +4500,86 @@ firesoundstart = 1;
   }
  }
 }
+
+var tribullettime = 0;
+var tribullrange = 3;
+var trifire = 0;
+var trisidebad = 0;
+var TriBullDamageDeal = 2;
+function tribulletai() {//bull//
+if (trifire < 1) {
+if (-10 + tribbox.x > tribox.x) {
+	tribpic.speedX = -10;
+	tribbox.speedX = -10;
+}
+if (-10 + tribbox.x < tribox.x) {
+	tribpic.speedX = 10;
+	tribbox.speedX = 10;
+}
+if (tribox.crashWith(tribbox)) {
+	tribpic.speedX = 0;
+    tribpic.speedY = 0;
+	tribbox.speedX = 0;
+    tribbox.speedY = 0;
+ }
+if (-10 + tribbox.y > tribox.y) {
+	tribpic.speedY = -10;
+	tribbox.speedY = -10;
+}
+if (-10 + tribbox.y < tribox.y) {
+	tribpic.speedY = 10;
+	tribbox.speedY = 10;
+ }
+}
+if (trifire > 0) {
+if (-10 + tribbox.x > box.x) {
+  tribpic.speedX = -tribullrange;
+  tribbox.speedX = -tribullrange;
+  } 
+if (-10 + tribbox.x < box.x) {
+  tribpic.speedX = tribullrange;
+  tribbox.speedX = tribullrange;
+  }
+if (-10 + tribbox.y > box.y) {
+  tribpic.speedY = -tribullrange;
+  tribbox.speedY = -tribullrange;
+}
+if (-10 + tribbox.y < box.y) {
+  tribpic.speedY = tribullrange;
+  tribbox.speedY = tribullrange;
+  }
+ } 
+if (tribullettime >= 5) {
+  tribullettime = 0;
+  trifire = 1;
+  }
+if (trifire == 0) {
+if (tribox.crashWith(detectbox)) {
+tribullettime += 0.5;	
+ }	
+}
+if (tribbox.crashWith(wallright) || tribbox.crashWith(wallleft) || tribbox.crashWith(wall3) || tribbox.crashWith(wall4)) {
+trifire = 0;
+ }
+if (tribbox.crashWith(wall3house1) || tribbox.crashWith(wall3house1_2) || tribbox.crashWith(wall3house2) || tribbox.crashWith(wall3house2_2) || tribbox.crashWith(wall3house3) || tribbox.crashWith(wall3house3_2) || tribbox.crashWith(wall3house4_4) || tribbox.crashWith(wall3house5_4)) {
+trifire = 0;
+ }
+if (wave > 4 && wave < 7) {
+if (tribbox.crashWith(box)) {
+if (upgrademenu == 0) {
+if (pauseGame == 0) {
+if (playerHealth > 0) {
+if (trifire == 1) {
+playerHealth -= TriBullDamageDeal;
+trifire = 0;
+      }
+     }
+	}
+   }
+  }
+ }
+}
+
 var starttime = 0;
 var timeforbullet = 0;
 function resetfire() {
@@ -4468,6 +4593,7 @@ if (menu > 0) {
 starttime = 0;
  }
 }
+
 var bullrange = 3;
 function bulletai() {
 if (fire < 1) {
@@ -4585,7 +4711,7 @@ fire = 0;
   }
  }
 if (wave >= 5 && wave < 7) {
-if (bullbox.crashWith(wall3house1) || bullbox.crashWith(wall3house1_2) || bullbox.crashWith(wall3house2) || bullbox.crashWith(wall3house2_2) || bullbox.crashWith(wall3house3) || bullbox.crashWith(wall3house3_2)) {
+if (bullbox.crashWith(wall3house1) || bullbox.crashWith(wall3house1_2) || bullbox.crashWith(wall3house2) || bullbox.crashWith(wall3house2_2) || bullbox.crashWith(wall3house3) || bullbox.crashWith(wall3house3_2) || bullbox.crashWith(wall3house4_4) || bullbox.crashWith(wall3house5_4)) {
 fire = 0;
   }
  }
@@ -4624,6 +4750,7 @@ if (upE > 0) {
  up = 0;
  upE = 0;
 circle.speedY = 0;
+detectbox.speedY = 0;
 box.speedY = 0;
  }
 }
@@ -4632,6 +4759,7 @@ if (downE > 0) {
  down = 0;
  downE = 0;
 circle.speedY = 0;
+detectbox.speedY = 0;
 box.speedY = 0;
  }
 }
@@ -4640,6 +4768,7 @@ if (leftE > 0) {
  left = 0;
  leftE = 0;
 circle.speedX = 0;
+detectbox.speedX = 0;
 box.speedX = 0;
  }
 }
@@ -4648,6 +4777,7 @@ if (rightE > 0) {
  right = 0;
  rightE = 0;
 circle.speedX = 0;
+detectbox.speedX = 0;
 box.speedX = 0;
  }
 }
