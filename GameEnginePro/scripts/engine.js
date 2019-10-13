@@ -311,6 +311,7 @@ this.speedX = 0;
 this.speedY = 0;
 this.x = x;
 this.y = y;
+this.angle = 0;
 this.thickness = thickness;
 this.outcolor = outcolor;
 this.radius = radius;
@@ -477,8 +478,12 @@ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  if (type == "rec-enemypic") {
  this.width = width;
  this.height = height;
+ ctx.save();
+ ctx.translate(this.x + 12.5, this.y + 12.5);
+ ctx.rotate(this.angle);
  var img = document.getElementById("Rectangle");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ ctx.drawImage(img, this.width / -2, this.height / -2, this.width, this.height);
+ ctx.restore();
  }
  if (type == "b2") {
  this.width = width;
@@ -3581,6 +3586,24 @@ function crashhitai1() {
 	  touchwalldownbad4 = 0;
 	  }
 	 }
+	if (insidehouse1 == 0) {
+	if (recbox1.crashWith(wallhouse8)) {
+		touchwalldownbad4 = 1;
+		if (touchwalldownbad4 == 1) {
+			recenemypic1.speedY = 1;
+			recbox1.speedY = 1;
+		}
+	 }
+	}
+	if (inside2house1 == 0) {
+	if (recbox1.crashWith(wall2house8)) {
+		touchwalldownbad4 = 1;
+		if (touchwalldownbad4 == 1) {
+			recenemypic1.speedY = 1;
+			recbox1.speedY = 1;
+		}
+	 }
+	}
 	}
 }
 var sidebad1 = 0;
@@ -4172,6 +4195,7 @@ recbox1.speedY = 0;
 recbox1.speedX = 0;
 Badhealth4 = 120;
 BadDeath4 = 0;
+recenemypic1.angle = 0;
 badspeedai4 = 1;
 negbadspeedai4 = -1;
 badhurtspeedai4 = 1.5;
@@ -4224,6 +4248,7 @@ if (recbox1.x + 5 > box.x + 23) {
 if (recbox1.x < box.x - 23) {
     sidebad4 = 1;
 }
+recenemypic1.angle += 5 * Math.PI / 180;
 if (sidebad4 == 0) {
 if (recbox1.x + 5> box.x + 23) {
 recenemypic1.speedX = negbadspeedai4;
