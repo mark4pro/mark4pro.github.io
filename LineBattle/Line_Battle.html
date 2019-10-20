@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="icon" type="image/vnd.microsoft.icon"
+	 href="https://mark4pro.github.io/LineBattle/icon/favicon.ico" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" href="https://mark4pro.github.io/LineBattle/icon/Line_Battle_icon.png" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Line Battle</title>
+<style>
+body {
+margin: 0;
+}
+canvas {
+border:1px solid #d3d3d3;
+background-color: #f1f1f1;
+position: fixed;
+}
+</style>
+</head>
+<body onload="startGame()">
+
+<script>
+function startGame() {
+Tank1 = new component("player1", 30, 30, "blue", 50, 120, "cir");
+
+moveButtonDetect = new component("", 80, 50, "blue", 10, 25, "rec");
+moveButton = new component("", 80, 50, "blue", 50, 50, "rec");
+TP = new component("", 0, 0, "black", 40, 62.5, "text");
+TP.font = "36px Arial";
+Tank2 = new component("player2", 30, 30, "red", window.innerWidth - 50, window.innerHeight - 120, "cir");
+
+moveButtonDetect2 = new component("", 80, 50, "red", window.innerWidth - 90, window.innerHeight - 50, "rec");
+moveButton2 = new component("", 80, 50, "red", window.innerWidth - 50, window.innerHeight - 50, "rec");
+TP2 = new component("", 0, 0, "black", window.innerWidth - 60, window.innerHeight - 38.5, "text");
+TP2.font = "36px Arial";
+moveButtonDetect3 = new component("", 180, 50, "darkpurple", window.innerWidth / 2 - 90, window.innerHeight / 2, "rec");
+moveButton3 = new component("", 180, 50, "purple", window.innerWidth / 2, window.innerHeight / 2, "rec");
+background = new component("", 10000000, 10000000, "white", 100, 0, "rec");
+DeathTxt = new component("Blue Wins!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
+DeathTxt.font = "36px Arial";
+DeathTxt2 = new component("Red Wins!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
+DeathTxt2.font = "36px Arial";
+DeathTxt3 = new component("Tie!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
+DeathTxt3.font = "36px Arial";
+GameArea.start();
+
+}
+
+var GameArea = {
+canvas : document.createElement("canvas"),
+start : function() {
+this.canvas.width = window.innerWidth;
+this.canvas.height = window.innerHeight - 5;
+this.context = this.canvas.getContext("2d");
+document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+this.interval = setInterval(updateGameArea, 10);
+window.addEventListener('mousedown', function (e) {
+GameArea.x = e.pageX;
+GameArea.y = e.pageY;
+})
+window.addEventListener('mouseup', function (e) {
+GameArea.x = false;
+GameArea.y = false;
+})
+window.addEventListener('touchstart', function (e) {
+GameArea.x = e.pageX;
+GameArea.y = e.pageY;
+})
+window.addEventListener('touchend', function (e) {
+GameArea.x = false;
+GameArea.y = false;
+})
+}, 
+clear : function(){
+this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+}
+}
+
+var _bullets = [];
+function component(name, width, height, color, x, y, type, id, timeAlive) {
+this.type = type;
+this.color = color;
+this.width = width;
+this.height = height;
+this.id = id;
+this.name = name;
+this.text = name;
+this.speed = 0;
+this.angle = 0;
+this.moveAngle = 0;
+this.dead = false;
+this.points = 0;
+this.timeAlive = timeAlive;
+this.x = x;
+this.y = y;	
+this.update = function() {
+ctx = GameArea.context;
+if (this.type == "text") {
+  ctx.font = this.font;
+  ctx.fillStyle = color;
+  ctx.fillText(this.text, this.x, this.y);
+  } 
+  if (this.type == "Bull" || this.type == "rec") {
+  ctx.save();
+  ctx.translate(this.x, this.y);
+  ctx.rotate(this.angle);
+  ctx.fillStyle = this.color;
+  ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
+  ctx.restore();	
+  }
+  if (type == "cir") {
+  ctx.beginPath();
+  ctx.arc(this.x, this.y, 25, 0, 2 * Math.PI, true);
+  ctx.fillStyle = this.color;
+  ctx.fill();
+  ctx.lineWidth = 0;
+  ctx.strokeStyle = 0;
+  ctx.stroke();
+ }
+if (this.type == "Bull") {
+this.timeAlive += 0.2;
+ }
+}
+this.newPos = function() {
+this.angle += this.moveAngle * Math.PI / 180;
+this.x += this.speed * Math.sin(this.angle);
+this.y -= this.speed * Math.cos(this.angle);
+}
+this.clicked = function() {
+var myleft = this.x;
+var myright = this.x + (this.width);
+var mytop = this.y;
+var mybottom = this.y + (this.height);
+var clicked = true;
+if (startgame == 0) {
+Tank1.speed = 0;
+Tank2.speed = 0; 
+Tank1.angle += 1 * Math.PI / -180; 
+Tank2.angle += 1 * Math.PI / 180;   
+}
+if ((mybottom < GameArea.y) || (mytop > GameArea.y) || (myright < GameArea.x) || (myleft > GameArea.x)) {
+clicked = false;
+}
+return clicked;
+}
+if (name == "player1") {
+this.shoot = function(){
+if(this.dead === false){
+var __bullet = new component("", 5, 5, "blue", Tank1.x, Tank1.y + 10, "Bull", "Tank1", 0);
+_bullets.push(__bullet);
+}
+   }
+  } else
+  if (name == "player2") {
+this.shoot = function(){
+if(this.dead === false){
+var __bullet = new component("", 5, 5, "red", Tank2.x, Tank2.y + 10, "Bull", "Tank2", 0);
+_bullets.push(__bullet);
+}
+   }
+  }
+}
+var startgame = 0;
+var startmove2 = 0;
+var dirSwitch = 0;
+var dirSwitch2 = 0;
+var lock = 0;
+var lock2 = 0;
+var win = false;
+function updateGameArea() {
+GameArea.clear();
+TP.text = Tank1.points;
+TP2.text = Tank2.points;
+for(var u = _bullets.length - 1; u >= 0; u--) {
+if (_bullets[u].id == "Tank1" && _bullets[u].timeAlive >= 100) {
+_bullets.shift();
+
+}
+}
+if (Tank1.dead == false || Tank2.dead == false) {
+Tank1.speed = -3;
+Tank2.speed = 3;
+Tank1.shoot();
+Tank2.shoot();
+}
+if (button_down == true) {
+if (dirSwitch == 0) {
+Tank1.angle += 3 * Math.PI / 180; 
+}
+if (dirSwitch == 1) {
+Tank1.angle += 3 * Math.PI / -180; 
+}
+if (lock == 0) {
+dirSwitch += 1;
+lock = 1;
+}
+}
+if (button_down == false) {
+startgame = 1;
+lock = 0;
+}
+if (button2_down == true) {
+if (dirSwitch2 == 0) {
+Tank2.angle += 3 * Math.PI / 180;   
+}
+if (dirSwitch2 == 1) {
+Tank2.angle += 3 * Math.PI / -180;   
+}
+if (lock2 == 0) {
+dirSwitch2 += 1;
+lock2 = 1;
+}
+}
+if (button2_down == false) {
+startgame = 1;
+lock2 = 0;
+}
+if (Tank1.y <= 5) {
+Tank1.y += window.innerHeight - 5;
+}
+if (Tank1.y >= window.innerHeight - 5) {
+Tank1.y -= window.innerHeight - 5;
+}
+if (Tank1.x <= 0) {
+Tank1.x += window.innerWidth;
+}
+if (Tank1.x >= window.innerWidth) {
+Tank1.x -= window.innerWidth;
+}
+if (Tank2.y <= 5) {
+Tank2.y += window.innerHeight - 5;
+}
+if (Tank2.y >= window.innerHeight - 5) {
+Tank2.y -= window.innerHeight - 5;
+}
+if (Tank2.x <= 0) {
+Tank2.x += window.innerWidth;
+}
+if (Tank2.x >= window.innerWidth) {
+Tank2.x -= window.innerWidth;
+}
+for(var j = _bullets.length - 1; j >= 0; j--) {
+if (_bullets[j].id == "Tank2" && Tank1.dead === false && collision2(Tank1, _bullets[j]) && win == false) {
+_bullets.splice(j, 1);
+Tank1.dead = true;
+Tank2.points++;
+}
+}
+for(var k = _bullets.length - 1; k >= 0; k--) {
+if (_bullets[k].id == "Tank1" && Tank2.dead === false && collision2(Tank2, _bullets[k]) && win == false) {
+_bullets.splice(k, 1);
+Tank2.dead = true;
+Tank1.points++;
+}
+}
+if (Tank1.dead) {
+Tank1.color = "grey";
+Tank1.speed = 0;
+Tank1.angle = 0;
+Tank2.speed = 0;
+Tank2.angle = 0;
+dirSwitch = 0;
+dirSwitch2 = 0;
+button_down = false;
+button2_down = false;
+_bullets.length = 0;
+
+function deadTank1Reset(){
+ Tank1.dead = false;
+ Tank1.color = "blue";
+ Tank1.x = 50;
+ Tank1.y = 120;
+ Tank2.x = window.innerWidth - 50;
+ Tank2.y = window.innerHeight - 120;
+ Tank1.speed = 0;
+ Tank2.speed = 0;
+} setTimeout(deadTank1Reset, 1000);
+}
+if (Tank2.dead) {
+Tank2.color = "grey";
+Tank2.speed = 0;
+Tank2.angle = 0;
+Tank1.speed = 0;
+Tank1.angle = 0;
+dirSwitch = 0;
+dirSwitch2 = 0;
+button_down = false;
+button2_down = false;
+_bullets.length = 0;
+
+function deadTank2Reset(){
+ Tank2.dead = false;
+ Tank2.color = "red";
+ Tank1.x = 50;
+ Tank1.y = 120;
+ Tank2.x = window.innerWidth - 50;
+ Tank2.y = window.innerHeight - 120;
+ Tank1.speed = 0;
+ Tank2.speed = 0;
+} setTimeout(deadTank2Reset, 1000);
+}
+moveButtonDetect.update();
+moveButtonDetect2.update();
+moveButtonDetect3.update();
+background.update();
+if (dirSwitch  > 1) {
+dirSwitch = 0;
+}
+if (dirSwitch2  > 1) {
+dirSwitch2 = 0;
+}
+for (var i = _bullets.length - 1; i >= 0; i--){
+_bullets[i].update();
+if (_bullets[i].x <= 0 || _bullets[i].x >= window.innerWidth || _bullets[i].y >= window.innerHeight || _bullets[i].y <= 0){
+ _bullets.splice(i, 1);
+}
+   }
+Tank1.update();
+Tank1.newPos();
+Tank2.update();
+Tank2.newPos();
+if(collision2(Tank1, Tank2)){
+if(Tank1.x < Tank2.x){
+ Tank1.x = Tank1.x - 1;
+ Tank1.y = Tank1.y - 1;
+ Tank2.x = Tank2.x + 1;
+ Tank2.y = Tank2.y + 1;
+}
+else if(Tank1.x > Tank2.x){
+ Tank1.x = Tank1.x + 1;
+ Tank1.y = Tank1.y + 1;
+ Tank2.x = Tank2.x - 1;
+ Tank2.y = Tank2.y - 1;
+}
+  }
+  moveButton.update();
+  moveButton2.update();
+  TP.update();
+  TP2.update();
+  if (Tank1.points >= 10 && Tank2.points < 10) {
+moveButton3.update();
+DeathTxt.update();
+background.color = "black";
+win = true;
+ }
+  if (Tank2.points >= 10 && Tank1.points < 10) {
+moveButton3.update();
+DeathTxt2.update();
+background.color = "black";
+win = true;
+ }
+  if (Tank1.points >= 10 && Tank2.points >= 10) {
+DeathTxt3.update();
+background.color = "black";
+win = true;
+ }
+if (win == true && button3_down == true) {
+	winReset();
+ }
+}
+
+function winReset() {
+if (win == true) {
+ _bullets.length = 0;
+ dirSwitch = 0;
+ dirSwitch2 = 0;
+ button_down = false;
+ button2_down = false;
+ Tank1.angle = 0;
+ Tank2.angle = 0;
+ background.color = "white";
+ Tank1.dead = false;
+ Tank2.dead = false;
+ Tank1.points = 0;
+ Tank2.points = 0;
+ Tank1.color = "blue";
+ Tank2.color = "red";
+ Tank1.x = 50;
+ Tank1.y = 120;
+ Tank2.x = window.innerWidth - 50;
+ Tank2.y = window.innerHeight - 120;
+ Tank1.speed = 0;
+ Tank2.speed = 0;
+ win = false;
+ }
+} setTimeout(winReset, 1000);
+
+
+function collision2(a,b){
+return a.x - a.width/2 < b.x + b.width &&
+a.x + a.width/2 > b.x &&
+a.y < b.y + b.height &&
+a.y + a.height > b.y;
+}
+
+var button_down = false, button2_down = false, button3_down = false;
+
+function getTouchXY(e) {
+  for(var i = 0; i < e.changedTouches.length; i++) {
+var x = e.changedTouches[i].clientX,
+y = e.changedTouches[i].clientY,
+t = {x:x, y:y, width:10, height:10};
+
+  if(collision2(t, moveButtonDetect)) { button_down = true; moveButton.color = "darkblue";}
+  if(collision2(t, moveButtonDetect2)) { button2_down = true; moveButton2.color = "darkred";}
+  if(collision2(t, moveButtonDetect3)) { button3_down = true; moveButton3.color = "darkpurple";}
+
+}
+}
+
+function stopTouchXY(e){
+  var x = e.changedTouches[0].clientX,
+ y = e.changedTouches[0].clientY,
+ t = {x:x, y:y, width:10, height:10};
+
+  if(collision2(t, moveButtonDetect)) { button_down = false; moveButton.color = "blue";}
+  if(collision2(t, moveButtonDetect2)) {button2_down = false; moveButton2.color = "red";}
+  if(collision2(t, moveButtonDetect3)) {button3_down = false; moveButton3.color = "purple";}
+}
+
+window.addEventListener("touchstart",  getTouchXY);
+window.addEventListener("touchmove",   getTouchXY);
+window.addEventListener("touchend",	stopTouchXY);
+window.addEventListener("touchcancel", stopTouchXY);
+
+document.onkeydown = function(e) {
+switch (e.keyCode) {
+case 87:
+button_down = true;	
+break;
+case 38:
+button2_down = true;	
+break;
+case 32:
+if (win == true) {
+winReset();
+}	
+break;
+}
+};
+document.onkeyup = function(e) {
+switch (e.keyCode) {
+case 87:
+button_down = false;	
+break;
+case 38:
+button2_down = false;	
+break;
+}
+};
+</script>
+</body>
+</html>
