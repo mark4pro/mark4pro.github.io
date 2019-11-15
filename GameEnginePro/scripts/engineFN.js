@@ -18,7 +18,7 @@ false);
 var popup = 1;
 var fallseason = 0;
 var stcweapon = 0;
-var earlystart = 1;
+var earlystart = 0;
 function Datechecker() {
 var today_date= new Date()
 var mydayofweek = today_date.getDay()
@@ -26,8 +26,8 @@ var mytoday = today_date.getDate()
 var mymonth = today_date.getMonth()
 var myyear = today_date.getFullYear()
 if (popup == 1) {
-if (mymonth == 9) {
-if (mytoday >= 7 && mytoday < 20) {
+if (mymonth == 10) {
+if (mytoday >= 13 && mytoday < 20) {
 openpatchinfo = 1;
 popup = 0;
    }
