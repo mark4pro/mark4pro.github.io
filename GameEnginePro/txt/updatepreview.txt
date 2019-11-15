@@ -1,29 +1,3 @@
 :PRESS P TO TOGGLE THE PIB:
 
-What's new in V0.4.94 PREVIEW-
-  New AI for the triangle. (It will shoot at you!)
-  Fixed wall collisions.
-  Fixed rectangle wall collisions.
-  The rectangle enemy now spins.
-
-Old News-
-  The start of the Wave 5-6 level design.
-  Pause Menu with stats.
-  Fall Seasoned levels.
-  Splash screen for secret weapon.
-  Fully implemented Secret Weapon.
-  Updated Commands.
-  Randomized money for kills and for wave completion. (Balanced)
-  Gameplay Bug Fixes.
-  Newgrounds Bug is now fixed.
-  !!!New controls!!!
-  Now you can use any number keys to upgrade instead of just the number pad. (Same with switching weapons.)
-  There is now a new modified keyboard layout called handicap mode! This mode should be better for shortened keyboards/laptops.
-  Handicap mode changes the fire keys from the arrow keys to IJKL on the keyboard instead and moves the functions of the ESC key to the B   key.
-  
-What's to come in preview-
-  Finished Wave 5-6 level design.
-  New/Better AI for the triangle enemy.
-  
-What might come in this preview- 
-  New enemies.
+What's new in V0.4.95 PREVIEW-
