@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Homeworld Takedown V0.4.94 Preview</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <link rel="icon" type="image/vnd.microsoft.icon"
      href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
 <style>
@@ -14,11 +15,15 @@ margin-left: auto;
 margin-right: auto;
 display: block;
 width: 600px;
-top: 12.5%;
+top: 18.2%;
 left: 20%;
 right: 20%;
-transform:scale(1.6);
+transform:scale(1.9);
 position: fixed;
+image-rendering: -moz-crisp-edges;         /* Firefox */
+image-rendering: -webkit-crisp-edges;      /* Webkit */
+-ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+image-rendering: crisp-edges;                /* Chrome */
 }
 html {
 overflow: hidden;
@@ -32,7 +37,7 @@ overflow: hidden;
  border:5px solid black;
  visibility: visible; 
  z-index: 200; 
- bottom: 25%;
+ bottom: 14%;
  left: 20%;
  right: 20%;
  position: fixed;
@@ -40,32 +45,16 @@ overflow: hidden;
  p {
  color: white;
  }
- img {
-    image-rendering: -moz-crisp-edges;         /* Firefox */
-    image-rendering: -webkit-crisp-edges;      /* Webkit */
-    -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
-    image-rendering: pixelated;                /* Chrome */
- }
  .unselectable {
 -webkit-user-select: none;
 -moz-user-select: none;
 -ms-user-select: none;
 user-select: none;
  }
-#container {
-width : 50%;
-height : 50%;
-overflow : hidden;
-padding : 0;
-margin : 0;
--webkit-user-select : none;
--moz-user-select : none;
-}
 #content{
  background-color: #63218a;
  overflow: auto;
- height: 80px;
- overfow:auto;
+ height: 120px;
  padding: 20px;
  margin-left: auto;
  margin-right: auto;
@@ -74,11 +63,17 @@ margin : 0;
  right: 20%;
  position: fixed;
  }
-#volumecontrols{
-bottom: 13%;
-left: 20%;
-right: 20%;
+#settings{
+opacity: 0;
+visibility: hidden;
+transition: opacity 1s; 
+background-color: #63218a;
+left: 0px;
+top: 0px;
+width: 100%;
+height: 100%;
 position: fixed;
+z-index: 9999;
 }
 #updateinfo{
 background-color: white;
@@ -86,7 +81,20 @@ top: 5%;
 bottom: 40%;
 left: 2%;
 position: fixed;
-visibility: hidden;
+}
+#splash {
+    opacity: 0;
+    transition: opacity 0.5s; 
+	visibility: hidden;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(https://mark4pro.github.io/GameEnginePro/image/SplashScreen.PNG) center;
+	background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 #loader {
     opacity: 1;
@@ -100,11 +108,15 @@ visibility: hidden;
 	z-index: 9999;
 	background: url(https://mark4pro.github.io/GameEnginePro/image/loading.gif) center no-repeat grey;
 }
-#keylayout {
-bottom: 13%;
-left: 55%;
-right: 20%;
-position: fixed;
+#settingsBUTTON {
+   width: 68px;
+   height: 40px;
+   border: 0px;
+   padding: 0;
+   margin: 0;
+   background: url(https://mark4pro.github.io/GameEnginePro/image/settingsIcon.png);
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
 }
 </style>
 <div id="updateinfo">
@@ -131,6 +143,8 @@ position: fixed;
 <img id="houseroof1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/roof1_1.png">
 <img id="housefloor4" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/floor4.PNG">
 <img id="houseroof2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/roof2.PNG">
+<img id="housefloor2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/floor2.PNG">
+<img id="houseroof3" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/roof3.PNG">
 <img id="tree" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tree1_1.png">
 <img id="wave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave5-7_1.png">
 <img id="Fwave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fwave5-7_1.PNG">
@@ -146,6 +160,9 @@ position: fixed;
 <img id="1-5sideFborder" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/1-5Fborder1_2.png">
 <img id="1-5Fplatform" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fplatform1_2.png">
 <img id="enemybull" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemybullet.png">
+<img id="lowhealth" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/LowHealthBorder.png">
+<img id="woodcrate1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/crate1.png">
+<img id="plantbox1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/plantbox.PNG">
 
 <!-- Where Sounds Go -->
 	    <audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/Musictrack1.mp3"></audio>
@@ -153,6 +170,7 @@ position: fixed;
 		<audio id="Menu" src="https://mark4pro.github.io/GameEnginePro/audio/Menumusictrack.mp3"></audio>
 		<audio id="Death" src="https://mark4pro.github.io/GameEnginePro/audio/Death1.mp3"></audio>
 	    <audio id="firesound" src="https://mark4pro.github.io/GameEnginePro/audio/LaserGunSound.mp3"></audio>
+		<audio id="lowammo" src="https://mark4pro.github.io/GameEnginePro/audio/LowAmmoSound.mp3"></audio>
 </head>
 <body onload="start()">
 <script>
@@ -162,44 +180,123 @@ var interval = setInterval(function() {
         done();
     }    
 }, 100);
+var interval2 = setInterval(function() {
+    splashRun();
+	if (stop == 1) {
+	clearInterval(interval2);
+	}
+}, 60);
+var stopFocus = 0;
+var interval3 = setInterval(function() {
+	if (document.getElementById('settings').style.visibility == "visible") {
+	document.getElementById('name').blur();
+	stopFocus = 0;
+	}
+	if (document.getElementById('settings').style.visibility == "hidden" && stopFocus >= 0) {
+	stopFocus++;
+    if (stopFocus <= 5) {
+	document.getElementById('name').blur();
+	 }	
+	if (stopFocus >= 5) {
+	stopFocus = -1
+	}
+	}
+}, 60);
+var splashSCREEN = 0;
+var start = 0;
+var stop = 0;
 function done() {
 if (document.getElementById('loader').style.opacity > 0) {
 document.getElementById('loader').style.opacity -= 0.001;
  }
 if (document.getElementById('loader').style.opacity <= 0) {
+start = 1;
 document.getElementById('loader').style.visibility = "hidden";
+document.getElementById('name').blur();
+ }
+}
+function splashRun() {
+if (start == 1) {
+document.getElementById('splash').style.visibility = "visible";
+if (document.getElementById('splash').style.opacity < 1) {
+document.getElementById('splash').style.opacity += 1;
+}
+if (splashSCREEN < 150) {
+splashSCREEN += 5;
+}
+if (splashSCREEN >= 100) {
+if (document.getElementById('splash').style.opacity == 1) {
+if (document.getElementById('splash').style.opacity > 0) {
+document.getElementById('splash').style.opacity -= 1;
+    }
+   }
+  }
+if (splashSCREEN >= 150) {
+if (document.getElementById('splash').style.opacity <= 0) {
+document.getElementById('splash').style.visibility = "hidden";
+document.getElementById('name').blur();
+stop = 1;
+   }
+  }
+ }
+}
+var switchS = 0;
+function show() {
+console.log("working");
+document.getElementById('settings').style.visibility = "visible";
+document.getElementById('settings').style.opacity += 1;
+}
+function showStop() {
+document.getElementById('settings').style.opacity -= 1;
+if (document.getElementById('settings').style.opacity == 0) {
+document.getElementById('settings').style.visibility = "hidden";
  }
 }
 </script>
-<div id="loader"></div>
 <label class="unselectable">
-<h1 align=center>Homeworld Takedown V0.4.94 Preview</h1>
-<div id="volumecontrols">
-<p align="center">Volume:</p>
-<p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
-<p align="center"><input type="text" id="name" value=""></p>
-</div>
-<div id="keylayout">
-<p><input type="checkbox" id="layout" value=""> Handicap Mode</p>
-</div>
+<h1 align="center">Homeworld Takedown V0.4.94 Preview</h1>
 <div id="content">
+<p align="center">Name/Debug:</p>
+<p align="center"><input type="text" id="name" value=""></p>
+<p align="center"><button id="settingsBUTTON" onmousedown="show()"></button></p>
 <p align="center">Controls:</p>
-<p align="center">Handicap Mode- Mac/Laptop Key Layout. This mode is for those who aren't so luck to have a full sized keyboard.</p>
-<p align="center">Use the arrow keys/IJKL to shoot. (IJKL if you have Handicap mode enabled.)</p>
-<p align="center">Use WASD to move.</p>
 <p align="center">Press R to revive.</p>
 <p align="center">Press M to mute the game and press it again to unmute.</p>
 <p align="center">Press P to open the Patch Info and press it again to close it.</p>
 <p align="center">Press Esc/B to exit the upgrade menu and it will also will reset the game if you are dead. (B if you have Handicap mode enabled.)</p>
-<p align="center">Use any of the number keys to switch weapons.</p>
-<p align="center">Use the any corresponding Number Keys to upgrade. (The numbers correspond with numbers in the upgrade menu are labeled with a # in front of it.)</p>
 <p align="center">About:</p>
 <p align="center">You can get new weapons by upgrading the weapon category in the upgrade menu.</p>
 <p align="center">Flying Enemies- Rage mode: if the enemy's health drops below 50 it will move faster.</p>
 <p align="center">Flying Enemies- Swarm: if they get near you they will frantically go left and right thus making them hard to hit.</p>
 <p align="center">Homeworld Takedown is a top down wave based game. You play as an alien from the "Drars" race and you don't agree on taking over Earth so you fight back.</p>
 </div>
+<div id="loader"></div>
+<div id="splash"></div>
+<div id="settings">
+<p align="center">SETTINGS</p>
+<p align="center">Volume:</p>
+<p align="center">Music: <input type="range" min="0" max="100" id="volume" class="slider" step="1"></input></p>
+<p align="center">Sound Effects: <input type="range" min="0" max="100" id="soundvolume" class="slider" step="1"></input></p>
+<p align="center">Controls:</p>
+<p align="center">Move Up: <input style="text-transform:uppercase" type="text" id="moveUP" value="W"></p>
+<p align="center">Move Down: <input style="text-transform:uppercase" type="text" id="moveDOWN" value="S"></p>
+<p align="center">Move Left: <input style="text-transform:uppercase" type="text" id="moveLEFT" value="A"></p>
+<p align="center">Move Right: <input style="text-transform:uppercase" type="text" id="moveRIGHT" value="D"></p>
+<p align="center">Arrow Keys for shooting? <input type="checkbox" id="Arrowz" value="" checked></p>
+<p align="center">Shoot Up: <input style="text-transform:uppercase" type="text" id="shootUP" value=""></p>
+<p align="center">Shoot Down: <input style="text-transform:uppercase" type="text" id="shootDOWN" value=""></p>
+<p align="center">Shoot Left: <input style="text-transform:uppercase" type="text" id="shootLEFT" value=""></p>
+<p align="center">Shoot Right: <input style="text-transform:uppercase" type="text" id="shootRIGHT" value=""></p>
+<p align="center">Use the Esc Key? <input type="checkbox" id="Esc_" value="" checked></p>
+<p align="center">Exit/Back: <input style="text-transform:uppercase" type="text" id="backBT" value=""></p>
+<p align="center">Mute/Unmute: <input style="text-transform:uppercase" type="text" id="mute" value="M"></p>
+<p align="center">Patch Info: <input style="text-transform:uppercase" type="text" id="patch" value="P"></p>
+<p align="center">Revive: <input style="text-transform:uppercase" type="text" id="reviveBT" value="R"></p>
+<p align="center">Use any of the number keys to switch weapons.</p>
+<p align="center">Use the any corresponding Number Keys to upgrade.(The numbers correspond with numbers in the upgrade menu are labeled with a # in front of it.)</p>
+<p align="center"><button onmousedown="showStop()">Back</button></p>
+</div>
 </label>
-<script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/engine.js"></script>
+<script type="text/javascript" src="./scripts/engine.js"></script>
 </body>
 </html>
