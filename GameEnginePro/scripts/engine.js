@@ -53,7 +53,8 @@ var w = window.innerWidth;
 var h = window.innerHeight;
 var playerX = 384.5;
 var playerY = 183;
-var playerSpeed = 4;
+var playerSpeedX = 0;
+var playerSpeedY = 0;
 var playerXwave5 = 30;
 var playerYwave5 = 30;
 var playerHealth = 100;
@@ -66,8 +67,8 @@ var bad1posX = 760;
 var bad1posY = 450;
 var bad2posX = 20;
 var bad2posY = 100;
-var tri1posX = 760;
-var tri1posY = 180;
+var tri1posX = 700;
+var tri1posY = 90;
 var rec1posX = 350;
 var rec1posY = 40;
 function start() {
@@ -77,40 +78,40 @@ function start() {
  recbox1 = new component(25, 25, "red", 450, 60, "rec");
  recpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec");
  recwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
- badguypic1 = new component(25, 25, "red", 650, 450, "img7");
+ badguypic1 = new component(25, 25, "badguy1img", 650, 450, "img");
  badguy1 = new component(25, 25, "red", 650, 450, "rec");
  badpos1 = new component(25, 25, "orange", bad1posX, bad1posY, "rec");
  badwavebox1 = new component(35, 35, "black", bad1posX - 5, bad1posY - 5, "rec");
- badguypic2 = new component(25, 25, "red", 40, 150, "img7");
+ badguypic2 = new component(25, 25, "badguy1img", 40, 150, "img");
  badguy2 = new component(25, 25, "red", 40, 150, "rec");
  badpos2 = new component(25, 25, "orange", bad2posX, bad2posY, "rec");
  badwavebox2 = new component(35, 35, "black", bad2posX - 5, bad2posY - 5, "rec");
- trienemyleft = new component(35, 35, "black", 430, 158, "rotleft");
- trienemyright = new component(35, 35, "black", 430, 158, "rotright");
- tribox = new component(35, 35, "red", 430, 158, "rec");
- tribpic = new component(10, 10, "orange", 400, 180, "EB");
- tribbox = new component(10, 10, "orange", 400, 180, "rec");
- tripos1 = new component(25, 25, "orange", tri1posX, tri1posY, "rec");
- triwavebox1 = new component(35, 35, "black", tri1posX - 5, tri1posY - 5, "rec");
+ trienemyleft = new component(35, 35, "triimgleft", 430, 100, "img");
+ trienemyright = new component(35, 35, "triimgright", 430, 100, "img");
+ tribox = new component(35, 35, "red", 430, 100, "rec");
+ tribpic = new component(10, 10, "enemybull", 400, 100, "img");
+ tribbox = new component(10, 10, "orange", 400, 100, "rec");
+ tripos1 = new component(5, 5, "orange", tri1posX, tri1posY, "rec");
+ triwavebox1 = new component(15, 15, "black", tri1posX - 5, tri1posY - 5, "rec");
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
- bpic = new component(10, 10, "orange", 400, 180, "b1");
- bpic2 = new component(10, 10, "orange", 400, 180, "b2");
- bpic3 = new component(10, 10, "orange", 400, 180, "b3");
- bpic4 = new component(10, 10, "orange", 400, 180, "b4");
+ bpic = new component(10, 10, "bullpic", 400, 180, "img");
+ bpic2 = new component(10, 10, "bullpic2", 400, 180, "img");
+ bpic3 = new component(10, 10, "bullpic3", 400, 180, "img");
+ bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
  box = new component(25, 25, "black", playerX, playerY, "rec");
  detectbox = new component(100, 100, "black", playerX - 37.5, playerY - 37.5, "rec");
- circle = new component(32, 32, "darkblue", playerX - 3.5, playerY - 3.5, "img");
- w1t5 = new component(800, 500, "darkblue", 0, 0, "img5");
- w5t7 = new component(800, 390, "darkblue", 0, 0, "waveimg5-7");
- Fw1t5 = new component(800, 500, "darkblue", 0, 0, "img5_1");
- Fw5t7 = new component(800, 390, "darkblue", 0, 0, "Fwaveimg5-7");
- wallleft = new component(20, 400, "black", -10, 0, "rec");
- wallright = new component(20, 400, "black", 790, 0, "rec");
- wall3 = new component(800, 20, "black", 0, -10, "rec");
- wall4 = new component(800, 20, "black", 0, 390, "rec");
- roofhouse1 = new component(140, 130, "black", 70, 70, "houseroof1_img");
+ circle = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "img");
+ w1t5 = new component(800, 500, "wave1t5", 0, 0, "img");
+ w5t7 = new component(800, 390, "wave5t7", 0, 0, "img");
+ Fw1t5 = new component(800, 500, "Fwave1t5", 0, 0, "img");
+ Fw5t7 = new component(800, 390, "Fwave5t7", 0, 0, "img");
+ wallleft = new component(60, 400, "black", -60, 0, "rec");
+ wallright = new component(60, 400, "black", 800, 0, "rec");
+ wall3 = new component(800, 60, "black", 0, -60, "rec");
+ wall4 = new component(800, 60, "black", 0, 390, "rec");
+ roofhouse1 = new component(140, 130, "houseroof1", 70, 70, "img");
  insidedetect1 = new component(120, 140, "gray", 80, 80, "rec");
- floorhouse1 = new component(120, 120, "black", 80, 80, "housefloor1_img");
+ floorhouse1 = new component(120, 120, "housefloor1", 80, 80, "img");
  wallhouse1 = new component(120, 10, "grey", 80, 80, "rec");
  wallhouse1_2 = new component(120, 10, "grey", 80, 70, "rec");
  wallhouse2 = new component(10, 100, "grey", 80, 90, "rec");
@@ -141,47 +142,47 @@ function start() {
  wall2house6_3 = new component(100, 20, "grey", 610, 190, "rec");
  wall2house7 = new component(10, 10, "grey", 610, 195, "rec");
  wall2house8 = new component(190, 20, "grey", 510, 200, "rec");
- roof2house1 = new component(210, 120, "black", 500, 90, "houseroof1_img");
+ roof2house1 = new component(210, 120, "houseroof1", 500, 90, "img");
  inside2detect1 = new component(190, 130, "gray", 510, 100, "rec");
- floor2house1 = new component(200, 120, "black", 500, 90, "housefloor1_img");
- tree1_1 = new component(50, 50, "black", 80, 290, "tree_img");
- tree1_2 = new component(50, 50, "black", 650, 270, "tree_img");
- tree1_3 = new component(50, 50, "black", 230, 90, "tree_img");
- tree1_4 = new component(50, 50, "black", 270, 175, "tree_img");
- tree1_5 = new component(50, 50, "black", 420, 70, "tree_img");
- tree1_6 = new component(50, 50, "black", 620, 33, "tree_img");
- tree1_7 = new component(50, 50, "black", 500, 285, "tree_img");
- tree1_8 = new component(50, 50, "black", 300, 265, "tree_img");
- Ftree1_1 = new component(50, 50, "black", 80, 290, "Ftree_img");
- Ftree1_2 = new component(50, 50, "black", 650, 270, "Ftree_img");
- Ftree1_3 = new component(50, 50, "black", 230, 90, "Ftree_img");
- Ftree1_4 = new component(50, 50, "black", 270, 175, "Ftree_img");
- Ftree1_5 = new component(50, 50, "black", 420, 70, "Ftree_img");
- Ftree1_6 = new component(50, 50, "black", 620, 33, "Ftree_img");
- Ftree1_7 = new component(50, 50, "black", 500, 285, "Ftree_img");
- Ftree1_8 = new component(50, 50, "black", 300, 265, "Ftree_img");
- SWPart1 = new component(50, 75, "black", 110, 205.9, "SWP1");
- SWPart2 = new component(75, 50, "black", 535, 230, "SWP2");
- SWPart3 = new component(50, 75, "black", 560, 185, "SWP1");
- SWPart4 = new component(75, 50, "black", 484.5, 230, "SWP2");
- SWPart5 = new component(75, 50, "black", 434.5, 230, "SWP2");
- SWPart6 = new component(50, 75, "black", 110, 182, "SWP1");
- SWPart7 = new component(75, 50, "black", 384.5, 205, "SWP2");
- SWPart8 = new component(75, 50, "black", 384.5, 230, "SWP2");
- SWPart9 = new component(75, 50, "black", 334.5, 230, "SWP2");
- SWPart10 = new component(75, 50, "black", 284.5, 230, "SWP2");
- SWPart11 = new component(75, 50, "black", 234.5, 230, "SWP2");
- SWPart12 = new component(75, 50, "black", 184.5, 230, "SWP2");
- SWPart13 = new component(75, 50, "black", 134.5, 230, "SWP2");
- SWPart14 = new component(50, 75, "black", 334.5, 205, "SWP1");
- SWPart15 = new component(75, 50, "black", 334, 135, "SWP3");
- SWPart16 = new component(50, 75, "black", 334.5, 180.5, "SWP1");
- SWPart17 = new component(75, 50, "black", 384.5, 180, "SWP2");
- SWPart18 = new component(75, 50, "black", 384.5, 135, "SWP4");
- tree2_1 = new component(50, 50, "black", 50, 20, "tree_img");
- tree2_2 = new component(50, 50, "black", 230, 70, "tree_img");
- Ftree2_1 = new component(50, 50, "black", 50, 20, "Ftree_img");
- Ftree2_2 = new component(50, 50, "black", 230, 70, "Ftree_img");
+ floor2house1 = new component(200, 120, "housefloor1", 500, 90, "img");
+ tree1_1 = new component(50, 50, "tree", 80, 290, "img");
+ tree1_2 = new component(50, 50, "tree", 650, 270, "img");
+ tree1_3 = new component(50, 50, "tree", 230, 90, "img");
+ tree1_4 = new component(50, 50, "tree", 270, 175, "img");
+ tree1_5 = new component(50, 50, "tree", 420, 70, "img");
+ tree1_6 = new component(50, 50, "tree", 620, 33, "img");
+ tree1_7 = new component(50, 50, "tree", 500, 285, "img");
+ tree1_8 = new component(50, 50, "tree", 300, 265, "img");
+ Ftree1_1 = new component(50, 50, "Ftrees", 80, 290, "img");
+ Ftree1_2 = new component(50, 50, "Ftrees", 650, 270, "img");
+ Ftree1_3 = new component(50, 50, "Ftrees", 230, 90, "img");
+ Ftree1_4 = new component(50, 50, "Ftrees", 270, 175, "img");
+ Ftree1_5 = new component(50, 50, "Ftrees", 420, 70, "img");
+ Ftree1_6 = new component(50, 50, "Ftrees", 620, 33, "img");
+ Ftree1_7 = new component(50, 50, "Ftrees", 500, 285, "img");
+ Ftree1_8 = new component(50, 50, "Ftrees", 300, 265, "img");
+ SWPart1 = new component(50, 75, "SWPart1_1", 110, 205.9, "img");
+ SWPart2 = new component(75, 50, "SWPart2_2", 535, 230, "img");
+ SWPart3 = new component(50, 75, "SWPart1_1", 560, 185, "img");
+ SWPart4 = new component(75, 50, "SWPart2_2", 484.5, 230, "img");
+ SWPart5 = new component(75, 50, "SWPart2_2", 434.5, 230, "img");
+ SWPart6 = new component(50, 75, "SWPart1_1", 110, 182, "img");
+ SWPart7 = new component(75, 50, "SWPart2_2", 384.5, 205, "img");
+ SWPart8 = new component(75, 50, "SWPart2_2", 384.5, 230, "img");
+ SWPart9 = new component(75, 50, "SWPart2_2", 334.5, 230, "img");
+ SWPart10 = new component(75, 50, "SWPart2_2", 284.5, 230, "img");
+ SWPart11 = new component(75, 50, "SWPart2_2", 234.5, 230, "img");
+ SWPart12 = new component(75, 50, "SWPart2_2", 184.5, 230, "img");
+ SWPart13 = new component(75, 50, "SWPart2_2", 134.5, 230, "img");
+ SWPart14 = new component(50, 75, "SWPart1_1", 334.5, 205, "img");
+ SWPart15 = new component(75, 50, "SWPart3_3", 334, 135, "img");
+ SWPart16 = new component(50, 75, "SWPart1_1", 334.5, 180.5, "img");
+ SWPart17 = new component(75, 50, "SWPart2_2", 384.5, 180, "img");
+ SWPart18 = new component(75, 50, "SWPart4_4", 384.5, 135, "img");
+ tree2_1 = new component(50, 50, "tree", 50, 20, "img");
+ tree2_2 = new component(50, 50, "tree", 230, 70, "img");
+ Ftree2_1 = new component(50, 50, "Ftrees", 50, 20, "img");
+ Ftree2_2 = new component(50, 50, "Ftrees", 230, 70, "img");
  wall3house1 = new component(270, 10, "#666666", 480, 50, "rec");
  wall3house1_2 = new component(250, 10, "#666666", 490, 60, "rec");
  wall3house2 = new component(10, 90, "#666666", 480, 55, "rec");
@@ -198,9 +199,46 @@ function start() {
  wall3house5_4 = new component(110, 20, "#666666", 640, 130, "rec");
  wall3house6 = new component(270, 10, "#666666", 480, 140, "rec");
  inside3detect1 = new component(260, 100, "black", 485, 60, "rec");
- floor3house1 = new component(270, 100, "grey", 480, 50, "housefloor4_img");
- roof3house1 = new component(270, 100, "grey", 480, 50, "houseroof2_img");
- roof3house2 = new component(50, 50, "grey", 590, 120, "houseroof2_img");
+ floor3house1 = new component(270, 100, "housefloor4", 480, 50, "img");
+ roof3house1 = new component(270, 100, "houseroof2", 480, 50, "img");
+ roof3house2 = new component(50, 50, "houseroof2", 590, 120, "img");
+ wall4house1 = new component(270, 10, "#666666", 480, 340, "rec");
+ wall4house1_1 = new component(250, 10, "#666666", 490, 330, "rec");
+ wall4house2 = new component(10, 90, "#666666", 480, 255, "rec");
+ wall4house2_1 = new component(10, 80, "#666666", 490, 260, "rec");
+ wall4house3 = new component(10, 90, "#666666", 740, 255, "rec");
+ wall4house3_1 = new component(10, 80, "#666666", 730, 260, "rec");
+ wall4house4 = new component(45, 10, "#666666", 480, 250, "rec");
+ wall4house4_1 = new component(35, 10, "#666666", 490, 260, "rec");
+ wall4house4_2 = new component(10, 10, "#666666", 520, 255, "rec");
+ wall4house4_3 = new component(50, 20, "#666666", 480, 250, "rec");
+ wall4house5 = new component(45, 10, "#666666", 705, 250, "rec");
+ wall4house5_1 = new component(35, 10, "#666666", 705, 260, "rec");
+ wall4house5_2 = new component(10, 10, "#666666", 700, 255, "rec");
+ wall4house5_3 = new component(50, 20, "#666666", 700, 250, "rec");
+ wall4house6 = new component(60, 10, "#666666", 585, 250, "rec");
+ wall4house6_1 = new component(60, 10, "#666666", 585, 260, "rec");
+ wall4house6_2 = new component(10, 10, "#666666", 580, 255, "rec");
+ wall4house6_3 = new component(10, 10, "#666666", 640, 255, "rec");
+ wall4house6_4 = new component(70, 20, "#666666", 580, 250, "rec");
+ wall4house7 = new component(270, 10, "#666666", 480, 250, "rec");
+ floor4house1 = new component(270, 90, "housefloor2", 480, 250, "img");
+ inside4detect1 = new component(250, 90, "black", 490, 245, "rec");
+ roof4house1 = new component(270, 100, "houseroof3", 480, 250, "img");
+ roof4house2 = new component(50, 50, "houseroof3", 530, 230, "img");
+ roof4house3 = new component(50, 50, "houseroof3", 650, 230, "img");
+ plantbox1_1 = new component(50, 50, "plantbox1", 360, 280, "img");
+ plantbox2_1 = new component(50, 50, "plantbox1", 60, 280, "img");
+ plantbox3_1 = new component(50, 50, "plantbox1", 260, 280, "img");
+ plantbox4_1 = new component(50, 50, "plantbox1", 160, 280, "img");
+ tree2_3 = new component(50, 50, "tree", 360, 280, "img");
+ tree2_4 = new component(50, 50, "tree", 60, 280, "img");
+ tree2_5 = new component(50, 50, "tree", 260, 280, "img");
+ tree2_6 = new component(50, 50, "tree", 160, 280, "img");
+ Ftree2_3 = new component(50, 50, "Ftrees", 360, 280, "img");
+ Ftree2_4 = new component(50, 50, "Ftrees", 60, 280, "img");
+ Ftree2_5 = new component(50, 50, "Ftrees", 260, 280, "img");
+ Ftree2_6 = new component(50, 50, "Ftrees", 160, 280, "img");
  ui = new component(800, 300, "#451661", 0, 390, "rec");
  backbutton = new component(160, 50, "#812bb3", backX - 100, backY + 100, "rec");
  backtxt = new component("30px", "Consolas", "white", backX - 90, backY + 130, "text");
@@ -260,12 +298,19 @@ function start() {
  upgradetxt.text = "Upgrade Menu";
  costToRevive = new component("30px", "Consolas", "darkred", 40, 490, "text");
  costToRevive.font = "30px Consolas";
- menuboard = new component(800, 500, "black", 0, 0, "img10");
- formplat = new component(75, 75, "black", 359, 157, "plat");
- formFplat = new component(75, 75, "black", 359, 157, "Fplat");
- border1_5 = new component(800, 390, "black", 0, 0, "bor");
- Fborder1_5 = new component(800, 390, "black", 0, 0, "Fbor");
- DeathForPlayer = new component(800, 500, "black", 0, 0, "DeathScreenPlayer");
+ menuboard = new component(800, 500, "menupic", 0, 0, "img");
+ formplat = new component(75, 75, "1-5platform", 359, 157, "img");
+ formFplat = new component(75, 75, "1-5Fplatform", 359, 157, "img");
+ border1_5 = new component(800, 390, "1-5sideborder", 0, 0, "img");
+ Fborder1_5 = new component(800, 390, "1-5sideFborder", 0, 0, "img");
+ LowHealth_ = new component(800, 390, "lowhealth", 0, 0, "img");
+ LowHealthTxt = new component("30px", "Consolas", "orange", 30, 35, "text");
+ LowHealthTxt.font = "35px Consolas";
+ LowHealthTxt.text = "Low Health!";
+ LowAmmoTxt = new component("30px", "Consolas", "yellow", 30, 380, "text");
+ LowAmmoTxt.font = "35px Consolas";
+ LowAmmoTxt.text = "Low Ammo!";
+ DeathForPlayer = new component(800, 500, "DeathScr", 0, 0, "img");
  console.log("width" + w);
  console.log("height" + h);
  Board.start();
@@ -279,9 +324,8 @@ this.canvas.height = 500;
 this.context = this.canvas.getContext("2d");
 document.body.insertBefore(this.canvas,
 document.body.childNodes[0]);
-this.frameNo = 60;
 this.interval = setInterval(updateGameArea, 10);
-window.addEventListener('mousedown', function (e) {
+        window.addEventListener('mousedown', function (e) {
 			Board.x = e.pageX;
 			Board.y = e.pageY;
 		})
@@ -297,6 +341,8 @@ window.addEventListener('mousedown', function (e) {
 			Board.x = false;
 			Board.y = false;
 		})
+		document.addEventListener("keydown",keyDownHandler, false);	
+		document.addEventListener("keyup",keyUpHandler, false);
 },
 stop : function() {
         clearInterval(this.interval);
@@ -305,6 +351,10 @@ clear : function() {
 this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 },
 }
+var detectwallL = false;
+var detectwallR = false;
+var detectwallU = false;
+var detectwallD = false;
 function component(width, height, color ,x ,y, type, radius, outcolor, thickness) {
 this.type = type;
 this.speedX = 0;
@@ -312,6 +362,9 @@ this.speedY = 0;
 this.x = x;
 this.y = y;
 this.angle = 0;
+this.width = width;
+this.height = height;
+this.color = color;
 this.thickness = thickness;
 this.outcolor = outcolor;
 this.radius = radius;
@@ -319,232 +372,34 @@ this.update = function() {
 ctx = Board.context;
 if (this.type == "text") {
  ctx.font = this.font;
- ctx.fillStyle = color;
+ ctx.fillStyle = this.color;
  ctx.fillText(this.text, this.x, this.y);
 } else {
-if (type == "rec") {
-this.width = width;
-this.height = height;
-ctx.fillStyle = color;
+if (this.type == "rec") {
+ctx.fillStyle = this.color;
 ctx.fillRect(this.x, this.y, this.width, this.height);
+  }
  }
- if (type == "cir") {
+ if (this.type == "cir") {
  ctx.beginPath();
  ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI, true);
- ctx.fillStyle = color;
+ ctx.fillStyle = this.color;
  ctx.fill();
  ctx.lineWidth = thickness;
  ctx.strokeStyle = outcolor;
  ctx.stroke();
  } else {
- if (type == "img") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("playerimg");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "img5") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("wave1t5");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "img5_1") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("Fwave1t5");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "b1") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("bullpic");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "img7") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("badguy1img");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "img8") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("ammopic1");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "img9") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("healthpic1");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "img10") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("menupic");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "rotleft") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("triimgleft");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "rotright") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("triimgright");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "plat") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("1-5platform");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "Fplat") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("1-5Fplatform");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "bor") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("1-5sideborder");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "Fbor") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("1-5sideFborder");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "housefloor1_img") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("housefloor1");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "houseroof1_img") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("houseroof1");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "housefloor4_img") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("housefloor4");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "houseroof2_img") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("houseroof2");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "tree_img") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("tree");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
-if (type == "Ftree_img") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("Ftrees");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "waveimg5-7") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("wave5t7");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "Fwaveimg5-7") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("Fwave5t7");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "DeathScreenPlayer") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("DeathScr");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ if (this.type == "img") {
+ var img = document.getElementById(this.color);
+ ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
  if (type == "rec-enemypic") {
- this.width = width;
- this.height = height;
  ctx.save();
  ctx.translate(this.x + 12.5, this.y + 12.5);
  ctx.rotate(this.angle);
  var img = document.getElementById("Rectangle");
  ctx.drawImage(img, this.width / -2, this.height / -2, this.width, this.height);
  ctx.restore();
- }
- if (type == "b2") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("bullpic2");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "b3") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("bullpic3");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "b4") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("bullpic4");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "SWP1") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("SWPart1_1");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "SWP2") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("SWPart2_2");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "SWP3") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("SWPart3_3");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "SWP4") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("SWPart4_4");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "UMP") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("UnmutedPic");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "MP") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("MutedPic");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
- if (type == "EB") {
- this.width = width;
- this.height = height;
- var img = document.getElementById("enemybull");
-ctx.drawImage(img, this.x, this.y, this.width, this.height);
- }
   }
  }
 }
@@ -651,9 +506,9 @@ var cratesw1Y = 50;
 function ammocrate() {
 ammocrate1 = new component(20, 20, "yellow", crate1X, crate1Y, "rec");
 healthcrate1 = new component(20, 20, "red", crateh1X, crateh1Y, "rec");
-ammocrate1picO = new component(20, 20, "yellow", crate1X, crate1Y, "img8");
-healthcrate1picO = new component(20, 20, "red", crateh1X, crateh1Y, "img9");
-SWeapon1 = new component(10, 10, "orange", cratesw1X, cratesw1Y, "b4");
+ammocrate1picO = new component(20, 20, "ammopic1", crate1X, crate1Y, "img");
+healthcrate1picO = new component(20, 20, "healthpic1", crateh1X, crateh1Y, "img");
+SWeapon1 = new component(10, 10, "bullpic4", cratesw1X, cratesw1Y, "img");
 SWeapon1Box = new component(10, 10, "orange", cratesw1X, cratesw1Y, "rec");
 }
 var wave = 1;
@@ -781,6 +636,7 @@ if (countSwitch1 == 1) {
 var insidehouse1 = 0;
 var inside2house1 = 0;
 var inside3house1 = 0;
+var inside4house1 = 0;
 function housecontrols() {
 if (wave < 5) {
 if (box.crashWith(insidedetect1)) {
@@ -802,6 +658,12 @@ inside3house1 = 1;
   }
 if (box.crashWith(inside3detect1) == false) {
 inside3house1 = 0; 
+  }
+if (box.crashWith(inside4detect1)) {
+inside4house1 = 1;
+  }
+if (box.crashWith(inside4detect1) == false) {
+inside4house1 = 0; 
   }
  }
 }
@@ -832,8 +694,10 @@ if (switchy > 0) {
 switchy = 0;
 }
 }
+if (stcget == 1) {
 if (switchy == 0) {
 	weapon = 0;
+}
 }
 if (switchy == 1) {
 if (stcget == 1) {
@@ -842,16 +706,6 @@ if (stcweapon == 1) {
    }
   }
  }
-}
-
-var keys1 = 0;
-function keyswitcher() {
-	var checklayout = document.getElementById("layout");
-	if (checklayout.checked == true){
-    keys1 = 1;
-  } else {
-    keys1 = 0;
-  }
 }
 
 function updateGameArea() {
@@ -867,8 +721,35 @@ document.getElementById("updateinfo").style.visibility = "visible";
 if (openpatchinfo == 0) {
 document.getElementById("updateinfo").style.visibility = "hidden";
  }
+val = document.getElementById("volume").value;
+val2 = document.getElementById("soundvolume").value;
+KeyZz = document.getElementById("Arrowz").checked;
+KeyZz2 = document.getElementById("Esc_").checked;
+Up_ = document.getElementById('moveUP').value;
+Down_ = document.getElementById('moveDOWN').value;
+Left_ = document.getElementById('moveLEFT').value;
+Right_ = document.getElementById('moveRIGHT').value;
+shootUp_ = document.getElementById('shootUP').value;
+shootDown_ = document.getElementById('shootDOWN').value;
+shootLeft_ = document.getElementById('shootLEFT').value;
+shootRight_ = document.getElementById('shootRIGHT').value;
+Esssc_ = document.getElementById("backBT").value;
+Revive_ = document.getElementById("reviveBT").value;
+Mute_ = document.getElementById("mute").value;
+Patch_ = document.getElementById("patch").value;
+Up_2 = Up_.toUpperCase();
+Down_2 = Down_.toUpperCase();
+Left_2 = Left_.toUpperCase();
+Right_2 = Right_.toUpperCase();
+shootUp_2 = shootUp_.toUpperCase();
+shootDown_2 = shootDown_.toUpperCase();
+shootLeft_2 = shootLeft_.toUpperCase();
+shootRight_2 = shootRight_.toUpperCase();
+Esssc_2 = Esssc_.toUpperCase();
+Revive_2 = Revive_.toUpperCase();
+Mute_2 = Mute_.toUpperCase();
+Patch_2 = Patch_.toUpperCase();
 weaponswitch();
-keyswitcher();
 firehandler();
 framerate();
 framerate2();
@@ -988,7 +869,9 @@ floor2house1.update();
 }
 if (wave > 4 && wave < 8) {
 wall3house6.update();
+wall4house7.update();
 inside3detect1.update();
+inside4detect1.update();
 if (fallseason == 0) {
 w5t7.update();
 }
@@ -996,6 +879,11 @@ if (fallseason == 1) {
 Fw5t7.update();
 }
 floor3house1.update();
+floor4house1.update();
+plantbox1_1.update();
+plantbox2_1.update();
+plantbox3_1.update();
+plantbox4_1.update();
 }
 if (menu > 0) {
 if (cratespawn > 0) {
@@ -1177,18 +1065,50 @@ wall3house4_4.update();
 wall3house5.update();
 wall3house5_2.update();
 wall3house5_3.update();
-wall3house5_4.update();//gohere3//
+wall3house5_4.update();
+wall4house1.update();
+wall4house1_1.update();
+wall4house2.update();
+wall4house2_1.update();
+wall4house3.update();
+wall4house3_1.update();
+wall4house4.update();
+wall4house4_1.update();
+wall4house4_2.update();
+wall4house4_3.update();
+wall4house5.update();
+wall4house5_1.update();
+wall4house5_2.update();
+wall4house5_3.update();
+wall4house6.update();
+wall4house6_1.update();
+wall4house6_2.update();
+wall4house6_3.update();
+wall4house6_4.update();//gohere3//
 if (inside3house1 == 0) {
 roof3house2.update();
 roof3house1.update();
 }
+if (inside4house1 == 0) {
+roof4house3.update();
+roof4house2.update();
+roof4house1.update();
+}
 if (fallseason == 0) {
 tree2_1.update();
 tree2_2.update();
+tree2_3.update();
+tree2_4.update();
+tree2_5.update();
+tree2_6.update();
  }
 if (fallseason == 1) {
 Ftree2_1.update();
 Ftree2_2.update();
+Ftree2_3.update();
+Ftree2_4.update();
+Ftree2_5.update();
+Ftree2_6.update();
  }
 }
 ui.update();
@@ -1199,6 +1119,13 @@ border1_5.update();
 if (fallseason == 1) {
 Fborder1_5.update();
  }
+}
+if (playerHealth <= 35) {
+LowHealth_.update();
+LowHealthTxt.update();
+}
+if (ammo <= 35) {
+LowAmmoTxt.update();
 }
 if (upgrademenu == 0) {
 recenemypic1.newPos();
@@ -1238,10 +1165,14 @@ badpos2.x = bad2posX;
 badpos2.y = bad2posY;
 badwavebox2.x = bad2posX - 5;
 badwavebox2.y = bad2posY - 5;
+tripos1.x = tri1posX;
+tripos1.y = tri1posY;
+triwavebox1.x = tri1posX - 5;
+triwavebox1.y = tri1posY - 5;//spawn//
 }
 Health1();
 checkwave();
-name();
+nameFC();
 waveammoweapon();
 ammocrate();
 bulletai();
@@ -1327,7 +1258,7 @@ alerttxt2.update();
 if (specialalert1 == 0) {
 statscommand();
 playerMoney();
-name();
+nameFC();
 }
 if (menu == 0) {
 if (upgrademenu == 0) {
@@ -1344,102 +1275,288 @@ if (menu == 1) {
 ammo = 160;
 menu += 1;
 }
-if (up == 1) {
+box.speedY = playerSpeedY;
+detectbox.speedY = playerSpeedY;
+circle.speedY = playerSpeedY;
+box.speedX = playerSpeedX;
+detectbox.speedX = playerSpeedX;
+circle.speedX = playerSpeedX;
+if (up == 1 && down == 0 && left == 0 && right == 0) {
  if (touchtop == 0) {
- if (box.speedY >= -playerSpeed) {
- box.speedY -= 0.05;
- detectbox.speedY -= 0.05;
- circle.speedY -= 0.05;
+ if (playerSpeedY >= -3) {
+ playerSpeedY -= 0.05;
  } else {
- box.speedY = -playerSpeed;
- detectbox.speedY = -playerSpeed;
- circle.speedY = -playerSpeed;
+ playerSpeedY = -3;
+  }
  }
- } else {
- box.speedY = 0;
- detectbox.speedY = 0;
- circle.speedY = 0;
+ if (touchtop == 1) {
+ playerSpeedY = 0;	
  }
 }
-if (down == 1) {
- if (touchbottom == 0){
- if (box.speedY <= playerSpeed) {
- circle.speedY += 0.05;
- detectbox.speedY += 0.05;
- box.speedY += 0.05;
+if (up == 1 && down == 0 && left == 1 && right == 0) {
+ if (touchtop == 0) {
+ if (playerSpeedY >= -1.8) {
+ playerSpeedY -= 0.05;
  } else {
- box.speedY = playerSpeed;
- detectbox.speedY = playerSpeed;
- circle.speedY = playerSpeed;
+ playerSpeedY = -1.8;
+  }
  }
- } else {
- box.speedY = 0;
- detectbox.speedY = 0;
- circle.speedY = 0;
+ if (touchtop == 1) {
+ playerSpeedY = 0;	
  }
-}
-if (left == 1) {
  if (touchleft == 0) {
- if (box.speedX >= -playerSpeed) {
- circle.speedX -= 0.05;
- detectbox.speedX -= 0.05;
- box.speedX -= 0.05;
+ if (playerSpeedX >= -1.8) {
+ playerSpeedX -= 0.05;
  } else {
- box.speedX = -playerSpeed;
- detectbox.speedX = -playerSpeed;
- circle.speedX = -playerSpeed;
+ playerSpeedX = -1.8;
+  }
  }
- } else {
- box.speedX = 0;
- detectbox.speedX = 0;
- circle.speedX = 0;
+ if (touchleft == 1) {
+ playerSpeedX = 0;	
  }
 }
-if (right == 1) {
+if (up == 1 && down == 0 && left == 0 && right == 1) {
+ if (touchtop == 0) {
+ if (playerSpeedY >= -1.8) {
+ playerSpeedY -= 0.05;
+ } else {
+ playerSpeedY = -1.8;
+  }
+ }
+ if (touchtop == 1) {
+ playerSpeedY = 0;	
+ }
  if (touchright == 0) {
- if (box.speedX <= playerSpeed) {
- circle.speedX += 0.05;
- detectbox.speedX += 0.05;
- box.speedX += 0.05;
+ if (playerSpeedX <= 1.8) {
+ playerSpeedX += 0.05;
  } else {
- box.speedX = playerSpeed;
- detectbox.speedX = playerSpeed;
- circle.speedX = playerSpeed;
+ playerSpeedX = 1.8;
+  }
  }
- } else {
- box.speedX = 0;
- detectbox.speedX = 0;
- circle.speedX = 0;
+ if (touchright == 1) {
+ playerSpeedX = 0;	
  }
 }
+if (touchtop == 1) {
+ 	up = 0;
+ }
+if (up == 0 && stopUpSW == 1) {//gopl//
+if (touchtop == 0) {
+if (playerSpeedY >= -4) {
+playerSpeedY += 0.08;
+ }
+if (playerSpeedY >= 0) {
+playerSpeedY = 0;
+stopUpSW = 0;
+  }
+ }
+if (touchtop == 1) {
+playerSpeedY = 0;	
+stopUpSW = 0;
+ }
+}
+if (down == 1 && up == 0 && left == 0 && right == 0) {
+ if (touchbottom == 0){
+ if (playerSpeedY <= 3) {
+ playerSpeedY += 0.05;
+ } else {
+ playerSpeedY = 3;
+  }
+ }
+ if (touchbottom == 1) {
+ playerSpeedY = 0;	
+ }
+}
+if (down == 1 && up == 0 && left == 1 && right == 0) {
+ if (touchbottom == 0){
+ if (playerSpeedY <= 1.8) {
+ playerSpeedY += 0.05;
+ } else {
+ playerSpeedY = 1.8;
+  }
+ }
+ if (touchbottom == 1) {
+ playerSpeedY = 0;	
+ }
+ if (touchleft == 0) {
+ if (playerSpeedX >= -1.8) {
+ playerSpeedX -= 0.05;
+ } else {
+ playerSpeedX = -1.8;
+  }
+ }
+ if (touchleft == 1) {
+ playerSpeedX = 0;	
+ }
+}
+if (down == 1 && up == 0 && left == 0 && right == 1) {
+ if (touchbottom == 0){
+ if (playerSpeedY <= 1.8) {
+ playerSpeedY += 0.05;
+ } else {
+ playerSpeedY = 1.8;
+  }
+ }
+ if (touchbottom == 1) {
+ playerSpeedY = 0;	
+ }
+ if (touchright == 0) {
+ if (playerSpeedX <= 1.8) {
+ playerSpeedX += 0.05;
+ } else {
+ playerSpeedX = 1.8;
+  }
+ }
+ if (touchright == 1) {
+ playerSpeedX = 0;	
+ }
+}
+if (touchbottom == 1) {
+ down = 0;	
+ }
+if (down == 0 && stopDownSW == 1) {
+if (touchbottom == 0){
+if (playerSpeedY <= 4) {
+playerSpeedY -= 0.08;
+ }
+if (playerSpeedY <= 0) {
+playerSpeedY = 0;
+stopDownSW = 0;
+  }
+ }
+if (touchbottom == 1){
+playerSpeedY = 0;
+stopDownSW = 0;
+ }
+}
+if (left == 1 && right == 0 && up == 0 && down == 0) {
+ if (touchleft == 0) {
+ if (playerSpeedX >= -3) {
+ playerSpeedX -= 0.05;
+ } else {
+ playerSpeedX = -3;
+  }
+ }
+ if (touchleft == 1) {
+ playerSpeedX = 0;	
+ }
+}
+if (touchleft == 1) {
+ left = 0;	
+ }
+if (right == 0 && stopLeftSW == 1) {
+if (touchleft == 0) {
+if (playerSpeedX >= -4) {
+playerSpeedX += 0.08;
+ }
+if (playerSpeedX >= 0) {
+playerSpeedX = 0;
+stopLeftSW = 0;
+  }
+ }
+if (touchleft == 1) {
+playerSpeedX = 0;
+stopLeftSW = 0;
+ }
+}
+if (right == 1 && left == 0 && up == 0 && down == 0) {
+ if (touchright == 0) {
+ if (playerSpeedX <= 3) {
+ playerSpeedX += 0.05;
+ } else {
+ playerSpeedX = 3;
+  }
+ }
+ if (touchright == 1) {
+ playerSpeedX = 0;	
+ }
+}
+if (touchright == 1) {
+ right = 0;
+ }
+if (left == 0 && stopRightSW == 1) {
+if (touchright == 0) {
+if (playerSpeedX <= 4) {
+playerSpeedX -= 0.08;
+ }
+if (playerSpeedX <= 0) {
+playerSpeedX = 0;
+stopRightSW = 0;
+  }
+ }
+if (touchright == 1) {
+playerSpeedX = 0;
+stopRightSW = 0;
+ }
+}
+var leftTest = 0;
+if (box.crashWith(wallleft) == false) {
+ touchleft = 0;
+ if (leftTest == 1) {
+ clearmovel(); 
+ playerSpeedX = 0;
+ leftTest = 0; 
+  }
+ }
+var rightTest = 0;
+if (box.crashWith(wallright) == false) {
+ touchright = 0;
+ if (rightTest == 1) {
+ clearmover(); 
+ playerSpeedX = 0;
+ rightTest = 0; 
+  }
+ }
+var upTest = 0;
+if (box.crashWith(wall3) == false) {
+ touchtop = 0;
+ if (upTest == 1) {
+ clearmoveu(); 
+ playerSpeedY = 0;
+ upTest = 0; 
+  }
+ }
+var downTest = 0;
+if (box.crashWith(wall4) == false) {
+ touchbottom = 0;
+ if (downTest == 1) {
+ clearmoved(); 
+ playerSpeedY = 0;
+ downTest = 0; 
+  }
+ }
 if (box.crashWith(wallleft)) {
  clearmovel(); 
  touchleft = 1;
+ stopLeftSW = 1;
+ playerSpeedX = 1;
+ leftTest = 1;
+ left = 0;
 }
-if (box.crashWith(wallleft) == false) {
- touchleft = 0;
- }
 if (box.crashWith(wallright)) {
  clearmover();
  touchright = 1;
+ stopRightSW = 1;
+ playerSpeedX = -1;
+ rightTest = 1;
+ right = 0;
 }
-if (box.crashWith(wallright) == false) {
- touchright = 0;
- }
 if (box.crashWith(wall3)) {
  clearmoveu(); 
  touchtop = 1;
+ stopUpSW = 1;
+ playerSpeedY = 1;
+ upTest = 1;
+ up = 0;
 }
-if (box.crashWith(wall3) == false) {
- touchtop = 0;
- }
 if (box.crashWith(wall4)) {
  clearmoved();
  touchbottom = 1;
+ stopDownSW = 1;
+ playerSpeedY = -1;
+ downTest = 1;
+ down = 0;
 }
-if (box.crashWith(wall4) == false) {
- touchbottom = 0;
- }
  if (wave < 5) {
  if (box.crashWith(wallhouse2_2) == false) {
  touchright = 0;
@@ -1611,299 +1728,549 @@ if (box.crashWith(wall2house7)) {
 }
  }
 if (wave >= 5 && wave < 7) {
+if (box.crashWith(wall3house1) == false) {
+ touchbottom = 0;
+ }
+if (box.crashWith(wall3house1_2) == false) {
+ touchtop = 0;
+ }
+if (box.crashWith(wall3house2) == false) {
+ touchright = 0;
+ }
+if (box.crashWith(wall3house2_2) == false) {
+ touchleft = 0;
+ }
+if (box.crashWith(wall3house3) == false) {
+ touchleft = 0;
+ }
+if (box.crashWith(wall3house3_2) == false) {
+ touchright = 0;
+ }
+if (box.crashWith(wall3house4) == false) {
+ touchtop = 0;
+ }
+if (box.crashWith(wall3house4_2) == false) {
+ touchbottom = 0;
+ }
+if (box.crashWith(wall3house4_3) == false) {
+ touchleft = 0;
+ } 
+if (box.crashWith(wall3house5) == false) {
+ touchtop = 0;
+ }
+if (box.crashWith(wall3house5_2) == false) {
+ touchbottom = 0;
+ }
+if (box.crashWith(wall3house5_3) == false) {
+ touchright = 0;
+ }
+ if (box.crashWith(wall4house1) == false) {
+ touchtop = 0;
+ }
+ if (box.crashWith(wall4house1_1) == false) {
+ touchbottom = 0;
+ }
+ if (box.crashWith(wall4house2) == false) {
+ touchright = 0;
+ }
+ if (box.crashWith(wall4house2_1) == false) {
+ touchleft = 0;
+ } 
+ if (box.crashWith(wall4house3) == false) {
+ touchleft = 0;
+ } 
+ if (box.crashWith(wall4house3_1) == false) {
+ touchright = 0;
+ }
+ if (box.crashWith(wall4house4) == false) {
+ touchbottom = 0;
+ }
+ if (box.crashWith(wall4house4_1) == false) {
+ touchtop = 0;
+ }
+ if (box.crashWith(wall4house4_2) == false) {
+ touchleft = 0;
+ } 
+ if (box.crashWith(wall4house5) == false) {
+ touchbottom = 0;
+ }
+ if (box.crashWith(wall4house5_1) == false) {
+ touchtop = 0;
+ }
+ if (box.crashWith(wall4house5_2) == false) {
+ touchright = 0;
+ }
+  if (box.crashWith(wall4house6) == false) {
+ touchbottom = 0;
+ }
+ if (box.crashWith(wall4house6_1) == false) {
+ touchtop = 0;
+ }
+ if (box.crashWith(wall4house6_2) == false) {
+ touchright = 0;
+ }
+ if (box.crashWith(wall4house6_3) == false) {
+ touchleft = 0;
+ }
 if (box.crashWith(wall3house1)) {
  clearmoved();
  touchbottom = 1;
 }
-if (box.crashWith(wall3house1) == false) {
- touchbottom = 0;
- }
 if (box.crashWith(wall3house1_2)) {
  clearmoveu();
  touchtop = 1;
 }
-if (box.crashWith(wall3house1_2) == false) {
- touchtop = 0;
- }
 if (box.crashWith(wall3house2)) {
  clearmover();
  touchright = 1;
 }
-if (box.crashWith(wall3house2) == false) {
- touchright = 0;
- }
 if (box.crashWith(wall3house2_2)) {
  clearmovel();
  touchleft = 1;
 }
-if (box.crashWith(wall3house2_2) == false) {
- touchleft = 0;
- }
 if (box.crashWith(wall3house3)) {
  clearmovel();
  touchleft = 1;
 }
-if (box.crashWith(wall3house3) == false) {
- touchleft = 0;
- }
 if (box.crashWith(wall3house3_2)) {
  clearmover();
  touchright = 1;
 }
-if (box.crashWith(wall3house3_2) == false) {
- touchright = 0;
- }
 if (box.crashWith(wall3house4)) {
  clearmoveu();
  touchtop = 1;
 }
-if (box.crashWith(wall3house4) == false) {
- touchtop = 0;
- }
 if (box.crashWith(wall3house4_2)) {
  clearmoved();
  touchbottom = 1;
 }
-if (box.crashWith(wall3house4_2) == false) {
- touchbottom = 0;
- }
 if (box.crashWith(wall3house4_3)) {
  clearmovel();
  touchleft = 1;
 }
-if (box.crashWith(wall3house4_3) == false) {
- touchleft = 0;
- } 
 if (box.crashWith(wall3house5)) {
  clearmoveu();
  touchtop = 1;
 }
-if (box.crashWith(wall3house5) == false) {
- touchtop = 0;
- }
 if (box.crashWith(wall3house5_2)) {
  clearmoved();
  touchbottom = 1;
 }
-if (box.crashWith(wall3house5_2) == false) {
- touchbottom = 0;
- }
 if (box.crashWith(wall3house5_3)) {
  clearmover();
  touchright = 1;
 }
-if (box.crashWith(wall3house5_3) == false) {
- touchright = 0;
- }
- }
+if (box.crashWith(wall4house1)) {
+ clearmoveu();
+ touchtop = 1;
+} 
+if (box.crashWith(wall4house1_1)) {
+ clearmoved();
+ touchbottom = 1;
 }
-document.onkeydown = function(e) {
-    switch (e.keyCode) {
-        case 37:
-		if (keys1 == 0) {
-		if (pauseGame == 0) {
-            autoLeft();
-			}
+if (box.crashWith(wall4house2)) {
+ clearmover();
+ touchright = 1;
+}
+if (box.crashWith(wall4house2_1)) {
+ clearmovel();
+ touchleft = 1;
+}
+if (box.crashWith(wall4house3)) {
+ clearmovel();
+ touchleft = 1;
+}
+if (box.crashWith(wall4house3_1)) {
+ clearmover();
+ touchright = 1;
+}
+if (box.crashWith(wall4house4)) {
+ clearmoved();
+ touchbottom = 1;
+}
+if (box.crashWith(wall4house4_1)) {
+ clearmoveu();
+ touchtop = 1;
+}
+if (box.crashWith(wall4house4_2)) {
+ clearmovel();
+ touchleft = 1;
+}
+if (box.crashWith(wall4house5)) {
+ clearmoved();
+ touchbottom = 1;
+}
+if (box.crashWith(wall4house5_1)) {
+ clearmoveu();
+ touchtop = 1;
+}
+if (box.crashWith(wall4house5_2)) {
+ clearmover();
+ touchright = 1;
+}
+if (box.crashWith(wall4house6)) {
+ clearmoved();
+ touchbottom = 1;
+}
+if (box.crashWith(wall4house6_1)) {
+ clearmoveu();
+ touchtop = 1;
+}
+if (box.crashWith(wall4house6_2)) {
+ clearmover();
+ touchright = 1;
+}
+if (box.crashWith(wall4house6_3)) {
+ clearmovel();
+ touchleft = 1;
+}
+}
+if (controllerCon == 0) {
+	clearInterval(pollGamepads);
+}
+if (!('ongamepadconnected' in window) && controllerCon == 1) {
+  // No gamepad events available, poll instead.
+  pollGamepads();
+}
+}
+
+var KeyZz = document.getElementById("Arrowz").checked;
+var KeyZz2 = document.getElementById("Esc_").checked;
+var Up_ = document.getElementById('moveUP').value;
+var Down_ = document.getElementById('moveDOWN').value;
+var Left_ = document.getElementById('moveLEFT').value;
+var Right_ = document.getElementById('moveRIGHT').value;
+var shootUp_ = document.getElementById('shootUP').value;
+var shootDown_ = document.getElementById('shootDOWN').value;
+var shootLeft_ = document.getElementById('shootLEFT').value;
+var shootRight_ = document.getElementById('shootRIGHT').value;
+var Esssc_ = document.getElementById("backBT").value;
+var Revive_ = document.getElementById("reviveBT").value;
+var Mute_ = document.getElementById("mute").value;
+var Patch_ = document.getElementById("patch").value;
+var Up_2 = Up_.toUpperCase();
+var Down_2 = Down_.toUpperCase();
+var Left_2 = Left_.toUpperCase();
+var Right_2 = Right_.toUpperCase();
+var shootUp_2 = shootUp_.toUpperCase();
+var shootDown_2 = shootDown_.toUpperCase();
+var shootLeft_2 = shootLeft_.toUpperCase();
+var shootRight_2 = shootRight_.toUpperCase();
+var Esssc_2 = Esssc_.toUpperCase();
+var Revive_2 = Revive_.toUpperCase();
+var Mute_2 = Mute_.toUpperCase();
+var Patch_2 = Patch_.toUpperCase(); 
+var controllerCon = 0;
+
+var conx = 0;
+var cony = 0;
+
+function pollGamepads() {
+  var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+    var gp = gamepads[0];
+    if (gp) {
+	console.log("Gamepad connected at index " + gp.index + ": " + gp.id +
+        ". It has " + gp.buttons.length + " buttons and " + gp.axes.length + " axes.");
+		if (gp.buttons[0].pressed == true) {
+		console.log("x pressed");
+		autoDown();
 		}
-            break;
-        case 38:
-		if (keys1 == 0) {
-		if (pauseGame == 0) {
-            autoUp();
-			}
+		if (gp.buttons[1].pressed == true) {
+		console.log("o pressed");
+		autoRight();
 		}
-            break;
-        case 39:
-		if (keys1 == 0) {
-		if (pauseGame == 0) {
-            autoRight();
-			}
+		if (gp.buttons[3].pressed == true) {
+		console.log("tri pressed");
+		autoUp();
 		}
-            break;
-        case 40:
-		if (keys1 == 0) {
-		if (pauseGame == 0) {
-            autoDown();
-			}
+		if (gp.buttons[2].pressed == true) {
+		console.log("squ pressed");
+		autoLeft();
 		}
-            break;
-		case 74:
-		if (keys1 == 1) {
-		if (pauseGame == 0) {
-            autoLeft();
-			}
+		if (gp.buttons[0].pressed == false) {
+		clearAutoD();
 		}
-            break;
-        case 73:
-		if (keys1 == 1) {
-		if (pauseGame == 0) {
-            autoUp();
-			}
+		if (gp.buttons[1].pressed == false) {
+		clearAutoR();
 		}
-            break;
-        case 76:
-		if (keys1 == 1) {
-		if (pauseGame == 0) {
-            autoRight();
-			}
+		if (gp.buttons[2].pressed == false) {
+		clearAutoL();
 		}
-            break;
-        case 75:
-		if (keys1 == 1) {
-		if (pauseGame == 0) {
-            autoDown();
-			}
+		if (gp.buttons[3].pressed == false) {
+		clearAutoU();
 		}
-            break;
-		case 87:
+	if(gp.axes[0] != 0) {
+    conx = gp.axes[0];
+    } 
+    if(gp.axes[1] != 0) {
+    cony = gp.axes[1];
+    }
+	if (cony < -0.2) {
+	if (pauseGame == 0) {
+		 if (touchtop == 0) {
+            moveUp();
+			 }
+			}
+	}
+	if (cony > 0.2) {
+	if (pauseGame == 0) {
+		 if (touchbottom == 0) {
+            moveDown();
+			 }
+			}
+	}
+	if (conx < -0.2) {
+	if (pauseGame == 0) {
+		 if (touchleft == 0) {
+            moveLeft();
+			 }
+			}
+	}
+	if (conx > 0.2) {
+	if (pauseGame == 0) {
+		 if (touchright == 0) {
+            moveRight();
+			 }
+			}
+	}
+	if (cony > -0.2 && cony != 0.2) {
+	clearmoveu();
+	}
+	if (cony < 0.2 && cony != -0.2) {
+	clearmoved();
+	}
+	if (conx > -0.2 && conx != 0.2) {
+	clearmovel();
+	}
+	if (conx < 0.2 && conx != -0.2) {
+	clearmover();
+	}
+  console.log("x: " + conx + " y: " + cony);
+  }
+}
+
+function keyDownHandler(event)
+{
+	var keyPressed = String.fromCharCode(event.keyCode);
+
+	if (keyPressed == Up_2 && blockKeys == false)
+	{		
 		if (pauseGame == 0) {
 		 if (touchtop == 0) {
             moveUp();
 			 }
 			}
-            break;
-		case 65:
-		if (pauseGame == 0) {
-		 if (touchleft == 0) {
-            moveLeft();
-			 }
-			}
-            break;
-		case 68:
-		if (pauseGame == 0) {
-		 if (touchright == 0) {
-            moveRight();
-			 }
-			}
-            break;
-		case 83:
+	}
+	else if (keyPressed == Down_2 && blockKeys == false)
+	{	
 		if (pauseGame == 0) {
 		 if (touchbottom == 0) {
             moveDown();
 			 }
-			}
+			}		
+	}
+	else if (keyPressed == Left_2 && blockKeys == false)
+	{	
+		if (pauseGame == 0) {
+		 if (touchleft == 0) {
+            moveLeft();
+			 }
+			}		
+	}
+	else if (keyPressed == Right_2 && blockKeys == false)
+	{	
+		if (pauseGame == 0) {
+		 if (touchright == 0) {
+            moveRight();
+			 }
+			}		
+	}
+	if (keyPressed == Esssc_2 && KeyZz2 == false && blockKeys == false) 
+	{
+		backfunc();
+	}
+	if (keyPressed == Revive_2 && blockKeys == false)
+	{
+		relive();
+	}
+	if (keyPressed == Mute_2 && blockKeys == false)
+	{
+		mutemusic += 1;
+	}
+	if (keyPressed == Patch_2 && blockKeys == false)
+	{
+		patchinfo();
+	}
+	if (keyPressed == shootUp_2 && KeyZz == false && blockKeys == false)
+	{		
+		if (pauseGame == 0) {
+            autoUp();
+		  }
+	}
+	else if (keyPressed == shootDown_2 && KeyZz == false && blockKeys == false)
+	{	
+		if (pauseGame == 0) {
+            autoDown();
+		  }	
+	}
+	else if (keyPressed == shootLeft_2 && KeyZz == false && blockKeys == false)
+	{	
+		if (pauseGame == 0) {
+            autoLeft();
+		  }		
+	}
+	else if (keyPressed == shootRight_2 && KeyZz == false && blockKeys == false)
+	{	
+		if (pauseGame == 0) {
+            autoRight();
+		  }		
+	}
+}
+
+function keyUpHandler(event)
+{
+	var keyPressed = String.fromCharCode(event.keyCode);
+	
+	if (keyPressed == Up_2)
+	{		
+		clearmoveu();
+	}
+	else if (keyPressed == Down_2)
+	{	
+		clearmoved();		
+	}
+	else if (keyPressed == Left_2)
+	{	
+		clearmovel();		
+	}
+	else if (keyPressed == Right_2)
+	{	
+		clearmover();		
+	}
+	if (keyPressed == Revive_2)
+	{
+		stopshow();
+	}
+	if (keyPressed == shootUp_2 && KeyZz == false)
+	{		
+		clearAutoU();
+	}
+	else if (keyPressed == shootDown_2 && KeyZz == false)
+	{	
+		clearAutoD();		
+	}
+	else if (keyPressed == shootLeft_2 && KeyZz == false)
+	{	
+		clearAutoL();		
+	}
+	else if (keyPressed == shootRight_2 && KeyZz == false)
+	{	
+		clearAutoR();		
+	}
+}
+
+document.onkeydown = function(e) {
+    switch (e.keyCode) {
+        case 37:
+		if (KeyZz == true && blockKeys == false) {
+		if (pauseGame == 0) {
+            autoLeft();
+		  }
+		}
             break;
-		case 82:
-            relive();
+        case 38:
+		if (KeyZz == true && blockKeys == false) {
+		if (pauseGame == 0) {
+            autoUp();
+		  }
+		}
             break;
+        case 39:
+		if (KeyZz == true && blockKeys == false) {
+		if (pauseGame == 0) {
+            autoRight();
+		  }
+		}
+            break;
+        case 40:
+		if (KeyZz == true && blockKeys == false) {
+		if (pauseGame == 0) {
+            autoDown();
+		  }
+		}
+            break;
+		case 27:
+		if (KeyZz2 == true && blockKeys == false) {
+		    backfunc();
+		}
+			break;
 	    case 49:
-		if (upgrademenu == 0) {
+		if (upgrademenu == 0 && blockKeys == false) {
 		    swapweap1();
 		}
-		if (upgrademenu == 1) {
+		if (upgrademenu == 1 && blockKeys == false) {
 		    upgrade1func();
 		}
 			break;
 		case 50:
-		if (upgrademenu == 0) {
+		if (upgrademenu == 0 && blockKeys == false) {
 		    swapweap2();
 		}
 			break;
 		case 51:
-		if (upgrademenu == 0) {
+		if (upgrademenu == 0 && blockKeys == false) {
 		    swapweap3();
 		}
 			break;
 		case 52:
-		if (upgrademenu == 0) {
+		if (upgrademenu == 0 && blockKeys == false) {
 		    swapweap4();
 		}
 			break;
-		case 27:
-		if (keys1 == 0) {
-		    backfunc();
-		}
-			break;
-		case 66:
-		if (keys1 == 1) {
-		    backfunc();
-		}
-			break;
 		case 97:
-		if (upgrademenu == 1) {
+		if (upgrademenu == 1 && blockKeys == false) {
 		    upgrade1func();
 		}
-		if (upgrademenu == 0) {
+		if (upgrademenu == 0 && blockKeys == false) {
 		    swapweap1();
 		}
 		    break;
 		case 98:
-		if (upgrademenu == 0) {
+		if (upgrademenu == 0 && blockKeys == false) {
 		    swapweap2();
 		}
 			break;
 		case 99:
-		if (upgrademenu == 0) {
+		if (upgrademenu == 0 && blockKeys == false) {
 		    swapweap3();
 		}
 			break;
 		case 100:
-		if (upgrademenu == 0) {
+		if (upgrademenu == 0 && blockKeys == false) {
 		    swapweap4();
 		}
-			break;
-		case 80:
-		    patchinfo();
-			break;
-		case 77:
-		    mutemusic += 1;
 			break;
     }
 };
 document.onkeyup = function(e) {
     switch (e.keyCode) {
-		case 87:
-            clearmoveu();
-            break;
-		case 65:
-            clearmovel();
-            break;
-		case 68:
-            clearmover();
-            break;
-		case 83:
-            clearmoved();
-            break;
-		case 82:
-            stopshow();
-            break;
 		case 37:
-		if (keys1 == 0) {
+		if (KeyZz == true) {
             clearAutoL();
 		}
             break;
         case 38:
-		if (keys1 == 0) {
+		if (KeyZz == true) {
             clearAutoU();
 		}
             break;
         case 39:
-		if (keys1 == 0) {
+		if (KeyZz == true) {
             clearAutoR();
 		}
             break;
         case 40:
-		if (keys1 == 0) {
-            clearAutoD();
-		}
-            break;
-		case 74:
-		if (keys1 == 1) {
-            clearAutoL();
-		}
-            break;
-        case 73:
-		if (keys1 == 1) {
-            clearAutoU();
-		}
-            break;
-        case 76:
-		if (keys1 == 1) {
-            clearAutoR();
-		}
-            break;
-        case 75:
-		if (keys1 == 1) {
+		if (KeyZz == true) {
             clearAutoD();
 		}
             break;
@@ -1969,8 +2336,8 @@ weaptxt.text="Weapon:" + weapname;
 wavetxt = new component("30px", "Consolas", "lightgray", 360, 490, "text");
 wavetxt.font="18px Consolas";
 wavetxt.text="Wave:" + wave;
-UnmutedP = new component(50, 50, "black", 446, 450, "UMP");
-MutedP = new component(50, 50, "black", 446, 450, "MP");
+UnmutedP = new component(50, 50, "UnmutedPic", 446, 450, "img");
+MutedP = new component(50, 50, "MutedPic", 446, 450, "img");
 obo.update();
 obo2.update();
 oba.update();
@@ -1988,6 +2355,7 @@ MutedP.update();
  }
 }
 var spawnbad2pos = Math.floor(Math.random() * 2);
+var spawnbad3pos = Math.floor(Math.random() * 2);
 var spawncrate2pos = Math.floor(Math.random() * 2);
 var spawncrate1pos = Math.floor(Math.random() * 2);
 var count = 0;
@@ -2007,13 +2375,18 @@ var chanceofdrop = 3;
 var chanceofdrop2 = 3;
 var chanceofdrop3 = 2;
 var chanceofdrop4 = 2.5;
+var resetcrate = 0;
 function countwave() {
 if (wave > 4 && wave < 8) {
+if (resetcrate == 0) {
  crate1X = 90;
  crate1Y = 90;
  crateh1X = 250;
  crateh1Y = 40;
+ resetcrate = 1;
+ }
 }
+
 if (menu > 0) {
 if (wave < 5) {
 if (BadDeath < 1) {
@@ -2136,11 +2509,11 @@ if (spawnbad2pos == 0) {
 bad2posX = 20;
 bad2posY = 100;
  } else {
-bad2posX = 300;
-bad2posY = 40; 
+bad2posX = 75;
+bad2posY = 295; 
  }
 } else {
-bad2posX = 20;
+bad2posX = 20; //goherespawn//
 bad2posY = 100;
 }
 if (cratespawn == 0) {
@@ -2162,13 +2535,43 @@ if (wave < 5) {
 if (spawncrate2pos == 1) {
  crateh1X = 520;
  crateh1Y = 110;
- } else {
+ }
+if (spawncrate2pos == 0) {
  crateh1X = 399;
  crateh1Y = 184.5;
    }
   } else {
  crateh1X = 399;
  crateh1Y = 184.5;
+ }
+}
+if (cratespawn == 0) {
+if (wave > 4 && wave < 7) {
+if (spawncrate1pos == 1) {
+ crate1X = 90;
+ crate1Y = 90;
+ }
+if (spawncrate1pos == 0) {
+ crate1X = 500;
+ crate1Y = 270;
+   }
+  } else {
+ crate1X = 90;
+ crate1Y = 90;
+  }
+ }
+if (cratespawn2 == 0) {
+if (wave > 4 && wave < 7) {
+if (spawncrate2pos == 1) {
+ crateh1X = 250;
+ crateh1Y = 40;
+ } else {
+ crateh1X = 710;
+ crateh1Y = 70;
+   }
+  } else {
+ crateh1X = 250;
+ crateh1Y = 40;
  }
 }
     }
@@ -2247,6 +2650,7 @@ if (spawncrate2pos == 1) {
 if (wave > 4 && wave < 7) {
 if (BadDeath3 < 1) {
 if (tribox.crashWith(triwavebox1)) {
+spawnbad3pos = Math.floor(Math.random() * 2);
 countSwitch4 = 0;
  }
 }
@@ -2273,6 +2677,7 @@ if (Math.floor(Math.random() * chanceofdrop3) == 1) {
 if (cratespawn2 == 0) {
 if (playerHealth < 100) {
 cratespawn2 += 1;
+spawncrate2pos = Math.floor(Math.random() * 2);
   }
  } 
 }
@@ -2280,8 +2685,45 @@ if (Math.floor(Math.random() * chanceofdrop3) == 1) {
 if (cratespawn == 0) {
 if (ammo < 160) {
 cratespawn += 1;
+spawncrate1pos = Math.floor(Math.random() * 2);
    }
   }
+ }
+}
+if (spawnbad3pos == 0) {
+tri1posX = 700;
+tri1posY = 90;
+ } else {
+tri1posX = 65;
+tri1posY = 35; 
+ }
+if (cratespawn == 0) {
+if (wave > 4 && wave < 7) {
+if (spawncrate1pos == 1) {
+ crate1X = 90;
+ crate1Y = 90;
+ }
+if (spawncrate1pos == 0) {
+ crate1X = 500;
+ crate1Y = 270;
+   }
+  } else {
+ crate1X = 90;
+ crate1Y = 90;
+  }
+ }
+if (cratespawn2 == 0) {
+if (wave > 4 && wave < 7) {
+if (spawncrate2pos == 1) {
+ crateh1X = 250;
+ crateh1Y = 40;
+ } else {
+ crateh1X = 710;
+ crateh1Y = 70;
+   }
+  } else {
+ crateh1X = 250;
+ crateh1Y = 40;
  }
 }
    }
@@ -3104,6 +3546,175 @@ function crashhitai1() {
 			badguy2.speedY = 1;
 		}
 	 }
+	}
+    if (badguy2.crashWith(wall4house1)) {
+		touchwallupbad2 = 1;
+		if (touchwallupbad2 == 1) {
+			badguypic2.speedY = 1;
+			badguy2.speedY = 1;
+		}
+	}
+    if (badguy2.crashWith(wall4house1) == false) {
+	  touchwallupbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house1_1)) {
+		touchwalldownbad2 = 1;
+		if (touchwalldownbad2 == 1) {
+			badguypic2.speedY = -1;
+			badguy2.speedY = -1;
+		}
+	}
+	if (badguy2.crashWith(wall4house1_1) == false) {
+	  touchwalldownbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house2)) {
+		touchwallrightbad2 = 1;
+		if (touchwallrightbad2 == 1) {
+			badguypic2.speedX = -2;
+			badguy2.speedX = -2;
+		}
+	}
+	if (badguy2.crashWith(wall4house2) == false) {
+	  touchwallrightbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house2_1)) {
+		touchwallleftbad2 = 1;
+		if (touchwallleftbad2 == 1) {
+			badguypic2.speedX = 2;
+			badguy2.speedX = 2;
+		}
+	}
+	if (badguy2.crashWith(wall4house2_1) == false) {
+	  touchwallleftbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house3)) {
+		touchwallleftbad2 = 1;
+		if (touchwallleftbad2 == 1) {
+			badguypic2.speedX = 2;
+			badguy2.speedX = 2;
+		}
+	}
+	if (badguy2.crashWith(wall4house3) == false) {
+	  touchwallleftbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house3_1)) {
+		touchwallrightbad2 = 1;
+		if (touchwallrightbad2 == 1) {
+			badguypic2.speedX = -2;
+			badguy2.speedX = -2;
+		}
+	}
+	if (badguy2.crashWith(wall4house3_1) == false) {
+	  touchwallrightbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house4)) {
+		touchwalldownbad2 = 1;
+		if (touchwalldownbad2 == 1) {
+			badguypic2.speedY = -1;
+			badguy2.speedY = -1;
+		}
+	}
+	if (badguy2.crashWith(wall4house4) == false) {
+	  touchwalldownbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house4_1)) {
+		touchwallupbad2 = 1;
+		if (touchwallupbad2 == 1) {
+			badguypic2.speedY = 1;
+			badguy2.speedY = 1;
+		}
+	}
+    if (badguy2.crashWith(wall4house4_1) == false) {
+	  touchwallupbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house4_2)) {
+		touchwallleftbad2 = 1;
+		if (touchwallleftbad2 == 1) {
+			badguypic2.speedX = 2;
+			badguy2.speedX = 2;
+		}
+	}
+	if (badguy2.crashWith(wall4house4_2) == false) {
+	  touchwallleftbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house5)) {
+		touchwalldownbad2 = 1;
+		if (touchwalldownbad2 == 1) {
+			badguypic2.speedY = -1;
+			badguy2.speedY = -1;
+		}
+	}
+	if (badguy2.crashWith(wall4house5) == false) {
+	  touchwalldownbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house5_1)) {
+		touchwallupbad2 = 1;
+		if (touchwallupbad2 == 1) {
+			badguypic2.speedY = 1;
+			badguy2.speedY = 1;
+		}
+	}
+    if (badguy2.crashWith(wall4house5_1) == false) {
+	  touchwallupbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house5_2)) {
+		touchwallrightbad2 = 1;
+		if (touchwallrightbad2 == 1) {
+			badguypic2.speedX = -2;
+			badguy2.speedX = -2;
+		}
+	}
+	if (badguy2.crashWith(wall4house5_2) == false) {
+	  touchwallrightbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house6)) {
+		touchwalldownbad2 = 1;
+		if (touchwalldownbad2 == 1) {
+			badguypic2.speedY = -1;
+			badguy2.speedY = -1;
+		}
+	}
+	if (badguy2.crashWith(wall4house6) == false) {
+	  touchwalldownbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house6_1)) {
+		touchwallupbad2 = 1;
+		if (touchwallupbad2 == 1) {
+			badguypic2.speedY = 1;
+			badguy2.speedY = 1;
+		}
+	}
+    if (badguy2.crashWith(wall4house6_1) == false) {
+	  touchwallupbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house6_2)) {
+		touchwallrightbad2 = 1;
+		if (touchwallrightbad2 == 1) {
+			badguypic2.speedX = -2;
+			badguy2.speedX = -2;
+		}
+	}
+	if (badguy2.crashWith(wall4house6_2) == false) {
+	  touchwallrightbad2 = 0;
+	}
+    if (badguy2.crashWith(wall4house6_3)) {
+		touchwallleftbad2 = 1;
+		if (touchwallleftbad2 == 1) {
+			badguypic2.speedX = 2;
+			badguy2.speedX = 2;
+		}
+	}
+	if (badguy2.crashWith(wall4house6_3) == false) {
+	  touchwallleftbad2 = 0;
+	}
+    if (inside4house1 == 0) {
+	if (badguy2.crashWith(wall4house7)) {
+		touchwalldownbad2 = 1;
+		if (touchwalldownbad2 == 1) {
+			badguypic2.speedY = -1;
+			badguy2.speedY = -1;
+		}
+	 }	
 	}	//gohere//
 	 }
 	}
@@ -3293,6 +3904,192 @@ function crashhitai1() {
 			trienemyright.speedY = 1;
 		}
 	 }
+	}
+    if (tribox.crashWith(wall4house1)) {
+		touchwallupbad3 = 1;
+		if (touchwallupbad3 == 1) {
+			tribox.speedY = 1;
+			trienemyleft.speedY = 1;
+			trienemyright.speedY = 1;
+		}
+	}
+    if (tribox.crashWith(wall4house1) == false) {
+	  touchwallupbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house1_1)) {
+		touchwalldownbad3 = 1;
+		if (touchwalldownbad3 == 1) {
+			tribox.speedY = -1;
+			trienemyleft.speedY = -1;
+			trienemyright.speedY = -1;
+		}
+	}
+	if (tribox.crashWith(wall4house1_1) == false) {
+	  touchwalldownbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house2)) {
+		touchwallrightbad3 = 1;
+		if (touchwallrightbad3 == 1) {
+			tribox.speedX = -2;
+			trienemyleft.speedX = -2;
+			trienemyright.speedX = -2;
+		}
+	}
+	if (tribox.crashWith(wall4house2) == false) {
+	  touchwallrightbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house2_1)) {
+		touchwallleftbad3 = 1;
+		if (touchwallleftbad3 == 1) {
+			tribox.speedX = 2;
+			trienemyleft.speedX = 2;
+			trienemyright.speedX = 2;
+		}
+	}
+	if (tribox.crashWith(wall4house2_1) == false) {
+	  touchwallleftbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house3)) {
+		touchwallleftbad3 = 1;
+		if (touchwallleftbad3 == 1) {
+			tribox.speedX = 2;
+			trienemyleft.speedX = 2;
+			trienemyright.speedX = 2;
+		}
+	}
+	if (tribox.crashWith(wall4house3) == false) {
+	  touchwallleftbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house3_1)) {
+		touchwallrightbad3 = 1;
+		if (touchwallrightbad3 == 1) {
+			tribox.speedX = -2;
+			trienemyleft.speedX = -2;
+			trienemyright.speedX = -2;
+		}
+	}
+	if (tribox.crashWith(wall4house3_1) == false) {
+	  touchwallrightbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house4)) {
+		touchwalldownbad3 = 1;
+		if (touchwalldownbad3 == 1) {
+			tribox.speedY = -1;
+			trienemyleft.speedY = -1;
+			trienemyright.speedY = -1;
+		}
+	}
+	if (tribox.crashWith(wall4house4) == false) {
+	  touchwalldownbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house4_1)) {
+		touchwallupbad3 = 1;
+		if (touchwallupbad3 == 1) {
+			tribox.speedY = 1;
+			trienemyleft.speedY = 1;
+			trienemyright.speedY = 1;
+		}
+	}
+    if (tribox.crashWith(wall4house4_1) == false) {
+	  touchwallupbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house4_2)) {
+		touchwallleftbad3 = 1;
+		if (touchwallleftbad3 == 1) {
+			tribox.speedX = 2;
+			trienemyleft.speedX = 2;
+			trienemyright.speedX = 2;
+		}
+	}
+	if (tribox.crashWith(wall4house4_2) == false) {
+	  touchwallleftbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house5)) {
+		touchwalldownbad3 = 1;
+		if (touchwalldownbad3 == 1) {
+			tribox.speedY = -1;
+			trienemyleft.speedY = -1;
+			trienemyright.speedY = -1;
+		}
+	}
+	if (tribox.crashWith(wall4house5) == false) {
+	  touchwalldownbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house5_1)) {
+		touchwallupbad3 = 1;
+		if (touchwallupbad3 == 1) {
+			tribox.speedY = 1;
+			trienemyleft.speedY = 1;
+			trienemyright.speedY = 1;
+		}
+	}
+    if (tribox.crashWith(wall4house5_1) == false) {
+	  touchwallupbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house5_2)) {
+		touchwallrightbad3 = 1;
+		if (touchwallrightbad3 == 1) {
+			tribox.speedX = -2;
+			trienemyleft.speedX = -2;
+			trienemyright.speedX = -2;
+		}
+	}
+	if (tribox.crashWith(wall4house5_2) == false) {
+	  touchwallrightbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house6)) {
+		touchwalldownbad3 = 1;
+		if (touchwalldownbad3 == 1) {
+			tribox.speedY = -1;
+			trienemyleft.speedY = -1;
+			trienemyright.speedY = -1;
+		}
+	}
+	if (tribox.crashWith(wall4house6) == false) {
+	  touchwalldownbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house6_1)) {
+		touchwallupbad3 = 1;
+		if (touchwallupbad3 == 1) {
+			tribox.speedY = 1;
+			trienemyleft.speedY = 1;
+			trienemyright.speedY = 1;
+		}
+	}
+    if (tribox.crashWith(wall4house6_1) == false) {
+	  touchwallupbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house6_2)) {
+		touchwallrightbad3 = 1;
+		if (touchwallrightbad3 == 1) {
+			tribox.speedX = -2;
+			trienemyleft.speedX = -2;
+			trienemyright.speedX = -2;
+		}
+	}
+	if (tribox.crashWith(wall4house6_2) == false) {
+	  touchwallrightbad3 = 0;
+	}
+    if (tribox.crashWith(wall4house6_3)) {
+		touchwallleftbad3 = 1;
+		if (touchwallleftbad3 == 1) {
+			tribox.speedX = 2;
+			trienemyleft.speedX = 2;
+			trienemyright.speedX = 2;
+		}
+	}
+	if (tribox.crashWith(wall4house6_3) == false) {
+	  touchwallleftbad3 = 0;
+	}
+    if (inside4house1 == 0) {
+	if (tribox.crashWith(wall4house7)) {
+		touchwalldownbad3 = 1;
+		if (touchwalldownbad3 == 1) {
+			tribox.speedY = -1;
+			trienemyleft.speedY = -1;
+			trienemyright.speedY = -1;
+		}
+	 }	
 	}	//gohere2//
   }
   if (BadDeath4 < 1) {
@@ -3703,7 +4500,9 @@ badguy1.speedY = badhurtspeedai1;
 if (box.crashWith(badguy1)) {
 if (upgrademenu == 0) {
 if (playerHealth > 0) {
+if (CapName != healthcheat || CapName != fullcheat) {
 playerHealth -= Bad1DamageDeal;
+   }
   }
  }
 }
@@ -3952,7 +4751,9 @@ badguy2.speedY = badhurtspeedai2;
 if (box.crashWith(badguy2)) {
 if (upgrademenu == 0) {
 if (playerHealth > 0) {
+if (CapName != healthcheat || CapName != fullcheat) {
 playerHealth -= Bad2DamageDeal;
+   }
   }
  }
 }
@@ -4108,6 +4909,18 @@ trienemyleft.speedY = badhurtspeedai3;
 tribox.speedY = badhurtspeedai3;
      }
     }
+if (tribox.crashWith(detectbox) && tribox.crashWith(triwavebox1)) {
+tribbox.x = 150;
+tribbox.y = 150;
+tribpic.x = 150;
+tribpic.y = 150;
+tribox.x = 120;
+tribox.y = 120;
+trienemyright.x = 120;
+trienemyright.y = 120;
+trienemyleft.x = 120;
+trienemyleft.y = 120;
+}
    }
   }
  }
@@ -4115,7 +4928,9 @@ tribox.speedY = badhurtspeedai3;
 if (box.crashWith(tribox)) {
 if (upgrademenu == 0) {
 if (playerHealth > 0) {
+if (CapName != healthcheat || CapName != fullcheat) {
 playerHealth -= Bad3DamageDeal;
+   }
   }
  }
 }//goherenoww//
@@ -4362,7 +5177,9 @@ recbox1.speedY = badhurtspeedai4;
 if (box.crashWith(recbox1)) {
 if (upgrademenu == 0) {
 if (playerHealth > 0) {
+if (CapName != healthcheat || CapName != fullcheat) {
 playerHealth -= Bad4DamageDeal;
+   }
   }
  }
 }
@@ -4586,7 +5403,7 @@ tribullettime += 0.5;
 if (tribbox.crashWith(wallright) || tribbox.crashWith(wallleft) || tribbox.crashWith(wall3) || tribbox.crashWith(wall4)) {
 trifire = 0;
  }
-if (tribbox.crashWith(wall3house1) || tribbox.crashWith(wall3house1_2) || tribbox.crashWith(wall3house2) || tribbox.crashWith(wall3house2_2) || tribbox.crashWith(wall3house3) || tribbox.crashWith(wall3house3_2) || tribbox.crashWith(wall3house4_4) || tribbox.crashWith(wall3house5_4)) {
+if (tribbox.crashWith(wall3house1) || tribbox.crashWith(wall3house1_2) || tribbox.crashWith(wall3house2) || tribbox.crashWith(wall3house2_2) || tribbox.crashWith(wall3house3) || tribbox.crashWith(wall3house3_2) || tribbox.crashWith(wall3house4_4) || tribbox.crashWith(wall3house5_4) || tribbox.crashWith(wall4house1) || tribbox.crashWith(wall4house1_1) || tribbox.crashWith(wall4house2) || tribbox.crashWith(wall4house2_1) || tribbox.crashWith(wall4house3) || tribbox.crashWith(wall4house3_1) || tribbox.crashWith(wall4house4_3) || tribbox.crashWith(wall4house5_3) || tribbox.crashWith(wall4house6_4)) {
 trifire = 0;
  }
 if (wave > 4 && wave < 7) {
@@ -4595,8 +5412,10 @@ if (upgrademenu == 0) {
 if (pauseGame == 0) {
 if (playerHealth > 0) {
 if (trifire == 1) {
+if (CapName != healthcheat || CapName != fullcheat) {
 playerHealth -= TriBullDamageDeal;
 trifire = 0;
+       }
       }
      }
 	}
@@ -4736,7 +5555,7 @@ fire = 0;
   }
  }
 if (wave >= 5 && wave < 7) {
-if (bullbox.crashWith(wall3house1) || bullbox.crashWith(wall3house1_2) || bullbox.crashWith(wall3house2) || bullbox.crashWith(wall3house2_2) || bullbox.crashWith(wall3house3) || bullbox.crashWith(wall3house3_2) || bullbox.crashWith(wall3house4_4) || bullbox.crashWith(wall3house5_4)) {
+if (bullbox.crashWith(wall3house1) || bullbox.crashWith(wall3house1_2) || bullbox.crashWith(wall3house2) || bullbox.crashWith(wall3house2_2) || bullbox.crashWith(wall3house3) || bullbox.crashWith(wall3house3_2) || bullbox.crashWith(wall3house4_4) || bullbox.crashWith(wall3house5_4) || bullbox.crashWith(wall4house1) || bullbox.crashWith(wall4house1_1) || bullbox.crashWith(wall4house2) || bullbox.crashWith(wall4house2_1) || bullbox.crashWith(wall4house3) || bullbox.crashWith(wall4house3_1) || bullbox.crashWith(wall4house4_3) || bullbox.crashWith(wall4house5_3) || bullbox.crashWith(wall4house6_4)) {
 fire = 0;
   }
  }
@@ -4754,56 +5573,72 @@ var up = 0;
 var down = 0;
 var left = 0;
 var right = 0;
+var stopUpSW = 0;
+var stopDownSW = 0;
+var stopLeftSW = 0;
+var stopRightSW = 0;
 function moveUp() {
+if (touchtop == 0) {
 up = 1;
 upE = 1;
+ } else {
+	 up = 0;
+     upE = 0;
+ }
 }
 function moveDown() {
+if (touchbottom == 0) {
 down = 1;
 downE = 1;
+ } else {
+	 down = 0;
+	 downE = 0;
+ }
 }
 function moveLeft() {
+if (touchleft == 0) {
 left = 1;
 leftE = 1;
+ } else {
+	 left = 0;
+	 leftE = 0;
+ }
 }
 function moveRight() {
+if (touchright == 0) {
 right = 1;
 rightE = 1;
+ } else {
+	 right = 0;
+	 rightE = 0;
+ }
 }
 function clearmoveu() {
 if (upE > 0) {
  up = 0;
  upE = 0;
-circle.speedY = 0;
-detectbox.speedY = 0;
-box.speedY = 0;
+ stopUpSW = 1;
  }
 }
 function clearmoved() {
 if (downE > 0) {
  down = 0;
  downE = 0;
-circle.speedY = 0;
-detectbox.speedY = 0;
-box.speedY = 0;
+ stopDownSW = 1;
  }
 }
 function clearmovel() {
 if (leftE > 0) {
  left = 0;
  leftE = 0;
-circle.speedX = 0;
-detectbox.speedX = 0;
-box.speedX = 0;
+ stopLeftSW = 1;
  }
 }
 function clearmover() {
 if (rightE > 0) {
  right = 0;
  rightE = 0;
-circle.speedX = 0;
-detectbox.speedX = 0;
-box.speedX = 0;
+ stopRightSW = 1;
  }
 }
 var firesoundstart = 0;
@@ -4842,6 +5677,9 @@ document.getElementById('level2').play();
    }
   }
  }
+if (ammo <= 35 && playerHealth > 0) {
+document.getElementById('lowammo').play();
+}
 }
 if (firesoundstart > 0) {
 if (menu > 0) {
@@ -4850,7 +5688,7 @@ document.getElementById('firesound').play();
  }
 }
 	
-function SetVolume(val) {
+function SetVolume() {
 if (mutemusic == 0) {
 var player = document.getElementById('level1');
 player.volume = val / 100;
@@ -4860,14 +5698,23 @@ var menus = document.getElementById('Menu');
 menus.volume = val / 100;
 var Dead = document.getElementById('Death');
 Dead.volume = val / 100;
-var fireVolume = document.getElementById('firesound');
-fireVolume.volume = val / 300;
  }
 }
+
+function SetVolume2() {
+if (mutemusic == 0) {
+var fireVolume = document.getElementById('firesound');
+fireVolume.volume = val2 / 300;
+var ammoVolume = document.getElementById('lowammo');
+ammoVolume.volume = val2 / 300;
+ }
+}
+
 var mutemusic = 0;
+var val = document.getElementById("volume").value;
+var val2 = document.getElementById("soundvolume").value;
+
 function mute() {
-var val = 0;
-val = document.getElementById("volume").value;
 if (mutemusic == 1) {
 var player = document.getElementById('level1');
 player.volume = 0 / 100;
@@ -4879,6 +5726,8 @@ var Dead = document.getElementById('Death');
 Dead.volume = 0 / 100;
 var fireVolume = document.getElementById('firesound');
 fireVolume.volume = 0 / 300;
+var ammoVolume = document.getElementById('lowammo');
+ammoVolume.volume = 0 / 300;
  }
 if (mutemusic == 0) {
 var player = document.getElementById('level1');
@@ -4890,7 +5739,9 @@ menus.volume = val / 100;
 var Dead = document.getElementById('Death');
 Dead.volume = val / 100;
 var fireVolume = document.getElementById('firesound');
-fireVolume.volume = val / 300;
+fireVolume.volume = val2 / 300;
+var ammoVolume = document.getElementById('lowammo');
+ammoVolume.volume = val2 / 300;
  }
 if (mutemusic > 1) {
 mutemusic = 0;
@@ -4920,11 +5771,11 @@ function skipSound() {
  Death.pause();
  Death.currentTime = 0;
  }
- if (wave == 5) {
+ if (wave == 5 || wave > 5) {
  level1.pause();
  level1.currentTime = 0;
  }
- if (wave == 7) {
+ if (wave == 7 || wave < 5) {
  level2.pause();
  level2.currentTime = 0;
  }
@@ -4939,6 +5790,10 @@ function skipSound() {
  firesound.pause();
  firesound.currentTime = 0;
   }
+ }
+ if (ammo > 35 || playerHealth <= 0) {
+ lowammo.pause();
+ lowammo.currentTime = 0;
  }
 }
 
@@ -4992,21 +5847,34 @@ stat4_4.update();
 var locationV = "Monty Forest Cabins";
 var namebX = 620;
 var namebY = 450;
-var ammocheat = "moreammo";
-var healthcheat = "morehealth";
-var wavebonus = "ryanmace";
-var testwave = "test";
-var resetcheat = "reset";
+var ammocheat = "MOREAMMO";
+var healthcheat = "MOREHEALTH";
+var wavebonus = "RYANMACE";
+var testwave = "TEST";
+var resetcheat = "RESET";
 var fullcheat = "FULLYMAXED";
-var weapv = "vault";
-var beginning = "story";
-function name() {
- var nameg = "Name:"
- var name = document.getElementById('name');
+var weapv = "VAULT";
+var beginning = "STORY";
+var blockKeys = false;
+document.getElementById('name').onfocus = function() { 
+blockKeys = true;
+console.log("test1");
+}
+document.getElementById('name').onblur = function() { 
+blockKeys = false;
+console.log("test2");
+}
+ var name = document.getElementById('name').value;
+ var CapName = name.toUpperCase();
+function nameFC() {
+ var nameg = "Name:";
+ name = document.getElementById('name').value;
+ document.getElementById('name').autofocus = false;
+ CapName = name.toUpperCase();
  namef = new component("30px", "Consolas", "white", namebX, namebY, "text");
  m = new component(300, 20, "#63218a", namebX - 5, namebY - 15, "rec");
  namef.font="20px Consolas";
- namef.text=nameg + name.value;
+ namef.text=nameg + name;
  locationN = new component("30px", "Consolas", "white", namebX - 40, namebY + 45, "text");
  locationN.font="12px Consolas";
  locationN.text= "Location: " + locationV;
@@ -5019,22 +5887,22 @@ function name() {
  if (wave >= 5 && wave < 7) {
  locationV = "Monty Trailer Park";
  }
- if (name.value == ammocheat) {
+ if (CapName == ammocheat) {
  ammo = 160;
  }
- if (name.value == healthcheat) {
+ if (CapName == healthcheat) {
  playerHealth = 100;
  }
- if (name.value == fullcheat) {
+ if (CapName == fullcheat) {
  playerHealth = 100;
  ammo = 160;
  }
- if (name.value == wavebonus) {
+ if (CapName == wavebonus) {
  wave = 9000;
  oldwave = 9000;
- name.value = "";
+ document.getElementById('name').value = "";
  }
- if (name.value == beginning) {
+ if (CapName == beginning) {
  wave = 1;
  oldwave = 1;
  count = 0;
@@ -5045,28 +5913,30 @@ function name() {
  weaponupgrade1 = 0;
  backSwitch = 0;
  weapon = 0;
+ resetcrate = 0;
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
- bpic = new component(10, 10, "orange", 400, 180, "b1");
- bpic2 = new component(10, 10, "orange", 400, 180, "b2");
- bpic3 = new component(10, 10, "orange", 400, 180, "b3");
+ bpic = new component(10, 10, "bullpic", 400, 180, "img");
+ bpic2 = new component(10, 10, "bullpic2", 400, 180, "img");
+ bpic3 = new component(10, 10, "bullpic3", 400, 180, "img");
+ bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
  box = new component(25, 25, "black", playerX, playerY, "rec");
- circle = new component(32, 32, "darkblue", playerX - 3.5, playerY - 3.5, "img");
- name.value = "";
+ circle = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "img");
+ document.getElementById('name').value = "";
  }
- if (name.value == weapv) {
+ if (CapName == weapv) {
  vaultShow = 1;
  }
- if (name.value != weapv) {
+ if (CapName != weapv) {
  vaultShow = 0;
  }
- if (name.value == testwave) {
+ if (CapName == testwave) {
  wave = 5;
  oldwave = 5;
  weaponupgrade1 = 0;
  backSwitch = 0;
- name.value = "FULLYMAXED";
+ document.getElementById('name').value = "fullymaxed";
  }
- if (name.value == resetcheat) {
+ if (CapName == resetcheat) {
  document.location.reload(true);
  }
 }
@@ -5091,11 +5961,12 @@ function swapweap1() {
 if (switchy == -1) {
 switchy = 0;
 }
-if (stcweapon == 1) {
+if (stcget == 1) {
 switchy += 1;
  }
-if (stcweapon == 0) {
+if (stcget == 0) {
 switchy = 0;
+weapon = 0;
  }
 }
 function swapweap2() {
