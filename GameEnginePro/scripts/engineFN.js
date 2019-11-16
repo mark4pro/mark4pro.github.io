@@ -121,11 +121,11 @@ function start() {
  wallhouse4 = new component(15, 10, "grey", 90, 180, "rec");
  wallhouse4_2 = new component(35, 10, "grey", 70, 190, "rec");
  wallhouse4_3 = new component(40, 20, "grey", 70, 180, "rec");
- wallhouse5 = new component(10, 10, "grey", 100, 185, "rec");
+ wallhouse5 = new component(10, 5, "grey", 100, 187.5, "rec");
  wallhouse6 = new component(25, 10, "grey", 165, 180, "rec");
  wallhouse6_2 = new component(45, 10, "grey", 165, 190, "rec");
  wallhouse6_3 = new component(50, 20, "grey", 160, 180, "rec");
- wallhouse7 = new component(10, 10, "grey", 160, 185, "rec");
+ wallhouse7 = new component(10, 5, "grey", 160, 187.5, "rec");
  wallhouse8 = new component(120, 20, "grey", 80, 190, "rec");
  wall2house1 = new component(190, 10, "grey", 510, 100, "rec");
  wall2house1_2 = new component(200, 10, "grey", 500, 90, "rec");
@@ -136,11 +136,11 @@ function start() {
  wall2house4 = new component(45, 10, "grey", 510, 190, "rec");
  wall2house4_2 = new component(55, 10, "grey", 500, 200, "rec");
  wall2house4_3 = new component(60, 20, "grey", 500, 190, "rec");
- wall2house5 = new component(10, 10, "grey", 550, 195, "rec");
+ wall2house5 = new component(10, 5, "grey", 550, 197.5, "rec");
  wall2house6 = new component(85, 10, "grey", 615, 190, "rec");
  wall2house6_2 = new component(95, 10, "grey", 615, 200, "rec");
  wall2house6_3 = new component(100, 20, "grey", 610, 190, "rec");
- wall2house7 = new component(10, 10, "grey", 610, 195, "rec");
+ wall2house7 = new component(10, 5, "grey", 610, 197.5, "rec");
  wall2house8 = new component(190, 20, "grey", 510, 200, "rec");
  roof2house1 = new component(210, 120, "houseroof1", 500, 90, "img");
  inside2detect1 = new component(190, 130, "gray", 510, 100, "rec");
@@ -191,11 +191,11 @@ function start() {
  wall3house3_2 = new component(10, 80, "#666666", 730, 60, "rec");
  wall3house4 = new component(105, 10, "#666666", 480, 140, "rec");
  wall3house4_2 = new component(95, 10, "#666666", 490, 130, "rec");
- wall3house4_3 = new component(10, 10, "#666666", 580, 135, "rec");
+ wall3house4_3 = new component(10, 5, "#666666", 580, 137.5, "rec");
  wall3house4_4 = new component(110, 20, "#666666", 480, 130, "rec");
  wall3house5 = new component(105, 10, "#666666", 645, 140, "rec");
  wall3house5_2 = new component(95, 10, "#666666", 645, 130, "rec");
- wall3house5_3 = new component(10, 10, "#666666", 640, 135, "rec");
+ wall3house5_3 = new component(10, 5, "#666666", 640, 137.5, "rec");
  wall3house5_4 = new component(110, 20, "#666666", 640, 130, "rec");
  wall3house6 = new component(270, 10, "#666666", 480, 140, "rec");
  inside3detect1 = new component(260, 100, "black", 485, 60, "rec");
@@ -210,16 +210,16 @@ function start() {
  wall4house3_1 = new component(10, 80, "#666666", 730, 260, "rec");
  wall4house4 = new component(45, 10, "#666666", 480, 250, "rec");
  wall4house4_1 = new component(35, 10, "#666666", 490, 260, "rec");
- wall4house4_2 = new component(10, 10, "#666666", 520, 255, "rec");
+ wall4house4_2 = new component(10, 5, "#666666", 520, 257.5, "rec");
  wall4house4_3 = new component(50, 20, "#666666", 480, 250, "rec");
  wall4house5 = new component(45, 10, "#666666", 705, 250, "rec");
  wall4house5_1 = new component(35, 10, "#666666", 705, 260, "rec");
- wall4house5_2 = new component(10, 10, "#666666", 700, 255, "rec");
+ wall4house5_2 = new component(10, 5, "#666666", 700, 257.5, "rec");
  wall4house5_3 = new component(50, 20, "#666666", 700, 250, "rec");
  wall4house6 = new component(60, 10, "#666666", 585, 250, "rec");
  wall4house6_1 = new component(60, 10, "#666666", 585, 260, "rec");
- wall4house6_2 = new component(10, 10, "#666666", 580, 255, "rec");
- wall4house6_3 = new component(10, 10, "#666666", 640, 255, "rec");
+ wall4house6_2 = new component(10, 5, "#666666", 580, 257.5, "rec");
+ wall4house6_3 = new component(10, 5, "#666666", 640, 257.5, "rec");
  wall4house6_4 = new component(70, 20, "#666666", 580, 250, "rec");
  wall4house7 = new component(270, 10, "#666666", 480, 250, "rec");
  floor4house1 = new component(270, 90, "housefloor2", 480, 250, "img");
@@ -1932,6 +1932,12 @@ if (!('ongamepadconnected' in window) && controllerCon == 1) {
   // No gamepad events available, poll instead.
   pollGamepads();
 }
+if (pauseGameKeys == false) {
+pauseGame = 0;	
+}
+if (pauseGameKeys == true) {
+pauseGame = 1;	
+}
 }
 
 var KeyZz = document.getElementById("Arrowz").checked;
@@ -2053,7 +2059,7 @@ function keyDownHandler(event)
 {
 	var keyPressed = String.fromCharCode(event.keyCode);
 
-	if (keyPressed == Up_2 && blockKeys == false)
+	if (keyPressed == Up_2 && blockKeys == false && pauseGameKeys == false)
 	{		
 		if (pauseGame == 0) {
 		 if (touchtop == 0) {
@@ -2061,7 +2067,7 @@ function keyDownHandler(event)
 			 }
 			}
 	}
-	else if (keyPressed == Down_2 && blockKeys == false)
+	else if (keyPressed == Down_2 && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
 		 if (touchbottom == 0) {
@@ -2069,7 +2075,7 @@ function keyDownHandler(event)
 			 }
 			}		
 	}
-	else if (keyPressed == Left_2 && blockKeys == false)
+	else if (keyPressed == Left_2 && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
 		 if (touchleft == 0) {
@@ -2077,7 +2083,7 @@ function keyDownHandler(event)
 			 }
 			}		
 	}
-	else if (keyPressed == Right_2 && blockKeys == false)
+	else if (keyPressed == Right_2 && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
 		 if (touchright == 0) {
@@ -2085,41 +2091,41 @@ function keyDownHandler(event)
 			 }
 			}		
 	}
-	if (keyPressed == Esssc_2 && KeyZz2 == false && blockKeys == false) 
+	if (keyPressed == Esssc_2 && KeyZz2 == false && blockKeys == false && pauseGameKeys == false) 
 	{
 		backfunc();
 	}
-	if (keyPressed == Revive_2 && blockKeys == false)
+	if (keyPressed == Revive_2 && blockKeys == false && pauseGameKeys == false)
 	{
 		relive();
 	}
-	if (keyPressed == Mute_2 && blockKeys == false)
+	if (keyPressed == Mute_2 && blockKeys == false && pauseGameKeys == false)
 	{
 		mutemusic += 1;
 	}
-	if (keyPressed == Patch_2 && blockKeys == false)
+	if (keyPressed == Patch_2 && blockKeys == false && pauseGameKeys == false)
 	{
 		patchinfo();
 	}
-	if (keyPressed == shootUp_2 && KeyZz == false && blockKeys == false)
+	if (keyPressed == shootUp_2 && KeyZz == false && blockKeys == false && pauseGameKeys == false)
 	{		
 		if (pauseGame == 0) {
             autoUp();
 		  }
 	}
-	else if (keyPressed == shootDown_2 && KeyZz == false && blockKeys == false)
+	else if (keyPressed == shootDown_2 && KeyZz == false && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
             autoDown();
 		  }	
 	}
-	else if (keyPressed == shootLeft_2 && KeyZz == false && blockKeys == false)
+	else if (keyPressed == shootLeft_2 && KeyZz == false && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
             autoLeft();
 		  }		
 	}
-	else if (keyPressed == shootRight_2 && KeyZz == false && blockKeys == false)
+	else if (keyPressed == shootRight_2 && KeyZz == false && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
             autoRight();
@@ -2172,81 +2178,81 @@ function keyUpHandler(event)
 document.onkeydown = function(e) {
     switch (e.keyCode) {
         case 37:
-		if (KeyZz == true && blockKeys == false) {
+		if (KeyZz == true && blockKeys == false && pauseGameKeys == false) {
 		if (pauseGame == 0) {
             autoLeft();
 		  }
 		}
             break;
         case 38:
-		if (KeyZz == true && blockKeys == false) {
+		if (KeyZz == true && blockKeys == false && pauseGameKeys == false) {
 		if (pauseGame == 0) {
             autoUp();
 		  }
 		}
             break;
         case 39:
-		if (KeyZz == true && blockKeys == false) {
+		if (KeyZz == true && blockKeys == false && pauseGameKeys == false) {
 		if (pauseGame == 0) {
             autoRight();
 		  }
 		}
             break;
         case 40:
-		if (KeyZz == true && blockKeys == false) {
+		if (KeyZz == true && blockKeys == false && pauseGameKeys == false) {
 		if (pauseGame == 0) {
             autoDown();
 		  }
 		}
             break;
 		case 27:
-		if (KeyZz2 == true && blockKeys == false) {
+		if (KeyZz2 == true && blockKeys == false && pauseGameKeys == false) {
 		    backfunc();
 		}
 			break;
 	    case 49:
-		if (upgrademenu == 0 && blockKeys == false) {
+		if (upgrademenu == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap1();
 		}
-		if (upgrademenu == 1 && blockKeys == false) {
+		if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
 		    upgrade1func();
 		}
 			break;
 		case 50:
-		if (upgrademenu == 0 && blockKeys == false) {
+		if (upgrademenu == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap2();
 		}
 			break;
 		case 51:
-		if (upgrademenu == 0 && blockKeys == false) {
+		if (upgrademenu == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap3();
 		}
 			break;
 		case 52:
-		if (upgrademenu == 0 && blockKeys == false) {
+		if (upgrademenu == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap4();
 		}
 			break;
 		case 97:
-		if (upgrademenu == 1 && blockKeys == false) {
+		if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
 		    upgrade1func();
 		}
-		if (upgrademenu == 0 && blockKeys == false) {
+		if (upgrademenu == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap1();
 		}
 		    break;
 		case 98:
-		if (upgrademenu == 0 && blockKeys == false) {
+		if (upgrademenu == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap2();
 		}
 			break;
 		case 99:
-		if (upgrademenu == 0 && blockKeys == false) {
+		if (upgrademenu == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap3();
 		}
 			break;
 		case 100:
-		if (upgrademenu == 0 && blockKeys == false) {
+		if (upgrademenu == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap4();
 		}
 			break;
@@ -2506,15 +2512,15 @@ spawncrate1pos = Math.floor(Math.random() * 2);
 }
 if (wave > 4 && wave < 7) {
 if (spawnbad2pos == 0) {
-bad2posX = 20;
-bad2posY = 100;
+bad2posX = 50;
+bad2posY = 450;
  } else {
 bad2posX = 75;
-bad2posY = 295; 
+bad2posY = -50; 
  }
 } else {
-bad2posX = 20; //goherespawn//
-bad2posY = 100;
+bad2posX = 50; //goherespawn//
+bad2posY = 450;
 }
 if (cratespawn == 0) {
 if (wave < 5) {
@@ -2692,10 +2698,10 @@ spawncrate1pos = Math.floor(Math.random() * 2);
 }
 if (spawnbad3pos == 0) {
 tri1posX = 700;
-tri1posY = 90;
+tri1posY = -50;
  } else {
 tri1posX = 65;
-tri1posY = 35; 
+tri1posY = 450; 
  }
 if (cratespawn == 0) {
 if (wave > 4 && wave < 7) {
@@ -4909,18 +4915,6 @@ trienemyleft.speedY = badhurtspeedai3;
 tribox.speedY = badhurtspeedai3;
      }
     }
-if (tribox.crashWith(detectbox) && tribox.crashWith(triwavebox1)) {
-tribbox.x = 150;
-tribbox.y = 150;
-tribpic.x = 150;
-tribpic.y = 150;
-tribox.x = 120;
-tribox.y = 120;
-trienemyright.x = 120;
-trienemyright.y = 120;
-trienemyleft.x = 120;
-trienemyleft.y = 120;
-}
    }
   }
  }
