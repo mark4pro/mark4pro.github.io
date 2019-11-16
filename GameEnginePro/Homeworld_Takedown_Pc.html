@@ -244,15 +244,18 @@ stop = 1;
  }
 }
 var switchS = 0;
+var pauseGameKeys = false;
 function show() {
 console.log("working");
 document.getElementById('settings').style.visibility = "visible";
 document.getElementById('settings').style.opacity += 1;
+pauseGameKeys = true;
 }
 function showStop() {
 document.getElementById('settings').style.opacity -= 1;
 if (document.getElementById('settings').style.opacity == 0) {
 document.getElementById('settings').style.visibility = "hidden";
+pauseGameKeys = false;
  }
 }
 </script>
