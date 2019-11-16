@@ -2531,9 +2531,6 @@ if (spawncrate1pos == 1) {
  crate1X = 374;
  crate1Y = 184.5;
    }
-  } else {
- crate1X = 374;
- crate1Y = 184.5;
   }
  }
 if (cratespawn2 == 0) {
@@ -2546,10 +2543,7 @@ if (spawncrate2pos == 0) {
  crateh1X = 399;
  crateh1Y = 184.5;
    }
-  } else {
- crateh1X = 399;
- crateh1Y = 184.5;
- }
+  }
 }
 if (cratespawn == 0) {
 if (wave > 4 && wave < 7) {
@@ -2561,9 +2555,6 @@ if (spawncrate1pos == 0) {
  crate1X = 500;
  crate1Y = 270;
    }
-  } else {
- crate1X = 90;
- crate1Y = 90;
   }
  }
 if (cratespawn2 == 0) {
@@ -2575,10 +2566,7 @@ if (spawncrate2pos == 1) {
  crateh1X = 710;
  crateh1Y = 70;
    }
-  } else {
- crateh1X = 250;
- crateh1Y = 40;
- }
+  }
 }
     }
    }
@@ -2810,8 +2798,6 @@ function crashhitai1() {
 		if (touchwallrightbad1 == 1) {
 			badguypic1.speedX = -2;
 			badguy1.speedX = -2;
-			badguypic1.speedY = 2;
-			badguy1.speedY = 2;
 		}
 	}
 	if (badguy1.crashWith(wallhouse2_2)) {
@@ -2833,8 +2819,6 @@ function crashhitai1() {
 		if (touchwallrightbad1 == 1) {
 			badguypic1.speedX = -2;
 			badguy1.speedX = -2;
-			badguypic1.speedY = 2;
-			badguy1.speedY = 2;
 		}
 	}
 	if (badguy1.crashWith(wall2house2_2)) {
@@ -2891,8 +2875,6 @@ function crashhitai1() {
 		if (touchwallleftbad1 == 1) {
 			badguypic1.speedX = 2;
 			badguy1.speedX = 2;
-			badguypic1.speedY = 2;
-			badguy1.speedY = 2;
 		}
 	}
 	if (badguy1.crashWith(wall2house3_2)) {
@@ -2914,8 +2896,6 @@ function crashhitai1() {
 		if (touchwallleftbad1 == 1) {
 			badguypic1.speedX = 2;
 			badguy1.speedX = 2;
-			badguypic1.speedY = 2;
-			badguy1.speedY = 2;
 		}
 	}
 	if (badguy1.crashWith(wallleft) == false) {
@@ -3165,8 +3145,6 @@ function crashhitai1() {
 		if (touchwallrightbad2 == 1) {
 			badguypic2.speedX = -2;
 			badguy2.speedX = -2;
-			badguypic2.speedY = 2;
-			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wall2house3)) {
@@ -3188,8 +3166,6 @@ function crashhitai1() {
 		if (touchwallrightbad2 == 1) {
 			badguypic2.speedX = -2;
 			badguy2.speedX = -2;
-			badguypic2.speedY = 2;
-			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wallhouse3) == false) {
@@ -3229,8 +3205,6 @@ function crashhitai1() {
 		if (touchwallleftbad2 == 1) {
 			badguypic2.speedX = 2;
 			badguy2.speedX = 2;
-			badguypic2.speedY = 2;
-			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wall2house3_2)) {
@@ -3252,8 +3226,6 @@ function crashhitai1() {
 		if (touchwallleftbad2 == 1) {
 			badguypic2.speedX = 2;
 			badguy2.speedX = 2;
-			badguypic2.speedY = 2;
-			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wallhouse3_2) == false) {
@@ -3505,8 +3477,6 @@ function crashhitai1() {
 		if (touchwallleftbad2 == 1) {
 			badguypic2.speedX = 2;
 			badguy2.speedX = 2;
-			badguypic2.speedY = 2;
-			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wall3house4_3) == false) {
@@ -3537,8 +3507,6 @@ function crashhitai1() {
 		if (touchwallrightbad2 == 1) {
 			badguypic2.speedX = -2;
 			badguy2.speedX = -2;
-			badguypic2.speedY = 2;
-			badguy2.speedY = 2;
 		}
 	}
 	if (badguy2.crashWith(wall3house5_3) == false) {
@@ -4159,8 +4127,6 @@ function crashhitai1() {
 		if (touchwallrightbad4 == 1) {
 			recenemypic1.speedX = -2;
 			recbox1.speedX = -2;
-			recenemypic1.speedY = 2;
-			recbox1.speedY = 2;
 		}
 	}
 	if (recbox1.crashWith(wall2house3)) {
@@ -4182,8 +4148,6 @@ function crashhitai1() {
 		if (touchwallrightbad4 == 1) {
 			recenemypic1.speedX = -2;
 			recbox1.speedX = -2;
-			recenemypic1.speedY = 2;
-			recbox1.speedY = 2;
 		}
 	}
 	if (recbox1.crashWith(wallhouse3) == false) {
@@ -4223,8 +4187,6 @@ function crashhitai1() {
 		if (touchwallleftbad4 == 1) {
 			recenemypic1.speedX = 2;
 			recbox1.speedX = 2;
-			recenemypic1.speedY = 2;
-			recbox1.speedY = 2;
 		}
 	}
 	if (recbox1.crashWith(wall2house3_2)) {
@@ -4246,8 +4208,6 @@ function crashhitai1() {
 		if (touchwallleftbad4 == 1) {
 			recenemypic1.speedX = 2;
 			recbox1.speedX = 2;
-			recenemypic1.speedY = 2;
-			recbox1.speedY = 2;
 		}
 	}
 	if (recbox1.crashWith(wallhouse3_2) == false) {
