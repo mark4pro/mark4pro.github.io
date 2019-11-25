@@ -1,4 +1,4 @@
-var keys = {}; 
+var keys = {};
 window.addEventListener("keydown",
     function(e){
         keys[e.keyCode] = true;
