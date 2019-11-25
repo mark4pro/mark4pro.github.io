@@ -18,7 +18,7 @@ false);
 var popup = 1;
 var fallseason = 0;
 var stcweapon = 0;
-var earlystart = 0;
+var earlystart = 1;
 function Datechecker() {
 var today_date= new Date()
 var mydayofweek = today_date.getDay()
@@ -26,8 +26,8 @@ var mytoday = today_date.getDate()
 var mymonth = today_date.getMonth()
 var myyear = today_date.getFullYear()
 if (popup == 1) {
-if (mymonth == 10) {
-if (mytoday >= 13 && mytoday < 20) {
+if (mymonth == 9) {
+if (mytoday >= 7 && mytoday < 20) {
 openpatchinfo = 1;
 popup = 0;
    }
@@ -71,6 +71,7 @@ var tri1posX = 700;
 var tri1posY = 90;
 var rec1posX = 350;
 var rec1posY = 40;
+var MusicOnOff = confirm("Do you want sound?\nOk for yes.\nCancel for no.");
 function start() {
  document.getElementById("volume").value = "15";
  SetVolume(15);
@@ -365,9 +366,6 @@ this.angle = 0;
 this.width = width;
 this.height = height;
 this.color = color;
-this.thickness = thickness;
-this.outcolor = outcolor;
-this.radius = radius;
 this.update = function() {
 ctx = Board.context;
 if (this.type == "text") {
@@ -381,6 +379,9 @@ ctx.fillRect(this.x, this.y, this.width, this.height);
   }
  }
  if (this.type == "cir") {
+ this.thickness = thickness;
+ this.outcolor = outcolor;
+ this.radius = radius;
  ctx.beginPath();
  ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI, true);
  ctx.fillStyle = this.color;
@@ -407,15 +408,16 @@ this.newPos = function() {
 this.x += this.speedX;
 this.y += this.speedY;
 }
+this.leftBlock = 0;
 this.crashWith = function(otherobj) {
 var myleft = this.x;
 var myright = this.x + (this.width);
 var mytop = this.y;
 var mybottom = this.y + (this.height);
-var otherleft = otherobj.x;
-var otherright = otherobj.x + (otherobj.width);
-var othertop = otherobj.y;
-var otherbottom = otherobj.y + (otherobj.height);
+var otherleft = otherobj.x - 1.5
+var otherright = otherobj.x + (otherobj.width) + 1.5;
+var othertop = otherobj.y - 1.5;
+var otherbottom = otherobj.y + (otherobj.height) + 1.5;
 var crash = true;
 if ((mybottom < othertop) ||
  (mytop > otherbottom) ||
@@ -424,7 +426,7 @@ if ((mybottom < othertop) ||
 crash = false;
  }
  return crash;
-}
+ }
 }
 var HealthX = 30;
 var HealthY = 450;
@@ -1932,13 +1934,16 @@ if (!('ongamepadconnected' in window) && controllerCon == 1) {
   // No gamepad events available, poll instead.
   pollGamepads();
 }
-if (pauseGameKeys == false) {
+if (pauseGameKeys == false && stopPause == false) {
 pauseGame = 0;	
+stopPause = true;
 }
 if (pauseGameKeys == true) {
 pauseGame = 1;	
+stopPause = false;
 }
 }
+var stopPause = false;
 
 var KeyZz = document.getElementById("Arrowz").checked;
 var KeyZz2 = document.getElementById("Esc_").checked;
@@ -5597,9 +5602,9 @@ if (rightE > 0) {
 }
 var firesoundstart = 0;
 var sound = 0
-var work = 1;
 function playSound() {
-if (work == 1) {
+if (MusicOnOff == true) {
+mutemusic = 0;
 if (upgrademenu == 0) {
  if (Death1 == 0) {
 if (wave < 5) {
@@ -5634,12 +5639,12 @@ document.getElementById('level2').play();
 if (ammo <= 35 && playerHealth > 0) {
 document.getElementById('lowammo').play();
 }
-}
 if (firesoundstart > 0) {
 if (menu > 0) {
 document.getElementById('firesound').play();
+   }
   }
- }
+ } 
 }
 	
 function SetVolume() {
