@@ -5603,7 +5603,7 @@ if (rightE > 0) {
 var firesoundstart = 0;
 var sound = 0
 function playSound() {
-if (MusicOnOff == true) {
+if (MusicOnOff == true && mutemusic == 0) {
 mutemusic = 0;
 if (upgrademenu == 0) {
  if (Death1 == 0) {
