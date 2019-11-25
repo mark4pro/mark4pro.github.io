@@ -15,6 +15,7 @@ Fall Seasoned levels.
 Splash screen for secret weapon.
 Fully implemented Secret Weapon.
 Updated Commands.
+Asks to play sound.
 Randomized money for kills and for wave completion. (Balanced)
 
 :In The Future!:
