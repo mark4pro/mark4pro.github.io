@@ -71,8 +71,9 @@ var tri1posX = 700;
 var tri1posY = 90;
 var rec1posX = 350;
 var rec1posY = 40;
-var MusicOnOff = confirm("Do you want sound?\nOk for yes.\nCancel for no.");
+var MusicOnOff = true;
 function start() {
+ MusicOnOff = confirm("Do you want sound?\nOk for yes.\nCancel for no.");
  document.getElementById("volume").value = "15";
  SetVolume(15);
  recenemypic1 = new component(25, 25, "red", 450, 60, "rec-enemypic");
