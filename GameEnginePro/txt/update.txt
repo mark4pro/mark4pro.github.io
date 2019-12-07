@@ -1,32 +1,8 @@
 :PRESS P TO TOGGLE THE PIB:
 
-WHAT'S NEW IN V0.4.94
+WHAT'S NEW IN V0.4.945
 Bug Fixes.
-September special event.
-New/Better AI for the triangle enemy.
-Finished Wave 5-6 level design.
-New Key binder.
-Split audio channels.
-Fixed wall collisions.
-Fixed rectangle wall collisions.
-The rectangle enemy now spins.
-Pause Menu with stats.
-Fall Seasoned levels.
-Splash screen for secret weapon.
-Fully implemented Secret Weapon.
-Updated Commands.
-Asks to play sound.
-Randomized money for kills and for wave completion. (Balanced)
-
-:In The Future!:
-So I have a lot of plans for this game! 
-Some will be added. (most will) 
-Somethings that are coming in the near future:
-Secret weapons from bosses or events!
-Saving secret weapons so you don't loose them when you come back.
-Special event and limited time events!
-Endless mode! (with 3 difficulties)
-Different ships! (maybe with different stats but mostly cosmetic)
-Story (It will be a clip to tell you the story of the game so far)
-Special weapon vault (It will show you what all you're missing)
+New wall collisions.
+New physics for player.
+New themes and art.
 
