@@ -17,6 +17,8 @@ false);
 
 var popup = 1;
 var fallseason = 0;
+var winterseason = 0;
+var springseason = 0;
 var stcweapon = 0;
 var earlystart = 1;
 function Datechecker() {
@@ -26,7 +28,7 @@ var mytoday = today_date.getDate()
 var mymonth = today_date.getMonth()
 var myyear = today_date.getFullYear()
 if (popup == 1) {
-if (mymonth == 9) {
+if (mymonth == 11) {
 if (mytoday >= 7 && mytoday < 20) {
 openpatchinfo = 1;
 popup = 0;
@@ -36,6 +38,16 @@ popup = 0;
 if (mymonth >= 8 && mymonth < 11) {
 if (mytoday >= 1) {
 fallseason = 1;
+   }
+  }
+if (mymonth == 11 || mymonth >= 0 && mymonth < 2) {
+if (mytoday >= 1) {
+winterseason = 1;
+   }
+  }
+if (mymonth >= 2 && mymonth < 5) {
+if (mytoday >= 1) {
+springseason = 1;
    }
   }
 if (mymonth == 8) {
@@ -49,6 +61,7 @@ stcweapon = 1;
   }
  }
 }
+
 var w = window.innerWidth;
 var h = window.innerHeight;
 var playerX = 384.5;
@@ -100,13 +113,15 @@ function start() {
  bpic2 = new component(10, 10, "bullpic2", 400, 180, "img");
  bpic3 = new component(10, 10, "bullpic3", 400, 180, "img");
  bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
- box = new component(25, 25, "black", playerX, playerY, "rec");
+ box = new component(25, 25, "black", playerX, playerY, "player1");
  detectbox = new component(100, 100, "black", playerX - 37.5, playerY - 37.5, "rec");
  circle = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "img");
  w1t5 = new component(800, 500, "wave1t5", 0, 0, "img");
  w5t7 = new component(800, 390, "wave5t7", 0, 0, "img");
  Fw1t5 = new component(800, 500, "Fwave1t5", 0, 0, "img");
  Fw5t7 = new component(800, 390, "Fwave5t7", 0, 0, "img");
+ Ww1t5 = new component(800, 500, "Wwave1t5", 0, 0, "img");
+ Ww5t7 = new component(800, 390, "Wwave5t7", 0, 0, "img");
  wallleft = new component(60, 400, "black", -60, 0, "rec");
  wallright = new component(60, 400, "black", 800, 0, "rec");
  wall3 = new component(800, 60, "black", 0, -60, "rec");
@@ -163,6 +178,22 @@ function start() {
  Ftree1_6 = new component(50, 50, "Ftrees", 620, 33, "img");
  Ftree1_7 = new component(50, 50, "Ftrees", 500, 285, "img");
  Ftree1_8 = new component(50, 50, "Ftrees", 300, 265, "img");
+ Wtree1_1 = new component(50, 50, "Wtrees", 80, 290, "img");
+ Wtree1_2 = new component(50, 50, "Wtrees", 650, 270, "img");
+ Wtree1_3 = new component(50, 50, "Wtrees", 230, 90, "img");
+ Wtree1_4 = new component(50, 50, "Wtrees", 270, 175, "img");
+ Wtree1_5 = new component(50, 50, "Wtrees", 420, 70, "img");
+ Wtree1_6 = new component(50, 50, "Wtrees", 620, 33, "img");
+ Wtree1_7 = new component(50, 50, "Wtrees", 500, 285, "img");
+ Wtree1_8 = new component(50, 50, "Wtrees", 300, 265, "img");
+ Stree1_1 = new component(50, 50, "Strees", 80, 290, "img");
+ Stree1_2 = new component(50, 50, "Strees", 650, 270, "img");
+ Stree1_3 = new component(50, 50, "Strees", 230, 90, "img");
+ Stree1_4 = new component(50, 50, "Strees", 270, 175, "img");
+ Stree1_5 = new component(50, 50, "Strees", 420, 70, "img");
+ Stree1_6 = new component(50, 50, "Strees", 620, 33, "img");
+ Stree1_7 = new component(50, 50, "Strees", 500, 285, "img");
+ Stree1_8 = new component(50, 50, "Strees", 300, 265, "img");
  SWPart1 = new component(50, 75, "SWPart1_1", 110, 205.9, "img");
  SWPart2 = new component(75, 50, "SWPart2_2", 535, 230, "img");
  SWPart3 = new component(50, 75, "SWPart1_1", 560, 185, "img");
@@ -185,6 +216,10 @@ function start() {
  tree2_2 = new component(50, 50, "tree", 230, 70, "img");
  Ftree2_1 = new component(50, 50, "Ftrees", 50, 20, "img");
  Ftree2_2 = new component(50, 50, "Ftrees", 230, 70, "img");
+ Wtree2_1 = new component(50, 50, "Wtrees", 50, 20, "img");
+ Wtree2_2 = new component(50, 50, "Wtrees", 230, 70, "img");
+ Stree2_1 = new component(50, 50, "Strees", 50, 20, "img");
+ Stree2_2 = new component(50, 50, "Strees", 230, 70, "img");
  wall3house1 = new component(270, 10, "#666666", 480, 50, "rec");
  wall3house1_2 = new component(250, 10, "#666666", 490, 60, "rec");
  wall3house2 = new component(10, 90, "#666666", 480, 55, "rec");
@@ -241,6 +276,14 @@ function start() {
  Ftree2_4 = new component(50, 50, "Ftrees", 60, 280, "img");
  Ftree2_5 = new component(50, 50, "Ftrees", 260, 280, "img");
  Ftree2_6 = new component(50, 50, "Ftrees", 160, 280, "img");
+ Wtree2_3 = new component(50, 50, "Wtrees", 360, 280, "img");
+ Wtree2_4 = new component(50, 50, "Wtrees", 60, 280, "img");
+ Wtree2_5 = new component(50, 50, "Wtrees", 260, 280, "img");
+ Wtree2_6 = new component(50, 50, "Wtrees", 160, 280, "img");
+ Stree2_3 = new component(50, 50, "Strees", 360, 280, "img");
+ Stree2_4 = new component(50, 50, "Strees", 60, 280, "img");
+ Stree2_5 = new component(50, 50, "Strees", 260, 280, "img");
+ Stree2_6 = new component(50, 50, "Strees", 160, 280, "img");
  ui = new component(800, 300, "#451661", 0, 390, "rec");
  backbutton = new component(160, 50, "#812bb3", backX - 100, backY + 100, "rec");
  backtxt = new component("30px", "Consolas", "white", backX - 90, backY + 130, "text");
@@ -303,8 +346,10 @@ function start() {
  menuboard = new component(800, 500, "menupic", 0, 0, "img");
  formplat = new component(75, 75, "1-5platform", 359, 157, "img");
  formFplat = new component(75, 75, "1-5Fplatform", 359, 157, "img");
+ formWplat = new component(75, 75, "1-5Wplatform", 359, 157, "img");
  border1_5 = new component(800, 390, "1-5sideborder", 0, 0, "img");
  Fborder1_5 = new component(800, 390, "1-5sideFborder", 0, 0, "img");
+ Wborder1_5 = new component(800, 390, "1-5sideWborder", 0, 0, "img");
  LowHealth_ = new component(800, 390, "lowhealth", 0, 0, "img");
  LowHealthTxt = new component("30px", "Consolas", "orange", 30, 35, "text");
  LowHealthTxt.font = "35px Consolas";
@@ -318,6 +363,7 @@ function start() {
  Board.start();
  updateGameArea();
  }
+ 
 var Board = {
 canvas : document.createElement("canvas"),
 start : function() {
@@ -353,10 +399,7 @@ clear : function() {
 this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 },
 }
-var detectwallL = false;
-var detectwallR = false;
-var detectwallU = false;
-var detectwallD = false;
+
 function component(width, height, color ,x ,y, type, radius, outcolor, thickness) {
 this.type = type;
 this.speedX = 0;
@@ -366,6 +409,8 @@ this.y = y;
 this.angle = 0;
 this.width = width;
 this.height = height;
+this.halfWidth = this.width * 0.5;
+this.halfHeight = this.height * 0.5;
 this.color = color;
 this.update = function() {
 ctx = Board.context;
@@ -374,7 +419,7 @@ if (this.type == "text") {
  ctx.fillStyle = this.color;
  ctx.fillText(this.text, this.x, this.y);
 } else {
-if (this.type == "rec") {
+if (this.type == "rec" || this.type == "player1") {
 ctx.fillStyle = this.color;
 ctx.fillRect(this.x, this.y, this.width, this.height);
   }
@@ -409,26 +454,88 @@ this.newPos = function() {
 this.x += this.speedX;
 this.y += this.speedY;
 }
-this.leftBlock = 0;
+this.getMidX = function() {
+ return this.halfWidth + this.x;
+},
+this.getMidY = function() {
+ return this.halfHeight + this.y;
+},
+this.getTop = function() {
+ return this.y;
+},
+this.getLeft = function() {
+ return this.x;
+},
+this.getRight = function() {
+ return this.x + this.width;
+},
+this.getBottom = function() {
+ return this.y + this.height;
+}
 this.crashWith = function(otherobj) {
-var myleft = this.x;
-var myright = this.x + (this.width);
-var mytop = this.y;
-var mybottom = this.y + (this.height);
-var otherleft = otherobj.x - 1.5
-var otherright = otherobj.x + (otherobj.width) + 1.5;
-var othertop = otherobj.y - 1.5;
-var otherbottom = otherobj.y + (otherobj.height) + 1.5;
+var l1 = this.getLeft();
+var t1 = this.getTop();
+var r1 = this.getRight();
+var b1 = this.getBottom();
+var l2 = otherobj.getLeft();
+var t2 = otherobj.getTop();
+var r2 = otherobj.getRight();
+var b2 = otherobj.getBottom();
 var crash = true;
-if ((mybottom < othertop) ||
- (mytop > otherbottom) ||
- (myright < otherleft) ||
- (myleft > otherright)) {
-crash = false;
- }
+if (b1 < t2 || t1 > b2 || r1 < l2 || l1 > r2) {
+ crash = false;
+}
  return crash;
+if (crash == true) {
+console.log("test");
+this.elasticCollition(otherobj);
+ }
+};
+this.elasticCollition = function(entity) {
+    var pMidX = this.getMidX();
+    var pMidY = this.getMidY();
+    var aMidX = entity.getMidX();
+    var aMidY = entity.getMidY();
+    var dx = (aMidX - pMidX) / entity.halfWidth;
+    var dy = (aMidY - pMidY) / entity.halfHeight;
+    var absDX = Math.abs(dx);
+    var absDY = Math.abs(dy);
+    if (absDX > absDY) {
+        if (dx < 0) {
+		this.x = entity.getRight() + 0.5;
+			if (this.type == "player1") {
+				if (lockLeftE == 1) {
+				playerSpeedX = 0;
+				}
+			}
+        } else {
+		this.x = entity.getLeft() - this.width - 0.5;
+			if (this.type == "player1") {
+			   if (lockRightE == 1) {
+				playerSpeedX = 0;
+				}
+		    }
+        }		
+    } else {
+        if (dy < 0) {
+		this.y = entity.getBottom() + 0.5;
+			if (this.type == "player1") {
+				if (lockUpE == 1) {
+					playerSpeedY = 0;
+			}
+		}
+    } else {
+		this.y = entity.getTop() - this.height - 0.5;
+			if (this.type == "player1") {
+			    if (lockDownE == 1) {
+					playerSpeedY = 0;
+			    }
+			}
+        }  
+    }
  }
 }
+
 var HealthX = 30;
 var HealthY = 450;
 var HealthWidth = 103;
@@ -713,6 +820,10 @@ if (stcweapon == 1) {
 
 function updateGameArea() {
 Board.clear();
+circle.y = box.y;
+circle.x = box.x;
+detectbox.x = box.x - 37.5;
+detectbox.y = box.y - 37.5;
 if (pauseGame > 1) {
    pauseGame = 0;
    }
@@ -837,11 +948,14 @@ wall2house8.update();
 wallhouse8.update();
 insidedetect1.update();
 inside2detect1.update();
-if (fallseason == 0) {
+if (fallseason == 0 && winterseason == 0) {
 w1t5.update();
 }
 if (fallseason == 1) {
 Fw1t5.update();
+}
+if (winterseason == 1) {
+Ww1t5.update();
 }
 SWPart6.update();
 SWPart13.update();
@@ -861,11 +975,14 @@ SWPart8.update();
 SWPart5.update();
 SWPart4.update();
 SWPart2.update();
-if (fallseason == 0) {
+if (fallseason == 0 && winterseason == 0) {
 formplat.update();
 }
 if (fallseason == 1) {
 formFplat.update();
+}
+if (winterseason == 1) {
+formWplat.update();
 }
 floorhouse1.update();
 floor2house1.update();
@@ -875,11 +992,14 @@ wall3house6.update();
 wall4house7.update();
 inside3detect1.update();
 inside4detect1.update();
-if (fallseason == 0) {
+if (fallseason == 0 && winterseason == 0) {
 w5t7.update();
 }
 if (fallseason == 1) {
 Fw5t7.update();
+}
+if (winterseason == 1) {
+Ww5t7.update();
 }
 floor3house1.update();
 floor4house1.update();
@@ -1033,7 +1153,7 @@ roof2house1.update();
 if (insidehouse1 == 0) {
 roofhouse1.update();
  }
-if (fallseason == 0) {
+if (fallseason == 0 && winterseason == 0 && springseason == 0) {
 tree1_1.update();
 tree1_2.update();
 tree1_3.update();
@@ -1052,6 +1172,26 @@ Ftree1_5.update();
 Ftree1_6.update();
 Ftree1_7.update();
 Ftree1_8.update();
+ }
+ if (winterseason == 1) {
+Wtree1_1.update();
+Wtree1_2.update();
+Wtree1_3.update();
+Wtree1_4.update();
+Wtree1_5.update();
+Wtree1_6.update();
+Wtree1_7.update();
+Wtree1_8.update();
+ }
+if (springseason == 1) {
+Stree1_1.update();
+Stree1_2.update();
+Stree1_3.update();
+Stree1_4.update();
+Stree1_5.update();
+Stree1_6.update();
+Stree1_7.update();
+Stree1_8.update();
  }
 }
 if (wave > 4 && wave < 8) {
@@ -1097,7 +1237,7 @@ roof4house3.update();
 roof4house2.update();
 roof4house1.update();
 }
-if (fallseason == 0) {
+if (fallseason == 0 && winterseason == 0 && springseason == 0) {
 tree2_1.update();
 tree2_2.update();
 tree2_3.update();
@@ -1113,14 +1253,33 @@ Ftree2_4.update();
 Ftree2_5.update();
 Ftree2_6.update();
  }
+if (winterseason == 1) {
+Wtree2_1.update();
+Wtree2_2.update();
+Wtree2_3.update();
+Wtree2_4.update();
+Wtree2_5.update();
+Wtree2_6.update();
+ }
+if (springseason == 1) {
+Stree2_1.update();
+Stree2_2.update();
+Stree2_3.update();
+Stree2_4.update();
+Stree2_5.update();
+Stree2_6.update();
+ }
 }
 ui.update();
 if (wave < 5) {
-if (fallseason == 0) {
+if (fallseason == 0 && winterseason == 0) {
 border1_5.update();
  }
 if (fallseason == 1) {
 Fborder1_5.update();
+ }
+if (winterseason == 1) {
+Wborder1_5.update();
  }
 }
 if (playerHealth <= 35) {
@@ -1285,648 +1444,233 @@ box.speedX = playerSpeedX;
 detectbox.speedX = playerSpeedX;
 circle.speedX = playerSpeedX;
 if (up == 1 && down == 0 && left == 0 && right == 0) {
- if (touchtop == 0) {
  if (playerSpeedY >= -3) {
  playerSpeedY -= 0.05;
  } else {
  playerSpeedY = -3;
   }
- }
- if (touchtop == 1) {
- playerSpeedY = 0;	
- }
 }
 if (up == 1 && down == 0 && left == 1 && right == 0) {
- if (touchtop == 0) {
  if (playerSpeedY >= -1.8) {
  playerSpeedY -= 0.05;
  } else {
  playerSpeedY = -1.8;
   }
- }
- if (touchtop == 1) {
- playerSpeedY = 0;	
- }
- if (touchleft == 0) {
  if (playerSpeedX >= -1.8) {
  playerSpeedX -= 0.05;
  } else {
  playerSpeedX = -1.8;
   }
- }
- if (touchleft == 1) {
- playerSpeedX = 0;	
- }
 }
 if (up == 1 && down == 0 && left == 0 && right == 1) {
- if (touchtop == 0) {
  if (playerSpeedY >= -1.8) {
  playerSpeedY -= 0.05;
  } else {
  playerSpeedY = -1.8;
   }
- }
- if (touchtop == 1) {
- playerSpeedY = 0;	
- }
- if (touchright == 0) {
  if (playerSpeedX <= 1.8) {
  playerSpeedX += 0.05;
  } else {
  playerSpeedX = 1.8;
   }
- }
- if (touchright == 1) {
- playerSpeedX = 0;	
- }
 }
-if (touchtop == 1) {
- 	up = 0;
- }
-if (up == 0 && stopUpSW == 1) {//gopl//
-if (touchtop == 0) {
+if (upE == 1 && up == 0) {//gopl//
 if (playerSpeedY >= -4) {
 playerSpeedY += 0.08;
  }
 if (playerSpeedY >= 0) {
 playerSpeedY = 0;
-stopUpSW = 0;
+upE = 0;
   }
- }
-if (touchtop == 1) {
-playerSpeedY = 0;	
-stopUpSW = 0;
- }
 }
 if (down == 1 && up == 0 && left == 0 && right == 0) {
- if (touchbottom == 0){
  if (playerSpeedY <= 3) {
  playerSpeedY += 0.05;
  } else {
  playerSpeedY = 3;
   }
- }
- if (touchbottom == 1) {
- playerSpeedY = 0;	
- }
 }
 if (down == 1 && up == 0 && left == 1 && right == 0) {
- if (touchbottom == 0){
  if (playerSpeedY <= 1.8) {
  playerSpeedY += 0.05;
  } else {
  playerSpeedY = 1.8;
   }
- }
- if (touchbottom == 1) {
- playerSpeedY = 0;	
- }
- if (touchleft == 0) {
  if (playerSpeedX >= -1.8) {
  playerSpeedX -= 0.05;
  } else {
  playerSpeedX = -1.8;
   }
- }
- if (touchleft == 1) {
- playerSpeedX = 0;	
- }
 }
 if (down == 1 && up == 0 && left == 0 && right == 1) {
- if (touchbottom == 0){
  if (playerSpeedY <= 1.8) {
  playerSpeedY += 0.05;
  } else {
  playerSpeedY = 1.8;
-  }
  }
- if (touchbottom == 1) {
- playerSpeedY = 0;	
- }
- if (touchright == 0) {
  if (playerSpeedX <= 1.8) {
  playerSpeedX += 0.05;
  } else {
  playerSpeedX = 1.8;
   }
- }
- if (touchright == 1) {
- playerSpeedX = 0;	
- }
 }
-if (touchbottom == 1) {
- down = 0;	
- }
-if (down == 0 && stopDownSW == 1) {
-if (touchbottom == 0){
+if (downE == 1 && down == 0) {
 if (playerSpeedY <= 4) {
 playerSpeedY -= 0.08;
  }
 if (playerSpeedY <= 0) {
 playerSpeedY = 0;
-stopDownSW = 0;
+downE = 0;
   }
- }
-if (touchbottom == 1){
-playerSpeedY = 0;
-stopDownSW = 0;
- }
 }
 if (left == 1 && right == 0 && up == 0 && down == 0) {
- if (touchleft == 0) {
  if (playerSpeedX >= -3) {
  playerSpeedX -= 0.05;
- } else {
+ }
+ if (playerSpeedX <= -3) {
  playerSpeedX = -3;
   }
- }
- if (touchleft == 1) {
- playerSpeedX = 0;	
- }
 }
-if (touchleft == 1) {
- left = 0;	
- }
-if (right == 0 && stopLeftSW == 1) {
-if (touchleft == 0) {
+if (leftE == 1 && left == 0 && right == 0) {
 if (playerSpeedX >= -4) {
 playerSpeedX += 0.08;
  }
 if (playerSpeedX >= 0) {
 playerSpeedX = 0;
-stopLeftSW = 0;
+leftE = 0;
   }
- }
-if (touchleft == 1) {
-playerSpeedX = 0;
-stopLeftSW = 0;
- }
 }
 if (right == 1 && left == 0 && up == 0 && down == 0) {
- if (touchright == 0) {
  if (playerSpeedX <= 3) {
  playerSpeedX += 0.05;
- } else {
+ }
+ if (playerSpeedX >= 3) {
  playerSpeedX = 3;
   }
- }
- if (touchright == 1) {
- playerSpeedX = 0;	
- }
 }
-if (touchright == 1) {
- right = 0;
- }
-if (left == 0 && stopRightSW == 1) {
-if (touchright == 0) {
+if (rightE == 1 && right == 0 && left == 0) {
 if (playerSpeedX <= 4) {
 playerSpeedX -= 0.08;
  }
 if (playerSpeedX <= 0) {
 playerSpeedX = 0;
-stopRightSW = 0;
+rightE = 0;
   }
- }
-if (touchright == 1) {
-playerSpeedX = 0;
-stopRightSW = 0;
- }
 }
-var leftTest = 0;
-if (box.crashWith(wallleft) == false) {
- touchleft = 0;
- if (leftTest == 1) {
- clearmovel(); 
- playerSpeedX = 0;
- leftTest = 0; 
-  }
- }
-var rightTest = 0;
-if (box.crashWith(wallright) == false) {
- touchright = 0;
- if (rightTest == 1) {
- clearmover(); 
- playerSpeedX = 0;
- rightTest = 0; 
-  }
- }
-var upTest = 0;
-if (box.crashWith(wall3) == false) {
- touchtop = 0;
- if (upTest == 1) {
- clearmoveu(); 
- playerSpeedY = 0;
- upTest = 0; 
-  }
- }
-var downTest = 0;
-if (box.crashWith(wall4) == false) {
- touchbottom = 0;
- if (downTest == 1) {
- clearmoved(); 
- playerSpeedY = 0;
- downTest = 0; 
-  }
- }
-if (box.crashWith(wallleft)) {
- clearmovel(); 
- touchleft = 1;
- stopLeftSW = 1;
- playerSpeedX = 1;
- leftTest = 1;
- left = 0;
+if (box.crashWith(wallleft) == true) {
+box.elasticCollition(wallleft);
 }
-if (box.crashWith(wallright)) {
- clearmover();
- touchright = 1;
- stopRightSW = 1;
- playerSpeedX = -1;
- rightTest = 1;
- right = 0;
+if (box.crashWith(wallright) == true) {
+box.elasticCollition(wallright);
 }
-if (box.crashWith(wall3)) {
- clearmoveu(); 
- touchtop = 1;
- stopUpSW = 1;
- playerSpeedY = 1;
- upTest = 1;
- up = 0;
+if (box.crashWith(wall3) == true) {
+box.elasticCollition(wall3);
 }
-if (box.crashWith(wall4)) {
- clearmoved();
- touchbottom = 1;
- stopDownSW = 1;
- playerSpeedY = -1;
- downTest = 1;
- down = 0;
+if (box.crashWith(wall4) == true) {
+box.elasticCollition(wall4);
 }
  if (wave < 5) {
- if (box.crashWith(wallhouse2_2) == false) {
- touchright = 0;
- }
- if (box.crashWith(wallhouse3) == false) {
- touchright = 0;
- }
- if (box.crashWith(wallhouse7) == false) {
- touchright = 0;
- }
- if (box.crashWith(wall2house2_2) == false) {
- touchright = 0;
- }
- if (box.crashWith(wall2house3) == false) {
- touchright = 0;
- }
- if (box.crashWith(wall2house7) == false) {
- touchright = 0;
- }
-  if (box.crashWith(wallhouse1) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wallhouse4_2) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wallhouse6_2) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wall2house1) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wall2house4_2) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wall2house6_2) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wallhouse1_2) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wallhouse4) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wallhouse6) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wall2house1_2) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wall2house4) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wall2house6) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wallhouse2) == false) {
- touchleft = 0;
- }
- if (box.crashWith(wallhouse3_2) == false) {
- touchleft = 0;
- }
- if (box.crashWith(wallhouse5) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wall2house2) == false) {
- touchleft = 0;
- }
- if (box.crashWith(wall2house3_2) == false) {
- touchleft = 0;
- }
- if (box.crashWith(wall2house5) == false) {
- touchbottom = 0;
- }
-if (box.crashWith(wallhouse1)) {
- clearmoveu();
- touchtop = 1;
+if (box.crashWith(wallhouse1) == true) {
+box.elasticCollition(wallhouse1);
 }
-if (box.crashWith(wallhouse1_2)) {
- clearmoved();
- touchbottom = 1;
+if (box.crashWith(wallhouse1_2) == true) {
+box.elasticCollition(wallhouse1_2);
 }
-if (box.crashWith(wallhouse2)) {
- clearmovel();
- touchleft = 1;
+if (box.crashWith(wallhouse2) == true) {
+box.elasticCollition(wallhouse2);
 }
-if (box.crashWith(wallhouse2_2)) {
- clearmover();
- touchright = 1;
+if (box.crashWith(wallhouse2_2) == true) {
+box.elasticCollition(wallhouse2_2);
 }
-if (box.crashWith(wallhouse3_2)) {
- clearmovel();
- touchleft = 1;
+if (box.crashWith(wallhouse3_2) == true) {
+box.elasticCollition(wallhouse3_2);
 }
-if (box.crashWith(wallhouse3)) {
- clearmover();
- touchright = 1;
+if (box.crashWith(wallhouse3) == true) {
+box.elasticCollition(wallhouse3);
 }
-if (box.crashWith(wallhouse4_2)) {
- clearmoveu();
- touchtop = 1;
+if (box.crashWith(wallhouse4_3) == true) {
+box.elasticCollition(wallhouse4_3);
 }
-if (box.crashWith(wallhouse4)) {
- clearmoved();
- touchbottom = 1;
-}
-if (box.crashWith(wallhouse5)) {
- clearmovel();
- touchleft = 1;
-}
-if (box.crashWith(wallhouse6_2)) {
- clearmoveu();
- touchtop = 1;
-}
-if (box.crashWith(wallhouse6)) {
- clearmoved();
- touchbottom = 1;
-}
-if (box.crashWith(wallhouse7)) {
- clearmover();
- touchright = 1;
+if (box.crashWith(wallhouse6_3) == true) {
+box.elasticCollition(wallhouse6_3);
 }
 if (box.crashWith(wall2house1)) {
- clearmoveu();
- touchtop = 1;
+box.elasticCollition(wall2house1);
 }
 if (box.crashWith(wall2house1_2)) {
- clearmoved();
- touchbottom = 1;
+box.elasticCollition(wall2house1_2);
 }
 if (box.crashWith(wall2house2)) {
- clearmovel();
- touchleft = 1;
+box.elasticCollition(wall2house2);
 }
 if (box.crashWith(wall2house2_2)) {
- clearmover();
- touchright = 1;
+box.elasticCollition(wall2house2_2);
 }
 if (box.crashWith(wall2house3_2)) {
- clearmovel();
- touchleft = 1;
+box.elasticCollition(wall2house3_2);
 }
 if (box.crashWith(wall2house3)) {
- clearmover();
- touchright = 1;
+box.elasticCollition(wall2house3);
 }
-if (box.crashWith(wall2house4_2)) {
- clearmoveu();
- touchtop = 1;
+if (box.crashWith(wall2house4_3)) {
+box.elasticCollition(wall2house4_3);
 }
-if (box.crashWith(wall2house4)) {
- clearmoved();
- touchbottom = 1;
-}
-if (box.crashWith(wall2house5)) {
- clearmovel();
- touchleft = 1;
-}
-if (box.crashWith(wall2house6_2)) {
- clearmoveu();
- touchtop = 1;
-}
-if (box.crashWith(wall2house6)) {
- clearmoved();
- touchbottom = 1;
-}
-if (box.crashWith(wall2house7)) {
- clearmover();
- touchright = 1;
-}
+if (box.crashWith(wall2house6_3)) {
+box.elasticCollition(wall2house6_3);
  }
+}
 if (wave >= 5 && wave < 7) {
-if (box.crashWith(wall3house1) == false) {
- touchbottom = 0;
- }
-if (box.crashWith(wall3house1_2) == false) {
- touchtop = 0;
- }
-if (box.crashWith(wall3house2) == false) {
- touchright = 0;
- }
-if (box.crashWith(wall3house2_2) == false) {
- touchleft = 0;
- }
-if (box.crashWith(wall3house3) == false) {
- touchleft = 0;
- }
-if (box.crashWith(wall3house3_2) == false) {
- touchright = 0;
- }
-if (box.crashWith(wall3house4) == false) {
- touchtop = 0;
- }
-if (box.crashWith(wall3house4_2) == false) {
- touchbottom = 0;
- }
-if (box.crashWith(wall3house4_3) == false) {
- touchleft = 0;
- } 
-if (box.crashWith(wall3house5) == false) {
- touchtop = 0;
- }
-if (box.crashWith(wall3house5_2) == false) {
- touchbottom = 0;
- }
-if (box.crashWith(wall3house5_3) == false) {
- touchright = 0;
- }
- if (box.crashWith(wall4house1) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wall4house1_1) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wall4house2) == false) {
- touchright = 0;
- }
- if (box.crashWith(wall4house2_1) == false) {
- touchleft = 0;
- } 
- if (box.crashWith(wall4house3) == false) {
- touchleft = 0;
- } 
- if (box.crashWith(wall4house3_1) == false) {
- touchright = 0;
- }
- if (box.crashWith(wall4house4) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wall4house4_1) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wall4house4_2) == false) {
- touchleft = 0;
- } 
- if (box.crashWith(wall4house5) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wall4house5_1) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wall4house5_2) == false) {
- touchright = 0;
- }
-  if (box.crashWith(wall4house6) == false) {
- touchbottom = 0;
- }
- if (box.crashWith(wall4house6_1) == false) {
- touchtop = 0;
- }
- if (box.crashWith(wall4house6_2) == false) {
- touchright = 0;
- }
- if (box.crashWith(wall4house6_3) == false) {
- touchleft = 0;
- }
 if (box.crashWith(wall3house1)) {
- clearmoved();
- touchbottom = 1;
+box.elasticCollition(wall3house1);
 }
 if (box.crashWith(wall3house1_2)) {
- clearmoveu();
- touchtop = 1;
+box.elasticCollition(wall3house1_2);
 }
 if (box.crashWith(wall3house2)) {
- clearmover();
- touchright = 1;
+box.elasticCollition(wall3house2);
 }
 if (box.crashWith(wall3house2_2)) {
- clearmovel();
- touchleft = 1;
+box.elasticCollition(wall3house2_2);
 }
 if (box.crashWith(wall3house3)) {
- clearmovel();
- touchleft = 1;
+box.elasticCollition(wall3house3);
 }
 if (box.crashWith(wall3house3_2)) {
- clearmover();
- touchright = 1;
+box.elasticCollition(wall3house3_2);
 }
-if (box.crashWith(wall3house4)) {
- clearmoveu();
- touchtop = 1;
+if (box.crashWith(wall3house4_4)) {
+box.elasticCollition(wall3house4_4);
 }
-if (box.crashWith(wall3house4_2)) {
- clearmoved();
- touchbottom = 1;
-}
-if (box.crashWith(wall3house4_3)) {
- clearmovel();
- touchleft = 1;
-}
-if (box.crashWith(wall3house5)) {
- clearmoveu();
- touchtop = 1;
-}
-if (box.crashWith(wall3house5_2)) {
- clearmoved();
- touchbottom = 1;
-}
-if (box.crashWith(wall3house5_3)) {
- clearmover();
- touchright = 1;
+if (box.crashWith(wall3house5_4)) {
+box.elasticCollition(wall3house5_4);
 }
 if (box.crashWith(wall4house1)) {
- clearmoveu();
- touchtop = 1;
+box.elasticCollition(wall4house1);
 } 
 if (box.crashWith(wall4house1_1)) {
- clearmoved();
- touchbottom = 1;
+box.elasticCollition(wall4house1_1);
 }
 if (box.crashWith(wall4house2)) {
- clearmover();
- touchright = 1;
+box.elasticCollition(wall4house2);
 }
 if (box.crashWith(wall4house2_1)) {
- clearmovel();
- touchleft = 1;
+box.elasticCollition(wall4house2_1);
 }
 if (box.crashWith(wall4house3)) {
- clearmovel();
- touchleft = 1;
+box.elasticCollition(wall4house3);
 }
 if (box.crashWith(wall4house3_1)) {
- clearmover();
- touchright = 1;
+box.elasticCollition(wall4house3_1);
 }
-if (box.crashWith(wall4house4)) {
- clearmoved();
- touchbottom = 1;
+if (box.crashWith(wall4house4_3)) {
+box.elasticCollition(wall4house4_3);
 }
-if (box.crashWith(wall4house4_1)) {
- clearmoveu();
- touchtop = 1;
+if (box.crashWith(wall4house5_3)) {
+box.elasticCollition(wall4house5_3);
 }
-if (box.crashWith(wall4house4_2)) {
- clearmovel();
- touchleft = 1;
-}
-if (box.crashWith(wall4house5)) {
- clearmoved();
- touchbottom = 1;
-}
-if (box.crashWith(wall4house5_1)) {
- clearmoveu();
- touchtop = 1;
-}
-if (box.crashWith(wall4house5_2)) {
- clearmover();
- touchright = 1;
-}
-if (box.crashWith(wall4house6)) {
- clearmoved();
- touchbottom = 1;
-}
-if (box.crashWith(wall4house6_1)) {
- clearmoveu();
- touchtop = 1;
-}
-if (box.crashWith(wall4house6_2)) {
- clearmover();
- touchright = 1;
-}
-if (box.crashWith(wall4house6_3)) {
- clearmovel();
- touchleft = 1;
-}
+if (box.crashWith(wall4house6_4)) {
+box.elasticCollition(wall4house6_4);
+ }
 }
 if (controllerCon == 0) {
 	clearInterval(pollGamepads);
@@ -1942,6 +1686,18 @@ stopPause = true;
 if (pauseGameKeys == true) {
 pauseGame = 1;	
 stopPause = false;
+}
+if (up == 0 && playerSpeedY <= 0) {
+	lockUpE = 0;
+}
+if (down == 0 && playerSpeedY <= 0) {
+	lockDownE = 0;
+}
+if (left == 0 && playerSpeedX <= 0) {
+	lockLeftE = 0;
+}
+if (right == 0 && playerSpeedX <= 0) {
+	lockRightE = 0;
 }
 }
 var stopPause = false;
@@ -2019,30 +1775,22 @@ function pollGamepads() {
     }
 	if (cony < -0.2) {
 	if (pauseGame == 0) {
-		 if (touchtop == 0) {
             moveUp();
-			 }
 			}
 	}
 	if (cony > 0.2) {
 	if (pauseGame == 0) {
-		 if (touchbottom == 0) {
             moveDown();
-			 }
 			}
 	}
 	if (conx < -0.2) {
 	if (pauseGame == 0) {
-		 if (touchleft == 0) {
             moveLeft();
-			 }
 			}
 	}
 	if (conx > 0.2) {
 	if (pauseGame == 0) {
-		 if (touchright == 0) {
             moveRight();
-			 }
 			}
 	}
 	if (cony > -0.2 && cony != 0.2) {
@@ -2068,33 +1816,26 @@ function keyDownHandler(event)
 	if (keyPressed == Up_2 && blockKeys == false && pauseGameKeys == false)
 	{		
 		if (pauseGame == 0) {
-		 if (touchtop == 0) {
             moveUp();
-			 }
 			}
 	}
 	else if (keyPressed == Down_2 && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
-		 if (touchbottom == 0) {
             moveDown();
-			 }
 			}		
 	}
 	else if (keyPressed == Left_2 && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
-		 if (touchleft == 0) {
             moveLeft();
-			 }
 			}		
 	}
 	else if (keyPressed == Right_2 && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
-		 if (touchright == 0) {
             moveRight();
-			 }
+
 			}		
 	}
 	if (keyPressed == Esssc_2 && KeyZz2 == false && blockKeys == false && pauseGameKeys == false) 
@@ -4385,6 +4126,8 @@ var negbadspeedai1 = -1;
 var badhurtspeedai1 = 1.5;
 var negbadhurtspeedai1 = -1.5;
 function badai1() {
+badguypic1.x = badguy1.x;
+badguypic1.y = badguy1.y;
 if (wave < 5) {
 if (BadDeath > 0) {
 if (badguy1.x > badpos1.x) {
@@ -4537,6 +4280,8 @@ var negbadspeedai2 = -1;
 var badhurtspeedai2 = 1.5;
 var negbadhurtspeedai2 = -1.5;
 function badai2() {
+badguypic2.x = badguy2.x;
+badguypic2.y = badguy2.y;
 if (wave < 7 && wave > 1) {
 if (BadDeath2 > 0) {
 if (badguy2.x > badpos2.x) {
@@ -4788,6 +4533,10 @@ var negbadspeedai3 = -1;
 var badhurtspeedai3 = 1.6;
 var negbadhurtspeedai3 = -1.6;
 function triangleAI() {
+trienemyleft.x = tribox.x;
+trienemyleft.y = tribox.y;
+trienemyright.x = tribox.x;
+trienemyright.y = tribox.y;
 if (wave > 4 && wave < 7) {
 if (BadDeath3 > 0) {
 if (tribox.x > tripos1.x) {
@@ -4953,6 +4702,8 @@ var negbadspeedai4 = -1.2;
 var badhurtspeedai4 = 1.6;
 var negbadhurtspeedai4 = -1.6;
 function badrecai1() {
+recenemypic1.x = recbox1.x;
+recenemypic1.y = recbox1.y;
 if (wave < 5 && wave > 2) {
 if (BadDeath4 > 0) {
 if (recbox1.x > recpos1.x) {
@@ -5521,84 +5272,59 @@ fire = 0;
  }
 }
 var bullettime = 0;
-var touchleft = 0;
-var touchright = 0;
-var touchtop = 0;
-var touchbottom = 0;
 var upE = 0;
 var downE = 0;
 var leftE = 0;
 var rightE = 0;
+var lockUpE = 0;
+var lockDownE = 0;
+var lockLeftE = 0;
+var lockRightE = 0;
 var up = 0;
 var down = 0;
 var left = 0;
 var right = 0;
-var stopUpSW = 0;
-var stopDownSW = 0;
-var stopLeftSW = 0;
-var stopRightSW = 0;
 function moveUp() {
-if (touchtop == 0) {
 up = 1;
 upE = 1;
- } else {
-	 up = 0;
-     upE = 0;
- }
+lockUpE = 1;
 }
 function moveDown() {
-if (touchbottom == 0) {
 down = 1;
 downE = 1;
- } else {
-	 down = 0;
-	 downE = 0;
- }
+lockDownE = 1;
 }
 function moveLeft() {
-if (touchleft == 0) {
 left = 1;
 leftE = 1;
- } else {
-	 left = 0;
-	 leftE = 0;
- }
+lockLeftE = 1;
 }
 function moveRight() {
-if (touchright == 0) {
 right = 1;
 rightE = 1;
- } else {
-	 right = 0;
-	 rightE = 0;
- }
+lockRightE = 1;
 }
 function clearmoveu() {
 if (upE > 0) {
  up = 0;
- upE = 0;
- stopUpSW = 1;
  }
 }
 function clearmoved() {
+lockDownE = 0;
 if (downE > 0) {
  down = 0;
- downE = 0;
- stopDownSW = 1;
  }
 }
 function clearmovel() {
+lockLeftE = 0;
 if (leftE > 0) {
  left = 0;
- leftE = 0;
- stopLeftSW = 1;
  }
 }
 function clearmover() {
+lockRightE = 0;
 if (rightE > 0) {
  right = 0;
- rightE = 0;
- stopRightSW = 1;
  }
 }
 var firesoundstart = 0;
@@ -5867,13 +5593,22 @@ function nameFC() {
  oldwave = 1;
  count = 0;
  pauseGame = 0;
- money = 50;
  ammo = 160;
  playerHealth = 100;
  weaponupgrade1 = 0;
  backSwitch = 0;
  weapon = 0;
  resetcrate = 0;
+ cratespawn = 0;
+ cratespawn2 = 0;
+ badguy1.x = 650;
+ badguy1.y = 450;
+ badguy2.x = 40;
+ badguy2.y = 150;
+ recbox1.x = 450;
+ recbox1.y = 60;
+ tribox.x = 430;
+ tribox.y = 100;
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
  bpic = new component(10, 10, "bullpic", 400, 180, "img");
  bpic2 = new component(10, 10, "bullpic2", 400, 180, "img");
