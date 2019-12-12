@@ -1,3 +1,16 @@
 :PRESS P TO TOGGLE THE PIB:
 
 What's new in V0.4.95 PREVIEW-
+added wave 7 boss
+added wave 7 guardian
+added shipyard
+added a free cosmetic ship
+reworked wave system and ammo/health system
+added explosion intro for boss
+
+What's soon to come in preview 2:
+x-enemy
+christmas themed ship
+the "Easy" ship (makes the game easier)
+saves for controls
+explosion sound fx
