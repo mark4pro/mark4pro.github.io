@@ -7,6 +7,16 @@ added shipyard
 added a free cosmetic ship
 reworked wave system and ammo/health system
 added explosion intro for boss
+reworked stats
+added health bars
+added health bar toggle
+added boss bullet
+added ship stats
+realign ship
+made it posible to have more ammo/health
+added weapon cool down
+added wave finished indicator
+added boss music
 
 What's soon to come in preview 2:
 x-enemy
@@ -14,3 +24,6 @@ christmas themed ship
 the "Easy" ship (makes the game easier)
 saves for controls
 explosion sound fx
+buttons to easily restart campaign
+circle glow to ship icons in the shipyard
+and more!
