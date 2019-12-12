@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.94 Preview</title>
+<title>Homeworld Takedown V0.4.95 Preview 1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <link rel="icon" type="image/vnd.microsoft.icon"
      href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
@@ -9,8 +9,6 @@
 canvas {
 border:2px solid black;
 background-color: blue;
-border-radius: 25px;
-box-shadow: 2px 2px 5px lightblue;
 margin-left: auto;
 margin-right: auto;
 display: block;
@@ -82,6 +80,8 @@ top: 5%;
 bottom: 40%;
 left: 2%;
 position: fixed;
+width: 300px;
+height: 533px;
 }
 #splash {
     opacity: 0;
@@ -121,7 +121,7 @@ position: fixed;
 }
 </style>
 <div id="updateinfo">
-<object width="300" height="533" type="text/plain" data="https://mark4pro.github.io/GameEnginePro/txt/updatepreview.txt" border="0" >
+<object width="300" height="533" type="text/plain" data="https://mark4pro.github.io/GameEnginePro/txt/update.txt" border="0" >
 </object>
 </div>
 <!-- Where Images Go -->
@@ -129,6 +129,7 @@ position: fixed;
 <img id="badguy1img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemy.png">
 <img id="wave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave1-5.png">
 <img id="Fwave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fwave1-5.PNG">
+<img id="Wwave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/w_1-5background.JPG">
 <img id="bullpic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/bullet.png">
 <img id="bullpic2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/bullet2.png">
 <img id="bullpic3" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/bullet3.png">
@@ -149,6 +150,7 @@ position: fixed;
 <img id="tree" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tree1_1.png">
 <img id="wave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave5-7_1.png">
 <img id="Fwave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fwave5-7_1.PNG">
+<img id="Wwave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/w_5-7background.JPG">
 <img id="DeathScr" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/DeathScreen.png">
 <img id="Rectangle" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/squ-enemy.png">
 <img id="SWPart1_1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_1_Sidewalk.PNG">
@@ -158,16 +160,32 @@ position: fixed;
 <img id="UnmutedPic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Unmuted.png">
 <img id="MutedPic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Muted.png">
 <img id="Ftrees" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/falltrees.PNG">
+<img id="Wtrees" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/w_trees.PNG">
+<img id="Strees" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/s_trees.PNG">
 <img id="1-5sideFborder" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/1-5Fborder1_2.png">
+<img id="1-5sideWborder" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/w_border.PNG">
 <img id="1-5Fplatform" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fplatform1_2.png">
+<img id="1-5Wplatform" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/w_plat.PNG">
 <img id="enemybull" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemybullet.png">
 <img id="lowhealth" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/LowHealthBorder.png">
 <img id="woodcrate1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/crate1.png">
 <img id="plantbox1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/plantbox.PNG">
+<img id="wave7boss" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave7-boss.png">
+<img id="wave7bossSheild" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/sheilded-wave7-boss.png">
+<img id="EXFrame1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame1.png">
+<img id="EXFrame2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame2.png">
+<img id="EXFrame3" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame3.png">
+<img id="EXFrame4" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame4.png">
+<img id="Burnt" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/BurntHouse.png">
+<img id="player2img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/FreeShip1.png">
+<img id="guardian" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/guardianEnemy.png">
+<img id="Boss7Bull" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/BossBullet.png">
+<img id="End" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/End.png">
 
 <!-- Where Sounds Go -->
 	    <audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/Musictrack1.mp3"></audio>
 	    <audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/Musictrack2.mp3"></audio>
+		<audio id="boss7" src="https://mark4pro.github.io/GameEnginePro/audio/Boss1Musictrack.mp3"></audio>
 		<audio id="Menu" src="https://mark4pro.github.io/GameEnginePro/audio/Menumusictrack.mp3"></audio>
 		<audio id="Death" src="https://mark4pro.github.io/GameEnginePro/audio/Death1.mp3"></audio>
 	    <audio id="firesound" src="https://mark4pro.github.io/GameEnginePro/audio/LaserGunSound.mp3"></audio>
@@ -242,20 +260,23 @@ stop = 1;
  }
 }
 var switchS = 0;
+var pauseGameKeys = false;
 function show() {
 console.log("working");
 document.getElementById('settings').style.visibility = "visible";
 document.getElementById('settings').style.opacity += 1;
+pauseGameKeys = true;
 }
 function showStop() {
 document.getElementById('settings').style.opacity -= 1;
 if (document.getElementById('settings').style.opacity == 0) {
 document.getElementById('settings').style.visibility = "hidden";
+pauseGameKeys = false;
  }
 }
 </script>
 <label class="unselectable">
-<h1 align="center">Homeworld Takedown V0.4.94 Preview</h1>
+<h1 align="center">Homeworld Takedown V0.4.95 Preview 1</h1>
 <div id="content">
 <p align="center">Name/Debug:</p>
 <p align="center"><input type="text" id="name" value=""></p>
@@ -278,6 +299,8 @@ document.getElementById('settings').style.visibility = "hidden";
 <p align="center">Volume:</p>
 <p align="center">Music: <input type="range" min="0" max="100" id="volume" class="slider" step="1"></input></p>
 <p align="center">Sound Effects: <input type="range" min="0" max="100" id="soundvolume" class="slider" step="1"></input></p>
+<p align="center">Extras:</p>
+<p align="center">Enemy Health Bars? <input type="checkbox" id="HBshow" value="" checked></p>
 <p align="center">Controls:</p>
 <p align="center">Move Up: <input style="text-transform:uppercase" type="text" id="moveUP" value="W"></p>
 <p align="center">Move Down: <input style="text-transform:uppercase" type="text" id="moveDOWN" value="S"></p>
