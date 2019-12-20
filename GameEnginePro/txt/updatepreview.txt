@@ -1,6 +1,7 @@
 :PRESS P TO TOGGLE THE PIB:
 
 What's new in V0.4.95 PREVIEW-
+christmas themed ship
 changed up the page
 added wave 7 boss
 added wave 7 guardian
@@ -19,9 +20,8 @@ added weapon cool down
 added wave finished indicator
 added boss music
 
-What's soon to come in preview 2:
+What's soon to come in preview 3:
 x-enemy
-christmas themed ship
 the "Easy" ship (makes the game easier)
 saves for controls
 explosion sound fx
