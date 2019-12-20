@@ -21,6 +21,7 @@ var winterseason = 0;
 var springseason = 0;
 var stcweapon = 0;
 var earlystart = 1;
+var christmasSkin = 0;
 function Datechecker() {
 var today_date= new Date()
 var mydayofweek = today_date.getDay()
@@ -35,6 +36,10 @@ popup = 0;
    }
   }
  }
+if (mymonth == 11 && christmasSkin == 0) { 
+christmasSkin = 1;
+localStorage && (localStorage.Cs = christmasSkin);
+}
 if (mymonth >= 8 && mymonth < 11) {
 if (mytoday >= 1) {
 fallseason = 1;
@@ -93,6 +98,9 @@ var badHealthBarColor2 = "green";
 var badHealthBarColor3 = "green";
 var badHealthBarColor4 = "green";
 function start() {
+ if (localStorage && 'Cs' in localStorage) {
+    christmasSkin = localStorage.Cs;
+ }
  MusicOnOff = confirm("Do you want sound?\nOk for yes.\nCancel for no.");
  document.getElementById("volume").value = "15";
  SetVolume(15);
@@ -142,6 +150,7 @@ function start() {
  detectbox = new component(100, 100, "black", playerX - 37.5, playerY - 37.5, "rec");
  ship1 = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "img");
  ship2 = new component(25, 25, "player2img", playerX, playerY, "img");
+ ship3 = new component(25, 25, "player3img", playerX, playerY, "img");
  w1t5 = new component(800, 500, "wave1t5", 0, 0, "img");
  w5t7 = new component(800, 390, "wave5t7", 0, 0, "img");
  Explosion = new component(800, 390, "EXFrame1", 0, 0, "img");
@@ -873,6 +882,8 @@ ship1.y = box.y  - 3.5;
 ship1.x = box.x  - 3.5;
 ship2.y = box.y;
 ship2.x = box.x;
+ship3.y = box.y;
+ship3.x = box.x;
 detectbox.x = box.x - 37.5;
 detectbox.y = box.y - 37.5;
 if (pauseGame > 1) {
@@ -1209,6 +1220,9 @@ ship1.update();
 if (playerShip == 1) {
 ship2.update();	
 }
+if (playerShip == 2) {
+ship3.update();	
+}
 if (menu > 0) {
 if (upgrademenu == 0) {
 box.newPos();
@@ -1514,7 +1528,7 @@ if (weaponupgrade1 > 1) {
 max1txt.update();
 }
 }
-if (pauseGame == 1) {
+if (pauseGame == 1 && pauseGameKeys == false) {
 weap_ship = new component(200, 200, "grey", 300, 40, "rec");
 shiptxt = new component("30px", "Consolas", "white", 365, 55, "text");
 shiptxt.font = "15px Consolas";
@@ -1536,6 +1550,12 @@ ship2Show = new component(32, 32, "player2img", 342, 60, "img");
 ship2txt = new component("30px", "Consolas", "white", 349.5, 105, "text");
 ship2txt.font = "15px Consolas";
 ship2txt.text = "#2";
+ship3Hidden = new component(32, 32, "hiddenShip", 379, 60, "img");
+shipHighLight3 = new component(32, 32, "lightgray", 379, 60, "rec");
+ship3Show = new component(32, 32, "player3img", 379, 60, "img");
+ship3txt = new component("30px", "Consolas", "white", 386.5, 105, "text");
+ship3txt.font = "15px Consolas";
+ship3txt.text = "#3";
 weap_ship.update();
 shiptxt.update();
 if (playerShip == 0) {
@@ -1548,6 +1568,15 @@ shipHighLight2.update();
 }
 ship2Show.update();
 ship2txt.update();
+if (playerShip == 2) {
+shipHighLight3.update();
+}
+if (christmasSkin == 1) {
+ship3Show.update();
+} else {
+ship3Hidden.update();
+}
+ship3txt.update();
 }
 if (specialalert1 == 1) {
 alerttxt1 = new component("30px", "Consolas", "white", 300, 60, "text");
@@ -1562,13 +1591,16 @@ alerttxt1.update();
 alerttxt2.update();
  }
 }
-if (wave == 8 && upgrademenu == 0 && pauseGame == 0) {
-endCard.update();
-}
 if (specialalert1 == 0) {
 statscommand();
 playerMoney();
 nameFC();
+}
+if (pauseGameKeys == true) {
+pauseboard.update();
+}
+if (wave == 8 && upgrademenu == 0 && pauseGame == 0) {
+endCard.update();
 }
 if (menu == 0) {
 if (upgrademenu == 0) {
@@ -2126,6 +2158,9 @@ document.onkeydown = function(e) {
 		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap3();
 		}
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    playerShip = 2;
+		}
 			break;
 		case 52:
 		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
@@ -2154,6 +2189,9 @@ document.onkeydown = function(e) {
 		case 99:
 		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap3();
+		}
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    playerShip = 2;
 		}
 			break;
 		case 100:
@@ -5841,101 +5879,54 @@ starttime = 0;
 
 var bullrange = 3;
 function bulletai() {
+bpic.x = bullbox.x;
+bpic.y = bullbox.y;
+bpic2.x = bullbox.x;
+bpic2.y = bullbox.y;
+bpic3.x = bullbox.x;
+bpic3.y = bullbox.y;
+bpic4.x = bullbox.x;
+bpic4.y = bullbox.y;
 if (fire < 1) {
 if (-10 + bullbox.x > box.x) {
 	bullbox.speedX = -5;
-	bpic.speedX = -5;
-	bpic2.speedX = -5;
-	bpic3.speedX = -5;
-	bpic4.speedX = -5;
+
 }
 if (-10 + bullbox.x < box.x) {
 	bullbox.speedX = 5;
-	bpic.speedX = 5;
-	bpic2.speedX = 5;
-	bpic3.speedX = 5;
-	bpic4.speedX = 5;
 }
 if (box.crashWith(bullbox)) {
 	bullbox.speedX = 0;
-	bpic.speedX = 0;
-	bpic2.speedX = 0;
-	bpic3.speedX = 0;
-	bpic4.speedX = 0;
  }
 if (-10 + bullbox.y > box.y) {
 	bullbox.speedY = -5;
-	bpic.speedY = -5;
-	bpic2.speedY = -5;
-	bpic3.speedY = -5;
-	bpic4.speedY = -5;
 }
 if (-10 + bullbox.y < box.y) {
 	bullbox.speedY = 5;
-	bpic.speedY = 5;
-	bpic2.speedY = 5;
-	bpic3.speedY = 5;
-	bpic4.speedY = 5;
 }
 if (box.crashWith(bullbox)) {
 	bullbox.speedY = 0;
-	bpic.speedY = 0;
-	bpic2.speedY = 0;
-	bpic3.speedY = 0;
-	bpic4.speedY = 0;
  }
 }
 if (fire > 0) {
  if (fireL > 0) {
   bullbox.speedX -= bullrange;
   bullbox.speedY = 0;
-  bpic.speedX -= bullrange;
-  bpic.speedY = 0;
-  bpic2.speedX -= bullrange;
-  bpic2.speedY = 0;
-  bpic3.speedX -= bullrange;
-  bpic3.speedY = 0;
-  bpic4.speedX -= bullrange;
-  bpic4.speedY = 0;
   bullettime += 0.5;
   }
  if (fireR > 0) {
   bullbox.speedX += bullrange;
   bullbox.speedY = 0;
-  bpic.speedX += bullrange;
-  bpic.speedY = 0;
-  bpic2.speedX += bullrange;
-  bpic2.speedY = 0;
-  bpic3.speedX += bullrange;
-  bpic3.speedY = 0;
-  bpic4.speedX += bullrange;
-  bpic4.speedY = 0;
   bullettime += 0.5;
   }
   if (fireU > 0) {
   bullbox.speedX = 0;
   bullbox.speedY -= bullrange;
-  bpic.speedY -= bullrange;
-  bpic.speedX = 0;
-  bpic2.speedY -= bullrange;
-  bpic2.speedX = 0;
-  bpic3.speedY -= bullrange;
-  bpic3.speedX = 0;
-  bpic4.speedY -= bullrange;
-  bpic4.speedX = 0;
   bullettime += 0.5;
   }
   if (fireD > 0) {
   bullbox.speedX = 0;
   bullbox.speedY += bullrange;
-  bpic.speedY += bullrange;
-  bpic.speedX = 0;
-  bpic2.speedY += bullrange;
-  bpic2.speedX = 0;
-  bpic3.speedY += bullrange;
-  bpic3.speedX = 0;
-  bpic4.speedY += bullrange;
-  bpic4.speedX = 0;
   bullettime += 0.5;
   }
  if (bullettime >= 5) {
@@ -6215,6 +6206,9 @@ function statscommand() {
  stat2_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
  stat2_w.font = "15px Consolas";
  stat2_w.text = "Number: #2";
+ stat3_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
+ stat3_w.font = "15px Consolas";
+ stat3_w.text = "Number: #3";
  stat1 = new component("30px", "Consolas", "white", 45, upgrade1Y + 15, "text");
  stat1.font = "15px Consolas";
  stat1.text = "Name: " + weapname;
@@ -6239,7 +6233,7 @@ function statscommand() {
  stat4_4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
  stat4_4.font = "15px Consolas";
  stat4_4.text = "Special: Uses Less Ammo";
-if (pauseGame == 1) {
+if (pauseGame == 1 && pauseGameKeys == false) {
 statstxt.update();
 stats2txt.update();
 if (playerShip == 0) {
@@ -6249,6 +6243,11 @@ stat1_3w.update();
 }
 if (playerShip == 1) {
 stat2_w.update();
+stat1_2w.update();
+stat1_3w.update();	
+}
+if (playerShip == 2) {
+stat3_w.update();
 stat1_2w.update();
 stat1_3w.update();	
 }
@@ -6373,6 +6372,7 @@ function nameFC() {
  box = new component(25, 25, "black", playerX, playerY, "rec");
  ship1 = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "img");
  ship2 = new component(25, 25, "player2img", playerX, playerY, "img");
+ ship3 = new component(25, 25, "player3img", playerX, playerY, "img");
  document.getElementById('name').value = "";
  }
  if (CapName == weapv) {
@@ -6463,7 +6463,7 @@ function backfunc() {
     }
    }
 	if (Death1 > 0) {
-	document.location.reload(true);
+	document.getElementById('name').value = "story";
 	}
 }
 	
