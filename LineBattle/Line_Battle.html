@@ -29,7 +29,9 @@ display: none;
 <div id="BGT"><p style="color:red;position:absolute;right:50%;left:45%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
 <p style="color:green;position:absolute;right:50%;left:45%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="green" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
 <p style="color:blue;position:absolute;right:50%;left:45%;top:50%;transform:translate(-50%,-50%);">Blue<input type="range" min="0" max="255" value="0" id="blue" style="outline:none;cursor:pointer;width:250px;height:25px;background:blue;"></p>
-<p style="color:blue;position:absolute;right:50%;left:45%;top:60%;transform:translate(-50%,-50%);">Tail Length<input type="range" min="0" max="500" value="100" id="tail" style="outline:none;cursor:pointer;width:250px;height:25px;"></p></div>
+<p style="color:blue;position:absolute;right:50%;left:45%;top:60%;transform:translate(-50%,-50%);">Tail Length<input type="range" min="0" max="500" value="100" id="tail" style="outline:none;cursor:pointer;width:250px;height:25px;"></p>
+<p id="waveNum" style="color:blue;position:absolute;right:50%;left:45%;top:65%;transform:translate(-50%,-50%);"></p>
+<p style="color:blue;position:absolute;right:50%;left:45%;top:70%;transform:translate(-50%,-50%);"><input type="range" min="1" max="50" value="10" id="wave" style="outline:none;cursor:pointer;width:250px;height:25px;"></p></div>
 <script>
 var keys = {};
 window.addEventListener("keydown",
@@ -68,7 +70,7 @@ moveButton = new component("", 80, 50, "blue", 50, 50, "rec");
 TP = new component("", 0, 0, "black", 40, 62.5, "text");
 TP.font = "36px Arial";
 Player2 = new component("player2", 30, 30, "red", window.innerWidth - 50, window.innerHeight - 120, "cir");
-moveButtonDetect2 = new component("", 80, 50, "red", window.innerWidth - 90, window.innerHeight - 50, "rec");
+moveButtonDetect2 = new component("", 80, 50, "red", window.innerWidth - 90, window.innerHeight - 75, "rec");
 moveButton2 = new component("", 80, 50, "red", window.innerWidth - 50, window.innerHeight - 50, "rec");
 TP2 = new component("", 0, 0, "black", window.innerWidth - 60, window.innerHeight - 38.5, "text");
 TP2.font = "36px Arial";
@@ -113,11 +115,21 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight - 5;
 this.context.clearRect(0, 0, canvas.width, canvas.height);
 moveButtonDetect2.x = window.innerWidth - 90;
-moveButtonDetect2.y = window.innerHeight - 50;
+moveButtonDetect2.y = window.innerHeight - 75;
 moveButton2.x = window.innerWidth - 50;
 moveButton2.y = window.innerHeight - 50;
 TP2.x = window.innerWidth - 60;
 TP2.y = window.innerHeight - 38.5;
+moveButtonDetect3.x = window.innerWidth / 2 - 90;
+moveButtonDetect3.y = window.innerHeight / 2;
+moveButton3.x = window.innerWidth / 2;
+moveButton3.y =	window.innerHeight / 2;
+DeathTxt.x = window.innerWidth / 2 - 82;
+DeathTxt.y = window.innerHeight / 2 + 15;
+DeathTxt2.x = window.innerWidth / 2 - 82;
+DeathTxt2.y = window.innerHeight / 2 + 15;
+DeathTxt3.x = window.innerWidth / 2 - 82;
+DeathTxt3.y	= window.innerHeight / 2 + 15;
 },
 pause : function(){
 canvas.style.display = "none";
@@ -221,10 +233,12 @@ var lock = 0;
 var lock2 = 0;
 var win = false;
 function updateGameArea() {
+var numOfWaves = document.getElementById('wave').value;
 var lineLength = document.getElementById('tail').value;
 var redC = document.getElementById('red').value;
 var greenC = document.getElementById('green').value;
 var blueC = document.getElementById('blue').value;
+document.getElementById('waveNum').innerHTML = "Number Of Waves: " + numOfWaves;
 BGColor.style.backgroundColor = "rgb("+redC+", "+greenC+", "+blueC+")";
 if (start == 1 && pause == false) {
 start = 0;
@@ -237,7 +251,7 @@ if (pause == false) {
 GameArea.unpause();
 }
 GameArea.updateCV();
-if (Player1.points < 10 || Player2.points < 10) {
+if (Player1.points < numOfWaves || Player2.points < numOfWaves) {
 background.color = "rgb("+redC+", "+greenC+", "+blueC+")";
 }
 TP.text = Player1.points;
@@ -370,9 +384,12 @@ function deadTank2Reset(){
  Player2.speed = 0;
 } setTimeout(deadTank2Reset, 1000);
 }
+if (win == false) {
 moveButtonDetect.update();
 moveButtonDetect2.update();
+} else {
 moveButtonDetect3.update();
+}
 background.update();
 if (dirSwitch  > 1) {
 dirSwitch = 0;
@@ -408,19 +425,19 @@ else if(Player1.x > Player2.x){
   moveButton2.update();
   TP.update();
   TP2.update();
-  if (Player1.points >= 10 && Player2.points < 10) {
+  if (Player1.points >= numOfWaves && Player2.points < numOfWaves) {
 moveButton3.update();
 DeathTxt.update();
 background.color = "black";
 win = true;
  }
-  if (Player2.points >= 10 && Player1.points < 10) {
+  if (Player2.points >= numOfWaves && Player1.points < numOfWaves) {
 moveButton3.update();
 DeathTxt2.update();
 background.color = "black";
 win = true;
  }
-  if (Player1.points >= 10 && Player2.points >= 10) {
+  if (Player1.points >= numOfWaves && Player2.points >= numOfWaves) {
 DeathTxt3.update();
 background.color = "black";
 win = true;
@@ -430,6 +447,9 @@ if (win == true && button3_down == true) {
  }
 }
 function winReset() {
+var redC = document.getElementById('red').value;
+var greenC = document.getElementById('green').value;
+var blueC = document.getElementById('blue').value;
 if (win == true) {
  _bullets.length[0];
  dirSwitch = 0;
