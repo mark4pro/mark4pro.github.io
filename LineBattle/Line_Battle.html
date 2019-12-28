@@ -31,7 +31,7 @@ display: none;
 <body id="BGColor" onload="startGame()">
 <canvas id="canvas" style="border:0px;"></canvas>
 <button id="pauseG" style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:absolute;right:0.5%;top:3%;opacity:0.5;">PAUSE</button>
-<h1 id="welcome" style="color:blue;text-align:center;font:36px Arial;"><b>Welcome To Line Battle!</b></h1>
+<h1 unselectable="on" class="unselectable" id="welcome" style="color:blue;text-align:center;font:36px Arial;"><b>Welcome To Line Battle!</b></h1>
 <button id="startG" style="cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:absolute;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
 <div id="BGT"><p unselectable="on" class="unselectable" style="color:red;position:absolute;right:50%;left:45%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
 <p unselectable="on" class="unselectable" style="color:green;position:absolute;right:50%;left:45%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="green" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
