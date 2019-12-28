@@ -626,6 +626,9 @@ win = true;
 if (Tank1.points < numOfWaves || Tank2.points < numOfWaves) {
 background.color = "rgb("+redC+", "+greenC+", "+blueC+")";
  }
+if (win == true) {
+upgradeMenu = 0;
+}
   if (upgradeMenu == 0) {
     okG.style.display = "none";
 	upgrades.style.display = "none";
@@ -769,3 +772,4 @@ document.onkeyup = function(e) {
 </script>
 </body>
 </html>
+
