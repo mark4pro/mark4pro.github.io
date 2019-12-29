@@ -26,6 +26,7 @@
 body {
 	margin: 0;
 	background-color: black;
+	overflow: hidden;
 }
 canvas {
 	background-color: black;
@@ -206,6 +207,8 @@ var GameArea = {
 		Tank1pic1.y = Tank1.y;
 		Tank2pic1.x = Tank2.x;
 		Tank2pic1.y = Tank2.y;
+		Tank1pic1.angle = Tank1.angle;
+		Tank2pic1.angle = Tank2.angle;
 		if (pause == true) {
 		GameArea.pause();
 		}
@@ -772,4 +775,3 @@ document.onkeyup = function(e) {
 </script>
 </body>
 </html>
-
