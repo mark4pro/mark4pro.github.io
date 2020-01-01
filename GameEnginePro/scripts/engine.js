@@ -107,7 +107,7 @@ function start() {
  SetVolume(15);
  endCard = new component(800, 390, "End", 0, 0, "img");
  guardianPic = new component(25, 25, "guardian", 650, 450, "guard-enemypic");
- guardianBox = new component(25, 25, "red", 650, 450, "rec");
+ guardianBox = new component(25, 25, "red", 650, 450, "rec", "enemy");
  guardianhealthbar = new component(GuardHealth / 2, 5, guardHealthBarColor, guardianBox.x, guardianBox.y - 8, "rec");
  bossWave7pic = new component(35, 35, "wave7boss", Boss7_Start_X, Boss7_Start_Y, "img");
  bossWave7sheildPic = new component(35, 35, "wave7bossSheild", Boss7_Start_X, Boss7_Start_Y, "img");
@@ -120,23 +120,23 @@ function start() {
  bosstxt2.font = "15px Consolas";
  bosstxt2.text = "BOSS: Sheilded";
  recenemypic1 = new component(25, 25, "red", 450, 60, "rec-enemypic");
- recbox1 = new component(25, 25, "red", 450, 60, "rec");
+ recbox1 = new component(25, 25, "red", 450, 60, "rec", "enemy");
  badguy1healthbar3 = new component(Badhealth4 / 2, 5, badHealthBarColor3, recbox1.x, recbox1.y - 8, "rec");
- recpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec");
+ recpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec", "enemy");
  recwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
  badguypic1 = new component(25, 25, "badguy1img", 650, 450, "img");
- badguy1 = new component(25, 25, "red", 650, 450, "rec");
+ badguy1 = new component(25, 25, "red", 650, 450, "rec", "enemy");
  badguy1healthbar = new component(Badhealth1 / 2, 5, badHealthBarColor, badguy1.x, badguy1.y - 8, "rec");
- badpos1 = new component(25, 25, "orange", bad1posX, bad1posY, "rec");
+ badpos1 = new component(25, 25, "orange", bad1posX, bad1posY, "rec", "enemy");
  badwavebox1 = new component(35, 35, "black", bad1posX - 5, bad1posY - 5, "rec");
  badguypic2 = new component(25, 25, "badguy1img", 40, 150, "img");
- badguy2 = new component(25, 25, "red", 40, 150, "rec");
+ badguy2 = new component(25, 25, "red", 40, 150, "rec", "enemy");
  badguy1healthbar2 = new component(Badhealth2 / 2, 5, badHealthBarColor2, badguy2.x, badguy2.y - 8, "rec");
  badpos2 = new component(25, 25, "orange", bad2posX, bad2posY, "rec");
  badwavebox2 = new component(35, 35, "black", bad2posX - 5, bad2posY - 5, "rec");
  trienemyleft = new component(35, 35, "triimgleft", 430, 100, "img");
  trienemyright = new component(35, 35, "triimgright", 430, 100, "img");
- tribox = new component(35, 35, "red", 430, 100, "rec");
+ tribox = new component(35, 35, "red", 430, 100, "rec", "enemy");
  badguy1healthbar4 = new component(Badhealth3 / 2, 5, badHealthBarColor4, tribox.x, tribox.y - 8, "rec");
  tribpic = new component(10, 10, "enemybull", 400, 100, "img");
  tribbox = new component(10, 10, "orange", 400, 100, "rec");
@@ -147,7 +147,7 @@ function start() {
  bpic2 = new component(10, 10, "bullpic2", 400, 180, "img");
  bpic3 = new component(10, 10, "bullpic3", 400, 180, "img");
  bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
- box = new component(25, 25, "grey", playerX, playerY, "player1");
+ box = new component(25, 25, "grey", playerX, playerY, "player1", "player");
  detectbox = new component(100, 100, "black", playerX - 37.5, playerY - 37.5, "rec");
  ship1 = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "img");
  ship2 = new component(25, 25, "player2img", playerX, playerY, "img");
@@ -470,6 +470,7 @@ if (this.type == "text") {
  ctx.fillText(this.text, this.x, this.y);
 } else {
 if (this.type == "rec" || this.type == "player1" || this.type == "bull") {
+this.id = radius;
 ctx.globalAlpha = this.globalAlpha;
 ctx.fillStyle = this.color;
 ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -535,7 +536,9 @@ this.getRight = function() {
 this.getBottom = function() {
  return this.y + this.height;
 }
-this.crashWith = function(otherobj) {
+this.stopPhysics;
+this.crashExeption = false;
+this.crashWith = function(otherobj, target) {
 var l1 = this.getLeft();
 var t1 = this.getTop();
 var r1 = this.getRight();
@@ -545,16 +548,17 @@ var t2 = otherobj.getTop();
 var r2 = otherobj.getRight();
 var b2 = otherobj.getBottom();
 var crash = true;
+if (this.crashExeption == true && otherobj.id == target) {
+ this.stopPhysics = true;
+} else {
+ this.stopPhysics = false;
+}
 if (b1 < t2 || t1 > b2 || r1 < l2 || l1 > r2) {
  crash = false;
 }
  return crash;
-if (crash == true) {
-console.log("test");
-this.elasticCollition(otherobj);
- }
 };
-this.elasticCollition = function(entity) {
+this.elasticCollition = function(entity, exeption) {
     var pMidX = this.getMidX();
     var pMidY = this.getMidY();
     var aMidX = entity.getMidX();
@@ -565,14 +569,18 @@ this.elasticCollition = function(entity) {
     var absDY = Math.abs(dy);
     if (absDX > absDY) {
         if (dx < 0) {
+		if (exeption == null || exeption != true) {
 		this.x = entity.getRight() + 0.5;
+		}
 			if (this.type == "player1") {
 				if (lockLeftE == 1) {
 				playerSpeedX = 0;
 				}
 			}
         } else {
+		if (exeption == null || exeption != true) {
 		this.x = entity.getLeft() - this.width - 0.5;
+		}
 			if (this.type == "player1") {
 			   if (lockRightE == 1) {
 				playerSpeedX = 0;
@@ -581,14 +589,18 @@ this.elasticCollition = function(entity) {
         }		
     } else {
         if (dy < 0) {
+		if (exeption == null || exeption != true) {
 		this.y = entity.getBottom() + 0.5;
+		}
 			if (this.type == "player1") {
 				if (lockUpE == 1) {
 					playerSpeedY = 0;
 			}
 		}
     } else {
+		if (exeption == null || exeption != true) {
 		this.y = entity.getTop() - this.height - 0.5;
+		}
 			if (this.type == "player1") {
 			    if (lockDownE == 1) {
 					playerSpeedY = 0;
@@ -817,29 +829,81 @@ function housecontrols() {
 if (wave < 5) {
 if (box.crashWith(insidedetect1)) {
 insidehouse1 = 1;
+if (roofhouse1.globalAlpha > 0.5) {
+	roofhouse1.globalAlpha -= 0.01;
+}
   }
 if (box.crashWith(insidedetect1) == false) {
 insidehouse1 = 0; 
+if (roofhouse1.globalAlpha < 1) {
+	roofhouse1.globalAlpha += 0.01;
+}
   }
 if (box.crashWith(inside2detect1)) {
 inside2house1 = 1;
+if (roof2house1.globalAlpha > 0.5) {
+	roof2house1.globalAlpha -= 0.01;
+}
   }
 if (box.crashWith(inside2detect1) == false) {
 inside2house1 = 0; 
+if (roof2house1.globalAlpha < 1) {
+	roof2house1.globalAlpha += 0.01;
+}
   }
  }
 if (wave >= 5 && wave < 7) {//gohere4//
 if (box.crashWith(inside3detect1)) {
 inside3house1 = 1;
+if (roof3house1.globalAlpha > 0.5) {
+	roof3house1.globalAlpha -= 0.01;
+}
+if (roof3house2.globalAlpha != 0) {
+	roof3house2.globalAlpha -= 0.02;
+}
+if (roof3house2.globalAlpha <= 0) {
+	roof3house2.globalAlpha = 0;
+}
   }
 if (box.crashWith(inside3detect1) == false) {
 inside3house1 = 0; 
+if (roof3house1.globalAlpha < 1) {
+	roof3house1.globalAlpha += 0.01;
+}
+if (roof3house2.globalAlpha < 1) {
+	roof3house2.globalAlpha += 0.02;
+}
+if (roof3house2.globalAlpha >= 1) {
+	roof3house2.globalAlpha = 1;
+}
   }
 if (box.crashWith(inside4detect1)) {
 inside4house1 = 1;
+if (roof4house1.globalAlpha > 0.5) {
+	roof4house1.globalAlpha -= 0.01;
+}
+if (roof4house2.globalAlpha != 0 && roof4house3.globalAlpha != 0) {
+	roof4house2.globalAlpha -= 0.02;
+	roof4house3.globalAlpha -= 0.02;
+}
+if (roof4house2.globalAlpha <= 0 && roof4house3.globalAlpha <= 0) {
+	roof4house2.globalAlpha = 0;
+	roof4house3.globalAlpha = 0;
+}
   }
 if (box.crashWith(inside4detect1) == false) {
 inside4house1 = 0; 
+if (roof4house1.globalAlpha < 1) {
+	roof4house1.globalAlpha += 0.01;
+}
+if (roof4house2.globalAlpha < 1 && roof4house3.globalAlpha < 1) {
+	roof4house2.globalAlpha += 0.02;
+	roof4house3.globalAlpha += 0.02;
+}
+if (roof4house2.globalAlpha >= 1 && roof4house3.globalAlpha >= 1) {
+	roof4house2.globalAlpha = 1;
+	roof4house3.globalAlpha = 1;
+}
   }
  }
 }
@@ -1267,12 +1331,8 @@ wall2house6.update();
 wall2house6_2.update();
 wall2house6_3.update();
 wall2house7.update();
-if (inside2house1 == 0) {
 roof2house1.update();
-}
-if (insidehouse1 == 0) {
 roofhouse1.update();
- }
 if (fallseason == 0 && winterseason == 0 && springseason == 0) {
 tree1_1.update();
 tree1_2.update();
@@ -1350,11 +1410,11 @@ wall4house6_2.update();
 wall4house6_3.update();
 wall4house6_4.update();//gohere3//
 }
-if (inside3house1 == 0 && ExplosionCycle <= 4 && spawnBoss7 == 0) {
+if (ExplosionCycle <= 4 && spawnBoss7 == 0) {
 roof3house2.update();
 roof3house1.update();
 }
-if (inside4house1 == 0 && ExplosionCycle <= 4 && spawnBoss7 == 0) {
+if (ExplosionCycle <= 4 && spawnBoss7 == 0) {
 roof4house3.update();
 roof4house2.update();
 roof4house1.update();
@@ -1756,17 +1816,6 @@ if (box.crashWith(wall4) == true) {
 box.elasticCollition(wall4);
 }
  if (wave < 5) {
-	//enemy collision//
-if (box.crashWith(badguy1) == true) {
-badguy1.elasticCollition(box);
-}
-if (box.crashWith(badguy2) == true) {
-badguy2.elasticCollition(box);
-}
-if (box.crashWith(recbox1) == true) {
-recbox1.elasticCollition(box);
-}
-   //player collision//
 if (box.crashWith(wallhouse1) == true) {
 box.elasticCollition(wallhouse1);
 }
@@ -1817,14 +1866,6 @@ box.elasticCollition(wall2house6_3);
  }
 }
 if (wave >= 5 && wave < 7) {
-	//enemy collision//
-if (box.crashWith(badguy2) == true) {
-badguy2.elasticCollition(box);
-}
-if (box.crashWith(tribox) == true) {
-tribox.elasticCollition(box);
-}
-   //player collision//
 if (box.crashWith(wall3house1)) {
 box.elasticCollition(wall3house1);
 }
@@ -4395,16 +4436,16 @@ guardianhealthbar.x = guardianBox.x - 12;
 guardianhealthbar.y = guardianBox.y - 8;
 guardianhealthbar.width = GuardHealth/2;
 if (GuardDead == false && pauseGame == 0 && wave == 7 && GuardStart == 1 && Death1 == 0) {
-if (guardianBox.x < box.getMidX() - guardianBox.width/2) {
+if (guardianBox.x + guardianBox.width < box.x) {
     guardianBox.x += 2;
 	}
-if (guardianBox.x > box.getMidX() - guardianBox.width/2) {
+if (guardianBox.x > box.x + box.width) {
     guardianBox.x -= 2;
 	}
-if (guardianBox.y < box.getMidY() - guardianBox.width/2) {
+if (guardianBox.y + guardianBox.height < box.y) {
     guardianBox.y += 2;
 	}
-if (guardianBox.y > box.getMidY() - guardianBox.width/2) {
+if (guardianBox.y > box.y + box.height) {
     guardianBox.y -= 2;
 	}
 }
@@ -4807,16 +4848,12 @@ badguy1healthbar.width = Badhealth1 / 2;
 if (wave < 5) {
 if (BadDeath > 0) {
 if (badguy1.x > badpos1.x) {
-badguypic1.speedX = -5;
 badguy1.speedX = -5;
 }
 if (badguy1.x < badpos1.x) {
-badguypic1.speedX = 5;
 badguy1.speedX = 5;
 }
 if (badguy1.crashWith(badpos1)) {
-badguypic1.speedX = 0;
-badguypic1.speedY = 0;
 badguy1.speedY = 0;
 badguy1.speedX = 0;
 Badhealth1 = 100;
@@ -4828,11 +4865,10 @@ negbadhurtspeedai1 = -1.5;
 startTime = 0;
  }
 if (badguy1.y > badpos1.y) {
-badguypic1.speedY = -5;
 badguy1.speedY = -5;
 }
 if (badguy1.y < badpos1.y) {
-badguypic1.speedY = 5;
+
 badguy1.speedY = 5;
 }
  }
@@ -4854,45 +4890,33 @@ if (badguy1.crashWith(wallright) == false) {
 if (badguy1.crashWith(wallleft) == false) {
 if (badguy1.crashWith(wall3) == false) {
 if (badguy1.crashWith(wall4) == false) {
-if (badguy1.x + 5 > box.x + 23) {
-    sidebad1 = 0;
-}
-if (badguy1.x < box.x - 23) {
-    sidebad1 = 1;
-}
-if (sidebad1 == 0) {
-if (badguy1.x + 5 > box.x + 23) {
-badguypic1.speedX = negbadspeedai1;
+if (badguy1.x > box.x + badguy1.width) {
 badguy1.speedX = negbadspeedai1;
 if (Badhealth1 <= 50) {
-badguypic1.speedX = negbadhurtspeedai1;
 badguy1.speedX = negbadhurtspeedai1;
   }
  }
-}
-if (sidebad1 == 1) {
-if (badguy1.x < box.x - 23) {
-badguypic1.speedX = badspeedai1;
+if (badguy1.x <= box.x + badguy1.width && badguy1.x + badguy1.width >= box.x) {
+badguy1.speedX = 0;
+ }
+if (badguy1.x + badguy1.width < box.x) {
 badguy1.speedX = badspeedai1;
 if (Badhealth1 <= 50) {
-badguypic1.speedX = badhurtspeedai1;
 badguy1.speedX = badhurtspeedai1;
   }
  }
-}
-if (badguy1.y > box.y) {
-badguypic1.speedY = negbadspeedai1;
+if (badguy1.y > box.y + badguy1.height) {
 badguy1.speedY = negbadspeedai1;
 if (Badhealth1 <= 50) {
-badguypic1.speedY = negbadhurtspeedai1;
 badguy1.speedY = negbadhurtspeedai1;
  }
 }
-if (badguy1.y < box.y) {
-badguypic1.speedY = badspeedai1;
+if (badguy1.y <= box.y + badguy1.height && badguy1.y + badguy1.height >= box.y) {
+badguy1.speedY = 0;
+ }
+if (badguy1.y + badguy1.height < box.y) {
 badguy1.speedY = badspeedai1;
 if (Badhealth1 <= 50) {
-badguypic1.speedY = badhurtspeedai1;
 badguy1.speedY = badhurtspeedai1;
  }
 }
@@ -4977,16 +5001,12 @@ badguy1healthbar2.width = Badhealth2 / 2;
 if (wave < 7 && wave > 1) {
 if (BadDeath2 > 0) {
 if (badguy2.x > badpos2.x) {
-badguypic2.speedX = -5;
 badguy2.speedX = -5;
 }
 if (badguy2.x < badpos2.x) {
-badguypic2.speedX = 5;
 badguy2.speedX = 5;
 }
 if (badguy2.crashWith(badpos2)) {
-badguypic2.speedX = 0;
-badguypic2.speedY = 0;
 badguy2.speedY = 0;
 badguy2.speedX = 0;
 Badhealth2 = 100;
@@ -4998,11 +5018,9 @@ negbadhurtspeedai2 = -1.5;
 startTime2 = 0;
  }
 if (badguy2.y > badpos2.y) {
-badguypic2.speedY = -5;
 badguy2.speedY = -5;
 }
 if (badguy2.y < badpos2.y) {
-badguypic2.speedY = 5;
 badguy2.speedY = 5;
 }
  }
@@ -5051,45 +5069,33 @@ if (badguy2.crashWith(wall2house4) == false) {
 if (badguy2.crashWith(wall2house6) == false) {
 if (badguy2.crashWith(wallhouse8) == false) {
 if (badguy2.crashWith(wall2house8) == false) {
-if (badguy2.x + 5 > box.x + 23) {
-    sidebad2 = 0;
-}
-if (badguy2.x < box.x - 23) {
-    sidebad2 = 1;
-}
-if (sidebad2 == 0) {
-if (badguy2.x + 5> box.x + 23) {
-badguypic2.speedX = negbadspeedai2;
+if (badguy2.x > box.x + badguy2.width) {
 badguy2.speedX = negbadspeedai2;
 if (Badhealth2 <= 50) {
-badguypic2.speedX = negbadhurtspeedai2;
 badguy2.speedX = negbadhurtspeedai2;
   }
  }
-}
-if (sidebad2 == 1) {
-if (badguy2.x < box.x - 23) {
-badguypic2.speedX = badspeedai2;
+if (badguy2.x <= box.x + badguy2.width && badguy2.x + badguy2.width >= box.x) {
+badguy2.speedX = 0;
+ }
+if (badguy2.x + badguy2.width < box.x) {
 badguy2.speedX = badspeedai2;
 if (Badhealth2 <= 50) {
-badguypic2.speedX = badhurtspeedai2;
 badguy2.speedX = badhurtspeedai2;
   }
  }
-}
-if (badguy2.y > box.y) {
-badguypic2.speedY = negbadspeedai2;
+if (badguy2.y > box.y + badguy2.height) {
 badguy2.speedY = negbadspeedai2;
 if (Badhealth2 <= 50) {
-badguypic2.speedY = negbadhurtspeedai2;
 badguy2.speedY = negbadhurtspeedai2;
  }
 }
-if (badguy2.y < box.y) {
-badguypic2.speedY = badspeedai2;
+if (badguy2.y <= box.y + badguy2.height && badguy2.y + badguy2.height >= box.y) {
+badguy2.speedY = 0;
+ }
+if (badguy2.y + badguy2.height < box.y) {
 badguy2.speedY = badspeedai2;
 if (Badhealth2 <= 50) {
-badguypic2.speedY = badhurtspeedai2;
 badguy2.speedY = badhurtspeedai2;
  }
 }
@@ -5122,45 +5128,33 @@ badguy2.speedY = badhurtspeedai2;
    }
 if (wave < 7 && wave > 4) {
 //put wall detect here!!//
-if (badguy2.x + 5 > box.x + 23) {
-    sidebad2 = 0;
-}
-if (badguy2.x < box.x - 23) {
-    sidebad2 = 1;
-}
-if (sidebad2 == 0) {
-if (badguy2.x + 5> box.x + 23) {
-badguypic2.speedX = negbadspeedai2;
+if (badguy2.x > box.x + badguy2.width) {
 badguy2.speedX = negbadspeedai2;
 if (Badhealth2 <= 50) {
-badguypic2.speedX = negbadhurtspeedai2;
 badguy2.speedX = negbadhurtspeedai2;
   }
  }
-}
-if (sidebad2 == 1) {
-if (badguy2.x < box.x - 23) {
-badguypic2.speedX = badspeedai2;
+if (badguy2.x + badguy2.width < box.x) {
 badguy2.speedX = badspeedai2;
 if (Badhealth2 <= 50) {
-badguypic2.speedX = badhurtspeedai2;
 badguy2.speedX = badhurtspeedai2;
   }
  }
-}
-if (badguy2.y > box.y) {
-badguypic2.speedY = negbadspeedai2;
+if (badguy2.x <= box.x + badguy2.width && badguy2.x + badguy2.width >= box.x) {
+badguy2.speedX = 0;
+ }
+if (badguy2.y > box.y + badguy2.height) {
 badguy2.speedY = negbadspeedai2;
 if (Badhealth2 <= 50) {
-badguypic2.speedY = negbadhurtspeedai2;
 badguy2.speedY = negbadhurtspeedai2;
  }
 }
-if (badguy2.y < box.y) {
-badguypic2.speedY = badspeedai2;
+if (badguy2.y <= box.y + badguy2.height && badguy2.y + badguy2.height >= box.y) {
+badguy2.speedY = 0;
+ }
+if (badguy2.y + badguy2.height < box.y) {
 badguy2.speedY = badspeedai2;
 if (Badhealth2 <= 50) {
-badguypic2.speedY = badhurtspeedai2;
 badguy2.speedY = badhurtspeedai2;
  }
 }
@@ -5248,18 +5242,12 @@ badguy1healthbar4.width = Badhealth3 / 2;
 if (wave > 4 && wave < 7) {
 if (BadDeath3 > 0) {
 if (tribox.x > tripos1.x) {
-trienemyright.speedX = -5;
-trienemyleft.speedX = -5;
 tribox.speedX = -5;
 }
 if (tribox.x < tripos1.x) {
-trienemyright.speedX = 5;
-trienemyleft.speedX = 5;
 tribox.speedX = 5;
 }
 if (tribox.crashWith(tripos1)) {
-trienemyright.speedX = 0;
-trienemyright.speedY = 0;
 trienemyleft.speedX = 0;
 trienemyleft.speedY = 0;
 tribox.speedY = 0;
@@ -5273,13 +5261,9 @@ negbadhurtspeedai3 = -1.5;
 startTime3 = 0;
  }
 if (tribox.y > tripos1.y) {
-trienemyright.speedY = -5;
-trienemyleft.speedY = -5;
 tribox.speedY = -5;
 }
 if (tribox.y < tripos1.y) {
-trienemyright.speedY = 5;
-trienemyleft.speedY = 5;
 tribox.speedY = 5;
 }
  }
@@ -5301,52 +5285,36 @@ if (tribox.crashWith(wallright) == false) {
 if (tribox.crashWith(wallleft) == false) {
 if (tribox.crashWith(wall3) == false) {
 if (tribox.crashWith(wall4) == false) {
-if (tribox.x + 5 > box.x + 60) {
+if (tribox.x > box.x + tribox.width) {
     sidebad3 = 0;
 }
-if (tribox.x < box.x - 60) {
+if (tribox.x + tribox.width < box.x) {
     sidebad3 = 1;
 }
-if (tribox.x + 5 > box.x + 60) {
+if (tribox.x > box.x + tribox.width) {
 if (sidebad3 == 0) {
-trienemyright.speedX = negbadspeedai3;
-trienemyleft.speedX = negbadspeedai3;
 tribox.speedX = negbadspeedai3;
 if (Badhealth3 <= 50) {
-trienemyright.speedX = negbadhurtspeedai3;
-trienemyleft.speedX = negbadhurtspeedai3;
 tribox.speedX = negbadhurtspeedai3;
   }
  }
-} else if (tribox.x < box.x - 60) {
+} else if (tribox.x + tribox.width < box.x) {
 if (sidebad3 == 1) {
-trienemyright.speedX = badspeedai3;
-trienemyleft.speedX = badspeedai3;
 tribox.speedX = badspeedai3;
 if (Badhealth3 <= 50) {
-trienemyright.speedX = badhurtspeedai3;
-trienemyleft.speedX = badhurtspeedai3;
 tribox.speedX = badhurtspeedai3;
   }
  }
 }
-if (tribox.y + 5 > box.y + 60) {
-trienemyright.speedY = negbadspeedai3;
-trienemyleft.speedY = negbadspeedai3;
+if (tribox.y > box.y + tribox.height) {
 tribox.speedY = negbadspeedai3;
 if (Badhealth3 <= 50) {
-trienemyright.speedY = negbadhurtspeedai3;
-trienemyleft.speedY = negbadhurtspeedai3;
 tribox.speedY = negbadhurtspeedai3;
  }
 }
-if (tribox.y < box.y - 60) {
-trienemyright.speedY = badspeedai3;
-trienemyleft.speedY = badspeedai3;
+if (tribox.y + tribox.height < box.y) {
 tribox.speedY = badspeedai3;
 if (Badhealth3 <= 50) {
-trienemyright.speedY = badhurtspeedai3;
-trienemyleft.speedY = badhurtspeedai3;
 tribox.speedY = badhurtspeedai3;
      }
     }
@@ -5431,16 +5399,12 @@ badguy1healthbar3.width = Badhealth4 / 2;
 if (wave < 5 && wave > 2) {
 if (BadDeath4 > 0) {
 if (recbox1.x > recpos1.x) {
-recenemypic1.speedX = -5;
 recbox1.speedX = -5;
 }
 if (recbox1.x < recpos1.x) {
-recenemypic1.speedX = 5;
 recbox1.speedX = 5;
 }
 if (recbox1.crashWith(recpos1)) {
-recenemypic1.speedX = 0;
-recenemypic1.speedY = 0;
 recbox1.speedY = 0;
 recbox1.speedX = 0;
 Badhealth4 = 120;
@@ -5453,11 +5417,9 @@ negbadhurtspeedai4 = -1.5;
 startTime4 = 0;
  }
 if (recbox1.y > recpos1.y) {
-recenemypic1.speedY = -5;
 recbox1.speedY = -5;
 }
 if (recbox1.y < recpos1.y) {
-recenemypic1.speedY = 5;
 recbox1.speedY = 5;
 }
  }
@@ -5504,46 +5466,34 @@ if (recbox1.crashWith(wall2house6_2) == false) {
 if (recbox1.crashWith(wall2house1_2) == false) {
 if (recbox1.crashWith(wall2house4) == false) {
 if (recbox1.crashWith(wall2house6) == false) {
-if (recbox1.x + 5 > box.x + 23) {
-    sidebad4 = 0;
-}
-if (recbox1.x < box.x - 23) {
-    sidebad4 = 1;
-}
 recenemypic1.angle += 5 * Math.PI / 180;
-if (sidebad4 == 0) {
-if (recbox1.x + 5> box.x + 23) {
-recenemypic1.speedX = negbadspeedai4;
+if (recbox1.x > box.x + recbox1.width) {
 recbox1.speedX = negbadspeedai4;
 if (Badhealth4 <= 50) {
-recenemypic1.speedX = negbadhurtspeedai4;
 recbox1.speedX = negbadhurtspeedai4;
   }
  }
-}
-if (sidebad4 == 1) {
-if (recbox1.x < box.x - 23) {
-recenemypic1.speedX = badspeedai4;
+if (recbox1.x <= box.x + recbox1.width && recbox1.x + recbox1.width >= box.x) {
+recbox1.speedX = 0;
+ }
+if (recbox1.x + recbox1.width < box.x) {
 recbox1.speedX = badspeedai4;
 if (Badhealth4 <= 50) {
-recenemypic1.speedX = badhurtspeedai4;
 recbox1.speedX = badhurtspeedai4;
   }
  }
-}
-if (recbox1.y > box.y) {
-recenemypic1.speedY = negbadspeedai4;
+if (recbox1.y > box.y + recbox1.height) {
 recbox1.speedY = negbadspeedai4;
 if (Badhealth4 <= 50) {
-recenemypic1.speedY = negbadhurtspeedai4;
 recbox1.speedY = negbadhurtspeedai4;
  }
 }
-if (recbox1.y < box.y) {
-recenemypic1.speedY = badspeedai4;
+if (recbox1.y <= box.y + recbox1.height && recbox1.y + recbox1.height >= box.y) {
+recbox1.speedY = 0;
+ }
+if (recbox1.y + recbox1.height < box.y) {
 recbox1.speedY = badspeedai4;
 if (Badhealth4 <= 50) {
-recenemypic1.speedY = badhurtspeedai4;
 recbox1.speedY = badhurtspeedai4;
  }
 }
