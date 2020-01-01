@@ -97,6 +97,7 @@ var badHealthBarColor = "green";
 var badHealthBarColor2 = "green";
 var badHealthBarColor3 = "green";
 var badHealthBarColor4 = "green";
+var alphaDebug = 0;
 function start() {
  if (localStorage && 'Cs' in localStorage) {
     christmasSkin = localStorage.Cs;
@@ -454,6 +455,7 @@ this.speedY = 0;
 this.x = x;
 this.y = y;
 this.angle = 0;
+this.globalAlpha = 1;
 this.width = width;
 this.height = height;
 this.halfWidth = this.width * 0.5;
@@ -463,10 +465,12 @@ this.update = function() {
 ctx = Board.context;
 if (this.type == "text") {
  ctx.font = this.font;
+ ctx.globalAlpha = this.globalAlpha;
  ctx.fillStyle = this.color;
  ctx.fillText(this.text, this.x, this.y);
 } else {
 if (this.type == "rec" || this.type == "player1" || this.type == "bull") {
+ctx.globalAlpha = this.globalAlpha;
 ctx.fillStyle = this.color;
 ctx.fillRect(this.x, this.y, this.width, this.height);
   }
@@ -476,6 +480,7 @@ ctx.fillRect(this.x, this.y, this.width, this.height);
  this.outcolor = outcolor;
  this.radius = radius;
  ctx.beginPath();
+ ctx.globalAlpha = this.globalAlpha;
  ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI, true);
  ctx.fillStyle = this.color;
  ctx.fill();
@@ -485,10 +490,12 @@ ctx.fillRect(this.x, this.y, this.width, this.height);
  } else {
  if (this.type == "img") {
  var img = document.getElementById(this.color);
+ ctx.globalAlpha = this.globalAlpha;
  ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
  if (type == "rec-enemypic") {
  ctx.save();
+ ctx.globalAlpha = this.globalAlpha;
  ctx.translate(this.x + 12.5, this.y + 12.5);
  ctx.rotate(this.angle);
  var img = document.getElementById("Rectangle");
@@ -497,6 +504,7 @@ ctx.fillRect(this.x, this.y, this.width, this.height);
   }
  if (type == "guard-enemypic") {
  ctx.save();
+ ctx.globalAlpha = this.globalAlpha;
  ctx.translate(this.x + 12.5, this.y + 12.5);
  ctx.rotate(this.angle);
  var img = document.getElementById(this.color);
@@ -1748,6 +1756,17 @@ if (box.crashWith(wall4) == true) {
 box.elasticCollition(wall4);
 }
  if (wave < 5) {
+	//enemy collision//
+if (box.crashWith(badguy1) == true) {
+badguy1.elasticCollition(box);
+}
+if (box.crashWith(badguy2) == true) {
+badguy2.elasticCollition(box);
+}
+if (box.crashWith(recbox1) == true) {
+recbox1.elasticCollition(box);
+}
+   //player collision//
 if (box.crashWith(wallhouse1) == true) {
 box.elasticCollition(wallhouse1);
 }
@@ -1798,6 +1817,14 @@ box.elasticCollition(wall2house6_3);
  }
 }
 if (wave >= 5 && wave < 7) {
+	//enemy collision//
+if (box.crashWith(badguy2) == true) {
+badguy2.elasticCollition(box);
+}
+if (box.crashWith(tribox) == true) {
+tribox.elasticCollition(box);
+}
+   //player collision//
 if (box.crashWith(wall3house1)) {
 box.elasticCollition(wall3house1);
 }
