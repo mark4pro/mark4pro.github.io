@@ -1,8 +1,9 @@
 :PRESS P TO TOGGLE THE PIB:
 
 What's new in V0.4.95 PREVIEW-
-NEW PATCH - Player enemy collisions!
+NEW PATCH - Player enemy collisions! - FIXED
 NEW PATCH - Controllable alpha built into constructor!
+NEW PATCH - Roofs use alpha to transition!
 art touch ups
 When you hit Esc when dead you restart the campain instead of reloading the page
 fixed pause menu flashing when entering the settings menu
