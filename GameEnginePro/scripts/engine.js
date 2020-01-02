@@ -1665,6 +1665,7 @@ playerMoney();
 nameFC();
 }
 if (pauseGameKeys == true) {
+pauseboard = new component(800, 500, "#451661", 0, 0, "rec");
 pauseboard.update();
 }
 if (wave == 8 && upgrademenu == 0 && pauseGame == 0) {
