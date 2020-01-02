@@ -1596,6 +1596,7 @@ if (weaponupgrade1 > 1) {
 max1txt.update();
 }
 }
+pauseboard = new component(800, 500, "#451661", 0, 0, "rec");
 if (pauseGame == 1 && pauseGameKeys == false) {
 weap_ship = new component(200, 200, "grey", 300, 40, "rec");
 shiptxt = new component("30px", "Consolas", "white", 365, 55, "text");
@@ -1604,7 +1605,6 @@ shiptxt.text = "Shipyard";
 pausetxt = new component("30px", "Consolas", "white", 345, 30, "text");
 pausetxt.font = "20px Consolas";
 pausetxt.text = "Pause Menu";
-pauseboard = new component(800, 500, "#451661", 0, 0, "rec");
 pauseboard.update();
 pausetxt.update();
 if (weaponVault == 0) {
@@ -1665,7 +1665,6 @@ playerMoney();
 nameFC();
 }
 if (pauseGameKeys == true) {
-pauseboard = new component(800, 500, "#451661", 0, 0, "rec");
 pauseboard.update();
 }
 if (wave == 8 && upgrademenu == 0 && pauseGame == 0) {
