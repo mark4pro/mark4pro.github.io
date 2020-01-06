@@ -1,32 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Tank War Beta</title>
-<link rel="apple-touch-icon" sizes="57x57" href="https://mark4pro.github.io/TankWar/images/apple-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="60x60" href="https://mark4pro.github.io/TankWar/images/apple-icon-60x60.png">
-<link rel="apple-touch-icon" sizes="72x72" href="https://mark4pro.github.io/TankWar/images/apple-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76" href="https://mark4pro.github.io/TankWar/images/apple-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114" href="https://mark4pro.github.io/TankWar/images/apple-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120" href="https://mark4pro.github.io/TankWar/images/apple-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144" href="https://mark4pro.github.io/TankWar/images/apple-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="https://mark4pro.github.io/TankWar/images/apple-icon-152x152.png">
-<link rel="apple-touch-icon" sizes="180x180" href="https://mark4pro.github.io/TankWar/images/apple-icon-180x180.png">
 <link rel="icon" type="image/png" sizes="192x192"  href="https://mark4pro.github.io/TankWar/images/android-icon-192x192.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://mark4pro.github.io/TankWar/images/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="https://mark4pro.github.io/TankWar/images/favicon-96x96.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://mark4pro.github.io/TankWar/images/favicon-16x16.png">
-<link rel="manifest" href="https://mark4pro.github.io/TankWar/images/manifest.json">
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="msapplication-TileImage" content="https://mark4pro.github.io/TankWar/images/ms-icon-144x144.png">
-<meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" href="https://mark4pro.github.io/TankWar/images/apple-icon-144x144.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tank War Beta</title>
 <style>
 body {
 	margin: 0;
 	background-color: black;
-	overflow: hidden;
+	position: fixed;
 }
 canvas {
 	background-color: black;
@@ -52,17 +40,17 @@ canvas {
 </head>
 <body id="BGColor" onload="startGame()">
 <canvas id="canvas"></canvas>
-<button id="okG" style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:absolute;right:0.5%;top:3%;opacity:0.5;">Ok</button>
-<div id="upgrades"><button id="upG" onmouseup="up1StatsUnlocker()" onmousedown="up1Stats()" style="cursor:pointer;color:black;background-color:purple;border:0px;width:200px;height:50px;font:20px Arial;text-align:center;position:absolute;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);opacity:0.5;">Bullet Size</button>
+<button id="okG" style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">Ok</button>
+<div id="upgrades"><button id="upG" onmouseup="up1StatsUnlocker()" onmousedown="up1Stats()" style="cursor:pointer;color:black;background-color:purple;border:0px;width:200px;height:50px;font:20px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);opacity:0.5;">Bullet Size</button>
 </div>
-<button id="pauseG" style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:absolute;right:0.5%;top:3%;opacity:0.5;">PAUSE</button>
-<h1 unselectable="on" class="unselectable" id="welcome" style="color:blue;text-align:center;font:36px Arial;"><b>Welcome To Tank War Beta!</b></h1>
-<button id="startG" style="cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:absolute;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
-<div id="BGT"><p unselectable="on" class="unselectable" style="color:red;position:absolute;right:50%;left:45%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
-<p unselectable="on" class="unselectable" style="color:green;position:absolute;right:50%;left:45%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="green" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
-<p unselectable="on" class="unselectable" style="color:blue;position:absolute;right:50%;left:45%;top:50%;transform:translate(-50%,-50%);">Blue<input type="range" min="0" max="255" value="0" id="blue" style="outline:none;cursor:pointer;width:250px;height:25px;background:blue;"></p>
-<p unselectable="on" class="unselectable" id="waveNum" style="color:blue;position:absolute;right:50%;left:42.5%;top:55%;width:200px;"></p>
-<p unselectable="on" class="unselectable" style="color:blue;position:absolute;right:50%;left:45%;top:60%;transform:translate(-50%,-50%);"><input type="range" min="1" max="50" value="10" id="wave" style="outline:none;cursor:pointer;width:250px;height:25px;"></p></div>
+<button id="pauseG" style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">PAUSE</button>
+<h1 unselectable="on" class="unselectable" id="welcome" style="color:blue;text-align:center;font:36px Arial;position:fixed;right:50%;left:50%;top:10%;transform:translate(-50%,-50%);width:500px;"><b>Welcome To Tank War Beta!</b></h1>
+<button id="startG" style="cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
+<div id="BGT"><p unselectable="on" class="unselectable" style="color:red;position:fixed;right:50%;left:45.5%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
+<p unselectable="on" class="unselectable" style="color:green;position:fixed;right:50%;left:45.5%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="green" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
+<p unselectable="on" class="unselectable" style="color:blue;position:fixed;right:50%;left:45.5%;top:50%;transform:translate(-50%,-50%);">Blue<input type="range" min="0" max="255" value="0" id="blue" style="outline:none;cursor:pointer;width:250px;height:25px;background:blue;"></p>
+<p unselectable="on" class="unselectable" id="waveNum" style="color:blue;position:fixed;right:50%;left:43.2%;top:55%;width:200px;"></p>
+<p unselectable="on" class="unselectable" style="color:blue;position:fixed;right:50%;left:45.5%;top:60%;transform:translate(-50%,-50%);"><input type="range" min="1" max="50" value="10" id="wave" style="outline:none;cursor:pointer;width:250px;height:25px;"></p></div>
 <script>
 var keys = {};
 window.addEventListener("keydown",
@@ -351,6 +339,10 @@ var greenC = document.getElementById('green').value;
 var blueC = document.getElementById('blue').value;
 document.getElementById('waveNum').innerHTML = "Number Of Waves: " + numOfWaves;
 BGColor.style.backgroundColor = "rgb("+redC+", "+greenC+", "+blueC+")";
+if (start == 1 && pause == false) {
+start = 0;
+document.getElementById('welcome').style.display = "none";
+}
 	TP.text = Tank1.points;
 	TP2.text = Tank2.points;
 		if (button_down == true && upgradeMenu == 0) {
