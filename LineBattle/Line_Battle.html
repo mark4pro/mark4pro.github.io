@@ -31,16 +31,16 @@ display: none;
 </style>
 </head>
 <body id="BGColor" onload="startGame()">
-<canvas id="canvas" style="border:0px;"></canvas>
-<button id="pauseG" style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">PAUSE</button>
-<h1 unselectable="on" class="unselectable" id="welcome" style="color:blue;text-align:center;font:36px Arial;width:500px;position:fixed;right:50%;left:50%;top:10%;transform:translate(-50%,-50%);"><b>Welcome To Line Battle!</b></h1>
-<button id="startG" style="cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
-<div id="BGT"><p unselectable="on" class="unselectable" style="color:red;position:fixed;right:50%;left:45.5%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
-<p unselectable="on" class="unselectable" style="color:green;position:fixed;right:50%;left:45.5%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="green" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
-<p unselectable="on" class="unselectable" style="color:blue;position:fixed;right:50%;left:45.5%;top:50%;transform:translate(-50%,-50%);">Blue<input type="range" min="0" max="255" value="0" id="blue" style="outline:none;cursor:pointer;width:250px;height:25px;background:blue;"></p>
-<p unselectable="on" class="unselectable" style="color:blue;position:fixed;right:50%;left:43.2%;top:57%;width:200px;">Tail Length<input type="range" min="0" max="500" value="100" id="tail" style="outline:none;cursor:pointer;width:250px;height:25px;"></p>
-<p unselectable="on" class="unselectable" id="waveNum" style="color:blue;position:fixed;right:50%;left:43.5%;top:65%;width:200px;"></p>
-<p unselectable="on" class="unselectable" style="color:blue;position:fixed;right:50%;left:45.5%;top:70%;transform:translate(-50%,-50%);"><input type="range" min="1" max="50" value="10" id="wave" style="outline:none;cursor:pointer;width:250px;height:25px;"></p></div>
+<canvas id="canvas" style="border:0px;touch-action:none;"></canvas>
+<button id="pauseG" style="touch-action:none;cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">PAUSE</button>
+<h1 unselectable="on" class="unselectable" id="welcome" style="touch-action:none;color:blue;text-align:center;font:36px Arial;width:500px;position:fixed;right:50%;left:50%;top:10%;transform:translate(-50%,-50%);"><b>Welcome To Line Battle!</b></h1>
+<button id="startG" style="touch-action:none;cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
+<div id="BGT"><p unselectable="on" class="unselectable" style="touch-action:none;color:red;position:fixed;right:50%;left:45.5%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
+<p unselectable="on" class="unselectable" style="touch-action:none;color:green;position:fixed;right:50%;left:45.5%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="green" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
+<p unselectable="on" class="unselectable" style="touch-action:none;color:blue;position:fixed;right:50%;left:45.5%;top:50%;transform:translate(-50%,-50%);">Blue<input type="range" min="0" max="255" value="0" id="blue" style="outline:none;cursor:pointer;width:250px;height:25px;background:blue;"></p>
+<p unselectable="on" class="unselectable" style="touch-action:none;color:blue;position:fixed;right:50%;left:43.2%;top:57%;width:200px;">Tail Length<input type="range" min="0" max="500" value="100" id="tail" style="outline:none;cursor:pointer;width:250px;height:25px;"></p>
+<p unselectable="on" class="unselectable" id="waveNum" style="touch-action:none;color:blue;position:fixed;right:50%;left:43.5%;top:65%;width:200px;"></p>
+<p unselectable="on" class="unselectable" style="touch-action:none;color:blue;position:fixed;right:50%;left:45.5%;top:70%;transform:translate(-50%,-50%);"><input type="range" min="1" max="50" value="10" id="wave" style="outline:none;cursor:pointer;width:250px;height:25px;"></p></div>
 <script>
 var keys = {};
 window.addEventListener("keydown",
