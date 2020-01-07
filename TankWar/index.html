@@ -40,18 +40,18 @@ canvas {
 <img id="Death" width="0" height="0" src="https://mark4pro.github.io/TankWar/images/Death.png">
 </head>
 <body id="BGColor" onload="startGame()">
-<canvas id="canvas"></canvas>
-<button id="okG" style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">Ok</button>
-<div id="upgrades"><button id="upG" onmouseup="up1StatsUnlocker()" onmousedown="up1Stats()" style="cursor:pointer;color:black;background-color:purple;border:0px;width:200px;height:50px;font:20px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);opacity:0.5;">Bullet Size</button>
+<canvas id="canvas" style="border:0px;touch-action:none;"></canvas>
+<button id="okG" style="touch-action:none;cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">Ok</button>
+<div id="upgrades"><button id="upG" onmouseup="up1StatsUnlocker()" onmousedown="up1Stats()" style="cursor:pointer;color:black;background-color:purple;border:0px;width:200px;height:50px;font:20px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);opacity:0.5;touch-action:none;">Bullet Size</button>
 </div>
-<button id="pauseG" style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">PAUSE</button>
-<h1 unselectable="on" class="unselectable" id="welcome" style="color:blue;text-align:center;font:36px Arial;position:fixed;right:50%;left:50%;top:10%;transform:translate(-50%,-50%);width:500px;"><b>Welcome To Tank War Beta!</b></h1>
-<button id="startG" style="cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
-<div id="BGT"><p unselectable="on" class="unselectable" style="color:red;position:fixed;right:50%;left:45.5%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
-<p unselectable="on" class="unselectable" style="color:green;position:fixed;right:50%;left:45.5%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="green" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
-<p unselectable="on" class="unselectable" style="color:blue;position:fixed;right:50%;left:45.5%;top:50%;transform:translate(-50%,-50%);">Blue<input type="range" min="0" max="255" value="0" id="blue" style="outline:none;cursor:pointer;width:250px;height:25px;background:blue;"></p>
-<p unselectable="on" class="unselectable" id="waveNum" style="color:blue;position:fixed;right:50%;left:43.2%;top:55%;width:200px;"></p>
-<p unselectable="on" class="unselectable" style="color:blue;position:fixed;right:50%;left:45.5%;top:60%;transform:translate(-50%,-50%);"><input type="range" min="1" max="50" value="10" id="wave" style="outline:none;cursor:pointer;width:250px;height:25px;"></p></div>
+<button id="pauseG" style="touch-action:none;cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">PAUSE</button>
+<h1 unselectable="on" class="unselectable" id="welcome" style="touch-action:none;color:blue;text-align:center;font:36px Arial;position:fixed;right:50%;left:50%;top:10%;transform:translate(-50%,-50%);width:500px;"><b>Welcome To Tank War Beta!</b></h1>
+<button id="startG" style="touch-action:none;cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
+<div id="BGT"><p unselectable="on" class="unselectable" style="touch-action:none;color:red;position:fixed;right:50%;left:45.5%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
+<p unselectable="on" class="unselectable" style="touch-action:none;color:green;position:fixed;right:50%;left:45.5%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="green" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
+<p unselectable="on" class="unselectable" style="touch-action:none;color:blue;position:fixed;right:50%;left:45.5%;top:50%;transform:translate(-50%,-50%);">Blue<input type="range" min="0" max="255" value="0" id="blue" style="outline:none;cursor:pointer;width:250px;height:25px;background:blue;"></p>
+<p unselectable="on" class="unselectable" id="waveNum" style="touch-action:none;color:blue;position:fixed;right:50%;left:43.2%;top:55%;width:200px;"></p>
+<p unselectable="on" class="unselectable" style="touch-action:none;color:blue;position:fixed;right:50%;left:45.5%;top:60%;transform:translate(-50%,-50%);"><input type="range" min="1" max="50" value="10" id="wave" style="outline:none;cursor:pointer;width:250px;height:25px;"></p></div>
 <script>
 var keys = {};
 window.addEventListener("keydown",
