@@ -15,15 +15,15 @@ body {
 	margin: 0;
 	background-color: black;
 	position: fixed;
-	touch-action: none;
+	
 }
 canvas {
 	background-color: black;
 	position: fixed;
-	image-rendering: -moz-crisp-edges;         /* Firefox */
-	image-rendering: -webkit-crisp-edges;      /* Webkit */
+	image-rendering: -moz-crisp-edges;		 /* Firefox */
+	image-rendering: -webkit-crisp-edges;	  /* Webkit */
 	-ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
-	image-rendering: crisp-edges;                /* Chrome */
+	image-rendering: crisp-edges;				/* Chrome */
 }
 .unselectable {
    -moz-user-select: -moz-none;
@@ -40,94 +40,43 @@ canvas {
 <img id="Death" width="0" height="0" src="https://mark4pro.github.io/TankWar/images/Death.png">
 </head>
 <body id="BGColor" onload="startGame()">
-<canvas id="canvas" style="border:0px;touch-action:manipulation;"></canvas>
-<button id="okG" style="touch-action:manipulation;cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">Ok</button>
-<div id="upgrades"><button id="upG" onmouseup="up1StatsUnlocker()" onmousedown="up1Stats()" style="cursor:pointer;color:black;background-color:purple;border:0px;width:200px;height:50px;font:20px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);opacity:0.5;touch-action:manipulation;">Bullet Size</button>
+<canvas id="canvas" style="border:0px;"></canvas>
+<button id="okG" onmousedown="okGs()" ontouchstart="okGs()"  style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">Ok</button>
+<div id="upgrades"><button id="upG" onmouseup="up1StatsUnlocker()" onmousedown="up1Stats()" ontouchend="up1StatsUnlocker()" ontouchstart="up1Stats()" style="cursor:pointer;color:black;background-color:purple;border:0px;width:200px;height:50px;font:20px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);opacity:0.5;">Bullet Size</button>
 </div>
-<button id="pauseG" style="touch-action:manipulation;cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">PAUSE</button>
-<h1 unselectable="on" class="unselectable" id="welcome" style="touch-action:manipulation;color:blue;text-align:center;font:36px Arial;position:fixed;right:50%;left:50%;top:10%;transform:translate(-50%,-50%);width:500px;"><b>Welcome To Tank War Beta!</b></h1>
-<button id="startG" style="touch-action:manipulation;cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
-<div id="BGT"><p unselectable="on" class="unselectable" style="touch-action:manipulation;color:red;position:fixed;right:50%;left:45.5%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
-<p unselectable="on" class="unselectable" style="touch-action:manipulation;color:green;position:fixed;right:50%;left:45.5%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="green" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
-<p unselectable="on" class="unselectable" style="touch-action:manipulation;color:blue;position:fixed;right:50%;left:45.5%;top:50%;transform:translate(-50%,-50%);">Blue<input type="range" min="0" max="255" value="0" id="blue" style="outline:none;cursor:pointer;width:250px;height:25px;background:blue;"></p>
-<p unselectable="on" class="unselectable" id="waveNum" style="touch-action:manipulation;color:blue;position:fixed;right:50%;left:43.2%;top:55%;width:200px;"></p>
-<p unselectable="on" class="unselectable" style="touch-action:manipulation;color:blue;position:fixed;right:50%;left:45.5%;top:60%;transform:translate(-50%,-50%);"><input type="range" min="1" max="50" value="10" id="wave" style="outline:none;cursor:pointer;width:250px;height:25px;"></p></div>
+<button id="pauseG" style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">PAUSE</button>
+<h1 unselectable="on" class="unselectable" id="welcome" style="color:blue;text-align:center;font:36px Arial;position:fixed;right:50%;left:50%;top:10%;transform:translate(-50%,-50%);width:500px;"><b>Welcome To Tank War Beta!</b></h1>
+<button id="startG" style="cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
+<div id="BGT"><p unselectable="on" class="unselectable" style="color:red;position:fixed;right:50%;left:45.5%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
+<p unselectable="on" class="unselectable" style="color:green;position:fixed;right:50%;left:45.5%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="green" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
+<p unselectable="on" class="unselectable" style="color:blue;position:fixed;right:50%;left:45.5%;top:50%;transform:translate(-50%,-50%);">Blue<input type="range" min="0" max="255" value="0" id="blue" style="outline:none;cursor:pointer;width:250px;height:25px;background:blue;"></p>
+<p unselectable="on" class="unselectable" id="waveNum" style="color:blue;position:fixed;right:50%;left:43.2%;top:55%;width:200px;"></p>
+<p unselectable="on" class="unselectable" style="color:blue;position:fixed;right:50%;left:45.5%;top:60%;transform:translate(-50%,-50%);"><input type="range" min="1" max="50" value="10" id="wave" style="outline:none;cursor:pointer;width:250px;height:25px;"></p></div>
 <script>
 var keys = {};
 window.addEventListener("keydown",
-    function(e){
-        keys[e.keyCode] = true;
-        switch(e.keyCode){
-            case 37: case 39: case 38:  case 40: // Arrow keys
-            case 32: e.preventDefault(); break; // Space
-            default: break; // do not block other keys
-        }
-    },
+	function(e){
+		keys[e.keyCode] = true;
+		switch(e.keyCode){
+			case 37: case 39: case 38:  case 40: // Arrow keys
+			case 32: e.preventDefault(); break; // Space
+			default: break; // do not block other keys
+		}
+	},
 false);
 window.addEventListener('keyup',
-    function(e){
-        keys[e.keyCode] = false;
-    },
+	function(e){
+		keys[e.keyCode] = false;
+	},
 false);
-
 startG.onclick = function() {
 pause = false;
 startG.style.display = "none";
 BGT.style.display = "none";
 };
-
-pauseG.onclick = function() {
-pause = true;
-startG.style.display = "initial";
-BGT.style.display = "initial";
-};
-
-var start = 1;
-function startGame() {
-	Tank1 = new component("player1", 30, 30, "blue", 50, 120, "rec");
-	Tank1pic1 = new component("", 30, 30, "Tank1", 50, 120, "img");
-	moveButtonDetect = new component("", 80, 50, "blue", 10, 25, "rec");
-	moveButton = new component("", 80, 50, "blue", 50, 50, "rec");
-	TP = new component("", 0, 0, "black", 40, 62.5, "text");
-	TP.font = "36px Arial";
-	Tank2 = new component("player2", 30, 30, "red", window.innerWidth - 50, window.innerHeight - 120, "rec");
-	Tank2pic1 = new component("", 30, 30, "Tank2", window.innerWidth - 50, window.innerHeight - 120, "img");
-	moveButtonDetect2 = new component("", 80, 50, "red", window.innerWidth - 90, window.innerHeight - 75, "rec");
-	moveButton2 = new component("", 80, 50, "red", window.innerWidth - 50, window.innerHeight - 50, "rec");
-	TP2 = new component("", 0, 0, "black", window.innerWidth - 60, window.innerHeight - 38.5, "text");
-	TP2.font = "36px Arial";
-	moveButtonDetect3 = new component("", 180, 50, "darkpurple", window.innerWidth / 2 - 90, window.innerHeight / 2, "rec");
-    moveButton3 = new component("", 180, 50, "purple", window.innerWidth / 2, window.innerHeight / 2, "rec");
-	background = new component("", 10000000, 10000000, "black", 100, 0, "rec");
-	DeathTxt = new component("Blue Wins!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
-    DeathTxt.font = "36px Arial";
-    DeathTxt2 = new component("Red Wins!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
-    DeathTxt2.font = "36px Arial";
-    DeathTxt3 = new component("Tie!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
-    DeathTxt3.font = "36px Arial";
-	GameArea.start();
-}
-
-var up1Lock = 0;
-function up1Stats() {
-if (Tank1.UpgradePoints > 0 && Tank1.UpgradeTurn == true && up1Lock == 0) {
-Tank1.UpgradePoints--;
-Tank1.bulletSize++;
-up1Lock++;
- }
-if (Tank2.UpgradePoints > 0 && Tank2.UpgradeTurn == true && up1Lock == 0) {
-Tank2.UpgradePoints--;
-Tank2.bulletSize++;
-up1Lock++;
- }
-}
-function up1StatsUnlocker() {
-up1Lock = 0;
-}
-
 var turnLock = 0;
 var countL = 0;
-okG.onclick = function() {
+function okGs() {
 countL++;
 if (Tank1.UpgradeTurn == true && turnLock == 0) {
 Tank1.UpgradeTurn = false;
@@ -146,12 +95,57 @@ countL = 0;
 upgradeMenu = 0;
 turnLock = 0;
  }
+};
+pauseG.onclick = function() {
+pause = true;
+startG.style.display = "initial";
+BGT.style.display = "initial";
+};
+var start = 1;
+function startGame() {
+	Tank1 = new component("player1", 30, 30, "blue", 50, 120, "rec");
+	Tank1pic1 = new component("", 30, 30, "Tank1", 50, 120, "img");
+	moveButtonDetect = new component("", 80, 50, "blue", 10, 25, "rec");
+	moveButton = new component("", 80, 50, "blue", 50, 50, "rec");
+	TP = new component("", 0, 0, "black", 40, 62.5, "text");
+	TP.font = "36px Arial";
+	Tank2 = new component("player2", 30, 30, "red", window.innerWidth - 50, window.innerHeight - 120, "rec");
+	Tank2pic1 = new component("", 30, 30, "Tank2", window.innerWidth - 50, window.innerHeight - 120, "img");
+	moveButtonDetect2 = new component("", 80, 50, "red", window.innerWidth - 90, window.innerHeight - 75, "rec");
+	moveButton2 = new component("", 80, 50, "red", window.innerWidth - 50, window.innerHeight - 50, "rec");
+	TP2 = new component("", 0, 0, "black", window.innerWidth - 60, window.innerHeight - 38.5, "text");
+	TP2.font = "36px Arial";
+	moveButtonDetect3 = new component("", 180, 50, "darkpurple", window.innerWidth / 2 - 90, window.innerHeight / 2, "rec");
+	moveButton3 = new component("", 180, 50, "purple", window.innerWidth / 2, window.innerHeight / 2, "rec");
+	background = new component("", 10000000, 10000000, "black", 100, 0, "rec");
+	DeathTxt = new component("Blue Wins!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
+	DeathTxt.font = "36px Arial";
+	DeathTxt2 = new component("Red Wins!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
+	DeathTxt2.font = "36px Arial";
+	DeathTxt3 = new component("Tie!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
+	DeathTxt3.font = "36px Arial";
+	GameArea.start();
 }
-
+var up1Lock = 0;
+function up1Stats() {
+if (Tank1.UpgradePoints > 0 && Tank1.UpgradeTurn == true && up1Lock == 0) {
+Tank1.UpgradePoints--;
+Tank1.bulletSize++;
+up1Lock++;
+ }
+if (Tank2.UpgradePoints > 0 && Tank2.UpgradeTurn == true && up1Lock == 0) {
+Tank2.UpgradePoints--;
+Tank2.bulletSize++;
+up1Lock++;
+ }
+}
+function up1StatsUnlocker() {
+up1Lock = 0;
+}
 var pause = true;
 var GameArea = {
 	start : function() {
-	    var canvas = document.getElementById('canvas');
+		var canvas = document.getElementById('canvas');
 		this.context = canvas.getContext("2d");
 		document.body.insertBefore(canvas, document.body.childNodes[0]);
 		this.interval = setInterval(updateGameArea, 10);
@@ -177,21 +171,21 @@ var GameArea = {
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
 		moveButtonDetect2.x = window.innerWidth - 90;
-        moveButtonDetect2.y = window.innerHeight - 75;
-        moveButton2.x = window.innerWidth - 50;
-        moveButton2.y = window.innerHeight - 50;
-        TP2.x = window.innerWidth - 60;
-        TP2.y = window.innerHeight - 38.5;
+		moveButtonDetect2.y = window.innerHeight - 75;
+		moveButton2.x = window.innerWidth - 50;
+		moveButton2.y = window.innerHeight - 50;
+		TP2.x = window.innerWidth - 60;
+		TP2.y = window.innerHeight - 38.5;
 		moveButtonDetect3.x = window.innerWidth / 2 - 90;
-        moveButtonDetect3.y = window.innerHeight / 2;
-        moveButton3.x = window.innerWidth / 2;
-        moveButton3.y =	window.innerHeight / 2;
+		moveButtonDetect3.y = window.innerHeight / 2;
+		moveButton3.x = window.innerWidth / 2;
+		moveButton3.y =	window.innerHeight / 2;
 		DeathTxt.x = window.innerWidth / 2 - 82;
-        DeathTxt.y = window.innerHeight / 2 + 15;
-        DeathTxt2.x = window.innerWidth / 2 - 82;
-        DeathTxt2.y = window.innerHeight / 2 + 15;
-        DeathTxt3.x = window.innerWidth / 2 - 82;
-        DeathTxt3.y	= window.innerHeight / 2 + 15;
+		DeathTxt.y = window.innerHeight / 2 + 15;
+		DeathTxt2.x = window.innerWidth / 2 - 82;
+		DeathTxt2.y = window.innerHeight / 2 + 15;
+		DeathTxt3.x = window.innerWidth / 2 - 82;
+		DeathTxt3.y	= window.innerHeight / 2 + 15;
 		Tank1pic1.x = Tank1.x;
 		Tank1pic1.y = Tank1.y;
 		Tank2pic1.x = Tank2.x;
@@ -206,15 +200,14 @@ var GameArea = {
 		}
 	},
 	pause : function(){
-    canvas.style.display = "none";
-    pauseG.style.display = "none";
-    },
-    unpause : function(){
-    canvas.style.display = "initial";
-    pauseG.style.display = "initial";
+	canvas.style.display = "none";
+	pauseG.style.display = "none";
+	},
+	unpause : function(){
+	canvas.style.display = "initial";
+	pauseG.style.display = "initial";
   },
 }
-
 var _bullets = [];
 function component(name, width, height, color, x, y, type, id) {
 	this.type = type;
@@ -239,10 +232,10 @@ function component(name, width, height, color, x, y, type, id) {
 		ctx = GameArea.context;
 		if (this.type == "text") {
 		ctx.fillStyle = color;
-	    ctx.font = this.font;
-	    ctx.fillText(this.text, this.x, this.y);
-	    }
-	    if (this.type == "rec") {
+		ctx.font = this.font;
+		ctx.fillText(this.text, this.x, this.y);
+		}
+		if (this.type == "rec") {
 		ctx.save();
 		ctx.translate(this.x, this.y);
 		ctx.rotate(this.angle);
@@ -252,11 +245,11 @@ function component(name, width, height, color, x, y, type, id) {
 		}
 		if (this.type == "img" || this.type == "Bull") {
 		ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
+		ctx.translate(this.x, this.y);
+		ctx.rotate(this.angle);
 		var img = document.getElementById(this.color);
-        ctx.drawImage(img, this.width / -2, this.height / -2, this.width, this.height);
-        ctx.restore();
+		ctx.drawImage(img, this.width / -2, this.height / -2, this.width, this.height);
+		ctx.restore();
 		}
 	}
 	this.newPos = function() {
@@ -264,7 +257,7 @@ function component(name, width, height, color, x, y, type, id) {
 		this.x += this.speed * Math.sin(this.angle);
 		this.y -= this.speed * Math.cos(this.angle);
 		if (this.type == "Bull") {
-	    if (this.id == "Tank1") {
+		if (this.id == "Tank1") {
 		this.bulletspeed = -10;
 		this.x += this.bulletspeed * Math.sin(Tank1.angle);
 		this.y -= this.bulletspeed * Math.cos(Tank1.angle);
@@ -299,7 +292,7 @@ function component(name, width, height, color, x, y, type, id) {
 	var __bullet = new component("", this.bulletSize, this.bulletSize, "Tank1Bull", Tank1.x, Tank1.y, "Bull", "Tank1");
 	_bullets.push(__bullet);
 	if (this.id == "Tank1") {
-	    this.angle += Tank1.moveAngle * Math.PI / 180;
+		this.angle += Tank1.moveAngle * Math.PI / 180;
 		 }
 	}
    }
@@ -316,7 +309,6 @@ function component(name, width, height, color, x, y, type, id) {
    }
   }
 }
-
 var startgame = 0;
 var startmove = 0;
 var startmove2 = 0;
@@ -528,11 +520,11 @@ document.getElementById('welcome').style.display = "none";
 		}
 	if (win == false) {
 	moveButtonDetect.update();
-    moveButtonDetect2.update();
+	moveButtonDetect2.update();
 	} else {
 	moveButtonDetect3.update();
 	}
-    Tank1.update();
+	Tank1.update();
 	Tank2.update();
 	if (upgradeMenu == 0) {
 	background.update();
@@ -566,7 +558,7 @@ document.getElementById('welcome').style.display = "none";
 	if (startmove2 == 0 && upgradeMenu == 0) {
 	if (dirSwitch2 == 0) {
 	Tank2.angle += 1 * Math.PI / 180; 
-    Tank2pic1.angle += 1 * Math.PI / 180;	
+	Tank2pic1.angle += 1 * Math.PI / 180;	
 	 }
 	if (dirSwitch2 == 1) {
 	Tank2.angle += 1 * Math.PI / -180;
@@ -626,14 +618,14 @@ if (win == true) {
 upgradeMenu = 0;
 }
   if (upgradeMenu == 0) {
-    okG.style.display = "none";
+	okG.style.display = "none";
 	upgrades.style.display = "none";
 	if (pause == false) {
 	pauseG.style.display = "initial";
 	}
   }
   if (upgradeMenu == 1 && Tank1.points < numOfWaves && Tank2.points < numOfWaves) {
-    okG.style.display = "initial";
+	okG.style.display = "initial";
 	upgrades.style.display = "initial";
 	pauseG.style.display = "none";
 	background.update();
@@ -657,7 +649,6 @@ if (win == true && button3_down == true) {
 	winReset();
  }
 }
-
 function winReset() {
 if (win == true) {
 var redC = document.getElementById('red').value;
@@ -693,77 +684,69 @@ var blueC = document.getElementById('blue').value;
  win = false;
  }
 } setTimeout(winReset, 1000);
-
 function collision2(a,b){
 return a.x - a.width/2 < b.x + b.width &&
 a.x + a.width/2 > b.x &&
 a.y < b.y + b.height &&
 a.y + a.height > b.y;
 }
-
 var button_down = false, button2_down = false, button3_down = false;
-
 function getTouchXY(e) {
   for(var i = 0; i < e.changedTouches.length; i++) {
 	var x = e.changedTouches[i].clientX,
 		y = e.changedTouches[i].clientY,
 		t = {x:x, y:y, width:10, height:10};
-
   if(collision2(t, moveButtonDetect)) { button_down = true; moveButton.color = "darkblue";}
   if(collision2(t, moveButtonDetect2)) { button2_down = true; moveButton2.color = "darkred";}
   if(collision2(t, moveButtonDetect3)) { button3_down = true; moveButton3.color = "darkpurple";}
 }
 }
-
 function stopTouchXY(e){
   var x = e.changedTouches[0].clientX,
 	  y = e.changedTouches[0].clientY,
 	  t = {x:x, y:y, width:10, height:10};
-
   if(collision2(t, moveButtonDetect)) { button_down = false; moveButton.color = "blue";}
   if(collision2(t, moveButtonDetect2)) {button2_down = false; moveButton2.color = "red";}
   if(collision2(t, moveButtonDetect3)) {button3_down = false; moveButton3.color = "purple";}
 }
-
 window.addEventListener("touchstart",  getTouchXY);
 window.addEventListener("touchmove",   getTouchXY);
 window.addEventListener("touchend",	stopTouchXY);
 window.addEventListener("touchcancel", stopTouchXY);
-
 document.onkeydown = function(e) {
-    switch (e.keyCode) {
-        case 87:
-        button_down = true; 
-        moveButton.color = "darkblue";		
-            break;
-        case 38:
-        button2_down = true;
-        moveButton2.color = "darkred";		
-            break;
+	switch (e.keyCode) {
+		case 87:
+		button_down = true; 
+		moveButton.color = "darkblue";		
+			break;
+		case 38:
+		button2_down = true;
+		moveButton2.color = "darkred";		
+			break;
 		case 32:
-        if (win == true) {
-        winReset();
-        moveButton3.color = "darkpurple";
-        }	
-        break;
-    }
+		if (win == true) {
+		winReset();
+		moveButton3.color = "darkpurple";
+		}	
+		break;
+	}
 };
 document.onkeyup = function(e) {
-    switch (e.keyCode) {
+	switch (e.keyCode) {
 		case 87:
-        button_down = false;  
-        moveButton.color = "blue";		
-            break;
+		button_down = false;  
+		moveButton.color = "blue";		
+			break;
 		case 38:
-        button2_down = false;
-        moveButton2.color = "red";		
-            break;
+		button2_down = false;
+		moveButton2.color = "red";		
+			break;
 		case 32:
-        if (win == true) {
-        moveButton3.color = "purple";
-        }	
-        break;
-    }
+		if (win == true) {
+		moveButton3.color = "purple";
+		}	
+		break;
+	}
 };
 </script>
 </body>
