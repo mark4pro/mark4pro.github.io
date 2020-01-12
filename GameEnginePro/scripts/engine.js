@@ -2226,7 +2226,7 @@ document.onkeydown = function(e) {
 		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap3();
 		}
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 2;
 		}
 			break;
@@ -2258,7 +2258,7 @@ document.onkeydown = function(e) {
 		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap3();
 		}
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 2;
 		}
 			break;
