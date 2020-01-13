@@ -252,6 +252,8 @@ box.update();
 box.newPos();
 PlayerBullLocation.update();
 PlayerBullLocation.newPos();
+PlayerBullLocation.x = box.x;
+PlayerBullLocation.y = box.y;
 console.log("X: " + PlayerBullLocation.x + " Y: " + PlayerBullLocation.y);
 var rX = -box.x + mouseX;
 var rY = -box.y + mouseY;
