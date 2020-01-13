@@ -52,7 +52,8 @@ var playerY = 183;
 var playerSpeedX = 0;
 var playerSpeedY = 0;
 function start() {
- box = new component(46, 46, "grey", playerX, playerY, "player1", "false");
+ box = new component(46, 46, "grey", playerX, playerY, "player1", "false", "true", "true");
+ PlayerBullLocation = new component(10, 10, "black", box.x, box.y, "player1", "OffSet", box.width / 2 - 10, -box.height / 2 + 17.5);
  Board.start();
  updateGameArea();
  }
@@ -86,8 +87,8 @@ this.y = y;
 this.angle = 0;
 this.width = width;
 this.height = height;
-this.halfWidth = this.width * 0.5;
-this.halfHeight = this.height * 0.5;
+this.halfWidth = this.width / 2;
+this.halfHeight = this.height / 2;
 this.color = color;
 this.update = function() {
 ctx = Board.context;
@@ -98,15 +99,22 @@ if (this.type == "text") {
 } else {
 if (this.type == "rec" || this.type == "player1") {
 this.rotateLock = radius;
-if (this.rotateLock == "") {
-this.rotateLock = "true";
-}
 if (this.rotateLock == "false") {
 ctx.save();
 ctx.translate(this.x, this.y);
 ctx.rotate(this.angle);
 ctx.fillStyle = this.color;
-ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
+ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+ctx.restore();
+}
+if (this.rotateLock == "OffSet") {
+this.OffsetX = outcolor;
+this.OffsetY = thickness;
+ctx.save();
+ctx.fillStyle = this.color;
+ctx.translate(this.x, this.y);
+ctx.rotate(this.angle);
+ctx.fillRect(this.OffsetX, this.OffsetY, this.width, this.height);
 ctx.restore();
 }
 if (this.rotateLock == "true") {
@@ -175,11 +183,17 @@ if (b1 < t2 || t1 > b2 || r1 < l2 || l1 > r2) {
  crash = false;
 }
  return crash;
-if (crash == true) {
-console.log("test");
-this.elasticCollition(otherobj);
- }
 };
+this.circleCrashWith = function(otherobj) {
+var distance_x = this.x - otherobj.x;
+var distance_y = this.y - otherobj.y;
+var rSum = this.radius + otherobj.radius;
+if (distance_x * distance_x + distance_y * distance_y <= rSum * rSum) { 
+return true;
+} else {
+return false;
+ }
+}
 this.elasticCollition = function(entity) {
     var pMidX = this.getMidX();
     var pMidY = this.getMidY();
@@ -236,9 +250,13 @@ function updateGameArea() {
 Board.clear();
 box.update();
 box.newPos();
+PlayerBullLocation.update();
+PlayerBullLocation.newPos();
+console.log("X: " + PlayerBullLocation.x + " Y: " + PlayerBullLocation.y);
 var rX = -box.x + mouseX;
 var rY = -box.y + mouseY;
 box.angle = Math.atan2(rY,rX);
+PlayerBullLocation.angle = box.angle;
 box.speedY = playerSpeedY;
 box.speedX = playerSpeedX;
 if (up == 1 && down == 0 && left == 0 && right == 0) {
