@@ -1,8 +1,6 @@
 Tank War:
 update UI
 add more upgrades
-make death image show under other player
-add "rec" back for background
 don't stop updating the background
 change color of background when in upgrade menu
 
