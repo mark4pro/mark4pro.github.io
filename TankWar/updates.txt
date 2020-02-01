@@ -1,8 +1,7 @@
 Tank War:
 update UI
 add more upgrades
-don't stop updating the background
-change color of background when in upgrade menu
+rewrite death
 
 Line Battle:
 update UI
