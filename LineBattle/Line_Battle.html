@@ -32,7 +32,10 @@ display: none;
 </head>
 <body id="BGColor" onload="startGame()">
 <canvas id="canvas" style="border:0px;touch-action:none;"></canvas>
-<button id="pauseG" style="touch-action:none;cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">PAUSE</button>
+<button id="pauseG" style="touch-action:none;cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;display:none;">PAUSE</button>
+<button id="blueBttn" style="cursor:pointer;color:black;background-color:blue;border:0px;width:80px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
+<button id="redBttn" style="cursor:pointer;color:black;background-color:red;border:0px;width:80px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
+<button id="winBttn" style="cursor:pointer;color:white;background-color:magenta;border:0px;width:180px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
 <h1 unselectable="on" class="unselectable" id="welcome" style="touch-action:none;color:blue;text-align:center;font:36px Arial;width:500px;position:fixed;right:50%;left:50%;top:10%;transform:translate(-50%,-50%);"><b>Welcome To Line Battle!</b></h1>
 <button id="startG" style="touch-action:none;cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
 <div id="BGT"><p unselectable="on" class="unselectable" style="touch-action:none;color:red;position:fixed;right:50%;left:45.5%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
@@ -74,28 +77,15 @@ BGT.style.display = "initial";
 var start = 1;
 function startGame() {
 Player1 = new component("player1", 30, 30, "blue", 50, 120, "cir");
-moveButtonDetect = new component("", 80, 50, "blue", 10, 25, "rec");
-moveButton = new component("", 80, 50, "blue", 50, 50, "rec");
-TP = new component("", 0, 0, "black", 40, 62.5, "text");
-TP.font = "36px Arial";
 Player2 = new component("player2", 30, 30, "red", window.innerWidth - 50, window.innerHeight - 120, "cir");
-moveButtonDetect2 = new component("", 80, 50, "red", window.innerWidth - 90, window.innerHeight - 75, "rec");
-moveButton2 = new component("", 80, 50, "red", window.innerWidth - 50, window.innerHeight - 50, "rec");
-TP2 = new component("", 0, 0, "black", window.innerWidth - 60, window.innerHeight - 38.5, "text");
-TP2.font = "36px Arial";
-moveButtonDetect3 = new component("", 180, 50, "darkpurple", window.innerWidth / 2 - 90, window.innerHeight / 2, "rec");
-moveButton3 = new component("", 180, 50, "purple", window.innerWidth / 2, window.innerHeight / 2, "rec");
 background = new component("", 10000000, 10000000, "white", 100, 0, "rec");
-DeathTxt = new component("Blue Wins!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
-DeathTxt.font = "36px Arial";
-DeathTxt2 = new component("Red Wins!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
-DeathTxt2.font = "36px Arial";
-DeathTxt3 = new component("Tie!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
-DeathTxt3.font = "36px Arial";
 GameArea.start();
 }
 
 var pause = true;
+var blueBttn = document.getElementById("blueBttn");
+var redBttn = document.getElementById("redBttn");
+var winBttn = document.getElementById("winBttn");
 var GameArea = {
 start : function() {
 var canvas = document.getElementById('canvas');
@@ -120,25 +110,25 @@ GameArea.y = false;
 })
 }, 
 updateCV : function(){
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight - 5;
 this.context.clearRect(0, 0, canvas.width, canvas.height);
-moveButtonDetect2.x = window.innerWidth - 90;
-moveButtonDetect2.y = window.innerHeight - 75;
-moveButton2.x = window.innerWidth - 50;
-moveButton2.y = window.innerHeight - 50;
-TP2.x = window.innerWidth - 60;
-TP2.y = window.innerHeight - 38.5;
-moveButtonDetect3.x = window.innerWidth / 2 - 90;
-moveButtonDetect3.y = window.innerHeight / 2;
-moveButton3.x = window.innerWidth / 2;
-moveButton3.y =	window.innerHeight / 2;
-DeathTxt.x = window.innerWidth / 2 - 82;
-DeathTxt.y = window.innerHeight / 2 + 15;
-DeathTxt2.x = window.innerWidth / 2 - 82;
-DeathTxt2.y = window.innerHeight / 2 + 15;
-DeathTxt3.x = window.innerWidth / 2 - 82;
-DeathTxt3.y	= window.innerHeight / 2 + 15;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+background.width = canvas.width * 2;
+background.height = canvas.height * 2;
+background.x = 0;
+background.y = 0;
+winBttn.style.top = canvas.height / 2 - 50 / 2 + "px";
+winBttn.style.left = canvas.width / 2 - 180 / 2 + "px";
+blueBttn.style.top = "15px";
+blueBttn.style.left = "15px";
+redBttn.style.bottom = "15px";
+redBttn.style.right = "15px";
+if (pause == true) {
+GameArea.pause();
+}
+if (pause == false) {
+GameArea.unpause();
+ }
 },
 pause : function(){
 canvas.style.display = "none";
@@ -164,6 +154,8 @@ this.angle = 0;
 this.moveAngle = 0;
 this.dead = false;
 this.points = 0;
+this.radius = 25;
+this.bullRadius = 5;
 this.timeAlive = timeAlive;
 this.x = x;
 this.y = y;	
@@ -174,7 +166,7 @@ if (this.type == "text") {
   ctx.fillStyle = color;
   ctx.fillText(this.text, this.x, this.y);
   } 
-  if (this.type == "Bull" || this.type == "rec") {
+  if (this.type == "rec") {
   ctx.save();
   ctx.translate(this.x, this.y);
   ctx.rotate(this.angle);
@@ -182,9 +174,15 @@ if (this.type == "text") {
   ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
   ctx.restore();	
   }
+  if (this.type == "Bull") {
+  ctx.beginPath();
+  ctx.arc(this.x, this.y, this.bullRadius, 0, 2 * Math.PI, true);
+  ctx.fillStyle = this.color;
+  ctx.fill();	
+  }
   if (type == "cir") {
   ctx.beginPath();
-  ctx.arc(this.x, this.y, 25, 0, 2 * Math.PI, true);
+  ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);
   ctx.fillStyle = this.color;
   ctx.fill();
   ctx.lineWidth = 0;
@@ -233,6 +231,16 @@ _bullets.push(__bullet);
 }
    }
   }
+  this.circleCrashWith = function(otherobj) {
+var distance_x = this.x - otherobj.x;
+var distance_y = this.y - otherobj.y;
+var rSum = this.radius + otherobj.radius;
+if (distance_x * distance_x + distance_y * distance_y <= rSum * rSum) { 
+return true;
+} else {
+return false;
+ }
+}
 }
 var startgame = 0;
 var startmove2 = 0;
@@ -249,22 +257,20 @@ var greenC = document.getElementById('green').value;
 var blueC = document.getElementById('blue').value;
 document.getElementById('waveNum').innerHTML = "Number Of Waves: " + numOfWaves;
 BGColor.style.backgroundColor = "rgb("+redC+", "+greenC+", "+blueC+")";
+blueBttn.innerHTML = Player1.points;
+redBttn.innerHTML = Player2.points;
 if (start == 1 && pause == false) {
 start = 0;
 document.getElementById('welcome').style.display = "none";
 }
-if (pause == true) {
-GameArea.pause();
-}
-if (pause == false) {
-GameArea.unpause();
-}
 GameArea.updateCV();
-if (Player1.points < numOfWaves || Player2.points < numOfWaves) {
-background.color = "rgb("+redC+", "+greenC+", "+blueC+")";
+if (pause == false) {
+blueBttn.style.display = "initial";
+redBttn.style.display = "initial";
+} else {
+blueBttn.style.display = "none";
+redBttn.style.display = "none";
 }
-TP.text = Player1.points;
-TP2.text = Player2.points;
 for(var u = _bullets.length - 1; u >= 0; u--) {
 if (_bullets[u].id == "Tank1" && _bullets[u].timeAlive >= lineLength) {
 _bullets.shift();
@@ -334,18 +340,25 @@ if (Player2.x >= window.innerWidth) {
 Player2.x -= window.innerWidth;
 }
 for(var j = _bullets.length - 1; j >= 0; j--) {
-if (_bullets[j].id == "Tank2" && Player1.dead === false && collision2(Player1, _bullets[j]) && win == false) {
+if (_bullets[j].id == "Tank2" && Player1.dead === false && Player1.circleCrashWith(_bullets[j]) && win == false) {
 _bullets.splice(j, 1);
 Player1.dead = true;
 Player2.points++;
 }
 }
 for(var k = _bullets.length - 1; k >= 0; k--) {
-if (_bullets[k].id == "Tank1" && Player2.dead === false && collision2(Player2, _bullets[k]) && win == false) {
+if (_bullets[k].id == "Tank1" && Player2.dead === false && Player2.circleCrashWith(_bullets[k]) && win == false) {
 _bullets.splice(k, 1);
 Player2.dead = true;
 Player1.points++;
 }
+}
+if (win == true) {
+if (pause == 0) {
+winBttn.style.display = "initial";
+ }
+} else {
+winBttn.style.display = "none";
 }
 if (Player1.dead) {
 Player1.color = "grey";
@@ -393,12 +406,6 @@ function deadTank2Reset(){
  Player2.speed = 0;
 } setTimeout(deadTank2Reset, 1000);
 }
-if (win == false) {
-moveButtonDetect.update();
-moveButtonDetect2.update();
-} else {
-moveButtonDetect3.update();
-}
 background.update();
 if (dirSwitch  > 1) {
 dirSwitch = 0;
@@ -416,7 +423,7 @@ Player1.update();
 Player1.newPos();
 Player2.update();
 Player2.newPos();
-if(collision2(Player1, Player2)){
+if(Player1.circleCrashWith(Player2)){
 if(Player1.x < Player2.x){
  Player1.x = Player1.x - 1;
  Player1.y = Player1.y - 1;
@@ -430,35 +437,25 @@ else if(Player1.x > Player2.x){
  Player2.y = Player2.y - 1;
 }
   }
-  moveButton.update();
-  moveButton2.update();
-  TP.update();
-  TP2.update();
   if (Player1.points >= numOfWaves && Player2.points < numOfWaves) {
-moveButton3.update();
-DeathTxt.update();
-background.color = "black";
+winBttn.innerHTML = "Blue Wins!";
 win = true;
  }
   if (Player2.points >= numOfWaves && Player1.points < numOfWaves) {
-moveButton3.update();
-DeathTxt2.update();
-background.color = "black";
+winBttn.innerHTML = "Red Wins!";
 win = true;
  }
   if (Player1.points >= numOfWaves && Player2.points >= numOfWaves) {
-DeathTxt3.update();
-background.color = "black";
+winBttn.innerHTML = "Tie!";
 win = true;
  }
+background.color = "rgb("+redC+", "+greenC+", "+blueC+")";
 if (win == true && button3_down == true) {
 	winReset();
  }
 }
+
 function winReset() {
-var redC = document.getElementById('red').value;
-var greenC = document.getElementById('green').value;
-var blueC = document.getElementById('blue').value;
 if (win == true) {
  _bullets.length[0];
  dirSwitch = 0;
@@ -467,7 +464,6 @@ if (win == true) {
  button2_down = false;
  Player1.angle = 0;
  Player2.angle = 0;
- background.color = "rgb("+redC+", "+greenC+", "+blueC+")";
  Player1.dead = false;
  Player2.dead = false;
  Player1.points = 0;
@@ -484,77 +480,37 @@ if (win == true) {
  }
 } setTimeout(winReset, 1000);
 
-
-function collision2(a,b){
-return a.x - a.width/2 < b.x + b.width &&
-a.x + a.width/2 > b.x &&
-a.y < b.y + b.height &&
-a.y + a.height > b.y;
-}
-
 var button_down = false, button2_down = false, button3_down = false;
 
-function getTouchXY(e) {
-  for(var i = 0; i < e.changedTouches.length; i++) {
-var x = e.changedTouches[i].clientX,
-y = e.changedTouches[i].clientY,
-t = {x:x, y:y, width:10, height:10};
-
-  if(collision2(t, moveButtonDetect)) { button_down = true; moveButton.color = "darkblue";}
-  if(collision2(t, moveButtonDetect2)) { button2_down = true; moveButton2.color = "darkred";}
-  if(collision2(t, moveButtonDetect3)) { button3_down = true; moveButton3.color = "darkpurple";}
-
-}
-}
-
-function stopTouchXY(e){
-  var x = e.changedTouches[0].clientX,
- y = e.changedTouches[0].clientY,
- t = {x:x, y:y, width:10, height:10};
-
-  if(collision2(t, moveButtonDetect)) { button_down = false; moveButton.color = "blue";}
-  if(collision2(t, moveButtonDetect2)) {button2_down = false; moveButton2.color = "red";}
-  if(collision2(t, moveButtonDetect3)) {button3_down = false; moveButton3.color = "purple";}
-}
-
-window.addEventListener("touchstart",  getTouchXY);
-window.addEventListener("touchmove",   getTouchXY);
-window.addEventListener("touchend",	stopTouchXY);
-window.addEventListener("touchcancel", stopTouchXY);
+blueBttn.onmousedown = function() {button_down = true; blueBttn.style.backgroundColor = "darkblue";}
+blueBttn.onmouseup = function() {button_down = false; blueBttn.style.backgroundColor = "blue";}
+redBttn.onmousedown = function() {button2_down = true; redBttn.style.backgroundColor = "darkred";}
+redBttn.onmouseup = function() {button2_down = false; redBttn.style.backgroundColor = "red";}
+winBttn.onmousedown = function() {button3_down = true; winBttn.style.backgroundColor = "purple";}
+winBttn.onmouseup = function() {button3_down = false; winBttn.style.backgroundColor = "magenta";}
 
 document.onkeydown = function(e) {
 switch (e.keyCode) {
 case 87:
-button_down = true;	
-moveButton.color = "darkblue";
-break;
-case 38:
-button2_down = true;	
-moveButton2.color = "darkred";
-break;
-case 32:
-if (win == true) {
-winReset();
-moveButton3.color = "darkpurple";
-}	
-break;
+		button_down = true; 
+		blueBttn.style.backgroundColor = "darkblue";		
+			break;
+		case 38:
+		button2_down = true;
+		redBttn.style.backgroundColor = "darkred";		
+			break;
 }
 };
 document.onkeyup = function(e) {
 switch (e.keyCode) {
 case 87:
-button_down = false;
-moveButton.color = "blue";
-break;
-case 38:
-button2_down = false;	
-moveButton2.color = "red";
-break;
-case 32:
-if (win == true) {
-moveButton3.color = "purple";
-}	
-break;
+		button_down = false;  
+		blueBttn.style.backgroundColor = "blue";		
+			break;
+		case 38:
+		button2_down = false;
+		redBttn.style.backgroundColor = "red";		
+			break;
 }
 };
 </script>
