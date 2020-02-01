@@ -249,6 +249,7 @@ var dirSwitch2 = 0;
 var lock = 0;
 var lock2 = 0;
 var win = false;
+var tankReset = 0;
 function updateGameArea() {
 var numOfWaves = document.getElementById('wave').value;
 var lineLength = document.getElementById('tail').value;
@@ -361,6 +362,7 @@ winBttn.style.display = "initial";
 winBttn.style.display = "none";
 }
 if (Player1.dead) {
+tankReset++;
 Player1.color = "grey";
 Player1.speed = 0;
 Player1.angle = 0;
@@ -370,20 +372,17 @@ dirSwitch = 0;
 dirSwitch2 = 0;
 button_down = false;
 button2_down = false;
+button3_down = false;
 _bullets.length = 0;
-
-function deadTank1Reset(){
- Player1.dead = false;
- Player1.color = "blue";
- Player1.x = 50;
- Player1.y = 120;
- Player2.x = window.innerWidth - 50;
- Player2.y = window.innerHeight - 120;
- Player1.speed = 0;
- Player2.speed = 0;
-} setTimeout(deadTank1Reset, 1000);
+if (tankReset > 50) {
+deathReset();
+ }
+}
+if (Player1.dead == false && Player2.dead == false) {
+tankReset = 0;
 }
 if (Player2.dead) {
+tankReset++;
 Player2.color = "grey";
 Player2.speed = 0;
 Player2.angle = 0;
@@ -393,18 +392,11 @@ dirSwitch = 0;
 dirSwitch2 = 0;
 button_down = false;
 button2_down = false;
+button3_down = false;
 _bullets.length = 0;
-
-function deadTank2Reset(){
- Player2.dead = false;
- Player2.color = "red";
- Player1.x = 50;
- Player1.y = 120;
- Player2.x = window.innerWidth - 50;
- Player2.y = window.innerHeight - 120;
- Player1.speed = 0;
- Player2.speed = 0;
-} setTimeout(deadTank2Reset, 1000);
+if (tankReset > 50) {
+deathReset();
+ }
 }
 background.update();
 if (dirSwitch  > 1) {
@@ -455,9 +447,32 @@ if (win == true && button3_down == true) {
  }
 }
 
+function deathReset() {
+if (Player1.dead == true) {
+ Player1.dead = false;
+ Player1.color = "blue";
+ Player1.x = 50;
+ Player1.y = 120;
+ Player2.x = window.innerWidth - 50;
+ Player2.y = window.innerHeight - 120;
+ Player1.speed = 0;
+ Player2.speed = 0;
+ }
+if (Player2.dead == true) {
+ Player2.dead = false;
+ Player2.color = "red";
+ Player1.x = 50;
+ Player1.y = 120;
+ Player2.x = window.innerWidth - 50;
+ Player2.y = window.innerHeight - 120;
+ Player1.speed = 0;
+ Player2.speed = 0;
+ }
+}
+
 function winReset() {
 if (win == true) {
- _bullets.length[0];
+ _bullets.length = 0;
  dirSwitch = 0;
  dirSwitch2 = 0;
  button_down = false;
