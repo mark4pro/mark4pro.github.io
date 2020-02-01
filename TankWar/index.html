@@ -41,10 +41,15 @@ canvas {
 </head>
 <body id="BGColor" onload="startGame()">
 <canvas id="canvas" style="border:0px;"></canvas>
-<button id="okG" onmousedown="okGs()" ontouchstart="okGs()"  style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">Ok</button>
-<div id="upgrades"><button id="upG" onmouseup="up1StatsUnlocker()" onmousedown="up1Stats()" ontouchend="up1StatsUnlocker()" ontouchstart="up1Stats()" style="cursor:pointer;color:black;background-color:purple;border:0px;width:200px;height:50px;font:20px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);opacity:0.5;">Bullet Size</button>
+<button id="okG" onmousedown="okGs()" ontouchstart="okGs()"  style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;display:none;">Ok</button>
+<div id="upgrades" style="display:none;">
+<button id="upG" onmouseup="up1StatsUnlocker()" onmousedown="up1Stats()" ontouchend="up1StatsUnlocker()" ontouchstart="up1Stats()" style="cursor:pointer;color:black;background-color:purple;border:0px;width:200px;height:50px;font:20px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);opacity:0.5;">Bullet Size</button>
+<button id="upG2" onmouseup="up2StatsUnlocker()" onmousedown="up2Stats()" ontouchend="up2StatsUnlocker()" ontouchstart="up2Stats()" style="cursor:pointer;color:black;background-color:purple;border:0px;width:200px;height:50px;font:20px Arial;text-align:center;position:fixed;right:50%;left:50%;top:30%;transform:translate(-50%,-50%);opacity:0.5;">Rotation Speed</button>
 </div>
-<button id="pauseG" style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;">PAUSE</button>
+<button id="blueBttn" style="cursor:pointer;color:black;background-color:blue;border:0px;width:80px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
+<button id="redBttn" style="cursor:pointer;color:black;background-color:red;border:0px;width:80px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
+<button id="winBttn" style="cursor:pointer;color:white;background-color:magenta;border:0px;width:180px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
+<button id="pauseG" style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;display:none;">PAUSE</button>
 <h1 unselectable="on" class="unselectable" id="welcome" style="color:blue;text-align:center;font:36px Arial;position:fixed;right:50%;left:50%;top:10%;transform:translate(-50%,-50%);width:500px;"><b>Welcome To Tank War Beta!</b></h1>
 <button id="startG" style="cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
 <div id="BGT"><p unselectable="on" class="unselectable" style="color:red;position:fixed;right:50%;left:45.5%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
@@ -103,27 +108,15 @@ BGT.style.display = "initial";
 };
 var start = 1;
 function startGame() {
-	Tank1 = new component("player1", 30, 30, "blue", 50, 120, "rec");
+	Tank1 = new component("player1", 15, "", "blue", 50, 120, "cir");
 	Tank1pic1 = new component("", 30, 30, "Tank1", 50, 120, "img");
-	moveButtonDetect = new component("", 80, 50, "blue", 10, 25, "rec");
-	moveButton = new component("", 80, 50, "blue", 50, 50, "rec");
 	TP = new component("", 0, 0, "black", 40, 62.5, "text");
 	TP.font = "36px Arial";
-	Tank2 = new component("player2", 30, 30, "red", window.innerWidth - 50, window.innerHeight - 120, "rec");
+	Tank2 = new component("player2", 15, "", "red", window.innerWidth - 50, window.innerHeight - 120, "cir");
 	Tank2pic1 = new component("", 30, 30, "Tank2", window.innerWidth - 50, window.innerHeight - 120, "img");
-	moveButtonDetect2 = new component("", 80, 50, "red", window.innerWidth - 90, window.innerHeight - 75, "rec");
-	moveButton2 = new component("", 80, 50, "red", window.innerWidth - 50, window.innerHeight - 50, "rec");
 	TP2 = new component("", 0, 0, "black", window.innerWidth - 60, window.innerHeight - 38.5, "text");
 	TP2.font = "36px Arial";
-	moveButtonDetect3 = new component("", 180, 50, "darkpurple", window.innerWidth / 2 - 90, window.innerHeight / 2, "rec");
-	moveButton3 = new component("", 180, 50, "purple", window.innerWidth / 2, window.innerHeight / 2, "rec");
 	background = new component("", 10000000, 10000000, "black", 100, 0, "rec");
-	DeathTxt = new component("Blue Wins!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
-	DeathTxt.font = "36px Arial";
-	DeathTxt2 = new component("Red Wins!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
-	DeathTxt2.font = "36px Arial";
-	DeathTxt3 = new component("Tie!", 0, 0, "white", window.innerWidth / 2 - 82, window.innerHeight / 2 + 15, "text");
-	DeathTxt3.font = "36px Arial";
 	GameArea.start();
 }
 var up1Lock = 0;
@@ -142,7 +135,26 @@ up1Lock++;
 function up1StatsUnlocker() {
 up1Lock = 0;
 }
+var up2Lock = 0;
+function up2Stats() {
+if (Tank1.UpgradePoints > 0 && Tank1.UpgradeTurn == true && up2Lock == 0) {
+Tank1.UpgradePoints--;
+Tank1.rotSpeed++;
+up2Lock++;
+ }
+if (Tank2.UpgradePoints > 0 && Tank2.UpgradeTurn == true && up2Lock == 0) {
+Tank2.UpgradePoints--;
+Tank2.rotSpeed++;
+up2Lock++;
+ }
+}
+function up2StatsUnlocker() {
+up2Lock = 0;
+}
 var pause = true;
+var blueBttn = document.getElementById("blueBttn");
+var redBttn = document.getElementById("redBttn");
+var winBttn = document.getElementById("winBttn");
 var GameArea = {
 	start : function() {
 		var canvas = document.getElementById('canvas');
@@ -170,28 +182,20 @@ var GameArea = {
 		this.context.clearRect(0, 0, canvas.width, canvas.height);
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
-		moveButtonDetect2.x = window.innerWidth - 90;
-		moveButtonDetect2.y = window.innerHeight - 75;
-		moveButton2.x = window.innerWidth - 50;
-		moveButton2.y = window.innerHeight - 50;
-		TP2.x = window.innerWidth - 60;
-		TP2.y = window.innerHeight - 38.5;
-		moveButtonDetect3.x = window.innerWidth / 2 - 90;
-		moveButtonDetect3.y = window.innerHeight / 2;
-		moveButton3.x = window.innerWidth / 2;
-		moveButton3.y =	window.innerHeight / 2;
-		DeathTxt.x = window.innerWidth / 2 - 82;
-		DeathTxt.y = window.innerHeight / 2 + 15;
-		DeathTxt2.x = window.innerWidth / 2 - 82;
-		DeathTxt2.y = window.innerHeight / 2 + 15;
-		DeathTxt3.x = window.innerWidth / 2 - 82;
-		DeathTxt3.y	= window.innerHeight / 2 + 15;
+		background.width = canvas.width;
+		background.height = canvas.height;
+		background.x = 0;
+		background.y = 0;
+		winBttn.style.top = canvas.height / 2 - 50 / 2 + "px";
+		winBttn.style.left = canvas.width / 2 - 180 / 2 + "px";
+		blueBttn.style.top = "15px";
+		blueBttn.style.left = "15px";
+		redBttn.style.bottom = "15px";
+		redBttn.style.right = "15px";
 		Tank1pic1.x = Tank1.x;
 		Tank1pic1.y = Tank1.y;
 		Tank2pic1.x = Tank2.x;
 		Tank2pic1.y = Tank2.y;
-		Tank1pic1.angle = Tank1.angle;
-		Tank2pic1.angle = Tank2.angle;
 		if (pause == true) {
 		GameArea.pause();
 		}
@@ -222,6 +226,10 @@ function component(name, width, height, color, x, y, type, id) {
 	this.bulletSize = 2;
 	this.angle = 0;
 	this.moveAngle = 0;
+	this.setAngle = 0;
+	this.rotSpeed = 1;
+	this.spawnTime = 0;
+	this.setRot = false;
 	this.dead = false;
 	this.points = 0;
 	this.UpgradePoints = 0;
@@ -236,14 +244,32 @@ function component(name, width, height, color, x, y, type, id) {
 		ctx.fillText(this.text, this.x, this.y);
 		}
 		if (this.type == "rec") {
-		ctx.save();
-		ctx.translate(this.x, this.y);
-		ctx.rotate(this.angle);
+		ctx.globalAlpha = this.globalAlpha;
 		ctx.fillStyle = this.color;
-		ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
-		ctx.restore();	
+		ctx.fillRect(this.x, this.y, this.width, this.height);
 		}
+		if (this.type == "cir") {
+ 		this.radius = this.width;
+ 		ctx.beginPath();
+ 		ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);
+ 		ctx.fillStyle = this.color;
+ 		ctx.fill();
+ 		ctx.stroke();
+        }
 		if (this.type == "img" || this.type == "Bull") {
+		if (this.type == "Bull") {
+		this.radius = this.width;
+ 		ctx.beginPath();
+ 		ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);
+		if (this.id == "Tank1") {
+ 		ctx.fillStyle = "lightblue";
+		}
+		if (this.id == "Tank2") {
+ 		ctx.fillStyle = "lightred";
+		}
+ 		ctx.fill();
+ 		ctx.stroke();
+		}
 		ctx.save();
 		ctx.translate(this.x, this.y);
 		ctx.rotate(this.angle);
@@ -258,14 +284,26 @@ function component(name, width, height, color, x, y, type, id) {
 		this.y -= this.speed * Math.cos(this.angle);
 		if (this.type == "Bull") {
 		if (this.id == "Tank1") {
+		this.spawnTime++;
 		this.bulletspeed = -10;
-		this.x += this.bulletspeed * Math.sin(Tank1.angle);
-		this.y -= this.bulletspeed * Math.cos(Tank1.angle);
+		this.x += this.bulletspeed * Math.sin(this.setAngle);
+		this.y -= this.bulletspeed * Math.cos(this.setAngle);
+		if (this.setRot == false) {
+		this.setAngle = Tank1pic1.angle;
+		this.moveAngle = Tank1.moveAngle;
+		this.setRot = true;
+		  }
 		 }
 		if (this.id == "Tank2") {
+		this.spawnTime++;
 		this.bulletspeed = -10;
-		this.x += this.bulletspeed * Math.sin(Tank2.angle);
-		this.y -= this.bulletspeed * Math.cos(Tank2.angle);
+		this.x += this.bulletspeed * Math.sin(this.setAngle);
+		this.y -= this.bulletspeed * Math.cos(this.setAngle);
+		if (this.setRot == false) {
+		this.setAngle = Tank2pic1.angle;
+		this.moveAngle = Tank2.moveAngle;
+		this.setRot = true;
+		  }
 		 }
 		}
 	}
@@ -278,7 +316,6 @@ function component(name, width, height, color, x, y, type, id) {
 		if (startgame == 0) {
 		Tank1.speed = 0;
 		Tank2.speed = 0; 
-		Tank1.angle += 1 * Math.PI / -180; 
 		Tank2.angle += 1 * Math.PI / 180;   
 		}
 		if ((mybottom < GameArea.y) || (mytop > GameArea.y) || (myright < GameArea.x) || (myleft > GameArea.x)) {
@@ -291,9 +328,6 @@ function component(name, width, height, color, x, y, type, id) {
 	if(this.dead === false){
 	var __bullet = new component("", this.bulletSize, this.bulletSize, "Tank1Bull", Tank1.x, Tank1.y, "Bull", "Tank1");
 	_bullets.push(__bullet);
-	if (this.id == "Tank1") {
-		this.angle += Tank1.moveAngle * Math.PI / 180;
-		 }
 	}
    }
   } else
@@ -302,12 +336,19 @@ function component(name, width, height, color, x, y, type, id) {
 	if(this.dead === false){
 	var __bullet = new component("", this.bulletSize, this.bulletSize, "Tank2Bull", Tank2.x, Tank2.y, "Bull", "Tank2");
 	_bullets.push(__bullet);
-	if (this.id == "Tank2") {
-		this.angle += Tank2.moveAngle * Math.PI / 180;
-		 }
 	}
    }
   }
+  this.circleCrashWith = function(otherobj) {
+var distance_x = this.x - otherobj.x;
+var distance_y = this.y - otherobj.y;
+var rSum = this.radius + otherobj.radius;
+if (distance_x * distance_x + distance_y * distance_y <= rSum * rSum) { 
+return true;
+} else {
+return false;
+ }
+}
 }
 var startgame = 0;
 var startmove = 0;
@@ -324,20 +365,32 @@ var upgradeMenu = 0;
 var MenuColor = "purple";
 var pointLock = 0;
 var win = false;
+var tankReset = 0;
 function updateGameArea() {
 GameArea.updateGame();
+Tank1.angle = Tank1pic1.angle;
+Tank2.angle = Tank2pic1.angle;
 var numOfWaves = document.getElementById('wave').value;
 var redC = document.getElementById('red').value;
 var greenC = document.getElementById('green').value;
 var blueC = document.getElementById('blue').value;
 document.getElementById('waveNum').innerHTML = "Number Of Waves: " + numOfWaves;
 BGColor.style.backgroundColor = "rgb("+redC+", "+greenC+", "+blueC+")";
+blueBttn.innerHTML = Tank1.points;
+redBttn.innerHTML = Tank2.points;
 if (start == 1 && pause == false) {
 start = 0;
 document.getElementById('welcome').style.display = "none";
 }
-	TP.text = Tank1.points;
-	TP2.text = Tank2.points;
+if (pause == false && upgradeMenu == 0) {
+blueBttn.style.display = "initial";
+redBttn.style.display = "initial";
+} else {
+blueBttn.style.display = "none";
+redBttn.style.display = "none";
+}
+Tank1.update();
+Tank2.update();
 		if (button_down == true && upgradeMenu == 0) {
 			Tank1.speed = -2;
 			Tank1pic1.speed = -2;
@@ -386,14 +439,19 @@ document.getElementById('welcome').style.display = "none";
 		firenum2 = 0;
 		}
 		for(var j = _bullets.length - 1; j >= 0; j--) {
-		if (_bullets[j].id == "Tank2" && Tank1.dead === false && collision2(Tank1, _bullets[j])) {
+		if (_bullets[j].id == "Tank2" && Tank1.dead === false && Tank1.circleCrashWith( _bullets[j])) {
 		_bullets.splice(j, 1);
 		Tank1.dead = true;
 		Tank2.points++;
 		 }
 		}
+		for(var j = _bullets.length - 1; j >= 0; j--) {
+		if (_bullets[j].spawnTime > 50) {
+		_bullets.splice(j, 1);
+		 }
+		}
 		for(var k = _bullets.length - 1; k >= 0; k--) {
-		if (_bullets[k].id == "Tank1" && Tank2.dead === false && collision2(Tank2, _bullets[k])) {
+		if (_bullets[k].id == "Tank1" && Tank2.dead === false && Tank2.circleCrashWith(_bullets[k])) {
 		_bullets.splice(k, 1);
 		Tank2.dead = true;
 		Tank1.points++;
@@ -403,10 +461,10 @@ document.getElementById('welcome').style.display = "none";
 		pointLock = 0;
 		}
 		if (Tank1.dead) {
+		tankReset++;
 		Tank1pic1.color = "Death";
 		Tank1.speed = 0;
 		Tank1pic1.speed = 0;
-		Tank1.angle = 0;
 		Tank1pic1.angle = 0;
 		Tank2.speed = 0;
 		Tank2pic1.speed = 0;
@@ -414,69 +472,31 @@ document.getElementById('welcome').style.display = "none";
 		Tank2pic1.angle = 0;
 		button_down = false;
 		button2_down = false;
-		 _bullets.length = 0;
-		
-		function deadTank1Reset(){
-		  upgradeMenu = 1;
-		  if (pointLock == 0) {
-		  Tank2.UpgradePoints += 2;
-		  Tank1.UpgradePoints += 1;
-		  pointLock = 1;
-		  }
-		  Tank2.UpgradeTurn = true;
-		  Tank1.dead = false;
-		  Tank1pic1.color = "Tank1";
-		  Tank1.x = 50;
-		  Tank1.y = 120;
-		  Tank1pic1.x = 50;
-		  Tank1pic1.y = 120;
-		  Tank2.x = window.innerWidth - 50;
-		  Tank2.y = window.innerHeight - 120;
-		  Tank2pic1.x = window.innerWidth - 50;
-		  Tank2pic1.y = window.innerHeight - 120;
-		  Tank1.speed = 0;
-		  Tank2.speed = 0;
-		  Tank2pic1.speed = 0;
-		  Tank1pic1.speed = 0;
-		 } setTimeout(deadTank1Reset, 1000);
+		button3_down = false;
+ 		_bullets.length = 0;
+		if (tankReset > 50) {
+		deathReset();
+		 }
+		}
+		if (Tank1.dead == false && Tank2.dead == false) {
+		tankReset = 0;
 		}
 		if (Tank2.dead) {
+		tankReset++;
 		Tank2pic1.color = "Death";
 		Tank2.speed = 0;
 		Tank2pic1.speed = 0;
-		Tank2.angle = 0;
 		Tank2pic1.angle = 0;
 		Tank1.speed = 0;
 		Tank1pic1.speed = 0;
-		Tank1.angle = 0;
 		Tank1pic1.angle = 0;
 		button_down = false;
 		button2_down = false;
+		button3_down = false;
 		_bullets.length = 0;
-		
-		function deadTank2Reset(){
-		  upgradeMenu = 1;
-		  if (pointLock == 0) {
-		  Tank2.UpgradePoints += 1;
-		  Tank1.UpgradePoints += 2;
-		  pointLock = 1;
-		  }
-		  Tank1.UpgradeTurn = true;
-		  Tank2.dead = false;
-		  Tank2pic1.color = "Tank2";
-		  Tank1.x = 50;
-		  Tank1.y = 120;
-		  Tank1pic1.x = 50;
-		  Tank1pic1.y = 120;
-		  Tank2.x = window.innerWidth - 50;
-		  Tank2.y = window.innerHeight - 120;
-		  Tank2pic1.x = window.innerWidth - 50;
-		  Tank2pic1.y = window.innerHeight - 120;
-		  Tank1.speed = 0;
-		  Tank1pic1.speed = 0;
-		  Tank2.speed = 0;
-		  Tank2pic1.speed = 0;
-		 } setTimeout(deadTank2Reset, 1000);
+		if (tankReset > 50) {
+		deathReset();
+		 }
 		}
 		if (Tank1.UpgradeTurn == true && Tank2.UpgradeTurn == true) {
 		var breakTurn = Math.floor(Math.random() * 2);
@@ -518,17 +538,15 @@ document.getElementById('welcome').style.display = "none";
 			Tank2.x -= window.innerWidth;
 			Tank2pic1.x -= window.innerWidth;
 		}
-	if (win == false) {
-	moveButtonDetect.update();
-	moveButtonDetect2.update();
+	if (win == true) {
+	upgradeMenu = 0;
+	if (pause == 0) {
+	winBttn.style.display = "initial";
+	 }
 	} else {
-	moveButtonDetect3.update();
+	winBttn.style.display = "none";
 	}
-	Tank1.update();
-	Tank2.update();
-	if (upgradeMenu == 0) {
 	background.update();
-	}
 	if (dirSwitch  > 1) {
 		dirSwitch = 0;
 	}
@@ -537,12 +555,10 @@ document.getElementById('welcome').style.display = "none";
 	}
 	if (startmove == 0 && upgradeMenu == 0) {
 	if (dirSwitch == 0) {
-	Tank1.angle += 1 * Math.PI / -180; 
-	Tank1pic1.angle += 1 * Math.PI / -180;
+	Tank1pic1.angle += Tank1.rotSpeed * Math.PI / -180;
 	 }
-	if (dirSwitch == 1) {
-	Tank1.angle += 1 * Math.PI / 180; 
-	Tank1pic1.angle += 1 * Math.PI / 180;
+	if (dirSwitch == 1) { 
+	Tank1pic1.angle += Tank2.rotSpeed * Math.PI / 180;
 	  }
 	}
 	for (var i = _bullets.length - 1; i >= 0; i--){
@@ -552,30 +568,35 @@ document.getElementById('welcome').style.display = "none";
 	  _bullets.splice(i, 1);
 	}
    }
+    if (upgradeMenu == 0 && pause == false && Tank2.dead == true) {
+	Tank2pic1.update();
+	}
+	if (upgradeMenu == 0 && pause == false) {
 	Tank1pic1.update();
+	}
 	Tank1.newPos();
 	Tank1pic1.newPos();
 	if (startmove2 == 0 && upgradeMenu == 0) {
 	if (dirSwitch2 == 0) {
-	Tank2.angle += 1 * Math.PI / 180; 
 	Tank2pic1.angle += 1 * Math.PI / 180;	
 	 }
 	if (dirSwitch2 == 1) {
-	Tank2.angle += 1 * Math.PI / -180;
 	Tank2pic1.angle += 1 * Math.PI / -180;
 	  }
 	}
+	if (upgradeMenu == 0 && pause == false && Tank2.dead == false) {
 	Tank2pic1.update();
+	}
 	Tank2.newPos();
 	Tank2pic1.newPos();
-	if(collision2(Tank1, Tank2)){
+	if(Tank1.circleCrashWith(Tank2)){
 	if(Tank1.x < Tank2.x){
 	  Tank1.x = Tank1.x - 1;
 	  Tank1pic1.x = Tank1.x - 1;
 	  Tank1.y = Tank1.y - 1;
 	  Tank1pic1.y = Tank1.y - 1;
 	  Tank2.x = Tank2.x + 1;
-	  Tank2pic1 = Tank2.x + 1;
+	  Tank2pic1.x = Tank2.x + 1;
 	  Tank2.y = Tank2.y + 1;
 	  Tank2pic1.y = Tank2.y + 1
 	}
@@ -590,33 +611,19 @@ document.getElementById('welcome').style.display = "none";
 	  Tank2pic1.y = Tank2.y - 1;
 	}
   }
-  moveButton.update();
-  moveButton2.update();
-  TP.update();
-  TP2.update();
 if (Tank1.points >= numOfWaves && Tank2.points < numOfWaves) {
-moveButton3.update();
-DeathTxt.update();
-background.color = "black";
+winBttn.innerHTML = "Blue Wins!";
 win = true;
  }
   if (Tank2.points >= numOfWaves && Tank1.points < numOfWaves) {
-moveButton3.update();
-DeathTxt2.update();
-background.color = "black";
+winBttn.innerHTML = "Red Wins!";
 win = true;
  }
   if (Tank1.points >= numOfWaves && Tank2.points >= numOfWaves) {
-DeathTxt3.update();
-background.color = "black";
+winBttn.innerHTML = "Tie!";
 win = true;
  }
-if (Tank1.points < numOfWaves || Tank2.points < numOfWaves) {
 background.color = "rgb("+redC+", "+greenC+", "+blueC+")";
- }
-if (win == true) {
-upgradeMenu = 0;
-}
   if (upgradeMenu == 0) {
 	okG.style.display = "none";
 	upgrades.style.display = "none";
@@ -649,22 +656,67 @@ if (win == true && button3_down == true) {
 	winReset();
  }
 }
+function deathReset() {
+if (Tank1.dead == true) {
+upgradeMenu = 1;
+if (pointLock == 0) {
+Tank2.UpgradePoints += 2;
+Tank1.UpgradePoints += 1;
+pointLock = 1;
+}
+Tank2.UpgradeTurn = true;
+Tank1.dead = false;
+Tank1pic1.color = "Tank1";
+Tank1.x = 50;
+Tank1.y = 120;
+Tank1pic1.x = 50;
+Tank1pic1.y = 120;
+Tank2.x = window.innerWidth - 50;
+Tank2.y = window.innerHeight - 120;
+Tank2pic1.x = window.innerWidth - 50;
+Tank2pic1.y = window.innerHeight - 120;
+Tank1.speed = 0;
+Tank2.speed = 0;
+Tank2pic1.speed = 0;
+Tank1pic1.speed = 0;
+}
+if (Tank2.dead == true) {
+upgradeMenu = 1;
+if (pointLock == 0) {
+Tank2.UpgradePoints += 1;
+Tank1.UpgradePoints += 2;
+pointLock = 1;
+}
+Tank1.UpgradeTurn = true;
+Tank2.dead = false;
+Tank2pic1.color = "Tank2";
+Tank1.x = 50;
+Tank1.y = 120;
+Tank1pic1.x = 50;
+Tank1pic1.y = 120;
+Tank2.x = window.innerWidth - 50;
+Tank2.y = window.innerHeight - 120;
+Tank2pic1.x = window.innerWidth - 50;
+Tank2pic1.y = window.innerHeight - 120;
+Tank1.speed = 0;
+Tank1pic1.speed = 0;
+Tank2.speed = 0;
+Tank2pic1.speed = 0;
+ }
+}
+
 function winReset() {
 if (win == true) {
-var redC = document.getElementById('red').value;
-var greenC = document.getElementById('green').value;
-var blueC = document.getElementById('blue').value;
  _bullets.length[0];
  dirSwitch = 0;
  dirSwitch2 = 0;
  button_down = false;
  button2_down = false;
- Tank1.angle = 0;
- Tank2.angle = 0;
+ Tank1pic1.angle = 0;
+ Tank2pic1.angle = 0;
  Tank1.bulletSize = 2;
  Tank2.bulletSize = 2;
  upgradeMenu = 0;
- background.color = "rgb("+redC+", "+greenC+", "+blueC+")";
  Tank1.dead = false;
  Tank2.dead = false;
  Tank1.points = 0;
@@ -684,68 +736,35 @@ var blueC = document.getElementById('blue').value;
  win = false;
  }
 } setTimeout(winReset, 1000);
-function collision2(a,b){
-return a.x - a.width/2 < b.x + b.width &&
-a.x + a.width/2 > b.x &&
-a.y < b.y + b.height &&
-a.y + a.height > b.y;
-}
 var button_down = false, button2_down = false, button3_down = false;
-function getTouchXY(e) {
-  for(var i = 0; i < e.changedTouches.length; i++) {
-	var x = e.changedTouches[i].clientX,
-		y = e.changedTouches[i].clientY,
-		t = {x:x, y:y, width:10, height:10};
-  if(collision2(t, moveButtonDetect)) { button_down = true; moveButton.color = "darkblue";}
-  if(collision2(t, moveButtonDetect2)) { button2_down = true; moveButton2.color = "darkred";}
-  if(collision2(t, moveButtonDetect3)) { button3_down = true; moveButton3.color = "darkpurple";}
-}
-}
-function stopTouchXY(e){
-  var x = e.changedTouches[0].clientX,
-	  y = e.changedTouches[0].clientY,
-	  t = {x:x, y:y, width:10, height:10};
-  if(collision2(t, moveButtonDetect)) { button_down = false; moveButton.color = "blue";}
-  if(collision2(t, moveButtonDetect2)) {button2_down = false; moveButton2.color = "red";}
-  if(collision2(t, moveButtonDetect3)) {button3_down = false; moveButton3.color = "purple";}
-}
-window.addEventListener("touchstart",  getTouchXY);
-window.addEventListener("touchmove",   getTouchXY);
-window.addEventListener("touchend",	stopTouchXY);
-window.addEventListener("touchcancel", stopTouchXY);
+blueBttn.onmousedown = function() {button_down = true; blueBttn.style.backgroundColor = "darkblue";}
+blueBttn.onmouseup = function() {button_down = false; blueBttn.style.backgroundColor = "blue";}
+redBttn.onmousedown = function() {button2_down = true; redBttn.style.backgroundColor = "darkred";}
+redBttn.onmouseup = function() {button2_down = false; redBttn.style.backgroundColor = "red";}
+winBttn.onmousedown = function() {button3_down = true; winBttn.style.backgroundColor = "purple";}
+winBttn.onmouseup = function() {button3_down = false; winBttn.style.backgroundColor = "magenta";}
 document.onkeydown = function(e) {
 	switch (e.keyCode) {
 		case 87:
 		button_down = true; 
-		moveButton.color = "darkblue";		
+		blueBttn.style.backgroundColor = "darkblue";		
 			break;
 		case 38:
 		button2_down = true;
-		moveButton2.color = "darkred";		
+		redBttn.style.backgroundColor = "darkred";		
 			break;
-		case 32:
-		if (win == true) {
-		winReset();
-		moveButton3.color = "darkpurple";
-		}	
-		break;
 	}
 };
 document.onkeyup = function(e) {
 	switch (e.keyCode) {
 		case 87:
 		button_down = false;  
-		moveButton.color = "blue";		
+		blueBttn.style.backgroundColor = "blue";		
 			break;
 		case 38:
 		button2_down = false;
-		moveButton2.color = "red";		
+		redBttn.style.backgroundColor = "red";		
 			break;
-		case 32:
-		if (win == true) {
-		moveButton3.color = "purple";
-		}	
-		break;
 	}
 };
 </script>
