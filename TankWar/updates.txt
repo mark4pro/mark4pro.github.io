@@ -1,7 +1,1 @@
-Tank War:
-update UI
-add more upgrades
-rewrite death
 
-Line Battle:
-update UI
