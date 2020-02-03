@@ -31,13 +31,13 @@ display: none;
 </style>
 </head>
 <body id="BGColor" onload="startGame()">
-<canvas id="canvas" style="border:0px;touch-action:none;"></canvas>
-<button id="pauseG" style="touch-action:none;cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;display:none;">PAUSE</button>
-<button id="blueBttn" style="cursor:pointer;color:black;background-color:blue;border:0px;width:80px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
-<button id="redBttn" style="cursor:pointer;color:black;background-color:red;border:0px;width:80px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
-<button id="winBttn" style="cursor:pointer;color:white;background-color:magenta;border:0px;width:180px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
+<canvas id="canvas" unselectable="on" class="unselectable" style="border:0px;touch-action:none;"></canvas>
+<button id="pauseG" unselectable="on" class="unselectable" style="touch-action:none;cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;display:none;">PAUSE</button>
+<button id="blueBttn" unselectable="on" class="unselectable" style="cursor:pointer;color:black;background-color:blue;border:0px;width:80px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
+<button id="redBttn" unselectable="on" class="unselectable" style="cursor:pointer;color:black;background-color:red;border:0px;width:80px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
+<button id="winBttn" unselectable="on" class="unselectable" style="cursor:pointer;color:white;background-color:magenta;border:0px;width:180px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
 <h1 unselectable="on" class="unselectable" id="welcome" style="touch-action:none;color:blue;text-align:center;font:36px Arial;width:500px;position:fixed;right:50%;left:50%;top:10%;transform:translate(-50%,-50%);"><b>Welcome To Line Battle!</b></h1>
-<button id="startG" style="touch-action:none;cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
+<button id="startG" unselectable="on" class="unselectable" style="touch-action:none;cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
 <div id="BGT"><p unselectable="on" class="unselectable" style="touch-action:none;color:red;position:fixed;right:50%;left:45.5%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
 <p unselectable="on" class="unselectable" style="touch-action:none;color:green;position:fixed;right:50%;left:45.5%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="green" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
 <p unselectable="on" class="unselectable" style="touch-action:none;color:blue;position:fixed;right:50%;left:45.5%;top:50%;transform:translate(-50%,-50%);">Blue<input type="range" min="0" max="255" value="0" id="blue" style="outline:none;cursor:pointer;width:250px;height:25px;background:blue;"></p>
