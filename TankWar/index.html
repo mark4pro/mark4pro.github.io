@@ -39,19 +39,19 @@ canvas {
 <img id="Tank2Bull" width="0" height="0" src="https://mark4pro.github.io/TankWar/images/RedBull.png">
 <img id="Death" width="0" height="0" src="https://mark4pro.github.io/TankWar/images/Death_1.png">
 </head>
-<body id="BGColor" onload="startGame()">
-<canvas id="canvas" style="border:0px;"></canvas>
-<button id="okG" onmousedown="okGs()"  style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;display:none;">Ok</button>
-<div id="upgrades" style="display:none;">
-<button id="upG" onmouseup="up1StatsUnlocker()" onmousedown="up1Stats()" style="cursor:pointer;color:black;background-color:purple;border:0px;width:200px;height:50px;font:20px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);opacity:0.5;">Bullet Size</button>
-<button id="upG2" onmouseup="up2StatsUnlocker()" onmousedown="up2Stats()" style="cursor:pointer;color:black;background-color:purple;border:0px;width:200px;height:50px;font:20px Arial;text-align:center;position:fixed;right:50%;left:50%;top:30%;transform:translate(-50%,-50%);opacity:0.5;">Rotation Speed</button>
+<body unselectable="on" class="unselectable" id="BGColor" onload="startGame()">
+<canvas unselectable="on" class="unselectable" id="canvas" style="border:0px;"></canvas>
+<button unselectable="on" class="unselectable" id="okG" onmousedown="okGs()"  style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;display:none;">Ok</button>
+<div unselectable="on" class="unselectable" id="upgrades" style="display:none;">
+<button unselectable="on" class="unselectable" id="upG" onmouseup="up1StatsUnlocker()" onmousedown="up1Stats()" style="cursor:pointer;color:black;background-color:purple;border:0px;width:200px;height:50px;font:20px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);opacity:0.5;">Bullet Size</button>
+<button unselectable="on" class="unselectable" id="upG2" onmouseup="up2StatsUnlocker()" onmousedown="up2Stats()" style="cursor:pointer;color:black;background-color:purple;border:0px;width:200px;height:50px;font:20px Arial;text-align:center;position:fixed;right:50%;left:50%;top:30%;transform:translate(-50%,-50%);opacity:0.5;">Rotation Speed</button>
 </div>
-<button id="blueBttn" style="cursor:pointer;color:black;background-color:blue;border:0px;width:80px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
-<button id="redBttn" style="cursor:pointer;color:black;background-color:red;border:0px;width:80px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
-<button id="winBttn" style="cursor:pointer;color:white;background-color:magenta;border:0px;width:180px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
-<button id="pauseG" style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;display:none;">PAUSE</button>
+<button unselectable="on" class="unselectable" id="blueBttn" style="cursor:pointer;color:black;background-color:blue;border:0px;width:80px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
+<button unselectable="on" class="unselectable" id="redBttn" style="cursor:pointer;color:black;background-color:red;border:0px;width:80px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
+<button unselectable="on" class="unselectable" id="winBttn" style="cursor:pointer;color:white;background-color:magenta;border:0px;width:180px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
+<button unselectable="on" class="unselectable" id="pauseG" style="cursor:pointer;color:black;background-color:purple;border:0px;width:80px;height:50px;font:15px Arial;text-align:center;position:fixed;right:0.5%;top:3%;opacity:0.5;display:none;">PAUSE</button>
 <h1 unselectable="on" class="unselectable" id="welcome" style="color:blue;text-align:center;font:36px Arial;position:fixed;right:50%;left:50%;top:10%;transform:translate(-50%,-50%);width:500px;"><b>Welcome To Tank War Beta!</b></h1>
-<button id="startG" style="cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
+<button unselectable="on" class="unselectable" id="startG" style="cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
 <div id="BGT"><p unselectable="on" class="unselectable" style="color:red;position:fixed;right:50%;left:45.5%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
 <p unselectable="on" class="unselectable" style="color:green;position:fixed;right:50%;left:45.5%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="green" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
 <p unselectable="on" class="unselectable" style="color:blue;position:fixed;right:50%;left:45.5%;top:50%;transform:translate(-50%,-50%);">Blue<input type="range" min="0" max="255" value="0" id="blue" style="outline:none;cursor:pointer;width:250px;height:25px;background:blue;"></p>
@@ -558,7 +558,7 @@ Tank2.update();
 	Tank1pic1.angle += Tank1.rotSpeed * Math.PI / -180;
 	 }
 	if (dirSwitch == 1) { 
-	Tank1pic1.angle += Tank2.rotSpeed * Math.PI / 180;
+	Tank1pic1.angle += Tank1.rotSpeed * Math.PI / 180;
 	  }
 	}
 	for (var i = _bullets.length - 1; i >= 0; i--){
@@ -578,10 +578,10 @@ Tank2.update();
 	Tank1pic1.newPos();
 	if (startmove2 == 0 && upgradeMenu == 0) {
 	if (dirSwitch2 == 0) {
-	Tank2pic1.angle += 1 * Math.PI / 180;	
+	Tank2pic1.angle += Tank2.rotSpeed * Math.PI / 180;	
 	 }
 	if (dirSwitch2 == 1) {
-	Tank2pic1.angle += 1 * Math.PI / -180;
+	Tank2pic1.angle += Tank2.rotSpeed * Math.PI / -180;
 	  }
 	}
 	if (upgradeMenu == 0 && pause == false && Tank2.dead == false) {
