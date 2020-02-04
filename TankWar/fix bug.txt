@@ -1,1 +1,2 @@
 make win button not show in pause menu
+lock points when someone wins
