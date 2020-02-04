@@ -258,15 +258,10 @@ function component(name, width, height, color, x, y, type, id) {
 		}
 		if (this.type == "img" || this.type == "Bull") {
 		if (this.type == "Bull") {
-		this.radius = this.width;
+		this.radius = this.width/2;
  		ctx.beginPath();
+ 		ctx.fillStyle = this.name;
  		ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);
-		if (this.id == "Tank1") {
- 		ctx.fillStyle = "lightblue";
-		}
-		if (this.id == "Tank2") {
- 		ctx.fillStyle = "lightred";
-		}
  		ctx.fill();
  		ctx.stroke();
 		}
@@ -326,7 +321,7 @@ function component(name, width, height, color, x, y, type, id) {
 	if (name == "player1") {
 	this.shoot = function(){
 	if(this.dead === false){
-	var __bullet = new component("", this.bulletSize, this.bulletSize, "Tank1Bull", Tank1.x, Tank1.y, "Bull", "Tank1");
+	var __bullet = new component("lightblue", this.bulletSize, this.bulletSize, "Tank1Bull", Tank1.x, Tank1.y, "Bull", "Tank1");
 	_bullets.push(__bullet);
 	}
    }
@@ -334,7 +329,7 @@ function component(name, width, height, color, x, y, type, id) {
   if (name == "player2") {
 	this.shoot = function(){
 	if(this.dead === false){
-	var __bullet = new component("", this.bulletSize, this.bulletSize, "Tank2Bull", Tank2.x, Tank2.y, "Bull", "Tank2");
+	var __bullet = new component("lightblue", this.bulletSize, this.bulletSize, "Tank2Bull", Tank2.x, Tank2.y, "Bull", "Tank2");
 	_bullets.push(__bullet);
 	}
    }
@@ -442,7 +437,9 @@ Tank2.update();
 		if (_bullets[j].id == "Tank2" && Tank1.dead === false && Tank1.circleCrashWith( _bullets[j])) {
 		_bullets.splice(j, 1);
 		Tank1.dead = true;
+		if (win == false) {
 		Tank2.points++;
+		  }
 		 }
 		}
 		for(var j = _bullets.length - 1; j >= 0; j--) {
@@ -454,7 +451,9 @@ Tank2.update();
 		if (_bullets[k].id == "Tank1" && Tank2.dead === false && Tank2.circleCrashWith(_bullets[k])) {
 		_bullets.splice(k, 1);
 		Tank2.dead = true;
+		if (win == false) {
 		Tank1.points++;
+		  }
 		 }
 		}
 		if (upgradeMenu == 0) {
@@ -544,6 +543,9 @@ Tank2.update();
 	winBttn.style.display = "initial";
 	 }
 	} else {
+	winBttn.style.display = "none";
+	}
+	if (pause == true) {
 	winBttn.style.display = "none";
 	}
 	background.update();
