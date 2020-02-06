@@ -686,6 +686,13 @@ redBttn.onmousedown = function() {button2_down = true; redBttn.style.backgroundC
 redBttn.onmouseup = function() {button2_down = false; redBttn.style.backgroundColor = "red";}
 winBttn.onmousedown = function() {button3_down = true; winBttn.style.backgroundColor = "purple";}
 winBttn.onmouseup = function() {button3_down = false; winBttn.style.backgroundColor = "magenta";}
+	
+blueBttn.ontouchstart = function() {button_down = true; blueBttn.style.backgroundColor = "darkblue";}
+blueBttn.ontouchend = function() {button_down = false; blueBttn.style.backgroundColor = "blue";}
+redBttn.ontouchstart = function() {button2_down = true; redBttn.style.backgroundColor = "darkred";}
+redBttn.ontouchend = function() {button2_down = false; redBttn.style.backgroundColor = "red";}
+winBttn.ontouchstart = function() {button3_down = true; winBttn.style.backgroundColor = "purple";}
+winBttn.ontouchend = function() {button3_down = false; winBttn.style.backgroundColor = "magenta";}
 
 document.onkeydown = function(e) {
 switch (e.keyCode) {
