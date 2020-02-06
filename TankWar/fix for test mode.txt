@@ -1,2 +1,0 @@
-invert angle only when touching and make line peices have health
-if the line peices health reach 0 they get deleted
