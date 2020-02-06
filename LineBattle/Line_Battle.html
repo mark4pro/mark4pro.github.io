@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="apple-touch-icon" href="https://mark4pro.github.io/LineBattle/icon/Line_Battle_icon.png" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-<title>Line Battle V5</title>
+<title>Line Battle V6</title>
 <style>
 body {
 margin: 0;
@@ -38,12 +38,15 @@ display: none;
 <button id="winBttn" unselectable="on" class="unselectable" style="cursor:pointer;color:white;background-color:magenta;border:0px;width:180px;height:50px;font:30px Arial;text-align:center;position:fixed;opacity:0.5;display:none;"></button>
 <h1 unselectable="on" class="unselectable" id="welcome" style="touch-action:none;color:blue;text-align:center;font:36px Arial;width:500px;position:fixed;right:50%;left:50%;top:10%;transform:translate(-50%,-50%);"><b>Welcome To Line Battle!</b></h1>
 <button id="startG" unselectable="on" class="unselectable" style="touch-action:none;cursor:pointer;color:red;background-color:blue;border:0px;width:200px;height:50px;font:30px Arial;text-align:center;position:fixed;right:50%;left:50%;top:20%;transform:translate(-50%,-50%);">PLAY</button>
-<div id="BGT"><p unselectable="on" class="unselectable" style="touch-action:none;color:red;position:fixed;right:50%;left:45.5%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="red" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
-<p unselectable="on" class="unselectable" style="touch-action:none;color:green;position:fixed;right:50%;left:45.5%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="green" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
-<p unselectable="on" class="unselectable" style="touch-action:none;color:blue;position:fixed;right:50%;left:45.5%;top:50%;transform:translate(-50%,-50%);">Blue<input type="range" min="0" max="255" value="0" id="blue" style="outline:none;cursor:pointer;width:250px;height:25px;background:blue;"></p>
+<div id="BGT"><p unselectable="on" class="unselectable" style="touch-action:none;color:red;position:fixed;right:50%;left:45.5%;top:30%;transform:translate(-50%,-50%);">Red<input type="range" min="0" max="255" value="0" id="redCr" style="outline:none;cursor:pointer;width:250px;height:25px;background:red;"></p>
+<p unselectable="on" class="unselectable" style="touch-action:none;color:green;position:fixed;right:50%;left:45.5%;top:40%;transform:translate(-50%,-50%);">Green<input type="range" min="0" max="255" value="0" id="greenCr" style="outline:none;cursor:pointer;width:250px;height:25px;background:green;"></p>
+<p unselectable="on" class="unselectable" style="touch-action:none;color:blue;position:fixed;right:50%;left:45.5%;top:50%;transform:translate(-50%,-50%);">Blue<input type="range" min="0" max="255" value="0" id="blueCr" style="outline:none;cursor:pointer;width:250px;height:25px;background:blue;"></p>
 <p unselectable="on" class="unselectable" style="touch-action:none;color:blue;position:fixed;right:50%;left:43.2%;top:57%;width:200px;">Tail Length<input type="range" min="0" max="500" value="100" id="tail" style="outline:none;cursor:pointer;width:250px;height:25px;"></p>
 <p unselectable="on" class="unselectable" id="waveNum" style="touch-action:none;color:blue;position:fixed;right:50%;left:43.5%;top:65%;width:200px;"></p>
-<p unselectable="on" class="unselectable" style="touch-action:none;color:blue;position:fixed;right:50%;left:45.5%;top:70%;transform:translate(-50%,-50%);"><input type="range" min="1" max="50" value="10" id="wave" style="outline:none;cursor:pointer;width:250px;height:25px;"></p></div>
+<p unselectable="on" class="unselectable" style="touch-action:none;color:blue;position:fixed;right:50%;left:45.5%;top:70%;transform:translate(-50%,-50%);"><input type="range" min="1" max="50" value="10" id="wave" style="outline:none;cursor:pointer;width:250px;height:25px;"></p>
+<p unselectable="on" class="unselectable" id="badNum" style="touch-action:none;color:blue;position:fixed;right:50%;left:43.5%;top:75%;width:200px;"></p>
+<p unselectable="on" class="unselectable" style="touch-action:none;color:blue;position:fixed;right:50%;left:45.5%;top:80%;transform:translate(-50%,-50%);"><input type="range" min="0" max="10" value="0" id="num" style="outline:none;cursor:pointer;width:250px;height:25px;"></p>
+<p unselectable="on" class="unselectable" style="touch-action:none;color:blue;position:fixed;right:50%;left:45.5%;top:90%;transform:translate(-50%,-50%);">Chaos Mode: <input type="checkbox" id="modeCheck" style="outline:none;cursor:pointer;width:250px;height:25px;"></p></div>
 <script>
 var keys = {};
 window.addEventListener("keydown",
@@ -74,11 +77,25 @@ startG.style.display = "initial";
 BGT.style.display = "initial";
 };
 
+modeCheck.onclick = function() {
+Player1.dead = true;
+Player2.dead = true;
+Player1.points = 0;
+Player2.points = 0;
+if (document.getElementById("modeCheck").checked == true) {
+chaosMode = true;
+} else {
+chaosMode = false;
+}
+}
+
 var start = 1;
 function startGame() {
 Player1 = new component("player1", 30, 30, "blue", 50, 120, "cir");
 Player2 = new component("player2", 30, 30, "red", window.innerWidth - 50, window.innerHeight - 120, "cir");
-background = new component("", 10000000, 10000000, "white", 100, 0, "rec");
+goal = new component("goal", 30, 30, "green", -100, -100, "cir");
+goal.radius = 10;
+background = new component("", 10000000, 10000000, "rgb("+redC+", "+greenC+", "+blueC+")", 100, 0, "rec");
 GameArea.start();
 }
 
@@ -141,6 +158,7 @@ pauseG.style.display = "initial";
 }
 
 var _bullets = [];
+var _badGs = [];
 function component(name, width, height, color, x, y, type, id, timeAlive) {
 this.type = type;
 this.color = color;
@@ -231,6 +249,13 @@ _bullets.push(__bullet);
 }
    }
   }
+this.spawn = function(){
+if(this.dead === false){
+var __badG = new component("badGoal", 5, 5, "#A30F0F", Math.floor((Math.random()*canvas.width-20)+20), Math.floor((Math.random()*canvas.height-1)+1), "cir");
+__badG.radius = 10;
+_badGs.push(__badG);
+ }
+}
   this.circleCrashWith = function(otherobj) {
 var distance_x = this.x - otherobj.x;
 var distance_y = this.y - otherobj.y;
@@ -242,6 +267,21 @@ return false;
  }
 }
 }
+var plusTwo = 0;
+function random() {
+goal.x = Math.floor((Math.random()*canvas.width-1)+1);
+goal.y = Math.floor((Math.random()*canvas.height-1)+1);
+plusTwo = Math.floor(Math.random()*10);
+if (plusTwo == 10 || plusTwo == 5) {
+goal.color = "yellow";
+}
+if (plusTwo == 2 || plusTwo == 6) {
+goal.color = "purple";
+}
+if (plusTwo != 10 && plusTwo != 5 && plusTwo != 2 && plusTwo != 6) {
+goal.color = "green";
+}
+}
 var startgame = 0;
 var startmove2 = 0;
 var dirSwitch = 0;
@@ -250,13 +290,23 @@ var lock = 0;
 var lock2 = 0;
 var win = false;
 var tankReset = 0;
-function updateGameArea() {
+var chaosMode = false;
+var switchPos = 1;
+var lossPointSW = false;
+var lossPointSW2 = false;
+var redC = document.getElementById('redCr').value;
+var greenC = document.getElementById('greenCr').value;
+var blueC = document.getElementById('blueCr').value;
 var numOfWaves = document.getElementById('wave').value;
+function updateGameArea() {
+numOfWaves = document.getElementById('wave').value;
+var numOfBad = document.getElementById('num').value;
 var lineLength = document.getElementById('tail').value;
-var redC = document.getElementById('red').value;
-var greenC = document.getElementById('green').value;
-var blueC = document.getElementById('blue').value;
-document.getElementById('waveNum').innerHTML = "Number Of Waves: " + numOfWaves;
+redC = document.getElementById('redCr').value;
+greenC = document.getElementById('greenCr').value;
+blueC = document.getElementById('blueCr').value;
+document.getElementById('waveNum').innerHTML = "Number Of Points: " + numOfWaves;
+document.getElementById('badNum').innerHTML = "Number Of Objects: " + numOfBad;
 BGColor.style.backgroundColor = "rgb("+redC+", "+greenC+", "+blueC+")";
 blueBttn.innerHTML = Player1.points;
 redBttn.innerHTML = Player2.points;
@@ -264,7 +314,53 @@ if (start == 1 && pause == false) {
 start = 0;
 document.getElementById('welcome').style.display = "none";
 }
+if (numOfBad > 0) {
+if (_badGs.length < numOfBad) {
+background.spawn();
+}
+if (_badGs.length > numOfBad) {
+_badGs.length = numOfBad;
+}
+} else {
+_badGs.length = 0;
+}
 GameArea.updateCV();
+if (switchPos == 1) {
+random();
+switchPos = 0;
+}
+if (chaosMode == true) {
+if (Player1.circleCrashWith(goal) && switchPos == 0) {
+switchPos = 1;
+overPoints = 0;
+overPoints2 = 0;
+button3_down = false;
+if (win == false) {
+Player1.points++;
+if (plusTwo == 10 || plusTwo == 5) {
+Player1.points++;
+}
+if (plusTwo == 2 || plusTwo == 6 && Player2.points > 0) {
+Player2.points--;
+}
+ }
+}
+if (Player2.circleCrashWith(goal) && switchPos == 0) {
+switchPos = 1;
+overPoints = 0;
+overPoints2 = 0;
+button3_down = false;
+if (win == false) {
+Player2.points++;
+if (plusTwo == 10 || plusTwo == 5) {
+Player2.points++;
+}
+if (plusTwo == 2 || plusTwo == 6 && Player1.points > 0) {
+Player1.points--;
+}
+ }
+}
+}
 if (pause == false) {
 blueBttn.style.display = "initial";
 redBttn.style.display = "initial";
@@ -342,23 +438,63 @@ Player2.x -= window.innerWidth;
 }
 for(var j = _bullets.length - 1; j >= 0; j--) {
 if (_bullets[j].id == "Tank2" && Player1.dead === false && Player1.circleCrashWith(_bullets[j]) && win == false) {
+if (chaosMode == true) {
+if(Player1.x < _bullets[j].x){
+ Player1.x = Player1.x - 1;
+}
+else if(Player1.x > _bullets[j].x){
+ Player1.x = Player1.x + 1;
+}
+if(Player1.y < _bullets[j].y){
+ Player1.y = Player1.y + 1;
+}
+else if(Player1.y > _bullets[j].y){
+ Player1.y = Player1.y - 1;
+}
+}
 _bullets.splice(j, 1);
+if (chaosMode == false) {
 Player1.dead = true;
+if (win == false) {
 Player2.points++;
+}
+}
 }
 }
 for(var k = _bullets.length - 1; k >= 0; k--) {
 if (_bullets[k].id == "Tank1" && Player2.dead === false && Player2.circleCrashWith(_bullets[k]) && win == false) {
+if (chaosMode == true) {
+if(Player2.x < _bullets[k].x){
+ Player2.x = Player2.x - 1;
+}
+else if(Player2.x > _bullets[k].x){
+ Player2.x = Player2.x + 1;
+}
+if(Player2.y < _bullets[k].y){
+ Player2.y = Player2.y + 1;
+}
+else if(Player2.y > _bullets[k].y){
+ Player2.y = Player2.y - 1;
+}
+}
 _bullets.splice(k, 1);
+if (chaosMode == false) {
 Player2.dead = true;
+if (win == false) {
 Player1.points++;
 }
 }
+}
+}
+background.update();
 if (win == true) {
 if (pause == 0) {
 winBttn.style.display = "initial";
  }
 } else {
+winBttn.style.display = "none";
+}
+if (pause == true) {
 winBttn.style.display = "none";
 }
 if (Player1.dead) {
@@ -398,7 +534,6 @@ if (tankReset > 50) {
 deathReset();
  }
 }
-background.update();
 if (dirSwitch  > 1) {
 dirSwitch = 0;
 }
@@ -411,6 +546,37 @@ if (_bullets[i].x <= 0 || _bullets[i].x >= window.innerWidth || _bullets[i].y >=
  _bullets.splice(i, 1);
 }
    }
+for(var p = _badGs.length - 1; p >= 0; p--) {
+//make exeption to stop spawning near player//
+if (_badGs[p].x < 100) {
+_badGs[p].x = Math.floor((Math.random()*canvas.width-20)+20);
+}
+if (_badGs[p].x > canvas.width - 100) {
+_badGs[p].x = Math.floor((Math.random()*canvas.width-20)+20);
+}
+if (_badGs[p].circleCrashWith(goal)) {
+_badGs[p].x = Math.floor((Math.random()*canvas.width-20)+20);
+_badGs[p].y = Math.floor((Math.random()*canvas.height-1)+1);
+}
+if (Player1.circleCrashWith(_badGs[p]) && _badGs[p].x > 100 && _badGs[p].x < canvas.width - 100) {
+Player1.dead = true;
+if (Player1.points > 0 && lossPointSW == false && win == false) {
+lossPointSW = true;
+Player1.points--;
+}
+}
+if (Player2.circleCrashWith(_badGs[p]) && _badGs[p].x > 100 && _badGs[p].x < canvas.width - 100) {
+Player2.dead = true;
+if (Player2.points > 0 && lossPointSW2 == false && win == false) {
+lossPointSW2 = true;
+Player2.points--;
+}
+}
+_badGs[p].update();
+}
+if (switchPos == 0 && chaosMode == true) {
+goal.update();
+}
 Player1.update();
 Player1.newPos();
 Player2.update();
@@ -429,6 +595,7 @@ else if(Player1.x > Player2.x){
  Player2.y = Player2.y - 1;
 }
   }
+background.color = "rgb("+redC+", "+greenC+", "+blueC+")";
   if (Player1.points >= numOfWaves && Player2.points < numOfWaves) {
 winBttn.innerHTML = "Blue Wins!";
 win = true;
@@ -441,13 +608,14 @@ win = true;
 winBttn.innerHTML = "Tie!";
 win = true;
  }
-background.color = "rgb("+redC+", "+greenC+", "+blueC+")";
 if (win == true && button3_down == true) {
 	winReset();
  }
 }
 
 function deathReset() {
+modeLock = false;
+button3_down = false;
 if (Player1.dead == true) {
  Player1.dead = false;
  Player1.color = "blue";
@@ -457,6 +625,7 @@ if (Player1.dead == true) {
  Player2.y = window.innerHeight - 120;
  Player1.speed = 0;
  Player2.speed = 0;
+ lossPointSW = false;
  }
 if (Player2.dead == true) {
  Player2.dead = false;
@@ -467,22 +636,36 @@ if (Player2.dead == true) {
  Player2.y = window.innerHeight - 120;
  Player1.speed = 0;
  Player2.speed = 0;
+ lossPointSW2 = false;
  }
+ overPoints = 0;
+ overPoints2 = 0;
+ _badGs.length = 0;
+ random();
 }
 
+var overPoints = 0;
+var overPoints2 = 0;
 function winReset() {
 if (win == true) {
+if (Player1.points > numOfWaves && chaosMode == true) {
+ overPoints = Player1.points - numOfWaves;
+}
+if (Player2.points > numOfWaves && chaosMode == true) {
+ overPoints2 = Player2.points - numOfWaves;
+}
  _bullets.length = 0;
  dirSwitch = 0;
  dirSwitch2 = 0;
  button_down = false;
  button2_down = false;
+ button3_down = false;
  Player1.angle = 0;
  Player2.angle = 0;
  Player1.dead = false;
  Player2.dead = false;
- Player1.points = 0;
- Player2.points = 0;
+ Player1.points = overPoints;
+ Player2.points = overPoints2;
  Player1.color = "blue";
  Player2.color = "red";
  Player1.x = 50;
@@ -503,12 +686,6 @@ redBttn.onmousedown = function() {button2_down = true; redBttn.style.backgroundC
 redBttn.onmouseup = function() {button2_down = false; redBttn.style.backgroundColor = "red";}
 winBttn.onmousedown = function() {button3_down = true; winBttn.style.backgroundColor = "purple";}
 winBttn.onmouseup = function() {button3_down = false; winBttn.style.backgroundColor = "magenta";}
-blueBttn.ontouchstart = function() {button_down = true; blueBttn.style.backgroundColor = "darkblue";}
-blueBttn.ontouchend = function() {button_down = false; blueBttn.style.backgroundColor = "blue";}
-redBttn.ontouchstart = function() {button2_down = true; redBttn.style.backgroundColor = "darkred";}
-redBttn.ontouchend = function() {button2_down = false; redBttn.style.backgroundColor = "red";}
-winBttn.ontouchstart = function() {button3_down = true; winBttn.style.backgroundColor = "purple";}
-winBttn.ontouchend = function() {button3_down = false; winBttn.style.backgroundColor = "magenta";}
 
 document.onkeydown = function(e) {
 switch (e.keyCode) {
