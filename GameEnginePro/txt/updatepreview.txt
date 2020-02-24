@@ -5,6 +5,7 @@ NEW - the "Easy" ship (makes the game easier)
 NEW - circle glow to ship icons in the shipyard
 NEW - Wave 7 boss prize
 NEW - Difficulties in settings
+NEW - Speed Stats in pause menu
 NEW PATCH - Player enemy collisions! - FIXED
 NEW PATCH - Controllable alpha built into constructor!
 NEW PATCH - Roofs use alpha to transition!
