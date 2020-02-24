@@ -1,6 +1,10 @@
 :PRESS P TO TOGGLE THE PIB:
 
 What's new in V0.4.95 PREVIEW-
+NEW - the "Easy" ship (makes the game easier)
+NEW - circle glow to ship icons in the shipyard
+NEW - Wave 7 boss prize
+NEW - Difficulties in settings
 NEW PATCH - Player enemy collisions! - FIXED
 NEW PATCH - Controllable alpha built into constructor!
 NEW PATCH - Roofs use alpha to transition!
@@ -28,9 +32,7 @@ added boss music
 
 What's soon to come in preview 3:
 x-enemy
-the "Easy" ship (makes the game easier)
 saves for controls
 explosion sound fx
 buttons to easily restart campaign
-circle glow to ship icons in the shipyard
 and more!
