@@ -30,7 +30,7 @@ added weapon cool down
 added wave finished indicator
 added boss music
 
-What's soon to come in preview 3:
+What's soon to come in preview 4:
 x-enemy
 saves for controls
 explosion sound fx
