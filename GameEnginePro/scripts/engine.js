@@ -212,13 +212,21 @@ function start() {
  roof2house1 = new component(210, 120, "houseroof1", 500, 90, "img");
  inside2detect1 = new component(190, 130, "gray", 510, 100, "rec");
  floor2house1 = new component(200, 120, "housefloor1", 500, 90, "img");
+ tree1_1_D = new component(50, 50, "black", 80, 290, "rec");
  tree1_1 = new component(50, 50, "tree", 80, 290, "img");
+ tree1_2_D = new component(50, 50, "black", 650, 270, "rec");
  tree1_2 = new component(50, 50, "tree", 650, 270, "img");
+ tree1_3_D = new component(50, 50, "black", 230, 90, "rec");
  tree1_3 = new component(50, 50, "tree", 230, 90, "img");
+ tree1_4_D = new component(50, 50, "black", 270, 175, "rec");
  tree1_4 = new component(50, 50, "tree", 270, 175, "img");
+ tree1_5_D = new component(50, 50, "black", 420, 70, "rec");
  tree1_5 = new component(50, 50, "tree", 420, 70, "img");
+ tree1_6_D = new component(50, 50, "black", 620, 33, "rec");
  tree1_6 = new component(50, 50, "tree", 620, 33, "img");
+ tree1_7_D = new component(50, 50, "black", 500, 285, "rec");
  tree1_7 = new component(50, 50, "tree", 500, 285, "img");
+ tree1_8_D = new component(50, 50, "black", 300, 265, "rec");
  tree1_8 = new component(50, 50, "tree", 300, 265, "img");
  Ftree1_1 = new component(50, 50, "Ftrees", 80, 290, "img");
  Ftree1_2 = new component(50, 50, "Ftrees", 650, 270, "img");
@@ -262,7 +270,9 @@ function start() {
  SWPart16 = new component(50, 75, "SWPart1_1", 334.5, 180.5, "img");
  SWPart17 = new component(75, 50, "SWPart2_2", 384.5, 180, "img");
  SWPart18 = new component(75, 50, "SWPart4_4", 384.5, 135, "img");
+ tree2_1_D = new component(50, 50, "black", 50, 20, "rec");
  tree2_1 = new component(50, 50, "tree", 50, 20, "img");
+ tree2_2_D = new component(50, 50, "black", 230, 70, "rec");
  tree2_2 = new component(50, 50, "tree", 230, 70, "img");
  Ftree2_1 = new component(50, 50, "Ftrees", 50, 20, "img");
  Ftree2_2 = new component(50, 50, "Ftrees", 230, 70, "img");
@@ -320,9 +330,13 @@ function start() {
  plantbox2_1 = new component(50, 50, "plantbox1", 60, 280, "img");
  plantbox3_1 = new component(50, 50, "plantbox1", 260, 280, "img");
  plantbox4_1 = new component(50, 50, "plantbox1", 160, 280, "img");
+ tree2_3_D = new component(50, 50, "black", 360, 280, "rec");
  tree2_3 = new component(50, 50, "tree", 360, 280, "img");
+ tree2_4_D = new component(50, 50, "black", 60, 280, "rec");
  tree2_4 = new component(50, 50, "tree", 60, 280, "img");
+ tree2_5_D = new component(50, 50, "black", 260, 280, "rec");
  tree2_5 = new component(50, 50, "tree", 260, 280, "img");
+ tree2_6_D = new component(50, 50, "black", 160, 280, "rec");
  tree2_6 = new component(50, 50, "tree", 160, 280, "img");
  Ftree2_3 = new component(50, 50, "Ftrees", 360, 280, "img");
  Ftree2_4 = new component(50, 50, "Ftrees", 60, 280, "img");
@@ -402,6 +416,22 @@ function start() {
  waveFtxt = new component("30px", "Consolas", "white", 45, 30, "text");
  waveFtxt.font = "20px Consolas";
  waveFtxt.text = "You Finished A Wave!";
+ healthButton = new component(205, 50, "#812bb3", upgrade1X + 135, upgrade1Y, "rec");
+ healthBtxt = new component("30px", "Consolas", "white", upgrade1X + 237.5, upgrade1Y + 30, "text");
+ healthBtxt.align = "center";
+ healthBtxt.font = "15px Consolas";
+ healthBtxt.text = "(H) Recover Health";
+ healthtxtinfo = new component("30px", "Consolas", "white", 45, backY + 100, "text");
+ healthtxtinfo.font = "15px Consolas";
+ healthtxtinfo.text = "Health Recovery Cost: $" + (playerHealthMax - playerHealth);
+ ammoButton = new component(205, 50, "#812bb3", upgrade1X + 135, upgrade1Y + 70, "rec");
+ ammoBtxt = new component("30px", "Consolas", "white", upgrade1X + 237.5, upgrade1Y + 100, "text");
+ ammoBtxt.align = "center";
+ ammoBtxt.font = "15px Consolas";
+ ammoBtxt.text = "(A) Recover Ammo";
+ ammotxtinfo = new component("30px", "Consolas", "white", 45, backY + 115, "text");
+ ammotxtinfo.font = "15px Consolas";
+ ammotxtinfo.text = "Ammo Recovery Cost: $" + (maxAmmo - ammo);
  costToRevive = new component("30px", "Consolas", "darkred", 40, 490, "text");
  costToRevive.font = "30px Consolas";
  menuboard = new component(800, 500, "menupic", 0, 0, "img");
@@ -418,6 +448,14 @@ function start() {
  LowAmmoTxt = new component("30px", "Consolas", "yellow", 30, 380, "text");
  LowAmmoTxt.font = "35px Consolas";
  LowAmmoTxt.text = "Low Ammo!";
+ StartOver = new component(205, 50, "#812bb3", 297.5, 450, "rec");
+ StartOvertxt = new component("30px", "Consolas", "white", 400, 482.5, "text");
+ StartOvertxt.align = "center";
+ StartOvertxt.font = "20px Consolas";
+ StartOvertxt.text = "(S) Start Over";
+ TipsTxt = new component("30px", "Consolas", "white", 10, 482.5, "text");
+ TipsTxt.font = "10px Consolas";
+ TipsTxt.text = "Tip:";
  DeathForPlayer = new component(800, 500, "DeathScr", 0, 0, "img");
  console.log("width" + w);
  console.log("height" + h);
@@ -468,6 +506,7 @@ this.speedY = 0;
 this.x = x;
 this.y = y;
 this.angle = 0;
+this.align = "start";
 this.globalAlpha = 1;
 this.width = width;
 this.height = height;
@@ -477,6 +516,7 @@ this.color = color;
 this.update = function() {
 ctx = Board.context;
 if (this.type == "text") {
+ ctx.textAlign = this.align;
  ctx.font = this.font;
  ctx.globalAlpha = this.globalAlpha;
  ctx.fillStyle = this.color;
@@ -870,6 +910,118 @@ if (roof2house1.globalAlpha < 1) {
 	roof2house1.globalAlpha += 0.01;
 }
   }
+ if (box.crashWith(tree1_1_D)) {
+if (tree1_1.globalAlpha > 0.5) {
+	tree1_1.globalAlpha -= 0.01;
+	Ftree1_1.globalAlpha -= 0.01;
+	Wtree1_1.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree1_1_D) == false) { 
+if (tree1_1.globalAlpha < 1) {
+	tree1_1.globalAlpha += 0.01;
+	Ftree1_1.globalAlpha += 0.01;
+	Wtree1_1.globalAlpha += 0.01;
+}
+  }
+ if (box.crashWith(tree1_2_D)) {
+if (tree1_2.globalAlpha > 0.5) {
+	tree1_2.globalAlpha -= 0.01;
+	Ftree1_2.globalAlpha -= 0.01;
+	Wtree1_2.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree1_2_D) == false) { 
+if (tree1_2.globalAlpha < 1) {
+	tree1_2.globalAlpha += 0.01;
+	Ftree1_2.globalAlpha += 0.01;
+	Wtree1_2.globalAlpha += 0.01;
+}
+  }
+ if (box.crashWith(tree1_3_D)) {
+if (tree1_3.globalAlpha > 0.5) {
+	tree1_3.globalAlpha -= 0.01;
+	Ftree1_3.globalAlpha -= 0.01;
+	Wtree1_3.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree1_3_D) == false) { 
+if (tree1_3.globalAlpha < 1) {
+	tree1_3.globalAlpha += 0.01;
+	Ftree1_3.globalAlpha += 0.01;
+	Wtree1_3.globalAlpha += 0.01;
+}
+  }
+ if (box.crashWith(tree1_4_D)) {
+if (tree1_4.globalAlpha > 0.5) {
+	tree1_4.globalAlpha -= 0.01;
+	Ftree1_4.globalAlpha -= 0.01;
+	Wtree1_4.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree1_4_D) == false) { 
+if (tree1_4.globalAlpha < 1) {
+	tree1_4.globalAlpha += 0.01;
+	Ftree1_4.globalAlpha += 0.01;
+	Wtree1_4.globalAlpha += 0.01;
+}
+  }
+ if (box.crashWith(tree1_5_D)) {
+if (tree1_5.globalAlpha > 0.5) {
+	tree1_5.globalAlpha -= 0.01;
+	Ftree1_5.globalAlpha -= 0.01;
+	Wtree1_5.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree1_5_D) == false) { 
+if (tree1_5.globalAlpha < 1) {
+	tree1_5.globalAlpha += 0.01;
+	Ftree1_5.globalAlpha += 0.01;
+	Wtree1_5.globalAlpha += 0.01;
+}
+  }
+ if (box.crashWith(tree1_6_D)) {
+if (tree1_6.globalAlpha > 0.5) {
+	tree1_6.globalAlpha -= 0.01;
+	Ftree1_6.globalAlpha -= 0.01;
+	Wtree1_6.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree1_6_D) == false) { 
+if (tree1_6.globalAlpha < 1) {
+	tree1_6.globalAlpha += 0.01;
+	Ftree1_6.globalAlpha += 0.01;
+	Wtree1_6.globalAlpha += 0.01;
+}
+  }
+ if (box.crashWith(tree1_7_D)) {
+if (tree1_7.globalAlpha > 0.5) {
+	tree1_7.globalAlpha -= 0.01;
+	Ftree1_7.globalAlpha -= 0.01;
+	Wtree1_7.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree1_7_D) == false) { 
+if (tree1_7.globalAlpha < 1) {
+	tree1_7.globalAlpha += 0.01;
+	Ftree1_7.globalAlpha += 0.01;
+	Wtree1_7.globalAlpha += 0.01;
+}
+  }
+ if (box.crashWith(tree1_8_D)) {
+if (tree1_8.globalAlpha > 0.5) {
+	tree1_8.globalAlpha -= 0.01;
+	Ftree1_8.globalAlpha -= 0.01;
+	Wtree1_8.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree1_8_D) == false) { 
+if (tree1_8.globalAlpha < 1) {
+	tree1_8.globalAlpha += 0.01;
+	Ftree1_8.globalAlpha += 0.01;
+	Wtree1_8.globalAlpha += 0.01;
+}
+  }
  }
 if (wave >= 5 && wave < 7) {//gohere4//
 if (box.crashWith(inside3detect1)) {
@@ -922,6 +1074,90 @@ if (roof4house2.globalAlpha < 1 && roof4house3.globalAlpha < 1) {
 if (roof4house2.globalAlpha >= 1 && roof4house3.globalAlpha >= 1) {
 	roof4house2.globalAlpha = 1;
 	roof4house3.globalAlpha = 1;
+}
+  }
+if (box.crashWith(tree2_1_D)) {
+if (tree2_1.globalAlpha > 0.5) {
+	tree2_1.globalAlpha -= 0.01;
+	Ftree2_1.globalAlpha -= 0.01;
+	Wtree2_1.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree2_1_D) == false) { 
+if (tree2_1.globalAlpha < 1) {
+	tree2_1.globalAlpha += 0.01;
+	Ftree2_1.globalAlpha += 0.01;
+	Wtree2_1.globalAlpha += 0.01;
+}
+  }
+if (box.crashWith(tree2_2_D)) {
+if (tree2_2.globalAlpha > 0.5) {
+	tree2_2.globalAlpha -= 0.01;
+	Ftree2_2.globalAlpha -= 0.01;
+	Wtree2_2.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree2_2_D) == false) { 
+if (tree2_2.globalAlpha < 1) {
+	tree2_2.globalAlpha += 0.01;
+	Ftree2_2.globalAlpha += 0.01;
+	Wtree2_2.globalAlpha += 0.01;
+}
+  }
+if (box.crashWith(tree2_3_D)) {
+if (tree2_3.globalAlpha > 0.5) {
+	tree2_3.globalAlpha -= 0.01;
+	Ftree2_3.globalAlpha -= 0.01;
+	Wtree2_3.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree2_3_D) == false) { 
+if (tree2_3.globalAlpha < 1) {
+	tree2_3.globalAlpha += 0.01;
+	Ftree2_3.globalAlpha += 0.01;
+	Wtree2_3.globalAlpha += 0.01;
+}
+  }
+if (box.crashWith(tree2_4_D)) {
+if (tree2_4.globalAlpha > 0.5) {
+	tree2_4.globalAlpha -= 0.01;
+	Ftree2_4.globalAlpha -= 0.01;
+	Wtree2_4.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree2_4_D) == false) { 
+if (tree2_4.globalAlpha < 1) {
+	tree2_4.globalAlpha += 0.01;
+	Ftree2_4.globalAlpha += 0.01;
+	Wtree2_4.globalAlpha += 0.01;
+}
+  }
+if (box.crashWith(tree2_5_D)) {
+if (tree2_5.globalAlpha > 0.5) {
+	tree2_5.globalAlpha -= 0.01;
+	Ftree2_5.globalAlpha -= 0.01;
+	Wtree2_5.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree2_5_D) == false) { 
+if (tree2_5.globalAlpha < 1) {
+	tree2_5.globalAlpha += 0.01;
+	Ftree2_5.globalAlpha += 0.01;
+	Wtree2_5.globalAlpha += 0.01;
+}
+  }
+if (box.crashWith(tree2_6_D)) {
+if (tree2_6.globalAlpha > 0.5) {
+	tree2_6.globalAlpha -= 0.01;
+	Ftree2_6.globalAlpha -= 0.01;
+	Wtree2_6.globalAlpha -= 0.01;
+}
+  }
+if (box.crashWith(tree2_6_D) == false) { 
+if (tree2_6.globalAlpha < 1) {
+	tree2_6.globalAlpha += 0.01;
+	Ftree2_6.globalAlpha += 0.01;
+	Wtree2_6.globalAlpha += 0.01;
 }
   }
  }
@@ -1198,6 +1434,7 @@ if (stcweapon > 0) {
 SWeapon1.update();  
 if (box.crashWith(SWeapon1Box)) {
 stcget = 1;
+tip = Math.floor(Math.random() * tips);
 pauseGame = 1;
 specialalert1 = 1;
 }
@@ -1605,6 +1842,24 @@ backbutton.update();
 backtxt.update();
 backtxtinfo.update();
 upgrade1button.update();
+healthButton.update();
+ammoButton.update();
+healthBtxt.update();
+ammoBtxt.update();
+if (playerHealth >= playerHealthMax) {
+healthBtxt.text = "Health Full!";
+} else {
+healthBtxt.text = "(H) Recover Health";
+healthtxtinfo.update();
+healthtxtinfo.text = "Health Recovery Cost: $" + Math.floor(playerHealthMax - playerHealth);
+}
+if (ammo >= maxAmmo) {
+ammoBtxt.text = "Ammo Full!";
+} else {
+ammoBtxt.text = "(A) Ammo Health";
+ammotxtinfo.update();
+ammotxtinfo.text = "Ammo Recovery Cost: $" + Math.floor(maxAmmo - ammo);
+}
 if (weaponupgrade1 == 0) {
 upgrade1txt.update();
 upgrade1txtinfo.update();
@@ -1629,6 +1884,7 @@ max1txt.update();
 }
 }
 pauseboard = new component(800, 500, "#451661", 0, 0, "rec");
+TipsText();
 if (pauseGame == 1 && pauseGameKeys == false) {
 weap_ship = new component(200, 200, "grey", 300, 40, "rec");
 shiptxt = new component("30px", "Consolas", "white", 365, 55, "text");
@@ -1639,6 +1895,9 @@ pausetxt.font = "20px Consolas";
 pausetxt.text = "Pause Menu";
 pauseboard.update();
 pausetxt.update();
+StartOver.update();
+StartOvertxt.update();
+TipsTxt.update();
 if (weaponVault == 0) {
 shipHighLight1 = new component(32, 32, "highlight", 305, 60, "img");
 shipHighLight1.globalAlpha = 0.5;
@@ -2001,6 +2260,7 @@ pauseGame = 0;
 stopPause = true;
 }
 if (pauseGameKeys == true) {
+tip = Math.floor(Math.random() * tips);
 pauseGame = 1;	
 stopPause = false;
 }
@@ -2158,6 +2418,7 @@ function keyDownHandler(event)
 	if (keyPressed == Esssc_2 && KeyZz2 == false && blockKeys == false && pauseGameKeys == false) 
 	{
 		backfunc();
+		tip = Math.floor(Math.random() * tips);
 	}
 	if (keyPressed == Revive_2 && blockKeys == false && pauseGameKeys == false)
 	{
@@ -2272,6 +2533,12 @@ document.onkeydown = function(e) {
 		case 27:
 		if (KeyZz2 == true && blockKeys == false && pauseGameKeys == false) {
 		    backfunc();
+			tip = Math.floor(Math.random() * tips);
+		}
+			break;
+		case 83:
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    goBack = 1;
 		}
 			break;
 	    case 49:
@@ -2317,6 +2584,16 @@ document.onkeydown = function(e) {
 		if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 4;
 			playerHealthMax = 200;
+		}
+			break;
+			case 72:
+		if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
+			healthRecovery();
+		}
+			break;
+			case 65:
+		if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
+			ammoRecovery();
 		}
 			break;
 		case 97:
@@ -2395,6 +2672,25 @@ function patchinfo() {
 openpatchinfo += 1;
 if (openpatchinfo > 1) {
 openpatchinfo = 0;
+ }
+}
+var tip = 0;
+var tips = 5;
+function TipsText() {
+if (tip == 0) {
+TipsTxt.text = "Tip: Play in December..."
+}
+if (tip == 1) {
+TipsTxt.text = "Tip: Die and get something special..."
+}
+if (tip == 2) {
+TipsTxt.text = "Tip: Beat wave 7 boss..."
+}
+if (tip == 3) {
+TipsTxt.text = "Tip: Watch your health..."
+}
+if (tip == 4) {
+TipsTxt.text = "Tip: Watch your ammo..."
  }
 }
 var weaponupgrade1 = 0;
@@ -4681,6 +4977,9 @@ Explosion.color = "EXFrame1";
 }	
 if (ExplosionCycle == 1) {
 Explosion.color = "EXFrame2";
+if (upgrademenu == 0 && wave == 7 && count != 10 && menu > 0 && pauseGame == 0 && spawnBoss7 == 0) {
+document.getElementById('explosion').play();
+ }
 }
 if (ExplosionCycle == 2) {
 Explosion.color = "EXFrame3";
@@ -6218,6 +6517,8 @@ var fireVolume = document.getElementById('firesound');
 fireVolume.volume = val2 / 300;
 var ammoVolume = document.getElementById('lowammo');
 ammoVolume.volume = val2 / 300;
+var explosionVolume = document.getElementById('explosion');
+explosionVolume.volume = val2 / 300;
  }
 }
 
@@ -6241,6 +6542,8 @@ var fireVolume = document.getElementById('firesound');
 fireVolume.volume = 0 / 300;
 var ammoVolume = document.getElementById('lowammo');
 ammoVolume.volume = 0 / 300;
+var explosionVolume = document.getElementById('explosion');
+explosionVolume.volume = 0 / 300;
  }
 if (mutemusic == 0) {
 var player = document.getElementById('level1');
@@ -6257,6 +6560,8 @@ var fireVolume = document.getElementById('firesound');
 fireVolume.volume = val2 / 300;
 var ammoVolume = document.getElementById('lowammo');
 ammoVolume.volume = val2 / 300;
+var explosionVolume = document.getElementById('explosion');
+explosionVolume.volume = val2 / 300;
  }
 if (mutemusic > 1) {
 mutemusic = 0;
@@ -6301,6 +6606,8 @@ function skipSound() {
  if (wave < 7 || wave > 7) {
  boss7.pause();
  boss7.currentTime = 0;
+ explosion.pause();
+ explosion.currentTime = 0;
  }
  if (menu > 0) {
  if (upgrademenu == 0) {
@@ -6448,6 +6755,7 @@ var weapv = "VAULT";
 var beginning = "STORY";
 var blockKeys = false;
 var weaponVault = 0;
+var goBack = 0;
 document.getElementById('name').onfocus = function() { 
 blockKeys = true;
 console.log("test1");
@@ -6508,7 +6816,8 @@ function nameFC() {
  wave = 9000;
  document.getElementById('name').value = "";
  }
- if (CapName == beginning) {
+ if (CapName == beginning || goBack == 1) {
+ goBack = 0;
  wave = 1;
  count = 0;
  pauseGame = 0;
@@ -6669,4 +6978,32 @@ function upgrade1func() {
 		}
 	   }
 	  }
+}
+
+var healthLocker = 0;
+function healthRecovery() {
+	if (upgrademenu == 1) {
+	healthLocker = 1;
+	if (playerHealth != playerHealthMax && healthLocker == 1) {
+		if (Math.floor(playerHealthMax - playerHealth) <= money) {
+			money -= Math.floor(playerHealthMax - playerHealth);
+			playerHealth += (playerHealthMax - playerHealth);
+			healthLocker = 0;
+		}
+	 }
+	}
+}
+
+var ammoLocker = 0;
+function ammoRecovery() {
+	if (upgrademenu == 1) {
+	ammoLocker = 1;
+	if (ammo != maxAmmo && ammoLocker == 1) {
+		if (Math.floor(maxAmmo - ammo) <= money) {
+			money -= Math.floor(maxAmmo - ammo);
+			ammo += (maxAmmo - ammo);
+			ammoLocker = 0;
+		}
+	 }
+	}
 }
