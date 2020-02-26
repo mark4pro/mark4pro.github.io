@@ -2,6 +2,8 @@
 
 What's new in V0.4.95 PREVIEW-
 **NEW - Health and ammo buy outs in upgrade menu!**
+**NEW - X-Enemies are in the game**
+NEW - balanced game
 NEW - button to start over the main wave based campaign in pause menu
 NEW - tips in the pause menu
 NEW - added transitions to trees
