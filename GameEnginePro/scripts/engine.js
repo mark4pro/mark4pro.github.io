@@ -1922,7 +1922,7 @@ healthtxtinfo.text = "Health Recovery Cost: $" + Math.floor(playerHealthMax - pl
 if (ammo >= maxAmmo) {
 ammoBtxt.text = "Ammo Full!";
 } else {
-ammoBtxt.text = "(A) Ammo Health";
+ammoBtxt.text = "(A) Recover Ammo";
 ammotxtinfo.update();
 ammotxtinfo.text = "Ammo Recovery Cost: $" + Math.floor(maxAmmo - ammo);
 }
