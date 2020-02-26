@@ -1,6 +1,11 @@
 :PRESS P TO TOGGLE THE PIB:
 
 What's new in V0.4.95 PREVIEW-
+**NEW - Health and ammo buy outs in upgrade menu!**
+NEW - button to start over the main wave based campaign in pause menu
+NEW - tips in the pause menu
+NEW - added transitions to trees
+NEW - added explosion sound to wave 7 intro
 NEW - the "Easy" ship (makes the game easier)
 NEW - circle glow to ship icons in the shipyard
 NEW - Wave 7 boss prize
