@@ -1,46 +1,6 @@
 :PRESS P TO TOGGLE THE PIB:
 
 What's new in V0.4.5 PREVIEW-
-**NEW - Health and ammo buy outs in upgrade menu!**
-**NEW - X-Enemies are in the game**
-NEW - balanced game
-NEW - button to start over the main wave based campaign in pause menu
-NEW - tips in the pause menu
-NEW - added transitions to trees
-NEW - added explosion sound to wave 7 intro
-NEW - the "Easy" ship (makes the game easier)
-NEW - circle glow to ship icons in the shipyard
-NEW - Wave 7 boss prize
-NEW - Difficulties in settings
-NEW - Speed Stats in pause menu
-NEW PATCH - Player enemy collisions! - FIXED
-NEW PATCH - Controllable alpha built into constructor!
-NEW PATCH - Roofs use alpha to transition!
-art touch ups
-When you hit Esc when dead you restart the campain instead of reloading the page
-fixed pause menu flashing when entering the settings menu
-christmas themed ship
-changed up the page
-added wave 7 boss
-added wave 7 guardian
-added shipyard
-added a free cosmetic ship
-reworked wave system and ammo/health system
-added explosion intro for boss
-reworked stats
-added health bars
-added health bar toggle
-added boss bullet
-added ship stats
-realign ship
-made it posible to have more ammo/health
-added weapon cool down
-added wave finished indicator
-added boss music
 
-What's soon to come in preview 4:
-x-enemy
-saves for controls
-explosion sound fx
-buttons to easily restart campaign
-and more!
+What's soon to come in preview 1:
+
