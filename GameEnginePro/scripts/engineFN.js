@@ -34,8 +34,8 @@ var mytoday = today_date.getDate()
 var mymonth = today_date.getMonth()
 var myyear = today_date.getFullYear()
 if (popup == 1) {
-if (mymonth == 1) {
-if (mytoday >= 23 && mytoday < 29) {
+if (mymonth == 2) {
+if (mytoday >= 2 && mytoday < 21) {
 openpatchinfo = 1;
 popup = 0;
    }
