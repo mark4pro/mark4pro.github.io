@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.945</title>
+<title>Homeworld Takedown V0.4.95</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <link rel="icon" type="image/vnd.microsoft.icon"
      href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
@@ -9,8 +9,6 @@
 canvas {
 border:2px solid black;
 background-color: blue;
-border-radius: 25px;
-box-shadow: 2px 2px 5px lightblue;
 margin-left: auto;
 margin-right: auto;
 display: block;
@@ -127,7 +125,7 @@ height: 533px;
 </object>
 </div>
 <!-- Where Images Go -->
-<img id="playerimg" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/player1.png">
+<img id="playerimg" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/originalship1.png">
 <img id="badguy1img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemy.png">
 <img id="wave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave1-5.png">
 <img id="Fwave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fwave1-5.PNG">
@@ -141,7 +139,9 @@ height: 533px;
 <img id="menupic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/menu.png">
 <img id="triimgleft" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tri-enemy-left.png">
 <img id="triimgright" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tri-enemy-right.png">
-<img id="1-5platform" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/platform1_2.png">
+<img id="triimgup" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tri-enemy.png">
+<img id="triimgdown" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tri-enemy-down.png">
+<img id="1-5platform" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/platform1_3.png">
 <img id="1-5sideborder" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/1-5border1.png">
 <img id="housefloor1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/floor1_1.png">
 <img id="houseroof1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/roof1_1.png">
@@ -166,20 +166,44 @@ height: 533px;
 <img id="Strees" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/s_trees.PNG">
 <img id="1-5sideFborder" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/1-5Fborder1_2.png">
 <img id="1-5sideWborder" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/w_border.PNG">
-<img id="1-5Fplatform" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fplatform1_2.png">
-<img id="1-5Wplatform" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/w_plat.PNG">
+<img id="1-5Fplatform" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fplatform1_3.png">
+<img id="1-5Wplatform" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Wplatform1_3.png">
 <img id="enemybull" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemybullet.png">
 <img id="lowhealth" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/LowHealthBorder.png">
 <img id="woodcrate1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/crate1.png">
 <img id="plantbox1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/plantbox.PNG">
+<img id="wave7boss" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave7-boss.png">
+<img id="wave7bossSheild" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/sheilded-wave7-boss.png">
+<img id="EXFrame1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame1.png">
+<img id="EXFrame2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame2.png">
+<img id="EXFrame3" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame3.png">
+<img id="EXFrame4" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame4.png">
+<img id="Burnt" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/BurntHouse.png">
+<img id="player2img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/FreeShip1.png">
+<img id="player3img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ChristmasConsept.png">
+<img id="player4img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave7boss-prizeShip.png">
+<img id="player5img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/easyship.png">
+<img id="hiddenShip" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/HiddenShip.png">
+<img id="highlight" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Highlight.png">
+<img id="guardian" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/guardianEnemy.png">
+<img id="Boss7Bull" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/BossBullet.png">
+<img id="End" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/End.png">
+<img id="X_Enemy" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/x-enemy.png">
+<img id="ST_P_DAY_BG" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_BACKGROUND.png">
+<img id="ST_P_DAY_PROP" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_PROP.png">
+<img id="ST_P_DAY_EVENT_PRIZE" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_EVENT_PRIZE.png">
+<img id="ST_P_DAY_EVENT_BOSS" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_EVENT_BOSS.png">
+<img id="ST_P_DAY_EVENT_BOSS_BULLET" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_SHIP_SPECIAL_WEAPON.png">
 
 <!-- Where Sounds Go -->
 	    <audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/Musictrack1.mp3"></audio>
 	    <audio id="level2" src="https://mark4pro.github.io/GameEnginePro/audio/Musictrack2.mp3"></audio>
+		<audio id="boss7" src="https://mark4pro.github.io/GameEnginePro/audio/Boss1Musictrack.mp3"></audio>
 		<audio id="Menu" src="https://mark4pro.github.io/GameEnginePro/audio/Menumusictrack.mp3"></audio>
 		<audio id="Death" src="https://mark4pro.github.io/GameEnginePro/audio/Death1.mp3"></audio>
 	    <audio id="firesound" src="https://mark4pro.github.io/GameEnginePro/audio/LaserGunSound.mp3"></audio>
 		<audio id="lowammo" src="https://mark4pro.github.io/GameEnginePro/audio/LowAmmoSound.mp3"></audio>
+		<audio id="explosion" src="https://mark4pro.github.io/GameEnginePro/audio/Explosion.mp3"></audio>
 </head>
 <body onload="start()">
 <script>
@@ -266,21 +290,11 @@ pauseGameKeys = false;
 }
 </script>
 <label class="unselectable">
-<h1 align="center">Homeworld Takedown V0.4.945</h1>
+<h1 align="center">Homeworld Takedown V0.4.95</h1>
 <div id="content">
 <p align="center">Name/Debug:</p>
 <p align="center"><input type="text" id="name" value=""></p>
 <p align="center"><button id="settingsBUTTON" onmousedown="show()"></button></p>
-<p align="center">Controls:</p>
-<p align="center">Press R to revive.</p>
-<p align="center">Press M to mute the game and press it again to unmute.</p>
-<p align="center">Press P to open the Patch Info and press it again to close it.</p>
-<p align="center">Press Esc/B to exit the upgrade menu and it will also will reset the game if you are dead. (B if you have Handicap mode enabled.)</p>
-<p align="center">About:</p>
-<p align="center">You can get new weapons by upgrading the weapon category in the upgrade menu.</p>
-<p align="center">Flying Enemies- Rage mode: if the enemy's health drops below 50 it will move faster.</p>
-<p align="center">Flying Enemies- Swarm: if they get near you they will frantically go left and right thus making them hard to hit.</p>
-<p align="center">Homeworld Takedown is a top down wave based game. You play as an alien from the "Drars" race and you don't agree on taking over Earth so you fight back.</p>
 </div>
 <div id="loader"></div>
 <div id="splash"></div>
@@ -289,6 +303,8 @@ pauseGameKeys = false;
 <p align="center">Volume:</p>
 <p align="center">Music: <input type="range" min="0" max="100" id="volume" class="slider" step="1"></input></p>
 <p align="center">Sound Effects: <input type="range" min="0" max="100" id="soundvolume" class="slider" step="1"></input></p>
+<p align="center">Extras:</p>
+<p align="center">Enemy Health Bars? <input type="checkbox" id="HBshow" value="" checked></p>
 <p align="center">Controls:</p>
 <p align="center">Move Up: <input style="text-transform:uppercase" type="text" id="moveUP" value="W"></p>
 <p align="center">Move Down: <input style="text-transform:uppercase" type="text" id="moveDOWN" value="S"></p>
@@ -304,8 +320,13 @@ pauseGameKeys = false;
 <p align="center">Mute/Unmute: <input style="text-transform:uppercase" type="text" id="mute" value="M"></p>
 <p align="center">Patch Info: <input style="text-transform:uppercase" type="text" id="patch" value="P"></p>
 <p align="center">Revive: <input style="text-transform:uppercase" type="text" id="reviveBT" value="R"></p>
-<p align="center">Use any of the number keys to switch weapons.</p>
+<p align="center">Use any of the number keys to switch through weapons.</p>
+<p align="center">Use any of the number keys plus shift to switch through special weapons.</p>
 <p align="center">Use the any corresponding Number Keys to upgrade.(The numbers correspond with numbers in the upgrade menu are labeled with a # in front of it.)</p>
+<p align="center">Difficulties:</p>
+<p align="center">Easy: <input type="checkbox" id="Easy_" value="" checked></p>
+<p align="center">Medium: <input type="checkbox" id="Medium_" value=""></p>
+<p align="center">Hard: <input type="checkbox" id="Hard_" value=""></p>
 <p align="center"><button onmousedown="showStop()">Back</button></p>
 </div>
 </label>
