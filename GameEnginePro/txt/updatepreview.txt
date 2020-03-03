@@ -1,6 +1,6 @@
 :PRESS P TO TOGGLE THE PIB:
 
-What's new in V0.4.95 PREVIEW-
+What's new in V0.4.5 PREVIEW-
 **NEW - Health and ammo buy outs in upgrade menu!**
 **NEW - X-Enemies are in the game**
 NEW - balanced game
