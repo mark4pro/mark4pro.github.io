@@ -20,20 +20,6 @@ canvas {
     image-rendering: pixelated;
     image-rendering: crisp-edges;
 }
-upb {
-    position: fixed;
-	left: 50%;
-	bottom: 50%;
-}
-button {
-	width:100px;
-	height:30px;
-	border-radius: 30px;
-	background-color: black;
-	color: white;
-	text-align: center;
-	text-shadow: 2px 2px 5px;
-}
 .unselectable {
 	-webkit-user-select: none; /* Safari 3.1+ */
 	-moz-user-select: none; /* Firefox 2+ */
@@ -42,20 +28,13 @@ button {
 }
 </style>
 <!-- Were Images Go -->
-<img id="background" width="0" height="0" src="./images/background.PNG">	
+<img id="backgroundLevel_1" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/background.PNG">
+<img id="backgroundLevel_Boss" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/background_3.PNG">
+<img id="backgroundLevel_2" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/background_2.PNG">
+<img id="backgroundLevel_Boss_2" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/background_4.PNG">
 </head>
 <body onload="start()">
 <label class="unselectable">
-<button id="upb" onmousedown="moveUp()" onmouseup="clearmove()" ontouchstart="moveUp()">UP</button>
-<button id="downb" onmousedown="moveDown()" onmouseup="clearmove()" ontouchstart="moveDown()">DOWN</button><br>
-<button id="nextb" onmousedown="nxtlvl()" ontouchstart="nxtlvl()">NEXT</button>
-<button id="leftb" onmousedown="moveLeft()" onmouseup="clearmove()" ontouchstart="moveLeft()">LEFT</button>
-<button id="rightb" onmousedown="moveRight()" onmouseup="clearmove()" ontouchstart="moveRight()">RIGHT</button>
-<button id="resetb" onmousedown="" ontouchstart="">RESET</button>
-<button id="easyb" onmousedown="easy()" ontouchstart="easy()">EASY</button>
-<button id="normalb" onmousedown="normal()" ontouchstart="normal()">NORMAL</button>
-<button id="hardb" onmousedown="hard()" ontouchstart="hard()">HARD</button>
-<button id="impb" onmousedown="imp()" ontouchstart="imp()">IMP</button>
 <canvas id="canvas" style="border:0px;cursor:none;"></canvas>
 </label>
 <script>
@@ -69,6 +48,8 @@ var lockUp = 0;
 var lockDown = 0;
 var lockLeft = 0;
 var lockRight = 0;
+var aiCircleBounceSpeed = 1;
+var circleBounceSpeed = 1;
 var debug = 0;
 var silentDebug = false;
 var pressed = false;
@@ -80,15 +61,31 @@ var canvas = document.getElementById("canvas");
          canvas.height = window.innerHeight;
 		 cursor = new component(10, 10, "red", -50, -250, "rec", "", "", "", "cursor");
 		 _objects.push(cursor);
-		 p1 = new component("12px", "Consolas", "white", 43, 150, "text", "P1", "start", "", "player");
+		 restartTxt = new component("50px", "Consolas", "white", 250, 150, "text", "Restart", "center", "", "DandW");
+		 _objects.push(restartTxt);
+		 restart = new component(200, 80, "grey", 250, 150, "rec", "", "", "", "DandW");
+		 _objects.push(restart);
+		 nextLevelTxt = new component("50px", "Consolas", "white", 250, 150, "text", "Next", "center", "win", "DandW");
+		 _objects.push(nextLevelTxt);
+		 nextLevel = new component(200, 80, "grey", 250, 150, "rec", "", "", "win", "DandW");
+		 _objects.push(nextLevel);
+		 WDText = new component("80px", "Consolas", "white", 250, 150, "text", "YOU DIED!", "center", "", "DandW");
+		 _objects.push(WDText);
+		 end = new component(500, 300, "black", 0, 0, "rec", "", "", "", "DandW");
+	     _objects.push(end);
+		 p1 = new component("20px", "Consolas", "white", 43, 150, "text", "P1", "center", "", "player");
 		 _objects.push(p1);
-		 ai = new component("12px", "Consolas", "white", 443, 150, "text", "AI", "start", "", "enemy_1");
+		 ai = new component("20px", "Consolas", "white", 443, 150, "text", "AI", "center", "", "enemy_1");
 		 _objects.push(ai);
-		 circle = new component(10, 10, "blue", 50, canvas.height/2, "cir", 15, "red", 1, "player");
+		 bossAi_1 = new component("20px", "Consolas", "white", 430, 160, "text", "BOSS", "center", "", "boss_1");
+		 _objects.push(bossAi_1);
+		 circle = new component(10, 10, "blue", 80, canvas.height/2, "cir", 30, "red", 1, "player");
 		 _objects.push(circle);
-		 aicircle = new component(10, 10, "orange", canvas.width - 50, canvas.height/2, "cir", 15, "white", 1, "enemy_1");
+		 aicircle = new component(10, 10, "orange", canvas.width - 80, canvas.height/2, "cir", 30, "white", 1, "enemy_1");
 		 _objects.push(aicircle);
-		 ammo = new component(10, 10, "darkorange", Math.abs(Math.floor(Math.random() * canvas.width - 500)) + 300, Math.abs(Math.floor(Math.random() * canvas.height - 500)), "cir", 5, "", 0, "ammo");
+		 bossAiCircle = new component(1, 1, "fuchsia", canvas.width - 100, canvas.height/2, "cir", 50, "purple", 1, "boss_1");
+         _objects.push(bossAiCircle);
+		 ammo = new component(10, 10, "darkorange", Math.abs(Math.floor(Math.random() * canvas.width - 500)) + 300, Math.abs(Math.floor(Math.random() * canvas.height - 500)), "cir", 10, "", 0, "ammo");
 		 _objects.push(ammo);
 		 wall = new component(20, 300, "black", -10, 0, "rec", "", "", "", "all");
 		 _objects.push(wall);
@@ -98,16 +95,8 @@ var canvas = document.getElementById("canvas");
 		 _objects.push(wall3);
 		 wall4 = new component(500, 20, "black", 0, canvas.height - 10, "rec", "", "", "", "all");
 		 _objects.push(wall4);
-		 death = new component("80px", "Consolas", "white", 250, 150, "text", "YOU DIED!", "center", "", "death");
-		 _objects.push(death);
-		 endD = new component(500, 300, "black", 0, 0, "rec", "", "", "", "death");
-		 _objects.push(endD);
-		 bulletcase = new component(1, 1, "gray", circle.x, circle.y, "cir", 5, "white", 1, "bullet");
+		 bulletcase = new component(1, 1, "gray", circle.x, circle.y, "cir", 10, "white", 1, "bullet");
          _objects.push(bulletcase);
-		 win = new component("80px", "Arial", "white", 250, 150, "text", "You win!", "center", "", "win");
-		 _objects.push(win);
-		 end = new component(500, 300, "black", 0, 0, "rec", "", "", "", "win");
-	     _objects.push(end);
 		 difficaulty_Text = new component("15px", "Arial", "white", canvas.width/2, 30, "text", "Difficaulty:", "center", "", "ui");
 		 difficaulty_Text.globalAlpha = 0.5;
 		 _objects.push(difficaulty_Text);
@@ -121,21 +110,100 @@ var canvas = document.getElementById("canvas");
 		 _objects.push(button_Pressed_Text);
 		 mouse_Button_Text = new component("15px", "Arial", "white", 20, 110, "text", "Mouse Button:", "start", "", "debug");
 		 _objects.push(mouse_Button_Text);
-		 background = new component(canvas.width, canvas.height, "background", 0, 0, "img", "", "", "", "background_1");
+		 background = new component(canvas.width, canvas.height, "backgroundLevel_1", 0, 0, "img", "", "", "", "background");
 		 _objects.push(background);
 		 Board.start();
 		 updateGameArea();
 	}
+
+var CursorHideTime = 0.5;
+function cursorController(visibilityYN) {
+this.visibilityYN = visibilityYN;
+if (this.visibilityYN == "hide") {
+if (cursor.globalAlpha > 0) {
+cursor.globalAlpha -= 0.1;
+}
+if (cursor.globalAlpha <= 0) {
+cursor.globalAlpha = 0;
+}
+}
+if (this.visibilityYN == "fullHide") {
+cursor.globalAlpha = 0;
+}
+if (this.visibilityYN == "fullShow") {
+cursor.globalAlpha = 1;
+}
+if (this.visibilityYN == "show") {
+if (cursor.globalAlpha < 1) {
+cursor.globalAlpha += 0.1;
+}
+if (cursor.globalAlpha >= 1) {
+cursor.globalAlpha = 1;
+}
+}
+}
+
+function backgroundManager(level_number) {
+this.level_number = level_number;
+if (this.level_number == 1) {
+background.color = "backgroundLevel_1";
+circle.color = "blue";
+}
+if (this.level_number == 2) {
+background.color = "backgroundLevel_Boss";
+circle.color = "navy";
+difficaulty = 1;
+}
+if (this.level_number == 3) {
+background.color = "backgroundLevel_2";
+circle.color = "blue";
+}
+if (this.level_number == 4) {
+background.color = "backgroundLevel_Boss_2";
+circle.color = "navy";
+difficaulty = 1;
+}
+}
+	
+function menuManager() {
+if (cursor.crashWith(restart) == true && won == 1 || dead == 1) {
+restart.color = "grey";
+if (pressed == true) {
+resetGame("level");
+}
+}
+if (cursor.crashWith(restart) == false) {
+restart.color = "lightgrey";
+}
+if (cursor.crashWith(nextLevel) == true && won == 1) {
+nextLevel.color = "grey";
+if (pressed == true) {
+nxtlvl(difficaulty);
+}
+}
+if (cursor.crashWith(nextLevel) == false) {
+nextLevel.color = "lightgrey";
+}
+}
 	
 window.addEventListener("mousemove", function(event) {
 cursor.x = event.clientX - cursor.width/2;
 cursor.y = event.clientY - cursor.height/2;
+cursorController("show");
+clearTimeout(timeout);
+var timeout = setTimeout(function(){
+cursorController("hide");
+}, CursorHideTime * 1000);
 });
 
 window.addEventListener("touchstart", function(event) {
 pressed = true;
 cursor.x = event.touches[0].clientX - cursor.width/2;
 cursor.y = event.touches[0].clientY - cursor.height/2;
+cursorController("fullShow");
+var timeout = setTimeout(function(){
+cursorController("fullHide");
+}, CursorHideTime * 1000);
 });
 
 window.addEventListener("touchend", function(event) {
@@ -145,12 +213,21 @@ pressed = false;
 window.addEventListener("touchmove", function(event) {
 cursor.x = event.touches[0].clientX - cursor.width/2;
 cursor.y = event.touches[0].clientY - cursor.height/2;
+cursorController("show");
+clearTimeout(timeout);
+var timeout = setTimeout(function(){
+cursorController("hide");
+}, CursorHideTime * 1000);
 });
 
 document.onmousedown = function(event){
 mouse_button = event.button;
 if (event.button == 0) {
 pressed = true;
+cursorController("fullShow");
+var timeout = setTimeout(function(){
+cursorController("fullHide");
+}, CursorHideTime * 1000);
 }
 }
 document.addEventListener("contextmenu", function(e){
@@ -185,14 +262,25 @@ wall.height = canvas.height;
 wall2.height = canvas.height;
 wall3.width = canvas.width;
 wall4.width = canvas.width;
-endD.width = canvas.width;
-endD.height = canvas.height;
 end.width = canvas.width;
 end.height = canvas.height;
-win.x = canvas.width/2;
-win.y = canvas.height/2;
-death.x = canvas.width/2;
-death.y = canvas.height/2;
+WDText.x = canvas.width/2;
+WDText.y = canvas.height/2;
+restartTxt.x = restart.x + restart.width/2;
+restartTxt.y = restart.y + restart.height/2 + 20;
+restart.x = canvas.width/2 - restart.width/2;
+nextLevelTxt.x = nextLevel.x + nextLevel.width/2;
+nextLevelTxt.y = nextLevel.y + nextLevel.height/2 + 20;
+nextLevel.x = canvas.width/2 - nextLevel.width/2;
+nextLevel.y = canvas.height/2 + 50;
+if (dead == 1) {
+restart.y = canvas.height/2 + 50;
+WDText.radius = "YOU DIED!";
+}
+if (won == 1) {
+restart.y = canvas.height/2 + 150;
+WDText.radius = "YOU WON!";
+}
 difficaulty_Text.x = canvas.width/2;
 if (difficaulty == 0) {
 difficaulty_Text.radius = "Difficaulty: EASY"
@@ -354,12 +442,17 @@ return false;
 
 function updateGameArea() {
 	Board.clear();
-	p1.x = circle.x - 7;
+	p1.x = circle.x;
 	p1.y = circle.y;
-	ai.x = aicircle.x - 7;
+	ai.x = aicircle.x;
 	ai.y = aicircle.y;
+	bossAi_1.x = bossAiCircle.x;
+	bossAi_1.y = bossAiCircle.y;
+	difficaultyScale(difficaulty);
+	backgroundManager(level);
+	menuManager();
 	for(var i = _objects.length - 1; i >= 0; i--) {
-	if (_objects[i].level == "background_1" && level == 1) {
+	if (_objects[i].level == "background") {
 	_objects[i].update();
 	}
 	if (_objects[i].level == "all" && dead == 0 && won == 0) {
@@ -388,10 +481,16 @@ function updateGameArea() {
 	_objects[i].newPos();
 	}
 	}
-	if (_objects[i].level == "death" && dead == 1) {
+	if (_objects[i].level == "boss_1" && level == 2 && dead == 0 && won == 0) {
+	_objects[i].update();
+	if (firef == 0) {
+	_objects[i].newPos();
+	}
+	}
+	if (_objects[i].level === "DandW" && _objects[i].thickness == "" && dead == 1 || won == 1) {
 	_objects[i].update();
 	}
-	if (_objects[i].level == "win" && won == 1) {
+	if (_objects[i].level === "DandW" && _objects[i].thickness == "win" && dead == 1 || won == 1) {
 	_objects[i].update();
 	}
 	if (_objects[i].level == "ui") {
@@ -404,92 +503,155 @@ function updateGameArea() {
 	_objects[i].update();
 	}
 	}
+	if (up == 0 && down == 0 && left == 0 && right == 0) {
+	clearcircleai();
+	}
 	if (firef >= 1) {
 	bulletai();
-	bulletCollisions();
 	}
 	if (circle.circleCrashWith(ammo) && won == 0) {
     firef = 1;
     }
 	if (circle.mixCrashWith(wall)) {
 	   lockLeft = 1;
-	   circle.speedX = 1;
+	   circle.speedX = circleBounceSpeed;
 		}
 	if (circle.mixCrashWith(wall2)) {
 	   lockRight = 1;
-	   circle.speedX = -1;
+	   circle.speedX = -circleBounceSpeed;
 		}
 	if (circle.mixCrashWith(wall3)) {
 	   lockUp = 1;
-	   circle.speedY = 1;
+	   circle.speedY = circleBounceSpeed;
 		}
 	if (circle.mixCrashWith(wall4)) {
 	   lockDown = 1;
-	   circle.speedY = -1;
+	   circle.speedY = -circleBounceSpeed;
 		}
+	if (level == 1) {
 	if (aicircle.mixCrashWith(wall)) {
-	   aicircle.speedX = 1;
+	   aicircle.speedX = aiCircleBounceSpeed;
 		}
 	if (aicircle.mixCrashWith(wall2)) {
-	   aicircle.speedX = -1;
+	   aicircle.speedX = -aiCircleBounceSpeed;
 		}
 	if (aicircle.mixCrashWith(wall3)) {
-	   aicircle.speedY = 1;
+	   aicircle.speedY = aiCircleBounceSpeed;
 		}
 	if (aicircle.mixCrashWith(wall4)) {
-	   aicircle.speedY = -1;
+	   aicircle.speedY = -aiCircleBounceSpeed;
 		}
 	if (circle.circleCrashWith(aicircle)) {
 	    dead = 1;
 		}
+	}
+	if (level == 2) {
+	if (bossAiCircle.mixCrashWith(wall)) {
+	   bossAiCircle.speedX = aiCircleBounceSpeed;
+		}
+	if (bossAiCircle.mixCrashWith(wall2)) {
+	   bossAiCircle.speedX = -aiCircleBounceSpeed;
+		}
+	if (bossAiCircle.mixCrashWith(wall3)) {
+	   bossAiCircle.speedY = aiCircleBounceSpeed;
+		}
+	if (bossAiCircle.mixCrashWith(wall4)) {
+	   bossAiCircle.speedY = -aiCircleBounceSpeed;
+		}
+	if (circle.circleCrashWith(bossAiCircle)) {
+	    dead = 1;
+		}
+	}
 	if (difficaulty == 0) {
 	if (lockUp == 1 || lockDown == 1 || lockLeft == 1 || lockRight == 1) {
 	clearcircleai();
 	    }
 	}
 }
-	
+
+var aiCircleSpeed = 3;	
 function aicircleai() {
+if (level == 1) {
  if (circle.x < aicircle.x){
- aicircle.speedX = -3;
+ aicircle.speedX = -aiCircleSpeed;
  } 
  if (circle.x > aicircle.x){
- aicircle.speedX = 3;
+ aicircle.speedX = aiCircleSpeed;
  }
  if (circle.y < aicircle.y){
- aicircle.speedY = -3;
+ aicircle.speedY = -aiCircleSpeed;
  } 
  if (circle.y > aicircle.y){
- aicircle.speedY = 3;
+ aicircle.speedY = aiCircleSpeed;
  }
+}
+if (level == 2) {
+ if (circle.x < bossAiCircle.x){
+ bossAiCircle.speedX = -aiCircleSpeed;
+ } 
+ if (circle.x > bossAiCircle.x){
+ bossAiCircle.speedX = aiCircleSpeed;
+ }
+ if (circle.y < bossAiCircle.y){
+ bossAiCircle.speedY = -aiCircleSpeed;
+ } 
+ if (circle.y > bossAiCircle.y){
+ bossAiCircle.speedY = aiCircleSpeed;
+ }
+}
 }
 
 function clearcircleai() {
+if (level == 1) {
 aicircle.speedX = 0;
 aicircle.speedY = 0;
 }
+if (level == 2) {
+bossAiCircle.speedX = 0;
+bossAiCircle.speedY = 0;
+}
+}
 
+var bulletSpeed = 3;
 function bulletai() {
- if (bulletcase.x > aicircle.x + 7.5){
- bulletcase.speedX = -1;
+if (level == 1) {
+ if (bulletcase.x > aicircle.x){
+ bulletcase.speedX = -bulletSpeed;
  } 
- if (bulletcase.x < aicircle.x + 7.5){
+ if (bulletcase.x < aicircle.x){
 
- bulletcase.speedX = 1;
+ bulletcase.speedX = bulletSpeed;
  }
- if (bulletcase.y > aicircle.y + 7.5){
- bulletcase.speedY = -1;
+ if (bulletcase.y > aicircle.y){
+ bulletcase.speedY = -bulletSpeed;
  } 
- if (bulletcase.y < aicircle.y + 7.5){
- bulletcase.speedY = 1;
+ if (bulletcase.y < aicircle.y){
+ bulletcase.speedY = bulletSpeed;
+ }
+ if (bulletcase.circleCrashWith(aicircle)) {
+ won = 1;
+ firef = 0;
  }
 }
- 
-function bulletCollisions() {
-  if (bulletcase.circleCrashWith(aicircle)) {
-	    won = 1;
-	    firef = 0;
-	} 
+if (level == 2) {
+ if (bulletcase.x > bossAiCircle.x){
+ bulletcase.speedX = -bulletSpeed;
+ } 
+ if (bulletcase.x < bossAiCircle.x){
+
+ bulletcase.speedX = bulletSpeed;
+ }
+ if (bulletcase.y > bossAiCircle.y){
+ bulletcase.speedY = -bulletSpeed;
+ } 
+ if (bulletcase.y < bossAiCircle.y){
+ bulletcase.speedY = bulletSpeed;
+ }
+ if (bulletcase.circleCrashWith(bossAiCircle)) {
+ won = 1;
+ firef = 0;
+ }
+}
 }
 
 var upKey = "w";
@@ -550,10 +712,48 @@ function keyUpHandler(event)
 		clearmover()	
 	}
 }
-	
+
+function resetGame(ResetLevel) {
+this.ResetLevel = ResetLevel;
+//reset (enemy, player, ammo) positions here//
+circle.x = 80;
+circle.y = canvas.height/2;
+aicircle.x = canvas.width - 80;
+aicircle.y = canvas.height/2;
+bossAiCircle.x = canvas.width - 100;
+bossAiCircle.y = canvas.height/2;
+ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - 500)) + 300;
+ammo.y = Math.abs(Math.floor(Math.random() * canvas.height - 500));
+if (this.ResetLevel == "level") {
+won = 0;
+dead = 0;
+firef = 0;
+lockUp = 0;
+lockDown = 0;
+lockLeft = 0;
+lockRight = 0;
+}
+if (this.ResetLevel == "game") {
+won = 0;
+dead = 0;
+firef = 0;
+level = 1;
+lockUp = 0;
+lockDown = 0;
+lockLeft = 0;
+lockRight = 0;
+}
+}
+
+var circleSpeed = 2.5;	
+var up = 0;
+var down = 0;
+var left = 0;
+var right = 0;
 function moveUp() {
     if (lockUp == 0) {
-	circle.speedY = -2.5;
+	circle.speedY = -circleSpeed;
+	up = 1;
 	if (difficaulty != 3) {
 	aicircleai();
 	}
@@ -564,7 +764,8 @@ function moveUp() {
 }
 function moveDown() {
     if (lockDown == 0) {
-	circle.speedY = 2.5;
+	circle.speedY = circleSpeed;
+	down = 1;
 	if (difficaulty != 3) {
 	aicircleai();
 	}
@@ -575,7 +776,8 @@ function moveDown() {
 }
 function moveLeft() {
     if (lockLeft == 0) {
-	circle.speedX = -2.5;
+	circle.speedX = -circleSpeed;
+	left = 1;
 	if (difficaulty != 3) {
 	aicircleai();
 	}
@@ -586,7 +788,8 @@ function moveLeft() {
 }
 function moveRight() {
     if (lockRight == 0) {
-	circle.speedX = 2.5;
+	circle.speedX = circleSpeed;
+	right = 1;
 	if (difficaulty != 3) {
 	aicircleai();
 	}
@@ -595,12 +798,67 @@ function moveRight() {
 	aicircleai();
 	}
 }
-function nxtlvl() {
-if (won == 1) {
-    
- }
+
+var nextLevelLatch = 0;
+function nxtlvl(difficaultyS) {
+this.difficaultyS = difficaultyS;
+nextLevelLatch = 0;
+if (won == 1 && nextLevelLatch == 0) {
+if (difficaultyS != 3) {
+level = (level + 2);
+resetGame("level");
+nextLevelLatch = 1;
 }
-		
+if (difficaultyS == 3) {
+level = (level + 1);
+resetGame("level");
+nextLevelLatch = 1;
+}
+}
+}
+
+function difficaultyScale(difficaultyS) {
+this.difficaultyS = difficaultyS;
+if (this.difficaultyS == 0) {
+if (level == 1) {
+aiCircleSpeed = 2.5;
+circleSpeed = 2.5;
+aiCircleBounceSpeed = 1;
+circleBounceSpeed = 1;
+}
+}
+if (this.difficaultyS == 1) {
+if (level == 1) {
+aiCircleSpeed = 3;
+circleSpeed = 2.5;
+aiCircleBounceSpeed = 1;
+circleBounceSpeed = 1;
+}
+if (level == 2) {
+aiCircleSpeed = 6;
+circleSpeed = 3;
+aiCircleBounceSpeed = 3;
+circleBounceSpeed = 1;
+}
+}
+if (this.difficaultyS == 2) {
+if (level == 1) {
+aiCircleSpeed = 4;
+circleSpeed = 2;
+aiCircleBounceSpeed = 1;
+circleBounceSpeed = 1;
+}
+}
+if (this.difficaultyS == 3) {
+if (level == 1) {
+aiCircleSpeed = 6;
+circleSpeed = 1.5;
+aiCircleBounceSpeed = 3;
+circleBounceSpeed = 1;
+}
+}
+}
+	
 function easy() {
 if (won == 0) {
     difficaulty = 0;
@@ -627,28 +885,49 @@ if (won == 0) {
 		
 function clearmoveu() { 
     clearLocks();
-	circle.speedY = 0;  
-	aicircle.speedY = 0; 
-	clearcircleai();
+	circle.speedY = 0;
+	if (level == 1) {
+	aicircle.speedY = 0;
+	}
+	if (level == 2) {
+	bossAiCircle.speedY = 0;
+	}
+	up = 0;
 }	
 function clearmoved() {
     clearLocks();
 	circle.speedY = 0; 
-	aicircle.speedY = 0; 
-	clearcircleai();
+	if (level == 1) {
+	aicircle.speedY = 0;
+	}
+	if (level == 2) {
+	bossAiCircle.speedY = 0;
+	}
+	down = 0;
 }	
 function clearmovel() {
     clearLocks();
 	circle.speedX = 0; 
-	aicircle.speedX = 0; 
-	clearcircleai();
+	if (level == 1) {
+	aicircle.speedX = 0;
+	}
+	if (level == 2) {
+	bossAiCircle.speedX = 0;
+	}
+	left = 0;
 }	
 function clearmover() {
     clearLocks();
-	circle.speedX = 0;  
-	aicircle.speedX = 0; 
-	clearcircleai();
+	circle.speedX = 0;
+    if (level == 1) {
+	aicircle.speedX = 0;
+	}	
+	if (level == 2) {
+	bossAiCircle.speedX = 0;
+	}
+	right = 0;
 }
+
 function clearLocks() {
 lockUp = 0;
 lockDown = 0;
