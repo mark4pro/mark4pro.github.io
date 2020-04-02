@@ -155,7 +155,7 @@ clearInterval(this.interval);
 }
 }
 
-function component(width, height, color, x, y, type) {
+function component(width, height, color, x, y, type, align) {
 this.type = type;
 if (type == "image") {
 this.image = new Image();
@@ -167,9 +167,11 @@ this.speedX = 0;
 this.speedY = 0;
 this.x = x;
 this.y = y;
+this.align = align;
 this.update = function() {
 ctx = myGameArea.context;
 if (type == "image") {
+ctx.textAlign = this.align;
 ctx.drawImage(this.image,
 this.x,
 this.y,
@@ -375,13 +377,13 @@ player3.update();
 }
 }
 if (level == 6) {
-thank = new component("50px", "Consolas", "white", 60, 150, "text");
+thank = new component("40px", "Consolas", "white", myGameArea.canvas.width/2 - 200, myGameArea.canvas.height/2, "text", "center");
 thank.text="Thanks for playing!";
 thank.update();
 }
 if (Dead == 1) {
 if (won == 0) {
-death = new component("50px", "Consolas", "white", 125, 150, "text");
+death = new component("50px", "Consolas", "white", 125, 150, "text", "start");
 death.text="YOU DIED!";
 death.update();
 player.speedX = 0;
@@ -394,10 +396,10 @@ player3.speedY = 0;
 }
 if (bullet.crashWith(player2)) {
 if (firef > 0) {
-win = new component("50px", "Consolas", "white", 155, 150, "text");
+win = new component("50px", "Consolas", "white", 155, 150, "text", "start");
 win.text="You win!";
 win.update();
-wintxt = new component("50px", "Consolas", "white", 125, 200, "text");
+wintxt = new component("50px", "Consolas", "white", 125, 200, "text", "start");
 wintxt.text="Hit Next...";
 wintxt.update();
 won = 1;
