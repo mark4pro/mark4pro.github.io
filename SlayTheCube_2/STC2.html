@@ -77,6 +77,7 @@ var canvas = document.getElementById("canvas");
 var optionsjs;
 var managerjs;
 var joystickCreated = false;
+var isLoaded = false;
 
 	function start() {
 	     canvas.width = window.innerWidth;
@@ -175,6 +176,7 @@ var joystickCreated = false;
 		 _objects.push(on_Mobile_Text);
 		 background = new component(canvas.width, canvas.height, "backgroundLevel_1", 0, 0, "img", "", "", "", "background");
 		 _objects.push(background);
+		 isLoaded = true;
 		 Board.start();
 		 updateGameArea();
 	}
@@ -511,8 +513,10 @@ impBttnS.color = "darkgreen";
 }
 	
 window.addEventListener("mousemove", function(event) {
+if (isLoaded == true) {
 cursor.x = event.clientX - cursor.width/2;
 cursor.y = event.clientY - cursor.height/2;
+}
 cursorController("show");
 clearTimeout(timeout);
 var timeout = setTimeout(function(){
@@ -522,8 +526,10 @@ cursorController("hide");
 
 window.addEventListener("touchstart", function(event) {
 pressed = true;
+if (isLoaded == true) {
 cursor.x = event.touches[0].clientX - cursor.width/2;
 cursor.y = event.touches[0].clientY - cursor.height/2;
+}
 cursorController("fullShow");
 var timeout = setTimeout(function(){
 cursorController("fullHide");
@@ -535,8 +541,10 @@ pressed = false;
 });
 
 window.addEventListener("touchmove", function(event) {
+if (isLoaded == true) {
 cursor.x = event.touches[0].clientX - cursor.width/2;
 cursor.y = event.touches[0].clientY - cursor.height/2;
+}
 cursorController("show");
 clearTimeout(timeout);
 var timeout = setTimeout(function(){
