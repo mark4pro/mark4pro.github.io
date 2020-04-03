@@ -97,7 +97,7 @@ var isLoaded = false;
 		 _objects.push(aicircle);
 		 bossAiCircle = new component(1, 1, "fuchsia", canvas.width - 100, canvas.height/2, "cir", 50, "purple", 1, "boss_1");
          _objects.push(bossAiCircle);
-		 ammo = new component(10, 10, "darkorange", Math.abs(Math.floor(Math.random() * canvas.width - 500)) + 300, Math.abs(Math.floor(Math.random() * canvas.height - 500)), "cir", 10, "", 0, "ammo");
+		 ammo = new component(10, 10, "darkorange", Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2), Math.abs(Math.floor(Math.random() * canvas.height - 500)), "cir", 10, "", 0, "ammo");
 		 _objects.push(ammo);
 		 wall = new component(20, 300, "black", -10, 0, "rec", "", "", "", "all");
 		 _objects.push(wall);
@@ -670,10 +670,10 @@ if (difficaulty == 3) {
 difficaulty_Text.radius = "Difficaulty: IMPOSSIBLE"
 }
 if (ammo.x < 300) {
-ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - 500)) + 300;
+ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2)
 }
 if (ammo.x > canvas.width - 50) {
-ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - 500)) + 300;
+ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2)
 }
 if (ammo.y < 50) {
 ammo.y = Math.abs(Math.floor(Math.random() * canvas.height));
@@ -1080,15 +1080,18 @@ var upKey = "w";
 var leftKey = "a";
 var rightKey = "d";
 var downKey = "s";
+var spaceKey = "Space";
 function keyDownHandler(event)
 {
     var str = event.key;
+	var str2 = event.code;
 	var keyPressed = str.toLowerCase();
 	if (debug == 1) {
 	if (silentDebug == false) {
 	console.log(event.key);
+	console.log(event.code);
 	}
-	key_Pressed_Text.radius = "Key Pressed: " + event.key;
+	key_Pressed_Text.radius = "Key Pressed: " + event.key + " / " + event.code;
 	}
 
 	if (keyPressed == upKey)
@@ -1109,6 +1112,12 @@ function keyDownHandler(event)
 	else if (keyPressed == rightKey)
 	{	
             moveRight();
+	}
+	if (str2 == spaceKey)
+	{	
+        if (won == 1 || dead == 1) {
+            resetGame("level");
+		}
 	}
 }
 
@@ -1144,7 +1153,7 @@ aicircle.x = canvas.width - 80;
 aicircle.y = canvas.height/2;
 bossAiCircle.x = canvas.width - 100;
 bossAiCircle.y = canvas.height/2;
-ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - 500)) + 300;
+ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2)
 ammo.y = Math.abs(Math.floor(Math.random() * canvas.height - 500));
 if (this.ResetLevel == "level") {
 won = 0;
