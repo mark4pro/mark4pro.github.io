@@ -35,6 +35,10 @@ var isLoaded = false;
 		 _objects.push(cursor);
 		 settingsMenuTxt = new component("60px", "Consolas", "white", canvas.width/2, 60, "text", "Settings", "center", "", "settingsM");
 		 _objects.push(settingsMenuTxt);
+		 hardResetBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2, canvas.height-530, "text", "Hard Reset", "center", "", "settingsM");
+		 _objects.push(hardResetBttnSTxt);
+		 hardResetBttnS = new component(200, 80, "grey", canvas.width/2 - 100, canvas.height-580, "rec", "", "", "", "settingsM");
+		 _objects.push(hardResetBttnS);
 		 impBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2 + 300, canvas.height-430, "text", "Impossible", "center", "", "settingsM");
 		 _objects.push(impBttnSTxt);
 		 impBttnS = new component(200, 80, "lightgrey", canvas.width/2+200, canvas.height-480, "rec", "", "", "", "settingsM");
@@ -111,6 +115,9 @@ var isLoaded = false;
 		 settings_menu_icon = new component(50, 50, "settings_icon", canvas.width - 70, 20, "img", "", "", "", "ui");
 		 settings_menu_icon.globalAlpha = 0.5;
 		 _objects.push(settings_menu_icon);
+		 time_Text = new component("20px", "Arial", "white", canvas.width - 20, canvas.height - 20, "text", "Time:", "end", "timer", "ui");
+		 time_Text.globalAlpha = 0.5;
+		 _objects.push(time_Text);
 		 canvas_size = new component("15px", "Arial", "white", 20, 30, "text", "Canvas Size:", "start", "", "debug");
 		 _objects.push(canvas_size);
 		 key_Pressed_Text = new component("15px", "Arial", "white", 20, 50, "text", "Key Pressed:", "start", "", "debug");
@@ -123,6 +130,8 @@ var isLoaded = false;
 		 _objects.push(mouse_Button_Text);
 		 on_Mobile_Text = new component("15px", "Arial", "white", 20, 130, "text", "On Mobile:", "start", "", "debug");
 		 _objects.push(on_Mobile_Text);
+		 timer_seconds_Text = new component("15px", "Arial", "white", 20, 150, "text", "Timer Seconds:", "start", "timer", "debug");
+		 _objects.push(timer_seconds_Text);
 		 background = new component(canvas.width, canvas.height, "backgroundLevel_1", 0, 0, "img", "", "", "", "background");
 		 _objects.push(background);
 		 isLoaded = true;
@@ -459,6 +468,20 @@ if (difficaulty == 3) {
 impBttnS.color = "darkgreen";
 }
 }
+
+if (cursor.crashWith(hardResetBttnS) == true) {
+if (won == 0 || dead == 0) {
+if (settingsMenuShow == true) {
+hardResetBttnS.color = "lightgrey";
+if (pressed == true) {
+resetGame("game");
+}
+}
+}
+}
+if (cursor.crashWith(hardResetBttnS) == false) {
+hardResetBttnS.color = "grey";
+}
 }
 	
 window.addEventListener("mousemove", function(event) {
@@ -600,7 +623,14 @@ easyBttnSTxt.x = canvas.width/2 - 300;
 easyBttnSTxt.y = canvas.height-430;
 easyBttnS.x = canvas.width/2-400;
 easyBttnS.y = canvas.height-480;
+hardResetBttnSTxt.x = canvas.width/2;
+hardResetBttnSTxt.y = canvas.height-530;
+hardResetBttnS.x = canvas.width/2-hardResetBttnS.width/2;
+hardResetBttnS.y = canvas.height-580;
 settingsMenuTxt.x = canvas.width/2;
+time_Text.x = canvas.width - 20;
+time_Text.y = canvas.height - 20;
+time_Text.radius = "Time: " + seconds;
 optionsjs = {
 	   zone: document.getElementById("joystick"),
 	   mode: 'static',
@@ -674,12 +704,18 @@ console.log("Cursor X: " + cursor.x + " Cursor Y: " + cursor.y);
 console.log("Pressed: " + pressed);
 console.log("Mouse Button: " + mouse_button);
 console.log("On Mobile: " + onMobile);
+if (timeMode == true) {
+console.log("Timer Seconds: " + seconds);
+}
 }
 canvas_size.radius = "Canvas Width: " + canvas.width + " Canvas Height: " + canvas.height;
 cursor_Position_Text.radius = "Cursor X: " + cursor.x + " Cursor Y: " + cursor.y;
 button_Pressed_Text.radius = "Pressed: " + pressed;
 mouse_Button_Text.radius = "Mouse Button: " + mouse_button;
 on_Mobile_Text.radius = "On Mobile: " + onMobile;
+if (timeMode == true) {
+timer_seconds_Text.radius = "Timer Seconds: " + seconds;	
+}
 }
 },
 }
@@ -787,6 +823,25 @@ return false;
  }
 }
 
+var seconds = 0;
+var timerInterval;
+var startTimer = false;
+function timer(state) {
+this.state = state;
+if (this.state == "start" && startTimer == false) {
+timerInterval = setInterval(function() {
+	seconds++;
+},1000);
+startTimer = true;
+}
+if (this.state == "stop") {
+clearInterval(timerInterval);
+//save time here//
+seconds = 0;
+startTimer = false;
+}
+}
+
 function updateGameArea() {
 	Board.clear();
 	p1.x = circle.x;
@@ -847,7 +902,12 @@ function updateGameArea() {
 	}
 	}
 	if (_objects[i].level == "ui") {
+	if (_objects[i].thickness == "") {
 	_objects[i].update();
+	}
+	if (_objects[i].thickness == "timer" && timeMode == true) {
+	_objects[i].update();
+	}
 	}
 	if (_objects[i].level == "settingsM" && settingsMenuShow == true) {
 	_objects[i].update();
@@ -856,7 +916,12 @@ function updateGameArea() {
 	_objects[i].update();
 	}
 	if (_objects[i].level == "debug" && debug == 1) {
+	if (_objects[i].thickness == "") {
 	_objects[i].update();
+	}
+	if (_objects[i].thickness == "timer" && timeMode == true) {
+	_objects[i].update();
+	}
 	}
 	}
 	joystick();
@@ -1099,6 +1164,8 @@ lockUp = 0;
 lockDown = 0;
 lockLeft = 0;
 lockRight = 0;
+settingsMenuShow = false;
+timer("stop");
 }
 }
 
@@ -1108,6 +1175,7 @@ var down = 0;
 var left = 0;
 var right = 0;
 function moveUp() {
+	timer("start");
     if (lockUp == 0) {
 	circle.speedY = -circleSpeed;
 	up = 1;
@@ -1120,6 +1188,7 @@ function moveUp() {
 	}
 }
 function moveDown() {
+	timer("start");
     if (lockDown == 0) {
 	circle.speedY = circleSpeed;
 	down = 1;
@@ -1132,6 +1201,7 @@ function moveDown() {
 	}
 }
 function moveLeft() {
+	timer("start");
     if (lockLeft == 0) {
 	circle.speedX = -circleSpeed;
 	left = 1;
@@ -1144,6 +1214,7 @@ function moveLeft() {
 	}
 }
 function moveRight() {
+	timer("start");
     if (lockRight == 0) {
 	circle.speedX = circleSpeed;
 	right = 1;
