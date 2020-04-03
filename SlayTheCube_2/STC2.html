@@ -26,17 +26,24 @@ canvas {
 	-ms-user-select: none; /* IE 10+ */
 	user-select: none; /* Standard syntax */
 }
+#joystick { 
+position: fixed;
+}
 </style>
 <!-- Were Images Go -->
 <img id="backgroundLevel_1" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/background.PNG">
 <img id="backgroundLevel_Boss" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/background_3.PNG">
 <img id="backgroundLevel_2" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/background_2.PNG">
 <img id="backgroundLevel_Boss_2" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/background_4.PNG">
+<img id="cursor_img" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/cursor.png">
+<img id="settings_icon" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/settings.png">
 </head>
 <body onload="start()">
 <label class="unselectable">
 <canvas id="canvas" style="border:0px;cursor:none;"></canvas>
+<div id="joystick"></div>
 </label>
+<script src="./scripts/nipplejs.js"></script>
 <script>
 var won = 0;
 var dead = 0;
@@ -50,17 +57,64 @@ var lockLeft = 0;
 var lockRight = 0;
 var aiCircleBounceSpeed = 1;
 var circleBounceSpeed = 1;
+var settingsMenuShow = false;
+var DebugLock = false;
 var debug = 0;
-var silentDebug = false;
+var silentDebug = true;
+var timerLock = false;
+var _timer = 0;
+var timeMode = false;
 var pressed = false;
+var mobileLock = false;
+var _mobile = 0;
+var onMobile = false;
 var mouse_button = "null";
 var canvas = document.getElementById("canvas");
+var optionsjs;
+var managerjs;
+var joystickCreated = false;
 
 	function start() {
 	     canvas.width = window.innerWidth;
          canvas.height = window.innerHeight;
-		 cursor = new component(10, 10, "red", -50, -250, "rec", "", "", "", "cursor");
+		 cursor = new component(30, 30, "cursor_img", -50, -250, "img", "", "", "", "cursor");
 		 _objects.push(cursor);
+		 settingsMenuTxt = new component("60px", "Consolas", "white", canvas.width/2, 60, "text", "Settings", "center", "", "settingsM");
+		 _objects.push(settingsMenuTxt);
+		 impBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2 + 300, canvas.height-430, "text", "Impossible", "center", "", "settingsM");
+		 _objects.push(impBttnSTxt);
+		 impBttnS = new component(200, 80, "lightgrey", canvas.width/2+200, canvas.height-480, "rec", "", "", "", "settingsM");
+		 _objects.push(impBttnS);
+		 hardBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2 + 100, canvas.height-430, "text", "Hard", "center", "", "settingsM");
+		 _objects.push(hardBttnSTxt);
+		 hardBttnS = new component(200, 80, "grey", canvas.width/2, canvas.height-480, "rec", "", "", "", "settingsM");
+		 _objects.push(hardBttnS);
+		 normalBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2 - 100, canvas.height-430, "text", "Normal", "center", "", "settingsM");
+		 _objects.push(normalBttnSTxt);
+		 normalBttnS = new component(200, 80, "lightgrey", canvas.width/2-200, canvas.height-480, "rec", "", "", "", "settingsM");
+		 _objects.push(normalBttnS);
+		 easyBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2 - 300, canvas.height-430, "text", "Easy", "center", "", "settingsM");
+		 _objects.push(easyBttnSTxt);
+		 easyBttnS = new component(200, 80, "grey", canvas.width/2-400, canvas.height-480, "rec", "", "", "", "settingsM");
+		 _objects.push(easyBttnS);
+		 timerBttnSTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-320, "text", "Timer", "center", "", "settingsM");
+		 _objects.push(timerBttnSTxt);
+		 timerBttnS = new component(200, 80, "grey", canvas.width/2-100, canvas.height-380, "rec", "", "", "", "settingsM");
+		 _objects.push(timerBttnS);
+		 mobileBttnSTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-220, "text", "Mobile", "center", "", "settingsM");
+		 _objects.push(mobileBttnSTxt);
+		 mobileBttnS = new component(200, 80, "grey", canvas.width/2-100, canvas.height-280, "rec", "", "", "", "settingsM");
+		 _objects.push(mobileBttnS);
+		 debugBttnSTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-120, "text", "Debug", "center", "", "settingsM");
+		 _objects.push(debugBttnSTxt);
+		 debugBttnS = new component(200, 80, "grey", canvas.width/2-100, canvas.height-180, "rec", "", "", "", "settingsM");
+		 _objects.push(debugBttnS);
+		 backBttnSTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-20, "text", "Back", "center", "", "settingsM");
+		 _objects.push(backBttnSTxt);
+		 backBttnS = new component(200, 80, "grey", canvas.width/2-100, canvas.height-80, "rec", "", "", "", "settingsM");
+		 _objects.push(backBttnS);
+		 settingsMenu = new component(500, 300, "black", 0, 0, "rec", "", "", "", "settingsM");
+		 _objects.push(settingsMenu);
 		 restartTxt = new component("50px", "Consolas", "white", 250, 150, "text", "Restart", "center", "", "DandW");
 		 _objects.push(restartTxt);
 		 restart = new component(200, 80, "grey", 250, 150, "rec", "", "", "", "DandW");
@@ -100,6 +154,9 @@ var canvas = document.getElementById("canvas");
 		 difficaulty_Text = new component("15px", "Arial", "white", canvas.width/2, 30, "text", "Difficaulty:", "center", "", "ui");
 		 difficaulty_Text.globalAlpha = 0.5;
 		 _objects.push(difficaulty_Text);
+		 settings_menu_icon = new component(50, 50, "settings_icon", canvas.width - 70, 20, "img", "", "", "", "ui");
+		 settings_menu_icon.globalAlpha = 0.5;
+		 _objects.push(settings_menu_icon);
 		 canvas_size = new component("15px", "Arial", "white", 20, 30, "text", "Canvas Size:", "start", "", "debug");
 		 _objects.push(canvas_size);
 		 key_Pressed_Text = new component("15px", "Arial", "white", 20, 50, "text", "Key Pressed:", "start", "", "debug");
@@ -110,6 +167,8 @@ var canvas = document.getElementById("canvas");
 		 _objects.push(button_Pressed_Text);
 		 mouse_Button_Text = new component("15px", "Arial", "white", 20, 110, "text", "Mouse Button:", "start", "", "debug");
 		 _objects.push(mouse_Button_Text);
+		 on_Mobile_Text = new component("15px", "Arial", "white", 20, 130, "text", "On Mobile:", "start", "", "debug");
+		 _objects.push(on_Mobile_Text);
 		 background = new component(canvas.width, canvas.height, "backgroundLevel_1", 0, 0, "img", "", "", "", "background");
 		 _objects.push(background);
 		 Board.start();
@@ -164,25 +223,286 @@ circle.color = "navy";
 difficaulty = 1;
 }
 }
-	
+
+
+function joystick() {
+var joystickDiv = document.getElementById("joystick");
+if (onMobile == true) {
+joystickDiv.style.display = "inline";
+managerjs.on('0:start', function(evt, data) {
+	managerjs.on('dir:up', function(evt, data) {
+		moveUp();
+	}).on('dir:down', function(evt, data) {
+		moveDown();
+	}).on('dir:left', function(evt, data) {
+		moveLeft();
+	}).on('dir:right', function(evt, data) {
+		moveRight();
+	});
+  });
+}
+ managerjs.on('0:end dir', function(evt, data) {
+		clearmoveu();
+	}).on('0:end dir', function(evt, data) {
+		clearmoved();
+	}).on('0:end dir', function(evt, data) {
+		clearmovel();
+	}).on('0:end dir', function(evt, data) {
+		clearmover();
+	});
+if (onMobile == false || won == 1 || dead == 1 || settingsMenuShow == true) {
+joystickDiv.style.display = "none";
+}
+}
+
 function menuManager() {
-if (cursor.crashWith(restart) == true && won == 1 || dead == 1) {
-restart.color = "grey";
+if (cursor.crashWith(restart) == true) {
+if (won == 1 || dead == 1) {
+restart.color = "lightgrey";
 if (pressed == true) {
 resetGame("level");
 }
 }
-if (cursor.crashWith(restart) == false) {
-restart.color = "lightgrey";
 }
-if (cursor.crashWith(nextLevel) == true && won == 1) {
-nextLevel.color = "grey";
+if (cursor.crashWith(restart) == false) {
+restart.color = "grey";
+}
+if (cursor.crashWith(nextLevel) == true) {
+if (won == 1) {
+nextLevel.color = "lightgrey";
 if (pressed == true) {
 nxtlvl(difficaulty);
 }
 }
+}
 if (cursor.crashWith(nextLevel) == false) {
-nextLevel.color = "lightgrey";
+nextLevel.color = "grey";
+}
+if (cursor.crashWith(settings_menu_icon) == true) {
+if (won == 0 || dead == 0) {
+if (settingsMenuShow == false) {
+if (settings_menu_icon.globalAlpha < 1) {
+settings_menu_icon.globalAlpha += 0.1;
+}
+if (settings_menu_icon.globalAlpha >= 1) {
+settings_menu_icon.globalAlpha = 1;
+}
+if (pressed == true) {
+settingsMenuShow = true;
+}
+}
+}
+}
+if (cursor.crashWith(settings_menu_icon) == false) {
+if (settings_menu_icon.globalAlpha > 0.5) {
+settings_menu_icon.globalAlpha -= 0.1;
+}
+if (settings_menu_icon.globalAlpha <= 0.5) {
+settings_menu_icon.globalAlpha = 0.5;
+}
+}
+if (cursor.crashWith(backBttnS) == true) {
+if (won == 0 || dead == 0) {
+if (settingsMenuShow == true) {
+backBttnS.color = "lightgrey";
+if (pressed == true) {
+settingsMenuShow = false;
+}
+}
+}
+}
+if (cursor.crashWith(backBttnS) == false) {
+backBttnS.color = "grey";
+}
+if (cursor.crashWith(debugBttnS) == true) {
+if (won == 0 || dead == 0) {
+if (settingsMenuShow == true) {
+if (debug == 0) {
+debugBttnS.color = "red";
+}
+if (debug == 1) {
+debugBttnS.color = "green";
+}
+if (pressed == true && DebugLock == false) {
+debug++;
+DebugLock = true;
+}
+}
+}
+}
+if (pressed == false) {
+DebugLock = false;
+mobileLock = false;
+timerLock = false;
+}
+if (debug >= 2) {
+debug = 0;
+}
+if (cursor.crashWith(debugBttnS) == false) {
+if (debug == 0) {
+debugBttnS.color = "darkred";
+}
+if (debug == 1) {
+debugBttnS.color = "darkgreen";
+}
+}
+if (cursor.crashWith(mobileBttnS) == true) {
+if (won == 0 || dead == 0) {
+if (settingsMenuShow == true) {
+if (_mobile == 0) {
+mobileBttnS.color = "red";
+}
+if (_mobile == 1) {
+mobileBttnS.color = "green";
+}
+if (pressed == true && mobileLock == false) {
+_mobile++;
+mobileLock = true;
+}
+}
+}
+}
+if (_mobile >= 2) {
+_mobile = 0;
+}
+if (_mobile == 0) {
+onMobile = false;
+}
+if (_mobile == 1) {
+onMobile = true;
+}
+if (cursor.crashWith(mobileBttnS) == false) {
+if (_mobile == 0) {
+mobileBttnS.color = "darkred";
+}
+if (_mobile == 1) {
+mobileBttnS.color = "darkgreen";
+}
+}
+if (cursor.crashWith(timerBttnS) == true) {
+if (won == 0 || dead == 0) {
+if (settingsMenuShow == true) {
+if (_timer == 0) {
+timerBttnS.color = "red";
+}
+if (_timer == 1) {
+timerBttnS.color = "green";
+}
+if (pressed == true && timerLock == false) {
+_timer++;
+timerLock = true;
+}
+}
+}
+}
+if (_timer >= 2) {
+_timer = 0;
+}
+if (_timer == 0) {
+timeMode = false;
+}
+if (_timer == 1) {
+timeMode = true;
+}
+if (cursor.crashWith(timerBttnS) == false) {
+if (_timer == 0) {
+timerBttnS.color = "darkred";
+}
+if (_timer == 1) {
+timerBttnS.color = "darkgreen";
+}
+}
+if (cursor.crashWith(easyBttnS) == true) {
+if (won == 0 || dead == 0) {
+if (settingsMenuShow == true) {
+if (difficaulty != 0) {
+easyBttnS.color = "red";
+}
+if (difficaulty == 0) {
+easyBttnS.color = "green";
+}
+if (pressed == true) {
+difficaulty = 0;
+}
+}
+}
+}
+if (cursor.crashWith(easyBttnS) == false) {
+if (difficaulty != 0) {
+easyBttnS.color = "darkred";
+}
+if (difficaulty == 0) {
+easyBttnS.color = "darkgreen";
+}
+}
+if (cursor.crashWith(normalBttnS) == true) {
+if (won == 0 || dead == 0) {
+if (settingsMenuShow == true) {
+if (difficaulty != 1) {
+normalBttnS.color = "red";
+}
+if (difficaulty == 1) {
+normalBttnS.color = "green";
+}
+if (pressed == true) {
+difficaulty = 1;
+}
+}
+}
+}
+if (cursor.crashWith(normalBttnS) == false) {
+if (difficaulty != 1) {
+normalBttnS.color = "darkred";
+}
+if (difficaulty == 1) {
+normalBttnS.color = "darkgreen";
+}
+}
+if (cursor.crashWith(hardBttnS) == true) {
+if (won == 0 || dead == 0) {
+if (settingsMenuShow == true) {
+if (difficaulty != 2) {
+hardBttnS.color = "red";
+}
+if (difficaulty == 2) {
+hardBttnS.color = "green";
+}
+if (pressed == true) {
+difficaulty = 2;
+}
+}
+}
+}
+if (cursor.crashWith(hardBttnS) == false) {
+if (difficaulty != 2) {
+hardBttnS.color = "darkred";
+}
+if (difficaulty == 2) {
+hardBttnS.color = "darkgreen";
+}
+}
+if (cursor.crashWith(impBttnS) == true) {
+if (won == 0 || dead == 0) {
+if (settingsMenuShow == true) {
+if (difficaulty != 3) {
+impBttnS.color = "red";
+}
+if (difficaulty == 3) {
+impBttnS.color = "green";
+}
+if (pressed == true) {
+difficaulty = 3;
+}
+}
+}
+}
+if (cursor.crashWith(impBttnS) == false) {
+if (difficaulty != 3) {
+impBttnS.color = "darkred";
+}
+if (difficaulty == 3) {
+impBttnS.color = "darkgreen";
+}
 }
 }
 	
@@ -264,6 +584,8 @@ wall3.width = canvas.width;
 wall4.width = canvas.width;
 end.width = canvas.width;
 end.height = canvas.height;
+settingsMenu.width = canvas.width;
+settingsMenu.height = canvas.height;
 WDText.x = canvas.width/2;
 WDText.y = canvas.height/2;
 restartTxt.x = restart.x + restart.width/2;
@@ -273,6 +595,58 @@ nextLevelTxt.x = nextLevel.x + nextLevel.width/2;
 nextLevelTxt.y = nextLevel.y + nextLevel.height/2 + 20;
 nextLevel.x = canvas.width/2 - nextLevel.width/2;
 nextLevel.y = canvas.height/2 + 50;
+settings_menu_icon.x = canvas.width - 70;
+settings_menu_icon.y = 20;
+backBttnS.x = canvas.width/2 - backBttnS.width/2;
+backBttnS.y = canvas.height - backBttnS.height;
+backBttnSTxt.x = canvas.width/2;
+backBttnSTxt.y = canvas.height - 20;
+debugBttnS.x = canvas.width/2 - debugBttnS.width/2;
+debugBttnS.y = canvas.height - (100 + debugBttnS.height);
+debugBttnSTxt.x = canvas.width/2;
+debugBttnSTxt.y = canvas.height - 120;
+mobileBttnS.x = canvas.width/2 - mobileBttnS.width/2;
+mobileBttnS.y = canvas.height - (200 + mobileBttnS.height);
+mobileBttnSTxt.x = canvas.width/2;
+mobileBttnSTxt.y = canvas.height - 220;
+timerBttnS.x = canvas.width/2 - timerBttnS.width/2;
+timerBttnS.y = canvas.height - (300 + timerBttnS.height);
+timerBttnSTxt.x = canvas.width/2;
+timerBttnSTxt.y = canvas.height - 320;
+impBttnSTxt.x = canvas.width/2 + 300;
+impBttnSTxt.y = canvas.height-430;
+impBttnS.x = canvas.width/2+200;
+impBttnS.y = canvas.height-480;
+hardBttnSTxt.x = canvas.width/2 + 100;
+hardBttnSTxt.y = canvas.height-430;
+hardBttnS.x = canvas.width/2;
+hardBttnS.y = canvas.height-480;
+normalBttnSTxt.x = canvas.width/2 - 100;
+normalBttnSTxt.y = canvas.height-430;
+normalBttnS.x = canvas.width/2-200;
+normalBttnS.y = canvas.height-480;
+easyBttnSTxt.x = canvas.width/2 - 300;
+easyBttnSTxt.y = canvas.height-430;
+easyBttnS.x = canvas.width/2-400;
+easyBttnS.y = canvas.height-480;
+settingsMenuTxt.x = canvas.width/2;
+optionsjs = {
+	   zone: document.getElementById("joystick"),
+	   mode: 'static',
+	   color: 'purple',
+	   identifier: 0,
+	   threshold: 0.2,
+	   size: 100,
+	   restOpacity: 1,
+	   position: {
+        x: 100,
+        y: canvas.height - 100
+    },
+};
+if (joystickCreated == false) {
+managerjs = nipplejs.create(optionsjs);
+joystickCreated = true;
+}
 if (dead == 1) {
 restart.y = canvas.height/2 + 50;
 WDText.radius = "YOU DIED!";
@@ -328,11 +702,13 @@ console.log("Canvas Width: " + canvas.width + " Canvas Height: " + canvas.height
 console.log("Cursor X: " + cursor.x + " Cursor Y: " + cursor.y);
 console.log("Pressed: " + pressed);
 console.log("Mouse Button: " + mouse_button);
+console.log("On Mobile: " + onMobile);
 }
 canvas_size.radius = "Canvas Width: " + canvas.width + " Canvas Height: " + canvas.height;
 cursor_Position_Text.radius = "Cursor X: " + cursor.x + " Cursor Y: " + cursor.y;
 button_Pressed_Text.radius = "Pressed: " + pressed;
 mouse_Button_Text.radius = "Mouse Button: " + mouse_button;
+on_Mobile_Text.radius = "On Mobile: " + onMobile;
 }
 },
 }
@@ -463,7 +839,9 @@ function updateGameArea() {
 	}
 	if (_objects[i].level == "bullet" && firef >= 1) {
 	_objects[i].update();
+	if (settingsMenuShow == false) {
 	_objects[i].newPos();
+	}
 	}
 	if (_objects[i].level == "bullet" && firef <= 0) {
 	_objects[i].x = circle.x;
@@ -471,29 +849,36 @@ function updateGameArea() {
 	}
 	if (_objects[i].level == "player" && dead == 0 && won == 0) {
 	_objects[i].update();
-	if (firef == 0) {
+	if (firef == 0 && settingsMenuShow == false) {
 	_objects[i].newPos();
 	}
 	}
 	if (_objects[i].level == "enemy_1" && level == 1 && dead == 0 && won == 0) {
 	_objects[i].update();
-	if (firef == 0) {
+	if (firef == 0 && settingsMenuShow == false) {
 	_objects[i].newPos();
 	}
 	}
 	if (_objects[i].level == "boss_1" && level == 2 && dead == 0 && won == 0) {
 	_objects[i].update();
-	if (firef == 0) {
+	if (firef == 0 && settingsMenuShow == false) {
 	_objects[i].newPos();
 	}
 	}
-	if (_objects[i].level === "DandW" && _objects[i].thickness == "" && dead == 1 || won == 1) {
+	if (_objects[i].level === "DandW" && _objects[i].thickness == "") {
+	if (dead == 1 || won == 1) {
 	_objects[i].update();
 	}
-	if (_objects[i].level === "DandW" && _objects[i].thickness == "win" && dead == 1 || won == 1) {
+	}
+	if (_objects[i].level === "DandW" && _objects[i].thickness == "win") {
+	if (dead == 1 || won == 1) {
 	_objects[i].update();
+	}
 	}
 	if (_objects[i].level == "ui") {
+	_objects[i].update();
+	}
+	if (_objects[i].level == "settingsM" && settingsMenuShow == true) {
 	_objects[i].update();
 	}
 	if (_objects[i].level == "cursor") {
@@ -503,6 +888,7 @@ function updateGameArea() {
 	_objects[i].update();
 	}
 	}
+	joystick();
 	if (up == 0 && down == 0 && left == 0 && right == 0) {
 	clearcircleai();
 	}
@@ -804,12 +1190,15 @@ function nxtlvl(difficaultyS) {
 this.difficaultyS = difficaultyS;
 nextLevelLatch = 0;
 if (won == 1 && nextLevelLatch == 0) {
+if (level != 2 && level != 4) {
 if (difficaultyS != 3) {
 level = (level + 2);
 resetGame("level");
 nextLevelLatch = 1;
 }
-if (difficaultyS == 3) {
+}
+//levels go here//
+if (difficaultyS == 3 || level == 2 || level == 4) {
 level = (level + 1);
 resetGame("level");
 nextLevelLatch = 1;
