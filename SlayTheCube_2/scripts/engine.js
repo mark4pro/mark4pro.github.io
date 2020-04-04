@@ -27,6 +27,7 @@ var optionsjs;
 var managerjs;
 var joystickCreated = false;
 var isLoaded = false;
+var startLevel = false;
 
 	function start() {
 	     canvas.width = window.innerWidth;
@@ -87,15 +88,19 @@ var isLoaded = false;
 	     _objects.push(end);
 		 p1 = new component("20px", "Consolas", "white", 43, 150, "text", "P1", "center", "", "player");
 		 _objects.push(p1);
-		 ai = new component("20px", "Consolas", "white", 443, 150, "text", "AI", "center", "", "enemy_1");
+		 ai = new component("20px", "Consolas", "white", 443, 150, "text", "AI", "center", "", "enemy", "enemy_1");
 		 _objects.push(ai);
-		 bossAi_1 = new component("20px", "Consolas", "white", 430, 160, "text", "BOSS", "center", "", "boss_1");
+		 ai2 = new component("20px", "Consolas", "white", 443, 150, "text", "AI", "center", "", "enemy", "enemy_2");
+		 _objects.push(ai2);
+		 bossAi_1 = new component("20px", "Consolas", "white", 430, 160, "text", "BOSS", "center", "", "enemy", "boss_1");
 		 _objects.push(bossAi_1);
 		 circle = new component(10, 10, "blue", 80, canvas.height/2, "cir", 30, "red", 1, "player");
 		 _objects.push(circle);
-		 aicircle = new component(10, 10, "orange", canvas.width - 80, canvas.height/2, "cir", 30, "white", 1, "enemy_1");
+		 aicircle = new component(10, 10, "orange", canvas.width - 80, canvas.height/2, "cir", 30, "white", 1, "enemy", "enemy_1");
 		 _objects.push(aicircle);
-		 bossAiCircle = new component(1, 1, "fuchsia", canvas.width - 100, canvas.height/2, "cir", 50, "purple", 1, "boss_1");
+		 aicircle2 = new component(10, 10, "darkyellow", canvas.width - 80, canvas.height/2, "cir", 30, "aqua", 1, "enemy", "enemy_2");
+		 _objects.push(aicircle2);
+		 bossAiCircle = new component(1, 1, "fuchsia", canvas.width - 100, canvas.height/2, "cir", 50, "purple", 1, "enemy", "boss_1");
          _objects.push(bossAiCircle);
 		 ammo = new component(10, 10, "darkorange", Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2), Math.abs(Math.floor(Math.random() * canvas.height - 500)), "cir", 10, "", 0, "ammo");
 		 _objects.push(ammo);
@@ -107,6 +112,14 @@ var isLoaded = false;
 		 _objects.push(wall3);
 		 wall4 = new component(500, 20, "black", 0, canvas.height - 10, "rec", "", "", "", "all");
 		 _objects.push(wall4);
+		 wall5 = new component(10, canvas.height - 400, "grey", Math.floor(Math.random() * canvas.width) + 300, 200, "rec", "", "", "level2", "all");
+		 _objects.push(wall5);
+		 wall6 = new component(10, canvas.height - 400, "grey", wall5.x + 10, 200, "rec", "", "", "level2", "all");
+		 _objects.push(wall6);
+		 wall7 = new component(20, 10, "grey", wall5.x, wall5.y, "rec", "", "", "level2", "all");
+		 _objects.push(wall7);
+		 wall8 = new component(20, 10, "grey", wall5.x, wall5.width, "rec", "", "", "level2", "all");
+		 _objects.push(wall8);
 		 bulletcase = new component(1, 1, "gray", circle.x, circle.y, "cir", 10, "white", 1, "bullet");
          _objects.push(bulletcase);
 		 difficaulty_Text = new component("15px", "Arial", "white", canvas.width/2, 30, "text", "Difficaulty:", "center", "", "ui");
@@ -183,6 +196,11 @@ circle.color = "blue";
 }
 if (this.level_number == 4) {
 background.color = "backgroundLevel_Boss_2";
+circle.color = "navy";
+difficaulty = 1;
+}
+if (this.level_number == 5) {
+background.color = "backgroundLevel_3";
 circle.color = "navy";
 difficaulty = 1;
 }
@@ -631,6 +649,13 @@ settingsMenuTxt.x = canvas.width/2;
 time_Text.x = canvas.width - 20;
 time_Text.y = canvas.height - 20;
 time_Text.radius = "Time: " + seconds;
+wall5.height = canvas.height - 400;
+wall6.height = wall5.height;
+wall6.x = wall5.x + 10;
+wall7.x = wall5.x;
+wall7.y = wall5.y - 5;
+wall8.x = wall5.x;
+wall8.y = wall5.y + wall5.height - 5;
 optionsjs = {
 	   zone: document.getElementById("joystick"),
 	   mode: 'static',
@@ -670,16 +695,32 @@ if (difficaulty == 3) {
 difficaulty_Text.radius = "Difficaulty: IMPOSSIBLE"
 }
 if (ammo.x < 300) {
-ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2)
+ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2);
 }
 if (ammo.x > canvas.width - 50) {
-ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2)
+ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2);
 }
 if (ammo.y < 50) {
 ammo.y = Math.abs(Math.floor(Math.random() * canvas.height));
 }
 if (ammo.y > canvas.height - 50) {
 ammo.y = Math.abs(Math.floor(Math.random() * canvas.height));
+}
+if (level == 3) {
+if (ammo.mixCrashWith(wall5) || ammo.mixCrashWith(wall6)) {
+ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2);
+ammo.y = Math.abs(Math.floor(Math.random() * canvas.height));	
+}
+if (ammo.x < wall5.x) {
+ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2);
+ammo.y = Math.abs(Math.floor(Math.random() * canvas.height));	
+}
+if (wall5.x < 300) {
+wall5.x = Math.floor(Math.random() * canvas.width) + 300;
+}
+if (wall5.x > canvas.width - 200) {
+wall5.x = Math.floor(Math.random() * canvas.width) + 300;
+}
 }
 for(var i = _objects.length - 1; i >= 0; i--) {
 if (_objects[i].level == "player" || _objects[i].level == "enemy_1") {
@@ -720,7 +761,7 @@ timer_seconds_Text.radius = "Timer Seconds: " + seconds;
 },
 }
 
-function component(width, height, color ,x ,y, type, radius, outcolor, thickness, level) {
+function component(width, height, color ,x ,y, type, radius, outcolor, thickness, level, enemyType) {
 	this.type = type;
 	this.speedX = 0;
 	this.speedY = 0;
@@ -728,6 +769,7 @@ function component(width, height, color ,x ,y, type, radius, outcolor, thickness
 	this.y = y;
 	this.oldX = x;
 	this.oldY = y;
+	this.enemyType = enemyType;
 	this.color = color;
 	this.width = width;
 	this.height = height;
@@ -848,6 +890,8 @@ function updateGameArea() {
 	p1.y = circle.y;
 	ai.x = aicircle.x;
 	ai.y = aicircle.y;
+	ai2.x = aicircle2.x;
+	ai2.y = aicircle2.y;
 	bossAi_1.x = bossAiCircle.x;
 	bossAi_1.y = bossAiCircle.y;
 	difficaultyScale(difficaulty);
@@ -858,7 +902,12 @@ function updateGameArea() {
 	_objects[i].update();
 	}
 	if (_objects[i].level == "all" && dead == 0 && won == 0) {
+	if (_objects[i].thickness == "") {
 	_objects[i].update();
+	}
+	if (_objects[i].thickness == "level2" && level == 3) {
+	_objects[i].update();
+	}
 	}
 	if (_objects[i].level == "ammo" && dead == 0 && won == 0) {
 	_objects[i].update();
@@ -879,16 +928,24 @@ function updateGameArea() {
 	_objects[i].newPos();
 	}
 	}
-	if (_objects[i].level == "enemy_1" && level == 1 && dead == 0 && won == 0) {
-	_objects[i].update();
-	if (firef == 0 && settingsMenuShow == false) {
-	_objects[i].newPos();
+	if (_objects[i].level == "enemy" && dead == 0 && won == 0) {
+	if (_objects[i].enemyType == "enemy_1" && level == 1) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
 	}
+	if (_objects[i].enemyType == "boss_1" && level == 2) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
 	}
-	if (_objects[i].level == "boss_1" && level == 2 && dead == 0 && won == 0) {
-	_objects[i].update();
-	if (firef == 0 && settingsMenuShow == false) {
-	_objects[i].newPos();
+	if (_objects[i].enemyType == "enemy_2" && level == 3) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
 	}
 	}
 	if (_objects[i].level === "DandW" && _objects[i].thickness == "") {
@@ -931,7 +988,7 @@ function updateGameArea() {
 	if (firef >= 1) {
 	bulletai();
 	}
-	if (circle.circleCrashWith(ammo) && won == 0) {
+	if (circle.circleCrashWith(ammo) && won == 0 && startLevel == true) {
     firef = 1;
     }
 	if (circle.mixCrashWith(wall)) {
@@ -950,6 +1007,24 @@ function updateGameArea() {
 	   lockDown = 1;
 	   circle.speedY = -circleBounceSpeed;
 		}
+	if (level == 3) {
+	if (circle.mixCrashWith(wall6)) {
+	   lockLeft = 1;
+	   circle.speedX = circleBounceSpeed;
+		}
+	if (circle.mixCrashWith(wall5)) {
+	   lockRight = 1;
+	   circle.speedX = -circleBounceSpeed;
+		}
+	if (circle.mixCrashWith(wall8)) {
+	   lockUp = 1;
+	   circle.speedY = circleBounceSpeed;
+		}
+	if (circle.mixCrashWith(wall7)) {
+	   lockDown = 1;
+	   circle.speedY = -circleBounceSpeed;
+		}
+	}
 	if (level == 1) {
 	if (aicircle.mixCrashWith(wall)) {
 	   aicircle.speedX = aiCircleBounceSpeed;
@@ -984,6 +1059,51 @@ function updateGameArea() {
 	    dead = 1;
 		}
 	}
+	if (level == 3) {
+	if (aicircle2.mixCrashWith(wall)) {
+	   aicircle2.speedX = aiCircleBounceSpeed;
+		}
+	if (aicircle2.mixCrashWith(wall2)) {
+	   aicircle2.speedX = -aiCircleBounceSpeed;
+		}
+	if (aicircle2.mixCrashWith(wall3)) {
+	   aicircle2.speedY = aiCircleBounceSpeed;
+		}
+	if (aicircle2.mixCrashWith(wall4)) {
+	   aicircle2.speedY = -aiCircleBounceSpeed;
+		}
+	if (aicircle2.mixCrashWith(wall5)) {
+	   aicircle2.speedX = -aiCircleBounceSpeed;
+	   leftAILock = true;
+		}
+	if (aicircle2.mixCrashWith(wall5) == false) {
+	   leftAILock = false;
+		}
+	if (aicircle2.mixCrashWith(wall6)) {
+	   aicircle2.speedX = aiCircleBounceSpeed;
+	   rightAILock = true;
+		}
+	if (aicircle2.mixCrashWith(wall6) == false) {
+	   rightAILock = false;
+		}
+	if (aicircle2.mixCrashWith(wall7)) {
+	   aicircle2.speedY = -aiCircleBounceSpeed;
+	   downAILock = true;
+		}
+	if (aicircle2.mixCrashWith(wall7) == false) {
+	   downAILock = false;
+		}
+	if (aicircle2.mixCrashWith(wall8)) {
+	   aicircle2.speedY = aiCircleBounceSpeed;
+	   upAILock = true;
+		}
+	if (aicircle2.mixCrashWith(wall8) == false) {
+	   upAILock = false;
+		}
+	if (circle.circleCrashWith(aicircle2)) {
+	    dead = 1;
+	    }
+	}
 	if (difficaulty == 0) {
 	if (lockUp == 1 || lockDown == 1 || lockLeft == 1 || lockRight == 1) {
 	clearcircleai();
@@ -991,7 +1111,11 @@ function updateGameArea() {
 	}
 }
 
-var aiCircleSpeed = 3;	
+var aiCircleSpeed = 3;
+var leftAILock = false;
+var rightAILock = false;
+var upAILock = false;
+var downAILock = false;	
 function aicircleai() {
 if (level == 1) {
  if (circle.x < aicircle.x){
@@ -1021,6 +1145,20 @@ if (level == 2) {
  bossAiCircle.speedY = aiCircleSpeed;
  }
 }
+if (level == 3) {
+ if (circle.x < aicircle2.x && leftAILock == false){
+ aicircle2.speedX = -aiCircleSpeed;
+ } 
+ if (circle.x > aicircle2.x && rightAILock == false){
+ aicircle2.speedX = aiCircleSpeed;
+ }
+ if (circle.y < aicircle2.y && upAILock == false){
+ aicircle2.speedY = -aiCircleSpeed;
+ } 
+ if (circle.y > aicircle2.y && downAILock == false){
+ aicircle2.speedY = aiCircleSpeed;
+ }
+}
 }
 
 function clearcircleai() {
@@ -1032,6 +1170,10 @@ if (level == 2) {
 bossAiCircle.speedX = 0;
 bossAiCircle.speedY = 0;
 }
+if (level == 3) {
+aicircle2.speedX = 0;
+aicircle2.speedY = 0;
+}
 }
 
 var bulletSpeed = 3;
@@ -1041,7 +1183,6 @@ if (level == 1) {
  bulletcase.speedX = -bulletSpeed;
  } 
  if (bulletcase.x < aicircle.x){
-
  bulletcase.speedX = bulletSpeed;
  }
  if (bulletcase.y > aicircle.y){
@@ -1060,7 +1201,6 @@ if (level == 2) {
  bulletcase.speedX = -bulletSpeed;
  } 
  if (bulletcase.x < bossAiCircle.x){
-
  bulletcase.speedX = bulletSpeed;
  }
  if (bulletcase.y > bossAiCircle.y){
@@ -1070,6 +1210,24 @@ if (level == 2) {
  bulletcase.speedY = bulletSpeed;
  }
  if (bulletcase.circleCrashWith(bossAiCircle)) {
+ won = 1;
+ firef = 0;
+ }
+}
+if (level == 3) {
+ if (bulletcase.x > aicircle2.x){
+ bulletcase.speedX = -bulletSpeed;
+ } 
+ if (bulletcase.x < aicircle2.x){
+ bulletcase.speedX = bulletSpeed;
+ }
+ if (bulletcase.y > aicircle2.y){
+ bulletcase.speedY = -bulletSpeed;
+ } 
+ if (bulletcase.y < aicircle2.y){
+ bulletcase.speedY = bulletSpeed;
+ }
+ if (bulletcase.circleCrashWith(aicircle2)) {
  won = 1;
  firef = 0;
  }
@@ -1144,17 +1302,65 @@ function keyUpHandler(event)
 	}
 }
 
+
+
+var gamepads = {};
+var hasConnected = false;
+function gamepadHandler(event, connecting) {
+  if (connecting) {
+	gamepadControls();
+	if (hasConnected == false) {
+		pollGamepads();
+	}
+  } else {
+    gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+	hasConnected = false;
+	console.log("Gamepad Disconnected!");
+  }
+}
+function pollGamepads() {
+  gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+  for (var i = 0; i < gamepads.length; i++) {
+    var gp = gamepads[i];
+    if (gp) {
+      console.log("Gamepad connected at index " + gp.index + ": " + gp.id + ". It has " + gp.buttons.length + " buttons and " + gp.axes.length + " axes.");
+	  hasConnected = true;
+    }
+  }
+}
+function buttonPressed(b) {
+  if (typeof(b) == "object") {
+    return b.pressed;
+  }
+  return b == 1.0;
+}
+function gamepadControls() {
+  for (var i = 0; i < gamepads.length; i++) {
+      var a = gamepads[i].axes;
+      console.log(a);
+  }
+}
+
+window.addEventListener("gamepadconnected", function(e) { gamepadHandler(e, true); }, false);
+window.addEventListener("gamepaddisconnected", function(e) { gamepadHandler(e, false); }, false);
+
 function resetGame(ResetLevel) {
 this.ResetLevel = ResetLevel;
+startLevel = false;
 //reset (enemy, player, ammo) positions here//
 circle.x = 80;
 circle.y = canvas.height/2;
+circle.speedX = 0;
+circle.speedY = 0;
 aicircle.x = canvas.width - 80;
 aicircle.y = canvas.height/2;
+aicircle2.x = canvas.width - 80;
+aicircle2.y = canvas.height/2;
 bossAiCircle.x = canvas.width - 100;
 bossAiCircle.y = canvas.height/2;
 ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2)
 ammo.y = Math.abs(Math.floor(Math.random() * canvas.height - 500));
+wall5.x = Math.floor(Math.random() * canvas.width) + 300;
 if (this.ResetLevel == "level") {
 won = 0;
 dead = 0;
@@ -1183,55 +1389,60 @@ var up = 0;
 var down = 0;
 var left = 0;
 var right = 0;
+var aiStop = false;
 function moveUp() {
 	timer("start");
+	startLevel = true;
     if (lockUp == 0) {
 	circle.speedY = -circleSpeed;
 	up = 1;
-	if (difficaulty != 3) {
+	if (aiStop == true) {
 	aicircleai();
 	}
 	}
-	if (difficaulty == 3) {
+	if (difficaulty == 3 && aiStop == false) {
 	aicircleai();
 	}
 }
 function moveDown() {
 	timer("start");
+	startLevel = true;
     if (lockDown == 0) {
 	circle.speedY = circleSpeed;
 	down = 1;
-	if (difficaulty != 3) {
+	if (aiStop == true) {
 	aicircleai();
 	}
 	}
-	if (difficaulty == 3) {
+	if (difficaulty == 3 && aiStop == false) {
 	aicircleai();
 	}
 }
 function moveLeft() {
 	timer("start");
+	startLevel = true;
     if (lockLeft == 0) {
 	circle.speedX = -circleSpeed;
 	left = 1;
-	if (difficaulty != 3) {
+	if (aiStop == true) {
 	aicircleai();
 	}
 	}
-	if (difficaulty == 3) {
+	if (difficaulty == 3 && aiStop == false) {
 	aicircleai();
 	}
 }
 function moveRight() {
 	timer("start");
+	startLevel = true;
     if (lockRight == 0) {
 	circle.speedX = circleSpeed;
 	right = 1;
-	if (difficaulty != 3) {
+	if (aiStop == true) {
 	aicircleai();
 	}
 	}
-	if (difficaulty == 3) {
+	if (difficaulty == 3 && aiStop == false) {
 	aicircleai();
 	}
 }
@@ -1239,6 +1450,7 @@ function moveRight() {
 var nextLevelLatch = 0;
 function nxtlvl(difficaultyS) {
 this.difficaultyS = difficaultyS;
+startLevel = false;
 nextLevelLatch = 0;
 if (won == 1 && nextLevelLatch == 0) {
 if (level != 2 && level != 4) {
@@ -1265,6 +1477,14 @@ aiCircleSpeed = 2.5;
 circleSpeed = 2.5;
 aiCircleBounceSpeed = 1;
 circleBounceSpeed = 1;
+aiStop = true;
+}
+if (level == 3) {
+aiCircleSpeed = 4;
+circleSpeed = 3;
+aiCircleBounceSpeed = 2;
+circleBounceSpeed = 3;
+aiStop = true;
 }
 }
 if (this.difficaultyS == 1) {
@@ -1273,12 +1493,21 @@ aiCircleSpeed = 3;
 circleSpeed = 2.5;
 aiCircleBounceSpeed = 1;
 circleBounceSpeed = 1;
+aiStop = true;
 }
 if (level == 2) {
 aiCircleSpeed = 6;
 circleSpeed = 3;
 aiCircleBounceSpeed = 3;
 circleBounceSpeed = 1;
+aiStop = true;
+}
+if (level == 3) {
+aiCircleSpeed = 4;
+circleSpeed = 2;
+aiCircleBounceSpeed = 4;
+circleBounceSpeed = 3;
+aiStop = true;
 }
 }
 if (this.difficaultyS == 2) {
@@ -1287,6 +1516,14 @@ aiCircleSpeed = 4;
 circleSpeed = 2;
 aiCircleBounceSpeed = 1;
 circleBounceSpeed = 1;
+aiStop = true;
+}
+if (level == 3) {
+aiCircleSpeed = 6;
+circleSpeed = 4;
+aiCircleBounceSpeed = 5;
+circleBounceSpeed = 4;
+aiStop = true;
 }
 }
 if (this.difficaultyS == 3) {
@@ -1295,6 +1532,14 @@ aiCircleSpeed = 6;
 circleSpeed = 1.5;
 aiCircleBounceSpeed = 3;
 circleBounceSpeed = 1;
+aiStop = false;
+}
+if (level == 3) {
+aiCircleSpeed = 6;
+circleSpeed = 3;
+aiCircleBounceSpeed = 5;
+circleBounceSpeed = 3;
+aiStop = true;
 }
 }
 }
@@ -1332,6 +1577,9 @@ function clearmoveu() {
 	if (level == 2) {
 	bossAiCircle.speedY = 0;
 	}
+	if (level == 3) {
+	aicircle2.speedY = 0;
+	}
 	up = 0;
 }	
 function clearmoved() {
@@ -1342,6 +1590,9 @@ function clearmoved() {
 	}
 	if (level == 2) {
 	bossAiCircle.speedY = 0;
+	}
+	if (level == 3) {
+	aicircle2.speedY = 0;
 	}
 	down = 0;
 }	
@@ -1354,6 +1605,9 @@ function clearmovel() {
 	if (level == 2) {
 	bossAiCircle.speedX = 0;
 	}
+	if (level == 3) {
+	aicircle2.speedX = 0;
+	}
 	left = 0;
 }	
 function clearmover() {
@@ -1364,6 +1618,9 @@ function clearmover() {
 	}	
 	if (level == 2) {
 	bossAiCircle.speedX = 0;
+	}
+	if (level == 3) {
+	aicircle2.speedX = 0;
 	}
 	right = 0;
 }
