@@ -28,6 +28,7 @@ var managerjs;
 var joystickCreated = false;
 var isLoaded = false;
 var startLevel = false;
+var level_pack = 0;
 
 	function start() {
 	     canvas.width = window.innerWidth;
@@ -181,28 +182,40 @@ cursor.globalAlpha = 1;
 
 function backgroundManager(level_number) {
 this.level_number = level_number;
+if (level_pack == 0) {
 if (this.level_number == 1) {
 background.color = "backgroundLevel_1";
+background.type = "img";
 circle.color = "blue";
 }
 if (this.level_number == 2) {
 background.color = "backgroundLevel_Boss";
+background.type = "img";
 circle.color = "navy";
 difficaulty = 1;
 }
 if (this.level_number == 3) {
 background.color = "backgroundLevel_2";
+background.type = "img";
 circle.color = "blue";
 }
 if (this.level_number == 4) {
 background.color = "backgroundLevel_Boss_2";
+background.type = "img";
 circle.color = "navy";
 difficaulty = 1;
 }
 if (this.level_number == 5) {
 background.color = "backgroundLevel_3";
-circle.color = "navy";
-difficaulty = 1;
+background.type = "img";
+circle.color = "blue";
+}
+}
+if (level_pack == 1) {
+background.color = "black";
+background.type = "rec";
+circle.color = "red";
+difficaulty = 1;	
 }
 }
 
@@ -905,8 +918,10 @@ function updateGameArea() {
 	if (_objects[i].thickness == "") {
 	_objects[i].update();
 	}
+	if (level_pack == 0) {
 	if (_objects[i].thickness == "level2" && level == 3) {
 	_objects[i].update();
+	}
 	}
 	}
 	if (_objects[i].level == "ammo" && dead == 0 && won == 0) {
@@ -929,6 +944,7 @@ function updateGameArea() {
 	}
 	}
 	if (_objects[i].level == "enemy" && dead == 0 && won == 0) {
+	if (level_pack == 0) {
 	if (_objects[i].enemyType == "enemy_1" && level == 1) {
 		_objects[i].update();
 		if (firef == 0 && settingsMenuShow == false) {
@@ -946,6 +962,7 @@ function updateGameArea() {
 		if (firef == 0 && settingsMenuShow == false) {
 		_objects[i].newPos();
 		}
+	}
 	}
 	}
 	if (_objects[i].level === "DandW" && _objects[i].thickness == "") {
@@ -1007,6 +1024,7 @@ function updateGameArea() {
 	   lockDown = 1;
 	   circle.speedY = -circleBounceSpeed;
 		}
+	if (level_pack == 0) {
 	if (level == 3) {
 	if (circle.mixCrashWith(wall6)) {
 	   lockLeft = 1;
@@ -1103,7 +1121,8 @@ function updateGameArea() {
 	if (circle.circleCrashWith(aicircle2)) {
 	    dead = 1;
 	    }
-	}
+	 }
+    }
 	if (difficaulty == 0) {
 	if (lockUp == 1 || lockDown == 1 || lockLeft == 1 || lockRight == 1) {
 	clearcircleai();
@@ -1117,6 +1136,7 @@ var rightAILock = false;
 var upAILock = false;
 var downAILock = false;	
 function aicircleai() {
+if (level_pack == 0) {
 if (level == 1) {
  if (circle.x < aicircle.x){
  aicircle.speedX = -aiCircleSpeed;
@@ -1160,8 +1180,10 @@ if (level == 3) {
  }
 }
 }
+}
 
 function clearcircleai() {
+if (level_pack == 0) {
 if (level == 1) {
 aicircle.speedX = 0;
 aicircle.speedY = 0;
@@ -1175,9 +1197,11 @@ aicircle2.speedX = 0;
 aicircle2.speedY = 0;
 }
 }
+}
 
 var bulletSpeed = 3;
 function bulletai() {
+if (level_pack == 0) {
 if (level == 1) {
  if (bulletcase.x > aicircle.x){
  bulletcase.speedX = -bulletSpeed;
@@ -1231,6 +1255,7 @@ if (level == 3) {
  won = 1;
  firef = 0;
  }
+}
 }
 }
 
@@ -1358,8 +1383,10 @@ aicircle2.x = canvas.width - 80;
 aicircle2.y = canvas.height/2;
 bossAiCircle.x = canvas.width - 100;
 bossAiCircle.y = canvas.height/2;
+if (level_pack != 1) {
 ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2)
 ammo.y = Math.abs(Math.floor(Math.random() * canvas.height - 500));
+}
 wall5.x = Math.floor(Math.random() * canvas.width) + 300;
 if (this.ResetLevel == "level") {
 won = 0;
@@ -1460,7 +1487,6 @@ resetGame("level");
 nextLevelLatch = 1;
 }
 }
-//levels go here//
 if (difficaultyS == 3 || level == 2 || level == 4) {
 level = (level + 1);
 resetGame("level");
@@ -1472,6 +1498,7 @@ nextLevelLatch = 1;
 function difficaultyScale(difficaultyS) {
 this.difficaultyS = difficaultyS;
 if (this.difficaultyS == 0) {
+if (level_pack == 0) {
 if (level == 1) {
 aiCircleSpeed = 2.5;
 circleSpeed = 2.5;
@@ -1487,7 +1514,9 @@ circleBounceSpeed = 3;
 aiStop = true;
 }
 }
+}
 if (this.difficaultyS == 1) {
+if (level_pack == 0) {
 if (level == 1) {
 aiCircleSpeed = 3;
 circleSpeed = 2.5;
@@ -1510,7 +1539,9 @@ circleBounceSpeed = 3;
 aiStop = true;
 }
 }
+}
 if (this.difficaultyS == 2) {
+if (level_pack == 0) {
 if (level == 1) {
 aiCircleSpeed = 4;
 circleSpeed = 2;
@@ -1526,7 +1557,9 @@ circleBounceSpeed = 4;
 aiStop = true;
 }
 }
+}
 if (this.difficaultyS == 3) {
+if (level_pack == 0) {
 if (level == 1) {
 aiCircleSpeed = 6;
 circleSpeed = 1.5;
@@ -1540,6 +1573,7 @@ circleSpeed = 3;
 aiCircleBounceSpeed = 5;
 circleBounceSpeed = 3;
 aiStop = true;
+}
 }
 }
 }
@@ -1571,6 +1605,7 @@ if (won == 0) {
 function clearmoveu() { 
     clearLocks();
 	circle.speedY = 0;
+	if (level_pack == 0) {
 	if (level == 1) {
 	aicircle.speedY = 0;
 	}
@@ -1579,12 +1614,14 @@ function clearmoveu() {
 	}
 	if (level == 3) {
 	aicircle2.speedY = 0;
+	}
 	}
 	up = 0;
 }	
 function clearmoved() {
     clearLocks();
 	circle.speedY = 0; 
+	if (level_pack == 0) {
 	if (level == 1) {
 	aicircle.speedY = 0;
 	}
@@ -1594,11 +1631,13 @@ function clearmoved() {
 	if (level == 3) {
 	aicircle2.speedY = 0;
 	}
+	}
 	down = 0;
 }	
 function clearmovel() {
     clearLocks();
 	circle.speedX = 0; 
+	if (level_pack == 0) {
 	if (level == 1) {
 	aicircle.speedX = 0;
 	}
@@ -1608,11 +1647,13 @@ function clearmovel() {
 	if (level == 3) {
 	aicircle2.speedX = 0;
 	}
+	}
 	left = 0;
 }	
 function clearmover() {
     clearLocks();
 	circle.speedX = 0;
+	if (level_pack == 0) {
     if (level == 1) {
 	aicircle.speedX = 0;
 	}	
@@ -1621,6 +1662,7 @@ function clearmover() {
 	}
 	if (level == 3) {
 	aicircle2.speedX = 0;
+	}
 	}
 	right = 0;
 }
