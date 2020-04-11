@@ -579,7 +579,7 @@ ctx.fillRect(this.x, this.y, this.width, this.height);
  ctx.globalAlpha = this.globalAlpha;
  ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
- if (type == "img-rot") {
+ if (this.type == "img-rot") {
  ctx.save();
  ctx.globalAlpha = this.globalAlpha;
  ctx.translate(this.x + (this.width / 2), this.y + (this.height / 2));
@@ -7822,7 +7822,7 @@ function nameFC() {
  ship3 = new component(25, 25, "player3img", playerX, playerY, "img");
  ship4 = new component(25, 25, "player4img", playerX, playerY, "img");
  ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "img");
- ship6 = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", playerX, playerY, "img");
+ ship6 = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", playerX, playerY, "img-rot");
  document.getElementById('name').value = "";
  }
  if (CapName == weapv) {
@@ -7981,4 +7981,3 @@ function ammoRecovery() {
 	 }
 	}
 }
-
