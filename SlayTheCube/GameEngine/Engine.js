@@ -1,4 +1,4 @@
-var level = 1; 
+var level = 1;
 var player;
 var player2;
 var time;
