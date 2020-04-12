@@ -11,6 +11,7 @@ var lockRight = 0;
 var aiCircleBounceSpeed = 1;
 var circleBounceSpeed = 1;
 var settingsMenuShow = false;
+var levelPackMenuShow = false;
 var DebugLock = false;
 var debug = 0;
 var silentDebug = true;
@@ -35,45 +36,67 @@ var level_pack = 0;
          canvas.height = window.innerHeight;
 		 cursor = new component(30, 30, "cursor_img", -50, -250, "img", "", "", "", "cursor");
 		 _objects.push(cursor);
-		 settingsMenuTxt = new component("60px", "Consolas", "white", canvas.width/2, 60, "text", "Settings", "center", "", "settingsM");
+		 levelPack_2LTxt = new component("30px", "Consolas", "white", canvas.width/2, canvas.height-340, "text", "Level Pack 2", "center", "", "settingsM", "levelpack");
+		 _objects.push(levelPack_2LTxt);
+		 levelPack_2_highLightBttnL = new component(200, 100, "white", canvas.width/2-100, canvas.height-400, "rec", "", "", "", "settingsM", "levelpack");
+		 levelPack_2_highLightBttnL.globalAlpha = 0.1;
+		 _objects.push(levelPack_2_highLightBttnL);
+		 levelPack_2BttnL = new component(200, 100, "slaythecube_level_pack", canvas.width/2-100, canvas.height-400, "img", "", "", "", "settingsM", "levelpack");
+		 _objects.push(levelPack_2BttnL);
+		 levelPack_1LTxt = new component("30px", "Consolas", "white", canvas.width/2, canvas.height-440, "text", "Level Pack 1", "center", "", "settingsM", "levelpack");
+		 _objects.push(levelPack_1LTxt);
+		 levelPack_1_highLightBttnL = new component(200, 100, "white", canvas.width/2-100, canvas.height-500, "rec", "", "", "", "settingsM", "levelpack");
+		 levelPack_1_highLightBttnL.globalAlpha = 0.1;
+		 _objects.push(levelPack_1_highLightBttnL);
+		 levelPack_1BttnL = new component(200, 100, "backgroundLevel_Boss", canvas.width/2-100, canvas.height-500, "img", "", "", "", "settingsM", "levelpack");
+		 _objects.push(levelPack_1BttnL);
+		 backBttnLTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-20, "text", "Back", "center", "", "settingsM", "levelpack");
+		 _objects.push(backBttnLTxt);
+		 backBttnL = new component(200, 80, "grey", canvas.width/2-100, canvas.height-80, "rec", "", "", "", "settingsM", "levelpack");
+		 _objects.push(backBttnL);
+		 settingsMenuTxt = new component("60px", "Consolas", "white", canvas.width/2, 60, "text", "Settings", "center", "", "settingsM", "all");
 		 _objects.push(settingsMenuTxt);
-		 hardResetBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2, canvas.height-530, "text", "Hard Reset", "center", "", "settingsM");
+		 levelPackBttnSTxt = new component("30px", "Consolas", "white", canvas.width, canvas.height-30, "text", "Level Packs", "center", "", "settingsM", "settings");
+		 _objects.push(levelPackBttnSTxt);
+		 levelPackBttnS = new component(200, 80, "grey", canvas.width - 100, canvas.height, "rec", "", "", "", "settingsM", "settings");
+		 _objects.push(levelPackBttnS);
+		 hardResetBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2, canvas.height-530, "text", "Hard Reset", "center", "", "settingsM", "settings");
 		 _objects.push(hardResetBttnSTxt);
-		 hardResetBttnS = new component(200, 80, "grey", canvas.width/2 - 100, canvas.height-580, "rec", "", "", "", "settingsM");
+		 hardResetBttnS = new component(200, 80, "grey", canvas.width/2 - 100, canvas.height-580, "rec", "", "", "", "settingsM", "settings");
 		 _objects.push(hardResetBttnS);
-		 impBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2 + 300, canvas.height-430, "text", "Impossible", "center", "", "settingsM");
+		 impBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2 + 300, canvas.height-430, "text", "Impossible", "center", "", "settingsM", "settings");
 		 _objects.push(impBttnSTxt);
-		 impBttnS = new component(200, 80, "lightgrey", canvas.width/2+200, canvas.height-480, "rec", "", "", "", "settingsM");
+		 impBttnS = new component(200, 80, "lightgrey", canvas.width/2+200, canvas.height-480, "rec", "", "", "", "settingsM", "settings");
 		 _objects.push(impBttnS);
-		 hardBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2 + 100, canvas.height-430, "text", "Hard", "center", "", "settingsM");
+		 hardBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2 + 100, canvas.height-430, "text", "Hard", "center", "", "settingsM", "settings");
 		 _objects.push(hardBttnSTxt);
-		 hardBttnS = new component(200, 80, "grey", canvas.width/2, canvas.height-480, "rec", "", "", "", "settingsM");
+		 hardBttnS = new component(200, 80, "grey", canvas.width/2, canvas.height-480, "rec", "", "", "", "settingsM", "settings");
 		 _objects.push(hardBttnS);
-		 normalBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2 - 100, canvas.height-430, "text", "Normal", "center", "", "settingsM");
+		 normalBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2 - 100, canvas.height-430, "text", "Normal", "center", "", "settingsM", "settings");
 		 _objects.push(normalBttnSTxt);
-		 normalBttnS = new component(200, 80, "lightgrey", canvas.width/2-200, canvas.height-480, "rec", "", "", "", "settingsM");
+		 normalBttnS = new component(200, 80, "lightgrey", canvas.width/2-200, canvas.height-480, "rec", "", "", "", "settingsM", "settings");
 		 _objects.push(normalBttnS);
-		 easyBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2 - 300, canvas.height-430, "text", "Easy", "center", "", "settingsM");
+		 easyBttnSTxt = new component("30px", "Consolas", "white", canvas.width/2 - 300, canvas.height-430, "text", "Easy", "center", "", "settingsM", "settings");
 		 _objects.push(easyBttnSTxt);
-		 easyBttnS = new component(200, 80, "grey", canvas.width/2-400, canvas.height-480, "rec", "", "", "", "settingsM");
+		 easyBttnS = new component(200, 80, "grey", canvas.width/2-400, canvas.height-480, "rec", "", "", "", "settingsM", "settings");
 		 _objects.push(easyBttnS);
-		 timerBttnSTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-320, "text", "Timer", "center", "", "settingsM");
+		 timerBttnSTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-320, "text", "Timer", "center", "", "settingsM", "settings");
 		 _objects.push(timerBttnSTxt);
-		 timerBttnS = new component(200, 80, "grey", canvas.width/2-100, canvas.height-380, "rec", "", "", "", "settingsM");
+		 timerBttnS = new component(200, 80, "grey", canvas.width/2-100, canvas.height-380, "rec", "", "", "", "settingsM", "settings");
 		 _objects.push(timerBttnS);
-		 mobileBttnSTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-220, "text", "Mobile", "center", "", "settingsM");
+		 mobileBttnSTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-220, "text", "Mobile", "center", "", "settingsM", "settings");
 		 _objects.push(mobileBttnSTxt);
-		 mobileBttnS = new component(200, 80, "grey", canvas.width/2-100, canvas.height-280, "rec", "", "", "", "settingsM");
+		 mobileBttnS = new component(200, 80, "grey", canvas.width/2-100, canvas.height-280, "rec", "", "", "", "settingsM", "settings");
 		 _objects.push(mobileBttnS);
-		 debugBttnSTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-120, "text", "Debug", "center", "", "settingsM");
+		 debugBttnSTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-120, "text", "Debug", "center", "", "settingsM", "settings");
 		 _objects.push(debugBttnSTxt);
-		 debugBttnS = new component(200, 80, "grey", canvas.width/2-100, canvas.height-180, "rec", "", "", "", "settingsM");
+		 debugBttnS = new component(200, 80, "grey", canvas.width/2-100, canvas.height-180, "rec", "", "", "", "settingsM", "settings");
 		 _objects.push(debugBttnS);
-		 backBttnSTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-20, "text", "Back", "center", "", "settingsM");
+		 backBttnSTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-20, "text", "Back", "center", "", "settingsM", "settings");
 		 _objects.push(backBttnSTxt);
-		 backBttnS = new component(200, 80, "grey", canvas.width/2-100, canvas.height-80, "rec", "", "", "", "settingsM");
+		 backBttnS = new component(200, 80, "grey", canvas.width/2-100, canvas.height-80, "rec", "", "", "", "settingsM", "settings");
 		 _objects.push(backBttnS);
-		 settingsMenu = new component(500, 300, "black", 0, 0, "rec", "", "", "", "settingsM");
+		 settingsMenu = new component(500, 300, "black", 0, 0, "rec", "", "", "", "settingsM", "all");
 		 _objects.push(settingsMenu);
 		 restartTxt = new component("50px", "Consolas", "white", 250, 150, "text", "Restart", "center", "", "DandW");
 		 _objects.push(restartTxt);
@@ -89,14 +112,20 @@ var level_pack = 0;
 	     _objects.push(end);
 		 p1 = new component("20px", "Consolas", "white", 43, 150, "text", "P1", "center", "", "player");
 		 _objects.push(p1);
+		 LP1_ai = new component("20px", "Consolas", "white", 443, 150, "text", "AI", "center", "", "enemy", "LP1_enemy_1");
+		 _objects.push(LP1_ai);
 		 ai = new component("20px", "Consolas", "white", 443, 150, "text", "AI", "center", "", "enemy", "enemy_1");
 		 _objects.push(ai);
 		 ai2 = new component("20px", "Consolas", "white", 443, 150, "text", "AI", "center", "", "enemy", "enemy_2");
 		 _objects.push(ai2);
 		 bossAi_1 = new component("20px", "Consolas", "white", 430, 160, "text", "BOSS", "center", "", "enemy", "boss_1");
 		 _objects.push(bossAi_1);
-		 circle = new component(10, 10, "blue", 80, canvas.height/2, "cir", 30, "red", 1, "player");
+		 circle = new component(60, 60, "blue", 80, canvas.height/2, "cir", 30, "red", 1, "player");
 		 _objects.push(circle);
+		 
+		 LP1_aicircle = new component(60, 60, "blue", canvas.width - 80 - 30, canvas.height/2 - 30, "rec", "", "", "", "enemy", "LP1_enemy_1");
+		 _objects.push(LP1_aicircle);
+		 
 		 aicircle = new component(10, 10, "orange", canvas.width - 80, canvas.height/2, "cir", 30, "white", 1, "enemy", "enemy_1");
 		 _objects.push(aicircle);
 		 aicircle2 = new component(10, 10, "darkyellow", canvas.width - 80, canvas.height/2, "cir", 30, "aqua", 1, "enemy", "enemy_2");
@@ -121,6 +150,18 @@ var level_pack = 0;
 		 _objects.push(wall7);
 		 wall8 = new component(20, 10, "grey", wall5.x, wall5.width, "rec", "", "", "level2", "all");
 		 _objects.push(wall8);
+		 LP1_wall = new component(5, 100, "darkred", canvas.width - 415, 0, "rec", "", "", "LP1_level1", "all");
+		 _objects.push(LP1_wall);
+		 LP1_wall2 = new component(5, 100, "darkred", LP1_wall.x + 5, 0, "rec", "", "", "LP1_level1", "all");
+		 _objects.push(LP1_wall2);
+		 LP1_wall2_1 = new component(6, 5, "darkred", LP1_wall.x + 2.5, LP1_wall.height - 5, "rec", "", "", "LP1_level1", "all");
+		 _objects.push(LP1_wall2_1);
+		 LP1_wall3 = new component(5, 100, "darkred", canvas.width - 515, 0, "rec", "", "", "LP1_level1", "all");
+		 _objects.push(LP1_wall3);
+		 LP1_wall4 = new component(5, 100, "darkred", LP1_wall3.x + 5, 0, "rec", "", "", "LP1_level1", "all");
+		 _objects.push(LP1_wall4);
+		 LP1_wall4_1 = new component(6, 5, "darkred", LP1_wall3.x + 2.5, LP1_wall3.height - 5, "rec", "", "", "LP1_level1", "all");
+		 _objects.push(LP1_wall4_1);
 		 bulletcase = new component(1, 1, "gray", circle.x, circle.y, "cir", 10, "white", 1, "bullet");
          _objects.push(bulletcase);
 		 difficaulty_Text = new component("15px", "Arial", "white", canvas.width/2, 30, "text", "Difficaulty:", "center", "", "ui");
@@ -183,39 +224,59 @@ cursor.globalAlpha = 1;
 function backgroundManager(level_number) {
 this.level_number = level_number;
 if (level_pack == 0) {
+ammo.color = "orange";
+wall.color = "black";
+wall2.color = "black";
+wall3.color = "black";
+wall4.color = "black";
 if (this.level_number == 1) {
 background.color = "backgroundLevel_1";
 background.type = "img";
 circle.color = "blue";
+circle.type = "cir";
 }
 if (this.level_number == 2) {
 background.color = "backgroundLevel_Boss";
 background.type = "img";
 circle.color = "navy";
+circle.type = "cir";
 difficaulty = 1;
 }
 if (this.level_number == 3) {
 background.color = "backgroundLevel_2";
 background.type = "img";
 circle.color = "blue";
+circle.type = "cir";
 }
 if (this.level_number == 4) {
 background.color = "backgroundLevel_Boss_2";
 background.type = "img";
 circle.color = "navy";
+circle.type = "cir";
 difficaulty = 1;
 }
 if (this.level_number == 5) {
 background.color = "backgroundLevel_3";
 background.type = "img";
 circle.color = "blue";
+circle.type = "cir";
 }
 }
 if (level_pack == 1) {
 background.color = "black";
 background.type = "rec";
 circle.color = "red";
-difficaulty = 1;	
+circle.type = "rec";
+ammo.color = "lightblue";
+wall.color = "darkred";
+wall2.color = "darkred";
+wall3.color = "darkred";
+wall4.color = "darkred";
+difficaulty = 0;
+if (this.level_number == 1) {
+ammo.x = canvas.width - 460;
+ammo.y = 55;	
+}	
 }
 }
 
@@ -296,13 +357,12 @@ if (settings_menu_icon.globalAlpha <= 0.5) {
 settings_menu_icon.globalAlpha = 0.5;
 }
 }
+if (settingsMenuShow == true && levelPackMenuShow == false) {
 if (cursor.crashWith(backBttnS) == true) {
 if (won == 0 || dead == 0) {
-if (settingsMenuShow == true) {
 backBttnS.color = "lightgrey";
 if (pressed == true) {
 settingsMenuShow = false;
-}
 }
 }
 }
@@ -311,7 +371,6 @@ backBttnS.color = "grey";
 }
 if (cursor.crashWith(debugBttnS) == true) {
 if (won == 0 || dead == 0) {
-if (settingsMenuShow == true) {
 if (debug == 0) {
 debugBttnS.color = "red";
 }
@@ -321,7 +380,6 @@ debugBttnS.color = "green";
 if (pressed == true && DebugLock == false) {
 debug++;
 DebugLock = true;
-}
 }
 }
 }
@@ -343,7 +401,6 @@ debugBttnS.color = "darkgreen";
 }
 if (cursor.crashWith(mobileBttnS) == true) {
 if (won == 0 || dead == 0) {
-if (settingsMenuShow == true) {
 if (_mobile == 0) {
 mobileBttnS.color = "red";
 }
@@ -353,7 +410,6 @@ mobileBttnS.color = "green";
 if (pressed == true && mobileLock == false) {
 _mobile++;
 mobileLock = true;
-}
 }
 }
 }
@@ -376,7 +432,6 @@ mobileBttnS.color = "darkgreen";
 }
 if (cursor.crashWith(timerBttnS) == true) {
 if (won == 0 || dead == 0) {
-if (settingsMenuShow == true) {
 if (_timer == 0) {
 timerBttnS.color = "red";
 }
@@ -386,7 +441,6 @@ timerBttnS.color = "green";
 if (pressed == true && timerLock == false) {
 _timer++;
 timerLock = true;
-}
 }
 }
 }
@@ -409,7 +463,6 @@ timerBttnS.color = "darkgreen";
 }
 if (cursor.crashWith(easyBttnS) == true) {
 if (won == 0 || dead == 0) {
-if (settingsMenuShow == true) {
 if (difficaulty != 0) {
 easyBttnS.color = "red";
 }
@@ -418,7 +471,6 @@ easyBttnS.color = "green";
 }
 if (pressed == true) {
 difficaulty = 0;
-}
 }
 }
 }
@@ -432,7 +484,6 @@ easyBttnS.color = "darkgreen";
 }
 if (cursor.crashWith(normalBttnS) == true) {
 if (won == 0 || dead == 0) {
-if (settingsMenuShow == true) {
 if (difficaulty != 1) {
 normalBttnS.color = "red";
 }
@@ -441,7 +492,6 @@ normalBttnS.color = "green";
 }
 if (pressed == true) {
 difficaulty = 1;
-}
 }
 }
 }
@@ -455,7 +505,6 @@ normalBttnS.color = "darkgreen";
 }
 if (cursor.crashWith(hardBttnS) == true) {
 if (won == 0 || dead == 0) {
-if (settingsMenuShow == true) {
 if (difficaulty != 2) {
 hardBttnS.color = "red";
 }
@@ -464,7 +513,6 @@ hardBttnS.color = "green";
 }
 if (pressed == true) {
 difficaulty = 2;
-}
 }
 }
 }
@@ -478,7 +526,6 @@ hardBttnS.color = "darkgreen";
 }
 if (cursor.crashWith(impBttnS) == true) {
 if (won == 0 || dead == 0) {
-if (settingsMenuShow == true) {
 if (difficaulty != 3) {
 impBttnS.color = "red";
 }
@@ -487,7 +534,6 @@ impBttnS.color = "green";
 }
 if (pressed == true) {
 difficaulty = 3;
-}
 }
 }
 }
@@ -502,16 +548,74 @@ impBttnS.color = "darkgreen";
 
 if (cursor.crashWith(hardResetBttnS) == true) {
 if (won == 0 || dead == 0) {
-if (settingsMenuShow == true) {
 hardResetBttnS.color = "lightgrey";
 if (pressed == true) {
 resetGame("game");
 }
 }
 }
-}
 if (cursor.crashWith(hardResetBttnS) == false) {
 hardResetBttnS.color = "grey";
+}
+if (cursor.crashWith(levelPackBttnS) == true) {
+if (won == 0 || dead == 0) {
+levelPackBttnS.color = "lightgrey";
+if (pressed == true) {
+levelPackMenuShow = true;
+}
+}
+}
+if (cursor.crashWith(levelPackBttnS) == false) {
+levelPackBttnS.color = "grey";
+}
+}
+if (settingsMenuShow == true && levelPackMenuShow == true) {
+if (cursor.crashWith(backBttnL) == true) {
+if (won == 0 || dead == 0) {
+backBttnL.color = "lightgrey";
+if (pressed == true) {
+pressed = false;
+levelPackMenuShow = false;
+}
+}
+}
+if (cursor.crashWith(backBttnL) == false) {
+backBttnL.color = "grey";
+}
+if (cursor.crashWith(levelPack_1BttnL) == true) {
+if (won == 0 || dead == 0) {
+levelPack_1_highLightBttnL.globalAlpha = 0.6;
+if (pressed == true) {
+level_pack = 0;
+resetGame("game");
+}
+}
+}
+if (cursor.crashWith(levelPack_1BttnL) == false) {
+levelPack_1_highLightBttnL.globalAlpha = 0.4;
+}
+if (level_pack == 0) {
+levelPack_1_highLightBttnL.color = "green";
+} else {
+levelPack_1_highLightBttnL.color = "red";
+}
+if (cursor.crashWith(levelPack_2BttnL) == true) {
+if (won == 0 || dead == 0) {
+levelPack_2_highLightBttnL.globalAlpha = 0.6;
+if (pressed == true) {
+level_pack = 1;
+resetGame("game");
+}
+}
+}
+if (cursor.crashWith(levelPack_2BttnL) == false) {
+levelPack_2_highLightBttnL.globalAlpha = 0.4;
+}
+if (level_pack == 1) {
+levelPack_2_highLightBttnL.color = "green";
+} else {
+levelPack_2_highLightBttnL.color = "red";
+}
 }
 }
 	
@@ -669,6 +773,34 @@ wall7.x = wall5.x;
 wall7.y = wall5.y - 5;
 wall8.x = wall5.x;
 wall8.y = wall5.y + wall5.height - 5;
+levelPackBttnS.x = canvas.width - 200;
+levelPackBttnS.y = canvas.height - 80;
+levelPackBttnSTxt.x = canvas.width - 100;
+levelPackBttnSTxt.y = canvas.height - 30;
+backBttnL.x = canvas.width/2 - backBttnS.width/2;
+backBttnL.y = canvas.height - backBttnS.height;
+backBttnLTxt.x = canvas.width/2;
+backBttnLTxt.y = canvas.height - 20;
+levelPack_1BttnL.x = canvas.width/2 - 100;
+levelPack_1BttnL.y = canvas.height - 500;
+levelPack_1_highLightBttnL.x = canvas.width/2 - 100;
+levelPack_1_highLightBttnL.y = canvas.height - 500;
+levelPack_1LTxt.x = canvas.width/2;
+levelPack_1LTxt.y = canvas.height - 440;
+levelPack_2BttnL.x = canvas.width/2 - 100;
+levelPack_2BttnL.y = canvas.height - 400;
+levelPack_2_highLightBttnL.x = canvas.width/2 - 100;
+levelPack_2_highLightBttnL.y = canvas.height - 400;
+levelPack_2LTxt.x = canvas.width/2;
+levelPack_2LTxt.y = canvas.height - 340;
+LP1_wall.x = canvas.width - 415;
+LP1_wall2.x = LP1_wall.x + 5;
+LP1_wall2_1.x = LP1_wall.x + 2;
+LP1_wall2_1.y = LP1_wall.height - 3;
+LP1_wall3.x = canvas.width - 515;
+LP1_wall4.x = LP1_wall3.x + 5;
+LP1_wall4_1.x = LP1_wall3.x + 2;
+LP1_wall4_1.y = LP1_wall3.height - 3;
 optionsjs = {
 	   zone: document.getElementById("joystick"),
 	   mode: 'static',
@@ -801,12 +933,17 @@ function component(width, height, color ,x ,y, type, radius, outcolor, thickness
 		  ctx.textAlign = this.outcolor;
 		  ctx.fillText(this.text, this.x, this.y);
 		} else {
-		if (type == "rec") {
+		if (this.type == "rec") {
 		ctx.globalAlpha = this.globalAlpha;
 		ctx.fillStyle = this.color;
-		ctx.fillRect(this.x, this.y, this.width, this.height);        
+		if (this.level != "player") {
+		ctx.fillRect(this.x, this.y, this.width, this.height); 
+		}
+		if (this.level == "player") {
+		ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height); 
+		}
 		  } else {
-		  if (type == "cir") {
+		  if (this.type == "cir") {
 		ctx.beginPath();
 		ctx.globalAlpha = this.globalAlpha;
 	    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);
@@ -830,10 +967,18 @@ function component(width, height, color ,x ,y, type, radius, outcolor, thickness
 		this.y += this.speedY;		
 	}
 	this.crashWith = function(otherobj) {
+		if (this.level != "player") {
 		var myleft = this.x;
 		var myright = this.x + (this.width);
 		var mytop = this.y;
 		var mybottom = this.y + (this.height);
+		}
+		if (this.level == "player") {
+		var myleft = this.x - this.width/2;
+		var myright = this.x - this.width/2 + (this.width);
+		var mytop = this.y - this.height/2;
+		var mybottom = this.y - this.height/2 + (this.height);
+		}
 		var otherleft = otherobj.x;
 		var otherright = otherobj.x + (otherobj.width);
 		var othertop = otherobj.y;
@@ -849,8 +994,14 @@ function component(width, height, color ,x ,y, type, radius, outcolor, thickness
 	}
 //this mustbe a circle//
 this.mixCrashWith = function(otherobj) {
+if (otherobj.level != "player") {
 var distance_x = Math.abs(this.x - otherobj.x-otherobj.width/2);
 var distance_y = Math.abs(this.y - otherobj.y-otherobj.height/2);
+}
+if (otherobj.level == "player") {
+var distance_x = Math.abs(this.x - (otherobj.x - otherobj.width)-otherobj.width);
+var distance_y = Math.abs(this.y - (otherobj.y - otherobj.height)-otherobj.height);
+}
 var crash = true;
 if (distance_x > (otherobj.width/2 + this.radius) || distance_y > (otherobj.height/2 + this.radius)) {
 crash = false; 
@@ -903,6 +1054,8 @@ function updateGameArea() {
 	p1.y = circle.y;
 	ai.x = aicircle.x;
 	ai.y = aicircle.y;
+	LP1_ai.x = LP1_aicircle.x + LP1_aicircle.width/2;
+	LP1_ai.y = LP1_aicircle.y + LP1_aicircle.height/2;
 	ai2.x = aicircle2.x;
 	ai2.y = aicircle2.y;
 	bossAi_1.x = bossAiCircle.x;
@@ -920,6 +1073,11 @@ function updateGameArea() {
 	}
 	if (level_pack == 0) {
 	if (_objects[i].thickness == "level2" && level == 3) {
+	_objects[i].update();
+	}
+	}
+	if (level_pack == 1) {
+	if (_objects[i].thickness == "LP1_level1" && level == 1) {
 	_objects[i].update();
 	}
 	}
@@ -964,6 +1122,14 @@ function updateGameArea() {
 		}
 	}
 	}
+	if (level_pack == 1) {
+	if (_objects[i].enemyType == "LP1_enemy_1" && level == 1) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
+	}
+	}
 	}
 	if (_objects[i].level === "DandW" && _objects[i].thickness == "") {
 	if (dead == 1 || won == 1) {
@@ -984,7 +1150,15 @@ function updateGameArea() {
 	}
 	}
 	if (_objects[i].level == "settingsM" && settingsMenuShow == true) {
+	if (_objects[i].enemyType == "all") {
 	_objects[i].update();
+	}
+	if (_objects[i].enemyType == "settings" && levelPackMenuShow == false) {
+	_objects[i].update();
+	}
+	if (_objects[i].enemyType == "levelpack" && levelPackMenuShow == true) {
+	_objects[i].update();
+	}
 	}
 	if (_objects[i].level == "cursor") {
 	_objects[i].update();
@@ -998,6 +1172,14 @@ function updateGameArea() {
 	}
 	}
 	}
+	if (settingsMenuShow == true) {
+	if (levelPackMenuShow == false) {
+		settingsMenuTxt.radius = "Settings";
+	}
+	if (levelPackMenuShow == true) {
+		settingsMenuTxt.radius = "Level Packs";
+	}
+	}
 	joystick();
 	if (up == 0 && down == 0 && left == 0 && right == 0) {
 	clearcircleai();
@@ -1005,9 +1187,17 @@ function updateGameArea() {
 	if (firef >= 1) {
 	bulletai();
 	}
+	if (level_pack != 1) {
 	if (circle.circleCrashWith(ammo) && won == 0 && startLevel == true) {
     firef = 1;
     }
+	}
+	if (level_pack == 1) {
+	if (ammo.mixCrashWith(circle) && won == 0 && startLevel == true) {
+    firef = 1;
+    }
+	}
+	if (level_pack != 1) {
 	if (circle.mixCrashWith(wall)) {
 	   lockLeft = 1;
 	   circle.speedX = circleBounceSpeed;
@@ -1024,6 +1214,108 @@ function updateGameArea() {
 	   lockDown = 1;
 	   circle.speedY = -circleBounceSpeed;
 		}
+	}
+	if (level_pack == 1) {
+	if (circle.crashWith(wall)) {
+	   lockLeft = 1;
+	   circle.speedX = circleBounceSpeed;
+		}
+	if (circle.crashWith(wall2)) {
+	   lockRight = 1;
+	   circle.speedX = -circleBounceSpeed;
+		}
+	if (circle.crashWith(wall3)) {
+	   lockUp = 1;
+	   circle.speedY = circleBounceSpeed;
+		}
+	if (circle.crashWith(wall4)) {
+	   lockDown = 1;
+	   circle.speedY = -circleBounceSpeed;
+		}
+	if (circle.crashWith(LP1_wall)) {
+	   lockRight = 1;
+	   circle.speedX = -circleBounceSpeed;
+		}
+	if (circle.crashWith(LP1_wall2)) {
+	   lockLeft = 1;
+	   circle.speedX = circleBounceSpeed;
+		}
+	if (circle.crashWith(LP1_wall2_1)) {
+	   lockUp = 1;
+	   circle.speedY = circleBounceSpeed;
+		}
+	if (circle.crashWith(LP1_wall3)) {
+	   lockRight = 1;
+	   circle.speedX = -circleBounceSpeed;
+		}
+	if (circle.crashWith(LP1_wall4)) {
+	   lockLeft = 1;
+	   circle.speedX = circleBounceSpeed;
+		}
+	if (circle.crashWith(LP1_wall4_1)) {
+	   lockUp = 1;
+	   circle.speedY = circleBounceSpeed;
+		}
+	if (level == 1) {
+	if (LP1_aicircle.crashWith(wall)) {
+	   LP1_aicircle.speedX = aiCircleBounceSpeed;
+		}
+	if (LP1_aicircle.crashWith(wall2)) {
+	   LP1_aicircle.speedX = -aiCircleBounceSpeed;
+		}
+	if (LP1_aicircle.crashWith(wall3)) {
+	   LP1_aicircle.speedY = aiCircleBounceSpeed;
+		}
+	if (LP1_aicircle.crashWith(wall4)) {
+	   LP1_aicircle.speedY = -aiCircleBounceSpeed;
+		}
+	if (LP1_aicircle.crashWith(LP1_wall)) {
+	   LP1_aicircle.speedX = -aiCircleBounceSpeed;
+	   leftAILock = true;
+		}
+	if (LP1_aicircle.crashWith(LP1_wall) == false) {
+	   leftAILock = false;
+		}
+	if (LP1_aicircle.crashWith(LP1_wall2)) {
+	   LP1_aicircle.speedX = aiCircleBounceSpeed;
+	   rightAILock = true;
+		}
+	if (LP1_aicircle.crashWith(LP1_wall2) == false) {
+	   rightAILock = false;
+		}	
+	if (LP1_aicircle.mixCrashWith(LP1_wall2_1)) {
+	   LP1_aicircle.speedY = aiCircleBounceSpeed;
+	   upAILock = true;
+		}
+	if (LP1_aicircle.mixCrashWith(LP1_wall2_1) == false) {
+	   upAILock = false;
+		}
+	if (LP1_aicircle.crashWith(LP1_wall3)) {
+	   LP1_aicircle.speedX = -aiCircleBounceSpeed;
+	   leftAILock = true;
+		}
+	if (LP1_aicircle.crashWith(LP1_wall3) == false) {
+	   leftAILock = false;
+		}
+	if (LP1_aicircle.crashWith(LP1_wall4)) {
+	   LP1_aicircle.speedX = aiCircleBounceSpeed;
+	   rightAILock = true;
+		}
+	if (LP1_aicircle.crashWith(LP1_wall4) == false) {
+	   rightAILock = false;
+		}
+	if (LP1_aicircle.mixCrashWith(LP1_wall4_1)) {
+	   LP1_aicircle.speedY = aiCircleBounceSpeed;
+	   upAILock = true;
+		}
+	if (LP1_aicircle.mixCrashWith(LP1_wall4_1) == false) {
+	   upAILock = false;
+		}
+	if (circle.crashWith(LP1_aicircle)) {
+	    dead = 1;
+		}
+	}
+	}
 	if (level_pack == 0) {
 	if (level == 3) {
 	if (circle.mixCrashWith(wall6)) {
@@ -1180,6 +1472,22 @@ if (level == 3) {
  }
 }
 }
+if (level_pack == 1) {
+if (level == 1) {
+ if (circle.x < LP1_aicircle.x + LP1_aicircle.width/2 && leftAILock == false){
+ LP1_aicircle.speedX = -aiCircleSpeed;
+ } 
+ if (circle.x > LP1_aicircle.x + LP1_aicircle.width/2 && rightAILock == false){
+ LP1_aicircle.speedX = aiCircleSpeed;
+ }
+ if (circle.y < LP1_aicircle.y + LP1_aicircle.height/2 && upAILock == false){
+ LP1_aicircle.speedY = -aiCircleSpeed;
+ } 
+ if (circle.y > LP1_aicircle.y + LP1_aicircle.height/2 && downAILock == false){
+ LP1_aicircle.speedY = aiCircleSpeed;
+ }
+}
+}
 }
 
 function clearcircleai() {
@@ -1195,6 +1503,12 @@ bossAiCircle.speedY = 0;
 if (level == 3) {
 aicircle2.speedX = 0;
 aicircle2.speedY = 0;
+}
+}
+if (level_pack == 1) {
+if (level == 1) {
+LP1_aicircle.speedX = 0;
+LP1_aicircle.speedY = 0;
 }
 }
 }
@@ -1252,6 +1566,26 @@ if (level == 3) {
  bulletcase.speedY = bulletSpeed;
  }
  if (bulletcase.circleCrashWith(aicircle2)) {
+ won = 1;
+ firef = 0;
+ }
+}
+}
+if (level_pack == 1) {
+if (level == 1) {
+ if (bulletcase.x > LP1_aicircle.x + LP1_aicircle.width/2){
+ bulletcase.speedX = -bulletSpeed;
+ } 
+ if (bulletcase.x < LP1_aicircle.x + LP1_aicircle.width/2){
+ bulletcase.speedX = bulletSpeed;
+ }
+ if (bulletcase.y > LP1_aicircle.y + LP1_aicircle.height/2){
+ bulletcase.speedY = -bulletSpeed;
+ } 
+ if (bulletcase.y < LP1_aicircle.y + LP1_aicircle.height/2){
+ bulletcase.speedY = bulletSpeed;
+ }
+ if (bulletcase.mixCrashWith(LP1_aicircle)) {
  won = 1;
  firef = 0;
  }
@@ -1383,6 +1717,8 @@ aicircle2.x = canvas.width - 80;
 aicircle2.y = canvas.height/2;
 bossAiCircle.x = canvas.width - 100;
 bossAiCircle.y = canvas.height/2;
+LP1_aicircle.x = canvas.width - 80 - 30;
+LP1_aicircle.y = canvas.height/2 - 30;
 if (level_pack != 1) {
 ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2)
 ammo.y = Math.abs(Math.floor(Math.random() * canvas.height - 500));
@@ -1406,7 +1742,9 @@ lockUp = 0;
 lockDown = 0;
 lockLeft = 0;
 lockRight = 0;
+if (levelPackMenuShow == false) {
 settingsMenuShow = false;
+}
 timer("stop");
 }
 }
@@ -1514,6 +1852,13 @@ circleBounceSpeed = 3;
 aiStop = true;
 }
 }
+if (level_pack == 1) {
+aiCircleSpeed = 2;
+circleSpeed = 2.5;
+aiCircleBounceSpeed = 1;
+circleBounceSpeed = 1;
+aiStop = true;	
+}
 }
 if (this.difficaultyS == 1) {
 if (level_pack == 0) {
@@ -1616,6 +1961,11 @@ function clearmoveu() {
 	aicircle2.speedY = 0;
 	}
 	}
+	if (level_pack == 1) {
+    if (level == 1) {
+	LP1_aicircle.speedY = 0;
+	}
+	}
 	up = 0;
 }	
 function clearmoved() {
@@ -1630,6 +1980,11 @@ function clearmoved() {
 	}
 	if (level == 3) {
 	aicircle2.speedY = 0;
+	}
+	}
+	if (level_pack == 1) {
+    if (level == 1) {
+	LP1_aicircle.speedY = 0;
 	}
 	}
 	down = 0;
@@ -1648,6 +2003,11 @@ function clearmovel() {
 	aicircle2.speedX = 0;
 	}
 	}
+	if (level_pack == 1) {
+    if (level == 1) {
+	LP1_aicircle.speedX = 0;
+	}
+	}
 	left = 0;
 }	
 function clearmover() {
@@ -1663,6 +2023,11 @@ function clearmover() {
 	if (level == 3) {
 	aicircle2.speedX = 0;
 	}
+	}
+	if (level_pack == 1) {
+    if (level == 1) {
+	LP1_aicircle.speedX = 0;
+	}	
 	}
 	right = 0;
 }
