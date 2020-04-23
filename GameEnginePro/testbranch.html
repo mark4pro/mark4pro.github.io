@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Homeworld Takedown V0.4.95 Preview 5</title>
+<title>Homeworld Takedown V0.5.0 Preview 1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <link rel="icon" type="image/vnd.microsoft.icon"
      href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
@@ -126,7 +126,7 @@ height: 533px;
 </div>
 <!-- Where Images Go -->
 <img id="playerimg" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/originalship1.png">
-<img id="badguy1img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemy.png">
+<img id="badguy1img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemy_1_sprite_sheet.png">
 <img id="wave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave1-5.png">
 <img id="Fwave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fwave1-5.PNG">
 <img id="Wwave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/w_1-5background.JPG">
@@ -139,6 +139,8 @@ height: 533px;
 <img id="menupic" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/menu.png">
 <img id="triimgleft" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tri-enemy-left.png">
 <img id="triimgright" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tri-enemy-right.png">
+<img id="triimgup" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tri-enemy.png">
+<img id="triimgdown" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/tri-enemy-down.png">
 <img id="1-5platform" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/platform1_3.png">
 <img id="1-5sideborder" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/1-5border1.png">
 <img id="housefloor1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/floor1_1.png">
@@ -152,7 +154,7 @@ height: 533px;
 <img id="Fwave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fwave5-7_1.PNG">
 <img id="Wwave5t7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/w_5-7background.JPG">
 <img id="DeathScr" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/DeathScreen.png">
-<img id="Rectangle" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/squ-enemy.png">
+<img id="Rectangle" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemy_2_sprite_sheet.png">
 <img id="SWPart1_1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_1_Sidewalk.PNG">
 <img id="SWPart2_2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_2_Sidewalk.png">
 <img id="SWPart3_3" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Part_3_Sidewalk.png">
@@ -187,6 +189,11 @@ height: 533px;
 <img id="Boss7Bull" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/BossBullet.png">
 <img id="End" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/End.png">
 <img id="X_Enemy" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/x-enemy.png">
+<img id="ST_P_DAY_BG" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_BACKGROUND.png">
+<img id="ST_P_DAY_PROP" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_PROP.png">
+<img id="ST_P_DAY_EVENT_PRIZE" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_EVENT_PRIZE.png">
+<img id="ST_P_DAY_EVENT_BOSS" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_EVENT_BOSS.png">
+<img id="ST_P_DAY_EVENT_BOSS_BULLET" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_SHIP_SPECIAL_WEAPON.png">
 
 <!-- Where Sounds Go -->
 	    <audio id="level1" src="https://mark4pro.github.io/GameEnginePro/audio/Musictrack1.mp3"></audio>
@@ -283,7 +290,7 @@ pauseGameKeys = false;
 }
 </script>
 <label class="unselectable">
-<h1 align="center">Homeworld Takedown V0.4.95 Preview 5</h1>
+<h1 align="center">Homeworld Takedown V0.5.0 Preview 1</h1>
 <div id="content">
 <p align="center">Name/Debug:</p>
 <p align="center"><input type="text" id="name" value=""></p>
@@ -313,7 +320,8 @@ pauseGameKeys = false;
 <p align="center">Mute/Unmute: <input style="text-transform:uppercase" type="text" id="mute" value="M"></p>
 <p align="center">Patch Info: <input style="text-transform:uppercase" type="text" id="patch" value="P"></p>
 <p align="center">Revive: <input style="text-transform:uppercase" type="text" id="reviveBT" value="R"></p>
-<p align="center">Use any of the number keys to switch weapons.</p>
+<p align="center">Use any of the number keys to switch through weapons.</p>
+<p align="center">Use any of the number keys plus shift to switch through special weapons.</p>
 <p align="center">Use the any corresponding Number Keys to upgrade.(The numbers correspond with numbers in the upgrade menu are labeled with a # in front of it.)</p>
 <p align="center">Difficulties:</p>
 <p align="center">Easy: <input type="checkbox" id="Easy_" value="" checked></p>
@@ -322,6 +330,6 @@ pauseGameKeys = false;
 <p align="center"><button onmousedown="showStop()">Back</button></p>
 </div>
 </label>
-<script type="text/javascript" src="./scripts/engine.js"></script>
+<script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/engine.js"></script>
 </body>
 </html>
