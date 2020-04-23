@@ -1011,7 +1011,7 @@ if (tree1_4.globalAlpha > 0.5) {
 if (box.crashWith(tree1_4_D) == false) { 
 if (tree1_4.globalAlpha < 1) {
 	tree1_4.globalAlpha += 0.01;
-	Ftree1_4.globalAlpha += 0.01;
+	Stree1_4.globalAlpha += 0.01;
 	Ftree1_4.globalAlpha += 0.01;
 	Wtree1_4.globalAlpha += 0.01;
 }
