@@ -1,6 +1,13 @@
 :PRESS P TO TOGGLE THE PIB:
 
-What's new in V0.4.5 PREVIEW-
+What's new in V0.5.0 PREVIEW-
+Revamped first enemy.
+Revamped rectangle enemy.
+Updated engine so it can use sprite sheets.
 
 What's soon to come in preview 1:
+Revamped enemies.
+New secret event.
+New location "Warp Zone".
+More to be announced!
 
