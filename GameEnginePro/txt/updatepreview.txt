@@ -4,6 +4,7 @@ What's new in V0.5.0 PREVIEW-
 Revamped first enemy.
 Revamped rectangle enemy.
 Updated engine so it can use sprite sheets.
+Fixed a weird tree bug.
 
 What's soon to come in PREVIEW:
 Revamped enemies.
