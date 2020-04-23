@@ -562,17 +562,19 @@ badguypic2_1_animation = new animationComponent(6, 0, 25);
 recenemypic1_1_animation = new animationComponent(6, 0, 15);
 }
 
+var debugTest = false;
 function animations() {
+if (debugTest == true) {
+console.log("Current Frame: " + badguypic1_1_animation.currentFrame + " Current Frame 2: " + badguypic2_1_animation.currentFrame + " Current Frame 3: " + recenemypic1_1_animation.currentFrame);
+}
 //badguypic1 enemy animation//
 if (wave < 5 && BadDeath < 1 && Death1 == 0) {
 badguypic1.angle += 0.05;
 badguypic1_1_animation.frameTimer();
-console.log("Current Frame: " + badguypic1_1_animation.currentFrame);
 }
 if (wave >= 5 || BadDeath > 0 || Death1 != 0) {
 badguypic1.angle = 0;
 badguypic1_1_animation.resetFrame();
-console.log("Current Frame: " + badguypic1_1_animation.currentFrame);
 }
 if (badguypic1_1_animation.currentFrame == 0) {
 badguypic1.sx = 0;
@@ -602,12 +604,10 @@ badguypic1.sy = 25;
 if (wave < 7 && wave > 1 && BadDeath2 < 1 && Death1 == 0) {
 badguypic2.angle += 0.05;
 badguypic2_1_animation.frameTimer();
-console.log("Current Frame 2: " + badguypic2_1_animation.currentFrame);
 }
 if (wave >= 7 || wave < 2 || BadDeath2 > 0 || Death1 != 0) {
 badguypic2.angle = 0;
 badguypic2_1_animation.resetFrame();
-console.log("Current Frame 2: " + badguypic2_1_animation.currentFrame);
 }
 if (badguypic2_1_animation.currentFrame == 0) {
 badguypic2.sx = 0;
@@ -637,12 +637,10 @@ badguypic2.sy = 25;
 if (wave > 2 && wave < 5 && BadDeath4 < 1 && Death1 == 0) {
 recenemypic1.angle += 0.08;
 recenemypic1_1_animation.frameTimer();
-console.log("Current Frame 3: " + recenemypic1_1_animation.currentFrame);
 }
 if (wave >= 5 || wave <= 2 || BadDeath4 > 0 || Death1 != 0) {
 recenemypic1.angle = 0;
 recenemypic1_1_animation.resetFrame();
-console.log("Current Frame 3: " + recenemypic1_1_animation.currentFrame);
 }
 if (recenemypic1_1_animation.currentFrame == 0) {
 recenemypic1.sx = 0;
@@ -1167,7 +1165,7 @@ if (tree1_4.globalAlpha > 0.5) {
 if (box.crashWith(tree1_4_D) == false) { 
 if (tree1_4.globalAlpha < 1) {
 	tree1_4.globalAlpha += 0.01;
-	Ftree1_4.globalAlpha += 0.01;
+	Stree1_4.globalAlpha += 0.01;
 	Ftree1_4.globalAlpha += 0.01;
 	Wtree1_4.globalAlpha += 0.01;
 }
