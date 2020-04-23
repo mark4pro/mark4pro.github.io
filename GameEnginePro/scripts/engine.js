@@ -24,6 +24,9 @@ var earlystart = 1;
 var christmasSkin = 0;
 var miniBossShip = 0;
 var easyShipPrize = 0;
+var STPRIZESHIP = 0;
+var STPRIZEWEAPON = 0;
+var STPDAYEVENTTRIGGER = 0;
 function Datechecker() {
 var today_date = new Date()
 var mydayofweek = today_date.getDay()
@@ -31,8 +34,8 @@ var mytoday = today_date.getDate()
 var mymonth = today_date.getMonth()
 var myyear = today_date.getFullYear()
 if (popup == 1) {
-if (mymonth == 1) {
-if (mytoday >= 23 && mytoday < 29) {
+if (mymonth == 2) {
+if (mytoday >= 2 && mytoday < 21) {
 openpatchinfo = 1;
 popup = 0;
    }
@@ -55,6 +58,11 @@ winterseason = 1;
 if (mymonth >= 2 && mymonth < 5) {
 if (mytoday >= 1) {
 springseason = 1;
+   }
+  }
+if (mymonth == 2) {
+if (mytoday >= 1) {
+STPDAYEVENTTRIGGER = 1;
    }
   }
 if (mymonth == 8) {
@@ -116,11 +124,26 @@ function start() {
  if (localStorage && 'Es' in localStorage) {
     easyShipPrize = localStorage.Es;
  }
+ if (localStorage && 'Ps' in localStorage) {
+    STPRIZESHIP = localStorage.Ps;
+ }
+ if (localStorage && 'Pw' in localStorage) {
+    STPRIZEWEAPON = localStorage.Pw;
+ }
  MusicOnOff = confirm("Do you want sound?\nOk for yes.\nCancel for no.");
  document.getElementById("volume").value = "15";
  SetVolume(15);
+ STPDAYEVENTBG = new component(800, 390, "ST_P_DAY_BG", 0, 0, "img");
+ STPDAYEVENTPROP = new component(100, 100, "ST_P_DAY_PROP", 350, 150, "img");
+ STPDAYEVENTBOSSINTRO = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", 387.5, 190, "img-rot");
+ STPDAYEVENTBOSS = new component(39, 42, "ST_P_DAY_EVENT_BOSS", 380.5, 181.5, "img-rot");
+ STPDAYEVENTBOSSBOX = new component(39, 42, "black", 380.5, 181.5, "rec");
+ STPDAYEVENTBOSSHEALTHBAR = new component(STBOSSHEALTH, 20, "darkgreen", 10, 20, "rec");
+ STPDAYEVENTBOSSHEALTHBARTEXT = new component("", "", "white", 10, 15, "text");
+ STPDAYEVENTBOSSHEALTHBARTEXT.font = "15px Consolas";
+ STPDAYEVENTBOSSHEALTHBARTEXT.text = "BOSS:";
  endCard = new component(800, 390, "End", 0, 0, "img");
- guardianPic = new component(25, 25, "guardian", 650, 450, "guard-enemypic");
+ guardianPic = new component(25, 25, "guardian", 650, 450, "img-rot");
  guardianBox = new component(25, 25, "red", 650, 450, "rec", "enemy");
  guardianhealthbar = new component(GuardHealth / 2, 5, guardHealthBarColor, guardianBox.x, guardianBox.y - 8, "rec");
  bossWave7pic = new component(35, 35, "wave7boss", Boss7_Start_X, Boss7_Start_Y, "img");
@@ -133,28 +156,27 @@ function start() {
  bosstxt2 = new component("30px", "Consolas", "white", 150, 15, "text");
  bosstxt2.font = "15px Consolas";
  bosstxt2.text = "BOSS: Sheilded";
- recenemypic1 = new component(25, 25, "red", 450, 60, "rec-enemypic");
+ recenemypic1 = new component(25, 25, "Rectangle", 450, 60, "animated-img-rot");
  recbox1 = new component(25, 25, "red", 450, 60, "rec", "enemy");
  badguy1healthbar3 = new component(Badhealth4 / 2, 5, badHealthBarColor3, recbox1.x, recbox1.y - 8, "rec");
  recpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec", "enemy");
  recwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
- xenemypic1 = new component(31, 31, "X_Enemy", 450, 60, "x-enemypic");
+ xenemypic1 = new component(31, 31, "X_Enemy", 450, 60, "img-rot");
  xbox1 = new component(31, 31, "red", 450, 60, "rec", "enemy");
  badguy1healthbar5 = new component(Badhealth5 / 2, 5, badHealthBarColor5, xbox1.x, xbox1.y - 8, "rec");
  xpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec", "enemy");
  xwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
- badguypic1 = new component(25, 25, "badguy1img", 650, 450, "img");
+ badguypic1 = new component(25, 25, "badguy1img", 650, 450, "animated-img-rot");
  badguy1 = new component(25, 25, "red", 650, 450, "rec", "enemy");
  badguy1healthbar = new component(Badhealth1 / 2, 5, badHealthBarColor, badguy1.x, badguy1.y - 8, "rec");
  badpos1 = new component(25, 25, "orange", bad1posX, bad1posY, "rec", "enemy");
  badwavebox1 = new component(35, 35, "black", bad1posX - 5, bad1posY - 5, "rec");
- badguypic2 = new component(25, 25, "badguy1img", 40, 150, "img");
+ badguypic2 = new component(25, 25, "badguy1img", 40, 150, "animated-img-rot");
  badguy2 = new component(25, 25, "red", 40, 150, "rec", "enemy");
  badguy1healthbar2 = new component(Badhealth2 / 2, 5, badHealthBarColor2, badguy2.x, badguy2.y - 8, "rec");
  badpos2 = new component(25, 25, "orange", bad2posX, bad2posY, "rec");
  badwavebox2 = new component(35, 35, "black", bad2posX - 5, bad2posY - 5, "rec");
- trienemyleft = new component(35, 35, "triimgleft", 430, 100, "img");
- trienemyright = new component(35, 35, "triimgright", 430, 100, "img");
+ trienemypic = new component(35, 35, "triimgdown", 430, 100, "img-rot");
  tribox = new component(35, 35, "red", 430, 100, "rec", "enemy");
  badguy1healthbar4 = new component(Badhealth3 / 2, 5, badHealthBarColor4, tribox.x, tribox.y - 8, "rec");
  tribpic = new component(10, 10, "enemybull", 400, 100, "img");
@@ -166,6 +188,7 @@ function start() {
  bpic2 = new component(10, 10, "bullpic2", 400, 180, "img");
  bpic3 = new component(10, 10, "bullpic3", 400, 180, "img");
  bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
+ bpic5 = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", 400, 180, "img");
  box = new component(25, 25, "grey", playerX, playerY, "player1", "player");
  detectbox = new component(100, 100, "black", playerX - 37.5, playerY - 37.5, "rec");
  ship1 = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "img");
@@ -173,6 +196,7 @@ function start() {
  ship3 = new component(25, 25, "player3img", playerX, playerY, "img");
  ship4 = new component(25, 25, "player4img", playerX, playerY, "img");
  ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "img");
+ ship6 = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", playerX, playerY, "img-rot");
  w1t5 = new component(800, 500, "wave1t5", 0, 0, "img");
  w5t7 = new component(800, 390, "wave5t7", 0, 0, "img");
  Explosion = new component(800, 390, "EXFrame1", 0, 0, "img");
@@ -467,6 +491,7 @@ function start() {
  DeathForPlayer = new component(800, 500, "DeathScr", 0, 0, "img");
  console.log("width" + w);
  console.log("height" + h);
+ animationInt();
  Board.start();
  updateGameArea();
  }
@@ -507,12 +532,153 @@ this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 },
 }
 
+function animationComponent(numberOfFrames, startFrame, speedOfAnimation) {
+this.numberOfFrames = numberOfFrames;
+this.startFrame = startFrame;
+this.speedOfAnimation = speedOfAnimation;
+this.currentFrame = this.startFrame;
+this._frame = 0;
+this.frameTimer = function() {
+this._frame += 1;
+if (this._frame >= this.speedOfAnimation) {
+this.currentFrame++;
+this._frame = 0;
+}
+if (this.currentFrame >= this.numberOfFrames) {
+this.currentFrame = this.startFrame;
+}
+return this.currentFrame;
+}
+this.resetFrame = function() {
+this._frame = 0;
+this.currentFrame = this.startFrame;
+return this.currentFrame;
+}
+}
+
+function animationInt() {
+badguypic1_1_animation = new animationComponent(6, 0, 25);
+badguypic2_1_animation = new animationComponent(6, 0, 25);
+recenemypic1_1_animation = new animationComponent(6, 0, 15);
+}
+
+function animations() {
+//badguypic1 enemy animation//
+if (wave < 5 && BadDeath < 1 && Death1 == 0) {
+badguypic1.angle += 0.05;
+badguypic1_1_animation.frameTimer();
+console.log("Current Frame: " + badguypic1_1_animation.currentFrame);
+}
+if (wave >= 5 || BadDeath > 0 || Death1 != 0) {
+badguypic1.angle = 0;
+badguypic1_1_animation.resetFrame();
+console.log("Current Frame: " + badguypic1_1_animation.currentFrame);
+}
+if (badguypic1_1_animation.currentFrame == 0) {
+badguypic1.sx = 0;
+badguypic1.sy = 0;
+}
+if (badguypic1_1_animation.currentFrame == 1) {
+badguypic1.sx = 25;
+badguypic1.sy = 0;
+}
+if (badguypic1_1_animation.currentFrame == 2) {
+badguypic1.sx = 50;
+badguypic1.sy = 0;
+}
+if (badguypic1_1_animation.currentFrame == 3) {
+badguypic1.sx = 75;
+badguypic1.sy = 0;
+}
+if (badguypic1_1_animation.currentFrame == 4) {
+badguypic1.sx = 0;
+badguypic1.sy = 25;
+}
+if (badguypic1_1_animation.currentFrame == 5) {
+badguypic1.sx = 25;
+badguypic1.sy = 25;
+}
+//badguypic2 enemy animation//
+if (wave < 7 && wave > 1 && BadDeath2 < 1 && Death1 == 0) {
+badguypic2.angle += 0.05;
+badguypic2_1_animation.frameTimer();
+console.log("Current Frame 2: " + badguypic2_1_animation.currentFrame);
+}
+if (wave >= 7 || wave < 2 || BadDeath2 > 0 || Death1 != 0) {
+badguypic2.angle = 0;
+badguypic2_1_animation.resetFrame();
+console.log("Current Frame 2: " + badguypic2_1_animation.currentFrame);
+}
+if (badguypic2_1_animation.currentFrame == 0) {
+badguypic2.sx = 0;
+badguypic2.sy = 0;
+}
+if (badguypic2_1_animation.currentFrame == 1) {
+badguypic2.sx = 25;
+badguypic2.sy = 0;
+}
+if (badguypic2_1_animation.currentFrame == 2) {
+badguypic2.sx = 50;
+badguypic2.sy = 0;
+}
+if (badguypic2_1_animation.currentFrame == 3) {
+badguypic2.sx = 75;
+badguypic2.sy = 0;
+}
+if (badguypic2_1_animation.currentFrame == 4) {
+badguypic2.sx = 0;
+badguypic2.sy = 25;
+}
+if (badguypic2_1_animation.currentFrame == 5) {
+badguypic2.sx = 25;
+badguypic2.sy = 25;
+}
+//recenemypic1 enemy animation//
+if (wave > 2 && wave < 5 && BadDeath4 < 1 && Death1 == 0) {
+recenemypic1.angle += 0.08;
+recenemypic1_1_animation.frameTimer();
+console.log("Current Frame 3: " + recenemypic1_1_animation.currentFrame);
+}
+if (wave >= 5 || wave <= 2 || BadDeath4 > 0 || Death1 != 0) {
+recenemypic1.angle = 0;
+recenemypic1_1_animation.resetFrame();
+console.log("Current Frame 3: " + recenemypic1_1_animation.currentFrame);
+}
+if (recenemypic1_1_animation.currentFrame == 0) {
+recenemypic1.sx = 0;
+recenemypic1.sy = 0;
+}
+if (recenemypic1_1_animation.currentFrame == 1) {
+recenemypic1.sx = 25;
+recenemypic1.sy = 0;
+}
+if (recenemypic1_1_animation.currentFrame == 2) {
+recenemypic1.sx = 50;
+recenemypic1.sy = 0;
+}
+if (recenemypic1_1_animation.currentFrame == 3) {
+recenemypic1.sx = 75;
+recenemypic1.sy = 0;
+}
+if (recenemypic1_1_animation.currentFrame == 4) {
+recenemypic1.sx = 0;
+recenemypic1.sy = 25;
+}
+if (recenemypic1_1_animation.currentFrame == 5) {
+recenemypic1.sx = 25;
+recenemypic1.sy = 25;
+}
+}
+
 function component(width, height, color ,x ,y, type, radius, outcolor, thickness) {
 this.type = type;
 this.speedX = 0;
 this.speedY = 0;
 this.x = x;
 this.y = y;
+this.sx = 0;
+this.sy = 0;
+this.animationFrame = 0;
 this.angle = 0;
 this.align = "start";
 this.globalAlpha = 1;
@@ -555,31 +721,27 @@ ctx.fillRect(this.x, this.y, this.width, this.height);
  ctx.globalAlpha = this.globalAlpha;
  ctx.drawImage(img, this.x, this.y, this.width, this.height);
  }
- if (type == "rec-enemypic") {
+ if (this.type == "animated-img") {
+ var img = document.getElementById(this.color);
+ ctx.globalAlpha = this.globalAlpha;
+ ctx.drawImage(img, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
+ }
+ if (this.type == "img-rot") {
  ctx.save();
  ctx.globalAlpha = this.globalAlpha;
- ctx.translate(this.x + 12.5, this.y + 12.5);
- ctx.rotate(this.angle);
- var img = document.getElementById("Rectangle");
- ctx.drawImage(img, this.width / -2, this.height / -2, this.width, this.height);
- ctx.restore();
-  }
- if (type == "x-enemypic") {
- ctx.save();
- ctx.globalAlpha = this.globalAlpha;
- ctx.translate(this.x + 15, this.y + 15);
- ctx.rotate(this.angle);
- var img = document.getElementById("X_Enemy");
- ctx.drawImage(img, this.width / -2, this.height / -2, this.width, this.height);
- ctx.restore();
-  }
- if (type == "guard-enemypic") {
- ctx.save();
- ctx.globalAlpha = this.globalAlpha;
- ctx.translate(this.x + 12.5, this.y + 12.5);
+ ctx.translate(this.x + (this.width / 2), this.y + (this.height / 2));
  ctx.rotate(this.angle);
  var img = document.getElementById(this.color);
  ctx.drawImage(img, this.width / -2, this.height / -2, this.width, this.height);
+ ctx.restore();
+ }
+ if (this.type == "animated-img-rot") {
+ ctx.save();
+ ctx.globalAlpha = this.globalAlpha;
+ ctx.translate(this.x + (this.width / 2), this.y + (this.height / 2));
+ ctx.rotate(this.angle);
+ var img = document.getElementById(this.color);
+ ctx.drawImage(img, this.sx, this.sy, this.width, this.height, this.width / -2, this.height / -2, this.width, this.height);
  ctx.restore();
   }
  }
@@ -949,6 +1111,7 @@ if (roof2house1.globalAlpha < 1) {
  if (box.crashWith(tree1_1_D)) {
 if (tree1_1.globalAlpha > 0.5) {
 	tree1_1.globalAlpha -= 0.01;
+	Stree1_1.globalAlpha -= 0.01;
 	Ftree1_1.globalAlpha -= 0.01;
 	Wtree1_1.globalAlpha -= 0.01;
 }
@@ -956,6 +1119,7 @@ if (tree1_1.globalAlpha > 0.5) {
 if (box.crashWith(tree1_1_D) == false) { 
 if (tree1_1.globalAlpha < 1) {
 	tree1_1.globalAlpha += 0.01;
+	Stree1_1.globalAlpha += 0.01;
 	Ftree1_1.globalAlpha += 0.01;
 	Wtree1_1.globalAlpha += 0.01;
 }
@@ -963,6 +1127,7 @@ if (tree1_1.globalAlpha < 1) {
  if (box.crashWith(tree1_2_D)) {
 if (tree1_2.globalAlpha > 0.5) {
 	tree1_2.globalAlpha -= 0.01;
+	Stree1_2.globalAlpha -= 0.01;
 	Ftree1_2.globalAlpha -= 0.01;
 	Wtree1_2.globalAlpha -= 0.01;
 }
@@ -970,6 +1135,7 @@ if (tree1_2.globalAlpha > 0.5) {
 if (box.crashWith(tree1_2_D) == false) { 
 if (tree1_2.globalAlpha < 1) {
 	tree1_2.globalAlpha += 0.01;
+	Stree1_2.globalAlpha += 0.01;
 	Ftree1_2.globalAlpha += 0.01;
 	Wtree1_2.globalAlpha += 0.01;
 }
@@ -977,6 +1143,7 @@ if (tree1_2.globalAlpha < 1) {
  if (box.crashWith(tree1_3_D)) {
 if (tree1_3.globalAlpha > 0.5) {
 	tree1_3.globalAlpha -= 0.01;
+	Stree1_3.globalAlpha -= 0.01;
 	Ftree1_3.globalAlpha -= 0.01;
 	Wtree1_3.globalAlpha -= 0.01;
 }
@@ -984,6 +1151,7 @@ if (tree1_3.globalAlpha > 0.5) {
 if (box.crashWith(tree1_3_D) == false) { 
 if (tree1_3.globalAlpha < 1) {
 	tree1_3.globalAlpha += 0.01;
+	Stree1_3.globalAlpha += 0.01;
 	Ftree1_3.globalAlpha += 0.01;
 	Wtree1_3.globalAlpha += 0.01;
 }
@@ -991,6 +1159,7 @@ if (tree1_3.globalAlpha < 1) {
  if (box.crashWith(tree1_4_D)) {
 if (tree1_4.globalAlpha > 0.5) {
 	tree1_4.globalAlpha -= 0.01;
+	Stree1_4.globalAlpha -= 0.01;
 	Ftree1_4.globalAlpha -= 0.01;
 	Wtree1_4.globalAlpha -= 0.01;
 }
@@ -999,12 +1168,14 @@ if (box.crashWith(tree1_4_D) == false) {
 if (tree1_4.globalAlpha < 1) {
 	tree1_4.globalAlpha += 0.01;
 	Ftree1_4.globalAlpha += 0.01;
+	Ftree1_4.globalAlpha += 0.01;
 	Wtree1_4.globalAlpha += 0.01;
 }
   }
  if (box.crashWith(tree1_5_D)) {
 if (tree1_5.globalAlpha > 0.5) {
 	tree1_5.globalAlpha -= 0.01;
+	Stree1_5.globalAlpha -= 0.01;
 	Ftree1_5.globalAlpha -= 0.01;
 	Wtree1_5.globalAlpha -= 0.01;
 }
@@ -1012,6 +1183,7 @@ if (tree1_5.globalAlpha > 0.5) {
 if (box.crashWith(tree1_5_D) == false) { 
 if (tree1_5.globalAlpha < 1) {
 	tree1_5.globalAlpha += 0.01;
+	Stree1_5.globalAlpha += 0.01;
 	Ftree1_5.globalAlpha += 0.01;
 	Wtree1_5.globalAlpha += 0.01;
 }
@@ -1019,6 +1191,7 @@ if (tree1_5.globalAlpha < 1) {
  if (box.crashWith(tree1_6_D)) {
 if (tree1_6.globalAlpha > 0.5) {
 	tree1_6.globalAlpha -= 0.01;
+	Stree1_6.globalAlpha -= 0.01;
 	Ftree1_6.globalAlpha -= 0.01;
 	Wtree1_6.globalAlpha -= 0.01;
 }
@@ -1026,6 +1199,7 @@ if (tree1_6.globalAlpha > 0.5) {
 if (box.crashWith(tree1_6_D) == false) { 
 if (tree1_6.globalAlpha < 1) {
 	tree1_6.globalAlpha += 0.01;
+	Stree1_6.globalAlpha += 0.01;
 	Ftree1_6.globalAlpha += 0.01;
 	Wtree1_6.globalAlpha += 0.01;
 }
@@ -1033,6 +1207,7 @@ if (tree1_6.globalAlpha < 1) {
  if (box.crashWith(tree1_7_D)) {
 if (tree1_7.globalAlpha > 0.5) {
 	tree1_7.globalAlpha -= 0.01;
+	Stree1_7.globalAlpha -= 0.01;
 	Ftree1_7.globalAlpha -= 0.01;
 	Wtree1_7.globalAlpha -= 0.01;
 }
@@ -1040,6 +1215,7 @@ if (tree1_7.globalAlpha > 0.5) {
 if (box.crashWith(tree1_7_D) == false) { 
 if (tree1_7.globalAlpha < 1) {
 	tree1_7.globalAlpha += 0.01;
+	Stree1_7.globalAlpha += 0.01;
 	Ftree1_7.globalAlpha += 0.01;
 	Wtree1_7.globalAlpha += 0.01;
 }
@@ -1047,6 +1223,7 @@ if (tree1_7.globalAlpha < 1) {
  if (box.crashWith(tree1_8_D)) {
 if (tree1_8.globalAlpha > 0.5) {
 	tree1_8.globalAlpha -= 0.01;
+	Stree1_8.globalAlpha -= 0.01;
 	Ftree1_8.globalAlpha -= 0.01;
 	Wtree1_8.globalAlpha -= 0.01;
 }
@@ -1054,6 +1231,7 @@ if (tree1_8.globalAlpha > 0.5) {
 if (box.crashWith(tree1_8_D) == false) { 
 if (tree1_8.globalAlpha < 1) {
 	tree1_8.globalAlpha += 0.01;
+	Stree1_8.globalAlpha += 0.01;
 	Ftree1_8.globalAlpha += 0.01;
 	Wtree1_8.globalAlpha += 0.01;
 }
@@ -1115,6 +1293,7 @@ if (roof4house2.globalAlpha >= 1 && roof4house3.globalAlpha >= 1) {
 if (box.crashWith(tree2_1_D)) {
 if (tree2_1.globalAlpha > 0.5) {
 	tree2_1.globalAlpha -= 0.01;
+	Stree2_1.globalAlpha -= 0.01;
 	Ftree2_1.globalAlpha -= 0.01;
 	Wtree2_1.globalAlpha -= 0.01;
 }
@@ -1122,6 +1301,7 @@ if (tree2_1.globalAlpha > 0.5) {
 if (box.crashWith(tree2_1_D) == false) { 
 if (tree2_1.globalAlpha < 1) {
 	tree2_1.globalAlpha += 0.01;
+	Stree2_1.globalAlpha += 0.01;
 	Ftree2_1.globalAlpha += 0.01;
 	Wtree2_1.globalAlpha += 0.01;
 }
@@ -1129,6 +1309,7 @@ if (tree2_1.globalAlpha < 1) {
 if (box.crashWith(tree2_2_D)) {
 if (tree2_2.globalAlpha > 0.5) {
 	tree2_2.globalAlpha -= 0.01;
+	Stree2_2.globalAlpha -= 0.01;
 	Ftree2_2.globalAlpha -= 0.01;
 	Wtree2_2.globalAlpha -= 0.01;
 }
@@ -1136,6 +1317,7 @@ if (tree2_2.globalAlpha > 0.5) {
 if (box.crashWith(tree2_2_D) == false) { 
 if (tree2_2.globalAlpha < 1) {
 	tree2_2.globalAlpha += 0.01;
+	Stree2_2.globalAlpha += 0.01;
 	Ftree2_2.globalAlpha += 0.01;
 	Wtree2_2.globalAlpha += 0.01;
 }
@@ -1143,6 +1325,7 @@ if (tree2_2.globalAlpha < 1) {
 if (box.crashWith(tree2_3_D)) {
 if (tree2_3.globalAlpha > 0.5) {
 	tree2_3.globalAlpha -= 0.01;
+	Stree2_3.globalAlpha -= 0.01;
 	Ftree2_3.globalAlpha -= 0.01;
 	Wtree2_3.globalAlpha -= 0.01;
 }
@@ -1150,6 +1333,7 @@ if (tree2_3.globalAlpha > 0.5) {
 if (box.crashWith(tree2_3_D) == false) { 
 if (tree2_3.globalAlpha < 1) {
 	tree2_3.globalAlpha += 0.01;
+	Stree2_3.globalAlpha += 0.01;
 	Ftree2_3.globalAlpha += 0.01;
 	Wtree2_3.globalAlpha += 0.01;
 }
@@ -1157,6 +1341,7 @@ if (tree2_3.globalAlpha < 1) {
 if (box.crashWith(tree2_4_D)) {
 if (tree2_4.globalAlpha > 0.5) {
 	tree2_4.globalAlpha -= 0.01;
+	Stree2_4.globalAlpha -= 0.01;
 	Ftree2_4.globalAlpha -= 0.01;
 	Wtree2_4.globalAlpha -= 0.01;
 }
@@ -1164,6 +1349,7 @@ if (tree2_4.globalAlpha > 0.5) {
 if (box.crashWith(tree2_4_D) == false) { 
 if (tree2_4.globalAlpha < 1) {
 	tree2_4.globalAlpha += 0.01;
+	Stree2_4.globalAlpha += 0.01;
 	Ftree2_4.globalAlpha += 0.01;
 	Wtree2_4.globalAlpha += 0.01;
 }
@@ -1171,6 +1357,7 @@ if (tree2_4.globalAlpha < 1) {
 if (box.crashWith(tree2_5_D)) {
 if (tree2_5.globalAlpha > 0.5) {
 	tree2_5.globalAlpha -= 0.01;
+	Stree2_5.globalAlpha -= 0.01;
 	Ftree2_5.globalAlpha -= 0.01;
 	Wtree2_5.globalAlpha -= 0.01;
 }
@@ -1178,6 +1365,7 @@ if (tree2_5.globalAlpha > 0.5) {
 if (box.crashWith(tree2_5_D) == false) { 
 if (tree2_5.globalAlpha < 1) {
 	tree2_5.globalAlpha += 0.01;
+	Stree2_5.globalAlpha += 0.01;
 	Ftree2_5.globalAlpha += 0.01;
 	Wtree2_5.globalAlpha += 0.01;
 }
@@ -1185,6 +1373,7 @@ if (tree2_5.globalAlpha < 1) {
 if (box.crashWith(tree2_6_D)) {
 if (tree2_6.globalAlpha > 0.5) {
 	tree2_6.globalAlpha -= 0.01;
+	Stree2_6.globalAlpha -= 0.01;
 	Ftree2_6.globalAlpha -= 0.01;
 	Wtree2_6.globalAlpha -= 0.01;
 }
@@ -1192,6 +1381,7 @@ if (tree2_6.globalAlpha > 0.5) {
 if (box.crashWith(tree2_6_D) == false) { 
 if (tree2_6.globalAlpha < 1) {
 	tree2_6.globalAlpha += 0.01;
+	Stree2_6.globalAlpha += 0.01;
 	Ftree2_6.globalAlpha += 0.01;
 	Wtree2_6.globalAlpha += 0.01;
 }
@@ -1239,10 +1429,178 @@ if (stcweapon == 1) {
  }
 }
 
+//ST. Patty's Day Event//
+var STPDAYEVENTSTART = false;
+var touchRelic = false;
+var STangleSpeed = 0;
+var HatDeath = false;
+var STBOSSBULLETS = [];
+var canShootST = false;
+var timeForShots = 100;
+var timeST = 0;
+var STBOSSDAMAGE = 5;
+var STBOSSHEALTH = 500;
+var STHEALTHBARCOLOR = "darkgreen";
+var STPRIZEMONEY = 10;
+var STPOPUP = 0;
+function StPattysDay() {
+STPDAYEVENTBOSS.x = STPDAYEVENTBOSSBOX.x;
+STPDAYEVENTBOSS.y = STPDAYEVENTBOSSBOX.y;
+STPDAYEVENTBOSSHEALTHBAR.width = STBOSSHEALTH / 5;
+STPDAYEVENTBOSSHEALTHBAR.color = STHEALTHBARCOLOR;
+if (STPOPUP == 1) {
+pauseGame = 1;
+}
+if (difficulty == 0) {
+STBOSSDAMAGE = 5;
+}
+if (difficulty == 1) {
+STBOSSDAMAGE = 7;
+}
+if (difficulty == 2) {
+STBOSSDAMAGE = 10;
+}
+if (STBOSSHEALTH >= 450) {
+STHEALTHBARCOLOR = "darkgreen";
+}
+if (STBOSSHEALTH <= 400) {
+STHEALTHBARCOLOR = "green";
+}
+if (STBOSSHEALTH <= 350) {
+STHEALTHBARCOLOR = "yellow";
+}
+if (STBOSSHEALTH <= 300) {
+STHEALTHBARCOLOR = "orange";
+}
+if (STBOSSHEALTH <= 250) {
+STHEALTHBARCOLOR = "red";
+}
+if (STBOSSHEALTH <= 200) {
+STHEALTHBARCOLOR = "darkred";
+}
+if (STBOSSHEALTH <= 150) {
+STHEALTHBARCOLOR = "#750000";
+}
+if (STBOSSHEALTH <= 100) {
+STHEALTHBARCOLOR = "#2e0000";
+}
+if (wave != 8000) {
+touchRelic = false;
+STPDAYEVENTSTART = false;
+STangleSpeed = 0;
+STPDAYEVENTBOSSINTRO.y = 190;
+HatDeath = false;
+STPDAYEVENTBOSSBOX.x = 380.5;
+STPDAYEVENTBOSSBOX.y = 181.5;
+STBOSSBULLETS.length = 0;
+canShootST = false;
+STBOSSHEALTH = 500;
+timeST = 0;
+}
+if (wave == 8000 && switchpos == 2) {
+if (touchRelic == false) {
+STPDAYEVENTBOSSINTRO.angle = 0;
+}
+if (STPDAYEVENTBOSSINTRO.crashWith(box)) {
+touchRelic = true;
+}
+if (touchRelic == true) {
+if (STangleSpeed < 6.28) {
+STangleSpeed += (STPDAYEVENTBOSSINTRO.angle + 0.01)
+STPDAYEVENTBOSSINTRO.y -= 10;
+STPDAYEVENTBOSSBOX.y -= 10;
+}
+STPDAYEVENTBOSSINTRO.angle = STangleSpeed;
+if (STangleSpeed >= 6.28) {
+STPDAYEVENTSTART = true;
+}
+//BOSS//
+if (STPDAYEVENTSTART == true) {
+STPDAYEVENTBOSS.angle = Math.atan2(-box.y + STPDAYEVENTBOSS.y, -box.x + STPDAYEVENTBOSS.x) + 1.57079633;
+if (STPDAYEVENTBOSSBOX.x > box.x + box.width + 100) {
+STPDAYEVENTBOSSBOX.x -= 1;	
+}
+if (STPDAYEVENTBOSSBOX.x < box.x - 100) {
+STPDAYEVENTBOSSBOX.x += 1;	
+}
+if (STPDAYEVENTBOSSBOX.y > box.y + box.height + 100) {
+STPDAYEVENTBOSSBOX.y -= 1;	
+}
+if (STPDAYEVENTBOSSBOX.y < box.y - 100) {
+STPDAYEVENTBOSSBOX.y += 1;	
+}
+if (STBOSSHEALTH > 0) {
+if (bullbox.crashWith(STPDAYEVENTBOSSBOX) && fire == 1) {
+fire = 0;
+STBOSSHEALTH -= PlayerDamageDeal;
+}
+}
+if (STBOSSHEALTH <= 0) {
+HatDeath = true;
+goBack = 1;
+//prize//
+money += Math.floor(Math.random() * STPRIZEMONEY);
+if (STPRIZESHIP == 0) {
+STPOPUP = 1;
+STPRIZESHIP = 1;
+localStorage && (localStorage.Ps = STPRIZESHIP);
+}
+if (difficulty == 2 && STPRIZEWEAPON == 0) {
+STPRIZEWEAPON = 1;
+localStorage && (localStorage.Pw = STPRIZEWEAPON);
+}
+}
+//shooting//
+if (canShootST == false) {
+timeST++;	
+}
+if (timeST >= timeForShots) {
+canShootST = true;
+timeST = 0;
+}
+if (canShootST == true && Death1 == 0) {
+STPDAYEVENTBOSSBULLETS = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", STPDAYEVENTBOSSBOX.x + (STPDAYEVENTBOSSBOX.width/2), STPDAYEVENTBOSSBOX.y + (STPDAYEVENTBOSSBOX.height/2), "img");
+STBOSSBULLETS.push(STPDAYEVENTBOSSBULLETS);
+canShootST = false;
+}
+for (var i = STBOSSBULLETS.length - 1; i >= 0; i--){
+if (fire == 1) {
+if (STBOSSBULLETS[i].crashWith(bullbox) == true) {
+STBOSSBULLETS.splice(i,1);
+}
+} else
+if (STBOSSBULLETS[i].crashWith(box) == true) {
+playerHealth -= STBOSSDAMAGE;
+STBOSSBULLETS.splice(i,1);
+} else {
+if (STBOSSBULLETS[i].x > box.x + box.width) {
+STBOSSBULLETS[i].x -= 3;
+}
+if (STBOSSBULLETS[i].x < box.x) {
+STBOSSBULLETS[i].x += 3;
+}
+if (STBOSSBULLETS[i].y > box.y + box.height) {
+STBOSSBULLETS[i].y -= 3;
+}
+if (STBOSSBULLETS[i].y < box.y) {
+STBOSSBULLETS[i].y += 3;
+}	
+}
+}
+}
+}
+ }
+}
+
 function updateGameArea() {
 Board.clear();
 if (playerHealth > playerHealthMax) {
 playerHealth = playerHealthMax;
+}
+if (weapon == 4) {
+if (playerShip != 5 || STPRIZEWEAPON != 1) {
+weapon = 0;
+ }
 }
 ship1.y = box.y  - 3.5;
 ship1.x = box.x  - 3.5;
@@ -1254,6 +1612,9 @@ ship4.y = box.y;
 ship4.x = box.x;
 ship5.y = box.y  - 3.5;
 ship5.x = box.x  - 3.5;
+ship6.y = box.y;
+ship6.x = box.x;
+ship6.angle += 0.05;
 detectbox.x = box.x - 37.5;
 detectbox.y = box.y - 37.5;
 if (pauseGame > 1) {
@@ -1305,8 +1666,10 @@ framerate3();
 framerate4();
 framerate5();
 framerate7();
+animations();
 fireCoolDown();
 Boss7AI();
+StPattysDay();
 resetfire();
 costToRevive.text = "You must have $" + revivecost + " to revive";
 playSound();
@@ -1461,6 +1824,15 @@ plantbox2_1.update();
 plantbox3_1.update();
 plantbox4_1.update();
 }
+//ST. Patty's Day Event//
+if (wave == 8000) {
+STPDAYEVENTBOSSBOX.update();
+STPDAYEVENTBG.update();
+STPDAYEVENTPROP.update();
+if (STPDAYEVENTSTART == false) {
+STPDAYEVENTBOSSINTRO.update();
+}
+}
 if (menu > 0) {
 if (cratespawn > 0) {
 ammocrate1picO.update();
@@ -1499,6 +1871,9 @@ bpic3.update();
 if (weapon == 3) {
 bpic4.update();
  }
+if (weapon == 4) {
+bpic5.update();
+ }
 }
 if (wave < 5) {
 if (BadDeath < 1) {
@@ -1533,11 +1908,7 @@ tribpic.update();
 if (wave > 4 && wave < 7) {
 if (BadDeath3 == 0) {
 if (Death1 == 0) {
-if (box.x < tribox.x) {
-trienemyleft.update();
-} else {
-trienemyright.update();
-   }
+trienemypic.update();
 if (HB == true) {
 badguy1healthbar4.update();
 }
@@ -1582,6 +1953,16 @@ if (bossSheildMode == 1) {
 bossWave7sheildPic.update();	
  }
 }
+if (wave == 8000) {
+if (STPDAYEVENTSTART == true && HatDeath == false) {
+for (var i = STBOSSBULLETS.length - 1; i >= 0; i--){
+STBOSSBULLETS[i].update();
+}
+STPDAYEVENTBOSS.update();
+STPDAYEVENTBOSSHEALTHBAR.update();
+STPDAYEVENTBOSSHEALTHBARTEXT.update();
+}
+}
 badboxspawn();
 badtriboxspawn();
 badxboxspawn();
@@ -1618,6 +1999,9 @@ ship4.update();
 }
 if (playerShip == 4) {
 ship5.update();
+}
+if (playerShip == 5) {
+ship6.update();
 }
 if (menu > 0) {
 if (upgrademenu == 0) {
@@ -1816,17 +2200,12 @@ badguy1.newPos();
 badguypic2.newPos();
 badguy2.newPos();
 tribox.newPos();
-trienemyright.newPos();
-trienemyleft.newPos();
+trienemypic.newPos();
 xenemypic1.newPos();
 xbox1.newPos();
-bpic.newPos();
-bpic2.newPos();
-bpic3.newPos();
-bpic4.newPos();
 tribpic.newPos();
 tribbox.newPos();
-if (wave == 5) {
+if (wave == 5 || wave == 8000) {
 if (switchpos == 0) {
 switchpos = 1;
 }
@@ -1877,11 +2256,9 @@ badguy2.speedX = 0;
 badguypic2.speedY = 0;
 badguy2.speedY = 0;
 tribox.speedX = 0;
-trienemyleft.speedX = 0;
-trienemyright.speedX = 0;
+trienemypic.speedX = 0;
 tribox.speedY = 0;
-trienemyleft.speedY = 0;
-trienemyright.speedY = 0;
+trienemypic.speedY = 0;
 xenemypic1.speedX = 0;
 xenemypic1.speedY = 0;
 xbox1.speedX = 0;
@@ -1998,6 +2375,13 @@ ship5Show = new component(32, 32, "player5img", 453, 60, "img");
 ship5txt = new component("30px", "Consolas", "white", 460.5, 105, "text");
 ship5txt.font = "15px Consolas";
 ship5txt.text = "#5";
+ship6Hidden = new component(32, 32, "hiddenShip", 305, 110, "img");
+shipHighLight6 = new component(32, 32, "highlight", 305, 110, "img");
+shipHighLight6.globalAlpha = 0.5;
+ship6Show = new component(32, 32, "ST_P_DAY_EVENT_PRIZE", 305, 110, "img");
+ship6txt = new component("30px", "Consolas", "white", 312.5, 155, "text");
+ship6txt.font = "15px Consolas";
+ship6txt.text = "#6";
 weap_ship.update();
 shiptxt.update();
 if (playerShip == 0) {
@@ -2037,9 +2421,19 @@ ship5Show.update();
 ship5Hidden.update();
 }
 ship5txt.update();
+if (playerShip == 5) {
+shipHighLight6.update();
+}
+if (STPRIZESHIP == 1) {
+ship6Show.update();
+} else {
+ship6Hidden.update();
+}
+ship6txt.update();
 }
 if (specialalert1 == 1) {
 alerttxt1 = new component("30px", "Consolas", "white", 300, 60, "text");
+alerttxt1.align = "start";
 alerttxt1.font = "20px Consolas";
 alerttxt1.text = "You Found The Cube!";
 alerttxt2 = new component("30px", "Consolas", "white", 65, 80, "text");
@@ -2050,8 +2444,17 @@ alert1.update();
 alerttxt1.update();
 alerttxt2.update();
  }
+if (STPOPUP == 1) {
+alerttxt1 = new component("30px", "Consolas", "white", 400, 60, "text");
+alerttxt1.align = "center";
+alerttxt1.font = "20px Consolas";
+alerttxt1.text = "You Got A Special Gift Go To The Shipyard/Pause Menu!";
+alert1 = new component(800, 500, "#451661", 0, 0, "rec");
+alert1.update();
+alerttxt1.update();
+ }
 }
-if (specialalert1 == 0) {
+if (specialalert1 == 0 && STPOPUP == 0) {
 statscommand();
 playerMoney();
 nameFC();
@@ -2455,7 +2858,7 @@ function pollGamepads() {
 function keyDownHandler(event)
 {
 	var keyPressed = String.fromCharCode(event.keyCode);
-
+    
 	if (keyPressed == Up_2 && blockKeys == false && pauseGameKeys == false)
 	{		
 		if (pauseGame == 0) {
@@ -2603,15 +3006,15 @@ document.onkeydown = function(e) {
 		}
 			break;
 		case 83:
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    goBack = 1;
 		}
 			break;
 	    case 49:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap1();
 		}
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 0;
 			playerHealthMax = 100;
 		}
@@ -2620,38 +3023,44 @@ document.onkeydown = function(e) {
 		}
 			break;
 		case 50:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap2();
 		}
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 1;
 			playerHealthMax = 100; //add maxHealthMod//
 		}
 			break;
 		case 51:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap3();
 		}
-		if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 2;
 			playerHealthMax = 100;
 		}
 			break;
 		case 52:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap4();
 		}
-		if (upgrademenu == 0 && miniBossShip == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && miniBossShip == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 3;
 			playerHealthMax = 300;
 		}
 			break;
 		case 53:
-		if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 4;
 			playerHealthMax = 200;
 		}
 			break;
+		case 54:
+		if (upgrademenu == 0 && STPRIZESHIP == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    playerShip = 5;
+			playerHealthMax = 200;
+		}
+		    break;
 			case 72:
 		if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
 			healthRecovery();
@@ -2666,46 +3075,55 @@ document.onkeydown = function(e) {
 		if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
 		    upgrade1func();
 		}
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap1();
 		}
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 0;
 			playerHealthMax = 100;
 		}
 		    break;
 		case 98:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap2();
 		}
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 1;
 			playerHealthMax = 100;
 		}
 			break;
 		case 99:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap3();
 		}
-		if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 2;
 			playerHealthMax = 100;
 		}
 			break;
 		case 100:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap4();
 		}
-		if (upgrademenu == 0 && miniBossShip == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && miniBossShip == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 3;
 			playerHealthMax = 300;
 		}
 			break;
 		case 101:
-		if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 4;
 			playerHealthMax = 200;
 		}
+		    break;
+		case 102:
+		if (upgrademenu == 0 && STPRIZESHIP == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    playerShip = 5;
+			playerHealthMax = 200;
+		}
+		    break;
+		case 16:
+		specialWandS = 1;
 		    break;
     }
 };
@@ -2731,6 +3149,9 @@ document.onkeyup = function(e) {
             clearAutoD();
 		}
             break;
+		case 16:
+		specialWandS = 0;
+		    break;
     }
 };
 var openpatchinfo = 0;
@@ -2741,25 +3162,39 @@ openpatchinfo = 0;
  }
 }
 var tip = 0;
-var tips = 6;
+var tips = 8;
 function TipsText() {
 if (tip == 0) {
 TipsTxt.text = "Tip: Play in December..."
+TipsTxt.font = "16px Consolas";
 }
 if (tip == 1) {
 TipsTxt.text = "Tip: Die and get something special..."
+TipsTxt.font = "14px Consolas";
 }
 if (tip == 2) {
 TipsTxt.text = "Tip: Beat wave 7 boss..."
+TipsTxt.font = "16px Consolas";
 }
 if (tip == 3) {
 TipsTxt.text = "Tip: Watch your health..."
+TipsTxt.font = "16px Consolas";
 }
 if (tip == 4) {
 TipsTxt.text = "Tip: Watch your ammo..."
+TipsTxt.font = "16px Consolas";
  }
 if (tip == 5) {
 TipsTxt.text = "Tip: Don't let them surround you..."
+TipsTxt.font = "14px Consolas";
+ }
+if (tip == 6) {
+TipsTxt.text = "Tip: Play in March and join the St. Patty's Day event..."
+TipsTxt.font = "9px Consolas";
+ }
+if (tip == 7) {
+TipsTxt.text = "Tip: Beat the St. Patty's Day event boss on hard..."
+TipsTxt.font = "10px Consolas";
  }
 }
 var weaponupgrade1 = 0;
@@ -2769,6 +3204,7 @@ var maxAmmo = 160;
 var WeaponCoolDown = 30;
 var weapname = "Pistol";
 var stcget = 0;
+var specialWandS = 0;
 function waveammoweapon() {
 if (weapon == 0) {
  weapname = "Pistol";
@@ -2799,11 +3235,20 @@ if (weapon == 3) {
 if (stcweapon == 1) {
 if (stcget == 1) {
  weapname = "Cube";
- PlayerDamageDeal = 40;
+ PlayerDamageDeal = 45;
  WeaponCoolDown = 25;
  bullrange = 1;
  ammocon = 0.5;
   }
+ }
+}
+if (weapon == 4) {
+if (STPRIZEWEAPON == 1) {
+ weapname = "Lucky";
+ PlayerDamageDeal = 40;
+ WeaponCoolDown = 20;
+ bullrange = 3;
+ ammocon = 1;
  }
 }
 obo = new component(100, 80, "black", 350, 430, "rec"); 
@@ -2824,6 +3269,10 @@ wavetxt.text="Wave:" + wave;
 if (endless == 0 && wave == 9000) {
 wavetxt.font="14px Consolas";
 wavetxt.text="Wave:Ryan";
+}
+if (endless == 0 && wave == 8000) {
+wavetxt.font="13px Consolas";
+wavetxt.text="Wave:Clover";
 }
 UnmutedP = new component(50, 50, "UnmutedPic", 446, 450, "img");
 MutedP = new component(50, 50, "MutedPic", 446, 450, "img");
@@ -3303,7 +3752,7 @@ if (spawncrate2pos == 1) {
  count = 0;
  }
  if (wave == 3) {
-numofbad = 20;
+numofbad = 15;
 moneyperendie = Math.floor(Math.random() * 3) + 2;
   }
  if (wave == 4) {
@@ -3311,10 +3760,9 @@ revivecost = 150;
 moneyperendie4 = Math.floor(Math.random() * 4) + 7;
   }
  if (wave == 5) {
-numofbad = 25;
+numofbad = 20;
   }
  if (wave == 6) {
-numofbad = 30;
 revivecost = 200;
 moneyperendie2 = Math.floor(Math.random() * 6) + 5;
 moneyperendie3 = Math.floor(Math.random() * 4) + 12;
@@ -4275,8 +4723,7 @@ function crashhitai1() {
 		touchwallrightbad3 = 1;
 		if (touchwallrightbad3 == 1) {
 		    tribox.speedX = -1;
-			trienemyleft.speedX = -1;
-			trienemyright.speedX = -1;
+			trienemypic.speedX = -1;
 		}
 	}
 	if (tribox.crashWith(wallright) == false) {
@@ -4286,8 +4733,7 @@ function crashhitai1() {
 		touchwallleftbad3 = 1;
 		if (touchwallleftbad3 == 1) {
 		    tribox.speedX = 1;
-			trienemyleft.speedX = 1;
-			trienemyright.speedX = 1;
+			trienemypic.speedX = 1;
 		}
 	}
 	if (tribox.crashWith(wallleft) == false) {
@@ -4297,8 +4743,7 @@ function crashhitai1() {
 		touchwallupbad3 = 1;
 		if (touchwallupbad3 == 1) {
 		    tribox.speedY = 1;
-			trienemyleft.speedY = 1;
-			trienemyright.speedY = 1;
+			trienemypic.speedY = 1;
 		}
 	}
 	if (tribox.crashWith(wall3) == false) {
@@ -4308,8 +4753,7 @@ function crashhitai1() {
 		touchwalldownbad3 = 1;
 		if (touchwalldownbad3 == 1) {
 		    tribox.speedY = -1;
-			trienemyleft.speedY = -1;
-			trienemyright.speedY = -1;
+			trienemypic.speedY = -1;
 		}
 	}
 	if (tribox.crashWith(wall4) == false) {
@@ -4319,8 +4763,7 @@ function crashhitai1() {
 		touchwalldownbad3 = 1;
 		if (touchwalldownbad3 == 1) {
 			tribox.speedY = -1;
-			trienemyleft.speedY = -1;
-			trienemyright.speedY = -1;
+			trienemypic.speedY = -1;
 		}
 	}
 	if (tribox.crashWith(wall3house1) == false) {
@@ -4330,8 +4773,7 @@ function crashhitai1() {
 		touchwallupbad3 = 1;
 		if (touchwallupbad3 == 1) {
 			tribox.speedY = 1;
-			trienemyleft.speedY = 1;
-			trienemyright.speedY = 1;
+			trienemypic.speedY = 1;
 		}
 	}
 	if (tribox.crashWith(wall3house1_2) == false) {
@@ -4341,8 +4783,7 @@ function crashhitai1() {
 		touchwallrightbad3 = 1;
 		if (touchwallrightbad3 == 1) {
 			tribox.speedX = -1;
-			trienemyleft.speedX = -1;
-			trienemyright.speedX = -1;
+			trienemypic.speedX = -1;
 		}
 	}
 	if (tribox.crashWith(wall3house2) == false) {
@@ -4352,8 +4793,7 @@ function crashhitai1() {
 		touchwallleftbad3 = 1;
 		if (touchwallleftbad3 == 1) {
 			tribox.speedX = 1;
-			trienemyleft.speedX = 1;
-			trienemyright.speedX = 1;
+			trienemypic.speedX = 1;
 		}
 	}
 	if (tribox.crashWith(wall3house2_2) == false) {
@@ -4363,8 +4803,7 @@ function crashhitai1() {
 		touchwallrightbad3 = 1;
 		if (touchwallrightbad3 == 1) {
 			tribox.speedX = 1;
-			trienemyleft.speedX = 1;
-			trienemyright.speedX = 1;
+			trienemypic.speedX = 1;
 		}
 	}
 	if (tribox.crashWith(wall3house3) == false) {
@@ -4374,8 +4813,7 @@ function crashhitai1() {
 		touchwallleftbad3 = 1;
 		if (touchwallleftbad3 == 1) {
 			tribox.speedX = -1;
-			trienemyleft.speedX = -1;
-			trienemyright.speedX = -1;
+			trienemypic.speedX = -1;
 		}
 	}
 	if (tribox.crashWith(wall3house3_2) == false) {
@@ -4385,8 +4823,7 @@ function crashhitai1() {
 		touchwallupbad3 = 1;
 		if (touchwallupbad3 == 1) {
 			tribox.speedY = 1;
-			trienemyleft.speedY = 1;
-			trienemyright.speedY = 1;
+			trienemypic.speedY = 1;
 		}
 	}
 	if (tribox.crashWith(wall3house4) == false) {
@@ -4396,8 +4833,7 @@ function crashhitai1() {
 		touchwalldownbad3 = 1;
 		if (touchwalldownbad3 == 1) {
 			tribox.speedY = -1;
-			trienemyleft.speedY = -1;
-			trienemyright.speedY = -1;
+			trienemypic.speedY = -1;
 		}
 	}
 	if (tribox.crashWith(wall3house4_2) == false) {
@@ -4407,8 +4843,7 @@ function crashhitai1() {
 		touchwallleftbad3 = 1;
 		if (touchwallleftbad3 == 1) {
 			tribox.speedX = 1;
-			trienemyleft.speedX = 1;
-			trienemyright.speedX = 1;
+			trienemypic.speedX = 1;
 		}
 	}
 	if (tribox.crashWith(wall3house4_3) == false) {
@@ -4418,8 +4853,7 @@ function crashhitai1() {
 		touchwallupbad3 = 1;
 		if (touchwallupbad3 == 1) {
 			tribox.speedY = 1;
-			trienemyleft.speedY = 1;
-			trienemyright.speedY = 1;
+			trienemypic.speedY = 1;
 		}
 	}
 	if (tribox.crashWith(wall3house5) == false) {
@@ -4429,8 +4863,7 @@ function crashhitai1() {
 		touchwalldownbad3 = 1;
 		if (touchwalldownbad3 == 1) {
 			tribox.speedY = -1;
-			trienemyleft.speedY = -1;
-			trienemyright.speedY = -1;
+			trienemypic.speedY = -1;
 		}
 	}
 	if (tribox.crashWith(wall3house5_2) == false) {
@@ -4440,8 +4873,7 @@ function crashhitai1() {
 		touchwallleftbad3 = 1;
 		if (touchwallleftbad3 == 1) {
 			tribox.speedX = -1;
-			trienemyleft.speedX = -1;
-			trienemyright.speedX = -1;
+			trienemypic.speedX = -1;
 		}
 	}
 	if (tribox.crashWith(wall3house5_3) == false) {
@@ -4452,8 +4884,7 @@ function crashhitai1() {
 		touchwallupbad3 = 1;
 		if (touchwallupbad3 == 1) {
 			tribox.speedY = 1;
-			trienemyleft.speedY = 1;
-			trienemyright.speedY = 1;
+			trienemypic.speedY = 1;
 		}
 	 }
 	}
@@ -4461,8 +4892,7 @@ function crashhitai1() {
 		touchwallupbad3 = 1;
 		if (touchwallupbad3 == 1) {
 			tribox.speedY = 1;
-			trienemyleft.speedY = 1;
-			trienemyright.speedY = 1;
+			trienemypic.speedY = 1;
 		}
 	}
     if (tribox.crashWith(wall4house1) == false) {
@@ -4472,8 +4902,7 @@ function crashhitai1() {
 		touchwalldownbad3 = 1;
 		if (touchwalldownbad3 == 1) {
 			tribox.speedY = -1;
-			trienemyleft.speedY = -1;
-			trienemyright.speedY = -1;
+			trienemypic.speedY = -1;
 		}
 	}
 	if (tribox.crashWith(wall4house1_1) == false) {
@@ -4483,8 +4912,7 @@ function crashhitai1() {
 		touchwallrightbad3 = 1;
 		if (touchwallrightbad3 == 1) {
 			tribox.speedX = -2;
-			trienemyleft.speedX = -2;
-			trienemyright.speedX = -2;
+			trienemypic.speedX = -2;
 		}
 	}
 	if (tribox.crashWith(wall4house2) == false) {
@@ -4494,8 +4922,7 @@ function crashhitai1() {
 		touchwallleftbad3 = 1;
 		if (touchwallleftbad3 == 1) {
 			tribox.speedX = 2;
-			trienemyleft.speedX = 2;
-			trienemyright.speedX = 2;
+			trienemypic.speedX = 2;
 		}
 	}
 	if (tribox.crashWith(wall4house2_1) == false) {
@@ -4505,8 +4932,7 @@ function crashhitai1() {
 		touchwallleftbad3 = 1;
 		if (touchwallleftbad3 == 1) {
 			tribox.speedX = 2;
-			trienemyleft.speedX = 2;
-			trienemyright.speedX = 2;
+			trienemypic.speedX = 2;
 		}
 	}
 	if (tribox.crashWith(wall4house3) == false) {
@@ -4516,8 +4942,7 @@ function crashhitai1() {
 		touchwallrightbad3 = 1;
 		if (touchwallrightbad3 == 1) {
 			tribox.speedX = -2;
-			trienemyleft.speedX = -2;
-			trienemyright.speedX = -2;
+			trienemypic.speedX = -2;
 		}
 	}
 	if (tribox.crashWith(wall4house3_1) == false) {
@@ -4527,8 +4952,7 @@ function crashhitai1() {
 		touchwalldownbad3 = 1;
 		if (touchwalldownbad3 == 1) {
 			tribox.speedY = -1;
-			trienemyleft.speedY = -1;
-			trienemyright.speedY = -1;
+			trienemypic.speedY = -1;
 		}
 	}
 	if (tribox.crashWith(wall4house4) == false) {
@@ -4538,8 +4962,7 @@ function crashhitai1() {
 		touchwallupbad3 = 1;
 		if (touchwallupbad3 == 1) {
 			tribox.speedY = 1;
-			trienemyleft.speedY = 1;
-			trienemyright.speedY = 1;
+			trienemypic.speedY = 1;
 		}
 	}
     if (tribox.crashWith(wall4house4_1) == false) {
@@ -4549,8 +4972,7 @@ function crashhitai1() {
 		touchwallleftbad3 = 1;
 		if (touchwallleftbad3 == 1) {
 			tribox.speedX = 2;
-			trienemyleft.speedX = 2;
-			trienemyright.speedX = 2;
+			trienemypic.speedX = 2;
 		}
 	}
 	if (tribox.crashWith(wall4house4_2) == false) {
@@ -4560,8 +4982,7 @@ function crashhitai1() {
 		touchwalldownbad3 = 1;
 		if (touchwalldownbad3 == 1) {
 			tribox.speedY = -1;
-			trienemyleft.speedY = -1;
-			trienemyright.speedY = -1;
+			trienemypic.speedY = -1;
 		}
 	}
 	if (tribox.crashWith(wall4house5) == false) {
@@ -4571,8 +4992,7 @@ function crashhitai1() {
 		touchwallupbad3 = 1;
 		if (touchwallupbad3 == 1) {
 			tribox.speedY = 1;
-			trienemyleft.speedY = 1;
-			trienemyright.speedY = 1;
+			trienemypic.speedY = 1;
 		}
 	}
     if (tribox.crashWith(wall4house5_1) == false) {
@@ -4582,8 +5002,7 @@ function crashhitai1() {
 		touchwallrightbad3 = 1;
 		if (touchwallrightbad3 == 1) {
 			tribox.speedX = -2;
-			trienemyleft.speedX = -2;
-			trienemyright.speedX = -2;
+			trienemypic.speedX = -2;
 		}
 	}
 	if (tribox.crashWith(wall4house5_2) == false) {
@@ -4593,8 +5012,8 @@ function crashhitai1() {
 		touchwalldownbad3 = 1;
 		if (touchwalldownbad3 == 1) {
 			tribox.speedY = -1;
-			trienemyleft.speedY = -1;
-			trienemyright.speedY = -1;
+
+			trienemypic.speedY = -1;
 		}
 	}
 	if (tribox.crashWith(wall4house6) == false) {
@@ -4604,8 +5023,7 @@ function crashhitai1() {
 		touchwallupbad3 = 1;
 		if (touchwallupbad3 == 1) {
 			tribox.speedY = 1;
-			trienemyleft.speedY = 1;
-			trienemyright.speedY = 1;
+			trienemypic.speedY = 1;
 		}
 	}
     if (tribox.crashWith(wall4house6_1) == false) {
@@ -4615,8 +5033,7 @@ function crashhitai1() {
 		touchwallrightbad3 = 1;
 		if (touchwallrightbad3 == 1) {
 			tribox.speedX = -2;
-			trienemyleft.speedX = -2;
-			trienemyright.speedX = -2;
+			trienemypic.speedX = -2;
 		}
 	}
 	if (tribox.crashWith(wall4house6_2) == false) {
@@ -4626,8 +5043,7 @@ function crashhitai1() {
 		touchwallleftbad3 = 1;
 		if (touchwallleftbad3 == 1) {
 			tribox.speedX = 2;
-			trienemyleft.speedX = 2;
-			trienemyright.speedX = 2;
+			trienemypic.speedX = 2;
 		}
 	}
 	if (tribox.crashWith(wall4house6_3) == false) {
@@ -4638,8 +5054,7 @@ function crashhitai1() {
 		touchwalldownbad3 = 1;
 		if (touchwalldownbad3 == 1) {
 			tribox.speedY = -1;
-			trienemyleft.speedY = -1;
-			trienemyright.speedY = -1;
+			trienemypic.speedY = -1;
 		}
 	 }	
 	}	//gohere2//
@@ -5472,7 +5887,7 @@ Explosion.color = "EXFrame1";
 }	
 if (ExplosionCycle == 1) {
 Explosion.color = "EXFrame2";
-if (upgrademenu == 0 && wave == 7 && count != 10 && menu > 0 && pauseGame == 0 && spawnBoss7 == 0) {
+if (upgrademenu == 0 && wave == 7 && count != 10 && menu > 0 && pauseGame == 0 && spawnBoss7 == 0 && MusicOnOff == true) {
 document.getElementById('explosion').play();
  }
 }
@@ -6163,10 +6578,9 @@ var negbadspeedai3 = -1;
 var badhurtspeedai3 = 1.6;
 var negbadhurtspeedai3 = -1.6;
 function triangleAI() {
-trienemyleft.x = tribox.x;
-trienemyleft.y = tribox.y;
-trienemyright.x = tribox.x;
-trienemyright.y = tribox.y;
+trienemypic.x = tribox.x;
+trienemypic.y = tribox.y;
+trienemypic.angle = Math.atan2(-box.y + trienemypic.y, -box.x + trienemypic.x) + 1.57079633;
 badguy1healthbar4.x = tribox.x - 12;
 badguy1healthbar4.y = tribox.y - 8;
 badguy1healthbar4.color = badHealthBarColor4;
@@ -6180,8 +6594,6 @@ if (tribox.x < tripos1.x) {
 tribox.speedX = 5;
 }
 if (tribox.crashWith(tripos1)) {
-trienemyleft.speedX = 0;
-trienemyleft.speedY = 0;
 tribox.speedY = 0;
 tribox.speedX = 0;
 Badhealth3 = 120;
@@ -6463,13 +6875,13 @@ var Badhealth4 = 0;
 var Bad4DamageDeal = 0.13;
 function badrecspawn1() {
 if (difficulty == 0) {
-	Bad4DamageDeal = 0.13;
+	Bad4DamageDeal = 0.10;
 }
 if (difficulty == 1) {
-	Bad4DamageDeal = 0.15;
+	Bad4DamageDeal = 0.13;
 }
 if (difficulty == 2) {
-	Bad4DamageDeal = 0.17;
+	Bad4DamageDeal = 0.16;
 }
 if (wave < 5 && wave > 2) {
 if (recbox1.crashWith(bullbox)) {
@@ -6520,7 +6932,6 @@ recbox1.speedY = 0;
 recbox1.speedX = 0;
 Badhealth4 = 120;
 BadDeath4 = 0;
-recenemypic1.angle = 0;
 badspeedai4 = 1;
 negbadspeedai4 = -1;
 badhurtspeedai4 = 1.5;
@@ -6577,7 +6988,6 @@ if (recbox1.crashWith(wall2house6_2) == false) {
 if (recbox1.crashWith(wall2house1_2) == false) {
 if (recbox1.crashWith(wall2house4) == false) {
 if (recbox1.crashWith(wall2house6) == false) {
-recenemypic1.angle += 5 * Math.PI / 180;
 if (recbox1.x > box.x + recbox1.width) {
 recbox1.speedX = negbadspeedai4;
 if (Badhealth4 <= 50) {
@@ -6984,6 +7394,8 @@ bpic3.x = bullbox.x;
 bpic3.y = bullbox.y;
 bpic4.x = bullbox.x;
 bpic4.y = bullbox.y;
+bpic5.x = bullbox.x;
+bpic5.y = bullbox.y;
 if (fire < 1) {
 if (-10 + bullbox.x > box.x) {
 	bullbox.speedX = -5;
@@ -7326,6 +7738,18 @@ function statscommand() {
  stat5_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
  stat5_w.font = "15px Consolas";
  stat5_w.text = "Number: #5";
+ stat6_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
+ stat6_w.font = "15px Consolas";
+ stat6_w.text = "Number: #6";
+ stat6_w_1 = new component("30px", "Consolas", "white", 555, upgrade1Y + 90, "text");
+ stat6_w_1.font = "15px Consolas";
+ stat6_w_1.text = "Beat The Saint Patrick's Day";
+ stat6_w_2 = new component("30px", "Consolas", "white", 555, upgrade1Y + 105, "text");
+ stat6_w_2.font = "15px Consolas";
+ stat6_w_2.text = "Boss On Hard To Unlock The";
+ stat6_w_3 = new component("30px", "Consolas", "white", 555, upgrade1Y + 120, "text");
+ stat6_w_3.font = "15px Consolas";
+ stat6_w_3.text = "Ships Special Weapon!";
  stat1 = new component("30px", "Consolas", "white", 45, upgrade1Y + 15, "text");
  stat1.font = "15px Consolas";
  stat1.text = "Name: " + weapname;
@@ -7346,10 +7770,7 @@ function statscommand() {
  stat2_4.text = "Special: Slows Enemies";
  stat3_4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
  stat3_4.font = "15px Consolas";
- stat3_4.text = "Special: Nothing";
- stat4_4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
- stat4_4.font = "15px Consolas";
- stat4_4.text = "Special: Uses Less Ammo";
+ stat3_4.text = "Special: Uses Less Ammo";
 if (pauseGame == 1 && pauseGameKeys == false) {
 statstxt.update();
 stats2txt.update();
@@ -7388,6 +7809,18 @@ stat1_3w.update();
 stat1_4w.update();
 stat1_5w.update();
 }
+if (playerShip == 5) {
+stat6_w.update();
+if (STPRIZEWEAPON == 0) {
+stat6_w_1.update();
+stat6_w_2.update();
+stat6_w_3.update();
+}
+stat1_2w.update();
+stat1_3w.update();	
+stat1_4w.update();
+stat1_5w.update();
+}
 stat1.update();
 stat1_2.update();
 stat1_3.update();
@@ -7399,10 +7832,13 @@ if (weapon == 1) {
 stat2_4.update();
  }
 if (weapon == 2) {
-stat3_4.update();
+stat1_4.update();
  }
 if (weapon == 3) {
-stat4_4.update();
+stat3_4.update();
+ }
+if (weapon == 4) {
+stat1_4.update();
  }
  }
 }
@@ -7413,6 +7849,7 @@ var namebY = 450;
 var ammocheat = "MOREAMMO";
 var healthcheat = "MOREHEALTH";
 var wavebonus = "RYANMACE";
+var waveStPDay = "CLOVER";
 var testwave = "TEST";
 var resetcheat = "RESET";
 var fullcheat = "FULLYMAXED";
@@ -7463,9 +7900,13 @@ function nameFC() {
  locationN.update();
  if (wave < 5) {
  locationV = "Monty Forest Cabins";
+ switchpos = 0;
  }
  if (wave >= 5 && wave < 7) {
  locationV = "Monty Trailer Park";
+ }
+ if (wave == 8000) {
+ locationV = "Blossom Fields";
  }
  if (CapName == ammocheat) {
  ammo = maxAmmo;
@@ -7481,8 +7922,14 @@ function nameFC() {
  wave = 9000;
  document.getElementById('name').value = "";
  }
+ if (CapName == waveStPDay && STPDAYEVENTTRIGGER == 1) {
+ wave = 8000;
+ switchpos = 0;
+ document.getElementById('name').value = "";
+ }
  if (CapName == beginning || goBack == 1) {
  goBack = 0;
+ switchpos = 0;
  wave = 1;
  count = 0;
  pauseGame = 0;
@@ -7523,12 +7970,14 @@ function nameFC() {
  bpic2 = new component(10, 10, "bullpic2", 400, 180, "img");
  bpic3 = new component(10, 10, "bullpic3", 400, 180, "img");
  bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
+ bpic5 = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", 400, 180, "img");
  box = new component(25, 25, "black", playerX, playerY, "rec");
  ship1 = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "img");
  ship2 = new component(25, 25, "player2img", playerX, playerY, "img");
  ship3 = new component(25, 25, "player3img", playerX, playerY, "img");
  ship4 = new component(25, 25, "player4img", playerX, playerY, "img");
  ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "img");
+ ship6 = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", playerX, playerY, "img-rot");
  document.getElementById('name').value = "";
  }
  if (CapName == weapv) {
@@ -7565,6 +8014,7 @@ function playerMoney() {
 }
 var switchy = 0;
 function swapweap1() {
+if (specialWandS == 0) {
 if (switchy == -1) {
 switchy = 0;
 }
@@ -7574,22 +8024,33 @@ switchy += 1;
 if (stcget == 0) {
 switchy = 0;
 weapon = 0;
+  }
+ }
+if (specialWandS == 1) {
+if (playerShip == 5 && STPRIZEWEAPON == 1) {
+switchy = -1;
+weapon = 4;
+  }
  }
 }
 function swapweap2() {
+if (specialWandS == 0) {
 if (weaponupgrade1 > 0) {
 if (stcweapon == 1) {
     switchy = -1;
 }
     weapon = 1;
+  }
  }
 }
 function swapweap3() {
+if (specialWandS == 0) {
 if (weaponupgrade1 > 1) {
 if (stcweapon == 1) {
     switchy = -1;
 }
     weapon = 2;
+  }
  }
 }
 
@@ -7600,7 +8061,7 @@ var pauseGame = 0;
 var backSwitch = 0;
 function backfunc() {
    backSwitch = 0;
-   if (specialalert1 == 0) {
+   if (specialalert1 == 0 && STPOPUP == 0) {
    if (pauseGame == 0) {
    if (upgrademenu > 0) {
             backSwitch = 1;
@@ -7610,6 +8071,9 @@ function backfunc() {
 	}
    if (specialalert1 == 1) {
    specialalert1 = 0;
+   }
+   if (STPOPUP == 1) {
+   STPOPUP = 0;
    }
    if (backSwitch == 0) {
    if (upgrademenu == 0) {
