@@ -143,11 +143,13 @@ function start() {
  STPDAYEVENTBOSSHEALTHBARTEXT.font = "15px Consolas";
  STPDAYEVENTBOSSHEALTHBARTEXT.text = "BOSS:";
  endCard = new component(800, 390, "End", 0, 0, "img");
- guardianPic = new component(25, 25, "guardian", 650, 450, "img-rot");
+ guardianPic = new component(25, 25, "guardian", 650, 450, "animated-img-rot");
+ guardianPic_lazer = new component(0, "round", "#650014", 0, 0, "line", 0, 0);
+ guardianPic_lazer.globalAlpha = 0;
  guardianBox = new component(25, 25, "red", 650, 450, "rec", "enemy");
  guardianhealthbar = new component(GuardHealth / 2, 5, guardHealthBarColor, guardianBox.x, guardianBox.y - 8, "rec");
- bossWave7pic = new component(35, 35, "wave7boss", Boss7_Start_X, Boss7_Start_Y, "img");
- bossWave7sheildPic = new component(35, 35, "wave7bossSheild", Boss7_Start_X, Boss7_Start_Y, "img");
+ bossWave7pic = new component(35, 35, "wave7boss", Boss7_Start_X, Boss7_Start_Y, "img-rot");
+ bossWave7sheildPic = new component(35, 35, "wave7bossSheild", Boss7_Start_X, Boss7_Start_Y, "img-rot");
  bossWave7 = new component(35, 35, "red", Boss7_Start_X, Boss7_Start_Y, "rec");
  boss7healthbar = new component(BossHealth / 2, 10, bossHealthBarColor, 150, 20, "rec");
  bosstxt = new component("30px", "Consolas", "white", 150, 15, "text");
@@ -157,26 +159,36 @@ function start() {
  bosstxt2.font = "15px Consolas";
  bosstxt2.text = "BOSS: Sheilded";
  recenemypic1 = new component(25, 25, "Rectangle", 450, 60, "animated-img-rot");
+ recenemypic1_lazer = new component(0, "round", "black", 0, 0, "line", 0, 0);
+ recenemypic1_lazer.globalAlpha = 0;
  recbox1 = new component(25, 25, "red", 450, 60, "rec", "enemy");
  badguy1healthbar3 = new component(Badhealth4 / 2, 5, badHealthBarColor3, recbox1.x, recbox1.y - 8, "rec");
  recpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec", "enemy");
  recwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
- xenemypic1 = new component(31, 31, "X_Enemy", 450, 60, "img-rot");
+ xenemypic1 = new component(31, 31, "X_Enemy", 450, 60, "animated-img-rot");
+ xenemypic1_lazer = new component(0, "round", "yellow", 0, 0, "line", 0, 0);
+ xenemypic1_lazer.globalAlpha = 0;
  xbox1 = new component(31, 31, "red", 450, 60, "rec", "enemy");
  badguy1healthbar5 = new component(Badhealth5 / 2, 5, badHealthBarColor5, xbox1.x, xbox1.y - 8, "rec");
  xpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec", "enemy");
  xwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
  badguypic1 = new component(25, 25, "badguy1img", 650, 450, "animated-img-rot");
+ badguypic1_lazer = new component(0, "round", "darkred", 0, 0, "line", 0, 0);
+ badguypic1_lazer.globalAlpha = 0;
  badguy1 = new component(25, 25, "red", 650, 450, "rec", "enemy");
  badguy1healthbar = new component(Badhealth1 / 2, 5, badHealthBarColor, badguy1.x, badguy1.y - 8, "rec");
  badpos1 = new component(25, 25, "orange", bad1posX, bad1posY, "rec", "enemy");
  badwavebox1 = new component(35, 35, "black", bad1posX - 5, bad1posY - 5, "rec");
  badguypic2 = new component(25, 25, "badguy1img", 40, 150, "animated-img-rot");
+ badguypic2_lazer = new component(0, "round", "darkred", 0, 0, "line", 0, 0);
+ badguypic2_lazer.globalAlpha = 0;
  badguy2 = new component(25, 25, "red", 40, 150, "rec", "enemy");
  badguy1healthbar2 = new component(Badhealth2 / 2, 5, badHealthBarColor2, badguy2.x, badguy2.y - 8, "rec");
  badpos2 = new component(25, 25, "orange", bad2posX, bad2posY, "rec");
  badwavebox2 = new component(35, 35, "black", bad2posX - 5, bad2posY - 5, "rec");
- trienemypic = new component(35, 35, "triimgdown", 430, 100, "img-rot");
+ trienemypic = new component(35, 34.5, "triimgdown", 430, 100, "animated-img-rot");
+ trienemypic_lazer = new component(0, "round", "purple", 0, 0, "line", 0, 0);
+ trienemypic_lazer.globalAlpha = 0;
  tribox = new component(35, 35, "red", 430, 100, "rec", "enemy");
  badguy1healthbar4 = new component(Badhealth3 / 2, 5, badHealthBarColor4, tribox.x, tribox.y - 8, "rec");
  tribpic = new component(10, 10, "enemybull", 400, 100, "img");
@@ -191,12 +203,12 @@ function start() {
  bpic5 = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", 400, 180, "img");
  box = new component(25, 25, "grey", playerX, playerY, "player1", "player");
  detectbox = new component(100, 100, "black", playerX - 37.5, playerY - 37.5, "rec");
- ship1 = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "img");
- ship2 = new component(25, 25, "player2img", playerX, playerY, "img");
- ship3 = new component(25, 25, "player3img", playerX, playerY, "img");
- ship4 = new component(25, 25, "player4img", playerX, playerY, "img");
- ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "img");
- ship6 = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", playerX, playerY, "img-rot");
+ ship1 = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+ ship2 = new component(25, 25, "player2img", playerX, playerY, "animated-img-rot");
+ ship3 = new component(25, 25, "player3img", playerX, playerY, "animated-img-rot");
+ ship4 = new component(25, 25, "player4img", playerX, playerY, "animated-img-rot");
+ ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+ ship6 = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", playerX, playerY, "animated-img-rot");
  w1t5 = new component(800, 500, "wave1t5", 0, 0, "img");
  w5t7 = new component(800, 390, "wave5t7", 0, 0, "img");
  Explosion = new component(800, 390, "EXFrame1", 0, 0, "img");
@@ -560,12 +572,14 @@ function animationInt() {
 badguypic1_1_animation = new animationComponent(6, 0, 25);
 badguypic2_1_animation = new animationComponent(6, 0, 25);
 recenemypic1_1_animation = new animationComponent(6, 0, 15);
+trienemypic_1_animation = new animationComponent(8, 0, 25);
+xenemypic1_1_animation = new animationComponent(8, 0, 15);
 }
 
 var debugTest = false;
 function animations() {
 if (debugTest == true) {
-console.log("Current Frame: " + badguypic1_1_animation.currentFrame + " Current Frame 2: " + badguypic2_1_animation.currentFrame + " Current Frame 3: " + recenemypic1_1_animation.currentFrame);
+console.log("Current Frame: " + badguypic1_1_animation.currentFrame + " Current Frame 2: " + badguypic2_1_animation.currentFrame + " Current Frame 3: " + recenemypic1_1_animation.currentFrame + " Current Frame 4: " + trienemypic_1_animation.currentFrame + " Current Frame 5: " + xenemypic1_1_animation.currentFrame);
 }
 //badguypic1 enemy animation//
 if (wave < 5 && BadDeath < 1 && Death1 == 0) {
@@ -666,6 +680,109 @@ if (recenemypic1_1_animation.currentFrame == 5) {
 recenemypic1.sx = 25;
 recenemypic1.sy = 25;
 }
+//trienemypic enemy animation//
+trienemypic.angle = Math.atan2(-box.y + trienemypic.y, -box.x + trienemypic.x) + 1.5707963268;
+if (wave > 4 && wave < 7 && BadDeath3 < 1 && Death1 == 0) {
+trienemypic_1_animation.frameTimer();
+}
+if (wave >= 7 || wave <= 4 || BadDeath3 > 0 || Death1 != 0) {
+trienemypic_1_animation.resetFrame();
+}
+if (trienemypic_1_animation.currentFrame == 0) {
+trienemypic.sx = 0;
+trienemypic.sy = 0;
+}
+if (trienemypic_1_animation.currentFrame == 1) {
+trienemypic.sx = 35;
+trienemypic.sy = 0;
+}
+if (trienemypic_1_animation.currentFrame == 2) {
+trienemypic.sx = 70;
+trienemypic.sy = 0;
+}
+if (trienemypic_1_animation.currentFrame == 3) {
+trienemypic.sx = 105;
+trienemypic.sy = 0;
+}
+if (trienemypic_1_animation.currentFrame == 4) {
+trienemypic.sx = 0;
+trienemypic.sy = 35;
+}
+if (trienemypic_1_animation.currentFrame == 5) {
+trienemypic.sx = 35;
+trienemypic.sy = 35;
+}
+if (trienemypic_1_animation.currentFrame == 6) {
+trienemypic.sx = 70;
+trienemypic.sy = 35;
+}
+if (trienemypic_1_animation.currentFrame == 7) {
+trienemypic.sx = 105;
+trienemypic.sy = 35;
+}
+//xenemypic1 enemy animation//
+if (wave > 5 && wave < 7 && BadDeath5 < 1 && Death1 == 0) {
+xenemypic1.angle += 0.06;
+xenemypic1_1_animation.frameTimer();
+}
+if (wave >= 7 || wave <= 5 || BadDeath5 > 0 || Death1 != 0) {
+xenemypic1.angle = 0;
+xenemypic1_1_animation.resetFrame();
+}
+if (xenemypic1_1_animation.currentFrame == 0) {
+xenemypic1.sx = 0;
+xenemypic1.sy = 0;
+}
+if (xenemypic1_1_animation.currentFrame == 1) {
+xenemypic1.sx = 31;
+xenemypic1.sy = 0;
+}
+if (xenemypic1_1_animation.currentFrame == 2) {
+xenemypic1.sx = 62;
+xenemypic1.sy = 0;
+}
+if (xenemypic1_1_animation.currentFrame == 3) {
+xenemypic1.sx = 93;
+xenemypic1.sy = 0;
+}
+if (xenemypic1_1_animation.currentFrame == 4) {
+xenemypic1.sx = 0;
+xenemypic1.sy = 31;
+}
+if (xenemypic1_1_animation.currentFrame == 5) {
+xenemypic1.sx = 31;
+xenemypic1.sy = 31;
+}
+if (xenemypic1_1_animation.currentFrame == 6) {
+xenemypic1.sx = 62;
+xenemypic1.sy = 31;
+}
+if (xenemypic1_1_animation.currentFrame == 7) {
+xenemypic1.sx = 93;
+xenemypic1.sy = 31;
+}
+//guardianPic enemy animation//
+
+//bossWave7pic enemy animation//
+if (wave == 7 && spawnBoss7 == 1 && BossDead == false) {
+bossWave7pic.angle += 0.05;
+} else {
+bossWave7pic.angle = 0;
+}
+//bossWave7sheildPic enemy animation//
+bossWave7sheildPic.angle = bossWave7pic.angle;
+//ship1 ship animation//
+ship1.angle += 0.05;
+//ship2 ship animation//
+ship2.angle += 0.05;
+//ship3 ship animation//
+ship3.angle += 0.05;
+//ship4 ship animation//
+ship4.angle += 0.05;
+//ship5 ship animation//
+ship5.angle += 0.05;
+//ship6 ship animation//
+ship6.angle += 0.05;
 }
 
 function component(width, height, color ,x ,y, type, radius, outcolor, thickness) {
@@ -676,6 +793,8 @@ this.x = x;
 this.y = y;
 this.sx = 0;
 this.sy = 0;
+this.endpositionX = radius;
+this.endpositionY = outcolor;
 this.animationFrame = 0;
 this.angle = 0;
 this.align = "start";
@@ -687,6 +806,16 @@ this.halfHeight = this.height * 0.5;
 this.color = color;
 this.update = function() {
 ctx = Board.context;
+if (this.type == "line") {
+ctx.beginPath();
+ctx.globalAlpha = this.globalAlpha;
+ctx.lineWidth = this.width;
+ctx.lineCap = this.height;
+ctx.strokeStyle = this.color; 
+ctx.moveTo(this.x, this.y);
+ctx.lineTo(this.endpositionX, this.endpositionY);
+ctx.stroke();
+}
 if (this.type == "text") {
  ctx.textAlign = this.align;
  ctx.font = this.font;
@@ -1590,6 +1719,202 @@ STBOSSBULLETS[i].y += 3;
  }
 }
 
+function laserSetUp() {
+//lazer setup//
+badguypic1_lazer.x = badguy1.x + badguy1.width/2;
+badguypic1_lazer.y = badguy1.y + badguy1.height/2;
+badguypic1_lazer.endpositionX = box.x + box.width/2;
+badguypic1_lazer.endpositionY = box.y + box.height/2;
+if (box.crashWith(badguy1)) {
+if (badguypic1_lazer.globalAlpha < 0.6) {
+badguypic1_lazer.globalAlpha += 0.02;
+}
+if (badguypic1_lazer.globalAlpha >= 0.6) {
+badguypic1_lazer.globalAlpha = 0.6;
+}
+if (badguypic1_lazer.width < 4) {
+badguypic1_lazer.width += 0.08;
+}
+if (badguypic1_lazer.width >= 4) {
+badguypic1_lazer.width = 4;
+}
+}
+if (box.crashWith(badguy1) == false) {
+if (badguypic1_lazer.globalAlpha > 0) {
+badguypic1_lazer.globalAlpha -= 0.02;
+}
+if (badguypic1_lazer.globalAlpha <= 0) {
+badguypic1_lazer.globalAlpha = 0;
+}
+if (badguypic1_lazer.width > 0) {
+badguypic1_lazer.width -= 0.08;
+}
+if (badguypic1_lazer.width <= 0) {
+badguypic1_lazer.width = 0;
+}	
+}
+badguypic2_lazer.x = badguy2.x + badguy2.width/2;
+badguypic2_lazer.y = badguy2.y + badguy2.height/2;
+badguypic2_lazer.endpositionX = box.x + box.width/2;
+badguypic2_lazer.endpositionY = box.y + box.height/2;
+if (box.crashWith(badguy2)) {
+if (badguypic2_lazer.globalAlpha < 0.6) {
+badguypic2_lazer.globalAlpha += 0.02;
+}
+if (badguypic2_lazer.globalAlpha >= 0.6) {
+badguypic2_lazer.globalAlpha = 0.6;
+}
+if (badguypic2_lazer.width < 4) {
+badguypic2_lazer.width += 0.08;
+}
+if (badguypic2_lazer.width >= 4) {
+badguypic2_lazer.width = 4;
+}
+}
+if (box.crashWith(badguy2) == false) {
+if (badguypic2_lazer.globalAlpha > 0) {
+badguypic2_lazer.globalAlpha -= 0.02;
+}
+if (badguypic2_lazer.globalAlpha <= 0) {
+badguypic2_lazer.globalAlpha = 0;
+}
+if (badguypic2_lazer.width > 0) {
+badguypic2_lazer.width -= 0.08;
+}
+if (badguypic2_lazer.width <= 0) {
+badguypic2_lazer.width = 0;
+}	
+}
+trienemypic_lazer.x = tribox.x + tribox.width/2;
+trienemypic_lazer.y = tribox.y + tribox.height/2;
+trienemypic_lazer.endpositionX = box.x + box.width/2;
+trienemypic_lazer.endpositionY = box.y + box.height/2;
+if (box.crashWith(tribox)) {
+if (trienemypic_lazer.globalAlpha < 0.6) {
+trienemypic_lazer.globalAlpha += 0.02;
+}
+if (trienemypic_lazer.globalAlpha >= 0.6) {
+trienemypic_lazer.globalAlpha = 0.6;
+}
+if (trienemypic_lazer.width < 6) {
+trienemypic_lazer.width += 0.08;
+}
+if (trienemypic_lazer.width >= 6) {
+trienemypic_lazer.width = 6;
+}
+}
+if (box.crashWith(tribox) == false) {
+if (trienemypic_lazer.globalAlpha > 0) {
+trienemypic_lazer.globalAlpha -= 0.02;
+}
+if (trienemypic_lazer.globalAlpha <= 0) {
+trienemypic_lazer.globalAlpha = 0;
+}
+if (trienemypic_lazer.width > 0) {
+trienemypic_lazer.width -= 0.08;
+}
+if (trienemypic_lazer.width <= 0) {
+trienemypic_lazer.width = 0;
+}	
+}
+recenemypic1_lazer.x = recbox1.x + recbox1.width/2;
+recenemypic1_lazer.y = recbox1.y + recbox1.height/2;
+recenemypic1_lazer.endpositionX = box.x + box.width/2;
+recenemypic1_lazer.endpositionY = box.y + box.height/2;
+if (box.crashWith(recbox1)) {
+if (recenemypic1_lazer.globalAlpha < 0.6) {
+recenemypic1_lazer.globalAlpha += 0.02;
+}
+if (recenemypic1_lazer.globalAlpha >= 0.6) {
+recenemypic1_lazer.globalAlpha = 0.6;
+}
+if (recenemypic1_lazer.width < 4) {
+recenemypic1_lazer.width += 0.08;
+}
+if (recenemypic1_lazer.width >= 4) {
+recenemypic1_lazer.width = 4;
+}
+}
+if (box.crashWith(recbox1) == false) {
+if (recenemypic1_lazer.globalAlpha > 0) {
+recenemypic1_lazer.globalAlpha -= 0.02;
+}
+if (recenemypic1_lazer.globalAlpha <= 0) {
+recenemypic1_lazer.globalAlpha = 0;
+}
+if (recenemypic1_lazer.width > 0) {
+recenemypic1_lazer.width -= 0.08;
+}
+if (recenemypic1_lazer.width <= 0) {
+recenemypic1_lazer.width = 0;
+}	
+}
+xenemypic1_lazer.x = xbox1.x + xbox1.width/2;
+xenemypic1_lazer.y = xbox1.y + xbox1.height/2;
+xenemypic1_lazer.endpositionX = box.x + box.width/2;
+xenemypic1_lazer.endpositionY = box.y + box.height/2;
+if (box.crashWith(xbox1)) {
+if (xenemypic1_lazer.globalAlpha < 0.6) {
+xenemypic1_lazer.globalAlpha += 0.02;
+}
+if (xenemypic1_lazer.globalAlpha >= 0.6) {
+xenemypic1_lazer.globalAlpha = 0.6;
+}
+if (xenemypic1_lazer.width < 5) {
+xenemypic1_lazer.width += 0.08;
+}
+if (xenemypic1_lazer.width >= 5) {
+xenemypic1_lazer.width = 5;
+}
+}
+if (box.crashWith(xbox1) == false) {
+if (xenemypic1_lazer.globalAlpha > 0) {
+xenemypic1_lazer.globalAlpha -= 0.02;
+}
+if (xenemypic1_lazer.globalAlpha <= 0) {
+xenemypic1_lazer.globalAlpha = 0;
+}
+if (xenemypic1_lazer.width > 0) {
+xenemypic1_lazer.width -= 0.08;
+}
+if (xenemypic1_lazer.width <= 0) {
+xenemypic1_lazer.width = 0;
+}	
+}
+guardianPic_lazer.x = guardianBox.x + guardianBox.width/2;
+guardianPic_lazer.y = guardianBox.y + guardianBox.height/2;
+guardianPic_lazer.endpositionX = box.x + box.width/2;
+guardianPic_lazer.endpositionY = box.y + box.height/2;
+if (box.crashWith(guardianBox)) {
+if (guardianPic_lazer.globalAlpha < 0.6) {
+guardianPic_lazer.globalAlpha += 0.02;
+}
+if (guardianPic_lazer.globalAlpha >= 0.6) {
+guardianPic_lazer.globalAlpha = 0.6;
+}
+if (guardianPic_lazer.width < 5) {
+guardianPic_lazer.width += 0.08;
+}
+if (guardianPic_lazer.width >= 5) {
+guardianPic_lazer.width = 5;
+}
+}
+if (box.crashWith(guardianBox) == false) {
+if (guardianPic_lazer.globalAlpha > 0) {
+guardianPic_lazer.globalAlpha -= 0.02;
+}
+if (guardianPic_lazer.globalAlpha <= 0) {
+guardianPic_lazer.globalAlpha = 0;
+}
+if (guardianPic_lazer.width > 0) {
+guardianPic_lazer.width -= 0.08;
+}
+if (guardianPic_lazer.width <= 0) {
+guardianPic_lazer.width = 0;
+}	
+}
+}
+
 function updateGameArea() {
 Board.clear();
 if (playerHealth > playerHealthMax) {
@@ -1612,9 +1937,9 @@ ship5.y = box.y  - 3.5;
 ship5.x = box.x  - 3.5;
 ship6.y = box.y;
 ship6.x = box.x;
-ship6.angle += 0.05;
 detectbox.x = box.x - 37.5;
 detectbox.y = box.y - 37.5;
+laserSetUp();
 if (pauseGame > 1) {
    pauseGame = 0;
    }
@@ -1876,6 +2201,7 @@ bpic5.update();
 if (wave < 5) {
 if (BadDeath < 1) {
 if (Death1 == 0) {
+badguypic1_lazer.update();
 badguypic1.update();
 if (HB == true) {
 badguy1healthbar.update();
@@ -1886,6 +2212,7 @@ badguy1healthbar.update();
 if (wave < 7 && wave > 1) {
 if (BadDeath2 < 1) {
 if (Death1 == 0) {
+badguypic2_lazer.update();
 badguypic2.update();
 if (HB == true) {
 badguy1healthbar2.update();
@@ -1906,6 +2233,7 @@ tribpic.update();
 if (wave > 4 && wave < 7) {
 if (BadDeath3 == 0) {
 if (Death1 == 0) {
+trienemypic_lazer.update();
 trienemypic.update();
 if (HB == true) {
 badguy1healthbar4.update();
@@ -1916,6 +2244,7 @@ badguy1healthbar4.update();
 if (wave > 5 && wave < 7) {
 if (BadDeath5 == 0) {
 if (Death1 == 0) {
+xenemypic1_lazer.update();
 xenemypic1.update();
 if (HB == true) {
 badguy1healthbar5.update();
@@ -1926,6 +2255,7 @@ badguy1healthbar5.update();
 if (wave > 2 && wave < 5) {
 if (BadDeath4 == 0) {
 if (Death1 == 0) {
+recenemypic1_lazer.update();
 recenemypic1.update();
 if (HB == true) {
 badguy1healthbar3.update();
@@ -1934,6 +2264,7 @@ badguy1healthbar3.update();
  }
 }
 if (wave == 7 && GuardDead == false && GuardStart == 1 && Death1 == 0) {
+guardianPic_lazer.update();
 guardianPic.update();
 if (HB == true) {
 guardianhealthbar.update();
@@ -6578,7 +6909,6 @@ var negbadhurtspeedai3 = -1.6;
 function triangleAI() {
 trienemypic.x = tribox.x;
 trienemypic.y = tribox.y;
-trienemypic.angle = Math.atan2(-box.y + trienemypic.y, -box.x + trienemypic.x) + 1.57079633;
 badguy1healthbar4.x = tribox.x - 12;
 badguy1healthbar4.y = tribox.y - 8;
 badguy1healthbar4.color = badHealthBarColor4;
@@ -6757,7 +7087,6 @@ if (xbox1.x < xpos1.x) {
 xbox1.speedX = 5;
 }
 if (xbox1.crashWith(xpos1)) {
-xenemypic1.angle = 0;
 xenemypic1.speedX = 0;
 xenemypic1.speedY = 0;
 xbox1.speedY = 0;
@@ -6778,7 +7107,6 @@ xbox1.speedY = 5;
 }
  }
 if (BadDeath5 < 1) {
-xenemypic1.angle += 5 * Math.PI / 180;
 if (Badhealth5 <= 120) {
 	badHealthBarColor5 = "green";
 }
