@@ -1,19 +1,16 @@
 :PRESS P TO TOGGLE THE PIB:
 
 What's new in V0.5.0 PREVIEW-
-Revamped first enemy.
-Revamped rectangle enemy.
-Revamped x enemy.
-Revamped triangle enemy.
+Revamped all enemies.
 Updated engine so it can use sprite sheets.
 Fixed a weird tree bug.
+Made the bullets have a origin.
 
 What's soon to come in PREVIEW:
-Revamped enemies.
 Revamping all the playable ships in the game.
+Revamp the bullets.
 New secret event.
 New location "Warp Zone".
-Revamp the bullets and shooting method. (More about this soon!)
 More to be announced!
 
 Coming In Later Updates:
