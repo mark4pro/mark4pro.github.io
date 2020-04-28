@@ -148,8 +148,8 @@ function start() {
  guardianPic_lazer.globalAlpha = 0;
  guardianBox = new component(25, 25, "red", 650, 450, "rec", "enemy");
  guardianhealthbar = new component(GuardHealth / 2, 5, guardHealthBarColor, guardianBox.x, guardianBox.y - 8, "rec");
- bossWave7pic = new component(35, 35, "wave7boss", Boss7_Start_X, Boss7_Start_Y, "img-rot");
- bossWave7sheildPic = new component(35, 35, "wave7bossSheild", Boss7_Start_X, Boss7_Start_Y, "img-rot");
+ bossWave7pic = new component(35, 35, "wave7boss", Boss7_Start_X, Boss7_Start_Y, "animated-img-rot");
+ bossWave7sheildPic = new component(35, 35, "wave7bossSheild", Boss7_Start_X, Boss7_Start_Y, "animated-img-rot");
  bossWave7 = new component(35, 35, "red", Boss7_Start_X, Boss7_Start_Y, "rec");
  boss7healthbar = new component(BossHealth / 2, 10, bossHealthBarColor, 150, 20, "rec");
  bosstxt = new component("30px", "Consolas", "white", 150, 15, "text");
@@ -196,6 +196,7 @@ function start() {
  tripos1 = new component(5, 5, "orange", tri1posX, tri1posY, "rec");
  triwavebox1 = new component(15, 15, "black", tri1posX - 5, tri1posY - 5, "rec");
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
+ bullcir = new component(10, 10, "grey", 400, 180, "cir", 3, "black", 0);
  bpic = new component(10, 10, "bullpic", 400, 180, "img");
  bpic2 = new component(10, 10, "bullpic2", 400, 180, "img");
  bpic3 = new component(10, 10, "bullpic3", 400, 180, "img");
@@ -574,13 +575,12 @@ badguypic2_1_animation = new animationComponent(6, 0, 25);
 recenemypic1_1_animation = new animationComponent(6, 0, 15);
 trienemypic_1_animation = new animationComponent(8, 0, 25);
 xenemypic1_1_animation = new animationComponent(8, 0, 15);
+guardianPic_1_animation = new animationComponent(6, 0, 25);
+bossWave7pic_1_animation = new animationComponent(6, 0, 15);
+bossWave7sheildPic_1_animation = new animationComponent(6, 0, 15);
 }
 
-var debugTest = false;
 function animations() {
-if (debugTest == true) {
-console.log("Current Frame: " + badguypic1_1_animation.currentFrame + " Current Frame 2: " + badguypic2_1_animation.currentFrame + " Current Frame 3: " + recenemypic1_1_animation.currentFrame + " Current Frame 4: " + trienemypic_1_animation.currentFrame + " Current Frame 5: " + xenemypic1_1_animation.currentFrame);
-}
 //badguypic1 enemy animation//
 if (wave < 5 && BadDeath < 1 && Death1 == 0) {
 badguypic1.angle += 0.05;
@@ -762,15 +762,108 @@ xenemypic1.sx = 93;
 xenemypic1.sy = 31;
 }
 //guardianPic enemy animation//
-
+if (wave == 7 && GuardDead == false && GuardStart == 1 && Death1 == 0) {
+if (guardianBox.crashWith(detectbox)) {
+guardianPic.angle += 8 * Math.PI / 180;
+} else {
+guardianPic.angle += 5 * Math.PI / 180;	
+}
+if (GuardHealth <= 0) {
+guardianPic.angle = 0;
+}
+guardianPic_1_animation.frameTimer();
+}
+if (wave != 7 || GuardDead != false || GuardStart != 1 || Death1 != 0) {
+guardianPic.angle = 0;
+guardianPic_1_animation.resetFrame();
+}
+if (guardianPic_1_animation.currentFrame == 0) {
+guardianPic.sx = 0;
+guardianPic.sy = 0;
+}
+if (guardianPic_1_animation.currentFrame == 1) {
+guardianPic.sx = 25;
+guardianPic.sy = 0;
+}
+if (guardianPic_1_animation.currentFrame == 2) {
+guardianPic.sx = 50;
+guardianPic.sy = 0;
+}
+if (guardianPic_1_animation.currentFrame == 3) {
+guardianPic.sx = 0;
+guardianPic.sy = 25;
+}
+if (guardianPic_1_animation.currentFrame == 4) {
+guardianPic.sx = 25;
+guardianPic.sy = 25;
+}
+if (guardianPic_1_animation.currentFrame == 5) {
+guardianPic.sx = 50;
+guardianPic.sy = 25;
+}
 //bossWave7pic enemy animation//
 if (wave == 7 && spawnBoss7 == 1 && BossDead == false) {
 bossWave7pic.angle += 0.05;
+bossWave7pic_1_animation.frameTimer();
 } else {
 bossWave7pic.angle = 0;
+bossWave7pic_1_animation.resetFrame();
+}
+if (bossWave7pic_1_animation.currentFrame == 0) {
+bossWave7pic.sx = 0;
+bossWave7pic.sy = 0;
+}
+if (bossWave7pic_1_animation.currentFrame == 1) {
+bossWave7pic.sx = 35;
+bossWave7pic.sy = 0;
+}
+if (bossWave7pic_1_animation.currentFrame == 2) {
+bossWave7pic.sx = 70;
+bossWave7pic.sy = 0;
+}
+if (bossWave7pic_1_animation.currentFrame == 3) {
+bossWave7pic.sx = 0;
+bossWave7pic.sy = 35;
+}
+if (bossWave7pic_1_animation.currentFrame == 4) {
+bossWave7pic.sx = 35;
+bossWave7pic.sy = 35;
+}
+if (bossWave7pic_1_animation.currentFrame == 5) {
+bossWave7pic.sx = 70;
+bossWave7pic.sy = 35;
 }
 //bossWave7sheildPic enemy animation//
 bossWave7sheildPic.angle = bossWave7pic.angle;
+if (bossSheildMode == 1) {
+bossWave7sheildPic_1_animation.frameTimer();
+} else {
+bossWave7sheildPic_1_animation.resetFrame();
+}
+if (bossWave7sheildPic_1_animation.currentFrame == 0) {
+bossWave7sheildPic.sx = 0;
+bossWave7sheildPic.sy = 0;
+}
+if (bossWave7sheildPic_1_animation.currentFrame == 1) {
+bossWave7sheildPic.sx = 35;
+bossWave7sheildPic.sy = 0;
+}
+if (bossWave7sheildPic_1_animation.currentFrame == 2) {
+bossWave7sheildPic.sx = 70;
+bossWave7sheildPic.sy = 0;
+}
+if (bossWave7sheildPic_1_animation.currentFrame == 3) {
+bossWave7sheildPic.sx = 0;
+bossWave7sheildPic.sy = 35;
+}
+if (bossWave7sheildPic_1_animation.currentFrame == 4) {
+bossWave7sheildPic.sx = 35;
+bossWave7sheildPic.sy = 35;
+}
+if (bossWave7sheildPic_1_animation.currentFrame == 5) {
+bossWave7sheildPic.sx = 70;
+bossWave7sheildPic.sy = 35;
+}
 //ship1 ship animation//
 ship1.angle += 0.05;
 //ship2 ship animation//
@@ -793,6 +886,7 @@ this.x = x;
 this.y = y;
 this.sx = 0;
 this.sy = 0;
+this.lockOut = false;
 this.endpositionX = radius;
 this.endpositionY = outcolor;
 this.animationFrame = 0;
@@ -804,6 +898,9 @@ this.height = height;
 this.halfWidth = this.width * 0.5;
 this.halfHeight = this.height * 0.5;
 this.color = color;
+this.thickness = thickness;
+this.outcolor = outcolor;
+this.radius = radius;
 this.update = function() {
 ctx = Board.context;
 if (this.type == "line") {
@@ -831,16 +928,13 @@ ctx.fillRect(this.x, this.y, this.width, this.height);
   }
  }
  if (this.type == "cir") {
- this.thickness = thickness;
- this.outcolor = outcolor;
- this.radius = radius;
  ctx.beginPath();
  ctx.globalAlpha = this.globalAlpha;
- ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI, true);
+ ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);
  ctx.fillStyle = this.color;
  ctx.fill();
- ctx.lineWidth = thickness;
- ctx.strokeStyle = outcolor;
+ ctx.lineWidth = this.thickness;
+ ctx.strokeStyle = this.outcolor;
  ctx.stroke();
  } else {
  if (this.type == "img") {
@@ -917,6 +1011,24 @@ if (b1 < t2 || t1 > b2 || r1 < l2 || l1 > r2) {
 }
  return crash;
 };
+//this mustbe a circle//
+this.mixCrashWith = function(otherobj) {
+var distance_x = Math.abs(this.x - otherobj.x-otherobj.width/2);
+var distance_y = Math.abs(this.y - otherobj.y-otherobj.height/2);
+var crash = true;
+if (distance_x > (otherobj.width/2 + this.radius) || distance_y > (otherobj.height/2 + this.radius)) {
+crash = false; 
+}
+if (distance_x <= (otherobj.width/2) && distance_y <= (otherobj.height/2)) {
+crash = true;
+} 
+var dx=distance_x-otherobj.width/2;
+var dy=distance_y-otherobj.height/2;
+if (dx*dx+dy*dy<=(this.radius*this.radius)) {
+crash = true;
+}
+ return crash;
+}
 this.elasticCollition = function(entity, exeption) {
     var pMidX = this.getMidX();
     var pMidY = this.getMidY();
@@ -2000,6 +2112,7 @@ skipSound();
 detectbox.update();
 box.update();
 if (fire > 0) {
+bullcir.update();
 bullbox.update();
 }
 if (wave > 4 && wave < 7) {
@@ -6102,11 +6215,6 @@ if (guardianBox.y > box.y + box.height) {
     guardianBox.y -= 2;
 	}
 }
-if (guardianBox.crashWith(detectbox)) {
-guardianPic.angle += 8 * Math.PI / 180;
-} else {
-guardianPic.angle += 5 * Math.PI / 180;	
-}
 if (guardianBox.crashWith(box) && GuardDead == false && wave == 7 && pauseGame == 0 && Death1 == 0) {
 playerHealth -= GuardDamage;
 }
@@ -6139,7 +6247,6 @@ ammo += GuardAmmoBack;
 }
 if (GuardHealth <= 0) {
 GuardDead = true;
-guardianPic.angle = 0;
 }
 if (GuardHealth >= 1) {
 GuardDead = false;
@@ -7518,9 +7625,8 @@ function shootUp() {
 if (Death1 == 0) {
 if (fire == 0 && startTimer == 0) {
 if (ammo > 0) {
-if (box.crashWith(bullbox)) {
-fire += 1;
-fireU += 1;
+fire = 1;
+fireU = 1;
 startTimer = 1;
 ammo -= ammocon;
 if (menu == 0) {
@@ -7531,7 +7637,6 @@ if (frameIndex5 == 0) {
 firesoundstart = 1;
  }
 }
-	}
    }
   }
  }
@@ -7541,9 +7646,8 @@ function shootDown() {
 if (Death1 == 0) {
 if (fire == 0 && startTimer == 0) {
 if (ammo > 0) {
-if (box.crashWith(bullbox)) {
-fire += 1;
-fireD += 1;
+fire = 1;
+fireD = 1;
 startTimer = 1;
 ammo -= ammocon;
 if (menu == 0) {
@@ -7554,7 +7658,6 @@ if (frameIndex5 == 0) {
 firesoundstart = 1;
  }
 }
-	}
    }
   }
  }
@@ -7564,9 +7667,8 @@ function shootLeft() {
 if (Death1 == 0) {
 if (fire == 0 && startTimer == 0) {
 if (ammo > 0) {
-if (box.crashWith(bullbox)) {
-fire += 1;
-fireL += 1;
+fire = 1;
+fireL = 1;
 startTimer = 1;
 ammo -= ammocon;
 if (menu == 0) {
@@ -7577,7 +7679,6 @@ if (frameIndex5 == 0) {
 firesoundstart = 1;
  }
 }
-	}
    }
   }
  }
@@ -7587,9 +7688,8 @@ function shootRight() {
 if (Death1 == 0) {
 if (fire == 0 && startTimer == 0) {
 if (ammo > 0) {
-if (box.crashWith(bullbox)) {
-fire += 1;
-fireR += 1;
+fire = 1;
+fireR = 1;
 startTimer = 1;
 ammo -= ammocon;
 if (menu == 0) {
@@ -7600,7 +7700,6 @@ if (frameIndex5 == 0) {
 firesoundstart = 1;
  }
 }
-	}
    }
   }
  }
@@ -7702,8 +7801,9 @@ function resetfire() {
 if (starttime == 1) {
 timeforbullet += 1;
  }
-if (timeforbullet > 100) {
-menu += 1;
+if (timeforbullet > 100 && menu == 0) {
+menu = 1;
+timeforbullet = 0;
  }
 if (menu > 0) {
 starttime = 0;
@@ -7711,7 +7811,12 @@ starttime = 0;
 }
 
 var bullrange = 3;
+var bulletHomeRange = 20;
+var debugBullets = false;
 function bulletai() {
+bullcir.radius = bulletHomeRange;
+bullcir.x = bullbox.x + bullbox.width/2;
+bullcir.y = bullbox.y + bullbox.height/2;
 bpic.x = bullbox.x;
 bpic.y = bullbox.y;
 bpic2.x = bullbox.x;
@@ -7722,26 +7827,15 @@ bpic4.x = bullbox.x;
 bpic4.y = bullbox.y;
 bpic5.x = bullbox.x;
 bpic5.y = bullbox.y;
-if (fire < 1) {
-if (-10 + bullbox.x > box.x) {
-	bullbox.speedX = -5;
-
+if (debugBullets == true) {
+console.log("Bullet X: " + bullbox.x + " Bullet Y: " + bullbox.y + " Fire Dir: " + fireU + " " + fireD + " " + fireL + " " + fireR + " Bullet Time: " + bullettime);
 }
-if (-10 + bullbox.x < box.x) {
-	bullbox.speedX = 5;
-}
-if (box.crashWith(bullbox)) {
-	bullbox.speedX = 0;
- }
-if (-10 + bullbox.y > box.y) {
-	bullbox.speedY = -5;
-}
-if (-10 + bullbox.y < box.y) {
-	bullbox.speedY = 5;
-}
-if (box.crashWith(bullbox)) {
-	bullbox.speedY = 0;
- }
+if (fire == 0) {
+bullettime = 0;
+bullbox.speedX = 0;
+bullbox.speedY = 0;
+bullbox.x = (box.x + box.width/2) - bullbox.width/2;
+bullbox.y = (box.y + box.height/2) - bullbox.height/2;
 }
 if (fire > 0) {
  if (fireL > 0) {
