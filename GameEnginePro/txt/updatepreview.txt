@@ -5,6 +5,7 @@ Revamped all enemies.
 Updated engine so it can use sprite sheets.
 Fixed a weird tree bug.
 Made the bullets have a origin.
+Fixed some issues with the lazers.
 
 What's soon to come in PREVIEW:
 Revamping all the playable ships in the game.
