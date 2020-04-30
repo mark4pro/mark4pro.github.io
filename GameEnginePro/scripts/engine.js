@@ -191,16 +191,16 @@ function start() {
  trienemypic_lazer.globalAlpha = 0;
  tribox = new component(35, 35, "red", 430, 100, "rec", "enemy");
  badguy1healthbar4 = new component(Badhealth3 / 2, 5, badHealthBarColor4, tribox.x, tribox.y - 8, "rec");
- tribpic = new component(10, 10, "enemybull", 400, 100, "img");
+ tribpic = new component(10, 10, "enemybull", 400, 100, "img-rot");
  tribbox = new component(10, 10, "orange", 400, 100, "rec");
  tripos1 = new component(5, 5, "orange", tri1posX, tri1posY, "rec");
  triwavebox1 = new component(15, 15, "black", tri1posX - 5, tri1posY - 5, "rec");
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
  bullcir = new component(10, 10, "grey", 400, 180, "cir", 3, "black", 0);
- bpic = new component(10, 10, "bullpic", 400, 180, "animated-img-rot");
- bpic2 = new component(10, 10, "bullpic2", 400, 180, "animated-img-rot");
- bpic3 = new component(10, 10, "bullpic3", 400, 180, "animated-img-rot");
- bpic4 = new component(10, 10, "bullpic4", 400, 180, "animated-img");
+ bpic = new component(10, 10, "bullpic", 400, 180, "img-rot");
+ bpic2 = new component(10, 10, "bullpic2", 400, 180, "img-rot");
+ bpic3 = new component(10, 10, "bullpic3", 400, 180, "img-rot");
+ bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
  bpic5 = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", 400, 180, "animated-img-rot");
  box = new component(25, 25, "grey", playerX, playerY, "player1", "player");
  detectbox = new component(100, 100, "black", playerX - 37.5, playerY - 37.5, "rec");
@@ -1807,11 +1807,12 @@ canShootST = true;
 timeST = 0;
 }
 if (canShootST == true && Death1 == 0) {
-STPDAYEVENTBOSSBULLETS = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", STPDAYEVENTBOSSBOX.x + (STPDAYEVENTBOSSBOX.width/2), STPDAYEVENTBOSSBOX.y + (STPDAYEVENTBOSSBOX.height/2), "img");
+STPDAYEVENTBOSSBULLETS = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", STPDAYEVENTBOSSBOX.x + (STPDAYEVENTBOSSBOX.width/2), STPDAYEVENTBOSSBOX.y + (STPDAYEVENTBOSSBOX.height/2), "img-rot");
 STBOSSBULLETS.push(STPDAYEVENTBOSSBULLETS);
 canShootST = false;
 }
 for (var i = STBOSSBULLETS.length - 1; i >= 0; i--){
+STBOSSBULLETS[i].angle += 0.08;
 if (fire == 1) {
 if (STBOSSBULLETS[i].crashWith(bullbox) == true) {
 STBOSSBULLETS.splice(i,1);
@@ -1864,7 +1865,7 @@ badguypic1_lazer.width = 4;
 }
 }
 }
-if (BadDeath > 0 || wave >= 5) {
+if (BadDeath > 0 || wave >= 5 || goBack == 1) {
 badguypic1_lazer.globalAlpha = 0;
 badguypic1_lazer.width = 0;
 }
@@ -1900,7 +1901,7 @@ if (badguypic2_lazer.width >= 4) {
 badguypic2_lazer.width = 4;
 }
 }
-if (BadDeath2 > 0 || wave >= 7 || wave == 1) {
+if (BadDeath2 > 0 || wave >= 7 || wave == 1 || goBack == 1) {
 badguypic2_lazer.globalAlpha = 0;
 badguypic2_lazer.width = 0;
 }
@@ -1936,7 +1937,7 @@ if (trienemypic_lazer.width >= 6) {
 trienemypic_lazer.width = 6;
 }
 }
-if (BadDeath3 > 0 || wave >= 7 || wave <= 4) {
+if (BadDeath3 > 0 || wave >= 7 || wave <= 4 || goBack == 1) {
 trienemypic_lazer.globalAlpha = 0;
 trienemypic_lazer.width = 0;
 }
@@ -1972,7 +1973,7 @@ if (recenemypic1_lazer.width >= 4) {
 recenemypic1_lazer.width = 4;
 }
 }
-if (BadDeath4 > 0 || wave >= 5 || wave <= 2) {
+if (BadDeath4 > 0 || wave >= 5 || wave <= 2 || goBack == 1) {
 recenemypic1_lazer.globalAlpha = 0;
 recenemypic1_lazer.width = 0;
 }
@@ -2008,7 +2009,7 @@ if (xenemypic1_lazer.width >= 5) {
 xenemypic1_lazer.width = 5;
 }
 }
-if (BadDeath5 > 0 || wave >= 7 || wave <= 5) {
+if (BadDeath5 > 0 || wave >= 7 || wave <= 5 || goBack == 1) {
 xenemypic1_lazer.globalAlpha = 0;
 xenemypic1_lazer.width = 0;
 }
@@ -2044,7 +2045,7 @@ if (guardianPic_lazer.width >= 5) {
 guardianPic_lazer.width = 5;
 }
 }
-if (GuardDead == true || wave != 7 || GuardStart != 1) {
+if (GuardDead == true || wave != 7 || GuardStart != 1 || goBack == 1) {
 guardianPic_lazer.globalAlpha = 0;
 guardianPic_lazer.width = 0;
 }
@@ -7764,6 +7765,7 @@ if (difficulty == 2) {
 	TriBullDamageDeal = 5;
 }
 if (trifire < 1) {
+tribpic.angle = 0;
 if (-10 + tribbox.x > tribox.x) {
 	tribpic.speedX = -10;
 	tribbox.speedX = -10;
@@ -7788,6 +7790,7 @@ if (-10 + tribbox.y < tribox.y) {
  }
 }
 if (trifire > 0) {
+tribpic.angle += 0.08;
 if (-10 + tribbox.x > box.x) {
   tribpic.speedX = -tribullrange;
   tribbox.speedX = -tribullrange;
@@ -8317,7 +8320,6 @@ var testwave = "TEST";
 var resetcheat = "RESET";
 var fullcheat = "FULLYMAXED";
 var weapv = "VAULT";
-var beginning = "STORY";
 var blockKeys = false;
 var weaponVault = 0;
 var goBack = 0;
@@ -8390,7 +8392,7 @@ function nameFC() {
  switchpos = 0;
  document.getElementById('name').value = "";
  }
- if (CapName == beginning || goBack == 1) {
+ if (goBack == 1) {
  goBack = 0;
  switchpos = 0;
  wave = 1;
@@ -8441,7 +8443,6 @@ function nameFC() {
  ship4 = new component(25, 25, "player4img", playerX, playerY, "img");
  ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "img");
  ship6 = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", playerX, playerY, "img-rot");
- document.getElementById('name').value = "";
  }
  if (CapName == weapv) {
  vaultShow = 1;
@@ -8546,7 +8547,7 @@ function backfunc() {
     }
    }
 	if (Death1 > 0) {
-	document.getElementById('name').value = "story";
+	goBack = 1;
 	}
 }
 	
