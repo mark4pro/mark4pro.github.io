@@ -1837,6 +1837,8 @@ badguypic1_lazer.x = badguy1.x + badguy1.width/2;
 badguypic1_lazer.y = badguy1.y + badguy1.height/2;
 badguypic1_lazer.endpositionX = box.x + box.width/2;
 badguypic1_lazer.endpositionY = box.y + box.height/2;
+if (wave < 5) {
+if (BadDeath < 1) {
 if (box.crashWith(badguy1)) {
 if (badguypic1_lazer.globalAlpha < 0.6) {
 badguypic1_lazer.globalAlpha += 0.02;
@@ -1850,6 +1852,12 @@ badguypic1_lazer.width += 0.08;
 if (badguypic1_lazer.width >= 4) {
 badguypic1_lazer.width = 4;
 }
+}
+}
+}
+if (BadDeath > 0 || wave >= 5) {
+badguypic1_lazer.globalAlpha = 0;
+badguypic1_lazer.width = 0;
 }
 if (box.crashWith(badguy1) == false) {
 if (badguypic1_lazer.globalAlpha > 0) {
@@ -1883,6 +1891,10 @@ if (badguypic2_lazer.width >= 4) {
 badguypic2_lazer.width = 4;
 }
 }
+if (BadDeath2 > 0 || wave >= 7 || wave == 1) {
+badguypic2_lazer.globalAlpha = 0;
+badguypic2_lazer.width = 0;
+}
 if (box.crashWith(badguy2) == false) {
 if (badguypic2_lazer.globalAlpha > 0) {
 badguypic2_lazer.globalAlpha -= 0.02;
@@ -1914,6 +1926,10 @@ trienemypic_lazer.width += 0.08;
 if (trienemypic_lazer.width >= 6) {
 trienemypic_lazer.width = 6;
 }
+}
+if (BadDeath3 > 0 || wave >= 7 || wave <= 4) {
+trienemypic_lazer.globalAlpha = 0;
+trienemypic_lazer.width = 0;
 }
 if (box.crashWith(tribox) == false) {
 if (trienemypic_lazer.globalAlpha > 0) {
@@ -1947,6 +1963,10 @@ if (recenemypic1_lazer.width >= 4) {
 recenemypic1_lazer.width = 4;
 }
 }
+if (BadDeath4 > 0 || wave >= 5 || wave <= 2) {
+recenemypic1_lazer.globalAlpha = 0;
+recenemypic1_lazer.width = 0;
+}
 if (box.crashWith(recbox1) == false) {
 if (recenemypic1_lazer.globalAlpha > 0) {
 recenemypic1_lazer.globalAlpha -= 0.02;
@@ -1979,6 +1999,10 @@ if (xenemypic1_lazer.width >= 5) {
 xenemypic1_lazer.width = 5;
 }
 }
+if (BadDeath5 > 0 || wave >= 7 || wave <= 5) {
+xenemypic1_lazer.globalAlpha = 0;
+xenemypic1_lazer.width = 0;
+}
 if (box.crashWith(xbox1) == false) {
 if (xenemypic1_lazer.globalAlpha > 0) {
 xenemypic1_lazer.globalAlpha -= 0.02;
@@ -2010,6 +2034,10 @@ guardianPic_lazer.width += 0.08;
 if (guardianPic_lazer.width >= 5) {
 guardianPic_lazer.width = 5;
 }
+}
+if (GuardDead == true || wave != 7 || GuardStart != 1) {
+guardianPic_lazer.globalAlpha = 0;
+guardianPic_lazer.width = 0;
 }
 if (box.crashWith(guardianBox) == false) {
 if (guardianPic_lazer.globalAlpha > 0) {
@@ -2133,17 +2161,23 @@ badguy2.update();
 }
 if (wave > 2 && wave < 5) {
 if (BadDeath4 == 0) {
+if (Death1 == 0) {
 recbox1.update();
+  }
  }
 }
 if (wave > 4 && wave < 7) {
 if (BadDeath3 == 0) {
+if (Death1 == 0) {
 tribox.update();
+  }
  }
 }
 if (wave > 5 && wave < 7) {
 if (BadDeath5 == 0) {
+if (Death1 == 0) {
 xbox1.update();
+  }
  }
 }
 if (wave < 5) {
