@@ -5,6 +5,7 @@ Revamped all enemies.
 Updated engine so it can use sprite sheets.
 Fixed a weird tree bug.
 Made the bullets have a origin.
+Added lasers to enemies.
 Fixed some issues with the lasers.
 
 What's soon to come in PREVIEW:
