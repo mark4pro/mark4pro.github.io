@@ -7,10 +7,10 @@ Fixed a weird tree bug.
 Made the bullets have a origin.
 Added lasers to enemies.
 Fixed some issues with the lasers.
+Revamp the bullets.
 
 What's soon to come in PREVIEW:
 Revamping all the playable ships in the game.
-Revamp the bullets.
 New secret event.
 New location "Warp Zone".
 More to be announced!
