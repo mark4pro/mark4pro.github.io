@@ -197,11 +197,11 @@ function start() {
  triwavebox1 = new component(15, 15, "black", tri1posX - 5, tri1posY - 5, "rec");
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
  bullcir = new component(10, 10, "grey", 400, 180, "cir", 3, "black", 0);
- bpic = new component(10, 10, "bullpic", 400, 180, "img");
- bpic2 = new component(10, 10, "bullpic2", 400, 180, "img");
- bpic3 = new component(10, 10, "bullpic3", 400, 180, "img");
- bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
- bpic5 = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", 400, 180, "img");
+ bpic = new component(10, 10, "bullpic", 400, 180, "animated-img-rot");
+ bpic2 = new component(10, 10, "bullpic2", 400, 180, "animated-img-rot");
+ bpic3 = new component(10, 10, "bullpic3", 400, 180, "animated-img-rot");
+ bpic4 = new component(10, 10, "bullpic4", 400, 180, "animated-img");
+ bpic5 = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", 400, 180, "animated-img-rot");
  box = new component(25, 25, "grey", playerX, playerY, "player1", "player");
  detectbox = new component(100, 100, "black", playerX - 37.5, playerY - 37.5, "rec");
  ship1 = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "animated-img-rot");
@@ -578,6 +578,7 @@ xenemypic1_1_animation = new animationComponent(8, 0, 15);
 guardianPic_1_animation = new animationComponent(6, 0, 25);
 bossWave7pic_1_animation = new animationComponent(6, 0, 15);
 bossWave7sheildPic_1_animation = new animationComponent(6, 0, 15);
+bpic_1_animation = new animationComponent(6, 0, 0.5);
 }
 
 function animations() {
@@ -876,6 +877,14 @@ ship4.angle += 0.05;
 ship5.angle += 0.05;
 //ship6 ship animation//
 ship6.angle += 0.05;
+//bpic bullet animation//
+bpic.angle += 0.08;
+//bpic2 bullet animation//
+bpic2.angle += 0.08;
+//bpic3 bullet animation//
+bpic3.angle += 0.08;
+//bpic5 bullet animation//
+bpic5.angle += 0.08;
 }
 
 function component(width, height, color ,x ,y, type, radius, outcolor, thickness) {
