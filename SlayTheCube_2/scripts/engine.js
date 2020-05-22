@@ -1,3 +1,6 @@
+var MOD_MENU_SHOW = false;
+var MOD_RANDOM_AMMO_POSITION = true;
+var MOD_PLAYER_LOCKED_SET_POSITION = true;
 var won = 0;
 var dead = 0;
 var firef = 0;
@@ -34,8 +37,18 @@ var level_pack = 0;
 	function start() {
 	     canvas.width = window.innerWidth;
          canvas.height = window.innerHeight;
+		 //Images//
+		 //MOD//
+		 if (typeof MOD_IMAGES === "function") {
+		 MOD_IMAGES();
+		 }
 		 cursor = new component(30, 30, "cursor_img", -50, -250, "img", "", "", "", "cursor");
 		 _objects.push(cursor);
+		 //Level Pack Menu//
+		 //MOD//
+		 if (typeof MOD_LEVEL_PACK_MENU_INITIALIZATION === "function") {
+		 MOD_LEVEL_PACK_MENU_INITIALIZATION();
+		 }
 		 levelPack_2LTxt = new component("30px", "Consolas", "white", canvas.width/2, canvas.height-340, "text", "Level Pack 2", "center", "", "settingsM", "levelpack");
 		 _objects.push(levelPack_2LTxt);
 		 levelPack_2_highLightBttnL = new component(200, 100, "white", canvas.width/2-100, canvas.height-400, "rec", "", "", "", "settingsM", "levelpack");
@@ -50,10 +63,33 @@ var level_pack = 0;
 		 _objects.push(levelPack_1_highLightBttnL);
 		 levelPack_1BttnL = new component(200, 100, "backgroundLevel_Boss", canvas.width/2-100, canvas.height-500, "img", "", "", "", "settingsM", "levelpack");
 		 _objects.push(levelPack_1BttnL);
+		 levelPack_1_PlaceholderBttnL = new component(200, 100, "grey", canvas.width/2-100, canvas.height-400, "rec", "", "", "", "settingsM", "levelpack");
+		 _objects.push(levelPack_1_PlaceholderBttnL);
+		 levelPack_2_PlaceholderBttnL = new component(200, 100, "grey", canvas.width/2-100, canvas.height-400, "rec", "", "", "", "settingsM", "levelpack");
+		 _objects.push(levelPack_2_PlaceholderBttnL);
+		 levelPack_3_PlaceholderBttnL = new component(200, 100, "grey", canvas.width/2-100, canvas.height-400, "rec", "", "", "", "settingsM", "levelpack");
+		 _objects.push(levelPack_3_PlaceholderBttnL);
+		 levelPack_4_PlaceholderBttnL = new component(200, 100, "grey", canvas.width/2-100, canvas.height-400, "rec", "", "", "", "settingsM", "levelpack");
+		 _objects.push(levelPack_4_PlaceholderBttnL);
+		 levelPack_5_PlaceholderBttnL = new component(200, 100, "grey", canvas.width/2-100, canvas.height-400, "rec", "", "", "", "settingsM", "levelpack");
+		 _objects.push(levelPack_5_PlaceholderBttnL);
+		 levelPack_6_PlaceholderBttnL = new component(200, 100, "grey", canvas.width/2-100, canvas.height-400, "rec", "", "", "", "settingsM", "levelpack");
+		 _objects.push(levelPack_6_PlaceholderBttnL);
+		 levelPack_7_PlaceholderBttnL = new component(200, 100, "grey", canvas.width/2-100, canvas.height-400, "rec", "", "", "", "settingsM", "levelpack");
+		 _objects.push(levelPack_7_PlaceholderBttnL);
+		 levelPack_8_PlaceholderBttnL = new component(200, 100, "grey", canvas.width/2-100, canvas.height-400, "rec", "", "", "", "settingsM", "levelpack");
+		 _objects.push(levelPack_8_PlaceholderBttnL);
+		 levelPack_9_PlaceholderBttnL = new component(200, 100, "grey", canvas.width/2-100, canvas.height-400, "rec", "", "", "", "settingsM", "levelpack");
+		 _objects.push(levelPack_9_PlaceholderBttnL);
 		 backBttnLTxt = new component("50px", "Consolas", "white", canvas.width/2, canvas.height-20, "text", "Back", "center", "", "settingsM", "levelpack");
 		 _objects.push(backBttnLTxt);
 		 backBttnL = new component(200, 80, "grey", canvas.width/2-100, canvas.height-80, "rec", "", "", "", "settingsM", "levelpack");
 		 _objects.push(backBttnL);
+		 //Settings//
+		 //MOD//
+		 if (typeof MOD_SETTINGS_MENU_INITIALIZATION === "function") {
+		 MOD_SETTINGS_MENU_INITIALIZATION();
+		 }
 		 settingsMenuTxt = new component("60px", "Consolas", "white", canvas.width/2, 60, "text", "Settings", "center", "", "settingsM", "all");
 		 _objects.push(settingsMenuTxt);
 		 levelPackBttnSTxt = new component("30px", "Consolas", "white", canvas.width, canvas.height-30, "text", "Level Packs", "center", "", "settingsM", "settings");
@@ -98,6 +134,11 @@ var level_pack = 0;
 		 _objects.push(backBttnS);
 		 settingsMenu = new component(500, 300, "black", 0, 0, "rec", "", "", "", "settingsM", "all");
 		 _objects.push(settingsMenu);
+		 //Death/Win//
+		 //MOD//
+		 if (typeof MOD_DEATH_WIN_FINISHED_SCREEN_INITIALIZATION === "function") {
+		 MOD_DEATH_WIN_FINISHED_SCREEN_INITIALIZATION();
+		 }
 		 restartTxt = new component("50px", "Consolas", "white", 250, 150, "text", "Restart", "center", "", "DandW");
 		 _objects.push(restartTxt);
 		 restart = new component(200, 80, "grey", 250, 150, "rec", "", "", "", "DandW");
@@ -110,6 +151,11 @@ var level_pack = 0;
 		 _objects.push(WDText);
 		 end = new component(500, 300, "black", 0, 0, "rec", "", "", "", "DandW");
 	     _objects.push(end);
+		 //UI//
+		 //MOD//
+		 if (typeof MOD_UI_INITIALIZATION === "function") {
+		 MOD_UI_INITIALIZATION();
+		 }
 		 difficaulty_Text = new component("15px", "Arial", "white", canvas.width/2, 30, "text", "Difficaulty:", "center", "", "ui");
 		 difficaulty_Text.globalAlpha = 0.5;
 		 _objects.push(difficaulty_Text);
@@ -135,6 +181,11 @@ var level_pack = 0;
 		 _objects.push(timer_seconds_Text);
 		 p1 = new component("20px", "Consolas", "white", 43, 150, "text", "P1", "center", "", "player");
 		 _objects.push(p1);
+		 //enemy text//
+		 //MOD//
+		 if (typeof MOD_ENEMY_TEXT_INITIALIZATION === "function") {
+		 MOD_ENEMY_TEXT_INITIALIZATION();
+		 }
 		 LP1_ai = new component("20px", "Consolas", "white", 443, 150, "text", "AI", "center", "", "enemy", "LP1_enemy_1");
 		 _objects.push(LP1_ai);
 		 ai = new component("20px", "Consolas", "white", 443, 150, "text", "AI", "center", "", "enemy", "enemy_1");
@@ -145,6 +196,11 @@ var level_pack = 0;
 		 _objects.push(bossAi_1);
 		 circle = new component(60, 60, "blue", 80, canvas.height/2, "cir", 30, "red", 1, "player");
 		 _objects.push(circle);
+		 //enemies//
+		 //MOD//
+		 if (typeof MOD_ENEMY_INITIALIZATION === "function") {
+		 MOD_ENEMY_INITIALIZATION();
+		 }
 		 LP1_aicircle = new component(60, 60, "blue", canvas.width - 80 - 30, canvas.height/2 - 30, "rec", "", "", "", "enemy", "LP1_enemy_1");
 		 _objects.push(LP1_aicircle);
 		 aicircle = new component(10, 10, "orange", canvas.width - 80, canvas.height/2, "cir", 30, "white", 1, "enemy", "enemy_1");
@@ -183,6 +239,11 @@ var level_pack = 0;
 		 _objects.push(LP1_wall4);
 		 LP1_wall4_1 = new component(6, 5, "darkred", LP1_wall3.x + 2.5, LP1_wall3.height - 5, "rec", "", "", "LP1_level1", "all");
 		 _objects.push(LP1_wall4_1);
+		 //level objects//
+		 //MOD//
+		 if (typeof MOD_LEVEL_OBJECTS_INITIALIZATION === "function") {
+		 MOD_LEVEL_OBJECTS_INITIALIZATION();
+		 }
 		 bulletcase = new component(1, 1, "gray", circle.x, circle.y, "cir", 10, "white", 1, "bullet");
          _objects.push(bulletcase);
 		 background = new component(canvas.width, canvas.height, "backgroundLevel_1", 0, 0, "img", "", "", "", "background");
@@ -221,6 +282,11 @@ cursor.globalAlpha = 1;
 
 function backgroundManager(level_number) {
 this.level_number = level_number;
+if (typeof MOD_Background_Manager === "function" && typeof MOD_LEVEL_PACK_NUMBER === "number") {
+if (level_pack == MOD_LEVEL_PACK_NUMBER) {
+MOD_Background_Manager();
+}
+}
 if (level_pack == 0) {
 ammo.color = "orange";
 wall.color = "black";
@@ -228,6 +294,8 @@ wall2.color = "black";
 wall3.color = "black";
 wall4.color = "black";
 if (this.level_number == 1) {
+MOD_RANDOM_AMMO_POSITION == true;
+MOD_PLAYER_LOCKED_SET_POSITION = true;
 background.color = "backgroundLevel_1";
 background.type = "img";
 circle.color = "blue";
@@ -272,6 +340,8 @@ wall3.color = "darkred";
 wall4.color = "darkred";
 difficaulty = 0;
 if (this.level_number == 1) {
+MOD_RANDOM_AMMO_POSITION == false;
+MOD_PLAYER_LOCKED_SET_POSITION = true;
 ammo.x = canvas.width - 460;
 ammo.y = 55;	
 }	
@@ -310,6 +380,10 @@ joystickDiv.style.display = "none";
 }
 
 function menuManager() {
+//MOD//
+if (typeof MOD_General_Menu_Manager === "function") { 
+MOD_General_Menu_Manager();
+}
 if (cursor.crashWith(restart) == true) {
 if (won == 1 || dead == 1) {
 restart.color = "lightgrey";
@@ -333,7 +407,7 @@ if (cursor.crashWith(nextLevel) == false) {
 nextLevel.color = "grey";
 }
 if (cursor.crashWith(settings_menu_icon) == true) {
-if (won == 0 || dead == 0) {
+if (won == 0 && dead == 0) {
 if (settingsMenuShow == false) {
 if (settings_menu_icon.globalAlpha < 1) {
 settings_menu_icon.globalAlpha += 0.1;
@@ -355,7 +429,7 @@ if (settings_menu_icon.globalAlpha <= 0.5) {
 settings_menu_icon.globalAlpha = 0.5;
 }
 }
-if (settingsMenuShow == true && levelPackMenuShow == false) {
+if (settingsMenuShow == true && levelPackMenuShow == false && MOD_MENU_SHOW == false) {
 if (cursor.crashWith(backBttnS) == true) {
 if (won == 0 || dead == 0) {
 backBttnS.color = "lightgrey";
@@ -566,8 +640,12 @@ levelPackMenuShow = true;
 if (cursor.crashWith(levelPackBttnS) == false) {
 levelPackBttnS.color = "grey";
 }
+//MOD//
+if (typeof MOD_SETTINGS_MENU_MANAGER === "function") { 
+MOD_SETTINGS_MENU_MANAGER();
 }
-if (settingsMenuShow == true && levelPackMenuShow == true) {
+}
+if (settingsMenuShow == true && levelPackMenuShow == true && MOD_MENU_SHOW == false) {
 if (cursor.crashWith(backBttnL) == true) {
 if (won == 0 || dead == 0) {
 backBttnL.color = "lightgrey";
@@ -613,6 +691,10 @@ if (level_pack == 1) {
 levelPack_2_highLightBttnL.color = "green";
 } else {
 levelPack_2_highLightBttnL.color = "red";
+}
+//MOD//
+if (typeof MOD_LEVEL_PACK_MENU_MANAGER === "function") { 
+MOD_LEVEL_PACK_MENU_MANAGER();
 }
 }
 }
@@ -779,18 +861,36 @@ backBttnL.x = canvas.width/2 - backBttnS.width/2;
 backBttnL.y = canvas.height - backBttnS.height;
 backBttnLTxt.x = canvas.width/2;
 backBttnLTxt.y = canvas.height - 20;
-levelPack_1BttnL.x = canvas.width/2 - 100;
-levelPack_1BttnL.y = canvas.height - 500;
-levelPack_1_highLightBttnL.x = canvas.width/2 - 100;
-levelPack_1_highLightBttnL.y = canvas.height - 500;
-levelPack_1LTxt.x = canvas.width/2;
-levelPack_1LTxt.y = canvas.height - 440;
-levelPack_2BttnL.x = canvas.width/2 - 100;
-levelPack_2BttnL.y = canvas.height - 400;
-levelPack_2_highLightBttnL.x = canvas.width/2 - 100;
-levelPack_2_highLightBttnL.y = canvas.height - 400;
-levelPack_2LTxt.x = canvas.width/2;
-levelPack_2LTxt.y = canvas.height - 340;
+levelPack_1BttnL.x = levelPack_1_PlaceholderBttnL.x;
+levelPack_1BttnL.y = levelPack_1_PlaceholderBttnL.y;
+levelPack_1_highLightBttnL.x = levelPack_1_PlaceholderBttnL.x;
+levelPack_1_highLightBttnL.y = levelPack_1_PlaceholderBttnL.y;
+levelPack_1LTxt.x = levelPack_1_PlaceholderBttnL.x + 100;
+levelPack_1LTxt.y = levelPack_1_PlaceholderBttnL.y + 60;
+levelPack_2BttnL.x = levelPack_2_PlaceholderBttnL.x;
+levelPack_2BttnL.y = levelPack_2_PlaceholderBttnL.y;
+levelPack_2_highLightBttnL.x = levelPack_2_PlaceholderBttnL.x;
+levelPack_2_highLightBttnL.y = levelPack_2_PlaceholderBttnL.y;
+levelPack_2LTxt.x = levelPack_2_PlaceholderBttnL.x + 100;
+levelPack_2LTxt.y = levelPack_2_PlaceholderBttnL.y + 60;
+levelPack_1_PlaceholderBttnL.x = canvas.width/2 - 300;
+levelPack_1_PlaceholderBttnL.y = canvas.height - 550;
+levelPack_2_PlaceholderBttnL.x = canvas.width/2 - 300;
+levelPack_2_PlaceholderBttnL.y = canvas.height - 450;
+levelPack_3_PlaceholderBttnL.x = canvas.width/2 - 300;
+levelPack_3_PlaceholderBttnL.y = canvas.height - 350;
+levelPack_4_PlaceholderBttnL.x = canvas.width/2 - 100;
+levelPack_4_PlaceholderBttnL.y = canvas.height - 550;
+levelPack_5_PlaceholderBttnL.x = canvas.width/2 - 100;
+levelPack_5_PlaceholderBttnL.y = canvas.height - 450;
+levelPack_6_PlaceholderBttnL.x = canvas.width/2 - 100;
+levelPack_6_PlaceholderBttnL.y = canvas.height - 350;
+levelPack_7_PlaceholderBttnL.x = canvas.width/2 + 100;
+levelPack_7_PlaceholderBttnL.y = canvas.height - 550;
+levelPack_8_PlaceholderBttnL.x = canvas.width/2 + 100;
+levelPack_8_PlaceholderBttnL.y = canvas.height - 450;
+levelPack_9_PlaceholderBttnL.x = canvas.width/2 + 100;
+levelPack_9_PlaceholderBttnL.y = canvas.height - 350;
 LP1_wall.x = canvas.width - 415;
 LP1_wall2.x = LP1_wall.x + 5;
 LP1_wall2_1.x = LP1_wall.x + 2;
@@ -799,6 +899,10 @@ LP1_wall3.x = canvas.width - 515;
 LP1_wall4.x = LP1_wall3.x + 5;
 LP1_wall4_1.x = LP1_wall3.x + 2;
 LP1_wall4_1.y = LP1_wall3.height - 3;
+//MOD//
+if (typeof MOD_Object_Scaler === "function") { 
+MOD_Object_Scaler();
+}
 optionsjs = {
 	   zone: document.getElementById("joystick"),
 	   mode: 'static',
@@ -865,22 +969,6 @@ if (wall5.x > canvas.width - 200) {
 wall5.x = Math.floor(Math.random() * canvas.width) + 300;
 }
 }
-for(var i = _objects.length - 1; i >= 0; i--) {
-if (_objects[i].level == "player" || _objects[i].level == "enemy_1") {
-if (_objects[i].x < 10) {
-_objects[i].x = _objects[i].radius + 50;
-}
-if (_objects[i].x > canvas.width - 10) {
-_objects[i].x = _objects[i].radius + canvas.width - 50;
-}
-if (_objects[i].y < 10) {
-_objects[i].y = _objects[i].radius + 50;
-}
-if (_objects[i].y > canvas.height - 10) {
-_objects[i].y = _objects[i].radius + canvas.height - 50;
-}
- }
-}
 if (debug == 1) {
 if (silentDebug == false) {
 console.log("Canvas Width: " + canvas.width + " Canvas Height: " + canvas.height);
@@ -904,6 +992,30 @@ timer_seconds_Text.radius = "Timer Seconds: " + seconds;
 },
 }
 
+function animationComponent(numberOfFrames, startFrame, speedOfAnimation) {
+this.numberOfFrames = numberOfFrames;
+this.startFrame = startFrame;
+this.speedOfAnimation = speedOfAnimation;
+this.currentFrame = this.startFrame;
+this._frame = 0;
+this.frameTimer = function() {
+this._frame += 1;
+if (this._frame >= this.speedOfAnimation) {
+this.currentFrame++;
+this._frame = 0;
+}
+if (this.currentFrame >= this.numberOfFrames) {
+this.currentFrame = this.startFrame;
+}
+return this.currentFrame;
+}
+this.resetFrame = function() {
+this._frame = 0;
+this.currentFrame = this.startFrame;
+return this.currentFrame;
+}
+}
+
 function component(width, height, color ,x ,y, type, radius, outcolor, thickness, level, enemyType) {
 	this.type = type;
 	this.speedX = 0;
@@ -912,6 +1024,8 @@ function component(width, height, color ,x ,y, type, radius, outcolor, thickness
 	this.y = y;
 	this.oldX = x;
 	this.oldY = y;
+	this.endpositionX = radius;
+    this.endpositionY = outcolor;
 	this.enemyType = enemyType;
 	this.color = color;
 	this.width = width;
@@ -923,6 +1037,16 @@ function component(width, height, color ,x ,y, type, radius, outcolor, thickness
 	this.radius = radius;
 	this.update = function() {
 		ctx = Board.context;
+		if (this.type == "line") {
+		ctx.beginPath();
+		ctx.globalAlpha = this.globalAlpha;
+		ctx.lineWidth = this.width;
+		ctx.lineCap = this.height;
+		ctx.strokeStyle = this.color; 
+		ctx.moveTo(this.x, this.y);
+		ctx.lineTo(this.endpositionX, this.endpositionY);
+		ctx.stroke();
+		}
 		if (this.type == "text") {
 		  this.text = this.radius;
 		  ctx.globalAlpha = this.globalAlpha;
@@ -954,7 +1078,22 @@ function component(width, height, color ,x ,y, type, radius, outcolor, thickness
 		 if (this.type == "img") {
 		 ctx.globalAlpha = this.globalAlpha;
 		 var img = document.getElementById(this.color);
+		 if (this.level != "player") {
 		 ctx.drawImage(img, this.x, this.y, this.width, this.height);
+		 }
+		 if (this.level == "player") {
+		 ctx.drawImage(img, this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+		 }
+		 }
+		 if (this.type == "animated-img") {
+ 		 var img = document.getElementById(this.color);
+ 		 ctx.globalAlpha = this.globalAlpha;
+		 if (this.level != "player") {
+ 		 ctx.drawImage(img, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
+ 		 }
+		 if (this.level == "player") {
+		 ctx.drawImage(img, this.sx, this.sy, this.width, this.height, this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+		 }
 		 }
 		}
 	   }
@@ -1079,6 +1218,41 @@ function updateGameArea() {
 	_objects[i].update();
 	}
 	}
+	//MOD//
+	if (typeof MOD_LEVEL_PACK_NUMBER === "number") {
+	if (level_pack == MOD_LEVEL_PACK_NUMBER) {
+	if (_objects[i].thickness == "MOD_level1" && level == 1) {
+	_objects[i].update();
+	}
+	if (_objects[i].thickness == "MOD_level2" && level == 2) {
+	_objects[i].update();
+	}
+	if (_objects[i].thickness == "MOD_level3" && level == 3) {
+	_objects[i].update();
+	}
+	if (_objects[i].thickness == "MOD_level4" && level == 4) {
+	_objects[i].update();
+	}
+	if (_objects[i].thickness == "MOD_level5" && level == 5) {
+	_objects[i].update();
+	}
+	if (_objects[i].thickness == "MOD_level6" && level == 6) {
+	_objects[i].update();
+	}
+	if (_objects[i].thickness == "MOD_level7" && level == 7) {
+	_objects[i].update();
+	}
+	if (_objects[i].thickness == "MOD_level8" && level == 8) {
+	_objects[i].update();
+	}
+	if (_objects[i].thickness == "MOD_level9" && level == 9) {
+	_objects[i].update();
+	}
+	if (_objects[i].thickness == "MOD_level10" && level == 10) {
+	_objects[i].update();
+	}
+	}
+	}
 	}
 	if (_objects[i].level == "ammo" && dead == 0 && won == 0) {
 	_objects[i].update();
@@ -1128,15 +1302,70 @@ function updateGameArea() {
 		}
 	}
 	}
+	//MOD//
+	if (typeof MOD_LEVEL_PACK_NUMBER === "number") {
+	if (level_pack == MOD_LEVEL_PACK_NUMBER) {
+	if (_objects[i].enemyType == "enemy_1" && level == 1) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
 	}
-	if (_objects[i].level === "DandW" && _objects[i].thickness == "") {
-	if (dead == 1 || won == 1) {
-	_objects[i].update();
+	if (_objects[i].enemyType == "boss_1" && level == 2) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
 	}
+	if (_objects[i].enemyType == "enemy_2" && level == 3) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
 	}
-	if (_objects[i].level === "DandW" && _objects[i].thickness == "win") {
-	if (dead == 1 || won == 1) {
-	_objects[i].update();
+	if (_objects[i].enemyType == "boss_2" && level == 4) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
+	}
+	if (_objects[i].enemyType == "enemy_3" && level == 5) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
+	}
+	if (_objects[i].enemyType == "boss_3" && level == 6) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
+	}
+	if (_objects[i].enemyType == "enemy_4" && level == 7) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
+	}
+	if (_objects[i].enemyType == "boss_4" && level == 8) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
+	}
+	if (_objects[i].enemyType == "enemy_5" && level == 9) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
+	}
+	if (_objects[i].enemyType == "boss_5" && level == 10) {
+		_objects[i].update();
+		if (firef == 0 && settingsMenuShow == false) {
+		_objects[i].newPos();
+		}
+	}
+	}	
 	}
 	}
 	if (_objects[i].level == "ui") {
@@ -1151,11 +1380,39 @@ function updateGameArea() {
 	if (_objects[i].enemyType == "all") {
 	_objects[i].update();
 	}
-	if (_objects[i].enemyType == "settings" && levelPackMenuShow == false) {
+	if (_objects[i].enemyType == "settings" && levelPackMenuShow == false && MOD_MENU_SHOW == false) {
 	_objects[i].update();
 	}
-	if (_objects[i].enemyType == "levelpack" && levelPackMenuShow == true) {
+	if (_objects[i].enemyType == "levelpack" && levelPackMenuShow == true && MOD_MENU_SHOW == false) {
 	_objects[i].update();
+	}
+	//MOD//
+	if (_objects[i].enemyType == "otherTwo" && levelPackMenuShow == false && MOD_MENU_SHOW == true) {
+	_objects[i].update();
+	}
+	//MOD//
+	if (_objects[i].enemyType == "otherOne" && levelPackMenuShow == true && MOD_MENU_SHOW == true) {
+	_objects[i].update();
+	}
+	}
+	if (_objects[i].level === "DandW" && _objects[i].thickness == "") {
+	if (dead == 1 || won == 1) {
+	_objects[i].update();
+	}
+	}
+	if (_objects[i].level === "DandW" && _objects[i].thickness == "win") {
+	if (dead == 1 || won == 1) {
+	_objects[i].update();
+	}
+	}
+	if (_objects[i].level === "DandW" && _objects[i].thickness == "End") {
+	if (won == 1) {
+	//MOD//
+	if (typeof MOD_LEVEL_PACK_NUMBER === "number" && typeof MOD_MAX_LEVEL === "number") {
+	if (level_pack == MOD_LEVEL_PACK_NUMBER && level >= MOD_MAX_LEVEL) {
+	_objects[i].update();
+	}
+	}
 	}
 	}
 	if (_objects[i].level == "cursor") {
@@ -1171,7 +1428,7 @@ function updateGameArea() {
 	}
 	}
 	if (settingsMenuShow == true) {
-	if (levelPackMenuShow == false) {
+	if (levelPackMenuShow == false && MOD_MENU_SHOW == false) {
 		settingsMenuTxt.radius = "Settings";
 	}
 	if (levelPackMenuShow == true) {
@@ -1179,23 +1436,27 @@ function updateGameArea() {
 	}
 	}
 	joystick();
+	//MOD//
+	if (typeof MOD_Update_Main === "function") { 
+    MOD_Update_Main();
+    }
 	if (up == 0 && down == 0 && left == 0 && right == 0) {
 	clearcircleai();
 	}
 	if (firef >= 1) {
 	bulletai();
 	}
-	if (level_pack != 1) {
+	if (circle.type == "cir") {
 	if (circle.circleCrashWith(ammo) && won == 0 && startLevel == true) {
     firef = 1;
     }
 	}
-	if (level_pack == 1) {
+	if (circle.type == "rec" || circle.type == "img") {
 	if (ammo.mixCrashWith(circle) && won == 0 && startLevel == true) {
     firef = 1;
     }
 	}
-	if (level_pack != 1) {
+	if (circle.type == "cir") {
 	if (circle.mixCrashWith(wall)) {
 	   lockLeft = 1;
 	   circle.speedX = circleBounceSpeed;
@@ -1213,7 +1474,7 @@ function updateGameArea() {
 	   circle.speedY = -circleBounceSpeed;
 		}
 	}
-	if (level_pack == 1) {
+	if (circle.type == "rec" || circle.type == "img") {
 	if (circle.crashWith(wall)) {
 	   lockLeft = 1;
 	   circle.speedX = circleBounceSpeed;
@@ -1230,6 +1491,8 @@ function updateGameArea() {
 	   lockDown = 1;
 	   circle.speedY = -circleBounceSpeed;
 		}
+	}
+	if (level_pack == 1) {
 	if (circle.crashWith(LP1_wall)) {
 	   lockRight = 1;
 	   circle.speedX = -circleBounceSpeed;
@@ -1426,6 +1689,12 @@ var rightAILock = false;
 var upAILock = false;
 var downAILock = false;	
 function aicircleai() {
+//MOD//
+if (typeof MOD_Enemy_AI === "function" && typeof MOD_LEVEL_PACK_NUMBER === "number") { 
+if (level_pack == MOD_LEVEL_PACK_NUMBER) {
+MOD_Enemy_AI();
+}
+}
 if (level_pack == 0) {
 if (level == 1) {
  if (circle.x < aicircle.x){
@@ -1489,6 +1758,12 @@ if (level == 1) {
 }
 
 function clearcircleai() {
+//MOD//
+if (typeof MOD_Clear_Enemy_AI === "function" && typeof MOD_LEVEL_PACK_NUMBER === "number") { 
+if (level_pack == MOD_LEVEL_PACK_NUMBER) {
+MOD_Clear_Enemy_AI();
+}
+}
 if (level_pack == 0) {
 if (level == 1) {
 aicircle.speedX = 0;
@@ -1513,6 +1788,12 @@ LP1_aicircle.speedY = 0;
 
 var bulletSpeed = 3;
 function bulletai() {
+//MOD//
+if (typeof MOD_Bullet_AI === "function" && typeof MOD_LEVEL_PACK_NUMBER === "number") { 
+if (level_pack == MOD_LEVEL_PACK_NUMBER) {
+MOD_Bullet_AI();
+}
+}
 if (level_pack == 0) {
 if (level == 1) {
  if (bulletcase.x > aicircle.x){
@@ -1608,6 +1889,11 @@ function keyDownHandler(event)
 	}
 	key_Pressed_Text.radius = "Key Pressed: " + event.key + " / " + event.code;
 	}
+	
+	//MOD//
+	if (typeof MOD_KEY_DOWN === "function") {
+	MOD_KEY_DOWN(event);
+	}
 
 	if (keyPressed == upKey)
 	{		
@@ -1640,6 +1926,11 @@ function keyUpHandler(event)
 {
 	var str = event.key;
 	var keyPressed = str.toLowerCase();
+	
+	//MOD//
+	if (typeof MOD_KEY_UP === "function") {
+	MOD_KEY_UP(event);
+	}
 	
 	if (keyPressed == upKey)
 	{		
@@ -1705,10 +1996,12 @@ function resetGame(ResetLevel) {
 this.ResetLevel = ResetLevel;
 startLevel = false;
 //reset (enemy, player, ammo) positions here//
+if (MOD_PLAYER_LOCKED_SET_POSITION == true) {
 circle.x = 80;
 circle.y = canvas.height/2;
 circle.speedX = 0;
 circle.speedY = 0;
+}
 aicircle.x = canvas.width - 80;
 aicircle.y = canvas.height/2;
 aicircle2.x = canvas.width - 80;
@@ -1717,7 +2010,11 @@ bossAiCircle.x = canvas.width - 100;
 bossAiCircle.y = canvas.height/2;
 LP1_aicircle.x = canvas.width - 80 - 30;
 LP1_aicircle.y = canvas.height/2 - 30;
-if (level_pack != 1) {
+//MOD//
+if (typeof MOD_RESET_GAME_MAIN === "function") {
+MOD_RESET_GAME_MAIN();
+}
+if (MOD_RANDOM_AMMO_POSITION == true) {
 ammo.x = Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2)
 ammo.y = Math.abs(Math.floor(Math.random() * canvas.height - 500));
 }
@@ -1730,6 +2027,10 @@ lockUp = 0;
 lockDown = 0;
 lockLeft = 0;
 lockRight = 0;
+//MOD//
+if (typeof MOD_RESET_LEVEL === "function") {
+MOD_RESET_LEVEL();
+}
 }
 if (this.ResetLevel == "game") {
 won = 0;
@@ -1740,6 +2041,10 @@ lockUp = 0;
 lockDown = 0;
 lockLeft = 0;
 lockRight = 0;
+//MOD//
+if (typeof MOD_RESET_GAME === "function") {
+MOD_RESET_GAME();
+}
 if (levelPackMenuShow == false) {
 settingsMenuShow = false;
 }
@@ -1766,6 +2071,10 @@ function moveUp() {
 	if (difficaulty == 3 && aiStop == false) {
 	aicircleai();
 	}
+	//MOD//
+	if (typeof MOD_MOVE_UP === "function") {
+	MOD_MOVE_UP();
+	}
 }
 function moveDown() {
 	timer("start");
@@ -1779,6 +2088,10 @@ function moveDown() {
 	}
 	if (difficaulty == 3 && aiStop == false) {
 	aicircleai();
+	}
+	//MOD//
+	if (typeof MOD_MOVE_DOWN === "function") {
+	MOD_MOVE_DOWN();
 	}
 }
 function moveLeft() {
@@ -1794,6 +2107,10 @@ function moveLeft() {
 	if (difficaulty == 3 && aiStop == false) {
 	aicircleai();
 	}
+	//MOD//
+	if (typeof MOD_MOVE_LEFT === "function") {
+	MOD_MOVE_LEFT();
+	}
 }
 function moveRight() {
 	timer("start");
@@ -1807,6 +2124,10 @@ function moveRight() {
 	}
 	if (difficaulty == 3 && aiStop == false) {
 	aicircleai();
+	}
+	//MOD//
+	if (typeof MOD_MOVE_RIGHT === "function") {
+	MOD_MOVE_RIGHT();
 	}
 }
 
@@ -1833,6 +2154,10 @@ nextLevelLatch = 1;
 
 function difficaultyScale(difficaultyS) {
 this.difficaultyS = difficaultyS;
+//MOD//
+if (typeof MOD_DIFFICAULTY_SCALER === "function") {
+MOD_DIFFICAULTY_SCALER();
+}
 if (this.difficaultyS == 0) {
 if (level_pack == 0) {
 if (level == 1) {
@@ -1964,6 +2289,10 @@ function clearmoveu() {
 	LP1_aicircle.speedY = 0;
 	}
 	}
+	//MOD//
+	if (typeof MOD_CLEAR_MOVE_UP === "function") {
+	MOD_CLEAR_MOVE_UP();
+	}
 	up = 0;
 }	
 function clearmoved() {
@@ -1984,6 +2313,10 @@ function clearmoved() {
     if (level == 1) {
 	LP1_aicircle.speedY = 0;
 	}
+	}
+	//MOD//
+	if (typeof MOD_CLEAR_MOVE_DOWN === "function") {
+	MOD_CLEAR_MOVE_DOWN();
 	}
 	down = 0;
 }	
@@ -2006,6 +2339,10 @@ function clearmovel() {
 	LP1_aicircle.speedX = 0;
 	}
 	}
+	//MOD//	
+	if (typeof MOD_CLEAR_MOVE_LEFT === "function") {
+	MOD_CLEAR_MOVE_LEFT();
+	}
 	left = 0;
 }	
 function clearmover() {
@@ -2026,6 +2363,10 @@ function clearmover() {
     if (level == 1) {
 	LP1_aicircle.speedX = 0;
 	}	
+	}
+	//MOD//
+	if (typeof MOD_CLEAR_MOVE_RIGHT === "function") {
+	MOD_CLEAR_MOVE_RIGHT();
 	}
 	right = 0;
 }
