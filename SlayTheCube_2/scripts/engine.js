@@ -1,6 +1,8 @@
 var MOD_MENU_SHOW = false;
+var MOD_EXTRA_MENU_SHOW = false;
 var MOD_RANDOM_AMMO_POSITION = true;
 var MOD_PLAYER_LOCKED_SET_POSITION = true;
+var MOD_LOAD_DIFFICAULTY = true;
 var won = 0;
 var dead = 0;
 var firef = 0;
@@ -33,10 +35,32 @@ var joystickCreated = false;
 var isLoaded = false;
 var startLevel = false;
 var level_pack = 0;
+var game_start = 0;
 
 	function start() {
 	     canvas.width = window.innerWidth;
          canvas.height = window.innerHeight;
+		 //Load//
+		 if (localStorage && 'DEBUG' in localStorage) {
+         debug = localStorage.DEBUG;
+         }
+		 if (localStorage && 'MOBILE' in localStorage) {
+         _mobile = localStorage.MOBILE;
+         }
+		 if (localStorage && 'TIMER' in localStorage) {
+         _timer = localStorage.TIMER;
+         }
+		 if (localStorage && 'DIFFICAULTY' in localStorage) {
+         difficaulty = localStorage.DIFFICAULTY;
+         }
+		 if (localStorage && 'LEVEL_PACK' in localStorage) {
+         level_pack = localStorage.LEVEL_PACK;
+         }
+		 //MOD//
+		 if (typeof MOD_LOAD_SAVE_DATA === "function") {
+		 MOD_LOAD_SAVE_DATA();
+		 }
+		 game_start = 1;
 		 //Images//
 		 //MOD//
 		 if (typeof MOD_IMAGES === "function") {
@@ -280,6 +304,32 @@ cursor.globalAlpha = 1;
 }
 }
 
+
+function Mod_Menu_Manager_Update() {
+var modMenu = document.getElementById('MOD_MENU');
+modMenu.style.backgroundColor = "black";
+if (MOD_MENU_SHOW == true) {
+modMenu.style.visibility = "visible";
+if (modMenu.style.opacity < 1) {
+modMenu.style.opacity += 1;
+}
+if (modMenu.style.opacity > 1) {
+modMenu.style.opacity = 1;
+}
+}
+if (MOD_MENU_SHOW == false) {
+if (modMenu.style.opacity > 0) {
+modMenu.style.opacity -= 1;
+}
+if (modMenu.style.opacity < 0) {
+modMenu.style.opacity = 0;
+}
+if (modMenu.style.opacity == 0) {
+modMenu.style.visibility = "hidden";
+}
+}
+}
+
 function backgroundManager(level_number) {
 this.level_number = level_number;
 if (typeof MOD_Background_Manager === "function" && typeof MOD_LEVEL_PACK_NUMBER === "number") {
@@ -288,6 +338,7 @@ MOD_Background_Manager();
 }
 }
 if (level_pack == 0) {
+MOD_LOAD_DIFFICAULTY = true;
 ammo.color = "orange";
 wall.color = "black";
 wall2.color = "black";
@@ -329,6 +380,7 @@ circle.type = "cir";
 }
 }
 if (level_pack == 1) {
+MOD_LOAD_DIFFICAULTY = false;
 background.color = "black";
 background.type = "rec";
 circle.color = "red";
@@ -429,7 +481,29 @@ if (settings_menu_icon.globalAlpha <= 0.5) {
 settings_menu_icon.globalAlpha = 0.5;
 }
 }
-if (settingsMenuShow == true && levelPackMenuShow == false && MOD_MENU_SHOW == false) {
+//Settings Update//
+if (_timer >= 2) {
+_timer = 0;
+}
+if (_timer == 0) {
+timeMode = false;
+}
+if (_timer == 1) {
+timeMode = true;
+}
+if (debug >= 2) {
+debug = 0;
+}
+if (_mobile >= 2) {
+_mobile = 0;
+}
+if (_mobile == 0) {
+onMobile = false;
+}
+if (_mobile == 1) {
+onMobile = true;
+}
+if (settingsMenuShow == true && levelPackMenuShow == false && MOD_EXTRA_MENU_SHOW == false && MOD_MENU_SHOW == false) {
 if (cursor.crashWith(backBttnS) == true) {
 if (won == 0 || dead == 0) {
 backBttnS.color = "lightgrey";
@@ -452,6 +526,7 @@ debugBttnS.color = "green";
 if (pressed == true && DebugLock == false) {
 debug++;
 DebugLock = true;
+localStorage && (localStorage.DEBUG = debug);
 }
 }
 }
@@ -459,9 +534,6 @@ if (pressed == false) {
 DebugLock = false;
 mobileLock = false;
 timerLock = false;
-}
-if (debug >= 2) {
-debug = 0;
 }
 if (cursor.crashWith(debugBttnS) == false) {
 if (debug == 0) {
@@ -482,17 +554,9 @@ mobileBttnS.color = "green";
 if (pressed == true && mobileLock == false) {
 _mobile++;
 mobileLock = true;
+localStorage && (localStorage.MOBILE = _mobile);
 }
 }
-}
-if (_mobile >= 2) {
-_mobile = 0;
-}
-if (_mobile == 0) {
-onMobile = false;
-}
-if (_mobile == 1) {
-onMobile = true;
 }
 if (cursor.crashWith(mobileBttnS) == false) {
 if (_mobile == 0) {
@@ -513,17 +577,9 @@ timerBttnS.color = "green";
 if (pressed == true && timerLock == false) {
 _timer++;
 timerLock = true;
+localStorage && (localStorage.TIMER = _timer);
 }
 }
-}
-if (_timer >= 2) {
-_timer = 0;
-}
-if (_timer == 0) {
-timeMode = false;
-}
-if (_timer == 1) {
-timeMode = true;
 }
 if (cursor.crashWith(timerBttnS) == false) {
 if (_timer == 0) {
@@ -543,6 +599,7 @@ easyBttnS.color = "green";
 }
 if (pressed == true) {
 difficaulty = 0;
+localStorage && (localStorage.DIFFICAULTY = difficaulty);
 }
 }
 }
@@ -564,6 +621,7 @@ normalBttnS.color = "green";
 }
 if (pressed == true) {
 difficaulty = 1;
+localStorage && (localStorage.DIFFICAULTY = difficaulty);
 }
 }
 }
@@ -585,6 +643,7 @@ hardBttnS.color = "green";
 }
 if (pressed == true) {
 difficaulty = 2;
+localStorage && (localStorage.DIFFICAULTY = difficaulty);
 }
 }
 }
@@ -606,6 +665,7 @@ impBttnS.color = "green";
 }
 if (pressed == true) {
 difficaulty = 3;
+localStorage && (localStorage.DIFFICAULTY = difficaulty);
 }
 }
 }
@@ -645,7 +705,7 @@ if (typeof MOD_SETTINGS_MENU_MANAGER === "function") {
 MOD_SETTINGS_MENU_MANAGER();
 }
 }
-if (settingsMenuShow == true && levelPackMenuShow == true && MOD_MENU_SHOW == false) {
+if (settingsMenuShow == true && levelPackMenuShow == true && MOD_EXTRA_MENU_SHOW == false && MOD_MENU_SHOW == false) {
 if (cursor.crashWith(backBttnL) == true) {
 if (won == 0 || dead == 0) {
 backBttnL.color = "lightgrey";
@@ -664,6 +724,7 @@ levelPack_1_highLightBttnL.globalAlpha = 0.6;
 if (pressed == true) {
 level_pack = 0;
 resetGame("game");
+localStorage && (localStorage.LEVEL_PACK = level_pack);
 }
 }
 }
@@ -681,6 +742,7 @@ levelPack_2_highLightBttnL.globalAlpha = 0.6;
 if (pressed == true) {
 level_pack = 1;
 resetGame("game");
+localStorage && (localStorage.LEVEL_PACK = level_pack);
 }
 }
 }
@@ -1016,6 +1078,14 @@ return this.currentFrame;
 }
 }
 
+function isEven(num) {
+    if (num % 2 === 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function component(width, height, color ,x ,y, type, radius, outcolor, thickness, level, enemyType) {
 	this.type = type;
 	this.speedX = 0;
@@ -1200,6 +1270,7 @@ function updateGameArea() {
 	difficaultyScale(difficaulty);
 	backgroundManager(level);
 	menuManager();
+	Mod_Menu_Manager_Update();
 	for(var i = _objects.length - 1; i >= 0; i--) {
 	if (_objects[i].level == "background") {
 	_objects[i].update();
@@ -1376,22 +1447,22 @@ function updateGameArea() {
 	_objects[i].update();
 	}
 	}
-	if (_objects[i].level == "settingsM" && settingsMenuShow == true) {
+	if (_objects[i].level == "settingsM" && settingsMenuShow == true && MOD_MENU_SHOW == false) {
 	if (_objects[i].enemyType == "all") {
 	_objects[i].update();
 	}
-	if (_objects[i].enemyType == "settings" && levelPackMenuShow == false && MOD_MENU_SHOW == false) {
+	if (_objects[i].enemyType == "settings" && levelPackMenuShow == false && MOD_EXTRA_MENU_SHOW == false) {
 	_objects[i].update();
 	}
-	if (_objects[i].enemyType == "levelpack" && levelPackMenuShow == true && MOD_MENU_SHOW == false) {
-	_objects[i].update();
-	}
-	//MOD//
-	if (_objects[i].enemyType == "otherTwo" && levelPackMenuShow == false && MOD_MENU_SHOW == true) {
+	if (_objects[i].enemyType == "levelpack" && levelPackMenuShow == true && MOD_EXTRA_MENU_SHOW == false) {
 	_objects[i].update();
 	}
 	//MOD//
-	if (_objects[i].enemyType == "otherOne" && levelPackMenuShow == true && MOD_MENU_SHOW == true) {
+	if (_objects[i].enemyType == "otherTwo" && levelPackMenuShow == false && MOD_EXTRA_MENU_SHOW == true) {
+	_objects[i].update();
+	}
+	//MOD//
+	if (_objects[i].enemyType == "otherOne" && levelPackMenuShow == true && MOD_EXTRA_MENU_SHOW == true) {
 	_objects[i].update();
 	}
 	}
@@ -2157,6 +2228,13 @@ this.difficaultyS = difficaultyS;
 //MOD//
 if (typeof MOD_DIFFICAULTY_SCALER === "function") {
 MOD_DIFFICAULTY_SCALER();
+}
+if (MOD_LOAD_DIFFICAULTY == true) {
+if (isEven(level) == false) {
+if (localStorage && 'DIFFICAULTY' in localStorage) {
+difficaulty = localStorage.DIFFICAULTY;
+}
+}
 }
 if (this.difficaultyS == 0) {
 if (level_pack == 0) {
