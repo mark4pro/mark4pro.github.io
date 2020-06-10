@@ -6,7 +6,7 @@
 <link rel="icon" type="image/vnd.microsoft.icon"
      href="https://mark4pro.github.io/GameEnginePro/image/icon/favicon.ico" />
 <style>
-canvas {
+#screen {
 border:2px solid black;
 background-color: blue;
 margin-left: auto;
@@ -29,16 +29,22 @@ overflow: hidden;
  body {
  background-image: url("https://mark4pro.github.io/GameEnginePro/image/Webpagebackground.png");
  }
- h1 {
+ #title {
  font-size: 50px;
  background-color: #63218a;
  border:5px solid black;
  visibility: visible; 
  z-index: 200; 
- bottom: 14%;
+ bottom: 12%;
  left: 20%;
  right: 20%;
  position: fixed;
+ }
+ .texts {
+ word-break: keep-all;
+ margin: auto;
+ width: 50%;
+ color: white;
  }
  p {
  color: white;
@@ -49,9 +55,86 @@ overflow: hidden;
 -ms-user-select: none;
 user-select: none;
  }
+.check {
+cursor: pointer;
+background-color: #000000;
+outline: none;
+opacity: 0.7;
+width: 25px;
+height: 25px;
+-webkit-transition: .2s;
+transition: opacity .2s;
+}
+.check:hover {
+opacity: 1;
+}
+.buttons {
+background-color: #000000;
+color: white;
+border: none;
+opacity: 0.7;
+width: 200px;
+height: 50px;
+text-align: center;
+text-decoration: none;
+font-size: 30px;
+-webkit-transition: .2s;
+transition: opacity .2s;
+}
+.buttons:hover {
+opacity: 1;
+box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.saveButtons {
+background-color: #000000;
+color: white;
+border: none;
+opacity: 0.7;
+width: 100px;
+height: 30px;
+text-align: center;
+text-decoration: none;
+font-size: 25px;
+-webkit-transition: .2s;
+transition: opacity .2s;
+margin-left: 10px;
+}
+.saveButtons:hover {
+opacity: 1;
+box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.slider {
+-webkit-appearance: none;
+width: 50%;
+height: 25px;
+background: #d3d3d3;
+outline: none;
+opacity: 0.7;
+-webkit-transition: .2s;
+transition: opacity .2s;
+}
+.slider:hover {
+opacity: 1;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #000000;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #000000;
+  cursor: pointer;
+}
 #content{
+ border:5px solid black;
  background-color: #63218a;
- overflow: auto;
+ overflow: none;
  height: 120px;
  padding: 20px;
  margin-left: auto;
@@ -65,7 +148,7 @@ user-select: none;
 opacity: 0;
 visibility: hidden;
 transition: opacity 1s; 
-background-color: #63218a;
+background-color: #660063;
 left: 0px;
 top: 0px;
 width: 100%;
@@ -126,7 +209,11 @@ height: 533px;
 </object>
 </div>
 <!-- Where Images Go -->
-<img id="playerimg" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/originalship1.png">
+<img id="playerimg" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/player_ship_1_sprite_sheet.png">
+<img id="player2img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/player_ship_2_sprite_sheet.png">
+<img id="player3img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/player_ship_3_sprite_sheet.png">
+<img id="player4img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/player_ship_4_sprite_sheet.png">
+<img id="player5img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/player_ship_5_sprite_sheet.png">
 <img id="badguy1img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemy_1_sprite_sheet.png">
 <img id="wave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave1-5.png">
 <img id="Fwave1t5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Fwave1-5.PNG">
@@ -172,15 +259,14 @@ height: 533px;
 <img id="plantbox1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/plantbox.PNG">
 <img id="wave7boss" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/boss_1_sprite_sheet.png">
 <img id="wave7bossSheild" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/boss_1_sheilded_sprite_sheet.png">
-<img id="EXFrame1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame1.png">
-<img id="EXFrame2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame2.png">
-<img id="EXFrame3" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame3.png">
-<img id="EXFrame4" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame4.png">
+<img id="EXFrame1" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame1_1.png">
+<img id="EXFrame2" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame2_1.png">
+<img id="EXFrame3" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame3_1.png">
+<img id="EXFrame4" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame4_1.png">
+<img id="EXFrame5" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame5_1.png">
+<img id="EXFrame6" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame6_1.png">
+<img id="EXFrame7" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ExplosionFrame7_1.png">
 <img id="Burnt" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/BurntHouse.png">
-<img id="player2img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/FreeShip1.png">
-<img id="player3img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ChristmasConsept.png">
-<img id="player4img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/wave7boss-prizeShip.png">
-<img id="player5img" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/easyship.png">
 <img id="hiddenShip" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/HiddenShip.png">
 <img id="highlight" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/Highlight.png">
 <img id="guardian" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemy_5_sprite_sheet.png">
@@ -189,7 +275,7 @@ height: 533px;
 <img id="X_Enemy" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/enemy_4_sprite_sheet.png">
 <img id="ST_P_DAY_BG" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_BACKGROUND.png">
 <img id="ST_P_DAY_PROP" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_PROP.png">
-<img id="ST_P_DAY_EVENT_PRIZE" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_EVENT_PRIZE.png">
+<img id="ST_P_DAY_EVENT_PRIZE" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/player_ship_6_sprite_sheet.png">
 <img id="ST_P_DAY_EVENT_BOSS" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_EVENT_BOSS.png">
 <img id="ST_P_DAY_EVENT_BOSS_BULLET" width="0" height="0" src="https://mark4pro.github.io/GameEnginePro/image/ST.P_DAY_SHIP_SPECIAL_WEAPON.png">
 
@@ -288,44 +374,46 @@ pauseGameKeys = false;
 }
 </script>
 <label class="unselectable">
-<h1 align="center">Homeworld Takedown V0.5.0 Preview</h1>
 <div id="content">
-<p align="center">Name/Debug:</p>
-<p align="center"><input type="text" id="name" value=""></p>
-<p align="center"><button id="settingsBUTTON" onmousedown="show()"></button></p>
+<h1 id="title" align="center">Homeworld Takedown V0.5.0 Preview</h1>
+<p align="center" style="font-size:20px;padding:0px;margin:0px;color:black;">Name/Debug:</p>
+<p align="center"><input style="outline:none;width:300px;height:25px;font-size:20px;" type="text" id="name" value=""></p>
+<p align="center"><button style="outline:none;width:100px;height:50px;cursor:pointer;" id="settingsBUTTON" onmousedown="show()"></button></p>
 </div>
 <div id="loader"></div>
 <div id="splash"></div>
 <div id="settings">
-<p align="center">SETTINGS</p>
-<p align="center">Volume:</p>
-<p align="center">Music: <input type="range" min="0" max="100" id="volume" class="slider" step="1"></input></p>
-<p align="center">Sound Effects: <input type="range" min="0" max="100" id="soundvolume" class="slider" step="1"></input></p>
-<p align="center">Extras:</p>
-<p align="center">Enemy Health Bars? <input type="checkbox" id="HBshow" value="" checked></p>
-<p align="center">Controls:</p>
-<p align="center">Move Up: <input style="text-transform:uppercase" type="text" id="moveUP" value="W"></p>
-<p align="center">Move Down: <input style="text-transform:uppercase" type="text" id="moveDOWN" value="S"></p>
-<p align="center">Move Left: <input style="text-transform:uppercase" type="text" id="moveLEFT" value="A"></p>
-<p align="center">Move Right: <input style="text-transform:uppercase" type="text" id="moveRIGHT" value="D"></p>
-<p align="center">Arrow Keys for shooting? <input type="checkbox" id="Arrowz" value="" checked></p>
-<p align="center">Shoot Up: <input style="text-transform:uppercase" type="text" id="shootUP" value=""></p>
-<p align="center">Shoot Down: <input style="text-transform:uppercase" type="text" id="shootDOWN" value=""></p>
-<p align="center">Shoot Left: <input style="text-transform:uppercase" type="text" id="shootLEFT" value=""></p>
-<p align="center">Shoot Right: <input style="text-transform:uppercase" type="text" id="shootRIGHT" value=""></p>
-<p align="center">Use the Esc Key? <input type="checkbox" id="Esc_" value="" checked></p>
-<p align="center">Exit/Back: <input style="text-transform:uppercase" type="text" id="backBT" value=""></p>
-<p align="center">Mute/Unmute: <input style="text-transform:uppercase" type="text" id="mute" value="M"></p>
-<p align="center">Patch Info: <input style="text-transform:uppercase" type="text" id="patch" value="P"></p>
-<p align="center">Revive: <input style="text-transform:uppercase" type="text" id="reviveBT" value="R"></p>
-<p align="center">Use any of the number keys to switch through weapons.</p>
-<p align="center">Use any of the number keys plus shift to switch through special weapons.</p>
-<p align="center">Use the any corresponding Number Keys to upgrade.(The numbers correspond with numbers in the upgrade menu are labeled with a # in front of it.)</p>
-<p align="center">Difficulties:</p>
-<p align="center">Easy: <input type="checkbox" id="Easy_" value="" checked></p>
-<p align="center">Medium: <input type="checkbox" id="Medium_" value=""></p>
-<p align="center">Hard: <input type="checkbox" id="Hard_" value=""></p>
-<p align="center"><button onmousedown="showStop()">Back</button></p>
+<p align="center" style="font-size:50px;">SETTINGS</p>
+<div align="center" style="width:100%;"><div id="Music_Volume" style="color:white;font-size:20px;">Music: </div><input type="range" min="0" max="100" id="volume" class="slider" step="1" value="15"></input><button class="saveButtons" onmousedown="saveSettings(Music_)">Save</button></div><br>
+<div align="center" style="width:100%;"><div id="Sound_Effects_Volume" style="color:white;font-size:20px;">Sound Effects: </div><input type="range" min="0" max="100" id="soundvolume" class="slider" step="1"></input><button class="saveButtons" onmousedown="saveSettings(SoundFX_)">Save</button></div>
+<br><p align="center" style="font-size:50px;margin:0px;">Extras:</p>
+<p align="center" style="font-size:20px;">Enemy Health Bars? <input type="checkbox" class="check" id="HBshow" value="" checked><button class="saveButtons" onmousedown="saveSettings(HBar_)">Save</button></p>
+<p align="center" style="font-size:20px;">Animated Sprites? <input type="checkbox" class="check" id="AnimatedSprites" value="" checked><button class="saveButtons" onmousedown="saveSettings(ASprites_)">Save</button></p>
+<p align="center" style="font-size:20px;">Mute "Shooting" Sound Effect? <input type="checkbox" class="check" id="mute_SHOOTING" value=""><button class="saveButtons" onmousedown="saveSettings(MShooting_)">Save</button></p>
+<p align="center" style="font-size:20px;">Mute "Low Ammo" Sound Effect? <input type="checkbox" class="check" id="mute_LOW_AMMO" value=""><button class="saveButtons" onmousedown="saveSettings(MLAmmo_)">Save</button></p>
+<p align="center" style="font-size:20px;">Mute "Explosion" Sound Effect? <input type="checkbox" class="check" id="mute_EXPLOSION" value=""><button class="saveButtons" onmousedown="saveSettings(MExplosions_)">Save</button></p>
+<p align="center" style="font-size:50px;margin:0px;">Controls:</p>
+<div align="center"><div id="Up_Button_Text" style="color:white;font-size:50px;">Move Up: </div><br><button id="UpButton" class="buttons" onmousedown="keyBinder(MoveUp_)">Change</button></div>
+<div align="center"><div id="Down_Button_Text" style="color:white;font-size:50px;">Move Down: </div><br><button id="DownButton" class="buttons" onmousedown="keyBinder(MoveDown_)">Change</button></div>
+<div align="center"><div id="Left_Button_Text" style="color:white;font-size:50px;">Move Left: </div><br><button id="LeftButton" class="buttons" onmousedown="keyBinder(MoveLeft_)">Change</button></div>
+<div align="center"><div id="Right_Button_Text" style="color:white;font-size:50px;">Move Right: </div><br><button id="RightButton" class="buttons" onmousedown="keyBinder(MoveRight_)">Change</button></div>
+<div align="center"><div id="Shoot_Up_Button_Text" style="color:white;font-size:50px;">Shoot Up: </div><br><button id="ShootUpButton" class="buttons" onmousedown="keyBinder(ShootUp_1)">Change</button></div>
+<div align="center"><div id="Shoot_Down_Button_Text" style="color:white;font-size:50px;">Shoot Down: </div><br><button id="ShootDownButton" class="buttons" onmousedown="keyBinder(ShootDown_1)">Change</button></div>
+<div align="center"><div id="Shoot_Left_Button_Text" style="color:white;font-size:50px;">Shoot Left: </div><br><button id="ShootLeftButton" class="buttons" onmousedown="keyBinder(ShootLeft_1)">Change</button></div>
+<div align="center"><div id="Shoot_Right_Button_Text" style="color:white;font-size:50px;">Shoot Right: </div><br><button id="ShootRightButton" class="buttons" onmousedown="keyBinder(ShootRight_1)">Change</button></div>
+<div align="center"><div id="Back_Button_Text" style="color:white;font-size:50px;">Exit/Back: </div><br><button id="BackButton" class="buttons" onmousedown="keyBinder(Back_1)">Change</button></div>
+<div align="center"><div id="Mute_Button_Text" style="color:white;font-size:50px;">Mute/Unmute: </div><br><button id="MuteButton" class="buttons" onmousedown="keyBinder(Mute_1)">Change</button></div>
+<div align="center"><div id="Patch_Button_Text" style="color:white;font-size:50px;">Patch Info: </div><br><button id="PatchButton" class="buttons" onmousedown="keyBinder(Patch_1)">Change</button></div>
+<div align="center"><div id="Revive_Button_Text" style="color:white;font-size:50px;">Revive: </div><br><button id="ReviveButton" class="buttons" onmousedown="keyBinder(Revive_1)">Change</button></div>
+<div align="center"><div id="Special_Button_Text" style="color:white;font-size:50px;">Special Key: </div><br><button id="SpecialButton" class="buttons" onmousedown="keyBinder(Special_1)">Change</button></div>
+<div align="center"><div id="Hide_Panel_Button_Text" style="color:white;font-size:50px;">Hide Front Panel: </div><br><button id="HidePanelButton" class="buttons" onmousedown="keyBinder(HidePanel_)">Change</button></div><br>
+<div align="center" class="texts" style="font-size:30px;">Use any of the number keys to switch through weapons. Use any of the number keys plus "Special Key" to switch through special weapons. Use the any corresponding Number Keys to upgrade. (The numbers correspond with numbers in the upgrade menu are labeled with a "#" in front of it.)</div>
+<br><p align="center" style="font-size:50px;margin:0px;">Difficulties:</p>
+<p align="center" style="font-size:20px;">Easy: <input type="checkbox" class="check" id="Easy_" value="" checked></p>
+<p align="center" style="font-size:20px;">Medium: <input type="checkbox" class="check" id="Medium_" value=""><button class="saveButtons" onmousedown="saveSettings(Diff_)">Save</button></p>
+<p align="center" style="font-size:20px;">Hard: <input type="checkbox" class="check" id="Hard_" value=""></p>
+<p align="center"><button class="buttons" onmousedown="saveSettings(All_)">Save All</button></p>
+<p align="center"><button class="buttons" onmousedown="showStop()">Back</button></p>
 </div>
 </label>
 <script type="text/javascript" src="https://mark4pro.github.io/GameEnginePro/scripts/engine.js"></script>
