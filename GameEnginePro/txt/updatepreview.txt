@@ -1,6 +1,17 @@
 :PRESS P TO TOGGLE THE PIB:
 
 What's new in V0.5.0 PREVIEW-
+New-Revamped all ships.
+New-Revamped settings menu and keybinder.
+New-Revamped the Shipyard.
+New-improved intro sequence to boss.
+New-added new settings.
+New-added saves for settings and controls.
+New-the game will now save the mute state.
+New-added a key to make the title area disappear.
+New-made tips stop showing if a condition is true.
+New-the back key now closes the settings menu.
+New-I took away the message box.
 Revamped all enemies.
 Updated engine so it can use sprite sheets.
 Fixed a weird tree bug.
@@ -10,7 +21,6 @@ Fixed some issues with the lasers.
 Revamp the bullets.
 
 What's soon to come in PREVIEW:
-Revamping all the playable ships in the game.
 New secret event.
 New location "Warp Zone".
 More to be announced!
