@@ -27,12 +27,12 @@ var easyShipPrize = 0;
 var STPRIZESHIP = 0;
 var STPRIZEWEAPON = 0;
 var STPDAYEVENTTRIGGER = 0;
-function Datechecker() {
 var today_date = new Date()
 var mydayofweek = today_date.getDay()
 var mytoday = today_date.getDate()
 var mymonth = today_date.getMonth()
 var myyear = today_date.getFullYear()
+function Datechecker() {
 if (popup == 1) {
 if (mymonth == 3) {
 if (mytoday >= 22 && mytoday < 27) {
@@ -70,11 +70,6 @@ if (mytoday >= 11 && mytoday < 30) {
 stcweapon = 1;
    }
   }
-if (earlystart == 1) {
-if (mymonth == 9) {
-stcweapon = 1;
-  }
- }
 }
 
 var w = window.innerWidth;
@@ -107,13 +102,14 @@ var rec1posX = 350;
 var rec1posY = 40;
 var x1posX = 350;
 var x1posY = -10;
-var MusicOnOff = true;
 var badHealthBarColor = "green";
 var badHealthBarColor2 = "green";
 var badHealthBarColor3 = "green";
 var badHealthBarColor4 = "green";
 var badHealthBarColor5 = "green";
 var difficulty = 0;
+var hider_ = 0;
+
 function start() {
  if (localStorage && 'Cs' in localStorage) {
     christmasSkin = localStorage.Cs;
@@ -130,12 +126,130 @@ function start() {
  if (localStorage && 'Pw' in localStorage) {
     STPRIZEWEAPON = localStorage.Pw;
  }
- MusicOnOff = confirm("Do you want sound?\nOk for yes.\nCancel for no.");
- document.getElementById("volume").value = "15";
- SetVolume(15);
+ if (localStorage && 'HealthBars' in localStorage) {
+	if (localStorage.HealthBars == "true") {
+		document.getElementById("HBshow").checked = true;
+	}
+	if (localStorage.HealthBars == "false") {
+		document.getElementById("HBshow").checked = false;
+	}
+ }
+ if (localStorage && 'AnimatedSprites_' in localStorage) {
+	if (localStorage.AnimatedSprites_ == "true") {
+		document.getElementById("AnimatedSprites").checked = true;
+	}
+	if (localStorage.AnimatedSprites_ == "false") {
+		document.getElementById("AnimatedSprites").checked = false;
+	}
+ }
+ if (localStorage && 'MuteShooting_' in localStorage) {
+	if (localStorage.MuteShooting_ == "true") {
+		document.getElementById("mute_SHOOTING").checked = true;
+	}
+	if (localStorage.MuteShooting_ == "false") {
+		document.getElementById("mute_SHOOTING").checked = false;
+	}
+ }
+ if (localStorage && 'MuteLAmmo_' in localStorage) {
+	if (localStorage.MuteLAmmo_ == "true") {
+		document.getElementById("mute_LOW_AMMO").checked = true;
+	}
+	if (localStorage.MuteLAmmo_ == "false") {
+		document.getElementById("mute_LOW_AMMO").checked = false;
+	}
+ }
+ if (localStorage && 'MuteExplosion_' in localStorage) {
+	if (localStorage.MuteExplosion_ == "true") {
+		document.getElementById("mute_EXPLOSION").checked = true;
+	}
+	if (localStorage.MuteExplosion_ == "false") {
+		document.getElementById("mute_EXPLOSION").checked = false;
+	}
+ }
+ if (localStorage && 'DifficultyEasy' in localStorage) {
+	if (localStorage.DifficultyEasy == "true") {
+		document.getElementById("Easy_").checked = true;
+	}
+	if (localStorage.DifficultyEasy == "false") {
+		document.getElementById("Easy_").checked = false;
+	}
+ }
+ if (localStorage && 'DifficultyMedium' in localStorage) {
+	if (localStorage.DifficultyMedium == "true") {
+		document.getElementById("Medium_").checked = true;
+	}
+	if (localStorage.DifficultyMedium == "false") {
+		document.getElementById("Medium_").checked = false;
+	}
+ }
+ if (localStorage && 'DifficultyHard' in localStorage) {
+	if (localStorage.DifficultyHard == "true") {
+		document.getElementById("Hard_").checked = true;
+	}
+	if (localStorage.DifficultyHard == "false") {
+		document.getElementById("Hard_").checked = false;
+	}
+ }
+ if (localStorage && 'MusicVol' in localStorage) {
+		document.getElementById("volume").value = parseInt(localStorage.MusicVol, 10);
+ }
+ if (localStorage && 'SoundFXVol' in localStorage) {
+		document.getElementById("soundvolume").value = parseInt(localStorage.SoundFXVol, 10);
+ }
+ if (localStorage && 'MoveUpControl' in localStorage) {
+		Up_ = localStorage.MoveUpControl;
+ }
+ if (localStorage && 'MoveDownControl' in localStorage) {
+		Down_ = localStorage.MoveDownControl;
+ }
+ if (localStorage && 'MoveLeftControl' in localStorage) {
+		Left_ = localStorage.MoveLeftControl;
+ }
+ if (localStorage && 'MoveRightControl' in localStorage) {
+		Right_ = localStorage.MoveRightControl;
+ }
+ if (localStorage && 'ShootUpControl' in localStorage) {
+		shootUp_ = localStorage.ShootUpControl;
+ }
+ if (localStorage && 'ShootDownControl' in localStorage) {
+		shootDown_ = localStorage.ShootDownControl;
+ }
+ if (localStorage && 'ShootLeftControl' in localStorage) {
+		shootLeft_ = localStorage.ShootLeftControl;
+ }
+ if (localStorage && 'ShootRightControl' in localStorage) {
+		shootRight_ = localStorage.ShootRightControl;
+ }
+ if (localStorage && 'BackControl' in localStorage) {
+		Esssc_ = localStorage.BackControl;
+ }
+ if (localStorage && 'MuteControl' in localStorage) {
+		Mute_ = localStorage.MuteControl;
+ }
+ if (localStorage && 'PatchControl' in localStorage) {
+		Patch_ = localStorage.PatchControl;
+ }
+ if (localStorage && 'ReviveControl' in localStorage) {
+		Revive_ = localStorage.ReviveControl;
+ }
+ if (localStorage && 'SpecialControl' in localStorage) {
+		SpecialKey_ = localStorage.SpecialControl;
+ }
+ if (localStorage && 'SpecialControl2' in localStorage) {
+		SpecialKey_2 = localStorage.SpecialControl2;
+ }
+ if (localStorage && 'MuteVol' in localStorage) {
+		mutemusic = localStorage.MuteVol;
+ }
+ if (localStorage && 'HidePanel_' in localStorage) {
+		HPanel = localStorage.HidePanel_;
+ }
+ if (localStorage && 'HideFrontPanel_' in localStorage) {
+		hider_ = localStorage.HideFrontPanel_;
+ }
  STPDAYEVENTBG = new component(800, 390, "ST_P_DAY_BG", 0, 0, "img");
  STPDAYEVENTPROP = new component(100, 100, "ST_P_DAY_PROP", 350, 150, "img");
- STPDAYEVENTBOSSINTRO = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", 387.5, 190, "img-rot");
+ STPDAYEVENTBOSSINTRO = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", 387.5, 190, "animated-img-rot");
  STPDAYEVENTBOSS = new component(39, 42, "ST_P_DAY_EVENT_BOSS", 380.5, 181.5, "img-rot");
  STPDAYEVENTBOSSBOX = new component(39, 42, "black", 380.5, 181.5, "rec");
  STPDAYEVENTBOSSHEALTHBAR = new component(STBOSSHEALTH, 20, "darkgreen", 10, 20, "rec");
@@ -197,9 +311,9 @@ function start() {
  triwavebox1 = new component(15, 15, "black", tri1posX - 5, tri1posY - 5, "rec");
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
  bullcir = new component(10, 10, "grey", 400, 180, "cir", 3, "black", 0);
- bpic = new component(10, 10, "bullpic", 400, 180, "img-rot");
- bpic2 = new component(10, 10, "bullpic2", 400, 180, "img-rot");
- bpic3 = new component(10, 10, "bullpic3", 400, 180, "img-rot");
+ bpic = new component(10, 10, "bullpic", 400, 180, "animated-img-rot");
+ bpic2 = new component(10, 10, "bullpic2", 400, 180, "animated-img-rot");
+ bpic3 = new component(10, 10, "bullpic3", 400, 180, "animated-img-rot");
  bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
  bpic5 = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", 400, 180, "animated-img-rot");
  box = new component(25, 25, "grey", playerX, playerY, "player1", "player");
@@ -213,6 +327,10 @@ function start() {
  w1t5 = new component(800, 500, "wave1t5", 0, 0, "img");
  w5t7 = new component(800, 390, "wave5t7", 0, 0, "img");
  Explosion = new component(800, 390, "EXFrame1", 0, 0, "img");
+ Explosion_2 = new component(800, 390, "EXFrame1", 0, 0, "img");
+ Explosion_3 = new component(800, 390, "EXFrame1", 0, 0, "img");
+ Explosion_4 = new component(800, 390, "EXFrame1", 0, 0, "img");
+ Explosion_5 = new component(800, 390, "EXFrame1", 0, 0, "img");
  Fw1t5 = new component(800, 500, "Fwave1t5", 0, 0, "img");
  Fw5t7 = new component(800, 390, "Fwave5t7", 0, 0, "img");
  Ww1t5 = new component(800, 500, "Wwave1t5", 0, 0, "img");
@@ -502,6 +620,55 @@ function start() {
  TipsTxt.font = "10px Consolas";
  TipsTxt.text = "Tip:";
  DeathForPlayer = new component(800, 500, "DeathScr", 0, 0, "img");
+ //pause menu//
+weap_ship = new component(200, 200, "grey", 300, 40, "rec");
+shiptxt = new component("30px", "Consolas", "white", 365, 55, "text");
+shiptxt.font = "15px Consolas";
+shiptxt.text = "Shipyard";
+pausetxt = new component("30px", "Consolas", "white", 345, 30, "text");
+pausetxt.font = "20px Consolas";
+pausetxt.text = "Pause Menu";
+ //ship yard//
+ship1Show = new component(32, 32, "playerimg", 305, 60, "animated-img-rot");
+shipHighLight1 = new component(35, 35, "highlight", ship1Show.x - ((35-ship1Show.width)/2), ship1Show.y - ((35-ship1Show.height)/2), "img-rot");
+shipHighLight1.globalAlpha = 0;
+ship1txt = new component("30px", "Consolas", "white", 312.5, 105, "text");
+ship1txt.font = "15px Consolas";
+ship1txt.text = "#1";
+ship2Show = new component(25, 25, "player2img", 345.5, 63.5, "animated-img-rot");
+shipHighLight2 = new component(28, 28, "highlight", ship2Show.x - ((28-ship2Show.width)/2), ship2Show.y - ((28-ship2Show.height)/2), "img-rot");
+shipHighLight2.globalAlpha = 0;
+ship2txt = new component("30px", "Consolas", "white", 349.5, 105, "text");
+ship2txt.font = "15px Consolas";
+ship2txt.text = "#2";
+ship3Show = new component(25, 25, "player3img", 382.5, 63.5, "animated-img-rot");
+shipHighLight3 = new component(28, 28, "highlight", ship3Show.x - ((28-ship3Show.width)/2), ship3Show.y - ((28-ship3Show.height)/2), "img-rot");
+shipHighLight3.globalAlpha = 0;
+ship3Hidden = new component(25, 25, "hiddenShip", ship3Show.x, ship3Show.y, "img");
+ship3txt = new component("30px", "Consolas", "white", 386.5, 105, "text");
+ship3txt.font = "15px Consolas";
+ship3txt.text = "#3";
+ship4Show = new component(25, 25, "player4img", 419.5, 63.5, "animated-img-rot");
+shipHighLight4 = new component(28, 28, "highlight", ship4Show.x - ((28-ship4Show.width)/2), ship4Show.y - ((28-ship4Show.height)/2), "img-rot");
+shipHighLight4.globalAlpha = 0;
+ship4Hidden = new component(25, 25, "hiddenShip", ship4Show.x, ship4Show.y, "img");
+ship4txt = new component("30px", "Consolas", "white", 423.5, 105, "text");
+ship4txt.font = "15px Consolas";
+ship4txt.text = "#4";
+ship5Show = new component(32, 32, "player5img", 453, 60, "animated-img-rot");
+shipHighLight5 = new component(35, 35, "highlight", ship5Show.x - ((35-ship5Show.width)/2), ship5Show.y - ((35-ship5Show.height)/2), "img-rot");
+shipHighLight5.globalAlpha = 0;
+ship5Hidden = new component(32, 32, "hiddenShip", ship5Show.x, ship5Show.y, "img");
+ship5txt = new component("30px", "Consolas", "white", 460.5, 105, "text");
+ship5txt.font = "15px Consolas";
+ship5txt.text = "#5";
+ship6Show = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", 308.5, 113.5, "animated-img-rot");
+shipHighLight6 = new component(28, 28, "highlight", ship6Show.x - ((28-ship6Show.width)/2), ship6Show.y - ((28-ship6Show.height)/2), "img-rot");
+shipHighLight6.globalAlpha = 0;
+ship6Hidden = new component(25, 25, "hiddenShip", ship6Show.x, ship6Show.y, "img");
+ship6txt = new component("30px", "Consolas", "white", 312.5, 155, "text");
+ship6txt.font = "15px Consolas";
+ship6txt.text = "#6";
  console.log("width" + w);
  console.log("height" + h);
  animationInt();
@@ -514,6 +681,7 @@ canvas : document.createElement("canvas"),
 start : function() {
 this.canvas.width = 800;
 this.canvas.height = 500;
+this.canvas.id = "screen"
 this.context = this.canvas.getContext("2d");
 document.body.insertBefore(this.canvas,
 document.body.childNodes[0]);
@@ -576,20 +744,44 @@ recenemypic1_1_animation = new animationComponent(6, 0, 15);
 trienemypic_1_animation = new animationComponent(8, 0, 25);
 xenemypic1_1_animation = new animationComponent(8, 0, 15);
 guardianPic_1_animation = new animationComponent(6, 0, 25);
-bossWave7pic_1_animation = new animationComponent(6, 0, 15);
-bossWave7sheildPic_1_animation = new animationComponent(6, 0, 15);
+bossWave7pic_1_animation = new animationComponent(8, 0, 15);
+bossWave7sheildPic_1_animation = new animationComponent(8, 0, 15);
 bpic_1_animation = new animationComponent(6, 0, 0.5);
+ship1_1_animation = new animationComponent(8, 0, 15);
+ship2_1_animation = new animationComponent(8, 0, 15);
+ship3_1_animation = new animationComponent(8, 0, 15);
+ship4_1_animation = new animationComponent(8, 0, 15);
+ship5_1_animation = new animationComponent(8, 0, 15);
+ship6_1_animation = new animationComponent(8, 0, 15);
+shipShow1_1_animation = new animationComponent(8, 0, 15);
+shipShow2_1_animation = new animationComponent(8, 0, 15);
+shipShow3_1_animation = new animationComponent(8, 0, 15);
+shipShow4_1_animation = new animationComponent(8, 0, 15);
+shipShow5_1_animation = new animationComponent(8, 0, 15);
+shipShow6_1_animation = new animationComponent(8, 0, 15);
+STPDAYEVENTBOSSINTRO_1_animation = new animationComponent(8, 0, 15);
 }
 
+var animationNoOff = false;
 function animations() {
+if (document.getElementById("AnimatedSprites").checked == true) {
+animationNoOff = true;
+}
+if (document.getElementById("AnimatedSprites").checked == false) {
+animationNoOff = false;
+}
 //badguypic1 enemy animation//
 if (wave < 5 && BadDeath < 1 && Death1 == 0) {
 badguypic1.angle += 0.05;
+if (animationNoOff == true) {
 badguypic1_1_animation.frameTimer();
+}
 }
 if (wave >= 5 || BadDeath > 0 || Death1 != 0) {
 badguypic1.angle = 0;
+if (animationNoOff == false) {
 badguypic1_1_animation.resetFrame();
+}
 }
 if (badguypic1_1_animation.currentFrame == 0) {
 badguypic1.sx = 0;
@@ -618,11 +810,15 @@ badguypic1.sy = 25;
 //badguypic2 enemy animation//
 if (wave < 7 && wave > 1 && BadDeath2 < 1 && Death1 == 0) {
 badguypic2.angle += 0.05;
+if (animationNoOff == true) {
 badguypic2_1_animation.frameTimer();
+}
 }
 if (wave >= 7 || wave < 2 || BadDeath2 > 0 || Death1 != 0) {
 badguypic2.angle = 0;
+if (animationNoOff == false) {
 badguypic2_1_animation.resetFrame();
+}
 }
 if (badguypic2_1_animation.currentFrame == 0) {
 badguypic2.sx = 0;
@@ -651,11 +847,15 @@ badguypic2.sy = 25;
 //recenemypic1 enemy animation//
 if (wave > 2 && wave < 5 && BadDeath4 < 1 && Death1 == 0) {
 recenemypic1.angle += 0.08;
+if (animationNoOff == true) {
 recenemypic1_1_animation.frameTimer();
+}
 }
 if (wave >= 5 || wave <= 2 || BadDeath4 > 0 || Death1 != 0) {
 recenemypic1.angle = 0;
+if (animationNoOff == false) {
 recenemypic1_1_animation.resetFrame();
+}
 }
 if (recenemypic1_1_animation.currentFrame == 0) {
 recenemypic1.sx = 0;
@@ -684,10 +884,14 @@ recenemypic1.sy = 25;
 //trienemypic enemy animation//
 trienemypic.angle = Math.atan2(-box.y + trienemypic.y, -box.x + trienemypic.x) + 1.5707963268;
 if (wave > 4 && wave < 7 && BadDeath3 < 1 && Death1 == 0) {
+if (animationNoOff == true) {
 trienemypic_1_animation.frameTimer();
 }
+}
 if (wave >= 7 || wave <= 4 || BadDeath3 > 0 || Death1 != 0) {
+if (animationNoOff == false) {
 trienemypic_1_animation.resetFrame();
+}
 }
 if (trienemypic_1_animation.currentFrame == 0) {
 trienemypic.sx = 0;
@@ -724,11 +928,15 @@ trienemypic.sy = 35;
 //xenemypic1 enemy animation//
 if (wave > 5 && wave < 7 && BadDeath5 < 1 && Death1 == 0) {
 xenemypic1.angle += 0.06;
+if (animationNoOff == true) {
 xenemypic1_1_animation.frameTimer();
+}
 }
 if (wave >= 7 || wave <= 5 || BadDeath5 > 0 || Death1 != 0) {
 xenemypic1.angle = 0;
+if (animationNoOff == false) {
 xenemypic1_1_animation.resetFrame();
+}
 }
 if (xenemypic1_1_animation.currentFrame == 0) {
 xenemypic1.sx = 0;
@@ -772,11 +980,15 @@ guardianPic.angle += 5 * Math.PI / 180;
 if (GuardHealth <= 0) {
 guardianPic.angle = 0;
 }
+if (animationNoOff == true) {
 guardianPic_1_animation.frameTimer();
+}
 }
 if (wave != 7 || GuardDead != false || GuardStart != 1 || Death1 != 0) {
 guardianPic.angle = 0;
+if (animationNoOff == false) {
 guardianPic_1_animation.resetFrame();
+}
 }
 if (guardianPic_1_animation.currentFrame == 0) {
 guardianPic.sx = 0;
@@ -805,10 +1017,14 @@ guardianPic.sy = 25;
 //bossWave7pic enemy animation//
 if (wave == 7 && spawnBoss7 == 1 && BossDead == false) {
 bossWave7pic.angle += 0.05;
+if (animationNoOff == true) {
 bossWave7pic_1_animation.frameTimer();
+}
 } else {
 bossWave7pic.angle = 0;
+if (animationNoOff == false) {
 bossWave7pic_1_animation.resetFrame();
+}
 }
 if (bossWave7pic_1_animation.currentFrame == 0) {
 bossWave7pic.sx = 0;
@@ -823,23 +1039,35 @@ bossWave7pic.sx = 70;
 bossWave7pic.sy = 0;
 }
 if (bossWave7pic_1_animation.currentFrame == 3) {
+bossWave7pic.sx = 105;
+bossWave7pic.sy = 0;
+}
+if (bossWave7pic_1_animation.currentFrame == 4) {
 bossWave7pic.sx = 0;
 bossWave7pic.sy = 35;
 }
-if (bossWave7pic_1_animation.currentFrame == 4) {
+if (bossWave7pic_1_animation.currentFrame == 5) {
 bossWave7pic.sx = 35;
 bossWave7pic.sy = 35;
 }
-if (bossWave7pic_1_animation.currentFrame == 5) {
+if (bossWave7pic_1_animation.currentFrame == 6) {
 bossWave7pic.sx = 70;
+bossWave7pic.sy = 35;
+}
+if (bossWave7pic_1_animation.currentFrame == 7) {
+bossWave7pic.sx = 105;
 bossWave7pic.sy = 35;
 }
 //bossWave7sheildPic enemy animation//
 bossWave7sheildPic.angle = bossWave7pic.angle;
 if (bossSheildMode == 1) {
+if (animationNoOff == true) {
 bossWave7sheildPic_1_animation.frameTimer();
+}
 } else {
+if (animationNoOff == false) {
 bossWave7sheildPic_1_animation.resetFrame();
+}
 }
 if (bossWave7sheildPic_1_animation.currentFrame == 0) {
 bossWave7sheildPic.sx = 0;
@@ -854,29 +1082,638 @@ bossWave7sheildPic.sx = 70;
 bossWave7sheildPic.sy = 0;
 }
 if (bossWave7sheildPic_1_animation.currentFrame == 3) {
+bossWave7sheildPic.sx = 105;
+bossWave7sheildPic.sy = 0;
+}
+if (bossWave7sheildPic_1_animation.currentFrame == 4) {
 bossWave7sheildPic.sx = 0;
 bossWave7sheildPic.sy = 35;
 }
-if (bossWave7sheildPic_1_animation.currentFrame == 4) {
+if (bossWave7sheildPic_1_animation.currentFrame == 5) {
 bossWave7sheildPic.sx = 35;
 bossWave7sheildPic.sy = 35;
 }
-if (bossWave7sheildPic_1_animation.currentFrame == 5) {
+if (bossWave7sheildPic_1_animation.currentFrame == 6) {
 bossWave7sheildPic.sx = 70;
+bossWave7sheildPic.sy = 35;
+}
+if (bossWave7sheildPic_1_animation.currentFrame == 7) {
+bossWave7sheildPic.sx = 105;
 bossWave7sheildPic.sy = 35;
 }
 //ship1 ship animation//
 ship1.angle += 0.05;
+if (Death1 == 0) {
+if (playerShip == 0) {
+if (animationNoOff == true) {
+ship1_1_animation.frameTimer();
+}
+}
+}
+if (Death1 != 0 || playerShip != 0) {
+if (animationNoOff == false) {
+ship1_1_animation.resetFrame();
+}
+}
+if (ship1_1_animation.currentFrame == 0) {
+ship1.sx = 0;
+ship1.sy = 0;
+}
+if (ship1_1_animation.currentFrame == 1) {
+ship1.sx = 32;
+ship1.sy = 0;
+}
+if (ship1_1_animation.currentFrame == 2) {
+ship1.sx = 64;
+ship1.sy = 0;
+}
+if (ship1_1_animation.currentFrame == 3) {
+ship1.sx = 96;
+ship1.sy = 0;
+}
+if (ship1_1_animation.currentFrame == 4) {
+ship1.sx = 0;
+ship1.sy = 32;
+}
+if (ship1_1_animation.currentFrame == 5) {
+ship1.sx = 32;
+ship1.sy = 32;
+}
+if (ship1_1_animation.currentFrame == 6) {
+ship1.sx = 64;
+ship1.sy = 32;
+}
+if (ship1_1_animation.currentFrame == 7) {
+ship1.sx = 96;
+ship1.sy = 32;
+}
+//ship1Show animation//
+ship1Show.angle += 0.05;
+shipHighLight1.angle -= 0.5;
+if (pauseGame == 1 && pauseGameKeys == false && weaponVault == 0) {
+if (animationNoOff == true) {
+shipShow1_1_animation.frameTimer();
+}
+}
+if (pauseGame != 1 || pauseGameKeys != false || weaponVault != 0) {
+if (animationNoOff == false) {
+shipShow1_1_animation.resetFrame();
+}
+}
+if (pauseGame == 1 && pauseGameKeys == false) {
+if (weaponVault == 0) {
+if (shipShow1_1_animation.currentFrame == 0) {
+ship1Show.sx = 0;
+ship1Show.sy = 0;
+}
+if (shipShow1_1_animation.currentFrame == 1) {
+ship1Show.sx = 32;
+ship1Show.sy = 0;
+}
+if (shipShow1_1_animation.currentFrame == 2) {
+ship1Show.sx = 64;
+ship1Show.sy = 0;
+}
+if (shipShow1_1_animation.currentFrame == 3) {
+ship1Show.sx = 96;
+ship1Show.sy = 0;
+}
+if (shipShow1_1_animation.currentFrame == 4) {
+ship1Show.sx = 0;
+ship1Show.sy = 32;
+}
+if (shipShow1_1_animation.currentFrame == 5) {
+ship1Show.sx = 32;
+ship1Show.sy = 32;
+}
+if (shipShow1_1_animation.currentFrame == 6) {
+ship1Show.sx = 64;
+ship1Show.sy = 32;
+}
+if (shipShow1_1_animation.currentFrame == 7) {
+ship1Show.sx = 96;
+ship1Show.sy = 32;
+}
+}
+}
 //ship2 ship animation//
 ship2.angle += 0.05;
+if (Death1 == 0) {
+if (playerShip == 1) {
+if (animationNoOff == true) {
+ship2_1_animation.frameTimer();
+}
+}
+}
+if (Death1 != 0 || playerShip != 1) {
+if (animationNoOff == false) {
+ship2_1_animation.resetFrame();
+}
+}
+if (ship2_1_animation.currentFrame == 0) {
+ship2.sx = 0;
+ship2.sy = 0;
+}
+if (ship2_1_animation.currentFrame == 1) {
+ship2.sx = 25;
+ship2.sy = 0;
+}
+if (ship2_1_animation.currentFrame == 2) {
+ship2.sx = 50;
+ship2.sy = 0;
+}
+if (ship2_1_animation.currentFrame == 3) {
+ship2.sx = 75;
+ship2.sy = 0;
+}
+if (ship2_1_animation.currentFrame == 4) {
+ship2.sx = 0;
+ship2.sy = 25;
+}
+if (ship2_1_animation.currentFrame == 5) {
+ship2.sx = 25;
+ship2.sy = 25;
+}
+if (ship2_1_animation.currentFrame == 6) {
+ship2.sx = 50;
+ship2.sy = 25;
+}
+if (ship2_1_animation.currentFrame == 7) {
+ship2.sx = 75;
+ship2.sy = 25;
+}
+//ship2Show animation//
+ship2Show.angle += 0.05;
+shipHighLight2.angle -= 0.5;
+if (pauseGame == 1 && pauseGameKeys == false && weaponVault == 0) {
+if (animationNoOff == true) {
+shipShow2_1_animation.frameTimer();
+}
+}
+if (pauseGame != 1 || pauseGameKeys != false || weaponVault != 0) {
+if (animationNoOff == false) {
+shipShow2_1_animation.resetFrame();
+}
+}
+if (pauseGame == 1 && pauseGameKeys == false) {
+if (weaponVault == 0) {
+if (shipShow2_1_animation.currentFrame == 0) {
+ship2Show.sx = 0;
+ship2Show.sy = 0;
+}
+if (shipShow2_1_animation.currentFrame == 1) {
+ship2Show.sx = 25;
+ship2Show.sy = 0;
+}
+if (shipShow2_1_animation.currentFrame == 2) {
+ship2Show.sx = 50;
+ship2Show.sy = 0;
+}
+if (shipShow2_1_animation.currentFrame == 3) {
+ship2Show.sx = 75;
+ship2Show.sy = 0;
+}
+if (shipShow2_1_animation.currentFrame == 4) {
+ship2Show.sx = 0;
+ship2Show.sy = 25;
+}
+if (shipShow2_1_animation.currentFrame == 5) {
+ship2Show.sx = 25;
+ship2Show.sy = 25;
+}
+if (shipShow2_1_animation.currentFrame == 6) {
+ship2Show.sx = 50;
+ship2Show.sy = 25;
+}
+if (shipShow2_1_animation.currentFrame == 7) {
+ship2Show.sx = 75;
+ship2Show.sy = 25;
+}
+}
+}
 //ship3 ship animation//
 ship3.angle += 0.05;
+if (Death1 == 0) {
+if (playerShip == 2) {
+if (animationNoOff == true) {
+ship3_1_animation.frameTimer();
+}
+}
+}
+if (Death1 != 0 || playerShip != 2) {
+if (animationNoOff == false) {
+ship3_1_animation.resetFrame();
+}
+}
+if (ship3_1_animation.currentFrame == 0) {
+ship3.sx = 0;
+ship3.sy = 0;
+}
+if (ship3_1_animation.currentFrame == 1) {
+ship3.sx = 25;
+ship3.sy = 0;
+}
+if (ship3_1_animation.currentFrame == 2) {
+ship3.sx = 50;
+ship3.sy = 0;
+}
+if (ship3_1_animation.currentFrame == 3) {
+ship3.sx = 75;
+ship3.sy = 0;
+}
+if (ship3_1_animation.currentFrame == 4) {
+ship3.sx = 0;
+ship3.sy = 25;
+}
+if (ship3_1_animation.currentFrame == 5) {
+ship3.sx = 25;
+ship3.sy = 25;
+}
+if (ship3_1_animation.currentFrame == 6) {
+ship3.sx = 50;
+ship3.sy = 25;
+}
+if (ship3_1_animation.currentFrame == 7) {
+ship3.sx = 75;
+ship3.sy = 25;
+}
+//ship3Show animation//
+ship3Show.angle += 0.05;
+shipHighLight3.angle -= 0.5;
+if (pauseGame == 1 && pauseGameKeys == false && weaponVault == 0) {
+if (animationNoOff == true) {
+shipShow3_1_animation.frameTimer();
+}
+}
+if (pauseGame != 1 || pauseGameKeys != false || weaponVault != 0) {
+if (animationNoOff == false) {
+shipShow3_1_animation.resetFrame();
+}
+}
+if (pauseGame == 1 && pauseGameKeys == false) {
+if (weaponVault == 0) {
+if (shipShow3_1_animation.currentFrame == 0) {
+ship3Show.sx = 0;
+ship3Show.sy = 0;
+}
+if (shipShow3_1_animation.currentFrame == 1) {
+ship3Show.sx = 25;
+ship3Show.sy = 0;
+}
+if (shipShow3_1_animation.currentFrame == 2) {
+ship3Show.sx = 50;
+ship3Show.sy = 0;
+}
+if (shipShow3_1_animation.currentFrame == 3) {
+ship3Show.sx = 75;
+ship3Show.sy = 0;
+}
+if (shipShow3_1_animation.currentFrame == 4) {
+ship3Show.sx = 0;
+ship3Show.sy = 25;
+}
+if (shipShow3_1_animation.currentFrame == 5) {
+ship3Show.sx = 25;
+ship3Show.sy = 25;
+}
+if (shipShow3_1_animation.currentFrame == 6) {
+ship3Show.sx = 50;
+ship3Show.sy = 25;
+}
+if (shipShow3_1_animation.currentFrame == 7) {
+ship3Show.sx = 75;
+ship3Show.sy = 25;
+}
+}
+}
 //ship4 ship animation//
 ship4.angle += 0.05;
+if (Death1 == 0) {
+if (playerShip == 3) {
+if (animationNoOff == true) {
+ship4_1_animation.frameTimer();
+}
+}
+}
+if (Death1 != 0 || playerShip != 3) {
+if (animationNoOff == false) {
+ship4_1_animation.resetFrame();
+}
+}
+if (ship4_1_animation.currentFrame == 0) {
+ship4.sx = 0;
+ship4.sy = 0;
+}
+if (ship4_1_animation.currentFrame == 1) {
+ship4.sx = 25;
+ship4.sy = 0;
+}
+if (ship4_1_animation.currentFrame == 2) {
+ship4.sx = 50;
+ship4.sy = 0;
+}
+if (ship4_1_animation.currentFrame == 3) {
+ship4.sx = 75;
+ship4.sy = 0;
+}
+if (ship4_1_animation.currentFrame == 4) {
+ship4.sx = 0;
+ship4.sy = 25;
+}
+if (ship4_1_animation.currentFrame == 5) {
+ship4.sx = 25;
+ship4.sy = 25;
+}
+if (ship4_1_animation.currentFrame == 6) {
+ship4.sx = 50;
+ship4.sy = 25;
+}
+if (ship4_1_animation.currentFrame == 7) {
+ship4.sx = 75;
+ship4.sy = 25;
+}
+//ship4Show animation//
+ship4Show.angle += 0.05;
+shipHighLight4.angle -= 0.5;
+if (pauseGame == 1 && pauseGameKeys == false && weaponVault == 0) {
+if (animationNoOff == true) {
+shipShow4_1_animation.frameTimer();
+}
+}
+if (pauseGame != 1 || pauseGameKeys != false || weaponVault != 0) {
+if (animationNoOff == false) {
+shipShow4_1_animation.resetFrame();
+}
+}
+if (pauseGame == 1 && pauseGameKeys == false) {
+if (weaponVault == 0) {
+if (shipShow4_1_animation.currentFrame == 0) {
+ship4Show.sx = 0;
+ship4Show.sy = 0;
+}
+if (shipShow4_1_animation.currentFrame == 1) {
+ship4Show.sx = 25;
+ship4Show.sy = 0;
+}
+if (shipShow4_1_animation.currentFrame == 2) {
+ship4Show.sx = 50;
+ship4Show.sy = 0;
+}
+if (shipShow4_1_animation.currentFrame == 3) {
+ship4Show.sx = 75;
+ship4Show.sy = 0;
+}
+if (shipShow4_1_animation.currentFrame == 4) {
+ship4Show.sx = 0;
+ship4Show.sy = 25;
+}
+if (shipShow3_1_animation.currentFrame == 5) {
+ship4Show.sx = 25;
+ship4Show.sy = 25;
+}
+if (shipShow3_1_animation.currentFrame == 6) {
+ship4Show.sx = 50;
+ship4Show.sy = 25;
+}
+if (shipShow3_1_animation.currentFrame == 7) {
+ship4Show.sx = 75;
+ship4Show.sy = 25;
+}
+}
+}
 //ship5 ship animation//
 ship5.angle += 0.05;
+if (Death1 == 0) {
+if (playerShip == 4) {
+if (animationNoOff == true) {
+ship5_1_animation.frameTimer();
+}
+}
+}
+if (Death1 != 0 || playerShip != 4) {
+if (animationNoOff == false) {
+ship5_1_animation.resetFrame();
+}
+}
+if (ship5_1_animation.currentFrame == 0) {
+ship5.sx = 0;
+ship5.sy = 0;
+}
+if (ship5_1_animation.currentFrame == 1) {
+ship5.sx = 32;
+ship5.sy = 0;
+}
+if (ship5_1_animation.currentFrame == 2) {
+ship5.sx = 64;
+ship5.sy = 0;
+}
+if (ship5_1_animation.currentFrame == 3) {
+ship5.sx = 96;
+ship5.sy = 0;
+}
+if (ship5_1_animation.currentFrame == 4) {
+ship5.sx = 0;
+ship5.sy = 32;
+}
+if (ship5_1_animation.currentFrame == 5) {
+ship5.sx = 32;
+ship5.sy = 32;
+}
+if (ship5_1_animation.currentFrame == 6) {
+ship5.sx = 64;
+ship5.sy = 32;
+}
+if (ship5_1_animation.currentFrame == 7) {
+ship5.sx = 96;
+ship5.sy = 32;
+}
+//ship5Show animation//
+ship5Show.angle += 0.05;
+shipHighLight5.angle -= 0.5;
+if (pauseGame == 1 && pauseGameKeys == false && weaponVault == 0) {
+if (animationNoOff == true) {
+shipShow5_1_animation.frameTimer();
+}
+}
+if (pauseGame != 1 || pauseGameKeys != false || weaponVault != 0) {
+if (animationNoOff == false) {
+shipShow5_1_animation.resetFrame();
+}
+}
+if (pauseGame == 1 && pauseGameKeys == false) {
+if (weaponVault == 0) {
+if (shipShow5_1_animation.currentFrame == 0) {
+ship5Show.sx = 0;
+ship5Show.sy = 0;
+}
+if (shipShow5_1_animation.currentFrame == 1) {
+ship5Show.sx = 32;
+ship5Show.sy = 0;
+}
+if (shipShow5_1_animation.currentFrame == 2) {
+ship5Show.sx = 64;
+ship5Show.sy = 0;
+}
+if (shipShow5_1_animation.currentFrame == 3) {
+ship5Show.sx = 96;
+ship5Show.sy = 0;
+}
+if (shipShow5_1_animation.currentFrame == 4) {
+ship5Show.sx = 0;
+ship5Show.sy = 32;
+}
+if (shipShow5_1_animation.currentFrame == 5) {
+ship5Show.sx = 32;
+ship5Show.sy = 32;
+}
+if (shipShow5_1_animation.currentFrame == 6) {
+ship5Show.sx = 64;
+ship5Show.sy = 32;
+}
+if (shipShow5_1_animation.currentFrame == 7) {
+ship5Show.sx = 96;
+ship5Show.sy = 32;
+}
+}
+}
 //ship6 ship animation//
 ship6.angle += 0.05;
+if (Death1 == 0) {
+if (playerShip == 5) {
+if (animationNoOff == true) {
+ship6_1_animation.frameTimer();
+}
+}
+}
+if (Death1 != 0 || playerShip != 5) {
+if (animationNoOff == false) {
+ship6_1_animation.resetFrame();
+}
+}
+if (ship6_1_animation.currentFrame == 0) {
+ship6.sx = 0;
+ship6.sy = 0;
+}
+if (ship6_1_animation.currentFrame == 1) {
+ship6.sx = 25;
+ship6.sy = 0;
+}
+if (ship6_1_animation.currentFrame == 2) {
+ship6.sx = 50;
+ship6.sy = 0;
+}
+if (ship6_1_animation.currentFrame == 3) {
+ship6.sx = 75;
+ship6.sy = 0;
+}
+if (ship6_1_animation.currentFrame == 4) {
+ship6.sx = 0;
+ship6.sy = 25;
+}
+if (ship6_1_animation.currentFrame == 5) {
+ship6.sx = 25;
+ship6.sy = 25;
+}
+if (ship6_1_animation.currentFrame == 6) {
+ship6.sx = 50;
+ship6.sy = 25;
+}
+if (ship6_1_animation.currentFrame == 7) {
+ship6.sx = 75;
+ship6.sy = 25;
+}
+//ship6Show animation//
+ship6Show.angle += 0.05;
+shipHighLight6.angle -= 0.5;
+if (pauseGame == 1 && pauseGameKeys == false && weaponVault == 0) {
+if (animationNoOff == true) {
+shipShow6_1_animation.frameTimer();
+}
+}
+if (pauseGame != 1 || pauseGameKeys != false || weaponVault != 0) {
+if (animationNoOff == false) {
+shipShow6_1_animation.resetFrame();
+}
+}
+if (pauseGame == 1 && pauseGameKeys == false) {
+if (weaponVault == 0) {
+if (shipShow6_1_animation.currentFrame == 0) {
+ship6Show.sx = 0;
+ship6Show.sy = 0;
+}
+if (shipShow6_1_animation.currentFrame == 1) {
+ship6Show.sx = 25;
+ship6Show.sy = 0;
+}
+if (shipShow6_1_animation.currentFrame == 2) {
+ship6Show.sx = 50;
+ship6Show.sy = 0;
+}
+if (shipShow6_1_animation.currentFrame == 3) {
+ship6Show.sx = 75;
+ship6Show.sy = 0;
+}
+if (shipShow6_1_animation.currentFrame == 4) {
+ship6Show.sx = 0;
+ship6Show.sy = 25;
+}
+if (shipShow6_1_animation.currentFrame == 5) {
+ship6Show.sx = 25;
+ship6Show.sy = 25;
+}
+if (shipShow6_1_animation.currentFrame == 6) {
+ship6Show.sx = 50;
+ship6Show.sy = 25;
+}
+if (shipShow6_1_animation.currentFrame == 7) {
+ship6Show.sx = 75;
+ship6Show.sy = 25;
+}
+}
+}
+// STPDAYEVENTBOSSINTRO animation//
+if (wave == 8000 && STPDAYEVENTSTART == false) {
+if (animationNoOff == true) {
+STPDAYEVENTBOSSINTRO_1_animation.frameTimer();
+}
+}
+if (wave != 8000 || STPDAYEVENTSTART != false) {
+if (animationNoOff == false) {
+STPDAYEVENTBOSSINTRO_1_animation.resetFrame();
+}
+}
+if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 0) {
+STPDAYEVENTBOSSINTRO.sx = 0;
+STPDAYEVENTBOSSINTRO.sy = 0;
+}
+if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 1) {
+STPDAYEVENTBOSSINTRO.sx = 25;
+STPDAYEVENTBOSSINTRO.sy = 0;
+}
+if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 2) {
+STPDAYEVENTBOSSINTRO.sx = 50;
+STPDAYEVENTBOSSINTRO.sy = 0;
+}
+if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 3) {
+STPDAYEVENTBOSSINTRO.sx = 75;
+STPDAYEVENTBOSSINTRO.sy = 0;
+}
+if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 4) {
+STPDAYEVENTBOSSINTRO.sx = 0;
+STPDAYEVENTBOSSINTRO.sy = 25;
+}
+if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 5) {
+STPDAYEVENTBOSSINTRO.sx = 25;
+STPDAYEVENTBOSSINTRO.sy = 25;
+}
+if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 6) {
+STPDAYEVENTBOSSINTRO.sx = 50;
+STPDAYEVENTBOSSINTRO.sy = 25;
+}
+if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 7) {
+STPDAYEVENTBOSSINTRO.sx = 75;
+STPDAYEVENTBOSSINTRO.sy = 25;
+}
 //bpic bullet animation//
 bpic.angle += 0.08;
 //bpic2 bullet animation//
@@ -2065,6 +2902,45 @@ guardianPic_lazer.width = 0;
 }
 }
 
+var All_ = "All";
+var HBar_ = "HBar";
+var ASprites_ = "ASprites";
+var MShooting_ = "MShooting";
+var MLAmmo_ = "MLAmmo";
+var MExplosions_ = "MExplosions";
+var Diff_ = "Diff";
+var Music_ = "Music_V";
+var SoundFX_ = "SoundFX";
+function saveSettings(info_) {
+this.info = info_;
+if (this.info == "HBar" || this.info == "All") {
+localStorage && (localStorage.HealthBars = document.getElementById("HBshow").checked);
+}
+if (this.info == "ASprites" || this.info == "All") {
+localStorage && (localStorage.AnimatedSprites_ = document.getElementById("AnimatedSprites").checked);
+}
+if (this.info == "MShooting" || this.info == "All") {
+localStorage && (localStorage.MuteShooting_ = document.getElementById("mute_SHOOTING").checked);
+}
+if (this.info == "MLAmmo" || this.info == "All") {
+localStorage && (localStorage.MuteLAmmo_ = document.getElementById("mute_LOW_AMMO").checked);
+}
+if (this.info == "MExplosions" || this.info == "All") {
+localStorage && (localStorage.MuteExplosion_ = document.getElementById("mute_EXPLOSION").checked);
+}
+if (this.info == "Diff" || this.info == "All") {
+localStorage && (localStorage.DifficultyEasy = document.getElementById("Easy_").checked);
+localStorage && (localStorage.DifficultyMedium = document.getElementById("Medium_").checked);
+localStorage && (localStorage.DifficultyHard = document.getElementById("Hard_").checked);
+}
+if (this.info == "Music_V" || this.info == "All") {
+localStorage && (localStorage.MusicVol = document.getElementById("volume").value);
+}
+if (this.info == "SoundFX" || this.info == "All") {
+localStorage && (localStorage.SoundFXVol = document.getElementById("soundvolume").value);
+}
+}
+
 function updateGameArea() {
 Board.clear();
 if (playerHealth > playerHealthMax) {
@@ -2103,33 +2979,9 @@ document.getElementById("updateinfo").style.visibility = "hidden";
  }
 val = document.getElementById("volume").value;
 val2 = document.getElementById("soundvolume").value;
-KeyZz = document.getElementById("Arrowz").checked;
-KeyZz2 = document.getElementById("Esc_").checked;
-Up_ = document.getElementById('moveUP').value;
-Down_ = document.getElementById('moveDOWN').value;
-Left_ = document.getElementById('moveLEFT').value;
-Right_ = document.getElementById('moveRIGHT').value;
-shootUp_ = document.getElementById('shootUP').value;
-shootDown_ = document.getElementById('shootDOWN').value;
-shootLeft_ = document.getElementById('shootLEFT').value;
-shootRight_ = document.getElementById('shootRIGHT').value;
-Esssc_ = document.getElementById("backBT").value;
-Revive_ = document.getElementById("reviveBT").value;
-Mute_ = document.getElementById("mute").value;
-Patch_ = document.getElementById("patch").value;
 HB = document.getElementById("HBshow").checked;
-Up_2 = Up_.toUpperCase();
-Down_2 = Down_.toUpperCase();
-Left_2 = Left_.toUpperCase();
-Right_2 = Right_.toUpperCase();
-shootUp_2 = shootUp_.toUpperCase();
-shootDown_2 = shootDown_.toUpperCase();
-shootLeft_2 = shootLeft_.toUpperCase();
-shootRight_2 = shootRight_.toUpperCase();
-Esssc_2 = Esssc_.toUpperCase();
-Revive_2 = Revive_.toUpperCase();
-Mute_2 = Mute_.toUpperCase();
-Patch_2 = Patch_.toUpperCase();
+keyBinderUpdate();
+FrontPannel()
 payback = Math.floor(30/100 * maxAmmo);
 weaponswitch();
 firehandler();
@@ -2291,13 +3143,13 @@ Fw5t7.update();
 if (winterseason == 1) {
 Ww5t7.update();
 }
-if (ExplosionCycle <= 4 && spawnBoss7 == 0) {
-floor3house1.update();
-floor4house1.update();
-}
-if (wave == 7 && spawnBoss7 == 1) {
+if (wave == 7) {
 burntHouse1.update();
 burntHouse2.update();
+}
+if (ExplosionCycle <= 3 && spawnBoss7 == 0) {
+floor3house1.update();
+floor4house1.update();
 }
 plantbox1_1.update();
 plantbox2_1.update();
@@ -2645,7 +3497,11 @@ Stree2_4.update();
 Stree2_5.update();
 Stree2_6.update();
  }
-if (ExplosionCycle <= 4 && spawnBoss7 == 0 && wave == 7) {
+if (ExplosionCycle <= MaxFrame && spawnBoss7 == 0 && wave == 7) {
+Explosion_5.update();
+Explosion_4.update();
+Explosion_3.update();
+Explosion_2.update();
 Explosion.update();
 }
 if (wave == 7 && spawnBoss7 == 1 && BossDead == false) {
@@ -2815,73 +3671,66 @@ max1txt.update();
 pauseboard = new component(800, 500, "#451661", 0, 0, "rec");
 TipsText();
 if (pauseGame == 1 && pauseGameKeys == false) {
-weap_ship = new component(200, 200, "grey", 300, 40, "rec");
-shiptxt = new component("30px", "Consolas", "white", 365, 55, "text");
-shiptxt.font = "15px Consolas";
-shiptxt.text = "Shipyard";
-pausetxt = new component("30px", "Consolas", "white", 345, 30, "text");
-pausetxt.font = "20px Consolas";
-pausetxt.text = "Pause Menu";
 pauseboard.update();
 pausetxt.update();
 StartOver.update();
 StartOvertxt.update();
 TipsTxt.update();
 if (weaponVault == 0) {
-shipHighLight1 = new component(32, 32, "highlight", 305, 60, "img");
-shipHighLight1.globalAlpha = 0.5;
-ship1Show = new component(32, 32, "playerimg", 305, 60, "img");
-ship1txt = new component("30px", "Consolas", "white", 312.5, 105, "text");
-ship1txt.font = "15px Consolas";
-ship1txt.text = "#1";
-shipHighLight2 = new component(32, 32, "highlight", 342, 60, "img");
-shipHighLight2.globalAlpha = 0.5;
-ship2Show = new component(32, 32, "player2img", 342, 60, "img");
-ship2txt = new component("30px", "Consolas", "white", 349.5, 105, "text");
-ship2txt.font = "15px Consolas";
-ship2txt.text = "#2";
-ship3Hidden = new component(32, 32, "hiddenShip", 379, 60, "img");
-shipHighLight3 = new component(32, 32, "highlight", 379, 60, "img");
-shipHighLight3.globalAlpha = 0.5;
-ship3Show = new component(32, 32, "player3img", 379, 60, "img");
-ship3txt = new component("30px", "Consolas", "white", 386.5, 105, "text");
-ship3txt.font = "15px Consolas";
-ship3txt.text = "#3";
-ship4Hidden = new component(32, 32, "hiddenShip", 416, 60, "img");
-shipHighLight4 = new component(32, 32, "highlight", 416, 60, "img");
-shipHighLight4.globalAlpha = 0.5;
-ship4Show = new component(32, 32, "player4img", 416, 60, "img");
-ship4txt = new component("30px", "Consolas", "white", 423.5, 105, "text");
-ship4txt.font = "15px Consolas";
-ship4txt.text = "#4";
-ship5Hidden = new component(32, 32, "hiddenShip", 453, 60, "img");
-shipHighLight5 = new component(32, 32, "highlight", 453, 60, "img");
-shipHighLight5.globalAlpha = 0.5;
-ship5Show = new component(32, 32, "player5img", 453, 60, "img");
-ship5txt = new component("30px", "Consolas", "white", 460.5, 105, "text");
-ship5txt.font = "15px Consolas";
-ship5txt.text = "#5";
-ship6Hidden = new component(32, 32, "hiddenShip", 305, 110, "img");
-shipHighLight6 = new component(32, 32, "highlight", 305, 110, "img");
-shipHighLight6.globalAlpha = 0.5;
-ship6Show = new component(32, 32, "ST_P_DAY_EVENT_PRIZE", 305, 110, "img");
-ship6txt = new component("30px", "Consolas", "white", 312.5, 155, "text");
-ship6txt.font = "15px Consolas";
-ship6txt.text = "#6";
+//h//
 weap_ship.update();
 shiptxt.update();
-if (playerShip == 0) {
 shipHighLight1.update();
+if (playerShip == 0) {
+if (shipHighLight1.globalAlpha < 0.5) {
+shipHighLight1.globalAlpha += 0.01;
+}
+if (shipHighLight1.globalAlpha >= 0.5) {
+shipHighLight1.globalAlpha = 0.5;
+}
+} else {
+if (shipHighLight1.globalAlpha > 0) {
+shipHighLight1.globalAlpha -= 0.01;
+}
+if (shipHighLight1.globalAlpha <= 0) {
+shipHighLight1.globalAlpha = 0;
+}
 }
 ship1Show.update();
 ship1txt.update();
-if (playerShip == 1) {
 shipHighLight2.update();
+if (playerShip == 1) {
+if (shipHighLight2.globalAlpha < 0.5) {
+shipHighLight2.globalAlpha += 0.01;
+}
+if (shipHighLight2.globalAlpha >= 0.5) {
+shipHighLight2.globalAlpha = 0.5;
+}
+} else {
+if (shipHighLight2.globalAlpha > 0) {
+shipHighLight2.globalAlpha -= 0.01;
+}
+if (shipHighLight2.globalAlpha <= 0) {
+shipHighLight2.globalAlpha = 0;
+}
 }
 ship2Show.update();
 ship2txt.update();
-if (playerShip == 2) {
 shipHighLight3.update();
+if (playerShip == 2) {
+if (shipHighLight3.globalAlpha < 0.5) {
+shipHighLight3.globalAlpha += 0.01;
+}
+if (shipHighLight3.globalAlpha >= 0.5) {
+shipHighLight3.globalAlpha = 0.5;
+}
+} else {
+if (shipHighLight3.globalAlpha > 0) {
+shipHighLight3.globalAlpha -= 0.01;
+}
+if (shipHighLight3.globalAlpha <= 0) {
+shipHighLight3.globalAlpha = 0;
+}
 }
 if (christmasSkin == 1) {
 ship3Show.update();
@@ -2889,8 +3738,21 @@ ship3Show.update();
 ship3Hidden.update();
 }
 ship3txt.update();
-if (playerShip == 3) {
 shipHighLight4.update();
+if (playerShip == 3) {
+if (shipHighLight4.globalAlpha < 0.5) {
+shipHighLight4.globalAlpha += 0.01;
+}
+if (shipHighLight4.globalAlpha >= 0.5) {
+shipHighLight4.globalAlpha = 0.5;
+}
+} else {
+if (shipHighLight4.globalAlpha > 0) {
+shipHighLight4.globalAlpha -= 0.01;
+}
+if (shipHighLight4.globalAlpha <= 0) {
+shipHighLight4.globalAlpha = 0;
+}
 }
 if (miniBossShip == 1) {
 ship4Show.update();
@@ -2898,8 +3760,21 @@ ship4Show.update();
 ship4Hidden.update();
 }
 ship4txt.update();
-if (playerShip == 4) {
 shipHighLight5.update();
+if (playerShip == 4) {
+if (shipHighLight5.globalAlpha < 0.5) {
+shipHighLight5.globalAlpha += 0.01;
+}
+if (shipHighLight5.globalAlpha >= 0.5) {
+shipHighLight5.globalAlpha = 0.5;
+}
+} else {
+if (shipHighLight5.globalAlpha > 0) {
+shipHighLight5.globalAlpha -= 0.01;
+}
+if (shipHighLight5.globalAlpha <= 0) {
+shipHighLight5.globalAlpha = 0;
+}
 }
 if (easyShipPrize == 1) {
 ship5Show.update();
@@ -2907,8 +3782,21 @@ ship5Show.update();
 ship5Hidden.update();
 }
 ship5txt.update();
-if (playerShip == 5) {
 shipHighLight6.update();
+if (playerShip == 5) {
+if (shipHighLight6.globalAlpha < 0.5) {
+shipHighLight6.globalAlpha += 0.01;
+}
+if (shipHighLight6.globalAlpha >= 0.5) {
+shipHighLight6.globalAlpha = 0.5;
+}
+} else {
+if (shipHighLight6.globalAlpha > 0) {
+shipHighLight6.globalAlpha -= 0.01;
+}
+if (shipHighLight6.globalAlpha <= 0) {
+shipHighLight6.globalAlpha = 0;
+}
 }
 if (STPRIZESHIP == 1) {
 ship6Show.update();
@@ -3232,36 +4120,9 @@ if (right == 0 && playerSpeedX <= 0) {
 	lockRightE = 0;
 }
 }
+
 var stopPause = false;
-
-var KeyZz = document.getElementById("Arrowz").checked;
-var KeyZz2 = document.getElementById("Esc_").checked;
-var Up_ = document.getElementById('moveUP').value;
-var Down_ = document.getElementById('moveDOWN').value;
-var Left_ = document.getElementById('moveLEFT').value;
-var Right_ = document.getElementById('moveRIGHT').value;
-var shootUp_ = document.getElementById('shootUP').value;
-var shootDown_ = document.getElementById('shootDOWN').value;
-var shootLeft_ = document.getElementById('shootLEFT').value;
-var shootRight_ = document.getElementById('shootRIGHT').value;
-var Esssc_ = document.getElementById("backBT").value;
-var Revive_ = document.getElementById("reviveBT").value;
-var Mute_ = document.getElementById("mute").value;
-var Patch_ = document.getElementById("patch").value;
-var Up_2 = Up_.toUpperCase();
-var Down_2 = Down_.toUpperCase();
-var Left_2 = Left_.toUpperCase();
-var Right_2 = Right_.toUpperCase();
-var shootUp_2 = shootUp_.toUpperCase();
-var shootDown_2 = shootDown_.toUpperCase();
-var shootLeft_2 = shootLeft_.toUpperCase();
-var shootRight_2 = shootRight_.toUpperCase();
-var Esssc_2 = Esssc_.toUpperCase();
-var Revive_2 = Revive_.toUpperCase();
-var Mute_2 = Mute_.toUpperCase();
-var Patch_2 = Patch_.toUpperCase(); 
 var controllerCon = 0;
-
 var conx = 0;
 var cony = 0;
 
@@ -3341,305 +4202,754 @@ function pollGamepads() {
   }
 }
 
+var Up_ = "w";
+var MoveUp_ = "UP";
+var UpLock = 0;
+var Down_ = "s";
+var MoveDown_ = "DOWN";
+var DownLock = 0;
+var Left_ = "a";
+var MoveLeft_ = "LEFT";
+var LeftLock = 0;
+var Right_ = "d";
+var MoveRight_ = "RIGHT";
+var RightLock = 0;
+var shootUp_ = "ArrowUp";
+var ShootUp_1 = "S_UP";
+var ShootUpLock = 0;
+var shootDown_ = "ArrowDown";
+var ShootDown_1 = "S_DOWN";
+var ShootDownLock = 0;
+var shootLeft_ = "ArrowLeft";
+var ShootLeft_1 = "S_LEFT";
+var ShootLeftLock = 0;
+var shootRight_ = "ArrowRight";
+var ShootRight_1 = "S_RIGHT";
+var ShootRightLock = 0;
+var Esssc_ = "Escape";
+var Back_1 = "BACK";
+var BackLock = 0;
+var Revive_ = "r";
+var Revive_1 = "REVIVE";
+var ReviveLock = 0;
+var Mute_ = "m";
+var Mute_1 = "MUTE";
+var MuteLock = 0;
+var Patch_ = "p";
+var Patch_1 = "PATCH";
+var PatchLock = 0;
+var SpecialKey_ = "e";
+var SpecialKey_2 = "69";
+var Special_1 = "SPECIAL";
+var SpecialLock = 0;
+var HPanel = "/";
+var HidePanel_ = "H_Pannel";
+var HPanelLock = 0;
+var UnlockControls = false;
+function keyBinder(ButtonCode) {
+this.ButtonCode = ButtonCode;
+if (this.ButtonCode == "UP") {
+UnlockControls = true;
+UpLock = 1;
+DownLock = 0;
+LeftLock = 0;
+RightLock = 0;
+ShootUpLock = 0;
+ShootDownLock = 0;
+ShootLeftLock = 0;
+ShootRightLock = 0;
+BackLock = 0;
+ReviveLock = 0;
+MuteLock = 0;
+PatchLock = 0;
+SpecialLock = 0;
+HPanelLock = 0;
+}
+if (this.ButtonCode == "DOWN") {
+UnlockControls = true;
+DownLock = 1;
+UpLock = 0;
+LeftLock = 0;
+RightLock = 0;
+ShootUpLock = 0;
+ShootDownLock = 0;
+ShootLeftLock = 0;
+ShootRightLock = 0;
+BackLock = 0;
+ReviveLock = 0;
+MuteLock = 0;
+PatchLock = 0;
+SpecialLock = 0;
+HPanelLock = 0;
+}
+if (this.ButtonCode == "LEFT") {
+UnlockControls = true;
+LeftLock = 1;
+UpLock = 0;
+DownLock = 0;
+RightLock = 0;
+ShootUpLock = 0;
+ShootDownLock = 0;
+ShootLeftLock = 0;
+ShootRightLock = 0;
+BackLock = 0;
+ReviveLock = 0;
+MuteLock = 0;
+PatchLock = 0;
+SpecialLock = 0;
+HPanelLock = 0;
+}
+if (this.ButtonCode == "RIGHT") {
+UnlockControls = true;
+RightLock = 1;
+UpLock = 0;
+DownLock = 0;
+LeftLock = 0;
+ShootUpLock = 0;
+ShootDownLock = 0;
+ShootLeftLock = 0;
+ShootRightLock = 0;
+BackLock = 0;
+ReviveLock = 0;
+MuteLock = 0;
+PatchLock = 0;
+SpecialLock = 0;
+HPanelLock = 0;
+}
+if (this.ButtonCode == "S_UP") {
+UnlockControls = true;
+UpLock = 0;
+DownLock = 0;
+LeftLock = 0;
+RightLock = 0;
+ShootUpLock = 1;
+ShootDownLock = 0;
+ShootLeftLock = 0;
+ShootRightLock = 0;
+BackLock = 0;
+ReviveLock = 0;
+MuteLock = 0;
+PatchLock = 0;
+SpecialLock = 0;
+HPanelLock = 0;
+}
+if (this.ButtonCode == "S_DOWN") {
+UnlockControls = true;
+DownLock = 0;
+UpLock = 0;
+LeftLock = 0;
+RightLock = 0;
+ShootUpLock = 0;
+ShootDownLock = 1;
+ShootLeftLock = 0;
+ShootRightLock = 0;
+BackLock = 0;
+ReviveLock = 0;
+MuteLock = 0;
+PatchLock = 0;
+SpecialLock = 0;
+HPanelLock = 0;
+}
+if (this.ButtonCode == "S_LEFT") {
+UnlockControls = true;
+LeftLock = 0;
+UpLock = 0;
+DownLock = 0;
+RightLock = 0;
+ShootUpLock = 0;
+ShootDownLock = 0;
+ShootLeftLock = 1;
+ShootRightLock = 0;
+BackLock = 0;
+ReviveLock = 0;
+MuteLock = 0;
+PatchLock = 0;
+SpecialLock = 0;
+HPanelLock = 0;
+}
+if (this.ButtonCode == "S_RIGHT") {
+UnlockControls = true;
+RightLock = 0;
+UpLock = 0;
+DownLock = 0;
+LeftLock = 0;
+ShootUpLock = 0;
+ShootDownLock = 0;
+ShootLeftLock = 0;
+ShootRightLock = 1;
+BackLock = 0;
+ReviveLock = 0;
+MuteLock = 0;
+PatchLock = 0;
+SpecialLock = 0;
+HPanelLock = 0;
+}
+if (this.ButtonCode == "BACK") {
+UnlockControls = true;
+RightLock = 0;
+UpLock = 0;
+DownLock = 0;
+LeftLock = 0;
+ShootUpLock = 0;
+ShootDownLock = 0;
+ShootLeftLock = 0;
+ShootRightLock = 0;
+BackLock = 1;
+ReviveLock = 0;
+MuteLock = 0;
+PatchLock = 0;
+SpecialLock = 0;
+HPanelLock = 0;
+}
+if (this.ButtonCode == "MUTE") {
+UnlockControls = true;
+UpLock = 0;
+DownLock = 0;
+LeftLock = 0;
+RightLock = 0;
+ShootUpLock = 0;
+ShootDownLock = 0;
+ShootLeftLock = 0;
+ShootRightLock = 0;
+BackLock = 0;
+ReviveLock = 0;
+MuteLock = 1;
+PatchLock = 0;
+SpecialLock = 0;
+HPanelLock = 0;
+}
+if (this.ButtonCode == "PATCH") {
+UnlockControls = true;
+DownLock = 0;
+UpLock = 0;
+LeftLock = 0;
+RightLock = 0;
+ShootUpLock = 0;
+ShootDownLock = 0;
+ShootLeftLock = 0;
+ShootRightLock = 0;
+BackLock = 0;
+ReviveLock = 0;
+MuteLock = 0;
+PatchLock = 1;
+SpecialLock = 0;
+HPanelLock = 0;
+}
+if (this.ButtonCode == "REVIVE") {
+UnlockControls = true;
+LeftLock = 0;
+UpLock = 0;
+DownLock = 0;
+RightLock = 0;
+ShootUpLock = 0;
+ShootDownLock = 0;
+ShootLeftLock = 0;
+ShootRightLock = 0;
+BackLock = 0;
+ReviveLock = 1;
+MuteLock = 0;
+PatchLock = 0;
+SpecialLock = 0;
+HPanelLock = 0;
+}
+if (this.ButtonCode == "SPECIAL") {
+UnlockControls = true;
+RightLock = 0;
+UpLock = 0;
+DownLock = 0;
+LeftLock = 0;
+ShootUpLock = 0;
+ShootDownLock = 0;
+ShootLeftLock = 0;
+ShootRightLock = 0;
+BackLock = 0;
+ReviveLock = 0;
+MuteLock = 0;
+PatchLock = 0;
+SpecialLock = 1;
+HPanelLock = 0;
+}
+if (this.ButtonCode == "H_Pannel") {
+UnlockControls = true;
+RightLock = 0;
+UpLock = 0;
+DownLock = 0;
+LeftLock = 0;
+ShootUpLock = 0;
+ShootDownLock = 0;
+ShootLeftLock = 0;
+ShootRightLock = 0;
+BackLock = 0;
+ReviveLock = 0;
+MuteLock = 0;
+PatchLock = 0;
+SpecialLock = 0;
+HPanelLock = 1;
+}
+}
+function keyBinderUpdate() {
+if (UpLock == 0) {
+document.getElementById("Up_Button_Text").innerHTML = "Move Up: " + Up_.toUpperCase();;
+}
+if (UpLock == 1) {
+document.getElementById("Up_Button_Text").innerHTML = "Hit Any Key";
+}
+if (DownLock == 0) {
+document.getElementById("Down_Button_Text").innerHTML = "Move Down: " + Down_.toUpperCase();;
+}
+if (DownLock == 1) {
+document.getElementById("Down_Button_Text").innerHTML = "Hit Any Key";
+}
+if (LeftLock == 0) {
+document.getElementById("Left_Button_Text").innerHTML = "Move Left: " + Left_.toUpperCase();;
+}
+if (LeftLock == 1) {
+document.getElementById("Left_Button_Text").innerHTML = "Hit Any Key";
+}
+if (RightLock == 0) {
+document.getElementById("Right_Button_Text").innerHTML = "Move Right: " + Right_.toUpperCase();;
+}
+if (RightLock == 1) {
+document.getElementById("Right_Button_Text").innerHTML = "Hit Any Key";
+}
+if (ShootUpLock == 0) {
+document.getElementById("Shoot_Up_Button_Text").innerHTML = "Shoot Up: " + shootUp_.toUpperCase();;
+}
+if (ShootUpLock == 1) {
+document.getElementById("Shoot_Up_Button_Text").innerHTML = "Hit Any Key";
+}
+if (ShootDownLock == 0) {
+document.getElementById("Shoot_Down_Button_Text").innerHTML = "Shoot Down: " + shootDown_.toUpperCase();;
+}
+if (ShootDownLock == 1) {
+document.getElementById("Shoot_Down_Button_Text").innerHTML = "Hit Any Key";
+}
+if (ShootLeftLock == 0) {
+document.getElementById("Shoot_Left_Button_Text").innerHTML = "Shoot Left: " + shootLeft_.toUpperCase();;
+}
+if (ShootLeftLock == 1) {
+document.getElementById("Shoot_Left_Button_Text").innerHTML = "Hit Any Key";
+}
+if (ShootRightLock == 0) {
+document.getElementById("Shoot_Right_Button_Text").innerHTML = "Shoot Right: " + shootRight_.toUpperCase();;
+}
+if (ShootRightLock == 1) {
+document.getElementById("Shoot_Right_Button_Text").innerHTML = "Hit Any Key";
+}
+if (BackLock == 0) {
+document.getElementById("Back_Button_Text").innerHTML = "Exit/Back: " + Esssc_.toUpperCase();;
+}
+if (BackLock == 1) {
+document.getElementById("Back_Button_Text").innerHTML = "Hit Any Key";
+}
+if (MuteLock == 0) {
+document.getElementById("Mute_Button_Text").innerHTML = "Mute/Unmute: " + Mute_.toUpperCase();;
+}
+if (MuteLock == 1) {
+document.getElementById("Mute_Button_Text").innerHTML = "Hit Any Key";
+}
+if (PatchLock == 0) {
+document.getElementById("Patch_Button_Text").innerHTML = "Patch Info: " + Patch_.toUpperCase();;
+}
+if (PatchLock == 1) {
+document.getElementById("Patch_Button_Text").innerHTML = "Hit Any Key";
+}
+if (ReviveLock == 0) {
+document.getElementById("Revive_Button_Text").innerHTML = "Revive: " + Revive_.toUpperCase();;
+}
+if (ReviveLock == 1) {
+document.getElementById("Revive_Button_Text").innerHTML = "Hit Any Key";
+}
+if (SpecialLock == 0) {
+document.getElementById("Special_Button_Text").innerHTML = "Special Key: " + SpecialKey_.toUpperCase();;
+}
+if (SpecialLock == 1) {
+document.getElementById("Special_Button_Text").innerHTML = "Hit Any Key";
+}
+if (HPanelLock == 0) {
+document.getElementById("Hide_Panel_Button_Text").innerHTML = "Hide Front Panel: " + HPanel.toUpperCase();;
+}
+if (HPanelLock == 1) {
+document.getElementById("Hide_Panel_Button_Text").innerHTML = "Hit Any Key";
+}
+//Up Controls//
+if (UpLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+Up_ = keyPressed;
+UnlockControls = false;
+localStorage && (localStorage.MoveUpControl = Up_);
+UpLock = 0;
+keyHit = false;
+}
+}
+//Down Controls//
+if (DownLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+Down_ = keyPressed;
+UnlockControls = false;
+localStorage && (localStorage.MoveDownControl = Down_);
+DownLock = 0;
+keyHit = false;
+}
+}
+//Left Controls//
+if (LeftLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+Left_ = keyPressed;
+UnlockControls = false;
+localStorage && (localStorage.MoveLeftControl = Left_);
+LeftLock = 0;
+keyHit = false;
+}
+}
+//Right Controls//
+if (RightLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+Right_ = keyPressed;
+UnlockControls = false;
+localStorage && (localStorage.MoveRightControl = Right_);
+RightLock = 0;
+keyHit = false;
+}
+}
+//Shoot Up Controls//
+if (ShootUpLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+shootUp_ = keyPressed;
+UnlockControls = false;
+localStorage && (localStorage.ShootUpControl = shootUp_);
+ShootUpLock = 0;
+keyHit = false;
+}
+}
+//Shoot Down Controls//
+if (ShootDownLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+shootDown_ = keyPressed;
+UnlockControls = false;
+localStorage && (localStorage.ShootDownControl = shootDown_);
+ShootDownLock = 0;
+keyHit = false;
+}
+}
+//Shoot Left Controls//
+if (ShootLeftLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+shootLeft_ = keyPressed;
+UnlockControls = false;
+localStorage && (localStorage.ShootLeftControl = shootLeft_);
+ShootLeftLock = 0;
+keyHit = false;
+}
+}
+//Shoot Right Controls//
+if (ShootRightLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+shootRight_ = keyPressed;
+UnlockControls = false;
+localStorage && (localStorage.ShootRightControl = shootRight_);
+ShootRightLock = 0;
+keyHit = false;
+}
+}
+//Back Controls//
+if (BackLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+Esssc_ = keyPressed;
+UnlockControls = false;
+localStorage && (localStorage.BackControl = Esssc_);
+BackLock = 0;
+keyHit = false;
+}
+}
+//Mute Controls//
+if (MuteLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+Mute_ = keyPressed;
+UnlockControls = false;
+localStorage && (localStorage.MuteControl = Mute_);
+MuteLock = 0;
+keyHit = false;
+}
+}
+//Patch Controls//
+if (PatchLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+Patch_ = keyPressed;
+UnlockControls = false;
+localStorage && (localStorage.PatchControl = Patch_);
+PatchLock = 0;
+keyHit = false;
+}
+}
+//Revive Controls//
+if (ReviveLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+Revive_ = keyPressed;
+UnlockControls = false;
+localStorage && (localStorage.ReviveControl = Revive_);
+ReviveLock = 0;
+keyHit = false;
+}
+}
+//Special Controls//
+if (SpecialLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+SpecialKey_ = keyPressed;
+SpecialKey_2 = keyPressed2;
+UnlockControls = false;
+localStorage && (localStorage.SpecialControl = SpecialKey_);
+localStorage && (localStorage.SpecialControl2 = SpecialKey_2);
+SpecialLock = 0;
+keyHit = false;
+}
+}
+//Hide Panel Controls//
+if (HPanelLock == 1) {
+if (keyHit == true) {
+console.log(keyPressed);
+HPanel = keyPressed;
+UnlockControls = false;
+localStorage && (localStorage.HidePanel_ = HPanel);
+HPanelLock = 0;
+keyHit = false;
+}
+}
+}
+
+var keyHit = false;
+var keyPressed = "";
+var keyPressed2 = "";
 function keyDownHandler(event)
 {
-	var keyPressed = String.fromCharCode(event.keyCode);
+	keyPressed = event.key;
+	keyPressed2 = String.fromCharCode(event.keyCode);
+	
+	if (keyPressed && UnlockControls == true) {
+	keyHit = true;
+	console.log(keyHit);
+	}
     
-	if (keyPressed == Up_2 && blockKeys == false && pauseGameKeys == false)
+	if (keyPressed == Up_ && blockKeys == false && pauseGameKeys == false)
 	{		
 		if (pauseGame == 0) {
             moveUp();
 			}
 	}
-	else if (keyPressed == Down_2 && blockKeys == false && pauseGameKeys == false)
+	else if (keyPressed == Down_ && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
             moveDown();
 			}		
 	}
-	else if (keyPressed == Left_2 && blockKeys == false && pauseGameKeys == false)
+	else if (keyPressed == Left_ && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
             moveLeft();
 			}		
 	}
-	else if (keyPressed == Right_2 && blockKeys == false && pauseGameKeys == false)
+	else if (keyPressed == Right_ && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
             moveRight();
 
 			}		
 	}
-	if (keyPressed == Esssc_2 && KeyZz2 == false && blockKeys == false && pauseGameKeys == false) 
+	if (keyPressed == Esssc_ && blockKeys == false && pauseGameKeys == false) 
 	{
 		backfunc();
 		tip = Math.floor(Math.random() * tips);
 	}
-	if (keyPressed == Revive_2 && blockKeys == false && pauseGameKeys == false)
+	if (keyPressed == Esssc_ && blockKeys == false && document.getElementById('settings').style.visibility == "visible") 
+	{
+		showStop();
+	}
+	if (keyPressed == Revive_ && blockKeys == false && pauseGameKeys == false)
 	{
 		relive();
 	}
-	if (keyPressed == Mute_2 && blockKeys == false && pauseGameKeys == false)
+	if (keyPressed == Mute_ && blockKeys == false)
 	{
 		mutemusic += 1;
+		localStorage && (localStorage.MuteVol = mutemusic);
 	}
-	if (keyPressed == Patch_2 && blockKeys == false && pauseGameKeys == false)
+	if (keyPressed == HPanel && blockKeys == false)
+	{
+		hider_ += 1;
+		localStorage && (localStorage.HideFrontPanel_ = hider_);
+	}
+	
+	if (keyPressed == Patch_ && blockKeys == false && pauseGameKeys == false)
 	{
 		patchinfo();
 	}
-	if (keyPressed == shootUp_2 && KeyZz == false && blockKeys == false && pauseGameKeys == false)
+	if (keyPressed == shootUp_ && blockKeys == false && pauseGameKeys == false)
 	{		
 		if (pauseGame == 0) {
             autoUp();
 		  }
 	}
-	else if (keyPressed == shootDown_2 && KeyZz == false && blockKeys == false && pauseGameKeys == false)
+	else if (keyPressed == shootDown_ && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
             autoDown();
 		  }	
 	}
-	else if (keyPressed == shootLeft_2 && KeyZz == false && blockKeys == false && pauseGameKeys == false)
+	else if (keyPressed == shootLeft_ && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
             autoLeft();
 		  }		
 	}
-	else if (keyPressed == shootRight_2 && KeyZz == false && blockKeys == false && pauseGameKeys == false)
+	else if (keyPressed == shootRight_ && blockKeys == false && pauseGameKeys == false)
 	{	
 		if (pauseGame == 0) {
             autoRight();
 		  }		
+	}
+	if (keyPressed2 == SpecialKey_2) 
+	{
+		specialWandS = 1;
+		console.log(specialWandS);
+	}
+	if (keyPressed == "s")
+	{
+	if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    goBack = 1;
+	}
+	}
+	if (keyPressed == "1")
+	{
+	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    swapweap1();
+	}
+	if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    playerShip = 0;
+			playerHealthMax = 100;
+	}
+	if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
+		    upgrade1func();
+	}
+	}
+	if (keyPressed == "2")
+	{
+	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    swapweap2();
+	}
+	if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    playerShip = 1;
+			playerHealthMax = 100; //add maxHealthMod//
+	}
+	}
+	if (keyPressed == "3")
+	{
+	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    swapweap3();
+	}
+	if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    playerShip = 2;
+			playerHealthMax = 100;
+	}
+	}
+	if (keyPressed == "4")
+	{
+	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    swapweap4();
+	}
+	if (upgrademenu == 0 && miniBossShip == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    playerShip = 3;
+			playerHealthMax = 300;
+	}
+	}
+	if (keyPressed == "5")
+	{
+	if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    playerShip = 4;
+			playerHealthMax = 200;
+	}
+	}
+	if (keyPressed == "6")
+	{
+	if (upgrademenu == 0 && STPRIZESHIP == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		    playerShip = 5;
+			playerHealthMax = 200;
+	}
+	}
+	if (keyPressed == "h")
+	{
+	if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
+			healthRecovery();
+	}
+	}
+	if (keyPressed == "a")
+	{
+	if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
+			ammoRecovery();
+	}
 	}
 }
 
 function keyUpHandler(event)
 {
-	var keyPressed = String.fromCharCode(event.keyCode);
+	keyPressed = event.key;
+	keyPressed2 = String.fromCharCode(event.keyCode);
 	
-	if (keyPressed == Up_2)
+	if (keyPressed == Up_)
 	{		
 		clearmoveu();
 	}
-	else if (keyPressed == Down_2)
+	else if (keyPressed == Down_)
 	{	
 		clearmoved();		
 	}
-	else if (keyPressed == Left_2)
+	else if (keyPressed == Left_)
 	{	
 		clearmovel();		
 	}
-	else if (keyPressed == Right_2)
+	else if (keyPressed == Right_)
 	{	
 		clearmover();		
 	}
-	if (keyPressed == Revive_2)
+	if (keyPressed == Revive_)
 	{
 		stopshow();
 	}
-	if (keyPressed == shootUp_2 && KeyZz == false)
+	if (keyPressed == shootUp_)
 	{		
 		clearAutoU();
 	}
-	else if (keyPressed == shootDown_2 && KeyZz == false)
+	else if (keyPressed == shootDown_)
 	{	
 		clearAutoD();		
 	}
-	else if (keyPressed == shootLeft_2 && KeyZz == false)
+	else if (keyPressed == shootLeft_)
 	{	
 		clearAutoL();		
 	}
-	else if (keyPressed == shootRight_2 && KeyZz == false)
+	else if (keyPressed == shootRight_)
 	{	
 		clearAutoR();		
 	}
+	if (keyPressed2 == SpecialKey_2) 
+	{
+		specialWandS = 0;
+		console.log(specialWandS);
+	}
 }
 
-document.onkeydown = function(e) {
-    switch (e.keyCode) {
-        case 37:
-		if (KeyZz == true && blockKeys == false && pauseGameKeys == false) {
-		if (pauseGame == 0) {
-            autoLeft();
-		  }
-		}
-            break;
-        case 38:
-		if (KeyZz == true && blockKeys == false && pauseGameKeys == false) {
-		if (pauseGame == 0) {
-            autoUp();
-		  }
-		}
-            break;
-        case 39:
-		if (KeyZz == true && blockKeys == false && pauseGameKeys == false) {
-		if (pauseGame == 0) {
-            autoRight();
-		  }
-		}
-            break;
-        case 40:
-		if (KeyZz == true && blockKeys == false && pauseGameKeys == false) {
-		if (pauseGame == 0) {
-            autoDown();
-		  }
-		}
-            break;
-		case 27:
-		if (KeyZz2 == true && blockKeys == false && pauseGameKeys == false) {
-		    backfunc();
-			tip = Math.floor(Math.random() * tips);
-		}
-			break;
-		case 83:
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    goBack = 1;
-		}
-			break;
-	    case 49:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    swapweap1();
-		}
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 0;
-			playerHealthMax = 100;
-		}
-		if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
-		    upgrade1func();
-		}
-			break;
-		case 50:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    swapweap2();
-		}
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 1;
-			playerHealthMax = 100; //add maxHealthMod//
-		}
-			break;
-		case 51:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    swapweap3();
-		}
-		if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 2;
-			playerHealthMax = 100;
-		}
-			break;
-		case 52:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    swapweap4();
-		}
-		if (upgrademenu == 0 && miniBossShip == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 3;
-			playerHealthMax = 300;
-		}
-			break;
-		case 53:
-		if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 4;
-			playerHealthMax = 200;
-		}
-			break;
-		case 54:
-		if (upgrademenu == 0 && STPRIZESHIP == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 5;
-			playerHealthMax = 200;
-		}
-		    break;
-			case 72:
-		if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
-			healthRecovery();
-		}
-			break;
-			case 65:
-		if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
-			ammoRecovery();
-		}
-			break;
-		case 97:
-		if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
-		    upgrade1func();
-		}
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    swapweap1();
-		}
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 0;
-			playerHealthMax = 100;
-		}
-		    break;
-		case 98:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    swapweap2();
-		}
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 1;
-			playerHealthMax = 100;
-		}
-			break;
-		case 99:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    swapweap3();
-		}
-		if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 2;
-			playerHealthMax = 100;
-		}
-			break;
-		case 100:
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    swapweap4();
-		}
-		if (upgrademenu == 0 && miniBossShip == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 3;
-			playerHealthMax = 300;
-		}
-			break;
-		case 101:
-		if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 4;
-			playerHealthMax = 200;
-		}
-		    break;
-		case 102:
-		if (upgrademenu == 0 && STPRIZESHIP == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 5;
-			playerHealthMax = 200;
-		}
-		    break;
-		case 16:
-		specialWandS = 1;
-		    break;
-    }
-};
-document.onkeyup = function(e) {
-    switch (e.keyCode) {
-		case 37:
-		if (KeyZz == true) {
-            clearAutoL();
-		}
-            break;
-        case 38:
-		if (KeyZz == true) {
-            clearAutoU();
-		}
-            break;
-        case 39:
-		if (KeyZz == true) {
-            clearAutoR();
-		}
-            break;
-        case 40:
-		if (KeyZz == true) {
-            clearAutoD();
-		}
-            break;
-		case 16:
-		specialWandS = 0;
-		    break;
-    }
-};
 var openpatchinfo = 0;
 function patchinfo() { 
 openpatchinfo += 1;
@@ -3647,20 +4957,55 @@ if (openpatchinfo > 1) {
 openpatchinfo = 0;
  }
 }
+
+function FrontPannel() { 
+if (hider_ > 1) {
+hider_ = 0;
+}
+if (hider_ == 0) {
+document.getElementById("content").style.display = "initial";
+document.getElementById("screen").style.transform  = "scale(1.9)";
+document.getElementById("screen").style.top  = "18.2%";
+document.getElementById("screen").style.bottom  = "initial";
+document.getElementById("screen").style.left  = "20%";
+document.getElementById("screen").style.right  = "20%";
+}
+if (hider_ == 1) {
+document.getElementById("content").style.display = "none";
+document.getElementById("screen").style.transform  = "scale(2.5)";
+document.getElementById("screen").style.top  = "30%";
+document.getElementById("screen").style.bottom  = "30%";
+document.getElementById("screen").style.left  = "20%";
+document.getElementById("screen").style.right  = "20%";
+}
+}
+
 var tip = 0;
-var tips = 8;
+var tips = 11;
 function TipsText() {
 if (tip == 0) {
+if (christmasSkin == 0) {
 TipsTxt.text = "Tip: Play in December..."
 TipsTxt.font = "16px Consolas";
+} else {
+tip++;
+}
 }
 if (tip == 1) {
+if (easyShipPrize == 0) {
 TipsTxt.text = "Tip: Die and get something special..."
 TipsTxt.font = "14px Consolas";
+} else {
+tip++;
+}
 }
 if (tip == 2) {
+if (miniBossShip == 0) {
 TipsTxt.text = "Tip: Beat wave 7 boss..."
 TipsTxt.font = "16px Consolas";
+} else {
+tip++;
+}
 }
 if (tip == 3) {
 TipsTxt.text = "Tip: Watch your health..."
@@ -3675,14 +5020,50 @@ TipsTxt.text = "Tip: Don't let them surround you..."
 TipsTxt.font = "14px Consolas";
  }
 if (tip == 6) {
+if (STPDAYEVENTTRIGGER == 0) {
 TipsTxt.text = "Tip: Play in March and join the St. Patty's Day event..."
 TipsTxt.font = "9px Consolas";
+} else {
+tip++;
+}
  }
 if (tip == 7) {
-TipsTxt.text = "Tip: Beat the St. Patty's Day event boss on hard..."
+if (STPRIZEWEAPON == 0) {
+TipsTxt.text = "Tip: Beat the St. Patty's Day event on hard..."
 TipsTxt.font = "10px Consolas";
- }
+} else {
+tip++;
 }
+}
+if (tip == 8) {
+if (STPRIZESHIP == 0) {
+TipsTxt.text = "Tip: Beat the St. Patty's Day event to earn a ship..."
+TipsTxt.font = "9px Consolas";
+} else {
+tip++;
+}
+}
+if (tip == 9) {
+if (stcweapon == 0) {
+TipsTxt.text = "Tip: Play during September 11th-30th to find a secret..."
+TipsTxt.font = "9px Consolas";
+} else {
+tip++;
+}
+}
+if (tip == 10) {
+if (stcweapon == 1 && stcget == 0) {
+TipsTxt.text = "Tip: Search the trees for a special weapon..."
+TipsTxt.font = "10px Consolas";
+} else {
+tip++;
+}
+}
+if (tip > (tips - 1)) {
+tip = 0;
+}
+}
+
 var weaponupgrade1 = 0;
 var weapon = 0;
 var ammo = 160;
@@ -6206,6 +7587,7 @@ var Boss7_Pos5_X = 700;
 var Boss7_Pos5_Y = 300;
 var ExplosionCycle = 0;
 var EXCount = 0;
+var MaxFrame = 7;
 var BossDead = false;
 var BossHealth = 1000;
 var Slowdown = 10;
@@ -6228,6 +7610,14 @@ var GuardSwitch = 0;
 var guardHealthBarColor = "green";
 var stopGuardSpawn = 0;
 function Boss7AI() {
+Explosion_2.x = (burntHouse1.x + burntHouse1.width/2) - Explosion_2.width/2;
+Explosion_2.y = (burntHouse1.y + burntHouse1.height/2) - Explosion_2.height/2;
+Explosion_3.x = (burntHouse2.x + burntHouse2.width/2) - Explosion_3.width/2;
+Explosion_3.y = (burntHouse2.y + burntHouse2.height/2) - Explosion_3.height/2;
+Explosion_4.x = 185 - Explosion_4.width/2;
+Explosion_4.y = (burntHouse1.y + burntHouse1.height/2) - Explosion_4.height/2;
+Explosion_5.x = 185 - Explosion_5.width/2;
+Explosion_5.y = (burntHouse2.y + burntHouse2.height/2) - Explosion_5.height/2;
 if (difficulty == 0) {
 	GuardDamage = 0.2;
 	BossDamageDue = 5;
@@ -6364,18 +7754,55 @@ money += 200;
 }
 if (ExplosionCycle == 0) {
 Explosion.color = "EXFrame1";
+Explosion_2.color = "EXFrame1";
+Explosion_3.color = "EXFrame1";
+Explosion_4.color = "EXFrame1";
+Explosion_5.color = "EXFrame1";
 }	
 if (ExplosionCycle == 1) {
 Explosion.color = "EXFrame2";
-if (upgrademenu == 0 && wave == 7 && count != 10 && menu > 0 && pauseGame == 0 && spawnBoss7 == 0 && MusicOnOff == true) {
+Explosion_2.color = "EXFrame2";
+Explosion_3.color = "EXFrame2";
+Explosion_4.color = "EXFrame2";
+Explosion_5.color = "EXFrame2";
+if (upgrademenu == 0 && wave == 7 && count != 10 && menu > 0 && pauseGame == 0 && spawnBoss7 == 0) {
 document.getElementById('explosion').play();
  }
 }
 if (ExplosionCycle == 2) {
 Explosion.color = "EXFrame3";
+Explosion_2.color = "EXFrame3";
+Explosion_3.color = "EXFrame3";
+Explosion_4.color = "EXFrame3";
+Explosion_5.color = "EXFrame3";
 }
 if (ExplosionCycle == 3) {
 Explosion.color = "EXFrame4";
+Explosion_2.color = "EXFrame4";
+Explosion_3.color = "EXFrame4";
+Explosion_4.color = "EXFrame4";
+Explosion_5.color = "EXFrame4";
+}
+if (ExplosionCycle == 4) {
+Explosion.color = "EXFrame5";
+Explosion_2.color = "EXFrame5";
+Explosion_3.color = "EXFrame5";
+Explosion_4.color = "EXFrame5";
+Explosion_5.color = "EXFrame5";
+}
+if (ExplosionCycle == 5) {
+Explosion.color = "EXFrame6";
+Explosion_2.color = "EXFrame6";
+Explosion_3.color = "EXFrame6";
+Explosion_4.color = "EXFrame6";
+Explosion_5.color = "EXFrame6";
+}
+if (ExplosionCycle == 6) {
+Explosion.color = "EXFrame7";
+Explosion_2.color = "EXFrame7";
+Explosion_3.color = "EXFrame7";
+Explosion_4.color = "EXFrame7";
+Explosion_5.color = "EXFrame7";
 }
 if (bossTickCount > ticksPerFrame_1) {
     bossTickCount = 0;
@@ -6630,7 +8057,7 @@ if (wave == 7 && menu > 0 && upgrademenu == 0 && pauseGame == 0) {
 	ExplosionCycle++;
 	EXCount = 0;
 	 }
-	if (ExplosionCycle > 4) {
+	if (ExplosionCycle > MaxFrame) {
 	spawnBoss7 = 1;
 	 }
 	} 
@@ -7983,10 +9410,40 @@ if (rightE > 0) {
  right = 0;
  }
 }
+
+var mutemusic = 0;
+var val = document.getElementById("volume").value;
+var val2 = document.getElementById("soundvolume").value;
+var MShooting = document.getElementById("mute_SHOOTING").checked;
+var MLowAmmo = document.getElementById("mute_LOW_AMMO").checked;
+var MExplosion = document.getElementById("mute_EXPLOSION").checked;
 var firesoundstart = 0;
 var sound = 0
+var muteShooting = false;
+var muteLowAmmo = false;
+var muteExplosion = false;
 function playSound() {
-if (MusicOnOff == true && mutemusic == 0) {
+MShooting = document.getElementById("mute_SHOOTING").checked;
+MLowAmmo = document.getElementById("mute_LOW_AMMO").checked;
+MExplosion = document.getElementById("mute_EXPLOSION").checked;
+document.getElementById("Music_Volume").innerHTML = "Music: " + val + "%";
+document.getElementById("Sound_Effects_Volume").innerHTML = "Sound Effects: " + val2 + "%";
+if (MShooting == true) {
+muteShooting = true;
+} else {
+muteShooting = false;
+}
+if (MLowAmmo == true) {
+muteLowAmmo = true;
+} else {
+muteLowAmmo = false;
+}
+if (MExplosion == true) {
+muteExplosion = true;
+} else {
+muteExplosion = false;
+}
+if (mutemusic == 0) {
 mutemusic = 0;
 if (upgrademenu == 0) {
  if (Death1 == 0) {
@@ -8056,18 +9513,29 @@ Dead.volume = val / 100;
 
 function SetVolume2() {
 if (mutemusic == 0) {
+if (muteShooting == false) {
 var fireVolume = document.getElementById('firesound');
 fireVolume.volume = val2 / 300;
+} else {
+var fireVolume = document.getElementById('firesound');
+fireVolume.volume = 0 / 300;
+}
+if (muteLowAmmo == false) {
 var ammoVolume = document.getElementById('lowammo');
 ammoVolume.volume = val2 / 300;
+} else {
+var ammoVolume = document.getElementById('lowammo');
+ammoVolume.volume = 0 / 300;
+}
+if (muteExplosion == false) {
 var explosionVolume = document.getElementById('explosion');
 explosionVolume.volume = val2 / 300;
+} else {
+var explosionVolume = document.getElementById('explosion');
+explosionVolume.volume = 0 / 300;
+}
  }
 }
-
-var mutemusic = 0;
-var val = document.getElementById("volume").value;
-var val2 = document.getElementById("soundvolume").value;
 
 function mute() {
 if (mutemusic == 1) {
@@ -8099,12 +9567,27 @@ var menus = document.getElementById('Menu');
 menus.volume = val / 100;
 var Dead = document.getElementById('Death');
 Dead.volume = val / 100;
+if (muteShooting == false) {
 var fireVolume = document.getElementById('firesound');
 fireVolume.volume = val2 / 300;
+} else {
+var fireVolume = document.getElementById('firesound');
+fireVolume.volume = 0 / 300;
+}
+if (muteLowAmmo == false) {
 var ammoVolume = document.getElementById('lowammo');
 ammoVolume.volume = val2 / 300;
+} else {
+var ammoVolume = document.getElementById('lowammo');
+ammoVolume.volume = 0 / 300;
+}
+if (muteExplosion == false) {
 var explosionVolume = document.getElementById('explosion');
 explosionVolume.volume = val2 / 300;
+} else {
+var explosionVolume = document.getElementById('explosion');
+explosionVolume.volume = 0 / 300;
+}
  }
 if (mutemusic > 1) {
 mutemusic = 0;
@@ -8431,18 +9914,18 @@ function nameFC() {
  stopGuardSpawn = 0;
  switchBoss7 = 0;
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
- bpic = new component(10, 10, "bullpic", 400, 180, "img");
- bpic2 = new component(10, 10, "bullpic2", 400, 180, "img");
- bpic3 = new component(10, 10, "bullpic3", 400, 180, "img");
+ bpic = new component(10, 10, "bullpic", 400, 180, "animated-img-rot");
+ bpic2 = new component(10, 10, "bullpic2", 400, 180, "animated-img-rot");
+ bpic3 = new component(10, 10, "bullpic3", 400, 180, "animated-img-rot");
  bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
- bpic5 = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", 400, 180, "img");
+ bpic5 = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", 400, 180, "animated-img-rot");
  box = new component(25, 25, "black", playerX, playerY, "rec");
- ship1 = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "img");
- ship2 = new component(25, 25, "player2img", playerX, playerY, "img");
- ship3 = new component(25, 25, "player3img", playerX, playerY, "img");
- ship4 = new component(25, 25, "player4img", playerX, playerY, "img");
- ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "img");
- ship6 = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", playerX, playerY, "img-rot");
+ ship1 = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+ ship2 = new component(25, 25, "player2img", playerX, playerY, "animated-img-rot");
+ ship3 = new component(25, 25, "player3img", playerX, playerY, "animated-img-rot");
+ ship4 = new component(25, 25, "player4img", playerX, playerY, "animated-img-rot");
+ ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+ ship6 = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", playerX, playerY, "animated-img-rot");
  }
  if (CapName == weapv) {
  vaultShow = 1;
@@ -8491,6 +9974,7 @@ weapon = 0;
   }
  }
 if (specialWandS == 1) {
+console.log("tef");
 if (playerShip == 5 && STPRIZEWEAPON == 1) {
 switchy = -1;
 weapon = 4;
