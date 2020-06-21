@@ -2322,7 +2322,8 @@ if (tree1_8.globalAlpha < 1) {
 }
   }
  }
-if (wave >= 5 && wave < 7) {//gohere4//
+if (wave >= 5 && wave < 8) {//gohere4//
+if (wave < 7) {
 if (box.crashWith(inside3detect1)) {
 inside3house1 = 1;
 if (roof3house1.globalAlpha > 0.5) {
@@ -2375,6 +2376,7 @@ if (roof4house2.globalAlpha >= 1 && roof4house3.globalAlpha >= 1) {
 	roof4house3.globalAlpha = 1;
 }
   }
+}
 if (box.crashWith(tree2_1_D)) {
 if (tree2_1.globalAlpha > 0.5) {
 	tree2_1.globalAlpha -= 0.01;
