@@ -1,0 +1,24 @@
+***NEWS***
+
+NEW:
+	Added the main page news.
+	Added info for all projects on main page
+	Added the Task Force 271 tech demo.
+	Changed some stuff behind the scenes.
+	Updated SlayTheCube 2:
+		Rewrote collision detection and cleaned and the code.
+THOUGHTS:
+	Line Battle might get one more major update sometime soon.
+	Tank War is going to be getting an update soon.
+	SlayTheCube 2 is getting modding support in the next major update!
+	I'm working on modding tools for SlayTheCube 2.
+	A new Homeworld Takedown update is coming soon.
+	I'll start working on Task Force 271 after I finally finish work on
+	Tank War and Line Battle. I'm looking forward to sharing more with you
+	on this next year!
+	There's a fighting game coming in beta next year!
+	After I'm done with the whole Homeworld Takedown Preview update
+	I'm going to start a big push to finish the 13 waves in the campaign.
+	(a total of 20) After that I'll work on the endless mode that's coming,
+	then event and polish will be my main objective.
+	
