@@ -9,6 +9,7 @@ var firef = 0;
 var level = 1;
 var difficaulty = 1;
 var _objects = [];
+var _wallObj = [];
 var lockUp = 0;
 var lockDown = 0;
 var lockLeft = 0;
@@ -36,6 +37,7 @@ var isLoaded = false;
 var startLevel = false;
 var level_pack = 0;
 var game_start = 0;
+var fps = {	startTime : 0,	frameNumber : 0,	getFPS : function(){		this.frameNumber++;		var d = new Date().getTime(),			currentTime = ( d - this.startTime ) / 1000,			result = Math.floor( ( this.frameNumber / currentTime ) );		if( currentTime > 1 ){			this.startTime = new Date().getTime();			this.frameNumber = 0;		}		return result;	}	};
 
 	function start() {
 	     canvas.width = window.innerWidth;
@@ -201,8 +203,11 @@ var game_start = 0;
 		 _objects.push(mouse_Button_Text);
 		 on_Mobile_Text = new component("15px", "Arial", "white", 20, 130, "text", "On Mobile:", "start", "", "debug");
 		 _objects.push(on_Mobile_Text);
+		 FPSText = new component("15px", "Arial", "white", 20, 150, "text", "FPS: " + fps.getFPS(), "start", "", "debug");
+		 _objects.push(FPSText);
 		 timer_seconds_Text = new component("15px", "Arial", "white", 20, 150, "text", "Timer Seconds:", "start", "timer", "debug");
 		 _objects.push(timer_seconds_Text);
+		 //player text//
 		 p1 = new component("20px", "Consolas", "white", 43, 150, "text", "P1", "center", "", "player");
 		 _objects.push(p1);
 		 //enemy text//
@@ -235,33 +240,47 @@ var game_start = 0;
          _objects.push(bossAiCircle);
 		 ammo = new component(10, 10, "darkorange", Math.abs(Math.floor(Math.random() * canvas.width - canvas.width/2) + canvas.width/2), Math.abs(Math.floor(Math.random() * canvas.height - 500)), "cir", 10, "", 0, "ammo");
 		 _objects.push(ammo);
-		 wall = new component(20, 300, "black", -10, 0, "rec", "", "", "", "all");
+		 wall = new component(20, 300, "black", -10, 0, "rec", "", "", "all", "all", "left");
+		 _wallObj.push(wall);
 		 _objects.push(wall);
-		 wall2 = new component(20, 300, "black", 490, 0, "rec", "", "", "", "all");
+		 wall2 = new component(20, 300, "black", canvas.width - 10, 0, "rec", "", "", "all", "all", "right");
+		 _wallObj.push(wall2);
 		 _objects.push(wall2);
-		 wall3 = new component(500, 20, "black", 0, -10, "rec", "", "", "", "all");
+		 wall3 = new component(500, 20, "black", 0, -10, "rec", "", "", "all", "all", "top");
+		 _wallObj.push(wall3);
 		 _objects.push(wall3);
-		 wall4 = new component(500, 20, "black", 0, canvas.height - 10, "rec", "", "", "", "all");
+		 wall4 = new component(500, 20, "black", 0, canvas.height - 10, "rec", "", "", "all", "all", "bottom");
+		 _wallObj.push(wall4);
 		 _objects.push(wall4);
-		 wall5 = new component(10, canvas.height - 400, "grey", Math.floor(Math.random() * canvas.width) + 300, 200, "rec", "", "", "level2", "all");
+		 wall5 = new component(10, canvas.height - 400, "grey", Math.floor(Math.random() * canvas.width) + 300, 200, "rec", "", "", "level2", "all", "right");
+		 _wallObj.push(wall5);
 		 _objects.push(wall5);
-		 wall6 = new component(10, canvas.height - 400, "grey", wall5.x + 10, 200, "rec", "", "", "level2", "all");
+		 wall6 = new component(10, canvas.height - 400, "grey", wall5.x + 10, 200, "rec", "", "", "level2", "all", "left");
+		 _wallObj.push(wall6);
 		 _objects.push(wall6);
-		 wall7 = new component(20, 10, "grey", wall5.x, wall5.y, "rec", "", "", "level2", "all");
+		 wall7 = new component(20, 10, "grey", wall5.x, wall5.y, "rec", "", "", "level2", "all", "bottom");
+		 _wallObj.push(wall7);
 		 _objects.push(wall7);
-		 wall8 = new component(20, 10, "grey", wall5.x, wall5.width, "rec", "", "", "level2", "all");
+		 wall8 = new component(20, 10, "grey", wall5.x, wall5.width, "rec", "", "", "level2", "all", "top");
+		 _wallObj.push(wall8);
 		 _objects.push(wall8);
-		 LP1_wall = new component(5, 100, "darkred", canvas.width - 415, 0, "rec", "", "", "LP1_level1", "all");
+		 LP1_wall = new component(5, 100, "darkred", canvas.width - 415, 0, "rec", "", "", "LP1_level1", "all", "right");
+		 _wallObj.push(LP1_wall);
 		 _objects.push(LP1_wall);
-		 LP1_wall2 = new component(5, 100, "darkred", LP1_wall.x + 5, 0, "rec", "", "", "LP1_level1", "all");
+		 LP1_wall2 = new component(5, 100, "darkred", LP1_wall.x + 5, 0, "rec", "", "", "LP1_level1", "all", "left");
+		 _wallObj.push(LP1_wall2);
 		 _objects.push(LP1_wall2);
-		 LP1_wall2_1 = new component(6, 5, "darkred", LP1_wall.x + 2.5, LP1_wall.height - 5, "rec", "", "", "LP1_level1", "all");
+		 LP1_wall2_1 = new component(6, 5, "darkred", LP1_wall.x + 2.5, LP1_wall.height - 5, "rec", "", "", "LP1_level1", "all", "top");
+		 _wallObj.push(LP1_wall2_1);
 		 _objects.push(LP1_wall2_1);
-		 LP1_wall3 = new component(5, 100, "darkred", canvas.width - 515, 0, "rec", "", "", "LP1_level1", "all");
+		 LP1_wall3 = new component(5, 100, "darkred", canvas.width - 515, 0, "rec", "", "", "LP1_level1", "all", "right");
+		 _wallObj.push(LP1_wall3);
 		 _objects.push(LP1_wall3);
-		 LP1_wall4 = new component(5, 100, "darkred", LP1_wall3.x + 5, 0, "rec", "", "", "LP1_level1", "all");
+		 LP1_wall4 = new component(5, 100, "darkred", LP1_wall3.x + 5, 0, "rec", "", "", "LP1_level1", "all", "left");
+		 _wallObj.push(LP1_wall4);
 		 _objects.push(LP1_wall4);
-		 LP1_wall4_1 = new component(6, 5, "darkred", LP1_wall3.x + 2.5, LP1_wall3.height - 5, "rec", "", "", "LP1_level1", "all");
+		 LP1_wall4_1 = new component(6, 5, "darkred", LP1_wall3.x + 2.5, LP1_wall3.height - 5, "rec", "", "", "LP1_level1", "all", "top");
+		 _wallObj.push(LP1_wall4_1);
 		 _objects.push(LP1_wall4_1);
 		 //level objects//
 		 //MOD//
@@ -1257,6 +1276,7 @@ startTimer = false;
 
 function updateGameArea() {
 	Board.clear();
+	FPSText.radius = "FPS: " + fps.getFPS();
 	p1.x = circle.x;
 	p1.y = circle.y;
 	ai.x = aicircle.x;
@@ -1486,9 +1506,6 @@ function updateGameArea() {
 	}
 	}
 	}
-	if (_objects[i].level == "cursor") {
-	_objects[i].update();
-	}
 	if (_objects[i].level == "debug" && debug == 1) {
 	if (_objects[i].thickness == "") {
 	_objects[i].update();
@@ -1496,6 +1513,9 @@ function updateGameArea() {
 	if (_objects[i].thickness == "timer" && timeMode == true) {
 	_objects[i].update();
 	}
+	}
+	if (_objects[i].level == "cursor") {
+	_objects[i].update();
 	}
 	}
 	if (settingsMenuShow == true) {
@@ -1521,236 +1541,304 @@ function updateGameArea() {
 	if (circle.circleCrashWith(ammo) && won == 0 && startLevel == true) {
     firef = 1;
     }
+	for(let i = _wallObj.length - 1; i >= 0; i--) {
+		if (circle.mixCrashWith(_wallObj[i])) {
+			if (_wallObj[i].thickness == "all") {
+			switch (_wallObj[i].enemyType) {
+				case "left":
+					lockLeft = 1;
+					circle.speedX = circleBounceSpeed;
+				break;
+				case "right":
+					lockRight = 1;
+					circle.speedX = -circleBounceSpeed;
+				break;
+				case "top":
+					lockUp = 1;
+					circle.speedY = circleBounceSpeed;
+				break;
+				case "bottom":
+					lockDown = 1;
+					circle.speedY = -circleBounceSpeed;
+				break;
+				default:
+					console.log("Not a correct value in " + _wallObj[i] + ".enemyType!");
+			}
+			}
+			if (Math.floor(level_pack) == 0) {
+			if (_wallObj[i].thickness == "level2" && level == 3) {
+			switch (_wallObj[i].enemyType) {
+				case "left":
+					lockLeft = 1;
+					circle.speedX = circleBounceSpeed;
+				break;
+				case "right":
+					lockRight = 1;
+					circle.speedX = -circleBounceSpeed;
+				break;
+				case "top":
+					lockUp = 1;
+					circle.speedY = circleBounceSpeed;
+				break;
+				case "bottom":
+					lockDown = 1;
+					circle.speedY = -circleBounceSpeed;
+				break;
+				default:
+					console.log("Not a correct value in " + _wallObj[i] + ".enemyType!");
+			}
+			}
+			}
+		}
+		if (Math.floor(level_pack) == 0) {
+		if (level == 1) {
+		if (circle.circleCrashWith(aicircle)) {
+		dead = 1;
+		}
+		if (aicircle.mixCrashWith(_wallObj[i])) {
+			if (_wallObj[i].thickness == "all") {
+			switch (_wallObj[i].enemyType) {
+				case "left":
+					aicircle.speedX = aiCircleBounceSpeed;
+				break;
+				case "right":
+					aicircle.speedX = -aiCircleBounceSpeed;
+				break;
+				case "top":
+					aicircle.speedY = aiCircleBounceSpeed;
+				break;
+				case "bottom":
+					aicircle.speedY = -aiCircleBounceSpeed;
+				break;
+				default:
+					console.log("Not a correct value in " + _wallObj[i] + ".enemyType!");
+			}
+			}
+		}
+		}
+		if (level == 2) {
+		if (circle.circleCrashWith(bossAiCircle)) {
+		dead = 1;
+		}
+		if (bossAiCircle.mixCrashWith(_wallObj[i])) {
+			if (_wallObj[i].thickness == "all") {
+			switch (_wallObj[i].enemyType) {
+				case "left":
+					bossAiCircle.speedX = aiCircleBounceSpeed;
+				break;
+				case "right":
+					bossAiCircle.speedX = -aiCircleBounceSpeed;
+				break;
+				case "top":
+					bossAiCircle.speedY = aiCircleBounceSpeed;
+				break;
+				case "bottom":
+					bossAiCircle.speedY = -aiCircleBounceSpeed;
+				break;
+				default:
+					console.log("Not a correct value in " + _wallObj[i] + ".enemyType!");
+			}
+			}
+		}
+		}
+		if (level == 3) {
+		if (circle.circleCrashWith(aicircle2)) {
+		dead = 1;
+		}
+		if (aicircle2.mixCrashWith(_wallObj[i])) {
+			if (_wallObj[i].thickness == "all") {
+			switch (_wallObj[i].enemyType) {
+				case "left":
+					aicircle2.speedX = aiCircleBounceSpeed;
+				break;
+				case "right":
+					aicircle2.speedX = -aiCircleBounceSpeed;
+				break;
+				case "top":
+					aicircle2.speedY = aiCircleBounceSpeed;
+				break;
+				case "bottom":
+					aicircle2.speedY = -aiCircleBounceSpeed;
+				break;
+				default:
+					console.log("Not a correct value in " + _wallObj[i] + ".enemyType!");
+			}
+			}
+			if (_wallObj[i].thickness == "level2") {
+			switch (_wallObj[i].enemyType) {
+				case "left":
+					aicircle2.speedX = aiCircleBounceSpeed;
+					leftAILock = true;
+				break;
+				case "right":
+					aicircle2.speedX = -aiCircleBounceSpeed;
+					rightAILock = true;
+				break;
+				case "top":
+					aicircle2.speedY = aiCircleBounceSpeed;
+					downAILock = true;
+				break;
+				case "bottom":
+					aicircle2.speedY = -aiCircleBounceSpeed;
+					upAILock = true;
+				break;
+				default:
+					console.log("Not a correct value in " + _wallObj[i] + ".enemyType!");
+			}
+			}
+		}
+		if (!aicircle2.mixCrashWith(_wallObj[i])) {
+			if (_wallObj[i].thickness == "level2") {
+			switch (_wallObj[i].enemyType) {
+				case "left":
+					leftAILock = false;
+				break;
+				case "right":
+					rightAILock = false;
+				break;
+				case "top":
+					downAILock = false;
+				break;
+				case "bottom":
+					upAILock = false;
+				break;
+				default:
+					console.log("Not a correct value in " + _wallObj[i] + ".enemyType!");
+			}
+			}
+		}
+		}
+		}
+	}
 	}
 	if (circle.type == "rec" || circle.type == "img") {
 	if (ammo.mixCrashWith(circle) && won == 0 && startLevel == true) {
     firef = 1;
     }
-	}
-	if (circle.type == "cir") {
-	if (circle.mixCrashWith(wall)) {
-	   lockLeft = 1;
-	   circle.speedX = circleBounceSpeed;
+	for(let i = _wallObj.length - 1; i >= 0; i--) {
+		if (circle.crashWith(_wallObj[i])) {
+			if (_wallObj[i].thickness == "all") {
+			switch (_wallObj[i].enemyType) {
+				case "left":
+					lockLeft = 1;
+					circle.speedX = circleBounceSpeed;
+				break;
+				case "right":
+					lockRight = 1;
+					circle.speedX = -circleBounceSpeed;
+				break;
+				case "top":
+					lockUp = 1;
+					circle.speedY = circleBounceSpeed;
+				break;
+				case "bottom":
+					lockDown = 1;
+					circle.speedY = -circleBounceSpeed;
+				break;
+				default:
+					console.log("Not a correct value in " + _wallObj[i] + ".enemyType!");
+			}
+			}
+			if (Math.floor(level_pack) == 1) {
+			if (_wallObj[i].thickness == "LP1_level1") {
+				switch (_wallObj[i].enemyType) {
+				case "left":
+					lockLeft = 1;
+					circle.speedX = circleBounceSpeed;
+				break;
+				case "right":
+					lockRight = 1;
+					circle.speedX = -circleBounceSpeed;
+				break;
+				case "top":
+					lockUp = 1;
+					circle.speedY = circleBounceSpeed;
+				break;
+				case "bottom":
+					lockDown = 1;
+					circle.speedY = -circleBounceSpeed;
+				break;
+				default:
+					console.log("Not a correct value in " + _wallObj[i] + ".enemyType!");
+				}
+			}
+			}
 		}
-	if (circle.mixCrashWith(wall2)) {
-	   lockRight = 1;
-	   circle.speedX = -circleBounceSpeed;
+		if (Math.floor(level_pack) == 1 && level == 1) {
+		if (circle.crashWith(LP1_aicircle)) {
+		dead = 1;
 		}
-	if (circle.mixCrashWith(wall3)) {
-	   lockUp = 1;
-	   circle.speedY = circleBounceSpeed;
+		if (LP1_aicircle.crashWith(_wallObj[i])) {
+			if (_wallObj[i].thickness == "all") {
+			switch (_wallObj[i].enemyType) {
+				case "left":
+					LP1_aicircle.speedX = aiCircleBounceSpeed;
+				break;
+				case "right":
+					LP1_aicircle.speedX = -aiCircleBounceSpeed;
+				break;
+				case "top":
+					LP1_aicircle.speedY = aiCircleBounceSpeed;
+				break;
+				case "bottom":
+					LP1_aicircle.speedY = -aiCircleBounceSpeed;
+				break;
+				default:
+					console.log("Not a correct value in " + _wallObj[i] + ".enemyType!");
+			}
+			}
+			if (_wallObj[i].thickness == "LP1_level1") {
+			switch (_wallObj[i].enemyType) {
+				case "left":
+					LP1_aicircle.speedX = aiCircleBounceSpeed;
+					leftAILock = true;
+				break;
+				case "right":
+					LP1_aicircle.speedX = -aiCircleBounceSpeed;
+					rightAILock = true;
+				break;
+				case "top":
+					LP1_aicircle.speedY = aiCircleBounceSpeed;
+					downAILock = true;
+				break;
+				case "bottom":
+					LP1_aicircle.speedY = -aiCircleBounceSpeed;
+					upAILock = true;
+				break;
+				default:
+					console.log("Not a correct value in " + _wallObj[i] + ".enemyType!");
+			}
+			}
 		}
-	if (circle.mixCrashWith(wall4)) {
-	   lockDown = 1;
-	   circle.speedY = -circleBounceSpeed;
+		if (!LP1_aicircle.crashWith(_wallObj[i])) {
+			if (_wallObj[i].thickness == "LP1_level1") {
+			switch (_wallObj[i].enemyType) {
+				case "left":
+					leftAILock = false;
+				break;
+				case "right":
+					rightAILock = false;
+				break;
+				case "top":
+					downAILock = false;
+				break;
+				case "bottom":
+					upAILock = false;
+				break;
+				default:
+					console.log("Not a correct value in " + _wallObj[i] + ".enemyType!");
+			}
+			}
 		}
-	}
-	if (circle.type == "rec" || circle.type == "img") {
-	if (circle.crashWith(wall)) {
-	   lockLeft = 1;
-	   circle.speedX = circleBounceSpeed;
-		}
-	if (circle.crashWith(wall2)) {
-	   lockRight = 1;
-	   circle.speedX = -circleBounceSpeed;
-		}
-	if (circle.crashWith(wall3)) {
-	   lockUp = 1;
-	   circle.speedY = circleBounceSpeed;
-		}
-	if (circle.crashWith(wall4)) {
-	   lockDown = 1;
-	   circle.speedY = -circleBounceSpeed;
-		}
-	}
-	if (level_pack == 1) {
-	if (circle.crashWith(LP1_wall)) {
-	   lockRight = 1;
-	   circle.speedX = -circleBounceSpeed;
-		}
-	if (circle.crashWith(LP1_wall2)) {
-	   lockLeft = 1;
-	   circle.speedX = circleBounceSpeed;
-		}
-	if (circle.crashWith(LP1_wall2_1)) {
-	   lockUp = 1;
-	   circle.speedY = circleBounceSpeed;
-		}
-	if (circle.crashWith(LP1_wall3)) {
-	   lockRight = 1;
-	   circle.speedX = -circleBounceSpeed;
-		}
-	if (circle.crashWith(LP1_wall4)) {
-	   lockLeft = 1;
-	   circle.speedX = circleBounceSpeed;
-		}
-	if (circle.crashWith(LP1_wall4_1)) {
-	   lockUp = 1;
-	   circle.speedY = circleBounceSpeed;
-		}
-	if (level == 1) {
-	if (LP1_aicircle.crashWith(wall)) {
-	   LP1_aicircle.speedX = aiCircleBounceSpeed;
-		}
-	if (LP1_aicircle.crashWith(wall2)) {
-	   LP1_aicircle.speedX = -aiCircleBounceSpeed;
-		}
-	if (LP1_aicircle.crashWith(wall3)) {
-	   LP1_aicircle.speedY = aiCircleBounceSpeed;
-		}
-	if (LP1_aicircle.crashWith(wall4)) {
-	   LP1_aicircle.speedY = -aiCircleBounceSpeed;
-		}
-	if (LP1_aicircle.crashWith(LP1_wall)) {
-	   LP1_aicircle.speedX = -aiCircleBounceSpeed;
-	   leftAILock = true;
-		}
-	if (LP1_aicircle.crashWith(LP1_wall) == false) {
-	   leftAILock = false;
-		}
-	if (LP1_aicircle.crashWith(LP1_wall2)) {
-	   LP1_aicircle.speedX = aiCircleBounceSpeed;
-	   rightAILock = true;
-		}
-	if (LP1_aicircle.crashWith(LP1_wall2) == false) {
-	   rightAILock = false;
-		}	
-	if (LP1_aicircle.mixCrashWith(LP1_wall2_1)) {
-	   LP1_aicircle.speedY = aiCircleBounceSpeed;
-	   upAILock = true;
-		}
-	if (LP1_aicircle.mixCrashWith(LP1_wall2_1) == false) {
-	   upAILock = false;
-		}
-	if (LP1_aicircle.crashWith(LP1_wall3)) {
-	   LP1_aicircle.speedX = -aiCircleBounceSpeed;
-	   leftAILock = true;
-		}
-	if (LP1_aicircle.crashWith(LP1_wall3) == false) {
-	   leftAILock = false;
-		}
-	if (LP1_aicircle.crashWith(LP1_wall4)) {
-	   LP1_aicircle.speedX = aiCircleBounceSpeed;
-	   rightAILock = true;
-		}
-	if (LP1_aicircle.crashWith(LP1_wall4) == false) {
-	   rightAILock = false;
-		}
-	if (LP1_aicircle.mixCrashWith(LP1_wall4_1)) {
-	   LP1_aicircle.speedY = aiCircleBounceSpeed;
-	   upAILock = true;
-		}
-	if (LP1_aicircle.mixCrashWith(LP1_wall4_1) == false) {
-	   upAILock = false;
-		}
-	if (circle.crashWith(LP1_aicircle)) {
-	    dead = 1;
 		}
 	}
 	}
-	if (level_pack == 0) {
-	if (level == 3) {
-	if (circle.mixCrashWith(wall6)) {
-	   lockLeft = 1;
-	   circle.speedX = circleBounceSpeed;
+	if (Math.floor(level_pack) != 1) {
+		if (difficaulty == 0) {
+			if (lockUp == 1 || lockDown == 1 || lockLeft == 1 || lockRight == 1) {
+			clearcircleai();
+			}
 		}
-	if (circle.mixCrashWith(wall5)) {
-	   lockRight = 1;
-	   circle.speedX = -circleBounceSpeed;
-		}
-	if (circle.mixCrashWith(wall8)) {
-	   lockUp = 1;
-	   circle.speedY = circleBounceSpeed;
-		}
-	if (circle.mixCrashWith(wall7)) {
-	   lockDown = 1;
-	   circle.speedY = -circleBounceSpeed;
-		}
-	}
-	if (level == 1) {
-	if (aicircle.mixCrashWith(wall)) {
-	   aicircle.speedX = aiCircleBounceSpeed;
-		}
-	if (aicircle.mixCrashWith(wall2)) {
-	   aicircle.speedX = -aiCircleBounceSpeed;
-		}
-	if (aicircle.mixCrashWith(wall3)) {
-	   aicircle.speedY = aiCircleBounceSpeed;
-		}
-	if (aicircle.mixCrashWith(wall4)) {
-	   aicircle.speedY = -aiCircleBounceSpeed;
-		}
-	if (circle.circleCrashWith(aicircle)) {
-	    dead = 1;
-		}
-	}
-	if (level == 2) {
-	if (bossAiCircle.mixCrashWith(wall)) {
-	   bossAiCircle.speedX = aiCircleBounceSpeed;
-		}
-	if (bossAiCircle.mixCrashWith(wall2)) {
-	   bossAiCircle.speedX = -aiCircleBounceSpeed;
-		}
-	if (bossAiCircle.mixCrashWith(wall3)) {
-	   bossAiCircle.speedY = aiCircleBounceSpeed;
-		}
-	if (bossAiCircle.mixCrashWith(wall4)) {
-	   bossAiCircle.speedY = -aiCircleBounceSpeed;
-		}
-	if (circle.circleCrashWith(bossAiCircle)) {
-	    dead = 1;
-		}
-	}
-	if (level == 3) {
-	if (aicircle2.mixCrashWith(wall)) {
-	   aicircle2.speedX = aiCircleBounceSpeed;
-		}
-	if (aicircle2.mixCrashWith(wall2)) {
-	   aicircle2.speedX = -aiCircleBounceSpeed;
-		}
-	if (aicircle2.mixCrashWith(wall3)) {
-	   aicircle2.speedY = aiCircleBounceSpeed;
-		}
-	if (aicircle2.mixCrashWith(wall4)) {
-	   aicircle2.speedY = -aiCircleBounceSpeed;
-		}
-	if (aicircle2.mixCrashWith(wall5)) {
-	   aicircle2.speedX = -aiCircleBounceSpeed;
-	   leftAILock = true;
-		}
-	if (aicircle2.mixCrashWith(wall5) == false) {
-	   leftAILock = false;
-		}
-	if (aicircle2.mixCrashWith(wall6)) {
-	   aicircle2.speedX = aiCircleBounceSpeed;
-	   rightAILock = true;
-		}
-	if (aicircle2.mixCrashWith(wall6) == false) {
-	   rightAILock = false;
-		}
-	if (aicircle2.mixCrashWith(wall7)) {
-	   aicircle2.speedY = -aiCircleBounceSpeed;
-	   downAILock = true;
-		}
-	if (aicircle2.mixCrashWith(wall7) == false) {
-	   downAILock = false;
-		}
-	if (aicircle2.mixCrashWith(wall8)) {
-	   aicircle2.speedY = aiCircleBounceSpeed;
-	   upAILock = true;
-		}
-	if (aicircle2.mixCrashWith(wall8) == false) {
-	   upAILock = false;
-		}
-	if (circle.circleCrashWith(aicircle2)) {
-	    dead = 1;
-	    }
-	 }
-    }
-	if (difficaulty == 0) {
-	if (lockUp == 1 || lockDown == 1 || lockLeft == 1 || lockRight == 1) {
-	clearcircleai();
-	    }
 	}
 }
 

@@ -1,0 +1,171 @@
+  <!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+		<title>Pokemon V0.1.5</title>
+	<style>
+	canvas {
+	border:2px solid black;
+	background-color: blue;
+	border-radius: 25px;
+	box-shadow: 2px 1px 5px lightblue;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	width: 600px;
+}
+body {
+		  background-image: url(https://mark4pro.github.io/Rpg_Pokemon_Like/back.png);
+		  background-repeat: no-repeat;
+          background-size: 1920px 1080px;
+	  }
+	  h1 {
+		  font-size: 50px;
+		  background-color: darkblue;
+		  border:5px solid darkgray;
+		  border-radius: 30px;
+		  text-shadow: 2px 1px 5px red;
+		  box-shadow: 5px 5px 5px;
+	  }
+	  p {
+	     text-shadow: 2px 2px 5px lightblue;
+	  }
+button {
+		 width:100px;
+		 height:30px;
+		 border-radius: 30px;
+		 background-color: black;
+		 color: white;
+		 text-align: center;
+		 text-shadow: 2px 2px 5px;
+	  }
+	  .reset {
+		 width:60px;
+		 height:30px;
+		 border-radius: 30px;
+		 background-color: darkgray;
+		 color: darkwhite;
+		 text-align: center;
+		 text-shadow: 2px 2px 5px;
+	  }
+	  .unselectable {
+	-webkit-user-select: none; /* Safari 3.1+ */
+	-moz-user-select: none; /* Firefox 2+ */
+	-ms-user-select: none; /* IE 10+ */
+	user-select: none; /* Standard syntax */
+}
+	.slidecontainer {
+  border: 5px solid black;
+  width: 100%;
+  height: 180px;
+  border-radius: 25px;
+  background: white;
+  
+}
+.slider {
+  -webkit-appearance: none;
+  width: 300px;
+  height: 15px;
+  border-radius: 5px; 
+  background: black;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+.slider:hover {
+  opacity: 1;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: red;
+  cursor: pointer;
+}
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+.nameboxvar {
+		 width:150px;
+		 height:30px;
+		 left: 50%;
+		 right: 50%;
+		 background-color: darkgray;
+		 color: darkwhite;
+		 text-align: center;
+		 text-shadow: 2px 2px 5px;
+		 font-size: 20px;
+}
+	</style>
+	<!-- Where Images Go -->
+		<img id="menu" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/menu.png">
+		<img id="play" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/play.png">
+		<img id="unplay" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/unplay.png">
+		<img id="pokeright" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Pokeright1_m.PNG">
+		<img id="pokeleft" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Pokeleft1_m.PNG">
+		<img id="pokeup" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Pokeup1_m.PNG">
+		<img id="pokedown" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Pokedown1_m.PNG">
+		<img id="walk1right1m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk1right1_m.PNG">
+		<img id="walk1left1m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk1left1_m.PNG">
+		<img id="walk1up1m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk1up1_m.PNG">
+		<img id="walk1down1m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk1down1_m.PNG">
+		<img id="walk2right1m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk2right1_m.PNG">
+		<img id="walk2left1m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk2left1_m.PNG">
+		<img id="walk2up1m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk2up1_m.PNG">
+		<img id="walk2down1m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk2down1_m.PNG">
+		<img id="pokeright2" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Pokeright2_m.PNG">
+		<img id="pokeleft2" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Pokeleft2_m.PNG">
+		<img id="pokeup2" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Pokeup2_m.PNG">
+		<img id="pokedown2" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Pokedown2_m.PNG">
+		<img id="walk1right2m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk1right2_m.PNG">
+		<img id="walk1left2m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk1left2_m.PNG">
+		<img id="walk1up2m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk1up2_m.PNG">
+		<img id="walk1down2m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk1down2_m.PNG">
+		<img id="walk2right2m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk2right2_m.PNG">
+		<img id="walk2left2m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk2left2_m.PNG">
+		<img id="walk2up2m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk2up2_m.PNG">
+		<img id="walk2down2m" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/Walk2down2_m.PNG">
+		<img id="leftarrow" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/left arrow.png">
+		<img id="rightarrow" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/right arrow.png">
+		<img id="uncmm" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/uncmm.png">
+		<img id="cmm" width="0" height="0" src="https://mark4pro.github.io/Rpg_Pokemon_Like/images/cmm.png">
+		<!-- Where Sounds Go -->
+		<audio id="menumusic" src="https://mark4pro.github.io/Rpg_Pokemon_Like/audio/menum.mp3"></audio>
+	        <audio id="menumusic2" src="https://mark4pro.github.io/Rpg_Pokemon_Like/audio/menum2.mp3"></audio>
+		<audio id="hometown" src="https://mark4pro.github.io/Rpg_Pokemon_Like/audio/hometown.mp3"></audio>
+	</head>
+	<body onload="start()">
+	<script src=".\Scripts\engine.js"></script>
+<label class="unselectable">
+<p align="left">
+	<button onmousedown="moveUp()" onmouseup="clearmoveu()" ontouchend="clearmoveu()" ontouchstart="moveUp()">UP</button>
+	<button onmousedown="moveDown()" onmouseup="clearmoved()" ontouchend="clearmoved()" ontouchstart="moveDown()">DOWN</button><br>
+	</p>
+	<p align="right">
+	<button onmousedown="enter()" onmouseup="" ontouchstart="enter()">A</button>
+	<button onmousedown="back()" onmouseup="" ontouchstart="back()">B</button><br>
+	<button onmousedown="moveLeft()" onmouseup="clearmovel()" ontouchend="clearmovel()" ontouchstart="moveLeft()">LEFT</button>
+	<button onmousedown="moveRight()" onmouseup="clearmover()" ontouchend="clearmover()" ontouchstart="moveRight()">RIGHT</button>
+	</p>
+	<div style="text-align:left;width:450px;">
+<input type="button" class="reset" value="Reset" onClick="document.location.reload(true)">
+</div
+<div align="center" class="slidecontainer">
+<p align="center">Volume:</p>
+<p align="center"><input type="range" min="0" max="100" id="volume" class="slider" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input></p>
+</div>
+<p align="center">Made in the "Partical Engine v1"!</p>
+</label>
+<p id="" align="center">
+<input type="text" class="nameboxvar" id="nboxvar" value="" maxlength="10">
+</p>
+	</body>
+</html>

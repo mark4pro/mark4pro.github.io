@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<title>Task Force 271</title>
+<style>
+body {
+	margin: 0;
+	background-color: black;
+	position: fixed;
+}
+canvas {
+	background-color: black;
+	position: fixed;
+	image-rendering: -moz-crisp-edges;		 /* Firefox */
+	image-rendering: -webkit-crisp-edges;	  /* Webkit */
+	-ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+	image-rendering: crisp-edges;				/* Chrome */
+}
+.unselectable {
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+</style>
+<img id="mission1map" width="0" height="0" src="./images/Mission1.png">
+<img id="BLUI" width="0" height="0" src="./images/BottomLeftUI.png">
+<img id="settings" width="0" height="0" src="./images/settings.png">
+<img id="nineMill" width="0" height="0" src="./images/nineMill.png">
+<img id="cursor" width="0" height="0" src="./images/cursor.png">
+</head>
+<body onload="start()">
+<canvas id="canvas" style="border:0px;cursor:none;"></canvas>
+<script>
+var keys = {};
+window.addEventListener("keydown",
+    function(e){
+        keys[e.keyCode] = true;
+        switch(e.keyCode){
+            case 37: case 39: case 38:  case 40: // Arrow keys
+            case 32: e.preventDefault(); break; // Space
+            default: break; // do not block other keys
+        }
+    },
+false);
+window.addEventListener('keyup',
+    function(e){
+        keys[e.keyCode] = false;
+    },
+false);
+
+var debug_player_collisions = true;
+var mission_level = 1;
+var playerX = 500;
+var playerY = 300;
+var playerSpeedX = 0;
+var playerSpeedY = 0;
+var _objects = [];
+var backgroundStartX = -50;
+var backgroundStartY = -1030;
+var backgroundStartWidth = 2000;
+var backgroundStartHeight = 2000;
+function start() {
+ cursor = new component(10, 10, "cursor", -50, -250, "img", "true", "", "", "cursor");
+ _objects.push(cursor);
+ initMenus();
+ initUI();
+ playerLaser = new component(5, "round", "red", 0, 0, "line", mouseX, mouseY, "", "lazer");
+ playerLaser.globalAlpha = 0.2;
+ _objects.push(playerLaser);
+ PlayerBullLocation = new component(10, 10, "black", 0, 0, "player1", "OffSet", 0, 0, "debugPlayer");
+ _objects.push(PlayerBullLocation);
+ box = new component(46, 46, "grey", backgroundStartX + backgroundStartWidth - playerX, backgroundStartY + backgroundStartHeight - playerY, "player1", "false", "", "", "debugPlayer");
+ _objects.push(box);
+ boxCollider = new component(46, 46, "darkgrey", 0, 0, "player1", "true", "", "", "debugPlayer");
+ _objects.push(boxCollider);
+ circleCollider = new component(46, 46, "black", 0, 0, "cir", 32, "", "", "debugPlayer");
+ _objects.push(circleCollider);
+ circleRangeCollider = new component(46, 46, "darkgrey", 0, 0, "cir", 200, "", "", "debugPlayer");
+ _objects.push(circleRangeCollider);
+ background = new component(backgroundStartWidth, backgroundStartHeight, "mission1map", backgroundStartX, backgroundStartY, "img", "true", "", "", "background");
+ _objects.push(background);
+ Board.start();
+ updateGameArea();
+ }
+ 
+var Board = {
+canvas : document.getElementById("canvas"),
+start : function() {
+this.context = this.canvas.getContext("2d");
+document.body.insertBefore(this.canvas,
+document.body.childNodes[0]);
+this.interval = setInterval(updateGameArea, 10);
+		document.addEventListener("keydown",keyDownHandler, false);	
+		document.addEventListener("keyup",keyUpHandler, false);
+},
+stop : function() {
+        clearInterval(this.interval);
+},
+clear : function() {
+this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+this.canvas.width = window.innerWidth;
+this.canvas.height = window.innerHeight;
+background.width = backgroundStartWidth;
+background.height = backgroundStartHeight;
+},
+}
+
+function component(width, height, color, x, y, type, radius, outcolor, thickness, renderLevel) {
+this.type = type;
+this.renderLevel = renderLevel;
+this.speedX = 0;
+this.speedY = 0;
+this.bulletX = 0;
+this.bulletY = 0;
+this.bulletWidth = 5;
+this.bulletHeight = 10;
+this._bullets = [];
+this.timeAlive = 0;
+this.bulletPicId = "nineMill";
+this.globalAlpha = 1;
+this.endpositionY = outcolor;
+this.endpositionX = radius;
+this.dead = false;
+this.running = false;
+this.crawling = false;
+this.sneaking = false;
+this.x = x;
+this.y = y;
+this.sx = 0;
+this.sy = 0;
+this.angle = 0;
+this.lockAngle = false;
+this.width = width;
+this.height = height;
+this.halfWidth = this.width / 2;
+this.halfHeight = this.height / 2;
+this.color = color;
+this.OffsetX = outcolor;
+this.OffsetY = thickness;
+this.thickness = thickness;
+this.outcolor = outcolor;
+this.radius = radius;
+this.shadowColor_ = "";
+this.shadowBlur_ = 0;
+this.shadowOffsetX_ = 0;
+this.shadowOffsetY_ = 0;
+this.update = function() {
+ctx = Board.context;
+if (this.type == "line") {
+ctx.beginPath();
+ctx.globalAlpha = this.globalAlpha;
+ctx.shadowColor = this.shadowColor_;
+ctx.shadowBlur = this.shadowBlur_;
+ctx.shadowOffsetX = this.shadowOffsetX_;
+ctx.shadowOffsetY = this.shadowOffsetY_;
+ctx.lineWidth = this.width;
+ctx.lineCap = this.height;
+ctx.strokeStyle = this.color; 
+ctx.moveTo(this.x, this.y);
+ctx.lineTo(this.endpositionX, this.endpositionY);
+ctx.stroke();
+}
+if (this.type == "text") {
+ this.isStroked = this.radius;
+ this.align = this.outcolor;
+ this.text = this.thickness;
+ ctx.shadowColor = this.shadowColor_;
+ ctx.shadowBlur = this.shadowBlur_;
+ ctx.shadowOffsetX = this.shadowOffsetX_;
+ ctx.shadowOffsetY = this.shadowOffsetY_;
+ ctx.font = this.width + " " + this.height;
+ ctx.globalAlpha = this.globalAlpha;
+ ctx.fillStyle = this.color;
+ ctx.textAlign = this.align;
+ if (this.isStroked == false) {
+ ctx.fillText(this.text, this.x, this.y);
+ }
+ if (this.isStroked == true) {
+ ctx.strokeText(this.text, this.x, this.y);
+ }
+} else {
+if (this.type == "rec" || this.type == "player1") {
+this.rotateLock = radius;
+if (this.rotateLock == "false") {
+ctx.save();
+ctx.globalAlpha = this.globalAlpha;
+ctx.shadowColor = this.shadowColor_;
+ctx.shadowBlur = this.shadowBlur_;
+ctx.shadowOffsetX = this.shadowOffsetX_;
+ctx.shadowOffsetY = this.shadowOffsetY_;
+ctx.translate(this.x, this.y);
+ctx.rotate(this.angle);
+ctx.fillStyle = this.color;
+ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+ctx.restore();
+}
+if (this.rotateLock == "OffSet") {
+ctx.save();
+ctx.globalAlpha = this.globalAlpha;
+ctx.shadowColor = this.shadowColor_;
+ctx.shadowBlur = this.shadowBlur_;
+ctx.shadowOffsetX = this.shadowOffsetX_;
+ctx.shadowOffsetY = this.shadowOffsetY_;
+ctx.fillStyle = this.color;
+ctx.translate(this.x, this.y);
+ctx.rotate(this.angle);
+ctx.fillRect(this.OffsetX, this.OffsetY, this.width, this.height);
+ctx.restore();
+}
+if (this.rotateLock == "true") {
+ctx.save();
+ctx.globalAlpha = this.globalAlpha;
+ctx.shadowColor = this.shadowColor_;
+ctx.shadowBlur = this.shadowBlur_;
+ctx.shadowOffsetX = this.shadowOffsetX_;
+ctx.shadowOffsetY = this.shadowOffsetY_;
+ctx.fillStyle = this.color;
+ctx.fillRect(this.x, this.y, this.width, this.height);
+ctx.restore();
+}
+  }
+ }
+ if (this.type == "cir") {
+ ctx.beginPath();
+ ctx.globalAlpha = this.globalAlpha;
+ ctx.shadowColor = this.shadowColor_;
+ ctx.shadowBlur = this.shadowBlur_;
+ ctx.shadowOffsetX = this.shadowOffsetX_;
+ ctx.shadowOffsetY = this.shadowOffsetY_;
+ ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);
+ ctx.fillStyle = this.color;
+ ctx.fill();
+ ctx.lineWidth = this.thickness;
+ ctx.strokeStyle = this.outcolor;
+ ctx.stroke();
+ } else {
+ if (type == "img") {
+ this.rotateLock = radius;
+ if (this.rotateLock == "false") {
+ ctx.save();
+ ctx.globalAlpha = this.globalAlpha;
+ ctx.shadowColor = this.shadowColor_;
+ ctx.shadowBlur = this.shadowBlur_;
+ ctx.shadowOffsetX = this.shadowOffsetX_;
+ ctx.shadowOffsetY = this.shadowOffsetY_;
+ ctx.translate(this.x, this.y);
+ ctx.rotate(this.angle);
+ var img = document.getElementById(color);
+ ctx.drawImage(img, this.width / -2, this.height / -2, this.width, this.height);
+ ctx.restore();
+ }
+if (this.rotateLock == "animated-false") {
+ ctx.save();
+ ctx.globalAlpha = this.globalAlpha;
+ ctx.shadowColor = this.shadowColor_;
+ ctx.shadowBlur = this.shadowBlur_;
+ ctx.shadowOffsetX = this.shadowOffsetX_;
+ ctx.shadowOffsetY = this.shadowOffsetY_;
+ ctx.translate(this.x, this.y);
+ ctx.rotate(this.angle);
+ var img = document.getElementById(color);
+ ctx.drawImage(img, this.sx, this.sy, this.width, this.height, this.width / -2, this.height / -2, this.width, this.height);
+ ctx.restore();
+ }
+if (this.rotateLock == "OffSet") {
+this.OffsetX = outcolor;
+this.OffsetY = thickness;
+ctx.save();
+ctx.globalAlpha = this.globalAlpha;
+ctx.shadowColor = this.shadowColor_;
+ctx.shadowBlur = this.shadowBlur_;
+ctx.shadowOffsetX = this.shadowOffsetX_;
+ctx.shadowOffsetY = this.shadowOffsetY_;
+ctx.translate(this.x, this.y);
+ctx.rotate(this.angle);
+var img = document.getElementById(this.color);
+ctx.drawImage(img, this.OffsetX, this.OffsetY, this.width, this.height);
+ctx.restore();
+ }
+if (this.rotateLock == "animated-OffSet") {
+this.OffsetX = outcolor;
+this.OffsetY = thickness;
+ctx.save();
+ctx.globalAlpha = this.globalAlpha;
+ctx.shadowColor = this.shadowColor_;
+ctx.shadowBlur = this.shadowBlur_;
+ctx.shadowOffsetX = this.shadowOffsetX_;
+ctx.shadowOffsetY = this.shadowOffsetY_;
+ctx.translate(this.x, this.y);
+ctx.rotate(this.angle);
+var img = document.getElementById(this.color);
+ctx.drawImage(img, this.sx, this.sy, this.width, this.height, this.OffsetX, this.OffsetY, this.width, this.height);
+ctx.restore();
+ }
+if (this.rotateLock == "true") {
+ var img = document.getElementById(this.color);
+ ctx.globalAlpha = this.globalAlpha;
+ ctx.shadowColor = this.shadowColor_;
+ ctx.shadowBlur = this.shadowBlur_;
+ ctx.shadowOffsetX = this.shadowOffsetX_;
+ ctx.shadowOffsetY = this.shadowOffsetY_;
+ ctx.drawImage(img, this.x, this.y, this.width, this.height);
+ }
+if (this.rotateLock == "animated-true") {
+ var img = document.getElementById(this.color);
+ ctx.globalAlpha = this.globalAlpha;
+ ctx.shadowColor = this.shadowColor_;
+ ctx.shadowBlur = this.shadowBlur_;
+ ctx.shadowOffsetX = this.shadowOffsetX_;
+ ctx.shadowOffsetY = this.shadowOffsetY_;
+ ctx.drawImage(img, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
+ }
+  }
+ }
+}
+this.newPos = function() {
+this.x += this.speedX;
+this.y += this.speedY;
+}
+this.getMidX = function() {
+ return this.halfWidth + this.x;
+},
+this.getMidY = function() {
+ return this.halfHeight + this.y;
+},
+this.getTop = function() {
+ return this.y;
+},
+this.getLeft = function() {
+ return this.x;
+},
+this.getRight = function() {
+ return this.x + this.width;
+},
+this.getBottom = function() {
+ return this.y + this.height;
+}
+this.shoot = function(OffSetBullet) {
+var __bullet = new component(this.bulletWidth, this.bulletHeight, this.bulletPicId, this.bulletX, this.bulletY, "img", "false", "", "", "playerBullets");
+if (OffSetBullet != null) {
+__bullet.OffSetBullet = OffSetBullet;
+} else {
+__bullet.OffSetBullet = 0;
+}
+_objects.push(__bullet);
+this._bullets.push(__bullet);
+}
+this.crashWith = function(otherobj) {
+var l1 = this.getLeft();
+var t1 = this.getTop();
+var r1 = this.getRight();
+var b1 = this.getBottom();
+var l2 = otherobj.getLeft();
+var t2 = otherobj.getTop();
+var r2 = otherobj.getRight();
+var b2 = otherobj.getBottom();
+var crash = true;
+if (b1 < t2 || t1 > b2 || r1 < l2 || l1 > r2) {
+ crash = false;
+}
+ return crash;
+};
+//only circles//
+this.circleCrashWith = function(otherobj) {
+var distance_x = this.x - otherobj.x;
+var distance_y = this.y - otherobj.y;
+var rSum = this.radius + otherobj.radius;
+if (distance_x * distance_x + distance_y * distance_y <= rSum * rSum) { 
+return true;
+} else {
+return false;
+ }
+}
+//this mustbe a circle//
+this.mixCrashWith = function(otherobj) {
+var distance_x = Math.abs(this.x - otherobj.x-otherobj.width/2);
+var distance_y = Math.abs(this.y - otherobj.y-otherobj.height/2);
+var crash = true;
+if (distance_x > (otherobj.width/2 + this.radius) || distance_y > (otherobj.height/2 + this.radius)) {
+crash = false; 
+}
+if (distance_x <= (otherobj.width/2) && distance_y <= (otherobj.height/2)) {
+crash = true;
+} 
+var dx=distance_x-otherobj.width/2;
+var dy=distance_y-otherobj.height/2;
+if (dx*dx+dy*dy<=(this.radius*this.radius)) {
+crash = true;
+}
+ return crash;
+}
+this.elasticCollition = function(entity) {
+    var pMidX = this.getMidX();
+    var pMidY = this.getMidY();
+    var aMidX = entity.getMidX();
+    var aMidY = entity.getMidY();
+    var dx = (aMidX - pMidX) / entity.halfWidth;
+    var dy = (aMidY - pMidY) / entity.halfHeight;
+    var absDX = Math.abs(dx);
+    var absDY = Math.abs(dy);
+    if (absDX > absDY) {
+        if (dx < 0) {
+		this.x = entity.getRight() + 0.5;
+			if (this.type == "player1") {
+				if (lockLeftE == 1) {
+				playerSpeedX = 0;
+				}
+			}
+        } else {
+		this.x = entity.getLeft() - this.width - 0.5;
+			if (this.type == "player1") {
+			   if (lockRightE == 1) {
+				playerSpeedX = 0;
+				}
+		    }
+        }		
+    } else {
+        if (dy < 0) {
+		this.y = entity.getBottom() + 0.5;
+			if (this.type == "player1") {
+				if (lockUpE == 1) {
+					playerSpeedY = 0;
+			}
+		}
+    } else {
+		this.y = entity.getTop() - this.height - 0.5;
+			if (this.type == "player1") {
+			    if (lockDownE == 1) {
+					playerSpeedY = 0;
+			    }
+			}
+        }  
+    }
+ }
+}
+
+function animationComponent(numberOfFrames, startFrame, speedOfAnimation) {
+this.numberOfFrames = numberOfFrames;
+this.startFrame = startFrame;
+this.speedOfAnimation = speedOfAnimation;
+this.currentFrame = this.startFrame;
+this._frame = 0;
+this.frameTimer = function() {
+this._frame += 1;
+if (this._frame >= this.speedOfAnimation) {
+this.currentFrame++;
+this._frame = 0;
+}
+if (this.currentFrame >= this.numberOfFrames) {
+this.currentFrame = this.startFrame;
+}
+return this.currentFrame;
+}
+this.resetFrame = function() {
+this._frame = 0;
+this.currentFrame = this.startFrame;
+return this.currentFrame;
+}
+}
+
+var mouseX = 0;
+var mouseY = 0;
+window.addEventListener("mousemove", function(event) {
+mouseX = event.clientX;
+mouseY = event.clientY;
+cursor.x = event.clientX - cursor.width/2;
+cursor.y = event.clientY - cursor.height/2;
+});
+
+var stopPlayerMoveR = false;
+var stopPlayerMoveL = false;
+var stopPlayerMoveU = false;
+var stopPlayerMoveD = false;
+var acceleration = 0.05;
+var deceleration = 0.08;
+var playerMovementSpeed = 3;
+var playerSidewaysMovementSpeed = 1.8;
+function Player() {
+box.newPos();
+PlayerBullLocation.x = box.x;
+PlayerBullLocation.y = box.y;
+PlayerBullLocation.OffsetX = box.width / 2 - 10;
+PlayerBullLocation.OffsetY = -box.height / 2 + 17.5;
+playerLaser.x = box.x
+playerLaser.y = box.y
+playerLaser.endpositionX = mouseX;
+playerLaser.endpositionY = mouseY;
+var rX = -box.x + mouseX;
+var rY = -box.y + mouseY;
+box.angle = Math.atan2(rY,rX);
+PlayerBullLocation.angle = box.angle;
+box.speedY = playerSpeedY;
+box.speedX = playerSpeedX;
+circleCollider.x = box.x;
+circleCollider.y = box.y;
+circleRangeCollider.x = box.x;
+circleRangeCollider.y = box.y;
+boxCollider.x = box.x - box.width/2;
+boxCollider.y = box.y - box.height/2;
+for(var i = _objects.length - 1; i >= 0; i--) {
+if (debug_player_collisions == true && _objects[i].renderLevel == "debugPlayer") {
+_objects[i].globalAlpha = 1;
+}
+if (debug_player_collisions == false && _objects[i].renderLevel == "debugPlayer") {
+_objects[i].globalAlpha = 0;
+}
+}
+if (sneakLock == 1) {
+box.sneaking = true;
+} else {
+box.sneaking = false;
+}
+if (sneakLock > 1) {
+sneakLock = 0;
+}
+if (box.crawling == true) {
+acceleration = 0.05;
+deceleration = 0.08;
+playerMovementSpeed = 0.5;
+playerSidewaysMovementSpeed = 0.25;
+}
+if (box.running == true && box.sneaking == false) {
+acceleration = 0.1;
+deceleration = 0.08;
+playerMovementSpeed = 5;
+playerSidewaysMovementSpeed = 2.8;
+}
+if (box.running == false && box.sneaking == true) {
+acceleration = 0.05;
+deceleration = 0.08;
+playerMovementSpeed = 1;
+playerSidewaysMovementSpeed = 0.8;
+}
+if (box.running == false && box.sneaking == false) {
+acceleration = 0.05;
+deceleration = 0.08;
+playerMovementSpeed = 3;
+playerSidewaysMovementSpeed = 1.8;
+}
+if (box.running == true && box.sneaking == true) {
+box.crawling = true;
+} else {
+box.crawling = false;
+ }
+//movement//
+if (stopPlayerMoveU == false) {
+if (up == 1 && down == 0 && left == 0 && right == 0) {
+ if (playerSpeedY >= -playerMovementSpeed) {
+ playerSpeedY -= acceleration;
+ } else {
+ playerSpeedY = -playerMovementSpeed;
+  }
+ }
+} else {
+ if (lockUpE == true) {
+ playerSpeedY = 0;
+ }
+}
+if (up == 1 && down == 0 && left == 1 && right == 0) {
+ if (stopPlayerMoveU == false) {
+ if (playerSpeedY >= -playerSidewaysMovementSpeed) {
+ playerSpeedY -= acceleration;
+ } else {
+ playerSpeedY = -playerSidewaysMovementSpeed;
+   }
+  } else {
+ if (lockUpE == true) {
+ playerSpeedY = 0;
+  }
+ }
+ if (stopPlayerMoveL == false) {
+ if (playerSpeedX >= -playerSidewaysMovementSpeed) {
+ playerSpeedX -= acceleration;
+ } else {
+ playerSpeedX = -playerSidewaysMovementSpeed;
+  }
+ } else {
+ if (lockLeftE == true) {
+ playerSpeedX = 0;
+  }
+ }
+}
+if (up == 1 && down == 0 && left == 0 && right == 1) {
+ if (stopPlayerMoveU == false) {
+ if (playerSpeedY >= -playerSidewaysMovementSpeed) {
+ playerSpeedY -= acceleration;
+ } else {
+ playerSpeedY = -playerSidewaysMovementSpeed;
+   }
+  } else {
+ if (lockUpE == true) {
+ playerSpeedY = 0;
+  }
+ }
+ if (stopPlayerMoveR == false) {
+ if (playerSpeedX <= playerSidewaysMovementSpeed) {
+ playerSpeedX += acceleration;
+ } else {
+ playerSpeedX = playerSidewaysMovementSpeed;
+   }
+  } else {
+ if (lockRightE == true) {
+ playerSpeedX = 0;
+  }
+ }
+}
+if (upE == 1 && up == 0) {
+if (playerSpeedY >= -playerMovementSpeed - 1) {
+playerSpeedY += deceleration;
+ }
+if (playerSpeedY >= 0) {
+playerSpeedY = 0;
+upE = 0;
+  }
+}
+if (stopPlayerMoveD == false) {
+if (down == 1 && up == 0 && left == 0 && right == 0) {
+ if (playerSpeedY <= playerMovementSpeed) {
+ playerSpeedY += acceleration;
+ } else {
+ playerSpeedY = playerMovementSpeed;
+  }
+ }
+} else {
+ if (lockDownE == true) {
+ playerSpeedY = 0;
+ }
+}
+if (down == 1 && up == 0 && left == 1 && right == 0) {
+ if (stopPlayerMoveD == false) {
+ if (playerSpeedY <= playerSidewaysMovementSpeed) {
+ playerSpeedY += acceleration;
+ } else {
+ playerSpeedY = playerSidewaysMovementSpeed;
+   }
+  } else {
+ if (lockDownE == true) {
+ playerSpeedY = 0;
+  }
+ }
+  if (stopPlayerMoveL == false) {
+ if (playerSpeedX >= -playerSidewaysMovementSpeed) {
+ playerSpeedX -= acceleration;
+ } else {
+ playerSpeedX = -playerSidewaysMovementSpeed;
+  }
+  } else {
+ if (lockLeftE == true) {
+ playerSpeedX = 0;
+  }
+ }
+}
+if (down == 1 && up == 0 && left == 0 && right == 1) {
+ if (stopPlayerMoveD == false) {
+ if (playerSpeedY <= playerSidewaysMovementSpeed) {
+ playerSpeedY += acceleration;
+ } else {
+ playerSpeedY = playerSidewaysMovementSpeed;
+  }
+ } else {
+ if (lockDownE == true) {
+ playerSpeedY = 0;
+  }
+ }
+ if (stopPlayerMoveR == false) {
+ if (playerSpeedX <= playerSidewaysMovementSpeed) {
+ playerSpeedX += acceleration;
+ } else {
+ playerSpeedX = playerSidewaysMovementSpeed;
+   }
+  } else {
+ if (lockRightE == true) {
+ playerSpeedX = 0;
+  }
+ }
+}
+if (downE == 1 && down == 0) {
+if (playerSpeedY <= playerMovementSpeed + 1) {
+playerSpeedY -= deceleration;
+ }
+if (playerSpeedY <= 0) {
+playerSpeedY = 0;
+downE = 0;
+  }
+}
+if (stopPlayerMoveL == false) {
+if (left == 1 && right == 0 && up == 0 && down == 0) {
+ if (playerSpeedX >= -playerMovementSpeed) {
+ playerSpeedX -= acceleration;
+ }
+ if (playerSpeedX <= -playerMovementSpeed) {
+ playerSpeedX = -playerMovementSpeed;
+  }
+ }
+} else {
+ if (lockLeftE == true) {
+ playerSpeedX = 0;
+ }
+}
+if (leftE == 1 && left == 0 && right == 0) {
+if (playerSpeedX >= -playerMovementSpeed - 1) {
+playerSpeedX += deceleration;
+ }
+if (playerSpeedX >= 0) {
+playerSpeedX = 0;
+leftE = 0;
+  }
+}
+if (stopPlayerMoveR == false) {
+if (right == 1 && left == 0 && up == 0 && down == 0) {
+ if (playerSpeedX <= playerMovementSpeed) {
+ playerSpeedX += acceleration;
+ }
+ if (playerSpeedX >= playerMovementSpeed) {
+ playerSpeedX = playerMovementSpeed;
+  }
+ }
+} else {
+ if (lockRightE == true) {
+ playerSpeedX = 0;
+ }
+}
+if (rightE == 1 && right == 0 && left == 0) {
+if (playerSpeedX <= playerMovementSpeed + 1) {
+playerSpeedX -= deceleration;
+ }
+if (playerSpeedX <= 0) {
+playerSpeedX = 0;
+rightE = 0;
+  }
+}
+if (up == 0 && playerSpeedY <= 0) {
+	lockUpE = 0;
+}
+if (down == 0 && playerSpeedY <= 0) {
+	lockDownE = 0;
+}
+if (left == 0 && playerSpeedX <= 0) {
+	lockLeftE = 0;
+}
+if (right == 0 && playerSpeedX <= 0) {
+	lockRightE = 0;
+}
+//collisions go here//
+}
+
+function initUI() {
+sneaktxt = new component("30px", "Consolas", "black", 10, Board.canvas.height - 70, "text", false, "start", "Sneaking:", "ui");
+sneaktxt.globalAlpha = 0.5;
+_objects.push(sneaktxt);
+sneak1 = new component(20, 20, sneakState, 165, Board.canvas.height - 87.5, "rec", "true", "", "", "ui");
+sneak1.globalAlpha = 0.5;
+_objects.push(sneak1);
+runtxt = new component("30px", "Consolas", "black", 10, Board.canvas.height - 40, "text", false, "start", "Running:", "ui");
+runtxt.globalAlpha = 0.5;
+_objects.push(runtxt);
+run1 = new component(20, 20, runState, 165, Board.canvas.height - 57.5, "rec", "true", "", "", "ui");
+run1.globalAlpha = 0.5;
+_objects.push(run1);
+crawltxt = new component("30px", "Consolas", "black", 10, Board.canvas.height - 10, "text", false, "start", "Crawling:", "ui");
+crawltxt.globalAlpha = 0.5;
+_objects.push(crawltxt);
+crawl1 = new component(20, 20, crawlState, 165, Board.canvas.height - 27.5, "rec", "true", "", "", "ui");
+crawl1.globalAlpha = 0.5;
+_objects.push(crawl1);
+LeftBottom = new component(220, 100, "BLUI", 0, Board.canvas.height - 100, "img", "true", "", "", "ui");
+LeftBottom.globalAlpha = 0.5;
+_objects.push(LeftBottom);
+settingsIcon = new component(50, 50, "settings", 0, 0, "img", "false", "", "", "ui");
+settingsIcon.globalAlpha = 0.5;
+_objects.push(settingsIcon);
+RightBottom = new component(220, 100, "BLUI", 0, 0, "img", "false", "", "", "ui");
+RightBottom.globalAlpha = 0.5;
+RightBottom.angle = -1.57;
+_objects.push(RightBottom);
+settingsIconHitBox = new component(50, 50, "black", 0, 0, "rec", "true", "", "", "uiHitbox");
+settingsIconHitBox.globalAlpha = 0;
+_objects.push(settingsIconHitBox);
+}
+
+var runState = "red";
+var sneakState = "red";
+var crawlState = "red";
+function UI() {
+//State of moving//
+LeftBottom.x = 0;
+LeftBottom.y = Board.canvas.height - 100;
+sneaktxt.x = 10;
+sneaktxt.y = Board.canvas.height - 70;
+sneak1.x = 165;
+sneak1.y = Board.canvas.height - 87.5;
+sneak1.color = sneakState;
+runtxt.x = 10;
+runtxt.y = Board.canvas.height - 40;
+run1.x = 165;
+run1.y = Board.canvas.height - 57.5;
+run1.color = runState;
+crawltxt.x = 10;
+crawltxt.y = Board.canvas.height - 10;
+crawl1.x = 165;
+crawl1.y = Board.canvas.height - 27.5;
+crawl1.color = crawlState;
+RightBottom.x = canvas.width - 20;
+RightBottom.y = canvas.height + 45;
+settingsIcon.x = canvas.width - 35;
+settingsIcon.y = canvas.height - 30;
+settingsIconHitBox.x = settingsIcon.x - settingsIcon.width/2;
+settingsIconHitBox.y = settingsIcon.y - settingsIcon.height/2;
+//UI code//
+if (cursor.crashWith(settingsIconHitBox) == true && stopMoving == false) {
+settingsIcon.angle += 0.1;
+if (clicked == true) {
+pauseGame = true;
+clicked = false;
+ }
+} else {
+settingsIcon.angle = 0;
+}
+if (box.running == true && box.sneaking == false) {
+runState = "green";
+} else {
+runState = "red";
+}
+if (box.running == false && box.sneaking == true) {
+sneakState = "green";
+} else {
+sneakState = "red";
+}
+if (box.crawling == true) {
+crawlState = "green";
+} else {
+crawlState = "red";
+}
+}
+
+function camera() {
+if (background.x + background.width > Board.canvas.width && box.x <= Board.canvas.width && box.x >= Board.canvas.width - 50 && right == true) {
+background.x -= playerMovementSpeed;
+stopPlayerMoveR = true;
+} else {
+if (boxCollider.x + boxCollider.width >= Board.canvas.width || boxCollider.x + boxCollider.width >= background.x + background.width) {
+stopPlayerMoveR = true;
+} else {
+stopPlayerMoveR = false;
+ }
+}
+if (background.x < 0 && box.x <= 50 && left == true) {
+background.x += playerMovementSpeed;
+stopPlayerMoveL = true;
+} else {
+if (boxCollider.x <= 0 || boxCollider.x <= background.x) {
+stopPlayerMoveL = true;
+} else {
+stopPlayerMoveL = false;
+ }
+}
+if (background.y + background.height > Board.canvas.height && box.y <= Board.canvas.height && box.y >= Board.canvas.height - 50 && down == true) {
+background.y -= playerMovementSpeed;
+stopPlayerMoveD = true;
+} else {
+if (boxCollider.y + boxCollider.height >= Board.canvas.height || boxCollider.y + boxCollider.height >= background.y + background.height) {
+stopPlayerMoveD = true;
+} else {
+stopPlayerMoveD = false;
+ }
+}
+if (background.y < 0 && box.y <= 50 && up == true) {
+background.y += playerMovementSpeed;
+stopPlayerMoveU = true;
+} else {
+if (boxCollider.y <= 0 || boxCollider.y <= background.y) {
+stopPlayerMoveU = true;
+} else {
+stopPlayerMoveU = false;
+ }
+}
+}
+
+function updateGameArea() {
+Board.clear();
+Player();
+camera();
+Weapons();
+//update//
+for(var i = _objects.length - 1; i >= 0; i--) {
+if (_objects[i].renderLevel == "uiHitbox") {
+_objects[i].update();
+}
+if (_objects[i].renderLevel == "background") {
+_objects[i].update();
+}
+if (debug_player_collisions == true) {
+if (_objects[i].renderLevel == "debugPlayer") {
+_objects[i].update();
+}
+}
+}
+PlayerShoot();
+for(var i = _objects.length - 1; i >= 0; i--) {
+if (_objects[i].renderLevel == "lazer") {
+if (laserOn == true) {
+_objects[i].update();
+}
+}
+if (_objects[i].renderLevel == "ui") {
+_objects[i].update();
+}
+if (stopMoving == true) {
+if (_objects[i].renderLevel == "menu") {
+if (cutScene == false) {
+_objects[i].update();
+}
+}
+if (_objects[i].renderLevel == "mainMenu") {
+if (mainMenu == true && optionsMenu == false) {
+_objects[i].update();
+}
+}
+if (optionsMenu == true || pauseGame == true) {
+if (_objects[i].renderLevel == "optionMenu") {
+_objects[i].update();
+}
+if (pauseGame == true) {
+//pause menu update//
+}
+}
+}
+if (_objects[i].renderLevel == "cursor") {
+_objects[i].update();
+}
+}
+UI();
+menus();
+//misc//
+console.log("X: " + PlayerBullLocation.x + " Y: " + PlayerBullLocation.y + " Running: " + box.running + " Sneaking: " + box.sneaking + " Crawling: " + box.crawling
++ " Bullet Length: " + box._bullets.length + " Stop Moving: " + stopMoving);
+}
+
+var sneakLock = 0;
+var sneakStop = true;
+var upKey = "w";
+var leftKey = "a";
+var rightKey = "d";
+var downKey = "s";
+var runKey = "Shift";
+var sneakKey = "Control";
+function keyDownHandler(event)
+{
+    var str = event.key;
+	var keyPressed = str.toLowerCase();
+	console.log(event.key);
+
+	if (keyPressed == upKey)
+	{		
+	if (stopMoving == false) {
+            moveUp();
+			event.preventDefault();
+			}
+	}
+	else if (keyPressed == downKey)
+	{	
+	if (stopMoving == false) {
+            moveDown();	
+			event.preventDefault();
+			}
+	}
+	else if (keyPressed == leftKey)
+	{	
+	if (stopMoving == false) {
+            moveLeft();	
+			event.preventDefault();
+			}
+	}
+	else if (keyPressed == rightKey)
+	{	
+	if (stopMoving == false) {
+            moveRight();
+			}
+	}
+	if (str == runKey)
+	{		
+	if (stopMoving == false) {
+            box.running = true;
+			}
+	}
+	if (str == sneakKey)
+	{		
+	if (stopMoving == false) {
+	    if (sneakStop == true) {
+            sneakLock++;
+			sneakStop = false;
+			event.preventDefault();
+		}
+	  }
+	}
+}
+
+function keyUpHandler(event)
+{
+	var str = event.key;
+	var keyPressed = str.toLowerCase();
+	
+	if (keyPressed == upKey)
+	{		
+		clearmoveu();
+	}
+	else if (keyPressed == downKey)
+	{	
+		clearmoved();
+	}
+	else if (keyPressed == leftKey)
+	{	
+		clearmovel();		
+	}
+	else if (keyPressed == rightKey)
+	{	
+		clearmover();	
+	}
+	if (str == runKey)
+	{		
+            box.running = false;
+	}
+	if (str == sneakKey)
+	{		
+			sneakStop = true;
+	}
+}
+
+var weapon = 1;
+function Weapons() {
+if (weapon == 0) {
+hasLaser = false;
+}
+if (weapon == 1) {
+box.bulletHeight = 10;
+box.bulletWidth = 5;
+bulletFireDelay = 50;
+bulletSpeed = 20;
+weaponDamage = 1;
+automatic = "false";
+hasLaser = true;
+playerLaser.color = "red";
+playerLaser.width = 2;
+bulletRange = 20;
+box.bulletPicId = "nineMill";
+
+}
+}
+
+var shooting = false;
+var hasLaser = false;
+var laserOn = false;
+var bulletSpeed = 20;
+var bulletFireDelay = 50;
+var bulletTime = 0;
+var weaponDamage = 1;
+var initShoot = true;
+var automatic = "true";
+var burstRounds = 5;
+var numberOfShots = 0;
+var bulletRange = 20;
+function PlayerShoot() {
+//laser//
+if (laserOnCount > 1) {
+laserOnCount = 0;
+}
+if (laserOnCount == 1) {
+laserOn = true;
+} else {
+laserOn = false;
+}
+if (laserOn == true && hasLaser == false) {
+laserOn = false;
+}
+//exceptions//
+if (automatic == "spread") {
+initShoot = false;
+}
+//other//
+if (shooting == true) {
+bulletTime++;
+if (initShoot == true) {
+box.shoot();
+if (automatic == "burst") {
+numberOfShots++;
+}
+initShoot = false;
+}
+if (bulletTime >= bulletFireDelay) {
+if (automatic != "burst") {
+box.shoot();
+}
+if (automatic == "burst" && numberOfShots <= burstRounds) {
+box.shoot();
+numberOfShots++;
+}
+if (automatic == "burst" && numberOfShots >= burstRounds) {
+numberOfShots = 0;
+initShoot = true;
+shooting = false;
+bulletTime = 0;
+}
+bulletTime = 0;
+ }
+if (automatic == "spread") {
+box.shoot(0.25);
+box.shoot(0);
+box.shoot(-0.25);
+shooting = false;
+}
+}
+//playerShoot update//
+for(var i = box._bullets.length - 1; i >= 0; i--) {
+if (box._bullets[i].timeAlive < bulletRange && box._bullets[i].lockAngle == true) {
+box._bullets[i].update();
+box._bullets[i].timeAlive++;
+box._bullets[i].x += bulletSpeed * Math.sin(box._bullets[i].angle);
+box._bullets[i].y -= bulletSpeed * Math.cos(box._bullets[i].angle);
+}
+if (box._bullets[i].lockAngle == false) {
+box._bullets[i].angle = box.angle + 1.571 + box._bullets[i].OffSetBullet;
+box._bullets[i].x = box.x;
+box._bullets[i].y = box.y;
+box._bullets[i].lockAngle = true;
+}
+if (box._bullets[i].timeAlive >= bulletRange) {
+box._bullets.splice(i,0);
+  }
+ }
+}
+
+function initMenus() {
+newGameButtonTxt = new component("30px", "Arial", "black", 0, 160, "text", false, "center", "New Game", "mainMenu");
+_objects.push(newGameButtonTxt);
+newGameButton = new component(250, 80, "#686f6b", 0, 110, "rec", "true", "", "", "mainMenu");
+_objects.push(newGameButton);
+loadGameButtonTxt = new component("30px", "Arial", "black", 0, 260, "text", false, "center", "Load Game", "mainMenu");
+_objects.push(loadGameButtonTxt);
+loadGameButton = new component(250, 80, "#686f6b", 0, 210, "rec", "true", "", "", "mainMenu");
+_objects.push(loadGameButton);
+optionGameButtonTxt = new component("30px", "Arial", "black", 0, 360, "text", false, "center", "Options", "mainMenu");
+_objects.push(optionGameButtonTxt);
+optionGameButton = new component(250, 80, "#686f6b", 0, 310, "rec", "true", "", "", "mainMenu");
+_objects.push(optionGameButton);
+optionsMenuTxt = new component("700 80px", "Arial", "black", canvas.width/2, 80, "text", false, "center", "Options", "optionMenu");
+_objects.push(optionsMenuTxt);
+backOptionsButtonTxt = new component("30px", "Arial", "black", 0, 0, "text", false, "center", "Back", "optionMenu");
+_objects.push(backOptionsButtonTxt);
+backOptionsButton = new component(100, 50, "#686f6b", 0, 0, "rec", "true", "", "", "optionMenu");
+_objects.push(backOptionsButton);
+mainMenuTxt = new component("700 80px", "Arial", "black", canvas.width/2, 80, "text", false, "center", "Task Force 271", "mainMenu");
+_objects.push(mainMenuTxt);
+mainMenuBoard = new component(canvas.width, canvas.height, "grey", 0, 0, "rec", "true", "", "", "menu");
+_objects.push(mainMenuBoard);
+}
+
+var cutScene = false;
+var pauseGame = false;
+var mainMenu = true;
+var stopMoving = false;
+var optionsMenu = false;
+function menus() {
+if (pauseGame == true || mainMenu == true || cutScene == true || optionsMenu == true) {
+stopMoving = true;
+} else {
+stopMoving = false;
+}
+//Scale//
+mainMenuBoard.width = canvas.width;
+mainMenuBoard.height = canvas.height;
+mainMenuTxt.x = canvas.width/2;
+newGameButton.x = canvas.width/2 - newGameButton.width/2;
+newGameButtonTxt.x = newGameButton.x + newGameButton.width/2;
+loadGameButton.x = canvas.width/2 - loadGameButton.width/2;
+loadGameButtonTxt.x = loadGameButton.x + loadGameButton.width/2;
+optionGameButton.x = canvas.width/2 - optionGameButton.width/2;
+optionGameButtonTxt.x = optionGameButton.x + optionGameButton.width/2;
+optionsMenuTxt.x = canvas.width/2;
+backOptionsButton.x = canvas.width - backOptionsButton.width - 20;
+backOptionsButton.y = canvas.height - backOptionsButton.height - 20;
+backOptionsButtonTxt.x = backOptionsButton.x + backOptionsButton.width/2;
+backOptionsButtonTxt.y = backOptionsButton.y + 35;
+//mainMenu logic//
+if (cursor.crashWith(newGameButton) == true) {
+newGameButton.color = "#3e4240";
+if (mainMenu == true && clicked == true) {
+mainMenu = false;
+cutScene = false;
+ }
+} else {
+newGameButton.color = "#686f6b";
+}
+if (cursor.crashWith(loadGameButton) == true) {
+loadGameButton.color = "#3e4240";
+if (mainMenu == true && clicked == true) {
+mainMenu = false;
+//load var here//
+ }
+} else {
+loadGameButton.color = "#686f6b";
+}
+if (cursor.crashWith(optionGameButton) == true) {
+optionGameButton.color = "#3e4240";
+if (mainMenu == true && clicked == true) {
+optionsMenu = true;
+ }
+} else {
+optionGameButton.color = "#686f6b";
+}
+if (cursor.crashWith(backOptionsButton) == true) {
+backOptionsButton.color = "#3e4240";
+if (optionsMenu == true || pauseGame == true) {
+if (pauseGame == false) {
+if (clicked == true) {
+optionsMenu = false;
+ }
+} else {
+if (clicked == true) {
+pauseGame = false;
+clicked = false;
+   }
+  }
+ }
+} else {
+backOptionsButton.color = "#686f6b";
+}
+}
+
+var laserOnCount = 0;
+var lazerOnLock = false;
+var clicked = false;
+document.onmousedown = function(event){
+if (event.button == 0) {
+clicked = true;
+if (stopMoving == false) {
+if (weapon != 0) {
+if (automatic == "true" || automatic == "spread" || automatic == "burst" && shooting == false) {
+shooting = true;
+ }
+if (automatic == "false") {
+box.shoot();
+   } 
+  }
+ }
+}
+if (event.button == 1) {
+if (stopMoving == false) {
+if (hasLaser == true && lazerOnLock == false) {
+laserOnCount++;
+lazerOnLock = true;
+   } 
+  }
+ }
+}
+document.addEventListener("contextmenu", function(e){
+      e.preventDefault();
+}, false);
+document.onmouseup = function(event){
+if (event.button == 0) {
+clicked = false;
+if (automatic != "burst") {
+shooting = false;
+initShoot = true;
+bulletTime = 0;
+ }
+}
+if (event.button == 1) {
+if (hasLaser == true && lazerOnLock == true) {
+lazerOnLock = false;
+  } 
+ }
+}
+
+var upE = 0;
+var downE = 0;
+var leftE = 0;
+var rightE = 0;
+var lockUpE = 0;
+var lockDownE = 0;
+var lockLeftE = 0;
+var lockRightE = 0;
+var up = 0;
+var down = 0;
+var left = 0;
+var right = 0;
+function moveUp() {
+up = 1;
+upE = 1;
+lockUpE = 1;
+}
+function moveDown() {
+down = 1;
+downE = 1;
+lockDownE = 1;
+}
+function moveLeft() {
+left = 1;
+leftE = 1;
+lockLeftE = 1;
+}
+function moveRight() {
+right = 1;
+rightE = 1;
+lockRightE = 1;
+}
+function clearmoveu() {
+if (upE > 0) {
+ up = 0;
+ }
+}
+function clearmoved() {
+lockDownE = 0;
+if (downE > 0) {
+ down = 0;
+ }
+}
+function clearmovel() {
+lockLeftE = 0;
+if (leftE > 0) {
+ left = 0;
+ }
+}
+function clearmover() {
+lockRightE = 0;
+if (rightE > 0) {
+ right = 0;
+ }
+}
+</script>
+</body>
+</html>
