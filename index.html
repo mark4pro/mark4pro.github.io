@@ -8,7 +8,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="https://mark4pro.github.io/css/main.css" />
 	</head>
-	<body onload="StartTimeCheck()">
+	<body style="-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;" onload="StartTimeCheck()">
 	<object width="500" height="500" style="opacity:70%;visibility:hidden;background-color:white;position:absolute;top:0px;left:0px;" id="EventBox" type="text/plain" data="./NEWS.txt" border="0" ></object>
 	<button onmousedown="ShowNews()" onmouseup="StopShowingNews()" id="EventButton" style="opacity:50%;width:60px;height:60px;word-wrap:break-word;white-space:normal;background-color:grey;position:absolute;top:0px;left:0px;" type="button">News</button>
 	<script>
