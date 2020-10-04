@@ -9,54 +9,9 @@
 		<link rel="stylesheet" href="https://mark4pro.github.io/css/main.css" />
 	</head>
 	<body style="-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;" onload="StartTimeCheck()">
-	<object width="500" height="500" style="opacity:70%;visibility:hidden;background-color:white;position:absolute;top:0px;left:0px;" id="EventBox" type="text/plain" data="./NEWS.txt" border="0" ></object>
+	<object width="500" height="500" style="opacity:70%;visibility:hidden;background-color:white;position:absolute;top:0px;left:0px;" id="EventBox" type="text/plain" data="https://mark4pro.github.io/NEWS.txt" border="0" ></object>
 	<button onmousedown="ShowNews()" onmouseup="StopShowingNews()" id="EventButton" style="opacity:50%;width:60px;height:60px;word-wrap:break-word;white-space:normal;background-color:grey;position:absolute;top:0px;left:0px;" type="button">News</button>
-	<script>
-	var EventDay = 12, EventMonth = 8, EventYear = 2020;
-	var EndEventDay = 30;
-	var today_date = new Date();
-	var mydayofweek = today_date.getDay();
-	var mytoday = today_date.getDate();
-	var mymonth = today_date.getMonth();
-	var myyear = today_date.getFullYear();
-	function StartTimeCheck() {
-	CheckTime();
-	setInterval(function(){ CheckTime(); }, 0.2 * 60000);
-	}
-	function CheckTime() {
-	mytoday = today_date.getDate();
-	mymonth = today_date.getMonth();
-	myyear = today_date.getFullYear();
-	if (EventDay >= mytoday && mytoday <= EndEventDay && EventMonth >= mymonth && EventYear >= myyear) {
-	if (document.getElementById("EventBox").style.visibility == "hidden") {
-	document.getElementById("EventButton").innerHTML = "(*) News";
-	}
-	} else {
-	if (document.getElementById("EventBox").style.visibility == "hidden") {
-	//document.getElementById("EventBox").style.visibility = "hidden";
-	document.getElementById("EventButton").innerHTML = "News";
-	}
-	}
-	}
-	var pressed = false;
-	function ShowNews() {
-	if (document.getElementById("EventBox").style.visibility == "hidden" && pressed == false) {
-	document.getElementById("EventButton").style.left = "422.5px";
-	document.getElementById("EventButton").innerHTML = "Close";
-	document.getElementById("EventBox").style.visibility = "visible";
-	pressed = true;
-	}
-	if (document.getElementById("EventBox").style.visibility == "visible" && pressed == false) {
-	document.getElementById("EventButton").style.left = "0px";
-	document.getElementById("EventBox").style.visibility = "hidden";
-	CheckTime();
-	pressed = true;
-	}
-	}
-	function StopShowingNews() {
-	pressed = false;
-	}
-	</script>
+	<script src="https://mark4pro.github.io/MainSiteBackEnd.js"></script>
 			<div id="wrapper"> 
 					<section id="intro" class="wrapper">
 						<div class="innerIntro">

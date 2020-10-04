@@ -1,27 +1,40 @@
 var level = 1;
-var player;
-var player2;
-var time;
-var bullet;
 var Dead = 0;
 var won = 0;
 var firef = 0;
 function startGame() {
-player = new component(30, 30, "red", 50, 150);
-player2 = new aicomponent(30, 30, "blue", 400, 150);
-player3 = new aicomponent(30, 30, "purple", 400, 150);
-wall = new component(10, 500, "darkred", -8, 0);
-wall2 = new component(10, 500, "darkred", 498, 0);
-wall4 = new component(500, 1, "darkred", 0, 299);
-wall3 = new component(500, 1, "darkred", 0, 0);
-wall5 = new component(5, 50, "darkred", 255, 0);
-wall5_1 = new component(5, 50, "darkred", 250, 0);
-wall5_2 = new component(6, 5, "darkred", 252, 45);
-wall6 = new component(5, 50, "darkred", 315, 0);
-wall6_1 = new component(5, 50, "darkred", 310, 0);
-wall6_2 = new component(6, 5, "darkred", 312, 45);
-ammo = new component(10, 10, "lightblue", 280, 20);
-bullet = new bullet(10, 10, "orange", 20 + player.x, 10 + player.y);
+player = new component(30, 30, "red", 50, 150, "rec");
+player2 = new component(30, 30, "blue", 400, 150, "rec");
+player3 = new component(30, 30, "purple", 400, 150, "rec");
+wall = new component(10, 500, "darkred", -8, 0, "rec");
+wall2 = new component(10, 500, "darkred", 498, 0, "rec");
+wall4 = new component(500, 1, "darkred", 0, 299, "rec");
+wall3 = new component(500, 1, "darkred", 0, 0, "rec");
+wall5 = new component(5, 50, "darkred", 255, 0, "rec");
+wall5_1 = new component(5, 50, "darkred", 250, 0, "rec");
+wall5_2 = new component(6, 5, "darkred", 252, 45, "rec");
+wall6 = new component(5, 50, "darkred", 315, 0, "rec");
+wall6_1 = new component(5, 50, "darkred", 310, 0, "rec");
+wall6_2 = new component(6, 5, "darkred", 312, 45, "rec");
+wall7 = new component(182, 145, "darkred", 0, 0, "rec");
+wall7_1 = new component(5, 145, "darkred", 182, 0, "rec");
+wall8 = new component(282, 145, "darkred", 227, 0, "rec");
+wall8_1 = new component(5, 145, "darkred", 225, 0, "rec");
+wall8_2 = new component(5, 50, "darkred", 225, 0, "rec");
+wall8_3 = new component(5, 55, "darkred", 225, 90, "rec");
+wall8_4 = new component(175, 5, "darkred", 225, 140, "rec");
+wall8_5 = new component(5, 55, "darkred", 395, 90, "rec");
+wall8_6 = new component(300, 5, "darkred", 225, 45, "rec");
+wall8_7 = new component(175, 5, "darkred", 225, 90, "rec");
+wall8_8 = new component(215, 5, "black", 225, 140, "rec");
+wall9 = new component(400, 5, "darkred", 0, 185, "rec");
+wall9_1 = new component(400, 5, "darkred", 0, 190, "rec");
+wall9_2 = new component(5, 5, "darkred", 395, 187.5, "rec");
+ammo = new component(10, 10, "lightblue", 280, 20, "rec");
+bullet = new component(10, 10, "orange", 20 + player.x, 10 + player.y, "rec");
+bullet2 = new component(10, 10, "orange", 20 + player.x, 10 + player.y, "rec");
+window.addEventListener('resize', resizeHandler);
+resizeHandler();
 myGameArea.start();
 updateGameArea();
 }
@@ -101,40 +114,40 @@ level5obj();
 }
 
 function level2obj() {
-wall = new component(40, 500, "darkred", 0, 0);
-wall2 = new component(100, 500, "darkred", 440, 0);
-wall4 = new component(500, 200, "darkred", 0, 185);
-wall3 = new component(500, 10, "darkred", 0, 0);
-wall7 = new component(182, 145, "darkred", 0, 0);
-wall7_1 = new component(5, 145, "darkred", 182, 0);
-wall8 = new component(282, 145, "darkred", 227, 0);
-wall8_1 = new component(5, 145, "darkred", 225, 0);
+wall = new component(40, 500, "darkred", 0, 0, "rec");
+wall2 = new component(100, 500, "darkred", 440, 0, "rec");
+wall4 = new component(500, 200, "darkred", 0, 185, "rec");
+wall3 = new component(500, 10, "darkred", 0, 0, "rec");
+wall7 = new component(182, 145, "darkred", 0, 0, "rec");
+wall7_1 = new component(5, 145, "darkred", 182, 0, "rec");
+wall8 = new component(282, 145, "darkred", 227, 0, "rec");
+wall8_1 = new component(5, 145, "darkred", 225, 0, "rec");
 }
 
 function level3obj() {
-wall = new component(182, 500, "darkred", 0, 0);
-wall2 = new component(100, 500, "darkred", 440, 0);
-wall4 = new component(500, 200, "darkred", 0, 235);
-wall3 = new component(500, 10, "darkred", 0, 0);
-wall8 = new component(282, 145, "darkred", 227, 0);
-wall8_1 = new component(5, 145, "black", 225, 0);
-wall8_2 = new component(5, 50, "darkred", 225, 0);
-wall8_3 = new component(5, 55, "darkred", 225, 90);
-wall8_4 = new component(175, 5, "darkred", 225, 140);
-wall8_5 = new component(5, 55, "darkred", 395, 90);
-wall8_6 = new component(300, 5, "darkred", 225, 45);
-wall8_7 = new component(175, 5, "darkred", 225, 90);
-wall8_8 = new component(215, 5, "black", 225, 140);
-wall9 = new component(400, 5, "darkred", 0, 185);
-wall9_1 = new component(400, 5, "darkred", 0, 190);
-wall9_2 = new component(5, 5, "darkred", 395, 187.5);
+wall = new component(182, 500, "darkred", 0, 0, "rec");
+wall2 = new component(100, 500, "darkred", 440, 0, "rec");
+wall4 = new component(500, 200, "darkred", 0, 235, "rec");
+wall3 = new component(500, 10, "darkred", 0, 0, "rec");
+wall8 = new component(282, 145, "darkred", 227, 0, "rec");
+wall8_1 = new component(5, 145, "black", 225, 0, "rec");
+wall8_2 = new component(5, 50, "darkred", 225, 0, "rec");
+wall8_3 = new component(5, 55, "darkred", 225, 90, "rec");
+wall8_4 = new component(175, 5, "darkred", 225, 140, "rec");
+wall8_5 = new component(5, 55, "darkred", 395, 90, "rec");
+wall8_6 = new component(300, 5, "darkred", 225, 45, "rec");
+wall8_7 = new component(175, 5, "darkred", 225, 90, "rec");
+wall8_8 = new component(215, 5, "black", 225, 140, "rec");
+wall9 = new component(400, 5, "darkred", 0, 185, "rec");
+wall9_1 = new component(400, 5, "darkred", 0, 190, "rec");
+wall9_2 = new component(5, 5, "darkred", 395, 187.5, "rec");
 }
 
 function level5obj() {
-wall = new component(10, 500, "darkred", 0, 0);
-wall2 = new component(10, 500, "darkred", 490, 0);
-wall4 = new component(500, 10, "darkred", 0, 290);
-wall3 = new component(500, 10, "darkred", 0, 0);
+wall = new component(10, 500, "darkred", 0, 0, "rec");
+wall2 = new component(10, 500, "darkred", 490, 0, "rec");
+wall4 = new component(500, 10, "darkred", 0, 290, "rec");
+wall3 = new component(500, 10, "darkred", 0, 0, "rec");
 }
 
 var myGameArea = {
@@ -155,67 +168,27 @@ clearInterval(this.interval);
 }
 }
 
-function component(width, height, color, x, y, type, align) {
-this.type = type;
-if (type == "image") {
-this.image = new Image();
-this.image.src = color;
-}
-this.width = width;
-this.height = height;
-this.speedX = 0;
-this.speedY = 0;
-this.x = x;
-this.y = y;
-this.align = align;
-this.update = function() {
-ctx = myGameArea.context;
-if (type == "image") {
-ctx.textAlign = this.align;
-ctx.drawImage(this.image,
-this.x,
-this.y,
-this.width, this.height);
-}
-if (this.type == "text") {
-ctx.font =this.width + " " + this.height;
-ctx.fillStyle = color;
-ctx.fillText(this.text, this.x, this.y);
-} else {
-ctx.fillStyle = color;
-ctx.fillRect(this.x, this.y, this.width, this.height);
-}
-}
-this.newPos = function() {
-this.x += this.speedX;
-this.y += this.speedY;
-}
-this.crashWith = function(otherobj) {
-var myleft = this.x;
-var myright = this.x + (this.width);
-var mytop = this.y;
-var mybottom = this.y + (this.height);
-var otherleft = otherobj.x;
-var otherright = otherobj.x + (otherobj.width);
-var othertop = otherobj.y;
-var otherbottom = otherobj.y + (otherobj.height);
-var crash = true;
-if ((mybottom < othertop) ||
-(mytop > otherbottom) ||
-(myright < otherleft) ||
-(myleft > otherright)) {
-crash = false;
-}
-return crash;
+function resizeHandler() {
+var nativeWidth = 500; 
+var nativeHeight = 300;
+var deviceWidth = window.innerWidth;
+var deviceHeight = window.innerHeight;
+var scaleFillNativeWidth = deviceWidth / nativeWidth;
+var scaleFillNativeHeight = deviceHeight / nativeHeight;
+myGameArea.canvas.width = deviceWidth;
+myGameArea.canvas.height = deviceHeight;
+ctx = myGameArea.canvas.getContext("2d");
+ctx.setTransform(scaleFillNativeWidth,0,0,scaleFillNativeHeight,0,0);
+console.log("Scale Fill: W: " + scaleFillNativeWidth + " H: " + scaleFillNativeHeight);
+if(scaleFillNativeWidth < 1 || scaleFillNativeHeight < 1) {
+    ctx.imageSmoothingEnabled = true;
+}else{
+    ctx.imageSmoothingEnabled = false;
 }
 }
 
-function aicomponent(width, height, color, x, y, type) {
+function component(width, height, color, x, y, type) {
 this.type = type;
-if (type == "image") {
-this.image = new Image();
-this.image.src = color;
-}
 this.width = width;
 this.height = height;
 this.speedX = 0;
@@ -224,70 +197,13 @@ this.x = x;
 this.y = y;
 this.update = function() {
 ctx = myGameArea.context;
-if (type == "image") {
-ctx.drawImage(this.image,
-this.x,
-this.y,
-this.width, this.height);
-}
 if (this.type == "text") {
 ctx.font =this.width + " " + this.height;
+ctx.textAlign = "center";
 ctx.fillStyle = color;
 ctx.fillText(this.text, this.x, this.y);
-} else {
-ctx.fillStyle = color;
-ctx.fillRect(this.x, this.y, this.width, this.height);
 }
-}
-this.newPos = function() {
-this.x += this.speedX;
-this.y += this.speedY;
-}
-this.crashWith = function(otherobj) {
-var myleft = this.x;
-var myright = this.x + (this.width);
-var mytop = this.y;
-var mybottom = this.y + (this.height);
-var otherleft = otherobj.x;
-var otherright = otherobj.x + (otherobj.width);
-var othertop = otherobj.y;
-var otherbottom = otherobj.y + (otherobj.height);
-var crash = true;
-if ((mybottom < othertop) ||
-(mytop > otherbottom) ||
-(myright < otherleft) ||
-(myleft > otherright)) {
-crash = false;
-}
-return crash;
-}
-}
-
-function bullet(width, height, color, x, y, type) {
-this.type = type;
-if (type == "image") {
-this.image = new Image();
-this.image.src = color;
-}
-this.width = width;
-this.height = height;
-this.speedX = 0;
-this.speedY = 0;
-this.x = x;
-this.y = y;
-this.update = function() {
-ctx = myGameArea.context;
-if (type == "image") {
-ctx.drawImage(this.image,
-this.x,
-this.y,
-this.width, this.height);
-}
-if (this.type == "text") {
-ctx.font =this.width + " " + this.height;
-ctx.fillStyle = color;
-ctx.fillText(this.text, this.x, this.y);
-} else {
+if (this.type == "rec") {
 ctx.fillStyle = color;
 ctx.fillRect(this.x, this.y, this.width, this.height);
 }
@@ -318,23 +234,16 @@ return crash;
 
 function updateGameArea() {
 myGameArea.clear();
-if (Dead == 0) {
 if (won == 0) {
-if (firef > 0) {
-bullet.update();
-bulletai();
-}
+if (Dead == 0) {
 if (level < 6) {
 if (firef == 0) {
 ammo.update();
  }
-}
-if (level < 6) {
 wall.update();
 wall2.update();
 wall3.update();
 wall4.update();
-}
 if (level == 1) {
 wall5.update();
 wall5_1.update();
@@ -343,13 +252,14 @@ wall6.update();
 wall6_1.update();
 wall6_2.update();
 }
-if (level == 2 || level == 3) {
 if (level == 2) {
 wall7.update();
 wall7_1.update();
 }
+if (level == 2 || level == 3) {
 wall8.update();
 wall8_1.update();
+}
 if (level == 3) {
 wall9.update();
 wall9_1.update();
@@ -362,28 +272,32 @@ wall8_5.update();
 wall8_6.update();
 wall8_7.update();
 }
+if (firef > 0) {
+bullet.update();
+bulletai();
+if (level == 4 || level == 5) {
+bullet2.update();
 }
-if (level < 6) {
+}
 player.newPos();
 player.update();
 player2.newPos();
 player2.update();
 bullet.newPos();
-}
 if (level == 4 || level == 5) {
+bullet2.newPos();
 player3.newPos();
 player3.update();
 }
 }
-}
 if (level == 6) {
-thank = new component("40px", "Consolas", "white", myGameArea.canvas.width/2 - 200, myGameArea.canvas.height/2, "text", "center");
+thank = new component("40px", "Consolas", "white", myGameArea.canvas.width/2, myGameArea.canvas.height/2, "text");
 thank.text="Thanks for playing!";
 thank.update();
 }
+}
 if (Dead == 1) {
-if (won == 0) {
-death = new component("50px", "Consolas", "white", 125, 150, "text", "start");
+death = new component("50px", "Consolas", "white", myGameArea.canvas.width/2, myGameArea.canvas.height/2, "text");
 death.text="YOU DIED!";
 death.update();
 player.speedX = 0;
@@ -394,15 +308,30 @@ player3.speedX = 0;
 player3.speedY = 0;
 }
 }
+if (level < 4) {
 if (bullet.crashWith(player2)) {
 if (firef > 0) {
-win = new component("50px", "Consolas", "white", 155, 150, "text", "start");
+win = new component("50px", "Consolas", "white", myGameArea.canvas.width/2, myGameArea.canvas.height/2-20, "text");
 win.text="You win!";
 win.update();
-wintxt = new component("50px", "Consolas", "white", 125, 200, "text", "start");
+wintxt = new component("50px", "Consolas", "white", myGameArea.canvas.width/2, myGameArea.canvas.height/2+20, "text");
 wintxt.text="Hit Next...";
 wintxt.update();
 won = 1;
+}
+}
+}
+if (level == 4 || level == 5) {
+if (bullet.crashWith(player2) && bullet2.crashWith(player3)) {
+if (firef > 0) {
+win = new component("50px", "Consolas", "white", myGameArea.canvas.width/2, myGameArea.canvas.height/2-20, "text");
+win.text="You win!";
+win.update();
+wintxt = new component("50px", "Consolas", "white", myGameArea.canvas.width/2, myGameArea.canvas.height/2+20, "text");
+wintxt.text="Hit Next...";
+wintxt.update();
+won = 1;
+}
 }
 }
 if (player.crashWith(wall)) {
@@ -650,8 +579,7 @@ player2.speedY = -2;
 if (player.y > player2.y){
 player2.speedY = 2;
 }
-}
-function player3ai() {
+if (level == 4 || level == 5) {
 if (player.x < player3.x){
 player3.speedX = -2;
 }
@@ -665,6 +593,8 @@ if (player.y > player3.y){
 player3.speedY = 2;
 }
 }
+}
+
 function bulletai() {
 if (bullet.x > 10 + player2.x){
 bullet.speedX = -2;
@@ -678,51 +608,58 @@ bullet.speedY = -2;
 if (bullet.y < 10 + player2.y){
 bullet.speedY = 2;
 }
+if (level == 4 || level == 5) {
+if (bullet2.x > 10 + player3.x){
+bullet2.speedX = -2;
 }
+if (bullet2.x < 10 + player3.x){
+bullet2.speedX = 2;
+}
+if (bullet2.y > 10 + player3.y){
+bullet2.speedY = -2;
+}
+if (bullet2.y < 10 + player3.y){
+bullet2.speedY = 2;
+}
+}
+}
+
 function moveup() {
 if (Dead == 0) {
 if (firef == 0) {
 player.speedY = -2.5;
 player2ai();
-if (level == 4 || level == 5) {
-player3ai();
 }
 }
 }
-}
+
 function movedown() {
 if (Dead == 0) {
 if (firef == 0) {
 player.speedY = 2.5;
 player2ai();
-if (level == 4 || level == 5) {
-player3ai();
 }
 }
 }
-}
+
 function moveleft() {
 if (Dead == 0) {
 if (firef == 0) {
 player.speedX = -2.5;
 player2ai();
-if (level == 4 || level == 5) {
-player3ai();
 }
 }
 }
-}
+
 function moveright() {
 if (Dead == 0) {
 if (firef == 0) {
 player.speedX = 2.5;
 player2ai();
-if (level == 4 || level == 5) {
-player3ai();
 }
 }
 }
-}
+
 function clearmove() {
 player.speedX = 0;
 player.speedY = 0;
@@ -751,6 +688,10 @@ if (firef == 0) {
 firef = 1;
 bullet.x = 20 + player.x;
 bullet.y = 10 + player.y;
+if (level == 4 || level == 5) {
+bullet2.x = 20 + player.x;
+bullet2.y = 10 + player.y;
+}
 }
 }
 }

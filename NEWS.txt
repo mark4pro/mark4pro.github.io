@@ -1,6 +1,15 @@
 ***NEWS***
 
 NEW:
+	SlayTheCube got a update!
+	SlayTheCube:
+		Made the screen scale to the size of your screen.
+		Fixed some lingering bugs.
+		Added in a second bullet in later levels.
+		Fixed text alignment.
+		Changed button alignment and size.
+	Added news to the Homeworld Takedown and SlayTheCube menus.
+OLD:
 	Added the main page news.
 	Added info for all projects on main page
 	Added the Task Force 271 tech demo.
