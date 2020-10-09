@@ -5441,7 +5441,7 @@ MuteLock = 0;
 PatchLock = 0;
 SpecialLock = 0;
 HPanelLock = 0;
-SShowLock = 1;
+SShowLock = 0;
 }
 }
 function keyBinderUpdate() {
