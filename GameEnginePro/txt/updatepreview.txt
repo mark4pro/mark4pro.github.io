@@ -1,17 +1,38 @@
 :PRESS P TO TOGGLE THE PIB:
 
 What's new in V0.5.0 PREVIEW-
-New-Revamped all ships.
-New-Revamped settings menu and keybinder.
-New-Revamped the Shipyard.
-New-improved intro sequence to boss.
-New-added new settings.
-New-added saves for settings and controls.
-New-the game will now save the mute state.
-New-added a key to make the title area disappear.
-New-made tips stop showing if a condition is true.
-New-the back key now closes the settings menu.
-New-I took away the message box.
+New- Balance pass for the St. Patrick's Day event along with scaled difficulty.
+New- Warp Zone (this is where you can find any active events)
+New- Added a FPS counter.
+New- Added a image smoothing setting.
+New- Added a polygon collider.
+New- Added a bank for your money.
+New- Drawing functions.
+New- Fixed bug where escaped didn't always close the menu.
+New- Fixed/simplified AI code that was causing bugs.
+New- Fixed position of invisible walls.
+New- New starting point for the game.
+New- The start over button now that's you to the Warp Zone.
+New- Removed name UI element.
+New- Added full screen mode. (Can be triggered on and off)
+New- You now access the settings with Q.
+New- The debug panel now runs javascript (by inputting "/" plus your code) and commands.
+New- Added player, some UI, and some level shadows plus an option to turn them off.
+New- Changed page icon and took out splash screen.
+New- Changed the title screen.
+
+Last PREVIEW update-
+Revamped all ships.
+Revamped settings menu and keybinder.
+Revamped the Shipyard.
+Improved intro sequence to boss.
+Added new settings.
+Added saves for settings and controls.
+The game will now save the mute state.
+Added a key to make the title area disappear.
+Made tips stop showing if a condition is true.
+The back key now closes the settings menu.
+I took away the message box.
 Revamped all enemies.
 Updated engine so it can use sprite sheets.
 Fixed a weird tree bug.
@@ -22,14 +43,11 @@ Revamp the bullets.
 
 What's soon to come in PREVIEW:
 New secret event.
-New location "Warp Zone".
 More to be announced!
 
 Coming In Later Updates:
 All non boss enemy ships will have playable ship prizes when you kill a certain amount.
-Add the wave 7 boss weapon as a prize for wave 7 boss prize ship.
+Add the wave 7 boss weapon as a prize.
 New seasonal event!
-Saves for controls for key mapper.
-Improved key mapper.
 Add abilities. (unlockable with upgrades)
 AND MORE!!!!
