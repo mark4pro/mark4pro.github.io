@@ -1,4 +1,4 @@
-	var EventDay = 3, EventMonth = 9, EventYear = 2020;
+	var EventDay = 10, EventMonth = 9, EventYear = 2020;
 	var EndEventDay = 30;
 	var today_date = new Date();
 	var mydayofweek = today_date.getDay();
