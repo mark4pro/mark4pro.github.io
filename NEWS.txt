@@ -1,23 +1,18 @@
 ***NEWS***
 
 NEW:
-	Homeworld Takedown got a update!
+	SlayTheCube got a update! (V3 "OK update")
+	SlayTheCube:
+		*fixed text alignment
+		*disabled touch actions (like double tap)
+		*reset button resets the game when you reach the end
+		*optimized more of the code
+		*when you collide with "ammo" it auto fires
+		*simplified the controls
 
 OLD:
-	SlayTheCube got a update!
-	SlayTheCube:
-		Made the screen scale to the size of your screen.
-		Fixed some lingering bugs.
-		Added in a second bullet in later levels.
-		Fixed text alignment.
-		Changed button alignment and size.
-	Added news to the Homeworld Takedown and SlayTheCube menus.
-	Added the main page news.
-	Added info for all projects on main page
-	Added the Task Force 271 tech demo.
-	Changed some stuff behind the scenes.
-	Updated SlayTheCube 2:
-		Rewrote collision detection and cleaned and the code.
+	Homeworld Takedown got a update!
+	
 THOUGHTS:
 	Line Battle might get one more major update sometime soon.
 	Tank War is going to be getting an update soon.
