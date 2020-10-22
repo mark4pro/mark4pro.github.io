@@ -1,6 +1,7 @@
 ***NEWS***
 
 NEW:
+	NEW- The News feature got some well deserved bug fixes!
 	SlayTheCube got a update! (V3 "OK update")
 	SlayTheCube:
 		*fixed text alignment

@@ -1,20 +1,14 @@
-	var EventDay = 10, EventMonth = 9, EventYear = 2020;
-	var EndEventDay = 30;
 	var today_date = new Date();
-	var mydayofweek = today_date.getDay();
-	var mytoday = today_date.getDate();
-	var mymonth = today_date.getMonth();
-	var myyear = today_date.getFullYear();
+	var startTime = new Date('10/22/2020 12:00:00 AM');
+	var endTime = new Date('10/31/2020 12:00:00 AM');
 	function StartTimeCheck() {
 	CheckTime();
-	setInterval(function(){ CheckTime(); }, 0.2 * 60000);
+	setInterval(function(){ CheckTime(); }, 0.01 * 60000);
 	setInterval(function(){ resetPressed(); }, 0.01 * 60000);
 	}
 	function CheckTime() {
-	mytoday = today_date.getDate();
-	mymonth = today_date.getMonth();
-	myyear = today_date.getFullYear();
-	if (EventDay >= mytoday && mytoday <= EndEventDay && EventMonth >= mymonth && EventYear >= myyear) {
+	today_date = new Date();
+	if (today_date >= startTime && today_date <= endTime) {
 	if (document.getElementById("EventBox").style.visibility == "hidden") {
 	document.getElementById("EventButton").innerHTML = "(*) News";
 	}
