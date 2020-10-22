@@ -8,6 +8,7 @@
 	function StartTimeCheck() {
 	CheckTime();
 	setInterval(function(){ CheckTime(); }, 0.2 * 60000);
+	setInterval(function(){ resetPressed(); }, 0.01 * 60000);
 	}
 	function CheckTime() {
 	mytoday = today_date.getDate();
@@ -25,6 +26,11 @@
 	}
 	}
 	var pressed = false;
+	function resetPressed() {
+	if (pressed == true) {
+	pressed = false;
+	}
+	}
 	function ShowNews() {
 	if (document.getElementById("EventBox").style.visibility == "hidden" && pressed == false) {
 	document.getElementById("EventButton").style.left = "422.5px";
@@ -38,7 +44,4 @@
 	CheckTime();
 	pressed = true;
 	}
-	}
-	function StopShowingNews() {
-	pressed = false;
 	}
