@@ -61,8 +61,12 @@ if (Dead == 1) {
 if (level == 1) {
 player.x = 50;
 player.y = 150;
+player.speedX = 0;
+player.speedY = 0;
 player2.x = 400;
 player2.y = 150;
+player2.speedX = 0;
+player2.speedY = 0;
 ammo.x = 280;
 ammo.y = 20;
 //change level objects//
@@ -232,6 +236,8 @@ player2.x = 400;
 player2.y = 150;
 player3.x = 400;
 player3.y = 80;
+player3.speedX = 0;
+player3.speedY = 0;
 ammo.x = 400;
 ammo.y = 120;
 }
@@ -242,6 +248,8 @@ player2.x = 400;
 player2.y = 150;
 player3.x = 400;
 player3.y = 80;
+player3.speedX = 0;
+player3.speedY = 0;
 ammo.x = 400;
 ammo.y = 120;
 //change level objects//
