@@ -17,6 +17,7 @@ window.addEventListener('keyup',
 false);
 
 //Html elements
+var pageIcon = document.getElementById('pageIcon');
 var canvas = document.getElementById('screen');
 var mainMenu = document.getElementById('mainMenu');
 var mainTitle = document.getElementById('mainTitle');
@@ -104,11 +105,32 @@ document.getElementById("profileImages").appendChild(this.pfpic);
 }
 }
 
+function iconSetup() {
+	if (gamemode == 0) {
+		if (menus == 0 || menus == 3) {
+		pageIcon.href = "https://mark4pro.github.io/MiniGameCollection/Images/Icons/Main_Icon.ico";
+		}
+		if (menus == 1) {
+		pageIcon.href = "https://mark4pro.github.io/MiniGameCollection/Images/Icons/Tank_War_Icon.ico";
+		}
+		if (menus == 2) {
+		pageIcon.href = "https://mark4pro.github.io/MiniGameCollection/Images/Icons/Line_Battle_Icon.ico";
+		}
+	}
+	if (gamemode == 1) {
+	pageIcon.href = "https://mark4pro.github.io/MiniGameCollection/Images/Icons/Tank_War_Icon.ico";
+	}
+	if (gamemode == 2) {
+	pageIcon.href = "https://mark4pro.github.io/MiniGameCollection/Images/Icons/Line_Battle_Icon.ico";
+	}
+}
+
 //inits everything
 function init() {
 	initMain();
 	initTW();
 	initLB();
+	iconSetup();
 	window.addEventListener('resize', resizeHandler);
 	loadSettings();
 	Setup.init();
@@ -478,6 +500,7 @@ return eval(this.function1, this.function2);
 //main update loop
 var arrayLoad = false;
 function mainUpdateLoop() {
+	iconSetup();
 	controlsSwapper();
 	Setup.updateScreen();
 	controlReset();
