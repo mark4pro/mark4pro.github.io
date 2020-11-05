@@ -610,9 +610,11 @@ function winCheck() {
 		winText.globalAlpha = 0;
 		winText.name = "";
 		}
-		if (winButton.globalAlpha == 1) {
-			if (cursor.crashWith(winButton) && pressed) {
-			resetGame();
+		if (LBPlayer1Collision.won || LBPlayer2Collision.won) {
+			if (winButton.globalAlpha == 1) {
+				if (cursor.crashWith(winButton) && pressed) {
+				resetGame();
+				}
 			}
 		}
 	}
@@ -1330,9 +1332,11 @@ function keyUpHandler(event) {
 //reset game
 function resetGame() {
 	if (gamemode == 2) {
+		LBPlayer1Collision.angle = 0;
 		LBPlayer1Collision.x = 50;
 		LBPlayer1Collision.y = 120;
 		LBPlayer1Collision.dead = false;
+		LBPlayer2Collision.angle = 0;
 		LBPlayer2Collision.x = 1230;
 		LBPlayer2Collision.y = 600;
 		LBPlayer2Collision.dead = false;
