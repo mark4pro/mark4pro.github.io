@@ -82,7 +82,7 @@ var Player4RotationSpeed = 1;
 
 function profile1() {
 this.name_ = "Blue";
-this.image_ = "./images/Blue_Ball.png";
+this.image_ = "https://mark4pro.github.io/MiniGameCollection/Images/Blue_Ball.png";
 this.setUpPf = function() {
 this.pfpic = document.createElement("img");
 this.pfpic.id = "blue";	
@@ -94,7 +94,7 @@ document.getElementById("profileImages").appendChild(this.pfpic);
 }
 function profile2() {
 this.name_ = "Red";
-this.image_ = "./images/Red_Ball.png";
+this.image_ = "https://mark4pro.github.io/MiniGameCollection/Images/Red_Ball.png";
 this.setUpPf = function() {
 this.pfpic = document.createElement("img");
 this.pfpic.id = "red";	
