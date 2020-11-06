@@ -1,6 +1,6 @@
 	var today_date = new Date();
-	var startTime = new Date('10/22/2020 12:00:00 AM');
-	var endTime = new Date('10/31/2020 12:00:00 AM');
+	var startTime = new Date('11/5/2020 9:32:00:00 PM');
+	var endTime = new Date('11/31/2020 12:00:00 AM');
 	function StartTimeCheck() {
 	CheckTime();
 	setInterval(function(){ CheckTime(); }, 0.01 * 60000);

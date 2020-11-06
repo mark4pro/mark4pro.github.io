@@ -1,7 +1,14 @@
 ***NEWS***
 
 NEW:
-	NEW- The News feature got some well deserved bug fixes!
+	New- The website got some visual changes!
+	New- Add a "new" game called Tank War X Line Battle X Ball Bouncers
+	This a minigame collection that combines and adds some stuff to my old
+	minigames. Right now only Line Battle is playable! I also removed 
+	the old versions of Line Battle and Tank War off of the website.
+
+OLD:
+	The News feature got some well deserved bug fixes!
 	SlayTheCube got a update! (V3 "OK update")
 	SlayTheCube:
 		*fixed text alignment
@@ -10,9 +17,6 @@ NEW:
 		*optimized more of the code
 		*when you collide with "ammo" it auto fires
 		*simplified the controls
-
-OLD:
-	Homeworld Takedown got a update!
 	
 THOUGHTS:
 	Line Battle might get one more major update sometime soon.
