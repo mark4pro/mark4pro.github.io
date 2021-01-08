@@ -2037,9 +2037,15 @@ function playerCollision() {
 }
 
 //player on bullet collision
+var Player1Scored = false;
+var Player2Scored = false;
 function bulletCollision() {
 	switch (gamemode) {
 		case 1:
+			if (!TWPlayer1Collision.dead && !TWPlayer2Collision.dead) {
+			Player1Scored = false;
+			Player2Scored = false;
+			}
 			if (!TWPlayer1Collision.dead && !TWPlayer2Collision.dead) {
 				for (let i = 0; i < TWPlayer2Collision._bullets.length; i++) {
 				var precalc1 = Math.abs(TWPlayer1Collision.x-TWPlayer2Collision._bullets[i].x);
@@ -2047,11 +2053,12 @@ function bulletCollision() {
 					if (precalc1 < 10 || precalc2 < 10) {
 						if (TWPlayer1Collision.circleCrashWith(TWPlayer2Collision._bullets[i])) {
 						TWPlayer2Collision._bullets.splice(i, 1);
-							if (!TWPlayer1Collision.won && !TWPlayer2Collision.won) {
+							if (!TWPlayer1Collision.won && !TWPlayer2Collision.won && !Player2Scored) {
 							TWPlayer2Collision.points++;
 							TWPlayer2Collision.upgradePoints += 2;
 							TWPlayer1Collision.upgradePoints++;
 							TWPlayer1Collision.dead = true;
+							Player2Scored = true;
 							}
 						}
 					}
@@ -2062,11 +2069,12 @@ function bulletCollision() {
 					if (precalc1 < 10 || precalc2 < 10) {
 						if (TWPlayer2Collision.circleCrashWith(TWPlayer1Collision._bullets[i])) {
 						TWPlayer1Collision._bullets.splice(i, 1);
-							if (!TWPlayer1Collision.won && !TWPlayer2Collision.won) {
+							if (!TWPlayer1Collision.won && !TWPlayer2Collision.won && !Player1Scored) {
 							TWPlayer1Collision.points++;
 							TWPlayer1Collision.upgradePoints += 2;
 							TWPlayer2Collision.upgradePoints++;
 							TWPlayer2Collision.dead = true;
+							Player1Scored = true;
 							}
 						}
 					}
@@ -2103,6 +2111,10 @@ function bulletCollision() {
 		break;
 		case 2:
 			if (!LBPlayer1Collision.dead && !LBPlayer2Collision.dead) {
+			Player1Scored = false;
+			Player2Scored = false;
+			}
+			if (!LBPlayer1Collision.dead && !LBPlayer2Collision.dead) {
 				for (let i = 0; i < LBPlayer2Collision._bullets.length; i++) {
 					if (LBPlayer1Collision.circleCrashWith(LBPlayer2Collision._bullets[i])) {
 						if (ChaosMode) {
@@ -2120,11 +2132,12 @@ function bulletCollision() {
 							}
 						}
 					LBPlayer2Collision._bullets.splice(i, 1);
-						if (!LBPlayer1Collision.won && !LBPlayer2Collision.won) {
+						if (!LBPlayer1Collision.won && !LBPlayer2Collision.won && !Player1Scored) {
 							if (!ChaosMode) {
 							LBPlayer1Collision.speed = 0;
 							LBPlayer2Collision.points++;
 							LBPlayer1Collision.dead = true;
+							Player1Scored = true;
 							}
 						}
 					}
@@ -2146,11 +2159,12 @@ function bulletCollision() {
 							}
 						}
 					LBPlayer1Collision._bullets.splice(i, 1);
-						if (!LBPlayer1Collision.won && !LBPlayer2Collision.won) {
+						if (!LBPlayer1Collision.won && !LBPlayer2Collision.won && !Player2Scored) {
 							if (!ChaosMode) {
 							LBPlayer1Collision.speed = 0;
 							LBPlayer1Collision.points++;
 							LBPlayer2Collision.dead = true;
+							Player2Scored = true;
 							}
 						}
 					}
