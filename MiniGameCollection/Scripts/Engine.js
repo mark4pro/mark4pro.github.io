@@ -1035,13 +1035,9 @@ function LayerFixer() {
 }
 
 //Logic for Upgrade Menu
-//TWPlayer1Speed/TWPlayer2Speed number of upgrades 2: upgrade 1- 2>3 upgrade 2- 3>4
-//Player1BulletRate/Player2BulletRate/Player3BulletRate/Player4BulletRate number of upgrades 5: upgrade 1- 40>35 upgrade 2- 35>30 upgrade 3- 30>25 upgrade 4- 25>20 upgrade 5- 20>15
 var turn = 0;
-var upgrade1Lock = false;
-var upgrade2Lock = false;
-var upgrade3Lock = false;
 var nextLock = false;
+var clickLock = false;
 function upgradeMenuManager() {
 	switch (gamemode) {
 		case 1:
@@ -1194,7 +1190,7 @@ function upgradeMenuManager() {
 					UGButtonNext.color = "darkgrey";
 					}
 					//Shadow on click/Action
-					if (cursor.crashWith(UGButton1) && pressed && !upgrade1Lock) {
+					if (cursor.crashWith(UGButton1) && pressed && !clickLock) {
 					UGButton1.shadowColor_ = "black";
 					UGButton1.shadowBlur_ = 10;
 					UGButton1.shadowOffsetX_ = 5;
@@ -1247,9 +1243,9 @@ function upgradeMenuManager() {
 						UGTank1Points.color = "red";
 						}
 					}
-					upgrade1Lock = true;
+					clickLock = true;
 					}
-					if (cursor.crashWith(UGButton2) && pressed && !upgrade2Lock) {
+					if (cursor.crashWith(UGButton2) && pressed && !clickLock) {
 					UGButton2.shadowColor_ = "black";
 					UGButton2.shadowBlur_ = 10;
 					UGButton2.shadowOffsetX_ = 5;
@@ -1306,9 +1302,9 @@ function upgradeMenuManager() {
 						UGTank1Points.color = "red";
 						}
 					}
-					upgrade2Lock = true;
+					clickLock = true;
 					}
-					if (cursor.crashWith(UGButton3) && pressed && !upgrade3Lock) {
+					if (cursor.crashWith(UGButton3) && pressed && !clickLock) {
 					UGButton3.shadowColor_ = "black";
 					UGButton3.shadowBlur_ = 10;
 					UGButton3.shadowOffsetX_ = 5;
@@ -1365,15 +1361,15 @@ function upgradeMenuManager() {
 						UGTank1Points.color = "red";
 						}
 					}
-					upgrade3Lock = true;
+					clickLock = true;
 					}
-					if (cursor.crashWith(UGButtonNext) && pressed && !nextLock) {
+					if (cursor.crashWith(UGButtonNext) && pressed && !clickLock) {
 					UGButtonNext.shadowColor_ = "black";
 					UGButtonNext.shadowBlur_ = 10;
 					UGButtonNext.shadowOffsetX_ = 5;
 					UGButtonNext.shadowOffsetY_ = 5;
 					turn++;
-					nextLock = true;
+					clickLock = true;
 					}
 					//Unshadow the buttons
 					if (!pressed) {
@@ -2619,6 +2615,7 @@ document.onmouseup = function(event){
 mouse_button = event.button;
 	if (event.button === 0) {
 	pressed = false;
+	clickLock = false;
 	}
 }
 
@@ -2631,6 +2628,7 @@ pressed = true;
 });
 window.addEventListener("touchend", function(event) {
 pressed = false;
+clickLock = false;
 });
 window.addEventListener("touchmove", function(event) {
 	if (isLoaded) {
