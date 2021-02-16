@@ -1,21 +1,23 @@
 	var today_date = new Date();
 	var startTime = new Date('11/5/2020 9:32:00:00 PM');
 	var endTime = new Date('11/31/2020 12:00:00 AM');
+	var eventBox = document.getElementById("EventBox");
+	var eventButton = document.getElementById("EventButton");
 	function StartTimeCheck() {
 	CheckTime();
+	setInterval(function(){ resizeHandler(); }, 100);
 	setInterval(function(){ CheckTime(); }, 0.01 * 60000);
 	setInterval(function(){ resetPressed(); }, 0.01 * 60000);
 	}
 	function CheckTime() {
 	today_date = new Date();
 	if (today_date >= startTime && today_date <= endTime) {
-	if (document.getElementById("EventBox").style.visibility == "hidden") {
-	document.getElementById("EventButton").innerHTML = "(*) News";
+	if (eventBox.style.visibility == "hidden") {
+	eventButton.innerHTML = "(*) News";
 	}
 	} else {
-	if (document.getElementById("EventBox").style.visibility == "hidden") {
-	//document.getElementById("EventBox").style.visibility = "hidden";
-	document.getElementById("EventButton").innerHTML = "News";
+	if (eventBox.style.visibility == "hidden") {
+	eventButton.innerHTML = "News";
 	}
 	}
 	}
@@ -25,14 +27,25 @@
 	pressed = false;
 	}
 	}
+	function resizeHandler() {
+	var scaleFillNativeWidth = (parseFloat(window.innerWidth / 1559));
+	var scaleFillNativeHeight = (parseFloat(window.innerHeight / 790));
+	if (eventBox.style.visibility != "hidden") {
+	eventBox.style.width = (500*scaleFillNativeWidth)+"px";
+	eventBox.style.height = (500*scaleFillNativeHeight)+"px";
+	}
+	eventButton.style.width = (60*scaleFillNativeWidth)+"px";
+	eventButton.style.height = (60*scaleFillNativeHeight)+"px";
+	eventButton.style.fontSize = (15*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)) + "px";
+	}
 	function ShowNews() {
-	if (document.getElementById("EventBox").style.visibility == "hidden" && pressed == false) {
-	document.getElementById("EventButton").innerHTML = "Close";
-	document.getElementById("EventBox").style.visibility = "visible";
+	if (eventBox.style.visibility == "hidden" && pressed == false) {
+	eventButton.innerHTML = "Close";
+	eventBox.style.visibility = "visible";
 	pressed = true;
 	}
-	if (document.getElementById("EventBox").style.visibility == "visible" && pressed == false) {
-	document.getElementById("EventBox").style.visibility = "hidden";
+	if (eventBox.style.visibility == "visible" && pressed == false) {
+	eventBox.style.visibility = "hidden";
 	CheckTime();
 	pressed = true;
 	}
