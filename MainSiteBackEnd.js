@@ -31,8 +31,8 @@
 	var scaleFillNativeWidth = (parseFloat(window.innerWidth / 1559));
 	var scaleFillNativeHeight = (parseFloat(window.innerHeight / 790));
 	if (eventBox.style.visibility != "hidden") {
-	eventBox.style.width = (500*scaleFillNativeWidth)+"px";
-	eventBox.style.height = (500*scaleFillNativeHeight)+"px";
+	eventBox.style.width = (500*Math.max(scaleFillNativeWidth,scaleFillNativeHeight))+"px";
+	eventBox.style.height = (500*Math.max(scaleFillNativeWidth,scaleFillNativeHeight))+"px";
 	}
 	eventButton.style.width = (60*Math.max(scaleFillNativeWidth,scaleFillNativeHeight))+"px";
 	eventButton.style.height = (60*Math.max(scaleFillNativeWidth,scaleFillNativeHeight))+"px";
