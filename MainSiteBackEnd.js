@@ -27,13 +27,11 @@
 	}
 	function ShowNews() {
 	if (document.getElementById("EventBox").style.visibility == "hidden" && pressed == false) {
-	document.getElementById("EventButton").style.left = "422.5px";
 	document.getElementById("EventButton").innerHTML = "Close";
 	document.getElementById("EventBox").style.visibility = "visible";
 	pressed = true;
 	}
 	if (document.getElementById("EventBox").style.visibility == "visible" && pressed == false) {
-	document.getElementById("EventButton").style.left = "0px";
 	document.getElementById("EventBox").style.visibility = "hidden";
 	CheckTime();
 	pressed = true;
