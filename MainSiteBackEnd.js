@@ -34,9 +34,9 @@
 	eventBox.style.width = (500*scaleFillNativeWidth)+"px";
 	eventBox.style.height = (500*scaleFillNativeHeight)+"px";
 	}
-	eventButton.style.width = (60*scaleFillNativeWidth)+"px";
-	eventButton.style.height = (60*scaleFillNativeHeight)+"px";
-	eventButton.style.fontSize = (15*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)) + "px";
+	eventButton.style.width = (60*Math.max(scaleFillNativeWidth,scaleFillNativeHeight))+"px";
+	eventButton.style.height = (60*Math.max(scaleFillNativeWidth,scaleFillNativeHeight))+"px";
+	eventButton.style.fontSize = (15*Math.max(scaleFillNativeWidth,scaleFillNativeHeight))+"px";
 	}
 	function ShowNews() {
 	if (eventBox.style.visibility == "hidden" && pressed == false) {
