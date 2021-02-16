@@ -4,8 +4,8 @@
 	var eventBox = document.getElementById("EventBox");
 	var eventButton = document.getElementById("EventButton");
 	function StartTimeCheck() {
-	CheckTime();
 	setInterval(function(){ resizeHandler(); }, 100);
+	CheckTime();
 	setInterval(function(){ CheckTime(); }, 0.01 * 60000);
 	setInterval(function(){ resetPressed(); }, 0.01 * 60000);
 	}
