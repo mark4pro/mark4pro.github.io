@@ -1,47 +1,55 @@
 :PRESS P TO TOGGLE THE PIB:
 
-What's new in V0.4.95-
-**NEW - St. Patty's Day event with a ship to collect and a special weapon!**
-**NEW - Health and ammo buy outs in upgrade menu!**
-**NEW - X-Enemies are in the game**
-**NEW - balanced game**
-NEW - button to start over the main wave based campaign in pause menu
-NEW - tips in the pause menu
-NEW - added transitions to trees
-NEW - added explosion sound to wave 7 intro
-NEW - the "Easy" ship (makes the game easier)
-NEW - circle glow to ship icons in the shipyard
-NEW - Wave 7 boss prize
-NEW - Difficulties in settings
-NEW - Speed Stats in pause menu
-NEW PATCH - Player enemy collisions! - FIXED
-NEW PATCH - Controllable alpha built into constructor!
-NEW PATCH - Roofs use alpha to transition!
-art touch ups
-fixed sound bug
-simplified rotation code
-made the tri-enemy look at the player
-When you hit Esc when dead you restart the campain instead of reloading the page
-fixed pause menu flashing when entering the settings menu
-christmas themed ship
-changed up the page
-added wave 7 boss
-added wave 7 guardian
-added shipyard
-added a free cosmetic ship
-reworked wave system and ammo/health system
-added explosion intro for boss
-reworked stats
-added health bars
-added health bar toggle
-added boss bullet
-added ship stats
-realign ship
-made it posible to have more ammo/health
-added weapon cool down
-added wave finished indicator
-added boss music
-x-enemy
+What's new in V0.5.0 PREVIEW-
+New- Balance pass for the St. Patrick's Day event along with scaled difficulty.
+New- Warp Zone (this is where you can find any active events)
+New- Added a FPS counter.
+New- Added a image smoothing setting.
+New- Added a polygon collider.
+New- Added a bank for your money.
+New- Drawing functions.
+New- Fixed bug where escaped didn't always close the menu.
+New- Fixed/simplified AI code that was causing bugs.
+New- Fixed position of invisible walls.
+New- New starting point for the game.
+New- The start over button now that's you to the Warp Zone.
+New- Removed name UI element.
+New- Added full screen mode. (Can be triggered on and off)
+New- You now access the settings with Q.
+New- The debug panel now runs javascript (by inputting "/" plus your code) and commands.
+New- Added player, some UI, and some level shadows plus an option to turn them off.
+New- Changed page icon and took out splash screen.
+New- Changed the title screen.
 
-Coming soon:
-The "Warp Zone" - A new hub for all current and upcoming events!
+Last PREVIEW update-
+Revamped all ships.
+Revamped settings menu and keybinder.
+Revamped the Shipyard.
+Improved intro sequence to boss.
+Added new settings.
+Added saves for settings and controls.
+The game will now save the mute state.
+Added a key to make the title area disappear.
+Made tips stop showing if a condition is true.
+The back key now closes the settings menu.
+I took away the message box.
+Revamped all enemies.
+Updated engine so it can use sprite sheets.
+Fixed a weird tree bug.
+Made the bullets have a origin.
+Added lasers to enemies.
+Fixed some issues with the lasers.
+Revamp the bullets.
+
+What's soon to come in PREVIEW:
+New secret event.
+More to be announced!
+
+Coming In Later Updates:
+New music!
+Achievements!
+All non boss enemy ships will have playable ship prizes when you kill a certain amount.
+Add the wave 7 boss weapon as a prize.
+New seasonal event!
+Add abilities. (unlockable with upgrades)
+AND MORE!!!!
