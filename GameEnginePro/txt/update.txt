@@ -1,6 +1,9 @@
 :PRESS P TO TOGGLE THE PIB:
 
-What's new in V0.5.0 PREVIEW-
+What's new in V0.5.0-
+This is the final version that will be on this code base!
+
+Last PREVIEW update-
 New- Balance pass for the St. Patrick's Day event along with scaled difficulty.
 New- Warp Zone (this is where you can find any active events)
 New- Added a FPS counter.
@@ -21,31 +24,8 @@ New- Added player, some UI, and some level shadows plus an option to turn them o
 New- Changed page icon and took out splash screen.
 New- Changed the title screen.
 
-Last PREVIEW update-
-Revamped all ships.
-Revamped settings menu and keybinder.
-Revamped the Shipyard.
-Improved intro sequence to boss.
-Added new settings.
-Added saves for settings and controls.
-The game will now save the mute state.
-Added a key to make the title area disappear.
-Made tips stop showing if a condition is true.
-The back key now closes the settings menu.
-I took away the message box.
-Revamped all enemies.
-Updated engine so it can use sprite sheets.
-Fixed a weird tree bug.
-Made the bullets have a origin.
-Added lasers to enemies.
-Fixed some issues with the lasers.
-Revamp the bullets.
-
-What's soon to come in PREVIEW:
-New secret event.
-More to be announced!
-
 Coming In Later Updates:
+New code base!
 New music!
 Achievements!
 All non boss enemy ships will have playable ship prizes when you kill a certain amount.
