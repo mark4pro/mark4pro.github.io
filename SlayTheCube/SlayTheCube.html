@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="icon" type="image/vnd.microsoft.icon" href="https://mark4pro.github.io/SlayTheCube/icon/stc.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" href="https://mark4pro.github.io/SlayTheCube/icon/STC1.png">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0">
+<title>SLAYTHECUBE REMAKE</title>
+<style>
+.unselectable {-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;touch-action:none;}
+body {background-color:grey;margin:0px;position:fixed;}
+html {position:fixed;}
+button {width:70px;height:70px;font-size:18px;border-radius:100%;background-color:darkgray;color:white;text-align:center;opacity:50%;}
+#Left {position:fixed;visibility:visible;left:50px;bottom:90px;z-index:200;}
+#Right {position:fixed;visibility:visible;left:170px;bottom:90px;z-index:200;}
+#Up {position:fixed;visibility:visible;left:110px;bottom:150px;z-index:200;}
+#Down {position:fixed;visibility:visible;left:110px;bottom:30px;z-index:200;}
+#Ok {position:fixed;visibility:visible;right:50px;bottom:90px;z-index:200;}
+canvas {background-color:black;margin:0px;display:block;width:100%;height:100%;left:0px;top:0px;position:fixed;}
+</style>
+</head>
+<body onload="startGame()">
+<script type="text/javascript" src="./GameEngine/Engine.js"></script>
+<div id="Up" class="unselectable">
+<button onmousedown="moveup()" onmouseup="clearmove()" ontouchend="clearmove()" ontouchstart="moveup()">UP</button>
+</div>
+<div id="Left" class="unselectable">
+<button onmousedown="moveleft()" onmouseup="clearmove()" ontouchend="clearmove()" ontouchstart="moveleft()">LEFT</button>
+</div>
+<div id="Right" class="unselectable">
+<button onmousedown="moveright()" onmouseup="clearmove()" ontouchend="clearmove()" ontouchstart="moveright()">RIGHT</button>
+</div>
+<div id="Down" class="unselectable">
+<button onmousedown="movedown()" onmouseup="clearmove()" ontouchend="clearmove()" ontouchstart="movedown()">DOWN</button>
+</div>
+<div id="Ok" class="unselectable">
+<button style="width:100px;height:100px;font-size:50px;" onclick="Ok()">OK</button>
+</div>
+</body>
+</html>
