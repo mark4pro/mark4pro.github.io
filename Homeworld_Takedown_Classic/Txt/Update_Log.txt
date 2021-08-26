@@ -1,0 +1,35 @@
+:PRESS P TO TOGGLE THE PIB:
+
+What's new in V0.5.0-
+This is the final version that will be on this code base!
+
+Last PREVIEW update-
+New- Balance pass for the St. Patrick's Day event along with scaled difficulty.
+New- Warp Zone (this is where you can find any active events)
+New- Added a FPS counter.
+New- Added a image smoothing setting.
+New- Added a polygon collider.
+New- Added a bank for your money.
+New- Drawing functions.
+New- Fixed bug where escaped didn't always close the menu.
+New- Fixed/simplified AI code that was causing bugs.
+New- Fixed position of invisible walls.
+New- New starting point for the game.
+New- The start over button now that's you to the Warp Zone.
+New- Removed name UI element.
+New- Added full screen mode. (Can be triggered on and off)
+New- You now access the settings with Q.
+New- The debug panel now runs javascript (by inputting "/" plus your code) and commands.
+New- Added player, some UI, and some level shadows plus an option to turn them off.
+New- Changed page icon and took out splash screen.
+New- Changed the title screen.
+
+Coming In Later Updates:
+New code base!
+New music!
+Achievements!
+All non boss enemy ships will have playable ship prizes when you kill a certain amount.
+Add the wave 7 boss weapon as a prize.
+New seasonal event!
+Add abilities. (unlockable with upgrades)
+AND MORE!!!!
