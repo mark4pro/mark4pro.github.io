@@ -305,15 +305,15 @@ function start() {
  }
  STPDAYEVENTBG = new component(800, 390, "ST_P_DAY_BG", 0, 0, "img");
  STPDAYEVENTPROP = new component(100, 100, "ST_P_DAY_PROP", 350, 150, "img");
- STPDAYEVENTBOSSINTRO = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", 387.5, 190, "animated-img-rot");
+ STPDAYEVENTBOSSINTRO = new component(25, 25, "player6img", 387.5, 190, "animated-img-rot");
  STPDAYEVENTBOSS = new component(39, 42, "ST_P_DAY_EVENT_BOSS", 380.5, 181.5, "img-rot");
  STPDAYEVENTBOSSBOX = new component(39, 42, "black", 380.5, 181.5, "rec");
  STPDAYEVENTBOSSHEALTHBAR = new component(STBOSSHEALTH, 20, "darkgreen", 10, 20, "rec");
  STPDAYEVENTBOSSHEALTHBARTEXT = new component("", "", "white", 10, 15, "text");
  STPDAYEVENTBOSSHEALTHBARTEXT.font = "15px Consolas";
  STPDAYEVENTBOSSHEALTHBARTEXT.text = "BOSS:";
- endCard = new component(800, 390, "End", 0, 0, "img");
- guardianPic = new component(25, 25, "guardian", 650, 450, "animated-img-rot");
+ endCard = new component(800, 390, "endscreen", 0, 0, "img");
+ guardianPic = new component(25, 25, "badguy5img", 650, 450, "animated-img-rot");
  guardianPic_lazer = new component(0, "round", "#650014", 0, 0, "line", 0, 0);
  guardianPic_lazer.globalAlpha = 0;
  guardianBox = new component(25, 25, "red", 650, 450, "rec", "enemy");
@@ -328,14 +328,14 @@ function start() {
  bosstxt2 = new component("30px", "Consolas", "white", 150, 15, "text");
  bosstxt2.font = "15px Consolas";
  bosstxt2.text = "BOSS: Sheilded";
- recenemypic1 = new component(25, 25, "Rectangle", 450, 60, "animated-img-rot");
+ recenemypic1 = new component(25, 25, "badguy2img", 450, 60, "animated-img-rot");
  recenemypic1_lazer = new component(0, "round", "black", 0, 0, "line", 0, 0);
  recenemypic1_lazer.globalAlpha = 0;
  recbox1 = new component(25, 25, "red", 450, 60, "rec", "enemy");
  badguy1healthbar3 = new component(Badhealth4 / 2, 5, badHealthBarColor3, recbox1.x, recbox1.y - 8, "rec");
  recpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec", "enemy");
  recwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
- xenemypic1 = new component(31, 31, "X_Enemy", 450, 60, "animated-img-rot");
+ xenemypic1 = new component(31, 31, "badguy4img", 450, 60, "animated-img-rot");
  xenemypic1_lazer = new component(0, "round", "yellow", 0, 0, "line", 0, 0);
  xenemypic1_lazer.globalAlpha = 0;
  xbox1 = new component(31, 31, "red", 450, 60, "rec", "enemy");
@@ -356,7 +356,7 @@ function start() {
  badguy1healthbar2 = new component(Badhealth2 / 2, 5, badHealthBarColor2, badguy2.x, badguy2.y - 8, "rec");
  badpos2 = new component(25, 25, "orange", bad2posX, bad2posY, "rec");
  badwavebox2 = new component(35, 35, "black", bad2posX - 5, bad2posY - 5, "rec");
- trienemypic = new component(35, 34.5, "triimgdown", 430, 100, "animated-img-rot");
+ trienemypic = new component(35, 34.5, "badguy3img", 430, 100, "animated-img-rot");
  trienemypic_lazer = new component(0, "round", "purple", 0, 0, "line", 0, 0);
  trienemypic_lazer.globalAlpha = 0;
  tribox = new component(35, 35, "red", 430, 100, "rec", "enemy");
@@ -367,15 +367,15 @@ function start() {
  triwavebox1 = new component(15, 15, "black", tri1posX - 5, tri1posY - 5, "rec");
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
  bullcir = new component(10, 10, "grey", 400, 180, "cir", 3, "black", 0);
- bpic = new component(10, 10, "bullpic", 400, 180, "animated-img-rot");
+ bpic = new component(10, 10, "bullpic1", 400, 180, "animated-img-rot");
  bpic2 = new component(10, 10, "bullpic2", 400, 180, "animated-img-rot");
  bpic3 = new component(10, 10, "bullpic3", 400, 180, "animated-img-rot");
  bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
- bpic5 = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", 400, 180, "animated-img-rot");
+ bpic5 = new component(10, 10, "bullpic5", 400, 180, "animated-img-rot");
  box = new component(25, 25, "grey", playerX, playerY, "player1", "player");
  circle = new component(0, 0, "white", playerX, playerY, "cir", 16.5);
  detectbox = new component(100, 100, "black", playerX - 37.5, playerY - 37.5, "rec");
- ship1 = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+ ship1 = new component(32, 32, "player1img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
  PlayerShipsArray.push(ship1);
  ship2 = new component(25, 25, "player2img", playerX, playerY, "animated-img-rot");
  PlayerShipsArray.push(ship2);
@@ -385,7 +385,7 @@ function start() {
  PlayerShipsArray.push(ship4);
  ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
  PlayerShipsArray.push(ship5);
- ship6 = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", playerX, playerY, "animated-img-rot");
+ ship6 = new component(25, 25, "player6img", playerX, playerY, "animated-img-rot");
  PlayerShipsArray.push(ship6);
  PlayerShadowManager = new PlayerShadowHandler(PlayerShipsArray, "black", 5, 3, 3);"rec-rot-poly"
  testbox = new component(25, 25, "yellow", 100, 100, "rec-rot-poly");
@@ -719,7 +719,7 @@ function start() {
  wall3house5_4 = new component(110, 20, "#666666", 640, 130, "rec");
  wall3house6 = new component(270, 10, "#666666", 480, 140, "rec");
  inside3detect1 = new component(260, 100, "black", 485, 60, "rec");
- floor3house1 = new component(270, 100, "housefloor4", 480, 50, "img");
+ floor3house1 = new component(270, 100, "housefloor3", 480, 50, "img");
  burntHouse1 = new component(270, 100, "Burnt", 480, 50, "img");
  roof3house1 = new component(270, 100, "houseroof2", 480, 50, "img");
  roof3house2 = new component(50, 50, "houseroof2", 590, 120, "img");
@@ -858,7 +858,7 @@ function start() {
  ammotxtinfo.text = "Ammo Recovery Cost: $" + (maxAmmo - ammo);
  costToRevive = new component("30px", "Consolas", "darkred", 10, 490, "text");
  costToRevive.font = "30px Consolas";
- menuboard = new component(800, 500, "menupic", 0, 0, "img");
+ menuboard = new component(800, 500, "titlescreen", 0, 0, "img");
  menuboardtxttimer = new TimerComponent(0, 100);
  menuboardtxt = new component("30px", "Consolas", "#bc8dd3", menuboard.width/2, menuboard.height/2 + 30, "text");
  menuboardtxt.globalAlpha = 0;
@@ -890,7 +890,7 @@ function start() {
  TipsTxt = new component("30px", "Consolas", "white", 10, 482.5, "text");
  TipsTxt.font = "10px Consolas";
  TipsTxt.text = "Tip:";
- DeathForPlayer = new component(800, 500, "DeathScr", 0, 0, "img");
+ DeathForPlayer = new component(800, 500, "deathscreen", 0, 0, "img");
  //pause menu//
 weap_ship = new component(200, 200, "grey", 300, 40, "rec");
 shiptxt = new component("30px", "Consolas", "white", 365, 55, "text");
@@ -900,7 +900,7 @@ pausetxt = new component("30px", "Consolas", "white", 345, 30, "text");
 pausetxt.font = "20px Consolas";
 pausetxt.text = "Pause Menu";
  //ship yard//
-ship1Show = new component(32, 32, "playerimg", 305, 60, "animated-img-rot");
+ship1Show = new component(32, 32, "player1img", 305, 60, "animated-img-rot");
 shipHighLight1 = new component(35, 35, "highlight", ship1Show.x - ((35-ship1Show.width)/2), ship1Show.y - ((35-ship1Show.height)/2), "img-rot");
 shipHighLight1.globalAlpha = 0;
 ship1txt = new component("30px", "Consolas", "white", 312.5, 105, "text");
@@ -933,7 +933,7 @@ ship5Hidden = new component(32, 32, "hiddenShip", ship5Show.x, ship5Show.y, "img
 ship5txt = new component("30px", "Consolas", "white", 460.5, 105, "text");
 ship5txt.font = "15px Consolas";
 ship5txt.text = "#5";
-ship6Show = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", 308.5, 113.5, "animated-img-rot");
+ship6Show = new component(25, 25, "player6img", 308.5, 113.5, "animated-img-rot");
 shipHighLight6 = new component(28, 28, "highlight", ship6Show.x - ((28-ship6Show.width)/2), ship6Show.y - ((28-ship6Show.height)/2), "img-rot");
 shipHighLight6.globalAlpha = 0;
 ship6Hidden = new component(25, 25, "hiddenShip", ship6Show.x, ship6Show.y, "img");
@@ -3440,7 +3440,7 @@ canShootST = true;
 timeST = 0;
 }
 if (canShootST == true && Death1 == 0) {
-STPDAYEVENTBOSSBULLETS = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", STPDAYEVENTBOSSBOX.x + (STPDAYEVENTBOSSBOX.width/2), STPDAYEVENTBOSSBOX.y + (STPDAYEVENTBOSSBOX.height/2), "img-rot");
+STPDAYEVENTBOSSBULLETS = new component(10, 10, "bullpic5", STPDAYEVENTBOSSBOX.x + (STPDAYEVENTBOSSBOX.width/2), STPDAYEVENTBOSSBOX.y + (STPDAYEVENTBOSSBOX.height/2), "img-rot");
 STBOSSBULLETS.push(STPDAYEVENTBOSSBULLETS);
 canShootST = false;
 }
@@ -11554,13 +11554,13 @@ function nameFC() {
  stopGuardSpawn = 0;
  switchBoss7 = 0;
  bullbox = new component(10, 10, "orange", 400, 180, "rec");
- bpic = new component(10, 10, "bullpic", 400, 180, "animated-img-rot");
+ bpic = new component(10, 10, "bullpic1", 400, 180, "animated-img-rot");
  bpic2 = new component(10, 10, "bullpic2", 400, 180, "animated-img-rot");
  bpic3 = new component(10, 10, "bullpic3", 400, 180, "animated-img-rot");
  bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
- bpic5 = new component(10, 10, "ST_P_DAY_EVENT_BOSS_BULLET", 400, 180, "animated-img-rot");
+ bpic5 = new component(10, 10, "bullpic5", 400, 180, "animated-img-rot");
  box = new component(25, 25, "black", playerX, playerY, "rec");
- ship1 = new component(32, 32, "playerimg", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+ ship1 = new component(32, 32, "player1img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
  PlayerShipsArray.push(ship1);
  ship2 = new component(25, 25, "player2img", playerX, playerY, "animated-img-rot");
  PlayerShipsArray.push(ship2);
@@ -11570,7 +11570,7 @@ function nameFC() {
  PlayerShipsArray.push(ship4);
  ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
  PlayerShipsArray.push(ship5);
- ship6 = new component(25, 25, "ST_P_DAY_EVENT_PRIZE", playerX, playerY, "animated-img-rot");
+ ship6 = new component(25, 25, "player6img", playerX, playerY, "animated-img-rot");
  PlayerShipsArray.push(ship6);
  PlayerShadowManager = new PlayerShadowHandler(PlayerShipsArray, "black", 5, 3, 3);
  }
