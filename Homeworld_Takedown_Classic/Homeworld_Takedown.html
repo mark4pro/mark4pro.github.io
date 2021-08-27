@@ -8,15 +8,13 @@
 <style>
 	#screen {
 	background-color: blue;
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: 0px;
+	margin-right: 0px;
 	display: block;
 	width: 100%;
 	height: 100%;
-	top: 18.2%;
-	left: 20%;
-	right: 20%;
-	transform:scale(1.5);
+	top: 0px;
+	left: 0px;
 	position: fixed;
 	image-rendering: -moz-crisp-edges;         /* Firefox */
 	image-rendering: -webkit-crisp-edges;      /* Webkit */
@@ -192,7 +190,7 @@
 	<img id="bullpic2" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/Bullet_2.png">
 	<img id="bullpic3" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/Bullet_3.png">
 	<img id="bullpic4" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/Bullet_4.png">
-	<img id="bullpic5" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/ST.P_DAY_SHIP_SPECIAL_WEAPON.png">
+	<img id="bullpic5" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/Bullet_5.png">
 	<img id="badguy1img" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/Enemy_1_Sprite_Sheet.png">
 	<img id="badguy2img" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/Enemy_2_Sprite_Sheet.png">
 	<img id="badguy3img" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/Enemy_3_Sprite_Sheet.png">
@@ -208,7 +206,6 @@
 	<img id="lowhealth" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/Low_Health_Border_1.png">
 	<img id="warp_zone" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/Warp_Zone.png">
 	<img id="earth" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/Earth.png">
-	<!----><img id="stPearth" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/ST.P_DAY_PLANET.png">
 	<img id="wave1t5" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/1-5_Normal_Background_1.png">
 	<img id="Fwave1t5" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/1-5_Fall_Background_1.png">
 	<img id="Wwave1t5" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/1-5_Winter_Background_1.png">
@@ -250,19 +247,20 @@
 	<img id="EXFrame7" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/Explosion_Frame_7.png">
 	<img id="hiddenShip" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/Hidden_Ship.png">
 	<img id="highlight" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/Highlight_Ship.png">
-	<!----><img id="ST_P_DAY_BG" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/ST.P_DAY_BACKGROUND.png">
-	<!----><img id="ST_P_DAY_PROP" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/ST.P_DAY_PROP.png">
-	<!----><img id="ST_P_DAY_EVENT_BOSS" width="0" height="0" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Images/ST.P_DAY_EVENT_BOSS.png">
 
 <!-- Where Sounds Go -->
-	    <audio id="level1" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/HT_LEVEL_1.wav"></audio>
-	    <audio id="level2" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/HT_LEVEL_2.wav"></audio>
-		<audio id="boss7" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/HT_BOSS_1.wav"></audio>
-		<audio id="Menu" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/HT_Title_Screen.wav"></audio>
-		<audio id="Death" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/HT_Death_Screen.wav"></audio>
-	    <audio id="firesound" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/Primary_Weapon.wav"></audio>
-		<audio id="lowammo" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/Low_Ammo_Sound.mp3"></audio>
-		<audio id="explosion" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/Explosion.wav"></audio>
+		<!--Music-->
+	    <audio id="level1" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/Music/HT_LEVEL_1.wav"></audio>
+	    <audio id="level2" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/Music/HT_LEVEL_2.wav"></audio>
+		<audio id="boss7" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/Music/HT_BOSS_1.wav"></audio>
+		<audio id="title" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/Music/HT_Title_Screen.wav"></audio>
+		<audio id="upgradeMenu" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/Music/HT_Upgrade_Menu.wav"></audio>
+		<audio id="warpZone" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/Music/HT_Warp_Zone.wav"></audio>
+		<audio id="Death" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/Music/HT_Death_Screen.wav"></audio>
+		<!--SFX-->
+	    <audio id="firesound" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/Sound Effects/Primary_Weapon.wav"></audio>
+		<audio id="lowammo" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/Sound Effects/Low_Ammo_Sound.mp3"></audio>
+		<audio id="explosion" src="https://mark4pro.github.io/Homeworld_Takedown_Classic/Audio/Sound Effects/Explosion.wav"></audio>
 </head>
 <body onload="start()">
 <script>
@@ -272,39 +270,16 @@ var interval = setInterval(function() {
 	done();
     }    
 }, 100);
-var stopFocus = 0;
-var interval3 = setInterval(function() {
-	if (document.getElementById('settings').style.visibility == "visible") {
-	document.getElementById('name').blur();
-	stopFocus = 0;
-	}
-	if (document.getElementById('settings').style.visibility == "hidden" && stopFocus >= 0) {
-	stopFocus++;
-    if (stopFocus <= 5) {
-	document.getElementById('name').blur();
-	 }	
-	if (stopFocus >= 5) {
-	stopFocus = -1
-	}
-	}
-}, 60);
 function done() {
 	if (document.getElementById('loader').style.opacity > 0) {
 	document.getElementById('loader').style.opacity -= 0.001;
 	}
 	if (document.getElementById('loader').style.opacity <= 0) {
 	document.getElementById('loader').style.visibility = "hidden";
-	document.getElementById('name').blur();
 	}
 }
 </script>
 <label class="unselectable">
-	<div id="content">
-		<h1 id="title" align="center">Homeworld Takedown Classic</h1>
-		<p align="center" style="font-size:20px;padding:0px;margin:0px;color:black;">Debug:</p>
-		<p align="center"><input style="outline:none;width:300px;height:25px;font-size:20px;" type="text" id="name" value=""></p>
-		<p align="center"><button style="font-size:20px;" class="buttons" onmousedown="RunCommand()">Run Command</button></p>
-	</div>
 	<div id="loader"></div>
 	<div id="settings">
 		<p align="center" style="font-size:50px;">SETTINGS</p>
@@ -314,7 +289,7 @@ function done() {
 		<p align="center" style="font-size:20px;">*Experimental* Player Shadows? <input type="checkbox" class="check" id="PSshow" value="" checked><button class="saveButtons" onmousedown="saveSettings(PShadows_)">Save</button></p>
 		<p align="center" style="font-size:20px;">*Experimental* Level Shadows? <input type="checkbox" class="check" id="LSshow" value="" checked><button class="saveButtons" onmousedown="saveSettings(LShadows_)">Save</button></p>
 		<p align="center" style="font-size:20px;">*Experimental* UI Shadows? <input type="checkbox" class="check" id="UISshow" value="" checked><button class="saveButtons" onmousedown="saveSettings(UIShadows_)">Save</button></p>
-		<p align="center" style="font-size:20px;">Image Smoothing? <input type="checkbox" class="check" id="imgSmooth" value="" checked><button class="saveButtons" onmousedown="saveSettings(ImgSmooth_)">Save</button></p>
+		<p align="center" style="font-size:20px;">Image Smoothing? <input type="checkbox" class="check" id="imgSmooth" value=""><button class="saveButtons" onmousedown="saveSettings(ImgSmooth_)">Save</button></p>
 		<p align="center" style="font-size:20px;">Enemy Health Bars? <input type="checkbox" class="check" id="HBshow" value="" checked><button class="saveButtons" onmousedown="saveSettings(HBar_)">Save</button></p>
 		<p align="center" style="font-size:20px;">Animated Sprites? <input type="checkbox" class="check" id="AnimatedSprites" value="" checked><button class="saveButtons" onmousedown="saveSettings(ASprites_)">Save</button></p>
 		<p align="center" style="font-size:20px;">FPS Counter? <input type="checkbox" class="check" id="FPSShow" value=""><button class="saveButtons" onmousedown="saveSettings(FPSShow_)">Save</button></p>
@@ -335,7 +310,6 @@ function done() {
 		<div align="center"><div id="Patch_Button_Text" style="color:white;font-size:50px;">Patch Info: </div><br><button id="PatchButton" class="buttons" onmousedown="keyBinder(Patch_1)">Change</button></div>
 		<div align="center"><div id="Revive_Button_Text" style="color:white;font-size:50px;">Revive: </div><br><button id="ReviveButton" class="buttons" onmousedown="keyBinder(Revive_1)">Change</button></div>
 		<div align="center"><div id="Special_Button_Text" style="color:white;font-size:50px;">Special Key: </div><br><button id="SpecialButton" class="buttons" onmousedown="keyBinder(Special_1)">Change</button></div>
-		<div align="center"><div id="Hide_Panel_Button_Text" style="color:white;font-size:50px;">Hide Front Panel: </div><br><button id="HidePanelButton" class="buttons" onmousedown="keyBinder(HidePanel_)">Change</button></div>
 		<div align="center"><div id="Settings_Button_Text" style="color:white;font-size:50px;">Settings Button: </div><br><button id="ShowSettingsButton" class="buttons" onmousedown="keyBinder(ShowSettings_)">Change</button></div><br>
 		<div align="center" class="texts" style="font-size:30px;">Use any of the number keys to switch through weapons. Use any of the number keys plus "Special Key" to switch through special weapons. Use the any corresponding Number Keys to upgrade. Hit "Enter" when your ship is over a button in the "Warp Zone" to use it. (The numbers correspond with numbers in the upgrade menu are labeled with a "#" in front of it.)</div>
 		<br><p align="center" style="font-size:50px;margin:0px;">Difficulties:</p>
@@ -347,6 +321,5 @@ function done() {
 	</div>
 </label>
 <script type="text/javascript" src="./Scripts/Engine.js"></script>
-<script src="https://cdn.rawgit.com/w8r/GreinerHormann/master/dist/greiner-hormann.min.js"></script>
 </body>
 </html>

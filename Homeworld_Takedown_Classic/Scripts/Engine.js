@@ -20,14 +20,11 @@ var fallseason = 0;
 var winterseason = 0;
 var springseason = 0;
 var stcweapon = 0;
-var earlystart = 1;
 var christmasSkin = 0;
 var miniBossShip = 0;
 var easyShipPrize = 0;
 var STPRIZESHIP = 0;
 var STPRIZEWEAPON = 0;
-var StPdayComplete = false;
-var STPDAYEVENTTRIGGER = 0;
 var today_date = new Date();
 var mydayofweek = today_date.getDay();
 var mytoday = today_date.getDate();
@@ -61,11 +58,6 @@ if (mytoday >= 1) {
 springseason = 1;
    }
   }
-if (mymonth == 2 || mymonth == 9) {
-if (mytoday >= 1) {
-STPDAYEVENTTRIGGER = 1;
-   }
-  }
 if (mymonth == 8) {
 if (mytoday >= 11 && mytoday < 30) {
 stcweapon = 1;
@@ -73,8 +65,6 @@ stcweapon = 1;
   }
 }
 
-var w = window.innerWidth;
-var h = window.innerHeight;
 var playerX = 384.5;
 var playerY = 183;
 var playerSpeedX = 0;
@@ -109,7 +99,6 @@ var badHealthBarColor3 = "green";
 var badHealthBarColor4 = "green";
 var badHealthBarColor5 = "green";
 var difficulty = 0;
-var hider_ = 1;
 var PlayerShipsArray = [];
 var EnemyShipsArray = [];
 
@@ -130,9 +119,6 @@ function start() {
  }
  if (localStorage && 'Pw' in localStorage) {
     STPRIZEWEAPON = localStorage.Pw;
- }
- if (localStorage && 'STPDAYEVENTCOMPLETE' in localStorage) {
-    StPdayComplete = localStorage.STPDAYEVENTCOMPLETE;
  }
  //Bank money
  if (localStorage && 'totalMoney_' in localStorage) {
@@ -297,21 +283,9 @@ function start() {
  if (localStorage && 'HidePanel_' in localStorage) {
 		HPanel = localStorage.HidePanel_;
  }
- if (localStorage && 'HideFrontPanel_' in localStorage) {
-		hider_ = localStorage.HideFrontPanel_;
- }
  if (localStorage && 'Settings_' in localStorage) {
 		SShow = localStorage.Settings_;
  }
- STPDAYEVENTBG = new component(800, 390, "ST_P_DAY_BG", 0, 0, "img");
- STPDAYEVENTPROP = new component(100, 100, "ST_P_DAY_PROP", 350, 150, "img");
- STPDAYEVENTBOSSINTRO = new component(25, 25, "player6img", 387.5, 190, "animated-img-rot");
- STPDAYEVENTBOSS = new component(39, 42, "ST_P_DAY_EVENT_BOSS", 380.5, 181.5, "img-rot");
- STPDAYEVENTBOSSBOX = new component(39, 42, "black", 380.5, 181.5, "rec");
- STPDAYEVENTBOSSHEALTHBAR = new component(STBOSSHEALTH, 20, "darkgreen", 10, 20, "rec");
- STPDAYEVENTBOSSHEALTHBARTEXT = new component("", "", "white", 10, 15, "text");
- STPDAYEVENTBOSSHEALTHBARTEXT.font = "15px Consolas";
- STPDAYEVENTBOSSHEALTHBARTEXT.text = "BOSS:";
  endCard = new component(800, 390, "endscreen", 0, 0, "img");
  guardianPic = new component(25, 25, "badguy5img", 650, 450, "animated-img-rot");
  guardianPic_lazer = new component(0, "round", "#650014", 0, 0, "line", 0, 0);
@@ -989,7 +963,7 @@ stop : function() {
 },
 clear : function() {
 this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-},
+}
 }
 
 function animationComponent(numberOfFrames, startFrame, speedOfAnimation) {
@@ -1950,49 +1924,6 @@ ship6Show.sy = 25;
 }
 }
 }
-// STPDAYEVENTBOSSINTRO animation//
-if (wave == 8000 && STPDAYEVENTSTART == false) {
-if (animationNoOff == true) {
-STPDAYEVENTBOSSINTRO_1_animation.frameTimer();
-}
-}
-if (wave != 8000 || STPDAYEVENTSTART != false) {
-if (animationNoOff == false) {
-STPDAYEVENTBOSSINTRO_1_animation.resetFrame();
-}
-}
-if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 0) {
-STPDAYEVENTBOSSINTRO.sx = 0;
-STPDAYEVENTBOSSINTRO.sy = 0;
-}
-if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 1) {
-STPDAYEVENTBOSSINTRO.sx = 25;
-STPDAYEVENTBOSSINTRO.sy = 0;
-}
-if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 2) {
-STPDAYEVENTBOSSINTRO.sx = 50;
-STPDAYEVENTBOSSINTRO.sy = 0;
-}
-if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 3) {
-STPDAYEVENTBOSSINTRO.sx = 75;
-STPDAYEVENTBOSSINTRO.sy = 0;
-}
-if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 4) {
-STPDAYEVENTBOSSINTRO.sx = 0;
-STPDAYEVENTBOSSINTRO.sy = 25;
-}
-if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 5) {
-STPDAYEVENTBOSSINTRO.sx = 25;
-STPDAYEVENTBOSSINTRO.sy = 25;
-}
-if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 6) {
-STPDAYEVENTBOSSINTRO.sx = 50;
-STPDAYEVENTBOSSINTRO.sy = 25;
-}
-if (STPDAYEVENTBOSSINTRO_1_animation.currentFrame == 7) {
-STPDAYEVENTBOSSINTRO.sx = 75;
-STPDAYEVENTBOSSINTRO.sy = 25;
-}
 //bpic bullet animation//
 bpic.angle += 0.08;
 //bpic2 bullet animation//
@@ -2105,7 +2036,6 @@ if (this.typeOfAttack == "Normal") {
 		if (this.targetForAI.crashWith(this.objectContainer[i])) {
 			if (this.targetForAI.type == "player1") {
 			if (playerHealth > 0) {
-			if (CapName != healthcheat && CapName != fullcheat) {
 			if (difficulty == 0) {
 			playerHealth -= this.easyDamage;
 			}
@@ -2117,10 +2047,8 @@ if (this.typeOfAttack == "Normal") {
 			}
 			}
 			}
-			}
 			if (this.targetForAI.type != "player1") {
 			if (this.targetForAI.health > 0) {
-			if (CapName != healthcheat && CapName != fullcheat) {
 			if (difficulty == 0) {
 			this.targetForAI.health -= this.easyDamage;
 			}
@@ -2129,7 +2057,6 @@ if (this.typeOfAttack == "Normal") {
 			}
 			if (difficulty == 2) {
 			this.targetForAI.health -= this.hardDamage;
-			}
 			}
 			}
 			}
@@ -3297,183 +3224,6 @@ if (stcweapon == 1) {
  }
 }
 
-//ST. Patty's Day Event//
-var STPDAYEVENTSTART = false;
-var touchRelic = false;
-var STangleSpeed = 0;
-var HatDeath = false;
-var STBOSSBULLETS = [];
-var canShootST = false;
-var timeForShots = 50;
-var timeST = 0;
-var STBOSSDAMAGE = 5;
-var STBOSSHEALTH = 1000;
-var STHEALTHBARCOLOR = "darkgreen";
-var STPRIZEMONEY = 200;
-var STPOPUP = 0;
-function StPattysDay() {
-STPDAYEVENTBOSS.x = STPDAYEVENTBOSSBOX.x;
-STPDAYEVENTBOSS.y = STPDAYEVENTBOSSBOX.y;
-STPDAYEVENTBOSSHEALTHBAR.width = STBOSSHEALTH / 5;
-STPDAYEVENTBOSSHEALTHBAR.color = STHEALTHBARCOLOR;
-if (STPOPUP == 1) {
-pauseGame = 1;
-}
-if (STPDAYEVENTSTART == false) {
-if (difficulty == 0) {
-timeForShots = 50;
-STBOSSDAMAGE = 20;
-STBOSSHEALTH = 1000;
-STPRIZEMONEY = 200;
-}
-if (difficulty == 1) {
-timeForShots = 50;
-STBOSSDAMAGE = 30;
-STBOSSHEALTH = 2000;
-STPRIZEMONEY = 250;
-}
-if (difficulty == 2) {
-timeForShots = 25;
-STBOSSDAMAGE = 50;
-STBOSSHEALTH = 3000;
-STPRIZEMONEY = 300;
-}
-}
-if (STBOSSHEALTH >= 450) {
-STHEALTHBARCOLOR = "darkgreen";
-}
-if (STBOSSHEALTH <= 400) {
-STHEALTHBARCOLOR = "green";
-}
-if (STBOSSHEALTH <= 350) {
-STHEALTHBARCOLOR = "yellow";
-}
-if (STBOSSHEALTH <= 300) {
-STHEALTHBARCOLOR = "orange";
-}
-if (STBOSSHEALTH <= 250) {
-STHEALTHBARCOLOR = "red";
-}
-if (STBOSSHEALTH <= 200) {
-STHEALTHBARCOLOR = "darkred";
-}
-if (STBOSSHEALTH <= 150) {
-STHEALTHBARCOLOR = "#750000";
-}
-if (STBOSSHEALTH <= 100) {
-STHEALTHBARCOLOR = "#2e0000";
-}
-if (wave != 8000) {
-touchRelic = false;
-STPDAYEVENTSTART = false;
-STangleSpeed = 0;
-STPDAYEVENTBOSSINTRO.y = 190;
-HatDeath = false;
-STPDAYEVENTBOSSBOX.x = 380.5;
-STPDAYEVENTBOSSBOX.y = 181.5;
-STBOSSBULLETS.length = 0;
-canShootST = false;
-STBOSSHEALTH = 500;
-timeST = 0;
-}
-if (wave == 8000 && switchpos == 2) {
-if (touchRelic == false) {
-STPDAYEVENTBOSSINTRO.angle = 0;
-}
-if (STPDAYEVENTBOSSINTRO.crashWith(box)) {
-touchRelic = true;
-}
-if (touchRelic == true) {
-if (STangleSpeed < 6.28) {
-STangleSpeed += (STPDAYEVENTBOSSINTRO.angle + 0.01)
-STPDAYEVENTBOSSINTRO.y -= 10;
-STPDAYEVENTBOSSBOX.y -= 10;
-}
-STPDAYEVENTBOSSINTRO.angle = STangleSpeed;
-if (STangleSpeed >= 6.28) {
-STPDAYEVENTSTART = true;
-}
-//BOSS//
-if (STPDAYEVENTSTART == true) {
-STPDAYEVENTBOSS.angle = Math.atan2(-box.y + STPDAYEVENTBOSS.y, -box.x + STPDAYEVENTBOSS.x) + 1.57079633;
-if (STPDAYEVENTBOSSBOX.x > box.x + box.width + 100) {
-STPDAYEVENTBOSSBOX.x -= 1;	
-}
-if (STPDAYEVENTBOSSBOX.x < box.x - 100) {
-STPDAYEVENTBOSSBOX.x += 1;	
-}
-if (STPDAYEVENTBOSSBOX.y > box.y + box.height + 100) {
-STPDAYEVENTBOSSBOX.y -= 1;	
-}
-if (STPDAYEVENTBOSSBOX.y < box.y - 100) {
-STPDAYEVENTBOSSBOX.y += 1;	
-}
-if (STBOSSHEALTH > 0) {
-if (bullbox.crashWith(STPDAYEVENTBOSSBOX) && fire == 1) {
-fire = 0;
-STBOSSHEALTH -= PlayerDamageDeal;
-}
-}
-if (STBOSSHEALTH <= 0) {
-HatDeath = true;
-goBack = 1;
-//prize//
-money += Math.floor(Math.random() * STPRIZEMONEY);
-StPdayComplete = true;
-localStorage && (localStorage.STPDAYEVENTCOMPLETE = StPdayComplete);
-if (STPRIZESHIP == 0) {
-STPOPUP = 1;
-STPRIZESHIP = 1;
-localStorage && (localStorage.Ps = STPRIZESHIP);
-}
-if (difficulty == 2 && STPRIZEWEAPON == 0) {
-STPRIZEWEAPON = 1;
-localStorage && (localStorage.Pw = STPRIZEWEAPON);
-}
-}
-//shooting//
-if (canShootST == false) {
-timeST++;	
-}
-if (timeST >= timeForShots) {
-canShootST = true;
-timeST = 0;
-}
-if (canShootST == true && Death1 == 0) {
-STPDAYEVENTBOSSBULLETS = new component(10, 10, "bullpic5", STPDAYEVENTBOSSBOX.x + (STPDAYEVENTBOSSBOX.width/2), STPDAYEVENTBOSSBOX.y + (STPDAYEVENTBOSSBOX.height/2), "img-rot");
-STBOSSBULLETS.push(STPDAYEVENTBOSSBULLETS);
-canShootST = false;
-}
-for (var i = STBOSSBULLETS.length - 1; i >= 0; i--){
-STBOSSBULLETS[i].angle += 0.08;
-if (fire == 1) {
-if (STBOSSBULLETS[i].crashWith(bullbox) == true) {
-STBOSSBULLETS.splice(i,1);
-}
-} else
-if (STBOSSBULLETS[i].crashWith(box) == true) {
-playerHealth -= STBOSSDAMAGE;
-STBOSSBULLETS.splice(i,1);
-} else {
-if (STBOSSBULLETS[i].x > box.x + box.width) {
-STBOSSBULLETS[i].x -= 3;
-}
-if (STBOSSBULLETS[i].x < box.x) {
-STBOSSBULLETS[i].x += 3;
-}
-if (STBOSSBULLETS[i].y > box.y + box.height) {
-STBOSSBULLETS[i].y -= 3;
-}
-if (STBOSSBULLETS[i].y < box.y) {
-STBOSSBULLETS[i].y += 3;
-}	
-}
-}
-}
-}
- }
-}
-
 function laserSetUp() {
 //lazer setup//
 badguypic1_lazer.x = badguy1.x + badguy1.width/2;
@@ -3823,7 +3573,6 @@ var ImageSmoothing = document.getElementById("imgSmooth").checked;
 Board.context.imageSmoothingEnabled = ImageSmoothing;
 var ShowFPSCounter = document.getElementById("FPSShow").checked;
 keyBinderUpdate();
-FrontPannel();
 UpgradeMenuTrigger();
 payback = Math.floor(30/100 * maxAmmo);
 weaponswitch();
@@ -3837,7 +3586,6 @@ framerate7();
 animations();
 fireCoolDown();
 Boss7AI();
-StPattysDay();
 resetfire();
 costToRevive.text = "You must have $" + revivecost + " to revive";
 playSound();
@@ -4008,15 +3756,6 @@ plantbox4_1.update();
 }
 //Warp Zone//
 warpZone();
-//ST. Patty's Day Event//
-if (wave == 8000) {
-STPDAYEVENTBOSSBOX.update();
-STPDAYEVENTBG.update();
-STPDAYEVENTPROP.update();
-if (STPDAYEVENTSTART == false) {
-STPDAYEVENTBOSSINTRO.update();
-}
-}
 if (menu > 0) {
 if (cratespawn > 0) {
 ammocrate1picO.update();
@@ -4706,17 +4445,8 @@ alert1.update();
 alerttxt1.update();
 alerttxt2.update();
  }
-if (STPOPUP == 1) {
-alerttxt1 = new component("30px", "Consolas", "white", 400, 60, "text");
-alerttxt1.align = "center";
-alerttxt1.font = "20px Consolas";
-alerttxt1.text = "You Got A Special Gift Go To The Shipyard/Pause Menu!";
-alert1 = new component(800, 500, "#451661", 0, 0, "rec");
-alert1.update();
-alerttxt1.update();
- }
 }
-if (specialalert1 == 0 && STPOPUP == 0) {
+if (specialalert1 == 0) {
 statscommand();
 playerMoney();
 nameFC();
@@ -5164,9 +4894,6 @@ var SpecialKey_ = "e";
 var SpecialKey_2 = "69";
 var Special_1 = "SPECIAL";
 var SpecialLock = 0;
-var HPanel = "/";
-var HidePanel_ = "H_Pannel";
-var HPanelLock = 0;
 var SShow = "q";
 var ShowSettings_ = "S_Show";
 var SShowLock = 0;
@@ -5188,7 +4915,6 @@ ReviveLock = 0;
 MuteLock = 0;
 PatchLock = 0;
 SpecialLock = 0;
-HPanelLock = 0;
 SShowLock = 0;
 }
 if (this.ButtonCode == "DOWN") {
@@ -5206,7 +4932,6 @@ ReviveLock = 0;
 MuteLock = 0;
 PatchLock = 0;
 SpecialLock = 0;
-HPanelLock = 0;
 SShowLock = 0;
 }
 if (this.ButtonCode == "LEFT") {
@@ -5224,7 +4949,6 @@ ReviveLock = 0;
 MuteLock = 0;
 PatchLock = 0;
 SpecialLock = 0;
-HPanelLock = 0;
 SShowLock = 0;
 }
 if (this.ButtonCode == "RIGHT") {
@@ -5242,7 +4966,6 @@ ReviveLock = 0;
 MuteLock = 0;
 PatchLock = 0;
 SpecialLock = 0;
-HPanelLock = 0;
 SShowLock = 0;
 }
 if (this.ButtonCode == "S_UP") {
@@ -5260,7 +4983,6 @@ ReviveLock = 0;
 MuteLock = 0;
 PatchLock = 0;
 SpecialLock = 0;
-HPanelLock = 0;
 SShowLock = 0;
 }
 if (this.ButtonCode == "S_DOWN") {
@@ -5278,7 +5000,6 @@ ReviveLock = 0;
 MuteLock = 0;
 PatchLock = 0;
 SpecialLock = 0;
-HPanelLock = 0;
 SShowLock = 0;
 }
 if (this.ButtonCode == "S_LEFT") {
@@ -5296,7 +5017,6 @@ ReviveLock = 0;
 MuteLock = 0;
 PatchLock = 0;
 SpecialLock = 0;
-HPanelLock = 0;
 SShowLock = 0;
 }
 if (this.ButtonCode == "S_RIGHT") {
@@ -5314,7 +5034,6 @@ ReviveLock = 0;
 MuteLock = 0;
 PatchLock = 0;
 SpecialLock = 0;
-HPanelLock = 0;
 SShowLock = 0;
 }
 if (this.ButtonCode == "BACK") {
@@ -5332,7 +5051,6 @@ ReviveLock = 0;
 MuteLock = 0;
 PatchLock = 0;
 SpecialLock = 0;
-HPanelLock = 0;
 SShowLock = 0;
 }
 if (this.ButtonCode == "MUTE") {
@@ -5350,7 +5068,6 @@ ReviveLock = 0;
 MuteLock = 1;
 PatchLock = 0;
 SpecialLock = 0;
-HPanelLock = 0;
 SShowLock = 0;
 }
 if (this.ButtonCode == "PATCH") {
@@ -5368,7 +5085,6 @@ ReviveLock = 0;
 MuteLock = 0;
 PatchLock = 1;
 SpecialLock = 0;
-HPanelLock = 0;
 SShowLock = 0;
 }
 if (this.ButtonCode == "REVIVE") {
@@ -5386,7 +5102,6 @@ ReviveLock = 1;
 MuteLock = 0;
 PatchLock = 0;
 SpecialLock = 0;
-HPanelLock = 0;
 SShowLock = 0;
 }
 if (this.ButtonCode == "SPECIAL") {
@@ -5404,25 +5119,6 @@ ReviveLock = 0;
 MuteLock = 0;
 PatchLock = 0;
 SpecialLock = 1;
-HPanelLock = 0;
-SShowLock = 0;
-}
-if (this.ButtonCode == "H_Pannel") {
-UnlockControls = true;
-RightLock = 0;
-UpLock = 0;
-DownLock = 0;
-LeftLock = 0;
-ShootUpLock = 0;
-ShootDownLock = 0;
-ShootLeftLock = 0;
-ShootRightLock = 0;
-BackLock = 0;
-ReviveLock = 0;
-MuteLock = 0;
-PatchLock = 0;
-SpecialLock = 0;
-HPanelLock = 1;
 SShowLock = 0;
 }
 if (this.ButtonCode == "S_Show") {
@@ -5440,8 +5136,7 @@ ReviveLock = 0;
 MuteLock = 0;
 PatchLock = 0;
 SpecialLock = 0;
-HPanelLock = 0;
-SShowLock = 0;
+SShowLock = 1;
 }
 }
 function keyBinderUpdate() {
@@ -5522,12 +5217,6 @@ document.getElementById("Special_Button_Text").innerHTML = "Special Key: " + Spe
 }
 if (SpecialLock == 1) {
 document.getElementById("Special_Button_Text").innerHTML = "Hit Any Key";
-}
-if (HPanelLock == 0) {
-document.getElementById("Hide_Panel_Button_Text").innerHTML = "Hide Front Panel: " + HPanel.toUpperCase();;
-}
-if (HPanelLock == 1) {
-document.getElementById("Hide_Panel_Button_Text").innerHTML = "Hit Any Key";
 }
 if (SShowLock == 0) {
 document.getElementById("Settings_Button_Text").innerHTML = "Settings Button: " + SShow.toUpperCase();;
@@ -5680,17 +5369,6 @@ SpecialLock = 0;
 keyHit = false;
 }
 }
-//Hide Panel Controls//
-if (HPanelLock == 1) {
-if (keyHit == true) {
-console.log(keyPressed);
-HPanel = keyPressed;
-UnlockControls = false;
-localStorage && (localStorage.HidePanel_ = HPanel);
-HPanelLock = 0;
-keyHit = false;
-}
-}
 //Settings Controls//
 if (SShowLock == 1) {
 if (keyHit == true) {
@@ -5763,11 +5441,6 @@ function keyDownHandler(event)
 		mutemusic += 1;
 		localStorage && (localStorage.MuteVol = mutemusic);
 	}
-	if (keyPressed == HPanel && blockKeys == false)
-	{
-		hider_ += 1;
-		localStorage && (localStorage.HideFrontPanel_ = hider_);
-	}
 	if (keyPressed == SShow && blockKeys == false)
 	{
 		show();
@@ -5807,16 +5480,15 @@ function keyDownHandler(event)
 	}
 	if (keyPressed == "w")
 	{
-	if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+	if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    goToWarpZone = 1;
 	}
 	}
-	if (keyPressed == "1")
-	{
-	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+	if (keyPressed == "1") {
+	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap1();
 	}
-	if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+	if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 0;
 			playerHealthMax = 100;
 	}
@@ -5826,44 +5498,44 @@ function keyDownHandler(event)
 	}
 	if (keyPressed == "2")
 	{
-	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap2();
 	}
-	if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+	if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 1;
 			playerHealthMax = 100; //add maxHealthMod//
 	}
 	}
 	if (keyPressed == "3")
 	{
-	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap3();
 	}
-	if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+	if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 2;
 			playerHealthMax = 100;
 	}
 	}
 	if (keyPressed == "4")
 	{
-	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    swapweap4();
 	}
-	if (upgrademenu == 0 && miniBossShip == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+	if (upgrademenu == 0 && miniBossShip == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 3;
 			playerHealthMax = 300;
 	}
 	}
 	if (keyPressed == "5")
 	{
-	if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+	if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 4;
 			playerHealthMax = 200;
 	}
 	}
 	if (keyPressed == "6")
 	{
-	if (upgrademenu == 0 && STPRIZESHIP == 1 && pauseGame == 1 && specialalert1 == 0 && STPOPUP == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+	if (upgrademenu == 0 && STPRIZESHIP == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
 		    playerShip = 5;
 			playerHealthMax = 200;
 	}
@@ -5945,51 +5617,14 @@ var deviceWidth = window.innerWidth;
 var deviceHeight = window.innerHeight;
 var scaleFillNativeWidth = deviceWidth / nativeWidth;
 var scaleFillNativeHeight = deviceHeight / nativeHeight;
-if (hider_ == 1) {
 Board.canvas.width = deviceWidth;
 Board.canvas.height = deviceHeight;
 ctx = Board.canvas.getContext("2d");
 ctx.setTransform(scaleFillNativeWidth,0,0,scaleFillNativeHeight,0,0);
 }
-}
-
-function FrontPannel() { 
-if (hider_ > 1) {
-hider_ = 0;
-}
-if (hider_ == 0) {
-ctx = Board.canvas.getContext("2d");
-ctx.setTransform(1,0,0,1,0,0);
-ctx.imageSmoothingEnabled = false;
-Board.canvas.width = 800;
-Board.canvas.height = 500;
-document.getElementById("content").style.display = "initial";
-document.getElementById("screen").style.transform  = "scale(1.9)";
-document.getElementById("screen").style.top  = "18.2%";
-document.getElementById("screen").style.bottom  = "initial";
-document.getElementById("screen").style.left  = "20%";
-document.getElementById("screen").style.right  = "20%";
-document.getElementById("screen").style.marginLeft = "auto";
-document.getElementById("screen").style.marginRight = "auto";
-document.getElementById("screen").style.width = "600px";
-document.getElementById("screen").style.height = "400px";
-}
-if (hider_ == 1) {
-document.getElementById("content").style.display = "none";
-document.getElementById("screen").style.transform  = "scale(1)";
-document.getElementById("screen").style.top  = "0px";
-document.getElementById("screen").style.bottom  = "";
-document.getElementById("screen").style.left  = "0px";
-document.getElementById("screen").style.right  = "";
-document.getElementById("screen").style.marginLeft = "0px";
-document.getElementById("screen").style.marginRight = "0px";
-document.getElementById("screen").style.width = "100%";
-document.getElementById("screen").style.height = "100%";
-}
-}
 
 var tip = 0;
-var tips = 11;
+var tips = 10;
 function TipsText() {
 if (tip == 0) {
 if (christmasSkin == 0) {
@@ -6028,14 +5663,6 @@ TipsTxt.text = "Tip: Don't let them surround you..."
 TipsTxt.font = "14px Consolas";
  }
 if (tip == 6) {
-if (STPDAYEVENTTRIGGER == 0) {
-TipsTxt.text = "Tip: Play in March and join the St. Patty's Day event..."
-TipsTxt.font = "9px Consolas";
-} else {
-tip++;
-}
- }
-if (tip == 7) {
 if (STPRIZEWEAPON == 0) {
 TipsTxt.text = "Tip: Beat the St. Patty's Day event on hard..."
 TipsTxt.font = "10px Consolas";
@@ -6043,7 +5670,7 @@ TipsTxt.font = "10px Consolas";
 tip++;
 }
 }
-if (tip == 8) {
+if (tip == 7) {
 if (STPRIZESHIP == 0) {
 TipsTxt.text = "Tip: Beat the St. Patty's Day event to earn a ship..."
 TipsTxt.font = "9px Consolas";
@@ -6051,7 +5678,7 @@ TipsTxt.font = "9px Consolas";
 tip++;
 }
 }
-if (tip == 9) {
+if (tip == 8) {
 if (stcweapon == 0) {
 TipsTxt.text = "Tip: Play during September 11th-30th to find a secret..."
 TipsTxt.font = "9px Consolas";
@@ -6059,7 +5686,7 @@ TipsTxt.font = "9px Consolas";
 tip++;
 }
 }
-if (tip == 10) {
+if (tip == 9) {
 if (stcweapon == 1 && stcget == 0) {
 TipsTxt.text = "Tip: Search the trees for a special weapon..."
 TipsTxt.font = "10px Consolas";
@@ -8777,9 +8404,6 @@ Explosion_2.color = "EXFrame2";
 Explosion_3.color = "EXFrame2";
 Explosion_4.color = "EXFrame2";
 Explosion_5.color = "EXFrame2";
-if (upgrademenu == 0 && wave == 7 && count != 10 && menu > 0 && pauseGame == 0 && spawnBoss7 == 0) {
-document.getElementById('explosion').play();
- }
 }
 if (ExplosionCycle == 2) {
 Explosion.color = "EXFrame3";
@@ -9176,9 +8800,7 @@ badguy1.speedY = badhurtspeedai1;
 }
 if (box.crashWith(badguy1)) {
 if (playerHealth > 0) {
-if (CapName != healthcheat && CapName != fullcheat) {
 playerHealth -= Bad1DamageDeal;
-  }
  }
 }
 if (weapon == 1) {
@@ -9428,9 +9050,7 @@ badguy2.speedY = badhurtspeedai2;
 }
 if (box.crashWith(badguy2)) {
 if (playerHealth > 0) {
-if (CapName != healthcheat && CapName != fullcheat) {
 playerHealth -= Bad2DamageDeal;
-  }
  }
 }
 if (weapon == 1) {
@@ -9596,9 +9216,7 @@ tribox.speedY = badhurtspeedai3;
 }
 if (box.crashWith(tribox)) {
 if (playerHealth > 0) {
-if (CapName != healthcheat && CapName != fullcheat) {
 playerHealth -= Bad3DamageDeal;
-  }
  }
 }//goherenoww//
 if (weapon == 1) {
@@ -9765,9 +9383,7 @@ xbox1.speedY = badhurtspeedai5;
 }
 if (box.crashWith(xbox1)) {
 if (playerHealth > 0) {
-if (CapName != healthcheat && CapName != fullcheat) {
 playerHealth -= Bad5DamageDeal;
-  }
  }
 }
 if (weapon == 1) {
@@ -9979,9 +9595,7 @@ recbox1.speedY = badhurtspeedai4;
 }
 if (box.crashWith(recbox1)) {
 if (playerHealth > 0) {
-if (CapName != healthcheat && CapName != fullcheat) {
 playerHealth -= Bad4DamageDeal;
-  }
  }
 }
 if (weapon == 1) {
@@ -10219,9 +9833,7 @@ if (wave > 4 && wave < 7) {
 if (tribbox.crashWith(box)) {
 if (playerHealth > 0) {
 if (trifire == 1) {
-if (CapName != healthcheat && CapName != fullcheat) {
 playerHealth -= TriBullDamageDeal;
-}
 trifire = 0;
       }
      }
@@ -10563,7 +10175,7 @@ document.getElementById('level1').play();
 }
 if (menu == 0) {
 if (Death1 == 0) {
-document.getElementById('Menu').play();
+document.getElementById('title').play();
  }
 }
 if (Death1 > 0) {
@@ -10571,8 +10183,13 @@ document.getElementById('Death').play();
 }
 if (upgrademenu > 0) {
 if (Death1 == 0) {
-document.getElementById('Menu').play();
+document.getElementById('upgradeMenu').play();
  }
+}
+if (menu != 0) {
+if (wave == 22) {
+document.getElementById('warpZone').play();
+}
 }
 if (upgrademenu == 0) {
 if (Death1 == 0) {
@@ -10592,6 +10209,9 @@ document.getElementById('boss7').play();
    }
   }
  }
+if (upgrademenu == 0 && wave == 7 && count != 10 && menu > 0 && pauseGame == 0 && spawnBoss7 == 0) {
+document.getElementById('explosion').play();
+}
 if (ammo <= 20/100 * maxAmmo && playerHealth > 0) {
 document.getElementById('lowammo').play();
 }
@@ -10605,95 +10225,71 @@ document.getElementById('firesound').play();
 	
 function SetVolume() {
 if (mutemusic == 0) {
-var player = document.getElementById('level1');
-player.volume = val / 100;
-var player2 = document.getElementById('level2');
-player2.volume = val / 100;
-var player3 = document.getElementById('boss7');
-player3.volume = val / 100;
-var menus = document.getElementById('Menu');
-menus.volume = val / 100;
-var Dead = document.getElementById('Death');
-Dead.volume = val / 100;
+document.getElementById('level1').volume = val / 100;
+document.getElementById('level2').volume = val / 100;
+document.getElementById('boss7').volume = val / 100;
+document.getElementById('title').volume = val / 100;
+document.getElementById('upgradeMenu').volume = val / 100;
+document.getElementById('warpZone').volume = val / 100;
+document.getElementById('Death').volume = val / 100;
  }
 }
 
 function SetVolume2() {
 if (mutemusic == 0) {
 if (muteShooting == false) {
-var fireVolume = document.getElementById('firesound');
-fireVolume.volume = val2 / 300;
+document.getElementById('firesound').volume = val2 / 300;
 } else {
-var fireVolume = document.getElementById('firesound');
-fireVolume.volume = 0 / 300;
+document.getElementById('firesound').volume = 0 / 300;
 }
 if (muteLowAmmo == false) {
-var ammoVolume = document.getElementById('lowammo');
-ammoVolume.volume = val2 / 300;
+document.getElementById('lowammo').volume = val2 / 300;
 } else {
-var ammoVolume = document.getElementById('lowammo');
-ammoVolume.volume = 0 / 300;
+document.getElementById('lowammo').volume = 0 / 300;
 }
 if (muteExplosion == false) {
-var explosionVolume = document.getElementById('explosion');
-explosionVolume.volume = val2 / 300;
+document.getElementById('explosion').volume = val2 / 300;
 } else {
-var explosionVolume = document.getElementById('explosion');
-explosionVolume.volume = 0 / 300;
+document.getElementById('explosion').volume = 0 / 300;
 }
  }
 }
 
 function mute() {
 if (mutemusic == 1) {
-var player = document.getElementById('level1');
-player.volume = 0 / 100;
-var player2 = document.getElementById('level2');
-player2.volume = 0 / 100;
-var player3 = document.getElementById('boss7');
-player3.volume = 0 / 100;
-var menus = document.getElementById('Menu');
-menus.volume = 0 / 100;
-var Dead = document.getElementById('Death');
-Dead.volume = 0 / 100;
-var fireVolume = document.getElementById('firesound');
-fireVolume.volume = 0 / 300;
-var ammoVolume = document.getElementById('lowammo');
-ammoVolume.volume = 0 / 300;
-var explosionVolume = document.getElementById('explosion');
-explosionVolume.volume = 0 / 300;
+document.getElementById('level1').volume = 0 / 100;
+document.getElementById('level2').volume = 0 / 100;
+document.getElementById('boss7').volume = 0 / 100;
+document.getElementById('title').volume = 0 / 100;
+document.getElementById('upgradeMenu').volume = 0 / 100;
+document.getElementById('warpZone').volume = 0 / 100;
+document.getElementById('Death').volume = 0 / 100;
+document.getElementById('firesound').volume = 0 / 300;
+document.getElementById('lowammo').volume = 0 / 300;
+document.getElementById('explosion').volume = 0 / 300;
  }
 if (mutemusic == 0) {
-var player = document.getElementById('level1');
-player.volume = val / 100;
-var player2 = document.getElementById('level2');
-player2.volume = val / 100;
-var player3 = document.getElementById('boss7');
-player3.volume = val / 100;
-var menus = document.getElementById('Menu');
-menus.volume = val / 100;
-var Dead = document.getElementById('Death');
-Dead.volume = val / 100;
+document.getElementById('level1').volume = val / 100;
+document.getElementById('level2').volume = val / 100;
+document.getElementById('boss7').volume = val / 100;
+document.getElementById('title').volume = val / 100;
+document.getElementById('upgradeMenu').volume = val / 100;
+document.getElementById('warpZone').volume = val / 100;
+document.getElementById('Death').volume = val / 100;
 if (muteShooting == false) {
-var fireVolume = document.getElementById('firesound');
-fireVolume.volume = val2 / 300;
+document.getElementById('firesound').volume = val2 / 300;
 } else {
-var fireVolume = document.getElementById('firesound');
-fireVolume.volume = 0 / 300;
+document.getElementById('firesound').volume = 0 / 300;
 }
 if (muteLowAmmo == false) {
-var ammoVolume = document.getElementById('lowammo');
-ammoVolume.volume = val2 / 300;
+document.getElementById('lowammo').volume = val2 / 300;
 } else {
-var ammoVolume = document.getElementById('lowammo');
-ammoVolume.volume = 0 / 300;
+document.getElementById('lowammo').volume = 0 / 300;
 }
 if (muteExplosion == false) {
-var explosionVolume = document.getElementById('explosion');
-explosionVolume.volume = val2 / 300;
+document.getElementById('explosion').volume = val2 / 300;
 } else {
-var explosionVolume = document.getElementById('explosion');
-explosionVolume.volume = 0 / 300;
+document.getElementById('explosion').volume = 0 / 300;
 }
  }
 if (mutemusic > 1) {
@@ -10721,8 +10317,10 @@ function skipSound() {
  boss7.currentTime = 0;
  firesound.pause();
  firesound.currentTime = 0;
- Menu.pause();
- Menu.currentTime = 0;
+ title.pause();
+ title.currentTime = 0;
+ upgradeMenu.pause();
+ upgradeMenu.currentTime = 0;
  }
  if (Death1 == 0) {
  Death.pause();
@@ -10744,9 +10342,15 @@ function skipSound() {
  }
  if (menu > 0) {
  if (upgrademenu == 0) {
- Menu.pause();
- Menu.currentTime = 0;
+ title.pause();
+ title.currentTime = 0;
+ upgradeMenu.pause();
+ upgradeMenu.currentTime = 0;
   }
+ }
+ if (wave != 22) {
+ document.getElementById('warpZone').pause();
+ document.getElementById('warpZone').currentTime = 0;
  }
  if (fire == 0) {
  if (frameIndex5 == 1) {
@@ -10920,24 +10524,12 @@ Earth_Planet.shadowColor_ = "black";
 Earth_Planet.shadowBlur_ = 3;
 Earth_Planet.shadowOffsetX_ = 3;
 Earth_Planet.shadowOffsetY_ = 3;
-if (STPDAYEVENTTRIGGER == 1) {
-StPday_Planet.shadowColor_ = "black";
-StPday_Planet.shadowBlur_ = 3;
-StPday_Planet.shadowOffsetX_ = 3;
-StPday_Planet.shadowOffsetY_ = 3;
-}
 }
 if (Level_Shadows == false) {
 Earth_Planet.shadowColor_ = "";
 Earth_Planet.shadowBlur_ = 0;
 Earth_Planet.shadowOffsetX_ = 0;
 Earth_Planet.shadowOffsetY_ = 0;
-if (STPDAYEVENTTRIGGER == 1) {
-StPday_Planet.shadowColor_ = "";
-StPday_Planet.shadowBlur_ = 0;
-StPday_Planet.shadowOffsetX_ = 0;
-StPday_Planet.shadowOffsetY_ = 0;
-}
 }
 if (UI_Shadows == true) {
 EarthHitEnterText.y = 126;
@@ -10985,53 +10577,6 @@ Earth_PopUp_No_Text.shadowColor_ = "white";
 Earth_PopUp_No_Text.shadowBlur_ = 2;
 Earth_PopUp_No_Text.shadowOffsetX_ = 1;
 Earth_PopUp_No_Text.shadowOffsetY_ = 1;
-if (STPDAYEVENTTRIGGER == 1) {
-StPdayHitEnterText.y = 32;
-StPdayHitEnterText.shadowColor_ = "black";
-StPdayHitEnterText.shadowBlur_ = 2;
-StPdayHitEnterText.shadowOffsetX_ = 1;
-StPdayHitEnterText.shadowOffsetY_ = 1;
-StPday_PopUp_Message_Border.shadowColor_ = "black";
-StPday_PopUp_Message_Border.shadowBlur_ = 3;
-StPday_PopUp_Message_Border.shadowOffsetX_ = 3;
-StPday_PopUp_Message_Border.shadowOffsetY_ = 3;
-StPday_Location_Text.shadowColor_ = "black";
-StPday_Location_Text.shadowBlur_ = 2;
-StPday_Location_Text.shadowOffsetX_ = 1;
-StPday_Location_Text.shadowOffsetY_ = 1;
-StPday_Type_Text.shadowColor_ = "black";
-StPday_Type_Text.shadowBlur_ = 2;
-StPday_Type_Text.shadowOffsetX_ = 1;
-StPday_Type_Text.shadowOffsetY_ = 1;
-StPday_NumOfWaves_Text.shadowColor_ = "black";
-StPday_NumOfWaves_Text.shadowBlur_ = 2;
-StPday_NumOfWaves_Text.shadowOffsetX_ = 1;
-StPday_NumOfWaves_Text.shadowOffsetY_ = 1;
-StPday_NumOfBosses_Text.shadowColor_ = "black";
-StPday_NumOfBosses_Text.shadowBlur_ = 2;
-StPday_NumOfBosses_Text.shadowOffsetX_ = 1;
-StPday_NumOfBosses_Text.shadowOffsetY_ = 1;
-StPday_Completed_Text.shadowColor_ = "black";
-StPday_Completed_Text.shadowBlur_ = 2;
-StPday_Completed_Text.shadowOffsetX_ = 1;
-StPday_Completed_Text.shadowOffsetY_ = 1;
-StPday_PopUp_Yes_Button.shadowColor_ = "black";
-StPday_PopUp_Yes_Button.shadowBlur_ = 3;
-StPday_PopUp_Yes_Button.shadowOffsetX_ = 3;
-StPday_PopUp_Yes_Button.shadowOffsetY_ = 3;
-StPday_PopUp_Yes_Text.shadowColor_ = "white";
-StPday_PopUp_Yes_Text.shadowBlur_ = 2;
-StPday_PopUp_Yes_Text.shadowOffsetX_ = 1;
-StPday_PopUp_Yes_Text.shadowOffsetY_ = 1;
-StPday_PopUp_No_Button.shadowColor_ = "black";
-StPday_PopUp_No_Button.shadowBlur_ = 3;
-StPday_PopUp_No_Button.shadowOffsetX_ = 3;
-StPday_PopUp_No_Button.shadowOffsetY_ = 3;
-StPday_PopUp_No_Text.shadowColor_ = "white";
-StPday_PopUp_No_Text.shadowBlur_ = 2;
-StPday_PopUp_No_Text.shadowOffsetX_ = 1;
-StPday_PopUp_No_Text.shadowOffsetY_ = 1;
-}
 }
 if (UI_Shadows == false) {
 EarthHitEnterText.y = 124;
@@ -11079,53 +10624,6 @@ Earth_PopUp_No_Text.shadowColor_ = "";
 Earth_PopUp_No_Text.shadowBlur_ = 0;
 Earth_PopUp_No_Text.shadowOffsetX_ = 0;
 Earth_PopUp_No_Text.shadowOffsetY_ = 0;
-if (STPDAYEVENTTRIGGER == 1) {
-StPdayHitEnterText.y = 30;
-StPdayHitEnterText.shadowColor_ = "";
-StPdayHitEnterText.shadowBlur_ = 0;
-StPdayHitEnterText.shadowOffsetX_ = 0;
-StPdayHitEnterText.shadowOffsetY_ = 0;
-StPday_PopUp_Message_Border.shadowColor_ = "";
-StPday_PopUp_Message_Border.shadowBlur_ = 0;
-StPday_PopUp_Message_Border.shadowOffsetX_ = 0;
-StPday_PopUp_Message_Border.shadowOffsetY_ = 0;
-StPday_Location_Text.shadowColor_ = "";
-StPday_Location_Text.shadowBlur_ = 0;
-StPday_Location_Text.shadowOffsetX_ = 0;
-StPday_Location_Text.shadowOffsetY_ = 0;
-StPday_Type_Text.shadowColor_ = "";
-StPday_Type_Text.shadowBlur_ = 0;
-StPday_Type_Text.shadowOffsetX_ = 0;
-StPday_Type_Text.shadowOffsetY_ = 0;
-StPday_NumOfWaves_Text.shadowColor_ = "";
-StPday_NumOfWaves_Text.shadowBlur_ = 0;
-StPday_NumOfWaves_Text.shadowOffsetX_ = 0;
-StPday_NumOfWaves_Text.shadowOffsetY_ = 0;
-StPday_NumOfBosses_Text.shadowColor_ = "";
-StPday_NumOfBosses_Text.shadowBlur_ = 0;
-StPday_NumOfBosses_Text.shadowOffsetX_ = 0;
-StPday_NumOfBosses_Text.shadowOffsetY_ = 0;
-StPday_Completed_Text.shadowColor_ = "";
-StPday_Completed_Text.shadowBlur_ = 0;
-StPday_Completed_Text.shadowOffsetX_ = 0;
-StPday_Completed_Text.shadowOffsetY_ = 0;
-StPday_PopUp_Yes_Button.shadowColor_ = "";
-StPday_PopUp_Yes_Button.shadowBlur_ = 0;
-StPday_PopUp_Yes_Button.shadowOffsetX_ = 0;
-StPday_PopUp_Yes_Button.shadowOffsetY_ = 0;
-StPday_PopUp_Yes_Text.shadowColor_ = "";
-StPday_PopUp_Yes_Text.shadowBlur_ = 0;
-StPday_PopUp_Yes_Text.shadowOffsetX_ = 0;
-StPday_PopUp_Yes_Text.shadowOffsetY_ = 0;
-StPday_PopUp_No_Button.shadowColor_ = "";
-StPday_PopUp_No_Button.shadowBlur_ = 0;
-StPday_PopUp_No_Button.shadowOffsetX_ = 0;
-StPday_PopUp_No_Button.shadowOffsetY_ = 0;
-StPday_PopUp_No_Text.shadowColor_ = "";
-StPday_PopUp_No_Text.shadowBlur_ = 0;
-StPday_PopUp_No_Text.shadowOffsetX_ = 0;
-StPday_PopUp_No_Text.shadowOffsetY_ = 0;
-}
 }
 if (circle.circleCrashWith(Earth_Planet_Circle_Collider) == true) {
 if (EarthHitEnterText.globalAlpha < 1 && Earth_Text_Global_Alpha_Swap == false) {
@@ -11154,39 +10652,6 @@ EarthHitEnterText.globalAlpha = 0;
 WarpZone_BG.update();
 Earth_Planet.update();
 EarthHitEnterText.update();
-if (STPDAYEVENTTRIGGER == 1) {
-if (circle.circleCrashWith(StPday_Planet_Circle_Collider) == true) {
-if (StPdayHitEnterText.globalAlpha < 1 && StPday_Text_Global_Alpha_Swap == false) {
-StPdayHitEnterText.globalAlpha += 0.02;
-}
-if (StPdayHitEnterText.globalAlpha >= 1) {
-StPdayHitEnterText.globalAlpha = 1;
-StPday_Text_Global_Alpha_Swap = true;
-}
-if (StPdayHitEnterText.globalAlpha > 0 && StPday_Text_Global_Alpha_Swap == true) {
-StPdayHitEnterText.globalAlpha -= 0.02;
-}
-if (StPdayHitEnterText.globalAlpha <= 0) {
-StPdayHitEnterText.globalAlpha = 0;
-StPday_Text_Global_Alpha_Swap = false;
-}
-}
-if (circle.circleCrashWith(StPday_Planet_Circle_Collider) == false) {
-if (StPdayHitEnterText.globalAlpha > 0) {
-StPdayHitEnterText.globalAlpha -= 0.02;
-}
-if (StPdayHitEnterText.globalAlpha <= 0) {
-StPdayHitEnterText.globalAlpha = 0;
-}
-}
-StPday_Planet.update();
-StPdayHitEnterText.update();
-if (StPdayComplete == false) {
-StPday_Completed_Text.text = "Completed: false";
-} else {
-StPday_Completed_Text.text = "Completed: true";
-}
-}
 Earth_PopUp_Message_Border.update();
 Earth_PopUp_Message.update();
 Earth_Location_Text.update();
@@ -11198,19 +10663,6 @@ Earth_PopUp_Yes_Button.update();
 Earth_PopUp_Yes_Text.update();
 Earth_PopUp_No_Button.update();
 Earth_PopUp_No_Text.update();
-if (STPDAYEVENTTRIGGER == 1) {
-StPday_PopUp_Message_Border.update();
-StPday_PopUp_Message.update();
-StPday_Location_Text.update();
-StPday_Type_Text.update();
-StPday_NumOfWaves_Text.update();
-StPday_NumOfBosses_Text.update();
-StPday_Completed_Text.update();
-StPday_PopUp_Yes_Button.update();
-StPday_PopUp_Yes_Text.update();
-StPday_PopUp_No_Button.update();
-StPday_PopUp_No_Text.update();
-}
 if (Earth_Popup_Message_Show == true && Saint_Patties_Day_Message_Show == false) {
 if (circle.mixCrashWith(Earth_PopUp_Yes_Button) == true) {
 		PlayerShadowManager.ShadowColor = "green";
@@ -11219,28 +10671,11 @@ if (circle.mixCrashWith(Earth_PopUp_No_Button) == true) {
 		PlayerShadowManager.ShadowColor = "red";
 }
 }
-if (STPDAYEVENTTRIGGER == 1) {
-if (Earth_Popup_Message_Show == false && Saint_Patties_Day_Message_Show == true) {
-if (circle.mixCrashWith(StPday_PopUp_Yes_Button) == true) {
-		PlayerShadowManager.ShadowColor = "green";
-}
-if (circle.mixCrashWith(StPday_PopUp_No_Button) == true) {
-		PlayerShadowManager.ShadowColor = "red";
-}
-}
-}
 //reset shadow color//
 if (circle.mixCrashWith(Earth_PopUp_Yes_Button) == false && circle.mixCrashWith(Earth_PopUp_No_Button) == false) {
 	if (Earth_Popup_Message_Show == true && Saint_Patties_Day_Message_Show == false) {
 		PlayerShadowManager.ShadowColor = "black";
 	}
-}
-if (STPDAYEVENTTRIGGER == 1) {
-if (circle.mixCrashWith(StPday_PopUp_Yes_Button) == false && circle.mixCrashWith(StPday_PopUp_No_Button) == false) {
-	if (Earth_Popup_Message_Show == false && Saint_Patties_Day_Message_Show == true) {
-		PlayerShadowManager.ShadowColor = "black";
-	}
-}
 }
 }
 if (Earth_Popup_Message_Show == false && Saint_Patties_Day_Message_Show == false) {
@@ -11379,57 +10814,16 @@ if (circle.mixCrashWith(Earth_PopUp_No_Button) == true) {
 }
 }
 }
-if (STPDAYEVENTTRIGGER == 1) {
-if (StPday_PopUp_Message.globalAlpha <= 0) {
-if (circle.circleCrashWith(StPday_Planet_Circle_Collider) == true) {
-	if (Earth_Popup_Message_Show == false && Saint_Patties_Day_Message_Show == false) {
-		Saint_Patties_Day_Message_Show = true;
-	}
-}
-}
-if (StPday_PopUp_Message.globalAlpha >= 1) {
-if (Earth_Popup_Message_Show == false && Saint_Patties_Day_Message_Show == true) {
-if (circle.mixCrashWith(StPday_PopUp_Yes_Button) == true) {
-		wave = 8000;
-		count = 0;
-		pauseGame = 0;
-		cratespawn = 0;
-		cratespawn2 = 0;
-		switchpos = 0;
-
-}
-if (circle.mixCrashWith(StPday_PopUp_No_Button) == true) {
-		Saint_Patties_Day_Message_Show = false;
-}
-}
-}
-}
 }
 }
 
 var locationV = "Monty Forest Cabins";
 var namebX = 620;
 var namebY = 450;
-var ammocheat = "MOREAMMO";
-var healthcheat = "MOREHEALTH";
-var wavebonus = "RYANMACE";
-var waveStPDay = "CLOVER";
-var testwave = "TEST";
-var resetcheat = "RESET";
-var fullcheat = "FULLYMAXED";
-var weapv = "VAULT";
 var blockKeys = false;
 var weaponVault = 0;
 var goBack = 0;
 var goToWarpZone = 0;
-document.getElementById('name').onfocus = function() { 
-blockKeys = true;
-console.log("test1");
-}
-document.getElementById('name').onblur = function() { 
-blockKeys = false;
-console.log("test2");
-}
 document.getElementById('Easy_').onfocus = function() { 
 document.getElementById('Medium_').checked = false;
 document.getElementById('Hard_').checked = false;
@@ -11445,19 +10839,8 @@ document.getElementById('Easy_').checked = false;
 document.getElementById('Medium_').checked = false;
 difficulty = 2;
 }
- var name = document.getElementById('name').value;
-function RunCommand() {
- if (name.charAt(0) == "/") {
-	 var code = name.replace("/", "");
-	 var output_code = eval(code);
-	 console.log(output_code);
- }
-}
- var CapName = name.toUpperCase();
+
 function nameFC() {
- name = document.getElementById('name').value;
- document.getElementById('name').autofocus = false;
- CapName = name.toUpperCase();
  locationN = new component("30px", "Consolas", "white", namebX - 40, namebY + 45, "text");
  locationN.font="12px Consolas";
  locationN.text= "Location: " + locationV;
@@ -11478,29 +10861,10 @@ function nameFC() {
  if (wave == 8000) {
  locationV = "Blossom Fields";
  }
- if (CapName == ammocheat) {
- ammo = maxAmmo;
- }
- if (CapName == healthcheat) {
- playerHealth = playerHealthMax;
- }
- if (CapName == fullcheat) {
- playerHealth = playerHealthMax;
- ammo = maxAmmo;
- }
- if (CapName == wavebonus) {
+ /**if (CapName == wavebonus) {
  wave = 9000;
  document.getElementById('name').value = "";
- }
- if (CapName == waveStPDay && STPDAYEVENTTRIGGER == 1) {
- wave = 8000;
- count = 0;
- pauseGame = 0;
- cratespawn = 0;
- cratespawn2 = 0;
- switchpos = 0;
- document.getElementById('name').value = "";
- }
+ }**/
  if (goToWarpZone == 1) {
 	wave = 22;
 	count = 0;
@@ -11574,15 +10938,12 @@ function nameFC() {
  PlayerShipsArray.push(ship6);
  PlayerShadowManager = new PlayerShadowHandler(PlayerShipsArray, "black", 5, 3, 3);
  }
- if (CapName == weapv) {
- vaultShow = 1;
- }
- if (CapName != weapv) {
- vaultShow = 0;
- }
- if (CapName == resetcheat) {
- document.location.reload(true);
- }
+ //if (CapName == weapv) {
+ //vaultShow = 1;
+ //}
+ //if (CapName != weapv) {
+ //vaultShow = 0;
+ //}
 }
 var money = 50;
 var totalMoney = 0;
@@ -11655,7 +11016,7 @@ var pauseGame = 0;
 var backSwitch = 0;
 function backfunc() {
    backSwitch = 0;
-   if (specialalert1 == 0 && STPOPUP == 0) {
+   if (specialalert1 == 0) {
    if (pauseGame == 0) {
    if (upgrademenu > 0) {
             backSwitch = 1;
@@ -11665,9 +11026,6 @@ function backfunc() {
 	}
    if (specialalert1 == 1) {
    specialalert1 = 0;
-   }
-   if (STPOPUP == 1) {
-   STPOPUP = 0;
    }
    if (backSwitch == 0) {
    if (upgrademenu == 0) {
