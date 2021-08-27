@@ -16,9 +16,6 @@ window.addEventListener('keyup',
 false);
 
 var popup = 1;
-var fallseason = 0;
-var winterseason = 0;
-var springseason = 0;
 var stcweapon = 0;
 var christmasSkin = 0;
 var miniBossShip = 0;
@@ -43,21 +40,6 @@ if (mymonth == 11 && christmasSkin == 0) {
 christmasSkin = 1;
 localStorage && (localStorage.Cs = christmasSkin);
 }
-if (mymonth >= 8 && mymonth < 11) {
-if (mytoday >= 1) {
-fallseason = 1;
-   }
-  }
-if (mymonth == 11 || mymonth >= 0 && mymonth < 2) {
-if (mytoday >= 1) {
-winterseason = 1;
-   }
-  }
-if (mymonth >= 2 && mymonth < 5) {
-if (mytoday >= 1) {
-springseason = 1;
-   }
-  }
 if (mymonth == 8) {
 if (mytoday >= 11 && mytoday < 30) {
 stcweapon = 1;
@@ -362,10 +344,6 @@ function start() {
  ship6 = new component(25, 25, "player6img", playerX, playerY, "animated-img-rot");
  PlayerShipsArray.push(ship6);
  PlayerShadowManager = new PlayerShadowHandler(PlayerShipsArray, "black", 5, 3, 3);"rec-rot-poly"
- testbox = new component(25, 25, "yellow", 100, 100, "rec-rot-poly");
- testbox2 = new component(25, 25, "orange", 300, 300, "rec-rot-poly");
- test = new ComponentSpawner(10, 10, "red", 0, 0, "rec", "", "", "", 100, "", 50, 4000, 4005, 2, true, "Normal", "Normal", 0, 100, 0.1, 0.13, 0.16, "Normal", box, "", 1, 1.5, 2.5, 3, 0.12, 0.15, 1.2, 1.5);
- test_house = new component(100, 50, "grey", 100, 100, "house", "top", 50, 5, 125, 100);
  //Warp Zone
  WarpZone_BG = new component(800, 390, "warp_zone", 0, 0, "img");
  //Earth shit
@@ -463,112 +441,13 @@ function start() {
  Earth_PopUp_No_Text.shadowBlur_ = 2;
  Earth_PopUp_No_Text.shadowOffsetX_ = 1;
  Earth_PopUp_No_Text.shadowOffsetY_ = 1;
- //St. P day shit
- StPdayHitEnterText = new component("", "", "white", 121, 30, "text");
- StPdayHitEnterText.align = "center";
- StPdayHitEnterText.font = "20px Consolas Bold";
- StPdayHitEnterText.text = "Press Enter!";
- StPdayHitEnterText.globalAlpha = 0;
- StPdayHitEnterText.shadowColor_ = "black";
- StPdayHitEnterText.shadowBlur_ = 2;
- StPdayHitEnterText.shadowOffsetX_ = 1;
- StPdayHitEnterText.shadowOffsetY_ = 1;
- StPday_Planet_Circle_Collider = new component(0, 0, "white", 121, 101, "cir", 70);
- StPday_Planet = new component(142, 142, "stPearth", 50, 30, "img");
- StPday_Planet.shadowColor_ = "black";
- StPday_Planet.shadowBlur_ = 3;
- StPday_Planet.shadowOffsetX_ = 3;
- StPday_Planet.shadowOffsetY_ = 3;
- StPday_PopUp_Message = new component(200, 200, "#63218a", 400-(200/2), 195-(200/2), "rec");
- StPday_PopUp_Message.globalAlpha = 0;
- StPday_PopUp_Message_Border = new component(210, 210, "black", 400-(210/2), 195-(210/2), "rec");
- StPday_PopUp_Message_Border.globalAlpha = 0;
- StPday_Location_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+25, "text");
- StPday_Location_Text.align = "center";
- StPday_Location_Text.font = "20px Consolas Bold";
- StPday_Location_Text.text = "Warp to Planet Clover?";
- StPday_Location_Text.globalAlpha = 0;
- StPday_Location_Text.shadowColor_ = "black";
- StPday_Location_Text.shadowBlur_ = 2;
- StPday_Location_Text.shadowOffsetX_ = 1;
- StPday_Location_Text.shadowOffsetY_ = 1;
- StPday_Type_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+50, "text");
- StPday_Type_Text.align = "center";
- StPday_Type_Text.font = "20px Consolas Bold";
- StPday_Type_Text.text = "Type: Boss";
- StPday_Type_Text.globalAlpha = 0;
- StPday_Type_Text.shadowColor_ = "black";
- StPday_Type_Text.shadowBlur_ = 2;
- StPday_Type_Text.shadowOffsetX_ = 1;
- StPday_Type_Text.shadowOffsetY_ = 1;
- StPday_NumOfWaves_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+75, "text");
- StPday_NumOfWaves_Text.align = "center";
- StPday_NumOfWaves_Text.font = "20px Consolas Bold";
- StPday_NumOfWaves_Text.text = "Number of Waves: 1";
- StPday_NumOfWaves_Text.globalAlpha = 0;
- StPday_NumOfWaves_Text.shadowColor_ = "black";
- StPday_NumOfWaves_Text.shadowBlur_ = 2;
- StPday_NumOfWaves_Text.shadowOffsetX_ = 1;
- StPday_NumOfWaves_Text.shadowOffsetY_ = 1;
- StPday_NumOfBosses_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+100, "text");
- StPday_NumOfBosses_Text.align = "center";
- StPday_NumOfBosses_Text.font = "20px Consolas Bold";
- StPday_NumOfBosses_Text.text = "Number of Bosses: 1";
- StPday_NumOfBosses_Text.globalAlpha = 0;
- StPday_NumOfBosses_Text.shadowColor_ = "black";
- StPday_NumOfBosses_Text.shadowBlur_ = 2;
- StPday_NumOfBosses_Text.shadowOffsetX_ = 1;
- StPday_NumOfBosses_Text.shadowOffsetY_ = 1;
- StPday_Completed_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+125, "text");
- StPday_Completed_Text.align = "center";
- StPday_Completed_Text.font = "20px Consolas Bold";
- StPday_Completed_Text.text = "Completed: false";
- StPday_Completed_Text.globalAlpha = 0;
- StPday_Completed_Text.shadowColor_ = "black";
- StPday_Completed_Text.shadowBlur_ = 2;
- StPday_Completed_Text.shadowOffsetX_ = 1;
- StPday_Completed_Text.shadowOffsetY_ = 1;
- StPday_PopUp_Yes_Button = new component(50, 50, "black", 400-(200/2)+25, 195-(200/2)-60+200, "rec");
- StPday_PopUp_Yes_Button.globalAlpha = 0;
- StPday_PopUp_Yes_Button.shadowColor_ = "black";
- StPday_PopUp_Yes_Button.shadowBlur_ = 3;
- StPday_PopUp_Yes_Button.shadowOffsetX_ = 3;
- StPday_PopUp_Yes_Button.shadowOffsetY_ = 3;
- StPday_PopUp_Yes_Text = new component("", "", "white", 400-(200/2)+50, 195-(200/2)-60+230, "text");
- StPday_PopUp_Yes_Text.align = "center";
- StPday_PopUp_Yes_Text.font = "20px Consolas Bold";
- StPday_PopUp_Yes_Text.text = "YES";
- StPday_PopUp_Yes_Text.globalAlpha = 0;
- StPday_PopUp_Yes_Text.shadowColor_ = "white";
- StPday_PopUp_Yes_Text.shadowBlur_ = 2;
- StPday_PopUp_Yes_Text.shadowOffsetX_ = 1;
- StPday_PopUp_Yes_Text.shadowOffsetY_ = 1;
- StPday_PopUp_No_Button = new component(50, 50, "black", 400-(200/2)+125, 195-(200/2)-60+200, "rec");
- StPday_PopUp_No_Button.globalAlpha = 0;
- StPday_PopUp_No_Button.shadowColor_ = "black";
- StPday_PopUp_No_Button.shadowBlur_ = 3;
- StPday_PopUp_No_Button.shadowOffsetX_ = 3;
- StPday_PopUp_No_Button.shadowOffsetY_ = 3;
- StPday_PopUp_No_Text = new component("", "", "white", 400-(200/2)+151, 195-(200/2)-60+230, "text");
- StPday_PopUp_No_Text.align = "center";
- StPday_PopUp_No_Text.font = "20px Consolas Bold";
- StPday_PopUp_No_Text.text = "NO";
- StPday_PopUp_No_Text.globalAlpha = 0;
- StPday_PopUp_No_Text.shadowColor_ = "white";
- StPday_PopUp_No_Text.shadowBlur_ = 2;
- StPday_PopUp_No_Text.shadowOffsetX_ = 1;
- StPday_PopUp_No_Text.shadowOffsetY_ = 1;
- w1t5 = new component(800, 500, "wave1t5", 0, 0, "img");
+ w1t5 = new component(800, 390, "wave1t5", 0, 0, "img");
  w5t7 = new component(800, 390, "wave5t7", 0, 0, "img");
  Explosion = new component(800, 390, "EXFrame1", 0, 0, "img");
  Explosion_2 = new component(800, 390, "EXFrame1", 0, 0, "img");
  Explosion_3 = new component(800, 390, "EXFrame1", 0, 0, "img");
  Explosion_4 = new component(800, 390, "EXFrame1", 0, 0, "img");
  Explosion_5 = new component(800, 390, "EXFrame1", 0, 0, "img");
- Fw1t5 = new component(800, 500, "Fwave1t5", 0, 0, "img");
- Fw5t7 = new component(800, 390, "Fwave5t7", 0, 0, "img");
- Ww1t5 = new component(800, 500, "Wwave1t5", 0, 0, "img");
- Ww5t7 = new component(800, 390, "Wwave5t7", 0, 0, "img");
  wallleft = new component(60, 400, "black", -60, 0, "rec");
  wallright = new component(60, 400, "black", 800, 0, "rec");
  wall3 = new component(800, 60, "black", 0, -60, "rec");
@@ -610,73 +489,35 @@ function start() {
  inside2detect1 = new component(190, 130, "gray", 510, 100, "rec");
  floor2house1 = new component(200, 120, "housefloor1", 500, 90, "img");
  tree1_1_D = new component(50, 50, "black", 80, 290, "rec");
- tree1_1 = new component(50, 50, "tree", 80, 290, "img");
+ tree1_1 = new component(50, 50, "tree", 80, 290, "img-rot");
+ tree1_1.angle = Math.random()*6.28318531;
  tree1_2_D = new component(50, 50, "black", 650, 270, "rec");
- tree1_2 = new component(50, 50, "tree", 650, 270, "img");
+ tree1_2 = new component(50, 50, "tree", 650, 270, "img-rot");
+ tree1_2.angle = Math.random()*6.28318531;
  tree1_3_D = new component(50, 50, "black", 230, 90, "rec");
- tree1_3 = new component(50, 50, "tree", 230, 90, "img");
+ tree1_3 = new component(50, 50, "tree", 230, 90, "img-rot");
+ tree1_3.angle = Math.random()*6.28318531;
  tree1_4_D = new component(50, 50, "black", 270, 175, "rec");
- tree1_4 = new component(50, 50, "tree", 270, 175, "img");
+ tree1_4 = new component(50, 50, "tree", 270, 175, "img-rot");
+ tree1_4.angle = Math.random()*6.28318531;
  tree1_5_D = new component(50, 50, "black", 420, 70, "rec");
- tree1_5 = new component(50, 50, "tree", 420, 70, "img");
+ tree1_5 = new component(50, 50, "tree", 420, 70, "img-rot");
+ tree1_5.angle = Math.random()*6.28318531;
  tree1_6_D = new component(50, 50, "black", 620, 33, "rec");
- tree1_6 = new component(50, 50, "tree", 620, 33, "img");
+ tree1_6 = new component(50, 50, "tree", 620, 33, "img-rot");
+ tree1_6.angle = Math.random()*6.28318531;
  tree1_7_D = new component(50, 50, "black", 500, 285, "rec");
- tree1_7 = new component(50, 50, "tree", 500, 285, "img");
+ tree1_7 = new component(50, 50, "tree", 500, 285, "img-rot");
+ tree1_7.angle = Math.random()*6.28318531;
  tree1_8_D = new component(50, 50, "black", 300, 265, "rec");
- tree1_8 = new component(50, 50, "tree", 300, 265, "img");
- Ftree1_1 = new component(50, 50, "Ftrees", 80, 290, "img");
- Ftree1_2 = new component(50, 50, "Ftrees", 650, 270, "img");
- Ftree1_3 = new component(50, 50, "Ftrees", 230, 90, "img");
- Ftree1_4 = new component(50, 50, "Ftrees", 270, 175, "img");
- Ftree1_5 = new component(50, 50, "Ftrees", 420, 70, "img");
- Ftree1_6 = new component(50, 50, "Ftrees", 620, 33, "img");
- Ftree1_7 = new component(50, 50, "Ftrees", 500, 285, "img");
- Ftree1_8 = new component(50, 50, "Ftrees", 300, 265, "img");
- Wtree1_1 = new component(50, 50, "Wtrees", 80, 290, "img");
- Wtree1_2 = new component(50, 50, "Wtrees", 650, 270, "img");
- Wtree1_3 = new component(50, 50, "Wtrees", 230, 90, "img");
- Wtree1_4 = new component(50, 50, "Wtrees", 270, 175, "img");
- Wtree1_5 = new component(50, 50, "Wtrees", 420, 70, "img");
- Wtree1_6 = new component(50, 50, "Wtrees", 620, 33, "img");
- Wtree1_7 = new component(50, 50, "Wtrees", 500, 285, "img");
- Wtree1_8 = new component(50, 50, "Wtrees", 300, 265, "img");
- Stree1_1 = new component(50, 50, "Strees", 80, 290, "img");
- Stree1_2 = new component(50, 50, "Strees", 650, 270, "img");
- Stree1_3 = new component(50, 50, "Strees", 230, 90, "img");
- Stree1_4 = new component(50, 50, "Strees", 270, 175, "img");
- Stree1_5 = new component(50, 50, "Strees", 420, 70, "img");
- Stree1_6 = new component(50, 50, "Strees", 620, 33, "img");
- Stree1_7 = new component(50, 50, "Strees", 500, 285, "img");
- Stree1_8 = new component(50, 50, "Strees", 300, 265, "img");
- SWPart1 = new component(50, 75, "SWPart1_1", 110, 205.9, "img");
- SWPart2 = new component(75, 50, "SWPart2_2", 535, 230, "img");
- SWPart3 = new component(50, 75, "SWPart1_1", 560, 185, "img");
- SWPart4 = new component(75, 50, "SWPart2_2", 484.5, 230, "img");
- SWPart5 = new component(75, 50, "SWPart2_2", 434.5, 230, "img");
- SWPart6 = new component(50, 75, "SWPart1_1", 110, 182, "img");
- SWPart7 = new component(75, 50, "SWPart2_2", 384.5, 205, "img");
- SWPart8 = new component(75, 50, "SWPart2_2", 384.5, 230, "img");
- SWPart9 = new component(75, 50, "SWPart2_2", 334.5, 230, "img");
- SWPart10 = new component(75, 50, "SWPart2_2", 284.5, 230, "img");
- SWPart11 = new component(75, 50, "SWPart2_2", 234.5, 230, "img");
- SWPart12 = new component(75, 50, "SWPart2_2", 184.5, 230, "img");
- SWPart13 = new component(75, 50, "SWPart2_2", 134.5, 230, "img");
- SWPart14 = new component(50, 75, "SWPart1_1", 334.5, 205, "img");
- SWPart15 = new component(75, 50, "SWPart3_3", 334, 135, "img");
- SWPart16 = new component(50, 75, "SWPart1_1", 334.5, 180.5, "img");
- SWPart17 = new component(75, 50, "SWPart2_2", 384.5, 180, "img");
- SWPart18 = new component(75, 50, "SWPart4_4", 384.5, 135, "img");
+ tree1_8 = new component(50, 50, "tree", 300, 265, "img-rot");
+ tree1_8.angle = Math.random()*6.28318531;
  tree2_1_D = new component(50, 50, "black", 50, 20, "rec");
- tree2_1 = new component(50, 50, "tree", 50, 20, "img");
+ tree2_1 = new component(50, 50, "tree", 50, 20, "img-rot");
+ tree2_1.angle = Math.random()*6.28318531;
  tree2_2_D = new component(50, 50, "black", 230, 70, "rec");
- tree2_2 = new component(50, 50, "tree", 230, 70, "img");
- Ftree2_1 = new component(50, 50, "Ftrees", 50, 20, "img");
- Ftree2_2 = new component(50, 50, "Ftrees", 230, 70, "img");
- Wtree2_1 = new component(50, 50, "Wtrees", 50, 20, "img");
- Wtree2_2 = new component(50, 50, "Wtrees", 230, 70, "img");
- Stree2_1 = new component(50, 50, "Strees", 50, 20, "img");
- Stree2_2 = new component(50, 50, "Strees", 230, 70, "img");
+ tree2_2 = new component(50, 50, "tree", 230, 70, "img-rot");
+ tree2_2.angle = Math.random()*6.28318531;
  wall3house1 = new component(270, 10, "#666666", 480, 50, "rec");
  wall3house1_2 = new component(250, 10, "#666666", 490, 60, "rec");
  wall3house2 = new component(10, 90, "#666666", 480, 55, "rec");
@@ -728,25 +569,17 @@ function start() {
  plantbox3_1 = new component(50, 50, "plantbox1", 260, 280, "img");
  plantbox4_1 = new component(50, 50, "plantbox1", 160, 280, "img");
  tree2_3_D = new component(50, 50, "black", 360, 280, "rec");
- tree2_3 = new component(50, 50, "tree", 360, 280, "img");
+ tree2_3 = new component(50, 50, "tree", 360, 280, "img-rot");
+ tree2_3.angle = Math.random()*6.28318531;
  tree2_4_D = new component(50, 50, "black", 60, 280, "rec");
- tree2_4 = new component(50, 50, "tree", 60, 280, "img");
+ tree2_4 = new component(50, 50, "tree", 60, 280, "img-rot");
+ tree2_4.angle = Math.random()*6.28318531;
  tree2_5_D = new component(50, 50, "black", 260, 280, "rec");
- tree2_5 = new component(50, 50, "tree", 260, 280, "img");
+ tree2_5 = new component(50, 50, "tree", 260, 280, "img-rot");
+ tree2_5.angle = Math.random()*6.28318531;
  tree2_6_D = new component(50, 50, "black", 160, 280, "rec");
- tree2_6 = new component(50, 50, "tree", 160, 280, "img");
- Ftree2_3 = new component(50, 50, "Ftrees", 360, 280, "img");
- Ftree2_4 = new component(50, 50, "Ftrees", 60, 280, "img");
- Ftree2_5 = new component(50, 50, "Ftrees", 260, 280, "img");
- Ftree2_6 = new component(50, 50, "Ftrees", 160, 280, "img");
- Wtree2_3 = new component(50, 50, "Wtrees", 360, 280, "img");
- Wtree2_4 = new component(50, 50, "Wtrees", 60, 280, "img");
- Wtree2_5 = new component(50, 50, "Wtrees", 260, 280, "img");
- Wtree2_6 = new component(50, 50, "Wtrees", 160, 280, "img");
- Stree2_3 = new component(50, 50, "Strees", 360, 280, "img");
- Stree2_4 = new component(50, 50, "Strees", 60, 280, "img");
- Stree2_5 = new component(50, 50, "Strees", 260, 280, "img");
- Stree2_6 = new component(50, 50, "Strees", 160, 280, "img");
+ tree2_6 = new component(50, 50, "tree", 160, 280, "img-rot");
+ tree2_6.angle = Math.random()*6.28318531;
  ui = new component(800, 300, "#451661", 0, 390, "rec");
  backbutton = new component(160, 50, "#812bb3", backX - 100, backY + 100, "rec");
  backtxt = new component("30px", "Consolas", "white", backX - 90, backY + 130, "text");
@@ -844,11 +677,7 @@ function start() {
  menuboardtxt.font = "30px Consolas Bold";
  menuboardtxt.text = "Press Any Fire Key To Start!";
  formplat = new component(75, 75, "1-5platform", 359, 157, "img");
- formFplat = new component(75, 75, "1-5Fplatform", 359, 157, "img");
- formWplat = new component(75, 75, "1-5Wplatform", 359, 157, "img");
  border1_5 = new component(800, 390, "1-5sideborder", 0, 0, "img");
- Fborder1_5 = new component(800, 390, "1-5sideFborder", 0, 0, "img");
- Wborder1_5 = new component(800, 390, "1-5sideWborder", 0, 0, "img");
  LowHealth_ = new component(800, 390, "lowhealth", 0, 0, "img");
  LowHealthTxt = new component("30px", "Consolas", "orange", 30, 35, "text");
  LowHealthTxt.font = "35px Consolas";
@@ -2904,129 +2733,81 @@ if (roof2house1.globalAlpha < 1) {
  if (box.crashWith(tree1_1_D)) {
 if (tree1_1.globalAlpha > 0.5) {
 	tree1_1.globalAlpha -= 0.01;
-	Stree1_1.globalAlpha -= 0.01;
-	Ftree1_1.globalAlpha -= 0.01;
-	Wtree1_1.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree1_1_D) == false) { 
 if (tree1_1.globalAlpha < 1) {
 	tree1_1.globalAlpha += 0.01;
-	Stree1_1.globalAlpha += 0.01;
-	Ftree1_1.globalAlpha += 0.01;
-	Wtree1_1.globalAlpha += 0.01;
 }
   }
  if (box.crashWith(tree1_2_D)) {
 if (tree1_2.globalAlpha > 0.5) {
 	tree1_2.globalAlpha -= 0.01;
-	Stree1_2.globalAlpha -= 0.01;
-	Ftree1_2.globalAlpha -= 0.01;
-	Wtree1_2.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree1_2_D) == false) { 
 if (tree1_2.globalAlpha < 1) {
 	tree1_2.globalAlpha += 0.01;
-	Stree1_2.globalAlpha += 0.01;
-	Ftree1_2.globalAlpha += 0.01;
-	Wtree1_2.globalAlpha += 0.01;
 }
   }
  if (box.crashWith(tree1_3_D)) {
 if (tree1_3.globalAlpha > 0.5) {
 	tree1_3.globalAlpha -= 0.01;
-	Stree1_3.globalAlpha -= 0.01;
-	Ftree1_3.globalAlpha -= 0.01;
-	Wtree1_3.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree1_3_D) == false) { 
 if (tree1_3.globalAlpha < 1) {
 	tree1_3.globalAlpha += 0.01;
-	Stree1_3.globalAlpha += 0.01;
-	Ftree1_3.globalAlpha += 0.01;
-	Wtree1_3.globalAlpha += 0.01;
 }
   }
  if (box.crashWith(tree1_4_D)) {
 if (tree1_4.globalAlpha > 0.5) {
 	tree1_4.globalAlpha -= 0.01;
-	Stree1_4.globalAlpha -= 0.01;
-	Ftree1_4.globalAlpha -= 0.01;
-	Wtree1_4.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree1_4_D) == false) { 
 if (tree1_4.globalAlpha < 1) {
 	tree1_4.globalAlpha += 0.01;
-	Stree1_4.globalAlpha += 0.01;
-	Ftree1_4.globalAlpha += 0.01;
-	Wtree1_4.globalAlpha += 0.01;
 }
   }
  if (box.crashWith(tree1_5_D)) {
 if (tree1_5.globalAlpha > 0.5) {
 	tree1_5.globalAlpha -= 0.01;
-	Stree1_5.globalAlpha -= 0.01;
-	Ftree1_5.globalAlpha -= 0.01;
-	Wtree1_5.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree1_5_D) == false) { 
 if (tree1_5.globalAlpha < 1) {
 	tree1_5.globalAlpha += 0.01;
-	Stree1_5.globalAlpha += 0.01;
-	Ftree1_5.globalAlpha += 0.01;
-	Wtree1_5.globalAlpha += 0.01;
 }
   }
  if (box.crashWith(tree1_6_D)) {
 if (tree1_6.globalAlpha > 0.5) {
 	tree1_6.globalAlpha -= 0.01;
-	Stree1_6.globalAlpha -= 0.01;
-	Ftree1_6.globalAlpha -= 0.01;
-	Wtree1_6.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree1_6_D) == false) { 
 if (tree1_6.globalAlpha < 1) {
 	tree1_6.globalAlpha += 0.01;
-	Stree1_6.globalAlpha += 0.01;
-	Ftree1_6.globalAlpha += 0.01;
-	Wtree1_6.globalAlpha += 0.01;
 }
   }
  if (box.crashWith(tree1_7_D)) {
 if (tree1_7.globalAlpha > 0.5) {
 	tree1_7.globalAlpha -= 0.01;
-	Stree1_7.globalAlpha -= 0.01;
-	Ftree1_7.globalAlpha -= 0.01;
-	Wtree1_7.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree1_7_D) == false) { 
 if (tree1_7.globalAlpha < 1) {
 	tree1_7.globalAlpha += 0.01;
-	Stree1_7.globalAlpha += 0.01;
-	Ftree1_7.globalAlpha += 0.01;
-	Wtree1_7.globalAlpha += 0.01;
 }
   }
  if (box.crashWith(tree1_8_D)) {
 if (tree1_8.globalAlpha > 0.5) {
 	tree1_8.globalAlpha -= 0.01;
-	Stree1_8.globalAlpha -= 0.01;
-	Ftree1_8.globalAlpha -= 0.01;
-	Wtree1_8.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree1_8_D) == false) { 
 if (tree1_8.globalAlpha < 1) {
 	tree1_8.globalAlpha += 0.01;
-	Stree1_8.globalAlpha += 0.01;
-	Ftree1_8.globalAlpha += 0.01;
-	Wtree1_8.globalAlpha += 0.01;
 }
   }
  }
@@ -3088,97 +2869,61 @@ if (roof4house2.globalAlpha >= 1 && roof4house3.globalAlpha >= 1) {
 if (box.crashWith(tree2_1_D)) {
 if (tree2_1.globalAlpha > 0.5) {
 	tree2_1.globalAlpha -= 0.01;
-	Stree2_1.globalAlpha -= 0.01;
-	Ftree2_1.globalAlpha -= 0.01;
-	Wtree2_1.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree2_1_D) == false) { 
 if (tree2_1.globalAlpha < 1) {
 	tree2_1.globalAlpha += 0.01;
-	Stree2_1.globalAlpha += 0.01;
-	Ftree2_1.globalAlpha += 0.01;
-	Wtree2_1.globalAlpha += 0.01;
 }
   }
 if (box.crashWith(tree2_2_D)) {
 if (tree2_2.globalAlpha > 0.5) {
 	tree2_2.globalAlpha -= 0.01;
-	Stree2_2.globalAlpha -= 0.01;
-	Ftree2_2.globalAlpha -= 0.01;
-	Wtree2_2.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree2_2_D) == false) { 
 if (tree2_2.globalAlpha < 1) {
 	tree2_2.globalAlpha += 0.01;
-	Stree2_2.globalAlpha += 0.01;
-	Ftree2_2.globalAlpha += 0.01;
-	Wtree2_2.globalAlpha += 0.01;
 }
   }
 if (box.crashWith(tree2_3_D)) {
 if (tree2_3.globalAlpha > 0.5) {
 	tree2_3.globalAlpha -= 0.01;
-	Stree2_3.globalAlpha -= 0.01;
-	Ftree2_3.globalAlpha -= 0.01;
-	Wtree2_3.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree2_3_D) == false) { 
 if (tree2_3.globalAlpha < 1) {
 	tree2_3.globalAlpha += 0.01;
-	Stree2_3.globalAlpha += 0.01;
-	Ftree2_3.globalAlpha += 0.01;
-	Wtree2_3.globalAlpha += 0.01;
 }
   }
 if (box.crashWith(tree2_4_D)) {
 if (tree2_4.globalAlpha > 0.5) {
 	tree2_4.globalAlpha -= 0.01;
-	Stree2_4.globalAlpha -= 0.01;
-	Ftree2_4.globalAlpha -= 0.01;
-	Wtree2_4.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree2_4_D) == false) { 
 if (tree2_4.globalAlpha < 1) {
 	tree2_4.globalAlpha += 0.01;
-	Stree2_4.globalAlpha += 0.01;
-	Ftree2_4.globalAlpha += 0.01;
-	Wtree2_4.globalAlpha += 0.01;
 }
   }
 if (box.crashWith(tree2_5_D)) {
 if (tree2_5.globalAlpha > 0.5) {
 	tree2_5.globalAlpha -= 0.01;
-	Stree2_5.globalAlpha -= 0.01;
-	Ftree2_5.globalAlpha -= 0.01;
-	Wtree2_5.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree2_5_D) == false) { 
 if (tree2_5.globalAlpha < 1) {
 	tree2_5.globalAlpha += 0.01;
-	Stree2_5.globalAlpha += 0.01;
-	Ftree2_5.globalAlpha += 0.01;
-	Wtree2_5.globalAlpha += 0.01;
 }
   }
 if (box.crashWith(tree2_6_D)) {
 if (tree2_6.globalAlpha > 0.5) {
 	tree2_6.globalAlpha -= 0.01;
-	Stree2_6.globalAlpha -= 0.01;
-	Ftree2_6.globalAlpha -= 0.01;
-	Wtree2_6.globalAlpha -= 0.01;
 }
   }
 if (box.crashWith(tree2_6_D) == false) { 
 if (tree2_6.globalAlpha < 1) {
 	tree2_6.globalAlpha += 0.01;
-	Stree2_6.globalAlpha += 0.01;
-	Ftree2_6.globalAlpha += 0.01;
-	Wtree2_6.globalAlpha += 0.01;
 }
   }
  }
@@ -3507,7 +3252,21 @@ localStorage && (localStorage.SoundFXVol = document.getElementById("soundvolume"
 }
 }
 
-var fps = {	startTime : 0,	frameNumber : 0,	getFPS : function(){		this.frameNumber++;		var d = new Date().getTime(),			currentTime = ( d - this.startTime ) / 1000,			result = Math.floor( ( this.frameNumber / currentTime ) );		if( currentTime > 1 ){			this.startTime = new Date().getTime();			this.frameNumber = 0;		}		return result;	}	};
+var fps = {
+startTime:0,
+frameNumber:0,
+	getFPS : function(){
+	this.frameNumber++;
+	var d = new Date().getTime(),
+	currentTime = (d-this.startTime)/600,
+	result = Math.floor(this.frameNumber/currentTime);
+		if(currentTime > 1){
+		this.startTime = new Date().getTime();
+		this.frameNumber = 0;
+		}
+	return result;
+	}
+};
 function FPS_CONTROLLER() {
 		FPSText.globalAlpha = 1;
 		FPSText.text = fps.getFPS();
@@ -3597,7 +3356,6 @@ PlayerShadowManager.update();
 //WarpZone Colliders//
 if (wave == 22) {
 Earth_Planet_Circle_Collider.update();
-StPday_Planet_Circle_Collider.update();
 }
 if (fire > 0) {
 bullcir.update();
@@ -3688,42 +3446,8 @@ wall2house8.update();
 wallhouse8.update();
 insidedetect1.update();
 inside2detect1.update();
-if (fallseason == 0 && winterseason == 0) {
 w1t5.update();
-}
-if (fallseason == 1) {
-Fw1t5.update();
-}
-if (winterseason == 1) {
-Ww1t5.update();
-}
-SWPart6.update();
-SWPart13.update();
-SWPart1.update();
-SWPart3.update();
-SWPart18.update();
-SWPart17.update();
-SWPart16.update();
-SWPart15.update();
-SWPart14.update();
-SWPart7.update();
-SWPart12.update();
-SWPart11.update();
-SWPart10.update();
-SWPart9.update();
-SWPart8.update();
-SWPart5.update();
-SWPart4.update();
-SWPart2.update();
-if (fallseason == 0 && winterseason == 0) {
 formplat.update();
-}
-if (fallseason == 1) {
-formFplat.update();
-}
-if (winterseason == 1) {
-formWplat.update();
-}
 floorhouse1.update();
 floor2house1.update();
 }
@@ -3732,15 +3456,7 @@ wall3house6.update();
 wall4house7.update();
 inside3detect1.update();
 inside4detect1.update();
-if (fallseason == 0 && winterseason == 0) {
 w5t7.update();
-}
-if (fallseason == 1) {
-Fw5t7.update();
-}
-if (winterseason == 1) {
-Ww5t7.update();
-}
 if (wave == 7) {
 burntHouse1.update();
 burntHouse2.update();
@@ -3913,25 +3629,6 @@ if (playerHealth <= 75/100 * playerHealthMax) {
  }
  }
 }
-test.update();
-if (wave == 4001) {
-test_house.update();
-box.crashHouseWith(test_house);
-}
-if (wave == 4002) {
-testbox.update();
-testbox.newPos();
-testbox.rotateSpeed = 0.001;
-testbox2.update();
-testbox2.angle = 20;
-box.polyReact(testbox);
-box.polyReact(testbox2);
-console.log(box.polyCrashWith(testbox));
-if (box.polyCrashWith(testbox, true) != null) {
-var overlap = box.polyCrashWith(testbox, true);
-console.log(overlap);
-}
-}
 if (Death1 == 0) {
 if (playerShip == 0) {
 ship1.update();	
@@ -4007,7 +3704,6 @@ wall2house6_3.update();
 wall2house7.update();
 roof2house1.update();
 roofhouse1.update();
-if (fallseason == 0 && winterseason == 0 && springseason == 0) {
 tree1_1.update();
 tree1_2.update();
 tree1_3.update();
@@ -4016,37 +3712,6 @@ tree1_5.update();
 tree1_6.update();
 tree1_7.update();
 tree1_8.update();
- }
-if (fallseason == 1) {
-Ftree1_1.update();
-Ftree1_2.update();
-Ftree1_3.update();
-Ftree1_4.update();
-Ftree1_5.update();
-Ftree1_6.update();
-Ftree1_7.update();
-Ftree1_8.update();
- }
- if (winterseason == 1) {
-Wtree1_1.update();
-Wtree1_2.update();
-Wtree1_3.update();
-Wtree1_4.update();
-Wtree1_5.update();
-Wtree1_6.update();
-Wtree1_7.update();
-Wtree1_8.update();
- }
-if (springseason == 1) {
-Stree1_1.update();
-Stree1_2.update();
-Stree1_3.update();
-Stree1_4.update();
-Stree1_5.update();
-Stree1_6.update();
-Stree1_7.update();
-Stree1_8.update();
- }
 }
 if (wave > 4 && wave < 8) {
 if (ExplosionCycle <= 4 && spawnBoss7 == 0) {
@@ -4093,38 +3758,12 @@ roof4house3.update();
 roof4house2.update();
 roof4house1.update();
 }
-if (fallseason == 0 && winterseason == 0 && springseason == 0) {
 tree2_1.update();
 tree2_2.update();
 tree2_3.update();
 tree2_4.update();
 tree2_5.update();
 tree2_6.update();
- }
-if (fallseason == 1) {
-Ftree2_1.update();
-Ftree2_2.update();
-Ftree2_3.update();
-Ftree2_4.update();
-Ftree2_5.update();
-Ftree2_6.update();
- }
-if (winterseason == 1) {
-Wtree2_1.update();
-Wtree2_2.update();
-Wtree2_3.update();
-Wtree2_4.update();
-Wtree2_5.update();
-Wtree2_6.update();
- }
-if (springseason == 1) {
-Stree2_1.update();
-Stree2_2.update();
-Stree2_3.update();
-Stree2_4.update();
-Stree2_5.update();
-Stree2_6.update();
- }
 if (ExplosionCycle <= MaxFrame && spawnBoss7 == 0 && wave == 7) {
 Explosion_5.update();
 Explosion_4.update();
@@ -4144,15 +3783,7 @@ boss7healthbar.update();
 }
 ui.update();
 if (wave < 5) {
-if (fallseason == 0 && winterseason == 0) {
 border1_5.update();
- }
-if (fallseason == 1) {
-Fborder1_5.update();
- }
-if (winterseason == 1) {
-Wborder1_5.update();
- }
 }
 if (playerHealth <= 35/100 * playerHealthMax) {
 LowHealth_.update();
@@ -10505,15 +10136,11 @@ stat1_4.update();
 
 //WarpHere//
 var Earth_Text_Global_Alpha_Swap = false;
-var StPday_Text_Global_Alpha_Swap = false;
 var Earth_Popup_Message_Show = false;
-var Saint_Patties_Day_Message_Show = false;
 function warpZone() {
 if (wave != 22) {
 Earth_Text_Global_Alpha_Swap = false;
-StPday_Text_Global_Alpha_Swap = false;
 Earth_Popup_Message_Show = false;
-Saint_Patties_Day_Message_Show = false;
 }
 if (wave == 22) {
 ammo = maxAmmo;
@@ -10663,7 +10290,7 @@ Earth_PopUp_Yes_Button.update();
 Earth_PopUp_Yes_Text.update();
 Earth_PopUp_No_Button.update();
 Earth_PopUp_No_Text.update();
-if (Earth_Popup_Message_Show == true && Saint_Patties_Day_Message_Show == false) {
+if (Earth_Popup_Message_Show == true) {
 if (circle.mixCrashWith(Earth_PopUp_Yes_Button) == true) {
 		PlayerShadowManager.ShadowColor = "green";
 }
@@ -10673,12 +10300,12 @@ if (circle.mixCrashWith(Earth_PopUp_No_Button) == true) {
 }
 //reset shadow color//
 if (circle.mixCrashWith(Earth_PopUp_Yes_Button) == false && circle.mixCrashWith(Earth_PopUp_No_Button) == false) {
-	if (Earth_Popup_Message_Show == true && Saint_Patties_Day_Message_Show == false) {
+	if (Earth_Popup_Message_Show == true) {
 		PlayerShadowManager.ShadowColor = "black";
 	}
 }
 }
-if (Earth_Popup_Message_Show == false && Saint_Patties_Day_Message_Show == false) {
+if (Earth_Popup_Message_Show == false) {
 		PlayerShadowManager.ShadowColor = "black";
 }
 if (Earth_Popup_Message_Show == true) {
@@ -10709,34 +10336,6 @@ Earth_PopUp_No_Button.globalAlpha = 1;
 Earth_PopUp_No_Text.globalAlpha = 1;
 }
 }
-if (Saint_Patties_Day_Message_Show == true) {
-if (StPday_PopUp_Message.globalAlpha < 1) {
-StPday_PopUp_Message.globalAlpha += 0.02;
-StPday_PopUp_Message_Border.globalAlpha += 0.02;
-StPday_Location_Text.globalAlpha += 0.02;
-StPday_Type_Text.globalAlpha += 0.02;
-StPday_NumOfWaves_Text.globalAlpha += 0.02;
-StPday_NumOfBosses_Text.globalAlpha += 0.02;
-StPday_Completed_Text.globalAlpha += 0.02;
-StPday_PopUp_Yes_Button.globalAlpha += 0.02;
-StPday_PopUp_Yes_Text.globalAlpha += 0.02;
-StPday_PopUp_No_Button.globalAlpha += 0.02;
-StPday_PopUp_No_Text.globalAlpha += 0.02;
-}
-if (StPday_PopUp_Message.globalAlpha >= 1) {
-StPday_PopUp_Message.globalAlpha = 1;
-StPday_PopUp_Message_Border.globalAlpha = 1;
-StPday_Location_Text.globalAlpha = 1;
-StPday_Type_Text.globalAlpha = 1;
-StPday_NumOfWaves_Text.globalAlpha = 1;
-StPday_NumOfBosses_Text.globalAlpha = 1;
-StPday_Completed_Text.globalAlpha = 1;
-StPday_PopUp_Yes_Button.globalAlpha = 1;
-StPday_PopUp_Yes_Text.globalAlpha = 1;
-StPday_PopUp_No_Button.globalAlpha = 1;
-StPday_PopUp_No_Text.globalAlpha = 1;
-}
-}
 if (Earth_Popup_Message_Show == false) {
 if (Earth_PopUp_Message.globalAlpha > 0) {
 Earth_PopUp_Message.globalAlpha -= 0.02;
@@ -10765,47 +10364,19 @@ Earth_PopUp_No_Button.globalAlpha = 0;
 Earth_PopUp_No_Text.globalAlpha = 0;
 }
 }
-if (Saint_Patties_Day_Message_Show == false) {
-if (StPday_PopUp_Message.globalAlpha > 0) {
-StPday_PopUp_Message.globalAlpha -= 0.02;
-StPday_PopUp_Message_Border.globalAlpha -= 0.02;
-StPday_Location_Text.globalAlpha -= 0.02;
-StPday_Type_Text.globalAlpha -= 0.02;
-StPday_NumOfWaves_Text.globalAlpha -= 0.02;
-StPday_NumOfBosses_Text.globalAlpha -= 0.02;
-StPday_Completed_Text.globalAlpha -= 0.02;
-StPday_PopUp_Yes_Button.globalAlpha -= 0.02;
-StPday_PopUp_Yes_Text.globalAlpha -= 0.02;
-StPday_PopUp_No_Button.globalAlpha -= 0.02;
-StPday_PopUp_No_Text.globalAlpha -= 0.02;
-}
-if (StPday_PopUp_Message.globalAlpha <= 0) {
-StPday_PopUp_Message.globalAlpha = 0;
-StPday_PopUp_Message_Border.globalAlpha = 0;
-StPday_Location_Text.globalAlpha = 0;
-StPday_Type_Text.globalAlpha = 0;
-StPday_NumOfWaves_Text.globalAlpha = 0;
-StPday_NumOfBosses_Text.globalAlpha = 0;
-StPday_Completed_Text.globalAlpha = 0;
-StPday_PopUp_Yes_Button.globalAlpha = 0;
-StPday_PopUp_Yes_Text.globalAlpha = 0;
-StPday_PopUp_No_Button.globalAlpha = 0;
-StPday_PopUp_No_Text.globalAlpha = 0;
-}
-}
 }
 
 function WarpZoneControls() {
 if (wave == 22 && menu == 2 && pauseGame == 0) {
 if (Earth_PopUp_Message.globalAlpha <= 0) {
 if (circle.circleCrashWith(Earth_Planet_Circle_Collider) == true) {
-	if (Earth_Popup_Message_Show == false && Saint_Patties_Day_Message_Show == false) {
+	if (Earth_Popup_Message_Show == false) {
 		Earth_Popup_Message_Show = true;
 	}
 }
 }
 if (Earth_PopUp_Message.globalAlpha >= 1) {
-if (Earth_Popup_Message_Show == true && Saint_Patties_Day_Message_Show == false) {
+if (Earth_Popup_Message_Show == true) {
 if (circle.mixCrashWith(Earth_PopUp_Yes_Button) == true) {
 		goBack = 1;
 }
