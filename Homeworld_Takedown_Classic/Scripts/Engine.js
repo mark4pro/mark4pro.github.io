@@ -5255,7 +5255,7 @@ ctx.setTransform(scaleFillNativeWidth,0,0,scaleFillNativeHeight,0,0);
 }
 
 var tip = 0;
-var tips = 10;
+var tips = 8;
 function TipsText() {
 if (tip == 0) {
 if (christmasSkin == 0) {
@@ -5294,22 +5294,6 @@ TipsTxt.text = "Tip: Don't let them surround you..."
 TipsTxt.font = "14px Consolas";
  }
 if (tip == 6) {
-if (STPRIZEWEAPON == 0) {
-TipsTxt.text = "Tip: Beat the St. Patty's Day event on hard..."
-TipsTxt.font = "10px Consolas";
-} else {
-tip++;
-}
-}
-if (tip == 7) {
-if (STPRIZESHIP == 0) {
-TipsTxt.text = "Tip: Beat the St. Patty's Day event to earn a ship..."
-TipsTxt.font = "9px Consolas";
-} else {
-tip++;
-}
-}
-if (tip == 8) {
 if (stcweapon == 0) {
 TipsTxt.text = "Tip: Play during September 11th-30th to find a secret..."
 TipsTxt.font = "9px Consolas";
@@ -5317,7 +5301,7 @@ TipsTxt.font = "9px Consolas";
 tip++;
 }
 }
-if (tip == 9) {
+if (tip == 7) {
 if (stcweapon == 1 && stcget == 0) {
 TipsTxt.text = "Tip: Search the trees for a special weapon..."
 TipsTxt.font = "10px Consolas";
