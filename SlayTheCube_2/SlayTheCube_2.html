@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <link rel="icon" type="image/vnd.microsoft.icon" href="https://mark4pro.github.io/SlayTheCube_2/icon/stc2.ico" />
+	    <meta name="apple-mobile-web-app-capable" content="yes">
+	    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	    <link rel="apple-touch-icon" href="https://mark4pro.github.io/SlayTheCube_2/icon/STC2.png">
+	    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+		<title>SlayTheCube 2 Remake</title>
+		<script data-ad-client="ca-pub-1281398679549446" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<style>
+body {
+	margin: 0;
+	background-color: black;
+	position: fixed;
+}
+canvas {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	background-color: black;
+	image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+.unselectable {
+	-webkit-user-select: none; /* Safari 3.1+ */
+	-moz-user-select: none; /* Firefox 2+ */
+	-ms-user-select: none; /* IE 10+ */
+	user-select: none; /* Standard syntax */
+}
+#joystick { 
+	position: fixed;
+}
+#splash {
+    opacity: 0;
+    transition: opacity 0.5s; 
+	visibility: hidden;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(https://mark4pro.github.io/SlayTheCube_2/images/SplashScreen.PNG) center;
+	background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+#loader {
+    opacity: 1;
+    transition: opacity 1s; 
+	visibility: visible;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(https://mark4pro.github.io/SlayTheCube_2/images/loading.gif) center no-repeat #4f3533;
+}
+#MOD_MENU {
+    margin: 0;
+    opacity: 0;
+    transition: opacity 1s; 
+	visibility: hidden;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+}
+#MOD_MENU_TITLE {
+    font-size: 50px;
+    position: fixed;
+	top: -10px;
+	width: 100%;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+}
+</style>
+<!-- Were Images Go -->
+<img id="backgroundLevel_1" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/background_1.png">
+<img id="backgroundLevel_Boss" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/background_3_1.png">
+<img id="backgroundLevel_2" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/background_2_1.png">
+<img id="backgroundLevel_Boss_2" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/background_5.PNG">
+<img id="backgroundLevel_3" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/background_4_1.png">
+<img id="cursor_img" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/cursor.png">
+<img id="settings_icon" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/settings.png">
+<img id="slaythecube_level_pack" width="0" height="0" src="https://mark4pro.github.io/SlayTheCube_2/images/SlayTheCube_Level_Pack.PNG">
+<!-- Were Images Go -->
+<div id="MOD_IMAGES"></div>
+<!-- Were Sounds Go -->
+<div id="MOD_SOUND"></div>
+</head>
+<body onload="start()">
+<label class="unselectable">
+<canvas id="canvas" style="border:0px;cursor:none;"></canvas>
+<div id="joystick"></div>
+</label>
+<script>
+var interval = setInterval(function() {
+    if(document.readyState === 'complete') {
+        clearInterval(interval);
+        done();
+    }    
+}, 100);
+var interval2 = setInterval(function() {
+    splashRun();
+	if (stop == 1) {
+	clearInterval(interval2);
+	}
+}, 60);
+var splashSCREEN = 0;
+var start = 0;
+var stop = 0;
+function done() {
+if (document.getElementById('loader').style.opacity > 0) {
+document.getElementById('loader').style.opacity -= 0.001;
+ }
+if (document.getElementById('loader').style.opacity <= 0) {
+start = 1;
+document.getElementById('loader').style.visibility = "hidden";
+ }
+}
+function splashRun() {
+if (start == 1) {
+document.getElementById('splash').style.visibility = "visible";
+if (document.getElementById('splash').style.opacity < 1) {
+document.getElementById('splash').style.opacity += 1;
+}
+if (splashSCREEN < 150) {
+splashSCREEN += 5;
+}
+if (splashSCREEN >= 100) {
+if (document.getElementById('splash').style.opacity == 1) {
+if (document.getElementById('splash').style.opacity > 0) {
+document.getElementById('splash').style.opacity -= 1;
+    }
+   }
+  }
+if (splashSCREEN >= 150) {
+if (document.getElementById('splash').style.opacity <= 0) {
+document.getElementById('splash').style.visibility = "hidden";
+stop = 1;
+   }
+  }
+ }
+}
+</script>
+<div id="loader"></div>
+<div id="splash"></div>
+<div id="MOD_MENU">
+<p id="MOD_MENU_TITLE" style="align:center;">Mod Menu</p>
+</div>
+<script src="https://mark4pro.github.io/SlayTheCube_2/scripts/nipplejs.js"></script>
+<script src="./scripts/engine.js"></script>
+</body>
+</html>

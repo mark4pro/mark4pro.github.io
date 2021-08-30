@@ -1,35 +1,53 @@
 ***NEWS***
 
+Last updated: 8/30/2021
+Time: 2:05 AM
+
 NEW:
-	New- The website got some visual changes!
-	New- Add a "new" game called Tank War X Line Battle X Ball Bouncers
-	This a minigame collection that combines and adds some stuff to my old
-	minigames. Right now only Line Battle is playable! I also removed 
-	the old versions of Line Battle and Tank War off of the website.
+		The website got some slight changes.
+		Homeworld Takedown Classic:
+			*Updated most of the art for the game
+   			*Updated most SFX and music for the game
+   			*Updated file paths
+   			*Updated end card
+   			*Added more music tracks
+   			*Removeded old unused textures
+   			*Removed seasons
+   			*Removed Saint Patrick's Day event
+   			*Removed unused tips
+   			*Removed unused code
+   			*Removed non fullscreen mode
+   			*Removed cheat console
+   			*Removed apple icon
 
 OLD:
-	The News feature got some well deserved bug fixes!
-	SlayTheCube got a update! (V3 "OK update")
-	SlayTheCube:
-		*fixed text alignment
-		*disabled touch actions (like double tap)
-		*reset button resets the game when you reach the end
-		*optimized more of the code
-		*when you collide with "ammo" it auto fires
-		*simplified the controls
+		The website got some visual changes!
+		Add a "new" game called Tank War X Line Battle X Ball Bouncers
+		This a minigame collection that combines and adds some stuff to
+	my old minigames. Right now only Line Battle is playable! I also removed 
+	the old versions of Line Battle and Tank War off of the website.
 	
 THOUGHTS:
-	Line Battle might get one more major update sometime soon.
-	Tank War is going to be getting an update soon.
-	SlayTheCube 2 is getting modding support in the next major update!
-	I'm working on modding tools for SlayTheCube 2.
-	A new Homeworld Takedown update is coming soon.
-	I'll start working on Task Force 271 after I finally finish work on
-	Tank War and Line Battle. I'm looking forward to sharing more with you
-	on this next year!
-	There's a fighting game coming in beta next year!
-	After I'm done with the whole Homeworld Takedown Preview update
-	I'm going to start a big push to finish the 13 waves in the campaign.
-	(a total of 20) After that I'll work on the endless mode that's coming,
-	then event and polish will be my main objective.
+		Homeworld Takedown Classic is getting updates that back ports a lot
+	of things from the new build to satisfy people while I'm working on the
+	new version since it's going to be a while until it's ready.
+		SlayTheCube will be getting a few more updates soon. (maybe an engine swap)
+		I have plans to make a Java version of SlayTheCube.
+		SlayTheCube 2 is on hold at the moment and will be completely
+	rebuilt using a newer engine.
+		Minigame Collection is on hold at the moment until I'm further along in
+	the developement of Homeworld Takedown V0.6. The UI will most likely be rebuilt
+	from the ground up.
+		Work on Task Force 271 will be halted until further notice.
+		I'm cancelling the fighting game I had plans on making.
+		After I'm done with Homeworld Takedown V0.6 I'm going to
+	take a small break and update some older projects and then start
+	a big push to finish the 13 waves in the campaign. When the campaign
+	is finished I plan on seeing if endless mode is possible. I'll have a
+	few other things to get finished before launch before I start polishing
+	the game but after that I'll be done!
+		I plan on making a Supporter edition of Homeworld Takedown that
+	will come with more gameplay and features that you don't get in the base
+	game. This will go into production after I get things settled with the
+	launch of the base game.
 	

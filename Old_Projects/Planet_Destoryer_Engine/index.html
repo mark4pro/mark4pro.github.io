@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!--Page/Icon Setup-->
+		<link id="bowserIcon" rel="icon" type="image/vnd.microsoft.icon" href="" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link id="appleIcon" rel="apple-touch-icon" href="">
+		<meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+		<!--Title-->
+		<title id="Title"></title>
+		<!--Audio-->
+		<div id="Audio">
+		
+		</div>
+		<!--Images-->
+		<div id="Images">
+		
+		</div>
+		<!--Scripts-->
+		<div id="Scripts">
+		<!--Api's-->
+		<script type="text/javascript" src="./Scripts/APIs/joystick.js"></script>
+		<script type="text/javascript" src="./Scripts/APIs/pathfinding.js"></script>
+		<!--Engine Scripts-->
+		<script type="text/javascript" src="./Scripts/JSONs/Setup.json"></script>
+		<script type="text/javascript" src="./Scripts/Engine/jsonReader.js"></script>
+		<script type="text/javascript" src="./Scripts/Engine/Loaders/scriptLoader.js"></script>
+		<script type="text/javascript" src="./Scripts/Engine/Loaders/imageLoader.js"></script>
+		<script type="text/javascript" src="./Scripts/Engine/Loaders/audioLoader.js"></script>
+		<script type="text/javascript" src="./Scripts/Engine/canvasScaler.js"></script>
+		<script type="text/javascript" src="./Scripts/Engine/eventBinder.js"></script>
+		<script type="text/javascript" src="./Scripts/Engine/keyboardHandler.js"></script>
+		<script type="text/javascript" src="./Scripts/Engine/debug.js"></script>
+		<script type="text/javascript" src="./Scripts/mainUpdateLoop.js"></script>
+		<script type="text/javascript" src="./Scripts/Engine/pathFollower.js"></script>
+		<script type="text/javascript" src="./Scripts/Engine/objectConstructor.js"></script>
+		<script type="text/javascript" src="./Scripts/Engine/arrayRenderer.js"></script>
+		<script type="text/javascript" src="./Scripts/Setup.js" async></script>
+		</div>
+		<!--Styling*-->
+		<style>
+		.unselectable {
+			-webkit-user-select: none; /* Safari 3.1+ */
+			-moz-user-select: none; /* Firefox 2+ */
+			-ms-user-select: none; /* IE 10+ */
+			user-select: none; /* Standard syntax */
+		}
+		html {
+			position: fixed;
+		}
+		body {
+			margin: 0px;
+			position: fixed;
+		}
+		#loadingScreen {
+			opacity: 1;
+			transition: opacity 1s; 
+			visibility: visible;
+			position: fixed;
+			left: 0px;
+			top: 0px;
+			width: 100%;
+			height: 100%;
+			z-index: 9999;
+			background: url(./Images/Loading_Screen/loading.gif) center no-repeat grey;
+		}
+		#updateInfo {
+			background-color: white;
+			opacity: 0.9;
+			visibility: hidden;
+			box-shadow: 5px 5px 10px black;
+			top: 5px;
+			left: 5px;
+			position: fixed;
+			width: 300px;
+			height: 533px;
+			z-index: 9999;
+		}
+		#Screen {
+			margin: 0px;
+			display: block;
+			position: fixed;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+		}
+		</style>
+	</head>
+	<body id="Body" onload="setup()">
+		<!--Loading Screen-->
+		<script>
+		var interval = setInterval(function() {
+			if(document.readyState === 'complete') {
+			done();
+			clearInterval(interval);
+			}    
+		}, 1);
+		function done() {
+		this.loaderObject = document.getElementById('loadingScreen').style;
+		this.loaderObject.visibility = "hidden";
+		this.loaderObject.opacity = 0;
+		}
+		</script>
+		<!--Loading Screen-->
+		<div id="loadingScreen"></div>
+		<!--Update Info-->
+		<div id="updateInfo">
+		<object width="300" height="533" type="text/plain" data="./updateInfo.txt" border="0" ></object>
+		</div>
+		<!--Canvas-->
+		<canvas id="Screen"></canvas>
+		<!--Content/Controls-->
+		<div id="Content">
+		
+		</div>
+	</body>
+</html>

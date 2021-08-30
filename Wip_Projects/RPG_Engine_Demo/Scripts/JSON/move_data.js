@@ -1,0 +1,29 @@
+var moves = [
+{
+id:0,
+name:"Slice",
+type:"physical",
+minLevel:1,
+stamina:5,
+attackAddition:10,
+effect:"none"
+},
+{
+id:1,
+name:"Huge Slice",
+type:"physical",
+minLevel:1,
+stamina:10,
+attackAddition:20,
+effect:"none"
+},
+{
+id:2,
+name:"Stab",
+type:"physical",
+minLevel:1,
+stamina:6,
+attackAddition:12,
+effect:"none"
+}
+];

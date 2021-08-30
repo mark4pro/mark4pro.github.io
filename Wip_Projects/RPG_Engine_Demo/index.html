@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RPG Engine Demo V0.1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<!--<link rel="icon" type="image/vnd.microsoft.icon" href=""/>-->
+<style>
+#screen {
+background-color: black;
+width: 100%;
+height: 100%;
+margin: 0px;
+position: fixed;
+top: 0px;
+left: 0px;
+}
+img {
+display: none;
+}
+</style>
+<!--Images go here-->
+<!--UI-->
+<img id="closeUIButton" src="./Images/Close_UI_Button.png">
+<!--Menus-->
+<img id="mainMenuBackground" src="./Images/Engine_Demo_Images/Demo_Main_Menu.png">
+<!--Dungeon Objects-->
+<img id="dungeonFloor" src="./Images/Engine_Demo_Images/Dungeon_Floor.png">
+<img id="dungeonWall" src="./Images/Engine_Demo_Images/Dungeon_Wall.png">
+<img id="dungeonWallCorner" src="./Images/Engine_Demo_Images/Dungeon_Wall_Corner.png">
+<img id="dungeonStairsEntrance" src="./Images/Engine_Demo_Images/Dungeon_Stairs_Entrance.png">
+<img id="dungeonStairsExit" src="./Images/Engine_Demo_Images/Dungeon_Stairs_Exit.png">
+<img id="dungeonYellowDoor" src="./Images/Engine_Demo_Images/Dungeon_Yellow_Door.png">
+<img id="dungeonPurplePortalEntrance" src="./Images/Engine_Demo_Images/Dungeon_Purple_Portal_Entrance.png">
+<img id="dungeonPurplePortalExit" src="./Images/Engine_Demo_Images/Dungeon_Purple_Portal_Exit.png">
+<img id="dungeonYellowKey" src="./Images/Engine_Demo_Images/Dungeon_Yellow_Key.png">
+<img id="dungeonChest" src="./Images/Engine_Demo_Images/Dungeon_Chest.png">
+<!--JSONs go here-->
+<script type="text/javascript" src="./Scripts/JSON/player_1_data.js"></script>
+<script type="text/javascript" src="./Scripts/JSON/color_palettes_data.js"></script>
+<script type="text/javascript" src="./Scripts/JSON/map_data.js"></script>
+<script type="text/javascript" src="./Scripts/JSON/move_data.js"></script>
+</head>
+<body onLoad="initGame()">
+<canvas id="screen"></canvas>
+<script src="./Scripts/Engine.js"></script>
+</body>
+</html>
