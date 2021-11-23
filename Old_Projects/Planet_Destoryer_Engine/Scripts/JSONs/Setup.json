@@ -1,3 +1,0 @@
-var SetupData = '{"title":"Engine Test","browerIcon":"","appleIcon":"","pageBGcolor":"grey"}'
-var SetupCanvasData = '{"bgColor":"white","nativeWidth":800,"nativeHeight":500}'
-var gameData = '{"flashScreenImage":"","flashScreenType":"static"}'
