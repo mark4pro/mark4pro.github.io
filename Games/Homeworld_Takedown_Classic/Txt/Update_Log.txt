@@ -1,16 +1,6 @@
 :PRESS P TO TOGGLE THE PIB:
 
-What's new in V0.5.3-
-   Updated most of the art for the game
-   Updated most SFX and music for the game
-   Updated file paths
-   Updated end card
-   Added more music tracks
-   Removeded old unused textures
-   Removed seasons
-   Removed Saint Patrick's Day event
-   Removed unused tips
-   Removed unused code
-   Removed non fullscreen mode
-   Removed cheat console
-   Removed apple icon
+What's new in V0.5.4-
+   Fixed bullet sound
+   New animation system
+   Code clean up

@@ -1,20 +1,4 @@
-var keys = {};
-window.addEventListener("keydown",
-    function(e){
-        keys[e.keyCode] = true;
-        switch(e.keyCode){
-            case 37: case 39: case 38:  case 40: // Arrow keys
-            case 32: e.preventDefault(); break; // Space
-            default: break; // do not block other keys
-        }
-    },
-false);
-window.addEventListener('keyup',
-    function(e){
-        keys[e.keyCode] = false;
-    },
-false);
-
+var update_date = {"month":11,"startDay":25,"endDay":31};
 var popup = 1;
 var stcweapon = 0;
 var christmasSkin = 0;
@@ -28,23 +12,17 @@ var mytoday = today_date.getDate();
 var mymonth = today_date.getMonth();
 var myyear = today_date.getFullYear();
 function Datechecker() {
-if (popup == 1) {
-if (mymonth == 9) {
-if (mytoday >= 9 && mytoday < 27) {
-openpatchinfo = 1;
-popup = 0;
-   }
-  }
- }
-if (mymonth == 11 && christmasSkin == 0) { 
-christmasSkin = 1;
-localStorage && (localStorage.Cs = christmasSkin);
-}
-if (mymonth == 8) {
-if (mytoday >= 11 && mytoday < 30) {
-stcweapon = 1;
-   }
-  }
+	if (popup == 1 && mymonth == update_date.month && mytoday >= update_date.startDay && mytoday < update_date.endDay) {
+	openpatchinfo = 1;
+	popup = 0;
+	}
+	if (mymonth == 11 && christmasSkin == 0) { 
+	christmasSkin = 1;
+	localStorage && (localStorage.Cs = christmasSkin);
+	}
+	if (mymonth == 8 && mytoday >= 11 && mytoday < 30) {
+	stcweapon = 1;
+	}
 }
 
 var playerX = 384.5;
@@ -82,619 +60,626 @@ var badHealthBarColor4 = "green";
 var badHealthBarColor5 = "green";
 var difficulty = 0;
 var PlayerShipsArray = [];
-var EnemyShipsArray = [];
-
 function start() {
- //Prizes
- if (localStorage && 'Cs' in localStorage) {
-    christmasSkin = localStorage.Cs;
- }
- if (localStorage && 'Ms' in localStorage) {
-    miniBossShip = localStorage.Ms;
- }
- if (localStorage && 'Es' in localStorage) {
-    easyShipPrize = localStorage.Es;
- }
- //Saint Patties Day shit
- if (localStorage && 'Ps' in localStorage) {
-    STPRIZESHIP = localStorage.Ps;
- }
- if (localStorage && 'Pw' in localStorage) {
-    STPRIZEWEAPON = localStorage.Pw;
- }
- //Bank money
- if (localStorage && 'totalMoney_' in localStorage) {
-    totalMoney = localStorage.totalMoney_;
- }
- //Settings
- if (localStorage && 'PlayerShadows' in localStorage) {
-	if (localStorage.PlayerShadows == "true") {
+	//Prizes
+	if (localStorage && 'Cs' in localStorage) {
+	christmasSkin = localStorage.Cs;
+	}
+	if (localStorage && 'Ms' in localStorage) {
+	miniBossShip = localStorage.Ms;
+	}
+	if (localStorage && 'Es' in localStorage) {
+	easyShipPrize = localStorage.Es;
+	}
+	//Saint Patties Day shit
+	if (localStorage && 'Ps' in localStorage) {
+	STPRIZESHIP = localStorage.Ps;
+	}
+	if (localStorage && 'Pw' in localStorage) {
+	STPRIZEWEAPON = localStorage.Pw;
+	}
+	//Bank money
+	if (localStorage && 'totalMoney_' in localStorage) {
+	totalMoney = localStorage.totalMoney_;
+	}
+	//Settings
+	if (localStorage && 'PlayerShadows' in localStorage) {
+		if (localStorage.PlayerShadows == "true") {
 		document.getElementById("PSshow").checked = true;
-	}
-	if (localStorage.PlayerShadows == "false") {
+		}
+		if (localStorage.PlayerShadows == "false") {
 		document.getElementById("PSshow").checked = false;
+		}
 	}
- }
- if (localStorage && 'LevelShadows' in localStorage) {
-	if (localStorage.LevelShadows == "true") {
+	if (localStorage && 'LevelShadows' in localStorage) {
+		if (localStorage.LevelShadows == "true") {
 		document.getElementById("LSshow").checked = true;
-	}
-	if (localStorage.LevelShadows == "false") {
+		}
+		if (localStorage.LevelShadows == "false") {
 		document.getElementById("LSshow").checked = false;
+		}
 	}
- }
- if (localStorage && 'UserInterfaceShadows' in localStorage) {
-	if (localStorage.UserInterfaceShadows == "true") {
+	if (localStorage && 'UserInterfaceShadows' in localStorage) {
+		if (localStorage.UserInterfaceShadows == "true") {
 		document.getElementById("UISshow").checked = true;
-	}
-	if (localStorage.UserInterfaceShadows == "false") {
+		}
+		if (localStorage.UserInterfaceShadows == "false") {
 		document.getElementById("UISshow").checked = false;
+		}
 	}
- }
- if (localStorage && 'ImageSmoothing' in localStorage) {
-	if (localStorage.ImageSmoothing == "true") {
+	if (localStorage && 'ImageSmoothing' in localStorage) {
+		if (localStorage.ImageSmoothing == "true") {
 		document.getElementById("imgSmooth").checked = true;
-	}
-	if (localStorage.ImageSmoothing == "false") {
+		}
+		if (localStorage.ImageSmoothing == "false") {
 		document.getElementById("imgSmooth").checked = false;
+		}
 	}
- }
- if (localStorage && 'HealthBars' in localStorage) {
-	if (localStorage.HealthBars == "true") {
+	if (localStorage && 'HealthBars' in localStorage) {
+		if (localStorage.HealthBars == "true") {
 		document.getElementById("HBshow").checked = true;
-	}
-	if (localStorage.HealthBars == "false") {
+		}
+		if (localStorage.HealthBars == "false") {
 		document.getElementById("HBshow").checked = false;
+		}
 	}
- }
- if (localStorage && 'AnimatedSprites_' in localStorage) {
-	if (localStorage.AnimatedSprites_ == "true") {
+	if (localStorage && 'AnimatedSprites_' in localStorage) {
+		if (localStorage.AnimatedSprites_ == "true") {
 		document.getElementById("AnimatedSprites").checked = true;
-	}
-	if (localStorage.AnimatedSprites_ == "false") {
+		}
+		if (localStorage.AnimatedSprites_ == "false") {
 		document.getElementById("AnimatedSprites").checked = false;
+		}
 	}
- }
- if (localStorage && 'ShowFPSCounter_' in localStorage) {
-	if (localStorage.ShowFPSCounter_ == "true") {
+	if (localStorage && 'ShowFPSCounter_' in localStorage) {
+		if (localStorage.ShowFPSCounter_ == "true") {
 		document.getElementById("FPSShow").checked = true;
-	}
-	if (localStorage.ShowFPSCounter_ == "false") {
+		}
+		if (localStorage.ShowFPSCounter_ == "false") {
 		document.getElementById("FPSShow").checked = false;
+		}
 	}
- }
- if (localStorage && 'MuteShooting_' in localStorage) {
-	if (localStorage.MuteShooting_ == "true") {
+	if (localStorage && 'MuteShooting_' in localStorage) {
+		if (localStorage.MuteShooting_ == "true") {
 		document.getElementById("mute_SHOOTING").checked = true;
-	}
-	if (localStorage.MuteShooting_ == "false") {
+		}
+		if (localStorage.MuteShooting_ == "false") {
 		document.getElementById("mute_SHOOTING").checked = false;
+		}
 	}
- }
- if (localStorage && 'MuteLAmmo_' in localStorage) {
-	if (localStorage.MuteLAmmo_ == "true") {
+	if (localStorage && 'MuteLAmmo_' in localStorage) {
+		if (localStorage.MuteLAmmo_ == "true") {
 		document.getElementById("mute_LOW_AMMO").checked = true;
-	}
-	if (localStorage.MuteLAmmo_ == "false") {
+		}
+		if (localStorage.MuteLAmmo_ == "false") {
 		document.getElementById("mute_LOW_AMMO").checked = false;
+		}
 	}
- }
- if (localStorage && 'MuteExplosion_' in localStorage) {
-	if (localStorage.MuteExplosion_ == "true") {
+	if (localStorage && 'MuteExplosion_' in localStorage) {
+		if (localStorage.MuteExplosion_ == "true") {
 		document.getElementById("mute_EXPLOSION").checked = true;
-	}
-	if (localStorage.MuteExplosion_ == "false") {
+		}
+		if (localStorage.MuteExplosion_ == "false") {
 		document.getElementById("mute_EXPLOSION").checked = false;
+		}
 	}
- }
- if (localStorage && 'DifficultyEasy' in localStorage) {
-	if (localStorage.DifficultyEasy == "true") {
+	if (localStorage && 'DifficultyEasy' in localStorage) {
+		if (localStorage.DifficultyEasy == "true") {
 		document.getElementById("Easy_").checked = true;
-	}
-	if (localStorage.DifficultyEasy == "false") {
+		}
+		if (localStorage.DifficultyEasy == "false") {
 		document.getElementById("Easy_").checked = false;
+		}
 	}
- }
- if (localStorage && 'DifficultyMedium' in localStorage) {
-	if (localStorage.DifficultyMedium == "true") {
+	if (localStorage && 'DifficultyMedium' in localStorage) {
+		if (localStorage.DifficultyMedium == "true") {
 		document.getElementById("Medium_").checked = true;
-	}
-	if (localStorage.DifficultyMedium == "false") {
+		}
+		if (localStorage.DifficultyMedium == "false") {
 		document.getElementById("Medium_").checked = false;
+		}
 	}
- }
- if (localStorage && 'DifficultyHard' in localStorage) {
-	if (localStorage.DifficultyHard == "true") {
+	if (localStorage && 'DifficultyHard' in localStorage) {
+		if (localStorage.DifficultyHard == "true") {
 		document.getElementById("Hard_").checked = true;
-	}
-	if (localStorage.DifficultyHard == "false") {
+		}
+		if (localStorage.DifficultyHard == "false") {
 		document.getElementById("Hard_").checked = false;
+		}
 	}
- }
- if (localStorage && 'MusicVol' in localStorage) {
-		document.getElementById("volume").value = parseInt(localStorage.MusicVol, 10);
- }
- if (localStorage && 'SoundFXVol' in localStorage) {
-		document.getElementById("soundvolume").value = parseInt(localStorage.SoundFXVol, 10);
- }
- if (localStorage && 'MoveUpControl' in localStorage) {
-		Up_ = localStorage.MoveUpControl;
- }
- if (localStorage && 'MoveDownControl' in localStorage) {
-		Down_ = localStorage.MoveDownControl;
- }
- if (localStorage && 'MoveLeftControl' in localStorage) {
-		Left_ = localStorage.MoveLeftControl;
- }
- if (localStorage && 'MoveRightControl' in localStorage) {
-		Right_ = localStorage.MoveRightControl;
- }
- if (localStorage && 'ShootUpControl' in localStorage) {
-		shootUp_ = localStorage.ShootUpControl;
- }
- if (localStorage && 'ShootDownControl' in localStorage) {
-		shootDown_ = localStorage.ShootDownControl;
- }
- if (localStorage && 'ShootLeftControl' in localStorage) {
-		shootLeft_ = localStorage.ShootLeftControl;
- }
- if (localStorage && 'ShootRightControl' in localStorage) {
-		shootRight_ = localStorage.ShootRightControl;
- }
- if (localStorage && 'BackControl' in localStorage) {
-		Esssc_ = localStorage.BackControl;
- }
- if (localStorage && 'MuteControl' in localStorage) {
-		Mute_ = localStorage.MuteControl;
- }
- if (localStorage && 'PatchControl' in localStorage) {
-		Patch_ = localStorage.PatchControl;
- }
- if (localStorage && 'ReviveControl' in localStorage) {
-		Revive_ = localStorage.ReviveControl;
- }
- if (localStorage && 'SpecialControl' in localStorage) {
-		SpecialKey_ = localStorage.SpecialControl;
- }
- if (localStorage && 'SpecialControl2' in localStorage) {
-		SpecialKey_2 = localStorage.SpecialControl2;
- }
- if (localStorage && 'MuteVol' in localStorage) {
-		mutemusic = localStorage.MuteVol;
- }
- if (localStorage && 'HidePanel_' in localStorage) {
-		HPanel = localStorage.HidePanel_;
- }
- if (localStorage && 'Settings_' in localStorage) {
-		SShow = localStorage.Settings_;
- }
- endCard = new component(800, 390, "endscreen", 0, 0, "img");
- guardianPic = new component(25, 25, "badguy5img", 650, 450, "animated-img-rot");
- guardianPic_lazer = new component(0, "round", "#650014", 0, 0, "line", 0, 0);
- guardianPic_lazer.globalAlpha = 0;
- guardianBox = new component(25, 25, "red", 650, 450, "rec", "enemy");
- guardianhealthbar = new component(GuardHealth / 2, 5, guardHealthBarColor, guardianBox.x, guardianBox.y - 8, "rec");
- bossWave7pic = new component(35, 35, "wave7boss", Boss7_Start_X, Boss7_Start_Y, "animated-img-rot");
- bossWave7sheildPic = new component(35, 35, "wave7bossSheild", Boss7_Start_X, Boss7_Start_Y, "animated-img-rot");
- bossWave7 = new component(35, 35, "red", Boss7_Start_X, Boss7_Start_Y, "rec");
- boss7healthbar = new component(BossHealth / 2, 10, bossHealthBarColor, 150, 20, "rec");
- bosstxt = new component("30px", "Consolas", "white", 150, 15, "text");
- bosstxt.font = "15px Consolas";
- bosstxt.text = "BOSS:";
- bosstxt2 = new component("30px", "Consolas", "white", 150, 15, "text");
- bosstxt2.font = "15px Consolas";
- bosstxt2.text = "BOSS: Sheilded";
- recenemypic1 = new component(25, 25, "badguy2img", 450, 60, "animated-img-rot");
- recenemypic1_lazer = new component(0, "round", "black", 0, 0, "line", 0, 0);
- recenemypic1_lazer.globalAlpha = 0;
- recbox1 = new component(25, 25, "red", 450, 60, "rec", "enemy");
- badguy1healthbar3 = new component(Badhealth4 / 2, 5, badHealthBarColor3, recbox1.x, recbox1.y - 8, "rec");
- recpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec", "enemy");
- recwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
- xenemypic1 = new component(31, 31, "badguy4img", 450, 60, "animated-img-rot");
- xenemypic1_lazer = new component(0, "round", "yellow", 0, 0, "line", 0, 0);
- xenemypic1_lazer.globalAlpha = 0;
- xbox1 = new component(31, 31, "red", 450, 60, "rec", "enemy");
- badguy1healthbar5 = new component(Badhealth5 / 2, 5, badHealthBarColor5, xbox1.x, xbox1.y - 8, "rec");
- xpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec", "enemy");
- xwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
- badguypic1 = new component(25, 25, "badguy1img", 650, 450, "animated-img-rot");
- badguypic1_lazer = new component(0, "round", "darkred", 0, 0, "line", 0, 0);
- badguypic1_lazer.globalAlpha = 0;
- badguy1 = new component(25, 25, "red", 650, 450, "rec", "enemy");
- badguy1healthbar = new component(Badhealth1 / 2, 5, badHealthBarColor, badguy1.x, badguy1.y - 8, "rec");
- badpos1 = new component(25, 25, "orange", bad1posX, bad1posY, "rec", "enemy");
- badwavebox1 = new component(35, 35, "black", bad1posX - 5, bad1posY - 5, "rec");
- badguypic2 = new component(25, 25, "badguy1img", 40, 150, "animated-img-rot");
- badguypic2_lazer = new component(0, "round", "darkred", 0, 0, "line", 0, 0);
- badguypic2_lazer.globalAlpha = 0;
- badguy2 = new component(25, 25, "red", 40, 150, "rec", "enemy");
- badguy1healthbar2 = new component(Badhealth2 / 2, 5, badHealthBarColor2, badguy2.x, badguy2.y - 8, "rec");
- badpos2 = new component(25, 25, "orange", bad2posX, bad2posY, "rec");
- badwavebox2 = new component(35, 35, "black", bad2posX - 5, bad2posY - 5, "rec");
- trienemypic = new component(35, 34.5, "badguy3img", 430, 100, "animated-img-rot");
- trienemypic_lazer = new component(0, "round", "purple", 0, 0, "line", 0, 0);
- trienemypic_lazer.globalAlpha = 0;
- tribox = new component(35, 35, "red", 430, 100, "rec", "enemy");
- badguy1healthbar4 = new component(Badhealth3 / 2, 5, badHealthBarColor4, tribox.x, tribox.y - 8, "rec");
- tribpic = new component(10, 10, "enemybull", 400, 100, "img-rot");
- tribbox = new component(10, 10, "orange", 400, 100, "rec");
- tripos1 = new component(5, 5, "orange", tri1posX, tri1posY, "rec");
- triwavebox1 = new component(15, 15, "black", tri1posX - 5, tri1posY - 5, "rec");
- bullbox = new component(10, 10, "orange", 400, 180, "rec");
- bullcir = new component(10, 10, "grey", 400, 180, "cir", 3, "black", 0);
- bpic = new component(10, 10, "bullpic1", 400, 180, "animated-img-rot");
- bpic2 = new component(10, 10, "bullpic2", 400, 180, "animated-img-rot");
- bpic3 = new component(10, 10, "bullpic3", 400, 180, "animated-img-rot");
- bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
- bpic5 = new component(10, 10, "bullpic5", 400, 180, "animated-img-rot");
- box = new component(25, 25, "grey", playerX, playerY, "player1", "player");
- circle = new component(0, 0, "white", playerX, playerY, "cir", 16.5);
- detectbox = new component(100, 100, "black", playerX - 37.5, playerY - 37.5, "rec");
- ship1 = new component(32, 32, "player1img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
- PlayerShipsArray.push(ship1);
- ship2 = new component(25, 25, "player2img", playerX, playerY, "animated-img-rot");
- PlayerShipsArray.push(ship2);
- ship3 = new component(25, 25, "player3img", playerX, playerY, "animated-img-rot");
- PlayerShipsArray.push(ship3);
- ship4 = new component(25, 25, "player4img", playerX, playerY, "animated-img-rot");
- PlayerShipsArray.push(ship4);
- ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
- PlayerShipsArray.push(ship5);
- ship6 = new component(25, 25, "player6img", playerX, playerY, "animated-img-rot");
- PlayerShipsArray.push(ship6);
- PlayerShadowManager = new PlayerShadowHandler(PlayerShipsArray, "black", 5, 3, 3);"rec-rot-poly"
- //Warp Zone
- WarpZone_BG = new component(800, 390, "warp_zone", 0, 0, "img");
- //Earth shit
- EarthHitEnterText = new component("", "", "white", 400, 124, "text");
- EarthHitEnterText.align = "center";
- EarthHitEnterText.font = "20px Consolas Bold";
- EarthHitEnterText.text = "Press Enter!";
- EarthHitEnterText.globalAlpha = 0;
- EarthHitEnterText.shadowColor_ = "black";
- EarthHitEnterText.shadowBlur_ = 2;
- EarthHitEnterText.shadowOffsetX_ = 1;
- EarthHitEnterText.shadowOffsetY_ = 1;
- Earth_Planet_Circle_Collider = new component(0, 0, "white", 400, 195, "cir", 70);
- Earth_Planet = new component(142, 142, "earth", 329, 124, "img");
- Earth_Planet.shadowColor_ = "black";
- Earth_Planet.shadowBlur_ = 3;
- Earth_Planet.shadowOffsetX_ = 3;
- Earth_Planet.shadowOffsetY_ = 3;
- Earth_PopUp_Message = new component(200, 200, "#63218a", 400-(200/2), 195-(200/2), "rec");
- Earth_PopUp_Message.globalAlpha = 0;
- Earth_PopUp_Message_Border = new component(210, 210, "black", 400-(210/2), 195-(210/2), "rec");
- Earth_PopUp_Message_Border.globalAlpha = 0;
- Earth_Location_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+25, "text");
- Earth_Location_Text.align = "center";
- Earth_Location_Text.font = "30px Consolas Bold";
- Earth_Location_Text.text = "Warp to Earth?";
- Earth_Location_Text.globalAlpha = 0;
- Earth_Location_Text.shadowColor_ = "black";
- Earth_Location_Text.shadowBlur_ = 2;
- Earth_Location_Text.shadowOffsetX_ = 1;
- Earth_Location_Text.shadowOffsetY_ = 1;
- Earth_Type_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+50, "text");
- Earth_Type_Text.align = "center";
- Earth_Type_Text.font = "20px Consolas Bold";
- Earth_Type_Text.text = "Type: Wave Based";
- Earth_Type_Text.globalAlpha = 0;
- Earth_Type_Text.shadowColor_ = "black";
- Earth_Type_Text.shadowBlur_ = 2;
- Earth_Type_Text.shadowOffsetX_ = 1;
- Earth_Type_Text.shadowOffsetY_ = 1;
- Earth_NumOfWaves_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+75, "text");
- Earth_NumOfWaves_Text.align = "center";
- Earth_NumOfWaves_Text.font = "20px Consolas Bold";
- Earth_NumOfWaves_Text.text = "Number of Waves: 20";
- Earth_NumOfWaves_Text.globalAlpha = 0;
- Earth_NumOfWaves_Text.shadowColor_ = "black";
- Earth_NumOfWaves_Text.shadowBlur_ = 2;
- Earth_NumOfWaves_Text.shadowOffsetX_ = 1;
- Earth_NumOfWaves_Text.shadowOffsetY_ = 1;
- Earth_NumOfBosses_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+100, "text");
- Earth_NumOfBosses_Text.align = "center";
- Earth_NumOfBosses_Text.font = "20px Consolas Bold";
- Earth_NumOfBosses_Text.text = "Number of Bosses: 3";
- Earth_NumOfBosses_Text.globalAlpha = 0;
- Earth_NumOfBosses_Text.shadowColor_ = "black";
- Earth_NumOfBosses_Text.shadowBlur_ = 2;
- Earth_NumOfBosses_Text.shadowOffsetX_ = 1;
- Earth_NumOfBosses_Text.shadowOffsetY_ = 1;
- Earth_Completed_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+125, "text");
- Earth_Completed_Text.align = "center";
- Earth_Completed_Text.font = "20px Consolas Bold";
- Earth_Completed_Text.text = "Completed: false";
- Earth_Completed_Text.globalAlpha = 0;
- Earth_Completed_Text.shadowColor_ = "black";
- Earth_Completed_Text.shadowBlur_ = 2;
- Earth_Completed_Text.shadowOffsetX_ = 1;
- Earth_Completed_Text.shadowOffsetY_ = 1;
- Earth_PopUp_Yes_Button = new component(50, 50, "black", 400-(200/2)+25, 195-(200/2)-60+200, "rec");
- Earth_PopUp_Yes_Button.globalAlpha = 0;
- Earth_PopUp_Yes_Button.shadowColor_ = "black";
- Earth_PopUp_Yes_Button.shadowBlur_ = 3;
- Earth_PopUp_Yes_Button.shadowOffsetX_ = 3;
- Earth_PopUp_Yes_Button.shadowOffsetY_ = 3;
- Earth_PopUp_Yes_Text = new component("", "", "white", 400-(200/2)+50, 195-(200/2)-60+230, "text");
- Earth_PopUp_Yes_Text.align = "center";
- Earth_PopUp_Yes_Text.font = "20px Consolas Bold";
- Earth_PopUp_Yes_Text.text = "YES";
- Earth_PopUp_Yes_Text.globalAlpha = 0;
- Earth_PopUp_Yes_Text.shadowColor_ = "white";
- Earth_PopUp_Yes_Text.shadowBlur_ = 2;
- Earth_PopUp_Yes_Text.shadowOffsetX_ = 1;
- Earth_PopUp_Yes_Text.shadowOffsetY_ = 1;
- Earth_PopUp_No_Button = new component(50, 50, "black", 400-(200/2)+125, 195-(200/2)-60+200, "rec");
- Earth_PopUp_No_Button.globalAlpha = 0;
- Earth_PopUp_No_Button.shadowColor_ = "black";
- Earth_PopUp_No_Button.shadowBlur_ = 3;
- Earth_PopUp_No_Button.shadowOffsetX_ = 3;
- Earth_PopUp_No_Button.shadowOffsetY_ = 3;
- Earth_PopUp_No_Text = new component("", "", "white", 400-(200/2)+151, 195-(200/2)-60+230, "text");
- Earth_PopUp_No_Text.align = "center";
- Earth_PopUp_No_Text.font = "20px Consolas Bold";
- Earth_PopUp_No_Text.text = "NO";
- Earth_PopUp_No_Text.globalAlpha = 0;
- Earth_PopUp_No_Text.shadowColor_ = "white";
- Earth_PopUp_No_Text.shadowBlur_ = 2;
- Earth_PopUp_No_Text.shadowOffsetX_ = 1;
- Earth_PopUp_No_Text.shadowOffsetY_ = 1;
- w1t5 = new component(800, 390, "wave1t5", 0, 0, "img");
- w5t7 = new component(800, 390, "wave5t7", 0, 0, "img");
- Explosion = new component(800, 390, "EXFrame1", 0, 0, "img");
- Explosion_2 = new component(800, 390, "EXFrame1", 0, 0, "img");
- Explosion_3 = new component(800, 390, "EXFrame1", 0, 0, "img");
- Explosion_4 = new component(800, 390, "EXFrame1", 0, 0, "img");
- Explosion_5 = new component(800, 390, "EXFrame1", 0, 0, "img");
- wallleft = new component(60, 400, "black", -60, 0, "rec");
- wallright = new component(60, 400, "black", 800, 0, "rec");
- wall3 = new component(800, 60, "black", 0, -60, "rec");
- wall4 = new component(800, 60, "black", 0, 390, "rec");
- roofhouse1 = new component(140, 130, "houseroof1", 70, 70, "img");
- insidedetect1 = new component(120, 140, "gray", 80, 80, "rec");
- floorhouse1 = new component(120, 120, "housefloor1", 80, 80, "img");
- wallhouse1 = new component(120, 10, "grey", 80, 80, "rec");
- wallhouse1_2 = new component(120, 10, "grey", 80, 70, "rec");
- wallhouse2 = new component(10, 100, "grey", 80, 90, "rec");
- wallhouse2_2 = new component(10, 120, "grey", 70, 70, "rec");
- wallhouse3 = new component(10, 100, "grey", 190, 90, "rec");
- wallhouse3_2 = new component(10, 120, "grey", 200, 70, "rec");
- wallhouse4 = new component(15, 10, "grey", 90, 180, "rec");
- wallhouse4_2 = new component(35, 10, "grey", 70, 190, "rec");
- wallhouse4_3 = new component(40, 20, "grey", 70, 180, "rec");
- wallhouse5 = new component(10, 5, "grey", 100, 187.5, "rec");
- wallhouse6 = new component(25, 10, "grey", 165, 180, "rec");
- wallhouse6_2 = new component(45, 10, "grey", 165, 190, "rec");
- wallhouse6_3 = new component(50, 20, "grey", 160, 180, "rec");
- wallhouse7 = new component(10, 5, "grey", 160, 187.5, "rec");
- wallhouse8 = new component(120, 20, "grey", 80, 180, "rec");
- wall2house1 = new component(190, 10, "grey", 510, 100, "rec");
- wall2house1_2 = new component(200, 10, "grey", 500, 90, "rec");
- wall2house2 = new component(10, 80, "grey", 510, 110, "rec");
- wall2house2_2 = new component(10, 100, "grey", 500, 100, "rec");
- wall2house3 = new component(10, 80, "grey", 690, 110, "rec");
- wall2house3_2 = new component(10, 110, "grey", 700, 90, "rec");
- wall2house4 = new component(45, 10, "grey", 510, 190, "rec");
- wall2house4_2 = new component(55, 10, "grey", 500, 200, "rec");
- wall2house4_3 = new component(60, 20, "grey", 500, 190, "rec");
- wall2house5 = new component(10, 5, "grey", 550, 197.5, "rec");
- wall2house6 = new component(85, 10, "grey", 615, 190, "rec");
- wall2house6_2 = new component(95, 10, "grey", 615, 200, "rec");
- wall2house6_3 = new component(100, 20, "grey", 610, 190, "rec");
- wall2house7 = new component(10, 5, "grey", 610, 197.5, "rec");
- wall2house8 = new component(190, 20, "grey", 510, 190, "rec");
- roof2house1 = new component(210, 120, "houseroof1", 500, 90, "img");
- inside2detect1 = new component(190, 130, "gray", 510, 100, "rec");
- floor2house1 = new component(200, 120, "housefloor1", 500, 90, "img");
- tree1_1_D = new component(50, 50, "black", 80, 290, "rec");
- tree1_1 = new component(50, 50, "tree", 80, 290, "img-rot");
- tree1_1.angle = Math.random()*6.28318531;
- tree1_2_D = new component(50, 50, "black", 650, 270, "rec");
- tree1_2 = new component(50, 50, "tree", 650, 270, "img-rot");
- tree1_2.angle = Math.random()*6.28318531;
- tree1_3_D = new component(50, 50, "black", 230, 90, "rec");
- tree1_3 = new component(50, 50, "tree", 230, 90, "img-rot");
- tree1_3.angle = Math.random()*6.28318531;
- tree1_4_D = new component(50, 50, "black", 270, 175, "rec");
- tree1_4 = new component(50, 50, "tree", 270, 175, "img-rot");
- tree1_4.angle = Math.random()*6.28318531;
- tree1_5_D = new component(50, 50, "black", 420, 70, "rec");
- tree1_5 = new component(50, 50, "tree", 420, 70, "img-rot");
- tree1_5.angle = Math.random()*6.28318531;
- tree1_6_D = new component(50, 50, "black", 620, 33, "rec");
- tree1_6 = new component(50, 50, "tree", 620, 33, "img-rot");
- tree1_6.angle = Math.random()*6.28318531;
- tree1_7_D = new component(50, 50, "black", 500, 285, "rec");
- tree1_7 = new component(50, 50, "tree", 500, 285, "img-rot");
- tree1_7.angle = Math.random()*6.28318531;
- tree1_8_D = new component(50, 50, "black", 300, 265, "rec");
- tree1_8 = new component(50, 50, "tree", 300, 265, "img-rot");
- tree1_8.angle = Math.random()*6.28318531;
- tree2_1_D = new component(50, 50, "black", 50, 20, "rec");
- tree2_1 = new component(50, 50, "tree", 50, 20, "img-rot");
- tree2_1.angle = Math.random()*6.28318531;
- tree2_2_D = new component(50, 50, "black", 230, 70, "rec");
- tree2_2 = new component(50, 50, "tree", 230, 70, "img-rot");
- tree2_2.angle = Math.random()*6.28318531;
- wall3house1 = new component(270, 10, "#666666", 480, 50, "rec");
- wall3house1_2 = new component(250, 10, "#666666", 490, 60, "rec");
- wall3house2 = new component(10, 90, "#666666", 480, 55, "rec");
- wall3house2_2 = new component(10, 80, "#666666", 490, 60, "rec");
- wall3house3 = new component(10, 90, "#666666", 740, 55, "rec");
- wall3house3_2 = new component(10, 80, "#666666", 730, 60, "rec");
- wall3house4 = new component(105, 10, "#666666", 480, 140, "rec");
- wall3house4_2 = new component(95, 10, "#666666", 490, 130, "rec");
- wall3house4_3 = new component(10, 5, "#666666", 580, 137.5, "rec");
- wall3house4_4 = new component(110, 20, "#666666", 480, 130, "rec");
- wall3house5 = new component(105, 10, "#666666", 645, 140, "rec");
- wall3house5_2 = new component(95, 10, "#666666", 645, 130, "rec");
- wall3house5_3 = new component(10, 5, "#666666", 640, 137.5, "rec");
- wall3house5_4 = new component(110, 20, "#666666", 640, 130, "rec");
- wall3house6 = new component(270, 10, "#666666", 480, 140, "rec");
- inside3detect1 = new component(260, 100, "black", 485, 60, "rec");
- floor3house1 = new component(270, 100, "housefloor3", 480, 50, "img");
- burntHouse1 = new component(270, 100, "Burnt", 480, 50, "img");
- roof3house1 = new component(270, 100, "houseroof2", 480, 50, "img");
- roof3house2 = new component(50, 50, "houseroof2", 590, 120, "img");
- wall4house1 = new component(270, 10, "#666666", 480, 340, "rec");
- wall4house1_1 = new component(250, 10, "#666666", 490, 330, "rec");
- wall4house2 = new component(10, 90, "#666666", 480, 255, "rec");
- wall4house2_1 = new component(10, 80, "#666666", 490, 260, "rec");
- wall4house3 = new component(10, 90, "#666666", 740, 255, "rec");
- wall4house3_1 = new component(10, 80, "#666666", 730, 260, "rec");
- wall4house4 = new component(45, 10, "#666666", 480, 250, "rec");
- wall4house4_1 = new component(35, 10, "#666666", 490, 260, "rec");
- wall4house4_2 = new component(10, 5, "#666666", 520, 257.5, "rec");
- wall4house4_3 = new component(50, 20, "#666666", 480, 250, "rec");
- wall4house5 = new component(45, 10, "#666666", 705, 250, "rec");
- wall4house5_1 = new component(35, 10, "#666666", 705, 260, "rec");
- wall4house5_2 = new component(10, 5, "#666666", 700, 257.5, "rec");
- wall4house5_3 = new component(50, 20, "#666666", 700, 250, "rec");
- wall4house6 = new component(60, 10, "#666666", 585, 250, "rec");
- wall4house6_1 = new component(60, 10, "#666666", 585, 260, "rec");
- wall4house6_2 = new component(10, 5, "#666666", 580, 257.5, "rec");
- wall4house6_3 = new component(10, 5, "#666666", 640, 257.5, "rec");
- wall4house6_4 = new component(70, 20, "#666666", 580, 250, "rec");
- wall4house7 = new component(270, 10, "#666666", 480, 250, "rec");
- floor4house1 = new component(270, 90, "housefloor2", 480, 250, "img");
- burntHouse2 = new component(270, 100, "Burnt", 480, 250, "img");
- inside4detect1 = new component(250, 90, "black", 490, 245, "rec");
- roof4house1 = new component(270, 100, "houseroof3", 480, 250, "img");
- roof4house2 = new component(50, 50, "houseroof3", 530, 230, "img");
- roof4house3 = new component(50, 50, "houseroof3", 650, 230, "img");
- plantbox1_1 = new component(50, 50, "plantbox1", 360, 280, "img");
- plantbox2_1 = new component(50, 50, "plantbox1", 60, 280, "img");
- plantbox3_1 = new component(50, 50, "plantbox1", 260, 280, "img");
- plantbox4_1 = new component(50, 50, "plantbox1", 160, 280, "img");
- tree2_3_D = new component(50, 50, "black", 360, 280, "rec");
- tree2_3 = new component(50, 50, "tree", 360, 280, "img-rot");
- tree2_3.angle = Math.random()*6.28318531;
- tree2_4_D = new component(50, 50, "black", 60, 280, "rec");
- tree2_4 = new component(50, 50, "tree", 60, 280, "img-rot");
- tree2_4.angle = Math.random()*6.28318531;
- tree2_5_D = new component(50, 50, "black", 260, 280, "rec");
- tree2_5 = new component(50, 50, "tree", 260, 280, "img-rot");
- tree2_5.angle = Math.random()*6.28318531;
- tree2_6_D = new component(50, 50, "black", 160, 280, "rec");
- tree2_6 = new component(50, 50, "tree", 160, 280, "img-rot");
- tree2_6.angle = Math.random()*6.28318531;
- ui = new component(800, 300, "#451661", 0, 390, "rec");
- backbutton = new component(160, 50, "#812bb3", backX - 100, backY + 100, "rec");
- backtxt = new component("30px", "Consolas", "white", backX - 90, backY + 130, "text");
- backtxt.font = "15px Consolas";
- backtxt.text = "Press ESC To Exit";
- backtxtinfo = new component("30px", "Consolas", "white", 45, backY + 130, "text");
- backtxtinfo.font = "15px Consolas";
- backtxtinfo.text = "Exits the upgrade menu. ->";
- upgrade1button = new component(205, 50, "#812bb3", upgrade1X - 100, upgrade1Y, "rec");
- upgrade1txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 30, "text");
- upgrade1txt.font = "15px Consolas";
- upgrade1txt.text = "#1 Weapon Upgrade (1/2)";
- upgrade1txtinfo = new component("30px", "Consolas", "white", 45, upgrade1Y + 30, "text");
- upgrade1txtinfo.font = "15px Consolas";
- upgrade1txtinfo.text = "Weapon Upgrade (1/2) ->";
- upgrade1txtinfo2 = new component("30px", "Consolas", "white", 45, upgrade1Y + 45, "text");
- upgrade1txtinfo2.font = "15px Consolas";
- upgrade1txtinfo2.text = "Name: Hi-Beam";
- upgrade1txtinfo3 = new component("30px", "Consolas", "white", 45, upgrade1Y + 60, "text");
- upgrade1txtinfo3.font = "15px Consolas";
- upgrade1txtinfo3.text = "Cost: $100";
- upgrade1txtinfo4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
- upgrade1txtinfo4.font = "15px Consolas";
- upgrade1txtinfo4.text = "Damage: 25(+5)";
- upgrade1txtinfo5 = new component("30px", "Consolas", "white", 45, upgrade1Y + 90, "text");
- upgrade1txtinfo5.font = "15px Consolas";
- upgrade1txtinfo5.text = "Range: 2(-1)";
- upgrade1txtinfo7 = new component("30px", "Consolas", "white", 45, upgrade1Y + 105, "text");
- upgrade1txtinfo7.font = "15px Consolas";
- upgrade1txtinfo7.text = "Cool Down: 20(-10)";
- upgrade1txtinfo6 = new component("30px", "Consolas", "white", 45, upgrade1Y + 120, "text");
- upgrade1txtinfo6.font = "15px Consolas";
- upgrade1txtinfo6.text = "Special: Slows Enemies";
- upgrade1_2txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 30, "text");
- upgrade1_2txt.font = "15px Consolas";
- upgrade1_2txt.text = "#1 Weapon Upgrade (2/2)";
- upgrade1_2txtinfo = new component("30px", "Consolas", "white", 45, upgrade1Y + 30, "text");
- upgrade1_2txtinfo.font = "15px Consolas";
- upgrade1_2txtinfo.text = "Weapon Upgrade (2/2) ->";
- upgrade1_2txtinfo2 = new component("30px", "Consolas", "white", 45, upgrade1Y + 45, "text");
- upgrade1_2txtinfo2.font = "15px Consolas";
- upgrade1_2txtinfo2.text = "Name: Zapper";
- upgrade1_2txtinfo3 = new component("30px", "Consolas", "white", 45, upgrade1Y + 60, "text");
- upgrade1_2txtinfo3.font = "15px Consolas";
- upgrade1_2txtinfo3.text = "Cost: $200";
- upgrade1_2txtinfo4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
- upgrade1_2txtinfo4.font = "15px Consolas";
- upgrade1_2txtinfo4.text = "Damage: 35(+10)";
- upgrade1_2txtinfo5 = new component("30px", "Consolas", "white", 45, upgrade1Y + 90, "text");
- upgrade1_2txtinfo5.font = "15px Consolas";
- upgrade1_2txtinfo5.text = "Range: 4(+1)";
- upgrade1_2txtinfo6 = new component("30px", "Consolas", "white", 45, upgrade1Y + 105, "text");
- upgrade1_2txtinfo6.font = "15px Consolas";
- upgrade1_2txtinfo6.text = "Cool Down: 20(-0)";
- max1txt = new component("30px", "Consolas", "white", upgrade1X - 25, upgrade1Y + 30, "text");
- max1txt.font = "20px Consolas";
- max1txt.text = "MAXED";
- infoboard = new component(300, 500, "#63218a", 0, 0, "rec");
- infoboard2 = new component(310, 500, "black", 0, 0, "rec");
- pauseboard = new component(800, 500, "#451661", 0, 0, "rec");
- upgradeboard = new component(800, 500, "#451661", 0, 0, "rec");
- upgradetxt = new component("30px", "Consolas", "white", 345, 30, "text");
- upgradetxt.font = "20px Consolas";
- upgradetxt.text = "Upgrade Menu";
- waveFtxt = new component("30px", "Consolas", "white", 45, 30, "text");
- waveFtxt.font = "20px Consolas";
- waveFtxt.text = "You Finished A Wave!";
- healthButton = new component(205, 50, "#812bb3", upgrade1X + 135, upgrade1Y, "rec");
- healthBtxt = new component("30px", "Consolas", "white", upgrade1X + 237.5, upgrade1Y + 30, "text");
- healthBtxt.align = "center";
- healthBtxt.font = "15px Consolas";
- healthBtxt.text = "(H) Recover Health";
- healthtxtinfo = new component("30px", "Consolas", "white", 45, backY + 100, "text");
- healthtxtinfo.font = "15px Consolas";
- healthtxtinfo.text = "Health Recovery Cost: $" + (playerHealthMax - playerHealth);
- ammoButton = new component(205, 50, "#812bb3", upgrade1X + 135, upgrade1Y + 70, "rec");
- ammoBtxt = new component("30px", "Consolas", "white", upgrade1X + 237.5, upgrade1Y + 100, "text");
- ammoBtxt.align = "center";
- ammoBtxt.font = "15px Consolas";
- ammoBtxt.text = "(A) Recover Ammo";
- ammotxtinfo = new component("30px", "Consolas", "white", 45, backY + 115, "text");
- ammotxtinfo.font = "15px Consolas";
- ammotxtinfo.text = "Ammo Recovery Cost: $" + (maxAmmo - ammo);
- costToRevive = new component("30px", "Consolas", "darkred", 10, 490, "text");
- costToRevive.font = "30px Consolas";
- menuboard = new component(800, 500, "titlescreen", 0, 0, "img");
- menuboardtxttimer = new TimerComponent(0, 100);
- menuboardtxt = new component("30px", "Consolas", "#bc8dd3", menuboard.width/2, menuboard.height/2 + 30, "text");
- menuboardtxt.globalAlpha = 0;
- menuboardtxt.align = "center";
- menuboardtxt.shadowColor_ = "black";
- menuboardtxt.shadowBlur_ = 2;
- menuboardtxt.shadowOffsetX_ = 1;
- menuboardtxt.shadowOffsetY_ = 1;
- menuboardtxt.font = "30px Consolas Bold";
- menuboardtxt.text = "Press Any Fire Key To Start!";
- formplat = new component(75, 75, "1-5platform", 359, 157, "img");
- border1_5 = new component(800, 390, "1-5sideborder", 0, 0, "img");
- LowHealth_ = new component(800, 390, "lowhealth", 0, 0, "img");
- LowHealthTxt = new component("30px", "Consolas", "orange", 30, 35, "text");
- LowHealthTxt.font = "35px Consolas";
- LowHealthTxt.text = "Low Health!";
- LowAmmoTxt = new component("30px", "Consolas", "yellow", 30, 380, "text");
- LowAmmoTxt.font = "35px Consolas";
- LowAmmoTxt.text = "Low Ammo!";
- GotoWarp = new component(205, 50, "#812bb3", 297.5, 450, "rec");
- GotoWarptxt = new component("30px", "Consolas", "white", 400, 482.5, "text");
- GotoWarptxt.align = "center";
- GotoWarptxt.font = "20px Consolas";
- GotoWarptxt.text = "(W) Goto Warp";
- TipsTxt = new component("30px", "Consolas", "white", 10, 482.5, "text");
- TipsTxt.font = "10px Consolas";
- TipsTxt.text = "Tip:";
- DeathForPlayer = new component(800, 500, "deathscreen", 0, 0, "img");
- //pause menu//
+	if (localStorage && 'MusicVol' in localStorage) {
+	document.getElementById("volume").value = parseInt(localStorage.MusicVol, 10);
+	}
+	if (localStorage && 'SoundFXVol' in localStorage) {
+	document.getElementById("soundvolume").value = parseInt(localStorage.SoundFXVol, 10);
+	}
+	if (localStorage && 'MoveUpControl' in localStorage) {
+	Up_ = localStorage.MoveUpControl;
+	}
+	if (localStorage && 'MoveDownControl' in localStorage) {
+	Down_ = localStorage.MoveDownControl;
+	}
+	if (localStorage && 'MoveLeftControl' in localStorage) {
+	Left_ = localStorage.MoveLeftControl;
+	}
+	if (localStorage && 'MoveRightControl' in localStorage) {
+	Right_ = localStorage.MoveRightControl;
+	}
+	if (localStorage && 'ShootUpControl' in localStorage) {
+	shootUp_ = localStorage.ShootUpControl;
+	}
+	if (localStorage && 'ShootDownControl' in localStorage) {
+	shootDown_ = localStorage.ShootDownControl;
+	}
+	if (localStorage && 'ShootLeftControl' in localStorage) {
+	shootLeft_ = localStorage.ShootLeftControl;
+	}
+	if (localStorage && 'ShootRightControl' in localStorage) {
+	shootRight_ = localStorage.ShootRightControl;
+	}
+	if (localStorage && 'BackControl' in localStorage) {
+	Esssc_ = localStorage.BackControl;
+	}
+	if (localStorage && 'MuteControl' in localStorage) {
+	Mute_ = localStorage.MuteControl;
+	}
+	if (localStorage && 'PatchControl' in localStorage) {
+	Patch_ = localStorage.PatchControl;
+	}
+	if (localStorage && 'ReviveControl' in localStorage) {
+	Revive_ = localStorage.ReviveControl;
+	}
+	if (localStorage && 'SpecialControl' in localStorage) {
+	SpecialKey_ = localStorage.SpecialControl;
+	}
+	if (localStorage && 'SpecialControl2' in localStorage) {
+	SpecialKey_2 = localStorage.SpecialControl2;
+	}
+	if (localStorage && 'MuteVol' in localStorage) {
+	mutemusic = localStorage.MuteVol;
+	}
+	if (localStorage && 'HidePanel_' in localStorage) {
+	HPanel = localStorage.HidePanel_;
+	}
+	if (localStorage && 'Settings_' in localStorage) {
+	SShow = localStorage.Settings_;
+	}
+endCard = new component(800, 390, "endscreen", 0, 0, "img");
+guardianPic = new component(25, 25, "badguy5img", 650, 450, "animated-img-rot");
+guardianPic_lazer = new component(0, "round", "#650014", 0, 0, "line", 0, 0);
+guardianPic_lazer.globalAlpha = 0;
+guardianBox = new component(25, 25, "red", 650, 450, "rec", "enemy");
+guardianhealthbar = new component(GuardHealth / 2, 5, guardHealthBarColor, guardianBox.x, guardianBox.y - 8, "rec");
+bossWave7pic = new component(35, 35, "wave7boss", Boss7_Start_X, Boss7_Start_Y, "animated-img-rot");
+bossWave7sheildPic = new component(35, 35, "wave7bossSheild", Boss7_Start_X, Boss7_Start_Y, "animated-img-rot");
+bossWave7 = new component(35, 35, "red", Boss7_Start_X, Boss7_Start_Y, "rec");
+boss7healthbar = new component(BossHealth / 2, 10, bossHealthBarColor, 150, 20, "rec");
+bosstxt = new component("30px", "Consolas", "white", 150, 15, "text");
+bosstxt.font = "15px Consolas";
+bosstxt.text = "BOSS:";
+bosstxt2 = new component("30px", "Consolas", "white", 150, 15, "text");
+bosstxt2.font = "15px Consolas";
+bosstxt2.text = "BOSS: Sheilded";
+recenemypic1 = new component(25, 25, "badguy2img", 450, 60, "animated-img-rot");
+recenemypic1_lazer = new component(0, "round", "black", 0, 0, "line", 0, 0);
+recenemypic1_lazer.globalAlpha = 0;
+recbox1 = new component(25, 25, "red", 450, 60, "rec", "enemy");
+badguy1healthbar3 = new component(Badhealth4 / 2, 5, badHealthBarColor3, recbox1.x, recbox1.y - 8, "rec");
+recpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec", "enemy");
+recwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
+xenemypic1 = new component(31, 31, "badguy4img", 450, 60, "animated-img-rot");
+xenemypic1_lazer = new component(0, "round", "yellow", 0, 0, "line", 0, 0);
+xenemypic1_lazer.globalAlpha = 0;
+xbox1 = new component(31, 31, "red", 450, 60, "rec", "enemy");
+badguy1healthbar5 = new component(Badhealth5 / 2, 5, badHealthBarColor5, xbox1.x, xbox1.y - 8, "rec");
+xpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec", "enemy");
+xwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
+badguypic1 = new component(25, 25, "badguy1img", 650, 450, "animated-img-rot");
+badguypic1_lazer = new component(0, "round", "darkred", 0, 0, "line", 0, 0);
+badguypic1_lazer.globalAlpha = 0;
+badguy1 = new component(25, 25, "red", 650, 450, "rec", "enemy");
+badguy1healthbar = new component(Badhealth1 / 2, 5, badHealthBarColor, badguy1.x, badguy1.y - 8, "rec");
+badpos1 = new component(25, 25, "orange", bad1posX, bad1posY, "rec", "enemy");
+badwavebox1 = new component(35, 35, "black", bad1posX - 5, bad1posY - 5, "rec");
+badguypic2 = new component(25, 25, "badguy1img", 40, 150, "animated-img-rot");
+badguypic2_lazer = new component(0, "round", "darkred", 0, 0, "line", 0, 0);
+badguypic2_lazer.globalAlpha = 0;
+badguy2 = new component(25, 25, "red", 40, 150, "rec", "enemy");
+badguy1healthbar2 = new component(Badhealth2 / 2, 5, badHealthBarColor2, badguy2.x, badguy2.y - 8, "rec");
+badpos2 = new component(25, 25, "orange", bad2posX, bad2posY, "rec");
+badwavebox2 = new component(35, 35, "black", bad2posX - 5, bad2posY - 5, "rec");
+trienemypic = new component(35, 34.5, "badguy3img", 430, 100, "animated-img-rot");
+trienemypic_lazer = new component(0, "round", "purple", 0, 0, "line", 0, 0);
+trienemypic_lazer.globalAlpha = 0;
+tribox = new component(35, 35, "red", 430, 100, "rec", "enemy");
+badguy1healthbar4 = new component(Badhealth3 / 2, 5, badHealthBarColor4, tribox.x, tribox.y - 8, "rec");
+tribpic = new component(10, 10, "enemybull", 400, 100, "img-rot");
+tribbox = new component(10, 10, "orange", 400, 100, "rec");
+tripos1 = new component(5, 5, "orange", tri1posX, tri1posY, "rec");
+triwavebox1 = new component(15, 15, "black", tri1posX - 5, tri1posY - 5, "rec");
+bullbox = new component(10, 10, "orange", 400, 180, "rec");
+bullcir = new component(10, 10, "grey", 400, 180, "cir", 3, "black", 0);
+bpic = new component(10, 10, "bullpic1", 400, 180, "animated-img-rot");
+bpic2 = new component(10, 10, "bullpic2", 400, 180, "animated-img-rot");
+bpic3 = new component(10, 10, "bullpic3", 400, 180, "animated-img-rot");
+bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
+bpic5 = new component(10, 10, "bullpic5", 400, 180, "animated-img-rot");
+box = new component(25, 25, "grey", playerX, playerY, "player1", "player");
+circle = new component(0, 0, "white", playerX, playerY, "cir", 16.5);
+detectbox = new component(100, 100, "black", playerX - 37.5, playerY - 37.5, "rec");
+ship1 = new component(32, 32, "player1img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+PlayerShipsArray.push(ship1);
+ship2 = new component(25, 25, "player2img", playerX, playerY, "animated-img-rot");
+PlayerShipsArray.push(ship2);
+ship3 = new component(25, 25, "player3img", playerX, playerY, "animated-img-rot");
+PlayerShipsArray.push(ship3);
+ship4 = new component(25, 25, "player4img", playerX, playerY, "animated-img-rot");
+PlayerShipsArray.push(ship4);
+ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+PlayerShipsArray.push(ship5);
+ship6 = new component(25, 25, "player6img", playerX, playerY, "animated-img-rot");
+PlayerShipsArray.push(ship6);
+PlayerShadowManager = new PlayerShadowHandler(PlayerShipsArray, "black", 5, 3, 3);"rec-rot-poly"
+//Warp Zone
+WarpZone_BG = new component(800, 390, "warp_zone", 0, 0, "img");
+//Earth shit
+EarthHitEnterText = new component("", "", "white", 400, 124, "text");
+EarthHitEnterText.align = "center";
+EarthHitEnterText.font = "20px Consolas Bold";
+EarthHitEnterText.text = "Press Enter!";
+EarthHitEnterText.globalAlpha = 0;
+EarthHitEnterText.shadowColor_ = "black";
+EarthHitEnterText.shadowBlur_ = 2;
+EarthHitEnterText.shadowOffsetX_ = 1;
+EarthHitEnterText.shadowOffsetY_ = 1;
+Earth_Planet_Circle_Collider = new component(0, 0, "white", 400, 195, "cir", 70);
+Earth_Planet = new component(142, 142, "earth", 329, 124, "img");
+Earth_Planet.shadowColor_ = "black";
+Earth_Planet.shadowBlur_ = 3;
+Earth_Planet.shadowOffsetX_ = 3;
+Earth_Planet.shadowOffsetY_ = 3;
+Earth_PopUp_Message = new component(200, 200, "#63218a", 400-(200/2), 195-(200/2), "rec");
+Earth_PopUp_Message.globalAlpha = 0;
+Earth_PopUp_Message_Border = new component(210, 210, "black", 400-(210/2), 195-(210/2), "rec");
+Earth_PopUp_Message_Border.globalAlpha = 0;
+Earth_Location_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+25, "text");
+Earth_Location_Text.align = "center";
+Earth_Location_Text.font = "30px Consolas Bold";
+Earth_Location_Text.text = "Warp to Earth?";
+Earth_Location_Text.globalAlpha = 0;
+Earth_Location_Text.shadowColor_ = "black";
+Earth_Location_Text.shadowBlur_ = 2;
+Earth_Location_Text.shadowOffsetX_ = 1;
+Earth_Location_Text.shadowOffsetY_ = 1;
+Earth_Type_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+50, "text");
+Earth_Type_Text.align = "center";
+Earth_Type_Text.font = "20px Consolas Bold";
+Earth_Type_Text.text = "Type: Wave Based";
+Earth_Type_Text.globalAlpha = 0;
+Earth_Type_Text.shadowColor_ = "black";
+Earth_Type_Text.shadowBlur_ = 2;
+Earth_Type_Text.shadowOffsetX_ = 1;
+Earth_Type_Text.shadowOffsetY_ = 1;
+Earth_NumOfWaves_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+75, "text");
+Earth_NumOfWaves_Text.align = "center";
+Earth_NumOfWaves_Text.font = "20px Consolas Bold";
+Earth_NumOfWaves_Text.text = "Number of Waves: 20";
+Earth_NumOfWaves_Text.globalAlpha = 0;
+Earth_NumOfWaves_Text.shadowColor_ = "black";
+Earth_NumOfWaves_Text.shadowBlur_ = 2;
+Earth_NumOfWaves_Text.shadowOffsetX_ = 1;
+Earth_NumOfWaves_Text.shadowOffsetY_ = 1;
+Earth_NumOfBosses_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+100, "text");
+Earth_NumOfBosses_Text.align = "center";
+Earth_NumOfBosses_Text.font = "20px Consolas Bold";
+Earth_NumOfBosses_Text.text = "Number of Bosses: 3";
+Earth_NumOfBosses_Text.globalAlpha = 0;
+Earth_NumOfBosses_Text.shadowColor_ = "black";
+Earth_NumOfBosses_Text.shadowBlur_ = 2;
+Earth_NumOfBosses_Text.shadowOffsetX_ = 1;
+Earth_NumOfBosses_Text.shadowOffsetY_ = 1;
+Earth_Completed_Text = new component("", "", "white", 400-(200/2)+100, 195-(200/2)+125, "text");
+Earth_Completed_Text.align = "center";
+Earth_Completed_Text.font = "20px Consolas Bold";
+Earth_Completed_Text.text = "Completed: false";
+Earth_Completed_Text.globalAlpha = 0;
+Earth_Completed_Text.shadowColor_ = "black";
+Earth_Completed_Text.shadowBlur_ = 2;
+Earth_Completed_Text.shadowOffsetX_ = 1;
+Earth_Completed_Text.shadowOffsetY_ = 1;
+Earth_PopUp_Yes_Button = new component(50, 50, "black", 400-(200/2)+25, 195-(200/2)-60+200, "rec");
+Earth_PopUp_Yes_Button.globalAlpha = 0;
+Earth_PopUp_Yes_Button.shadowColor_ = "black";
+Earth_PopUp_Yes_Button.shadowBlur_ = 3;
+Earth_PopUp_Yes_Button.shadowOffsetX_ = 3;
+Earth_PopUp_Yes_Button.shadowOffsetY_ = 3;
+Earth_PopUp_Yes_Text = new component("", "", "white", 400-(200/2)+50, 195-(200/2)-60+230, "text");
+Earth_PopUp_Yes_Text.align = "center";
+Earth_PopUp_Yes_Text.font = "20px Consolas Bold";
+Earth_PopUp_Yes_Text.text = "YES";
+Earth_PopUp_Yes_Text.globalAlpha = 0;
+Earth_PopUp_Yes_Text.shadowColor_ = "white";
+Earth_PopUp_Yes_Text.shadowBlur_ = 2;
+Earth_PopUp_Yes_Text.shadowOffsetX_ = 1;
+Earth_PopUp_Yes_Text.shadowOffsetY_ = 1;
+Earth_PopUp_No_Button = new component(50, 50, "black", 400-(200/2)+125, 195-(200/2)-60+200, "rec");
+Earth_PopUp_No_Button.globalAlpha = 0;
+Earth_PopUp_No_Button.shadowColor_ = "black";
+Earth_PopUp_No_Button.shadowBlur_ = 3;
+Earth_PopUp_No_Button.shadowOffsetX_ = 3;
+Earth_PopUp_No_Button.shadowOffsetY_ = 3;
+Earth_PopUp_No_Text = new component("", "", "white", 400-(200/2)+151, 195-(200/2)-60+230, "text");
+Earth_PopUp_No_Text.align = "center";
+Earth_PopUp_No_Text.font = "20px Consolas Bold";
+Earth_PopUp_No_Text.text = "NO";
+Earth_PopUp_No_Text.globalAlpha = 0;
+Earth_PopUp_No_Text.shadowColor_ = "white";
+Earth_PopUp_No_Text.shadowBlur_ = 2;
+Earth_PopUp_No_Text.shadowOffsetX_ = 1;
+Earth_PopUp_No_Text.shadowOffsetY_ = 1;
+w1t5 = new component(800, 390, "wave1t5", 0, 0, "img");
+w5t7 = new component(800, 390, "wave5t7", 0, 0, "img");
+Explosion = new component(800, 390, "EXFrame1", 0, 0, "img");
+Explosion_2 = new component(800, 390, "EXFrame1", 0, 0, "img");
+Explosion_3 = new component(800, 390, "EXFrame1", 0, 0, "img");
+Explosion_4 = new component(800, 390, "EXFrame1", 0, 0, "img");
+Explosion_5 = new component(800, 390, "EXFrame1", 0, 0, "img");
+wallleft = new component(60, 400, "black", -60, 0, "rec");
+wallright = new component(60, 400, "black", 800, 0, "rec");
+wall3 = new component(800, 60, "black", 0, -60, "rec");
+wall4 = new component(800, 60, "black", 0, 390, "rec");
+roofhouse1 = new component(140, 130, "houseroof1", 70, 70, "img");
+insidedetect1 = new component(120, 140, "gray", 80, 80, "rec");
+floorhouse1 = new component(120, 120, "housefloor1", 80, 80, "img");
+wallhouse1 = new component(120, 10, "grey", 80, 80, "rec");
+wallhouse1_2 = new component(120, 10, "grey", 80, 70, "rec");
+wallhouse2 = new component(10, 100, "grey", 80, 90, "rec");
+wallhouse2_2 = new component(10, 120, "grey", 70, 70, "rec");
+wallhouse3 = new component(10, 100, "grey", 190, 90, "rec");
+wallhouse3_2 = new component(10, 120, "grey", 200, 70, "rec");
+wallhouse4 = new component(15, 10, "grey", 90, 180, "rec");
+wallhouse4_2 = new component(35, 10, "grey", 70, 190, "rec");
+wallhouse4_3 = new component(40, 20, "grey", 70, 180, "rec");
+wallhouse5 = new component(10, 5, "grey", 100, 187.5, "rec");
+wallhouse6 = new component(25, 10, "grey", 165, 180, "rec");
+wallhouse6_2 = new component(45, 10, "grey", 165, 190, "rec");
+wallhouse6_3 = new component(50, 20, "grey", 160, 180, "rec");
+wallhouse7 = new component(10, 5, "grey", 160, 187.5, "rec");
+wallhouse8 = new component(120, 20, "grey", 80, 180, "rec");
+wall2house1 = new component(190, 10, "grey", 510, 100, "rec");
+wall2house1_2 = new component(200, 10, "grey", 500, 90, "rec");
+wall2house2 = new component(10, 80, "grey", 510, 110, "rec");
+wall2house2_2 = new component(10, 100, "grey", 500, 100, "rec");
+wall2house3 = new component(10, 80, "grey", 690, 110, "rec");
+wall2house3_2 = new component(10, 110, "grey", 700, 90, "rec");
+wall2house4 = new component(45, 10, "grey", 510, 190, "rec");
+wall2house4_2 = new component(55, 10, "grey", 500, 200, "rec");
+wall2house4_3 = new component(60, 20, "grey", 500, 190, "rec");
+wall2house5 = new component(10, 5, "grey", 550, 197.5, "rec");
+wall2house6 = new component(85, 10, "grey", 615, 190, "rec");
+wall2house6_2 = new component(95, 10, "grey", 615, 200, "rec");
+wall2house6_3 = new component(100, 20, "grey", 610, 190, "rec");
+wall2house7 = new component(10, 5, "grey", 610, 197.5, "rec");
+wall2house8 = new component(190, 20, "grey", 510, 190, "rec");
+roof2house1 = new component(210, 120, "houseroof1", 500, 90, "img");
+inside2detect1 = new component(190, 130, "gray", 510, 100, "rec");
+floor2house1 = new component(200, 120, "housefloor1", 500, 90, "img");
+tree1_1_D = new component(50, 50, "black", 80, 290, "rec");
+tree1_1 = new component(50, 50, "tree", 80, 290, "img-rot");
+tree1_1.angle = Math.random()*6.28318531;
+tree1_2_D = new component(50, 50, "black", 650, 270, "rec");
+tree1_2 = new component(50, 50, "tree", 650, 270, "img-rot");
+tree1_2.angle = Math.random()*6.28318531;
+tree1_3_D = new component(50, 50, "black", 230, 90, "rec");
+tree1_3 = new component(50, 50, "tree", 230, 90, "img-rot");
+tree1_3.angle = Math.random()*6.28318531;
+tree1_4_D = new component(50, 50, "black", 270, 175, "rec");
+tree1_4 = new component(50, 50, "tree", 270, 175, "img-rot");
+tree1_4.angle = Math.random()*6.28318531;
+tree1_5_D = new component(50, 50, "black", 420, 70, "rec");
+tree1_5 = new component(50, 50, "tree", 420, 70, "img-rot");
+tree1_5.angle = Math.random()*6.28318531;
+tree1_6_D = new component(50, 50, "black", 620, 33, "rec");
+tree1_6 = new component(50, 50, "tree", 620, 33, "img-rot");
+tree1_6.angle = Math.random()*6.28318531;
+tree1_7_D = new component(50, 50, "black", 500, 285, "rec");
+tree1_7 = new component(50, 50, "tree", 500, 285, "img-rot");
+tree1_7.angle = Math.random()*6.28318531;
+tree1_8_D = new component(50, 50, "black", 300, 265, "rec");
+tree1_8 = new component(50, 50, "tree", 300, 265, "img-rot");
+tree1_8.angle = Math.random()*6.28318531;
+tree2_1_D = new component(50, 50, "black", 50, 20, "rec");
+tree2_1 = new component(50, 50, "tree", 50, 20, "img-rot");
+tree2_1.angle = Math.random()*6.28318531;
+tree2_2_D = new component(50, 50, "black", 230, 70, "rec");
+tree2_2 = new component(50, 50, "tree", 230, 70, "img-rot");
+tree2_2.angle = Math.random()*6.28318531;
+wall3house1 = new component(270, 10, "#666666", 480, 50, "rec");
+wall3house1_2 = new component(250, 10, "#666666", 490, 60, "rec");
+wall3house2 = new component(10, 90, "#666666", 480, 55, "rec");
+wall3house2_2 = new component(10, 80, "#666666", 490, 60, "rec");
+wall3house3 = new component(10, 90, "#666666", 740, 55, "rec");
+wall3house3_2 = new component(10, 80, "#666666", 730, 60, "rec");
+wall3house4 = new component(105, 10, "#666666", 480, 140, "rec");
+wall3house4_2 = new component(95, 10, "#666666", 490, 130, "rec");
+wall3house4_3 = new component(10, 5, "#666666", 580, 137.5, "rec");
+wall3house4_4 = new component(110, 20, "#666666", 480, 130, "rec");
+wall3house5 = new component(105, 10, "#666666", 645, 140, "rec");
+wall3house5_2 = new component(95, 10, "#666666", 645, 130, "rec");
+wall3house5_3 = new component(10, 5, "#666666", 640, 137.5, "rec");
+wall3house5_4 = new component(110, 20, "#666666", 640, 130, "rec");
+wall3house6 = new component(270, 10, "#666666", 480, 140, "rec");
+inside3detect1 = new component(260, 100, "black", 485, 60, "rec");
+floor3house1 = new component(270, 100, "housefloor3", 480, 50, "img");
+burntHouse1 = new component(270, 100, "Burnt", 480, 50, "img");
+roof3house1 = new component(270, 100, "houseroof2", 480, 50, "img");
+roof3house2 = new component(50, 50, "houseroof2", 590, 120, "img");
+wall4house1 = new component(270, 10, "#666666", 480, 340, "rec");
+wall4house1_1 = new component(250, 10, "#666666", 490, 330, "rec");
+wall4house2 = new component(10, 90, "#666666", 480, 255, "rec");
+wall4house2_1 = new component(10, 80, "#666666", 490, 260, "rec");
+wall4house3 = new component(10, 90, "#666666", 740, 255, "rec");
+wall4house3_1 = new component(10, 80, "#666666", 730, 260, "rec");
+wall4house4 = new component(45, 10, "#666666", 480, 250, "rec");
+wall4house4_1 = new component(35, 10, "#666666", 490, 260, "rec");
+wall4house4_2 = new component(10, 5, "#666666", 520, 257.5, "rec");
+wall4house4_3 = new component(50, 20, "#666666", 480, 250, "rec");
+wall4house5 = new component(45, 10, "#666666", 705, 250, "rec");
+wall4house5_1 = new component(35, 10, "#666666", 705, 260, "rec");
+wall4house5_2 = new component(10, 5, "#666666", 700, 257.5, "rec");
+wall4house5_3 = new component(50, 20, "#666666", 700, 250, "rec");
+wall4house6 = new component(60, 10, "#666666", 585, 250, "rec");
+wall4house6_1 = new component(60, 10, "#666666", 585, 260, "rec");
+wall4house6_2 = new component(10, 5, "#666666", 580, 257.5, "rec");
+wall4house6_3 = new component(10, 5, "#666666", 640, 257.5, "rec");
+wall4house6_4 = new component(70, 20, "#666666", 580, 250, "rec");
+wall4house7 = new component(270, 10, "#666666", 480, 250, "rec");
+floor4house1 = new component(270, 90, "housefloor2", 480, 250, "img");
+burntHouse2 = new component(270, 100, "Burnt", 480, 250, "img");
+inside4detect1 = new component(250, 90, "black", 490, 245, "rec");
+roof4house1 = new component(270, 100, "houseroof3", 480, 250, "img");
+roof4house2 = new component(50, 50, "houseroof3", 530, 230, "img");
+roof4house3 = new component(50, 50, "houseroof3", 650, 230, "img");
+plantbox1_1 = new component(50, 50, "plantbox1", 360, 280, "img");
+plantbox2_1 = new component(50, 50, "plantbox1", 60, 280, "img");
+plantbox3_1 = new component(50, 50, "plantbox1", 260, 280, "img");
+plantbox4_1 = new component(50, 50, "plantbox1", 160, 280, "img");
+tree2_3_D = new component(50, 50, "black", 360, 280, "rec");
+tree2_3 = new component(50, 50, "tree", 360, 280, "img-rot");
+tree2_3.angle = Math.random()*6.28318531;
+tree2_4_D = new component(50, 50, "black", 60, 280, "rec");
+tree2_4 = new component(50, 50, "tree", 60, 280, "img-rot");
+tree2_4.angle = Math.random()*6.28318531;
+tree2_5_D = new component(50, 50, "black", 260, 280, "rec");
+tree2_5 = new component(50, 50, "tree", 260, 280, "img-rot");
+tree2_5.angle = Math.random()*6.28318531;
+tree2_6_D = new component(50, 50, "black", 160, 280, "rec");
+tree2_6 = new component(50, 50, "tree", 160, 280, "img-rot");
+tree2_6.angle = Math.random()*6.28318531;
+ui = new component(800, 300, "#451661", 0, 390, "rec");
+backbutton = new component(160, 50, "#812bb3", backX - 100, backY + 100, "rec");
+backtxt = new component("30px", "Consolas", "white", backX - 90, backY + 130, "text");
+backtxt.font = "15px Consolas";
+backtxt.text = "Press ESC To Exit";
+backtxtinfo = new component("30px", "Consolas", "white", 45, backY + 130, "text");
+backtxtinfo.font = "15px Consolas";
+backtxtinfo.text = "Exits the upgrade menu. ->";
+upgrade1button = new component(205, 50, "#812bb3", upgrade1X - 100, upgrade1Y, "rec");
+upgrade1txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 30, "text");
+upgrade1txt.font = "15px Consolas";
+upgrade1txt.text = "#1 Weapon Upgrade (1/2)";
+upgrade1txtinfo = new component("30px", "Consolas", "white", 45, upgrade1Y + 30, "text");
+upgrade1txtinfo.font = "15px Consolas";
+upgrade1txtinfo.text = "Weapon Upgrade (1/2) ->";
+upgrade1txtinfo2 = new component("30px", "Consolas", "white", 45, upgrade1Y + 45, "text");
+upgrade1txtinfo2.font = "15px Consolas";
+upgrade1txtinfo2.text = "Name: Hi-Beam";
+upgrade1txtinfo3 = new component("30px", "Consolas", "white", 45, upgrade1Y + 60, "text");
+upgrade1txtinfo3.font = "15px Consolas";
+upgrade1txtinfo3.text = "Cost: $100";
+upgrade1txtinfo4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
+upgrade1txtinfo4.font = "15px Consolas";
+upgrade1txtinfo4.text = "Damage: 25(+5)";
+upgrade1txtinfo5 = new component("30px", "Consolas", "white", 45, upgrade1Y + 90, "text");
+upgrade1txtinfo5.font = "15px Consolas";
+upgrade1txtinfo5.text = "Range: 2(-1)";
+upgrade1txtinfo7 = new component("30px", "Consolas", "white", 45, upgrade1Y + 105, "text");
+upgrade1txtinfo7.font = "15px Consolas";
+upgrade1txtinfo7.text = "Cool Down: 20(-10)";
+upgrade1txtinfo6 = new component("30px", "Consolas", "white", 45, upgrade1Y + 120, "text");
+upgrade1txtinfo6.font = "15px Consolas";
+upgrade1txtinfo6.text = "Special: Slows Enemies";
+upgrade1_2txt = new component("30px", "Consolas", "white", upgrade1X - 90, upgrade1Y + 30, "text");
+upgrade1_2txt.font = "15px Consolas";
+upgrade1_2txt.text = "#1 Weapon Upgrade (2/2)";
+upgrade1_2txtinfo = new component("30px", "Consolas", "white", 45, upgrade1Y + 30, "text");
+upgrade1_2txtinfo.font = "15px Consolas";
+upgrade1_2txtinfo.text = "Weapon Upgrade (2/2) ->";
+upgrade1_2txtinfo2 = new component("30px", "Consolas", "white", 45, upgrade1Y + 45, "text");
+upgrade1_2txtinfo2.font = "15px Consolas";
+upgrade1_2txtinfo2.text = "Name: Zapper";
+upgrade1_2txtinfo3 = new component("30px", "Consolas", "white", 45, upgrade1Y + 60, "text");
+upgrade1_2txtinfo3.font = "15px Consolas";
+upgrade1_2txtinfo3.text = "Cost: $200";
+upgrade1_2txtinfo4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
+upgrade1_2txtinfo4.font = "15px Consolas";
+upgrade1_2txtinfo4.text = "Damage: 35(+10)";
+upgrade1_2txtinfo5 = new component("30px", "Consolas", "white", 45, upgrade1Y + 90, "text");
+upgrade1_2txtinfo5.font = "15px Consolas";
+upgrade1_2txtinfo5.text = "Range: 4(+1)";
+upgrade1_2txtinfo6 = new component("30px", "Consolas", "white", 45, upgrade1Y + 105, "text");
+upgrade1_2txtinfo6.font = "15px Consolas";
+upgrade1_2txtinfo6.text = "Cool Down: 20(-0)";
+max1txt = new component("30px", "Consolas", "white", upgrade1X - 25, upgrade1Y + 30, "text");
+max1txt.font = "20px Consolas";
+max1txt.text = "MAXED";
+infoboard = new component(300, 500, "#63218a", 0, 0, "rec");
+infoboard2 = new component(310, 500, "black", 0, 0, "rec");
+pauseboard = new component(800, 500, "#451661", 0, 0, "rec");
+upgradeboard = new component(800, 500, "#451661", 0, 0, "rec");
+upgradetxt = new component("30px", "Consolas", "white", 345, 30, "text");
+upgradetxt.font = "20px Consolas";
+upgradetxt.text = "Upgrade Menu";
+waveFtxt = new component("30px", "Consolas", "white", 45, 30, "text");
+waveFtxt.font = "20px Consolas";
+waveFtxt.text = "You Finished A Wave!";
+healthButton = new component(205, 50, "#812bb3", upgrade1X + 135, upgrade1Y, "rec");
+healthBtxt = new component("30px", "Consolas", "white", upgrade1X + 237.5, upgrade1Y + 30, "text");
+healthBtxt.align = "center";
+healthBtxt.font = "15px Consolas";
+healthBtxt.text = "(H) Recover Health";
+healthtxtinfo = new component("30px", "Consolas", "white", 45, backY + 100, "text");
+healthtxtinfo.font = "15px Consolas";
+healthtxtinfo.text = "Health Recovery Cost: $" + (playerHealthMax - playerHealth);
+ammoButton = new component(205, 50, "#812bb3", upgrade1X + 135, upgrade1Y + 70, "rec");
+ammoBtxt = new component("30px", "Consolas", "white", upgrade1X + 237.5, upgrade1Y + 100, "text");
+ammoBtxt.align = "center";
+ammoBtxt.font = "15px Consolas";
+ammoBtxt.text = "(A) Recover Ammo";
+ammotxtinfo = new component("30px", "Consolas", "white", 45, backY + 115, "text");
+ammotxtinfo.font = "15px Consolas";
+ammotxtinfo.text = "Ammo Recovery Cost: $" + (maxAmmo - ammo);
+costToRevive = new component("30px", "Consolas", "darkred", 10, 490, "text");
+costToRevive.font = "30px Consolas";
+menuboard = new component(800, 500, "titlescreen", 0, 0, "img");
+menuboardtxttimer = new TimerComponent(0, 100);
+menuboardtxt = new component("30px", "Consolas", "#bc8dd3", menuboard.width/2, menuboard.height/2 + 30, "text");
+menuboardtxt.globalAlpha = 0;
+menuboardtxt.align = "center";
+menuboardtxt.shadowColor_ = "black";
+menuboardtxt.shadowBlur_ = 2;
+menuboardtxt.shadowOffsetX_ = 1;
+menuboardtxt.shadowOffsetY_ = 1;
+menuboardtxt.font = "30px Consolas Bold";
+menuboardtxt.text = "Press Any Fire Key To Start!";
+formplat = new component(75, 75, "1-5platform", 359, 157, "img");
+border1_5 = new component(800, 390, "1-5sideborder", 0, 0, "img");
+LowHealth_ = new component(800, 390, "lowhealth", 0, 0, "img");
+LowHealthTxt = new component("30px", "Consolas", "orange", 30, 35, "text");
+LowHealthTxt.font = "35px Consolas";
+LowHealthTxt.text = "Low Health!";
+LowAmmoTxt = new component("30px", "Consolas", "yellow", 30, 380, "text");
+LowAmmoTxt.font = "35px Consolas";
+LowAmmoTxt.text = "Low Ammo!";
+GotoWarp = new component(205, 50, "#812bb3", 297.5, 450, "rec");
+GotoWarptxt = new component("30px", "Consolas", "white", 400, 482.5, "text");
+GotoWarptxt.align = "center";
+GotoWarptxt.font = "20px Consolas";
+GotoWarptxt.text = "(W) Goto Warp";
+TipsTxt = new component("30px", "Consolas", "white", 10, 482.5, "text");
+TipsTxt.font = "10px Consolas";
+TipsTxt.text = "Tip:";
+DeathForPlayer = new component(800, 500, "deathscreen", 0, 0, "img");
+middle_UI_edge = new component(100, 80, "black", 350, 430, "rec"); 
+middle_UI = new component(90, 80, "#63218a", 355, 435, "rec");
+backgroung_ammo = new component(83, 15, "#812bb3", 358, 438, "rec");
+backgroung_weapon = new component(83, 15, "#812bb3", 358, 458, "rec");
+backgroung_wave = new component(83, 15, "#812bb3", 358, 478, "rec");
+ammotxt = new component("30px", "Consolas", "orange", 360, 450, "text");
+weaptxt = new component("30px", "Consolas", "black", 358, 470, "text");
+wavetxt = new component("30px", "Consolas", "lightgray", 360, 490, "text");
+Mute_UI = new component(80, 80, "Mute", 470, 420, "animated-img");
+//pause menu//
 weap_ship = new component(200, 200, "grey", 300, 40, "rec");
 shiptxt = new component("30px", "Consolas", "white", 365, 55, "text");
 shiptxt.font = "15px Consolas";
@@ -702,7 +687,7 @@ shiptxt.text = "Shipyard";
 pausetxt = new component("30px", "Consolas", "white", 345, 30, "text");
 pausetxt.font = "20px Consolas";
 pausetxt.text = "Pause Menu";
- //ship yard//
+//ship yard//
 ship1Show = new component(32, 32, "player1img", 305, 60, "animated-img-rot");
 shipHighLight1 = new component(35, 35, "highlight", ship1Show.x - ((35-ship1Show.width)/2), ship1Show.y - ((35-ship1Show.height)/2), "img-rot");
 shipHighLight1.globalAlpha = 0;
@@ -755,7 +740,7 @@ resizeHandler();
 animationInt();
 Board.start();
 updateGameArea();
- }
+}
  
 var Board = {
 canvas : document.createElement("canvas"),
@@ -795,964 +780,327 @@ this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 }
 }
 
-function animationComponent(numberOfFrames, startFrame, speedOfAnimation) {
-this.numberOfFrames = numberOfFrames;
-this.startFrame = startFrame;
-this.speedOfAnimation = speedOfAnimation;
-this.currentFrame = this.startFrame;
-this._frame = 0;
-this.frameTimer = function() {
-this._frame += 1;
-if (this._frame >= this.speedOfAnimation) {
-this.currentFrame++;
-this._frame = 0;
-}
-if (this.currentFrame >= this.numberOfFrames) {
-this.currentFrame = this.startFrame;
-}
-return this.currentFrame;
-}
-this.resetFrame = function() {
-this._frame = 0;
-this.currentFrame = this.startFrame;
-return this.currentFrame;
-}
+function animationComponent(object, num_of_frames, width, height, speed=30, loop=true, start_frame={"x":0,"y":0}) {
+this.object = object;
+this.num_of_frames = num_of_frames;
+this.width = width;
+this.height = height;
+this.speed = speed;
+this.loop = loop;
+this.start_frame = start_frame;
+this.time = 0;
+this.frame_x = this.start_frame.x;
+this.frame_y = this.start_frame.y;
+this.done = false;
+	this.update = function() {
+		//Counter
+		if (this.loop) {
+		this.time += this.speed/10;
+		} else {
+			if (!this.done) {
+			this.time += this.speed/10;
+			}
+		}
+		if (this.time >= 100) {
+			if (this.frame_x != this.width) {
+			this.frame_x++;
+			}
+			this.time = 0;
+		}
+		if (this.frame_x == this.width) {
+		this.frame_y++;
+		this.frame_x = 0;
+			if (this.frame_y == this.height) {
+			this.done = true;
+			this.frame_y = 0;
+			}
+		}
+		if (this.frame_x*(this.frame_y+2) >= this.num_of_frames) {
+		this.done = true;
+		this.frame_x = 0;
+		this.frame_y = 0;
+		}
+		if (this.frame_y < this.height) {
+		this.done = false;
+		}
+	//Update frame
+	object.sx = this.frame_x*object.width;
+	object.sy = this.frame_y*object.height;
+	}
+	this.reset_frame = function() {
+	this.time = 0;
+	this.frame_x = 0;
+	this.frame_y = 0;
+	this.done = false;
+	}
 }
 
 function animationInt() {
-badguypic1_1_animation = new animationComponent(6, 0, 25);
-badguypic2_1_animation = new animationComponent(6, 0, 25);
-recenemypic1_1_animation = new animationComponent(6, 0, 15);
-trienemypic_1_animation = new animationComponent(8, 0, 25);
-xenemypic1_1_animation = new animationComponent(8, 0, 15);
-guardianPic_1_animation = new animationComponent(6, 0, 25);
-bossWave7pic_1_animation = new animationComponent(8, 0, 15);
-bossWave7sheildPic_1_animation = new animationComponent(8, 0, 15);
-bpic_1_animation = new animationComponent(6, 0, 0.5);
-ship1_1_animation = new animationComponent(8, 0, 15);
-ship2_1_animation = new animationComponent(8, 0, 15);
-ship3_1_animation = new animationComponent(8, 0, 15);
-ship4_1_animation = new animationComponent(8, 0, 15);
-ship5_1_animation = new animationComponent(8, 0, 15);
-ship6_1_animation = new animationComponent(8, 0, 15);
-shipShow1_1_animation = new animationComponent(8, 0, 15);
-shipShow2_1_animation = new animationComponent(8, 0, 15);
-shipShow3_1_animation = new animationComponent(8, 0, 15);
-shipShow4_1_animation = new animationComponent(8, 0, 15);
-shipShow5_1_animation = new animationComponent(8, 0, 15);
-shipShow6_1_animation = new animationComponent(8, 0, 15);
-STPDAYEVENTBOSSINTRO_1_animation = new animationComponent(8, 0, 15);
+badguypic1_1_animation = new animationComponent(badguypic1, 6, 4, 2);
+badguypic2_1_animation = new animationComponent(badguypic2, 6, 4, 2);
+recenemypic1_1_animation = new animationComponent(recenemypic1, 6, 4, 2);
+trienemypic_1_animation = new animationComponent(trienemypic, 8, 4, 2, 45);
+xenemypic1_1_animation = new animationComponent(xenemypic1, 8, 4, 2, 60);
+guardianPic_1_animation = new animationComponent(guardianPic, 6, 3, 3, 45);
+bossWave7pic_1_animation = new animationComponent(bossWave7pic, 8, 4, 2, 60);
+bossWave7sheildPic_1_animation = new animationComponent(bossWave7sheildPic, 8, 4, 2, 60);
+ship1_1_animation = new animationComponent(ship1, 8, 4, 2, 60);
+shipShow1_1_animation = new animationComponent(ship1Show, 8, 4, 2, 60);
+ship2_1_animation = new animationComponent(ship2, 8, 4, 2, 120);
+shipShow2_1_animation = new animationComponent(ship2Show, 8, 4, 2, 120);
+ship3_1_animation = new animationComponent(ship3, 8, 4, 2, 60);
+shipShow3_1_animation = new animationComponent(ship3Show, 8, 4, 2, 60);
+ship4_1_animation = new animationComponent(ship4, 8, 4, 2, 60);
+shipShow4_1_animation = new animationComponent(ship4Show, 8, 4, 2, 60);
+ship5_1_animation = new animationComponent(ship5, 8, 4, 2, 60);
+shipShow5_1_animation = new animationComponent(ship5Show, 8, 4, 2, 60);
+ship6_1_animation = new animationComponent(ship6, 8, 4, 2, 60);
+shipShow6_1_animation = new animationComponent(ship6Show, 8, 4, 2, 60);
+/**
+STPDAYEVENTBOSSINTRO_1_animation = new animationComponent(8, 0, 15);**/
 }
 
 var animationNoOff = false;
 function animations() {
-if (document.getElementById("AnimatedSprites").checked == true) {
-animationNoOff = true;
-}
-if (document.getElementById("AnimatedSprites").checked == false) {
-animationNoOff = false;
-}
-//badguypic1 enemy animation//
-if (wave < 5 && BadDeath < 1 && Death1 == 0) {
-badguypic1.angle += 0.05;
-if (animationNoOff == true) {
-badguypic1_1_animation.frameTimer();
-}
-}
-if (wave >= 5 || BadDeath > 0 || Death1 != 0) {
-badguypic1.angle = 0;
-if (animationNoOff == false) {
-badguypic1_1_animation.resetFrame();
-}
-}
-if (badguypic1_1_animation.currentFrame == 0) {
-badguypic1.sx = 0;
-badguypic1.sy = 0;
-}
-if (badguypic1_1_animation.currentFrame == 1) {
-badguypic1.sx = 25;
-badguypic1.sy = 0;
-}
-if (badguypic1_1_animation.currentFrame == 2) {
-badguypic1.sx = 50;
-badguypic1.sy = 0;
-}
-if (badguypic1_1_animation.currentFrame == 3) {
-badguypic1.sx = 75;
-badguypic1.sy = 0;
-}
-if (badguypic1_1_animation.currentFrame == 4) {
-badguypic1.sx = 0;
-badguypic1.sy = 25;
-}
-if (badguypic1_1_animation.currentFrame == 5) {
-badguypic1.sx = 25;
-badguypic1.sy = 25;
-}
-//badguypic2 enemy animation//
-if (wave < 7 && wave > 1 && BadDeath2 < 1 && Death1 == 0) {
-badguypic2.angle += 0.05;
-if (animationNoOff == true) {
-badguypic2_1_animation.frameTimer();
-}
-}
-if (wave >= 7 || wave < 2 || BadDeath2 > 0 || Death1 != 0) {
-badguypic2.angle = 0;
-if (animationNoOff == false) {
-badguypic2_1_animation.resetFrame();
-}
-}
-if (badguypic2_1_animation.currentFrame == 0) {
-badguypic2.sx = 0;
-badguypic2.sy = 0;
-}
-if (badguypic2_1_animation.currentFrame == 1) {
-badguypic2.sx = 25;
-badguypic2.sy = 0;
-}
-if (badguypic2_1_animation.currentFrame == 2) {
-badguypic2.sx = 50;
-badguypic2.sy = 0;
-}
-if (badguypic2_1_animation.currentFrame == 3) {
-badguypic2.sx = 75;
-badguypic2.sy = 0;
-}
-if (badguypic2_1_animation.currentFrame == 4) {
-badguypic2.sx = 0;
-badguypic2.sy = 25;
-}
-if (badguypic2_1_animation.currentFrame == 5) {
-badguypic2.sx = 25;
-badguypic2.sy = 25;
-}
-//recenemypic1 enemy animation//
-if (wave > 2 && wave < 5 && BadDeath4 < 1 && Death1 == 0) {
-recenemypic1.angle += 0.08;
-if (animationNoOff == true) {
-recenemypic1_1_animation.frameTimer();
-}
-}
-if (wave >= 5 || wave <= 2 || BadDeath4 > 0 || Death1 != 0) {
-recenemypic1.angle = 0;
-if (animationNoOff == false) {
-recenemypic1_1_animation.resetFrame();
-}
-}
-if (recenemypic1_1_animation.currentFrame == 0) {
-recenemypic1.sx = 0;
-recenemypic1.sy = 0;
-}
-if (recenemypic1_1_animation.currentFrame == 1) {
-recenemypic1.sx = 25;
-recenemypic1.sy = 0;
-}
-if (recenemypic1_1_animation.currentFrame == 2) {
-recenemypic1.sx = 50;
-recenemypic1.sy = 0;
-}
-if (recenemypic1_1_animation.currentFrame == 3) {
-recenemypic1.sx = 75;
-recenemypic1.sy = 0;
-}
-if (recenemypic1_1_animation.currentFrame == 4) {
-recenemypic1.sx = 0;
-recenemypic1.sy = 25;
-}
-if (recenemypic1_1_animation.currentFrame == 5) {
-recenemypic1.sx = 25;
-recenemypic1.sy = 25;
-}
-//trienemypic enemy animation//
-trienemypic.angle = Math.atan2(-box.y + trienemypic.y, -box.x + trienemypic.x) + 1.5707963268;
-if (wave > 4 && wave < 7 && BadDeath3 < 1 && Death1 == 0) {
-if (animationNoOff == true) {
-trienemypic_1_animation.frameTimer();
-}
-}
-if (wave >= 7 || wave <= 4 || BadDeath3 > 0 || Death1 != 0) {
-if (animationNoOff == false) {
-trienemypic_1_animation.resetFrame();
-}
-}
-if (trienemypic_1_animation.currentFrame == 0) {
-trienemypic.sx = 0;
-trienemypic.sy = 0;
-}
-if (trienemypic_1_animation.currentFrame == 1) {
-trienemypic.sx = 35;
-trienemypic.sy = 0;
-}
-if (trienemypic_1_animation.currentFrame == 2) {
-trienemypic.sx = 70;
-trienemypic.sy = 0;
-}
-if (trienemypic_1_animation.currentFrame == 3) {
-trienemypic.sx = 105;
-trienemypic.sy = 0;
-}
-if (trienemypic_1_animation.currentFrame == 4) {
-trienemypic.sx = 0;
-trienemypic.sy = 35;
-}
-if (trienemypic_1_animation.currentFrame == 5) {
-trienemypic.sx = 35;
-trienemypic.sy = 35;
-}
-if (trienemypic_1_animation.currentFrame == 6) {
-trienemypic.sx = 70;
-trienemypic.sy = 35;
-}
-if (trienemypic_1_animation.currentFrame == 7) {
-trienemypic.sx = 105;
-trienemypic.sy = 35;
-}
-//xenemypic1 enemy animation//
-if (wave > 5 && wave < 7 && BadDeath5 < 1 && Death1 == 0) {
-xenemypic1.angle += 0.06;
-if (animationNoOff == true) {
-xenemypic1_1_animation.frameTimer();
-}
-}
-if (wave >= 7 || wave <= 5 || BadDeath5 > 0 || Death1 != 0) {
-xenemypic1.angle = 0;
-if (animationNoOff == false) {
-xenemypic1_1_animation.resetFrame();
-}
-}
-if (xenemypic1_1_animation.currentFrame == 0) {
-xenemypic1.sx = 0;
-xenemypic1.sy = 0;
-}
-if (xenemypic1_1_animation.currentFrame == 1) {
-xenemypic1.sx = 31;
-xenemypic1.sy = 0;
-}
-if (xenemypic1_1_animation.currentFrame == 2) {
-xenemypic1.sx = 62;
-xenemypic1.sy = 0;
-}
-if (xenemypic1_1_animation.currentFrame == 3) {
-xenemypic1.sx = 93;
-xenemypic1.sy = 0;
-}
-if (xenemypic1_1_animation.currentFrame == 4) {
-xenemypic1.sx = 0;
-xenemypic1.sy = 31;
-}
-if (xenemypic1_1_animation.currentFrame == 5) {
-xenemypic1.sx = 31;
-xenemypic1.sy = 31;
-}
-if (xenemypic1_1_animation.currentFrame == 6) {
-xenemypic1.sx = 62;
-xenemypic1.sy = 31;
-}
-if (xenemypic1_1_animation.currentFrame == 7) {
-xenemypic1.sx = 93;
-xenemypic1.sy = 31;
-}
-//guardianPic enemy animation//
-if (wave == 7 && GuardDead == false && GuardStart == 1 && Death1 == 0) {
-if (guardianBox.crashWith(detectbox)) {
-guardianPic.angle += 8 * Math.PI / 180;
-} else {
-guardianPic.angle += 5 * Math.PI / 180;	
-}
-if (GuardHealth <= 0) {
-guardianPic.angle = 0;
-}
-if (animationNoOff == true) {
-guardianPic_1_animation.frameTimer();
-}
-}
-if (wave != 7 || GuardDead != false || GuardStart != 1 || Death1 != 0) {
-guardianPic.angle = 0;
-if (animationNoOff == false) {
-guardianPic_1_animation.resetFrame();
-}
-}
-if (guardianPic_1_animation.currentFrame == 0) {
-guardianPic.sx = 0;
-guardianPic.sy = 0;
-}
-if (guardianPic_1_animation.currentFrame == 1) {
-guardianPic.sx = 25;
-guardianPic.sy = 0;
-}
-if (guardianPic_1_animation.currentFrame == 2) {
-guardianPic.sx = 50;
-guardianPic.sy = 0;
-}
-if (guardianPic_1_animation.currentFrame == 3) {
-guardianPic.sx = 0;
-guardianPic.sy = 25;
-}
-if (guardianPic_1_animation.currentFrame == 4) {
-guardianPic.sx = 25;
-guardianPic.sy = 25;
-}
-if (guardianPic_1_animation.currentFrame == 5) {
-guardianPic.sx = 50;
-guardianPic.sy = 25;
-}
-//bossWave7pic enemy animation//
-if (wave == 7 && spawnBoss7 == 1 && BossDead == false) {
-bossWave7pic.angle += 0.05;
-if (animationNoOff == true) {
-bossWave7pic_1_animation.frameTimer();
-}
-} else {
-bossWave7pic.angle = 0;
-if (animationNoOff == false) {
-bossWave7pic_1_animation.resetFrame();
-}
-}
-if (bossWave7pic_1_animation.currentFrame == 0) {
-bossWave7pic.sx = 0;
-bossWave7pic.sy = 0;
-}
-if (bossWave7pic_1_animation.currentFrame == 1) {
-bossWave7pic.sx = 35;
-bossWave7pic.sy = 0;
-}
-if (bossWave7pic_1_animation.currentFrame == 2) {
-bossWave7pic.sx = 70;
-bossWave7pic.sy = 0;
-}
-if (bossWave7pic_1_animation.currentFrame == 3) {
-bossWave7pic.sx = 105;
-bossWave7pic.sy = 0;
-}
-if (bossWave7pic_1_animation.currentFrame == 4) {
-bossWave7pic.sx = 0;
-bossWave7pic.sy = 35;
-}
-if (bossWave7pic_1_animation.currentFrame == 5) {
-bossWave7pic.sx = 35;
-bossWave7pic.sy = 35;
-}
-if (bossWave7pic_1_animation.currentFrame == 6) {
-bossWave7pic.sx = 70;
-bossWave7pic.sy = 35;
-}
-if (bossWave7pic_1_animation.currentFrame == 7) {
-bossWave7pic.sx = 105;
-bossWave7pic.sy = 35;
-}
-//bossWave7sheildPic enemy animation//
-bossWave7sheildPic.angle = bossWave7pic.angle;
-if (bossSheildMode == 1) {
-if (animationNoOff == true) {
-bossWave7sheildPic_1_animation.frameTimer();
-}
-} else {
-if (animationNoOff == false) {
-bossWave7sheildPic_1_animation.resetFrame();
-}
-}
-if (bossWave7sheildPic_1_animation.currentFrame == 0) {
-bossWave7sheildPic.sx = 0;
-bossWave7sheildPic.sy = 0;
-}
-if (bossWave7sheildPic_1_animation.currentFrame == 1) {
-bossWave7sheildPic.sx = 35;
-bossWave7sheildPic.sy = 0;
-}
-if (bossWave7sheildPic_1_animation.currentFrame == 2) {
-bossWave7sheildPic.sx = 70;
-bossWave7sheildPic.sy = 0;
-}
-if (bossWave7sheildPic_1_animation.currentFrame == 3) {
-bossWave7sheildPic.sx = 105;
-bossWave7sheildPic.sy = 0;
-}
-if (bossWave7sheildPic_1_animation.currentFrame == 4) {
-bossWave7sheildPic.sx = 0;
-bossWave7sheildPic.sy = 35;
-}
-if (bossWave7sheildPic_1_animation.currentFrame == 5) {
-bossWave7sheildPic.sx = 35;
-bossWave7sheildPic.sy = 35;
-}
-if (bossWave7sheildPic_1_animation.currentFrame == 6) {
-bossWave7sheildPic.sx = 70;
-bossWave7sheildPic.sy = 35;
-}
-if (bossWave7sheildPic_1_animation.currentFrame == 7) {
-bossWave7sheildPic.sx = 105;
-bossWave7sheildPic.sy = 35;
-}
-//ship1 ship animation//
-ship1.angle += 0.05;
-if (Death1 == 0) {
-if (playerShip == 0) {
-if (animationNoOff == true) {
-ship1_1_animation.frameTimer();
-}
-}
-}
-if (Death1 != 0 || playerShip != 0) {
-if (animationNoOff == false) {
-ship1_1_animation.resetFrame();
-}
-}
-if (ship1_1_animation.currentFrame == 0) {
-ship1.sx = 0;
-ship1.sy = 0;
-}
-if (ship1_1_animation.currentFrame == 1) {
-ship1.sx = 32;
-ship1.sy = 0;
-}
-if (ship1_1_animation.currentFrame == 2) {
-ship1.sx = 64;
-ship1.sy = 0;
-}
-if (ship1_1_animation.currentFrame == 3) {
-ship1.sx = 96;
-ship1.sy = 0;
-}
-if (ship1_1_animation.currentFrame == 4) {
-ship1.sx = 0;
-ship1.sy = 32;
-}
-if (ship1_1_animation.currentFrame == 5) {
-ship1.sx = 32;
-ship1.sy = 32;
-}
-if (ship1_1_animation.currentFrame == 6) {
-ship1.sx = 64;
-ship1.sy = 32;
-}
-if (ship1_1_animation.currentFrame == 7) {
-ship1.sx = 96;
-ship1.sy = 32;
-}
-//ship1Show animation//
-ship1Show.angle += 0.05;
-shipHighLight1.angle -= 0.5;
-if (pauseGame == 1 && pauseGameKeys == false && weaponVault == 0) {
-if (animationNoOff == true) {
-shipShow1_1_animation.frameTimer();
-}
-}
-if (pauseGame != 1 || pauseGameKeys != false || weaponVault != 0) {
-if (animationNoOff == false) {
-shipShow1_1_animation.resetFrame();
-}
-}
-if (pauseGame == 1 && pauseGameKeys == false) {
-if (weaponVault == 0) {
-if (shipShow1_1_animation.currentFrame == 0) {
-ship1Show.sx = 0;
-ship1Show.sy = 0;
-}
-if (shipShow1_1_animation.currentFrame == 1) {
-ship1Show.sx = 32;
-ship1Show.sy = 0;
-}
-if (shipShow1_1_animation.currentFrame == 2) {
-ship1Show.sx = 64;
-ship1Show.sy = 0;
-}
-if (shipShow1_1_animation.currentFrame == 3) {
-ship1Show.sx = 96;
-ship1Show.sy = 0;
-}
-if (shipShow1_1_animation.currentFrame == 4) {
-ship1Show.sx = 0;
-ship1Show.sy = 32;
-}
-if (shipShow1_1_animation.currentFrame == 5) {
-ship1Show.sx = 32;
-ship1Show.sy = 32;
-}
-if (shipShow1_1_animation.currentFrame == 6) {
-ship1Show.sx = 64;
-ship1Show.sy = 32;
-}
-if (shipShow1_1_animation.currentFrame == 7) {
-ship1Show.sx = 96;
-ship1Show.sy = 32;
-}
-}
-}
-//ship2 ship animation//
-ship2.angle += 0.05;
-if (Death1 == 0) {
-if (playerShip == 1) {
-if (animationNoOff == true) {
-ship2_1_animation.frameTimer();
-}
-}
-}
-if (Death1 != 0 || playerShip != 1) {
-if (animationNoOff == false) {
-ship2_1_animation.resetFrame();
-}
-}
-if (ship2_1_animation.currentFrame == 0) {
-ship2.sx = 0;
-ship2.sy = 0;
-}
-if (ship2_1_animation.currentFrame == 1) {
-ship2.sx = 25;
-ship2.sy = 0;
-}
-if (ship2_1_animation.currentFrame == 2) {
-ship2.sx = 50;
-ship2.sy = 0;
-}
-if (ship2_1_animation.currentFrame == 3) {
-ship2.sx = 75;
-ship2.sy = 0;
-}
-if (ship2_1_animation.currentFrame == 4) {
-ship2.sx = 0;
-ship2.sy = 25;
-}
-if (ship2_1_animation.currentFrame == 5) {
-ship2.sx = 25;
-ship2.sy = 25;
-}
-if (ship2_1_animation.currentFrame == 6) {
-ship2.sx = 50;
-ship2.sy = 25;
-}
-if (ship2_1_animation.currentFrame == 7) {
-ship2.sx = 75;
-ship2.sy = 25;
-}
-//ship2Show animation//
-ship2Show.angle += 0.05;
-shipHighLight2.angle -= 0.5;
-if (pauseGame == 1 && pauseGameKeys == false && weaponVault == 0) {
-if (animationNoOff == true) {
-shipShow2_1_animation.frameTimer();
-}
-}
-if (pauseGame != 1 || pauseGameKeys != false || weaponVault != 0) {
-if (animationNoOff == false) {
-shipShow2_1_animation.resetFrame();
-}
-}
-if (pauseGame == 1 && pauseGameKeys == false) {
-if (weaponVault == 0) {
-if (shipShow2_1_animation.currentFrame == 0) {
-ship2Show.sx = 0;
-ship2Show.sy = 0;
-}
-if (shipShow2_1_animation.currentFrame == 1) {
-ship2Show.sx = 25;
-ship2Show.sy = 0;
-}
-if (shipShow2_1_animation.currentFrame == 2) {
-ship2Show.sx = 50;
-ship2Show.sy = 0;
-}
-if (shipShow2_1_animation.currentFrame == 3) {
-ship2Show.sx = 75;
-ship2Show.sy = 0;
-}
-if (shipShow2_1_animation.currentFrame == 4) {
-ship2Show.sx = 0;
-ship2Show.sy = 25;
-}
-if (shipShow2_1_animation.currentFrame == 5) {
-ship2Show.sx = 25;
-ship2Show.sy = 25;
-}
-if (shipShow2_1_animation.currentFrame == 6) {
-ship2Show.sx = 50;
-ship2Show.sy = 25;
-}
-if (shipShow2_1_animation.currentFrame == 7) {
-ship2Show.sx = 75;
-ship2Show.sy = 25;
-}
-}
-}
-//ship3 ship animation//
-ship3.angle += 0.05;
-if (Death1 == 0) {
-if (playerShip == 2) {
-if (animationNoOff == true) {
-ship3_1_animation.frameTimer();
-}
-}
-}
-if (Death1 != 0 || playerShip != 2) {
-if (animationNoOff == false) {
-ship3_1_animation.resetFrame();
-}
-}
-if (ship3_1_animation.currentFrame == 0) {
-ship3.sx = 0;
-ship3.sy = 0;
-}
-if (ship3_1_animation.currentFrame == 1) {
-ship3.sx = 25;
-ship3.sy = 0;
-}
-if (ship3_1_animation.currentFrame == 2) {
-ship3.sx = 50;
-ship3.sy = 0;
-}
-if (ship3_1_animation.currentFrame == 3) {
-ship3.sx = 75;
-ship3.sy = 0;
-}
-if (ship3_1_animation.currentFrame == 4) {
-ship3.sx = 0;
-ship3.sy = 25;
-}
-if (ship3_1_animation.currentFrame == 5) {
-ship3.sx = 25;
-ship3.sy = 25;
-}
-if (ship3_1_animation.currentFrame == 6) {
-ship3.sx = 50;
-ship3.sy = 25;
-}
-if (ship3_1_animation.currentFrame == 7) {
-ship3.sx = 75;
-ship3.sy = 25;
-}
-//ship3Show animation//
-ship3Show.angle += 0.05;
-shipHighLight3.angle -= 0.5;
-if (pauseGame == 1 && pauseGameKeys == false && weaponVault == 0) {
-if (animationNoOff == true) {
-shipShow3_1_animation.frameTimer();
-}
-}
-if (pauseGame != 1 || pauseGameKeys != false || weaponVault != 0) {
-if (animationNoOff == false) {
-shipShow3_1_animation.resetFrame();
-}
-}
-if (pauseGame == 1 && pauseGameKeys == false) {
-if (weaponVault == 0) {
-if (shipShow3_1_animation.currentFrame == 0) {
-ship3Show.sx = 0;
-ship3Show.sy = 0;
-}
-if (shipShow3_1_animation.currentFrame == 1) {
-ship3Show.sx = 25;
-ship3Show.sy = 0;
-}
-if (shipShow3_1_animation.currentFrame == 2) {
-ship3Show.sx = 50;
-ship3Show.sy = 0;
-}
-if (shipShow3_1_animation.currentFrame == 3) {
-ship3Show.sx = 75;
-ship3Show.sy = 0;
-}
-if (shipShow3_1_animation.currentFrame == 4) {
-ship3Show.sx = 0;
-ship3Show.sy = 25;
-}
-if (shipShow3_1_animation.currentFrame == 5) {
-ship3Show.sx = 25;
-ship3Show.sy = 25;
-}
-if (shipShow3_1_animation.currentFrame == 6) {
-ship3Show.sx = 50;
-ship3Show.sy = 25;
-}
-if (shipShow3_1_animation.currentFrame == 7) {
-ship3Show.sx = 75;
-ship3Show.sy = 25;
-}
-}
-}
-//ship4 ship animation//
-ship4.angle += 0.05;
-if (Death1 == 0) {
-if (playerShip == 3) {
-if (animationNoOff == true) {
-ship4_1_animation.frameTimer();
-}
-}
-}
-if (Death1 != 0 || playerShip != 3) {
-if (animationNoOff == false) {
-ship4_1_animation.resetFrame();
-}
-}
-if (ship4_1_animation.currentFrame == 0) {
-ship4.sx = 0;
-ship4.sy = 0;
-}
-if (ship4_1_animation.currentFrame == 1) {
-ship4.sx = 25;
-ship4.sy = 0;
-}
-if (ship4_1_animation.currentFrame == 2) {
-ship4.sx = 50;
-ship4.sy = 0;
-}
-if (ship4_1_animation.currentFrame == 3) {
-ship4.sx = 75;
-ship4.sy = 0;
-}
-if (ship4_1_animation.currentFrame == 4) {
-ship4.sx = 0;
-ship4.sy = 25;
-}
-if (ship4_1_animation.currentFrame == 5) {
-ship4.sx = 25;
-ship4.sy = 25;
-}
-if (ship4_1_animation.currentFrame == 6) {
-ship4.sx = 50;
-ship4.sy = 25;
-}
-if (ship4_1_animation.currentFrame == 7) {
-ship4.sx = 75;
-ship4.sy = 25;
-}
-//ship4Show animation//
-ship4Show.angle += 0.05;
-shipHighLight4.angle -= 0.5;
-if (pauseGame == 1 && pauseGameKeys == false && weaponVault == 0) {
-if (animationNoOff == true) {
-shipShow4_1_animation.frameTimer();
-}
-}
-if (pauseGame != 1 || pauseGameKeys != false || weaponVault != 0) {
-if (animationNoOff == false) {
-shipShow4_1_animation.resetFrame();
-}
-}
-if (pauseGame == 1 && pauseGameKeys == false) {
-if (weaponVault == 0) {
-if (shipShow4_1_animation.currentFrame == 0) {
-ship4Show.sx = 0;
-ship4Show.sy = 0;
-}
-if (shipShow4_1_animation.currentFrame == 1) {
-ship4Show.sx = 25;
-ship4Show.sy = 0;
-}
-if (shipShow4_1_animation.currentFrame == 2) {
-ship4Show.sx = 50;
-ship4Show.sy = 0;
-}
-if (shipShow4_1_animation.currentFrame == 3) {
-ship4Show.sx = 75;
-ship4Show.sy = 0;
-}
-if (shipShow4_1_animation.currentFrame == 4) {
-ship4Show.sx = 0;
-ship4Show.sy = 25;
-}
-if (shipShow3_1_animation.currentFrame == 5) {
-ship4Show.sx = 25;
-ship4Show.sy = 25;
-}
-if (shipShow3_1_animation.currentFrame == 6) {
-ship4Show.sx = 50;
-ship4Show.sy = 25;
-}
-if (shipShow3_1_animation.currentFrame == 7) {
-ship4Show.sx = 75;
-ship4Show.sy = 25;
-}
-}
-}
-//ship5 ship animation//
-ship5.angle += 0.05;
-if (Death1 == 0) {
-if (playerShip == 4) {
-if (animationNoOff == true) {
-ship5_1_animation.frameTimer();
-}
-}
-}
-if (Death1 != 0 || playerShip != 4) {
-if (animationNoOff == false) {
-ship5_1_animation.resetFrame();
-}
-}
-if (ship5_1_animation.currentFrame == 0) {
-ship5.sx = 0;
-ship5.sy = 0;
-}
-if (ship5_1_animation.currentFrame == 1) {
-ship5.sx = 32;
-ship5.sy = 0;
-}
-if (ship5_1_animation.currentFrame == 2) {
-ship5.sx = 64;
-ship5.sy = 0;
-}
-if (ship5_1_animation.currentFrame == 3) {
-ship5.sx = 96;
-ship5.sy = 0;
-}
-if (ship5_1_animation.currentFrame == 4) {
-ship5.sx = 0;
-ship5.sy = 32;
-}
-if (ship5_1_animation.currentFrame == 5) {
-ship5.sx = 32;
-ship5.sy = 32;
-}
-if (ship5_1_animation.currentFrame == 6) {
-ship5.sx = 64;
-ship5.sy = 32;
-}
-if (ship5_1_animation.currentFrame == 7) {
-ship5.sx = 96;
-ship5.sy = 32;
-}
-//ship5Show animation//
-ship5Show.angle += 0.05;
-shipHighLight5.angle -= 0.5;
-if (pauseGame == 1 && pauseGameKeys == false && weaponVault == 0) {
-if (animationNoOff == true) {
-shipShow5_1_animation.frameTimer();
-}
-}
-if (pauseGame != 1 || pauseGameKeys != false || weaponVault != 0) {
-if (animationNoOff == false) {
-shipShow5_1_animation.resetFrame();
-}
-}
-if (pauseGame == 1 && pauseGameKeys == false) {
-if (weaponVault == 0) {
-if (shipShow5_1_animation.currentFrame == 0) {
-ship5Show.sx = 0;
-ship5Show.sy = 0;
-}
-if (shipShow5_1_animation.currentFrame == 1) {
-ship5Show.sx = 32;
-ship5Show.sy = 0;
-}
-if (shipShow5_1_animation.currentFrame == 2) {
-ship5Show.sx = 64;
-ship5Show.sy = 0;
-}
-if (shipShow5_1_animation.currentFrame == 3) {
-ship5Show.sx = 96;
-ship5Show.sy = 0;
-}
-if (shipShow5_1_animation.currentFrame == 4) {
-ship5Show.sx = 0;
-ship5Show.sy = 32;
-}
-if (shipShow5_1_animation.currentFrame == 5) {
-ship5Show.sx = 32;
-ship5Show.sy = 32;
-}
-if (shipShow5_1_animation.currentFrame == 6) {
-ship5Show.sx = 64;
-ship5Show.sy = 32;
-}
-if (shipShow5_1_animation.currentFrame == 7) {
-ship5Show.sx = 96;
-ship5Show.sy = 32;
-}
-}
-}
-//ship6 ship animation//
-ship6.angle += 0.05;
-if (Death1 == 0) {
-if (playerShip == 5) {
-if (animationNoOff == true) {
-ship6_1_animation.frameTimer();
-}
-}
-}
-if (Death1 != 0 || playerShip != 5) {
-if (animationNoOff == false) {
-ship6_1_animation.resetFrame();
-}
-}
-if (ship6_1_animation.currentFrame == 0) {
-ship6.sx = 0;
-ship6.sy = 0;
-}
-if (ship6_1_animation.currentFrame == 1) {
-ship6.sx = 25;
-ship6.sy = 0;
-}
-if (ship6_1_animation.currentFrame == 2) {
-ship6.sx = 50;
-ship6.sy = 0;
-}
-if (ship6_1_animation.currentFrame == 3) {
-ship6.sx = 75;
-ship6.sy = 0;
-}
-if (ship6_1_animation.currentFrame == 4) {
-ship6.sx = 0;
-ship6.sy = 25;
-}
-if (ship6_1_animation.currentFrame == 5) {
-ship6.sx = 25;
-ship6.sy = 25;
-}
-if (ship6_1_animation.currentFrame == 6) {
-ship6.sx = 50;
-ship6.sy = 25;
-}
-if (ship6_1_animation.currentFrame == 7) {
-ship6.sx = 75;
-ship6.sy = 25;
-}
-//ship6Show animation//
-ship6Show.angle += 0.05;
-shipHighLight6.angle -= 0.5;
-if (pauseGame == 1 && pauseGameKeys == false && weaponVault == 0) {
-if (animationNoOff == true) {
-shipShow6_1_animation.frameTimer();
-}
-}
-if (pauseGame != 1 || pauseGameKeys != false || weaponVault != 0) {
-if (animationNoOff == false) {
-shipShow6_1_animation.resetFrame();
-}
-}
-if (pauseGame == 1 && pauseGameKeys == false) {
-if (weaponVault == 0) {
-if (shipShow6_1_animation.currentFrame == 0) {
-ship6Show.sx = 0;
-ship6Show.sy = 0;
-}
-if (shipShow6_1_animation.currentFrame == 1) {
-ship6Show.sx = 25;
-ship6Show.sy = 0;
-}
-if (shipShow6_1_animation.currentFrame == 2) {
-ship6Show.sx = 50;
-ship6Show.sy = 0;
-}
-if (shipShow6_1_animation.currentFrame == 3) {
-ship6Show.sx = 75;
-ship6Show.sy = 0;
-}
-if (shipShow6_1_animation.currentFrame == 4) {
-ship6Show.sx = 0;
-ship6Show.sy = 25;
-}
-if (shipShow6_1_animation.currentFrame == 5) {
-ship6Show.sx = 25;
-ship6Show.sy = 25;
-}
-if (shipShow6_1_animation.currentFrame == 6) {
-ship6Show.sx = 50;
-ship6Show.sy = 25;
-}
-if (shipShow6_1_animation.currentFrame == 7) {
-ship6Show.sx = 75;
-ship6Show.sy = 25;
-}
-}
-}
+	if (document.getElementById("AnimatedSprites").checked) {
+	animationNoOff = true;
+	}
+	if (!document.getElementById("AnimatedSprites").checked) {
+	animationNoOff = false;
+	}
+	//badguypic1 enemy animation//
+	if (wave < 5 && BadDeath < 1 && Death1 == 0) {
+	badguypic1.angle += 0.05;
+		if (animationNoOff) {
+		badguypic1_1_animation.update();
+		}
+	}
+	if (wave >= 5 || BadDeath > 0 || Death1 != 0) {
+	badguypic1.angle = 0;
+		if (!animationNoOff) {
+		badguypic1_1_animation.reset_frame();
+		}
+	}
+	//badguypic2 enemy animation//
+	if (wave < 7 && wave > 1 && BadDeath2 < 1 && Death1 == 0) {
+	badguypic2.angle += 0.05;
+		if (animationNoOff) {
+		badguypic2_1_animation.update();
+		}
+	}
+	if (wave >= 7 || wave < 2 || BadDeath2 > 0 || Death1 != 0) {
+	badguypic2.angle = 0;
+		if (!animationNoOff) {
+		badguypic2_1_animation.reset_frame();
+		}
+	}
+	//recenemypic1 enemy animation//
+	if (wave > 2 && wave < 5 && BadDeath4 < 1 && Death1 == 0) {
+	recenemypic1.angle += 0.08;
+		if (animationNoOff) {
+		recenemypic1_1_animation.update();
+		}
+	}
+	if (wave >= 5 || wave <= 2 || BadDeath4 > 0 || Death1 != 0) {
+	recenemypic1.angle = 0;
+		if (!animationNoOff) {
+		recenemypic1_1_animation.reset_frame();
+		}
+	}
+	//trienemypic enemy animation//
+	trienemypic.angle = Math.atan2(-box.y+trienemypic.y, -box.x+trienemypic.x)+1.5707963268;
+	if (wave > 4 && wave < 7 && BadDeath3 < 1 && Death1 == 0) {
+		if (animationNoOff) {
+		trienemypic_1_animation.update();
+		}
+	}
+	if (wave >= 7 || wave <= 4 || BadDeath3 > 0 || Death1 != 0) {
+		if (!animationNoOff) {
+		trienemypic_1_animation.reset_frame();
+		}
+	}
+	//xenemypic1 enemy animation//
+	if (wave > 5 && wave < 7 && BadDeath5 < 1 && Death1 == 0) {
+	xenemypic1.angle += 0.06;
+		if (animationNoOff) {
+		xenemypic1_1_animation.update();
+		}
+	}
+	if (wave >= 7 || wave <= 5 || BadDeath5 > 0 || Death1 != 0) {
+	xenemypic1.angle = 0;
+		if (!animationNoOff) {
+		xenemypic1_1_animation.reset_frame();
+		}
+	}
+	//guardianPic enemy animation//
+	if (wave == 7 && !GuardDead && GuardStart == 1 && Death1 == 0) {
+		if (guardianBox.crashWith(detectbox)) {
+		guardianPic.angle += 8 * Math.PI / 180;
+		} else {
+		guardianPic.angle += 5 * Math.PI / 180;	
+		}
+		if (GuardHealth <= 0) {
+		guardianPic.angle = 0;
+		}
+		if (animationNoOff) {
+		guardianPic_1_animation.update();
+		}
+	}
+	if (wave != 7 || GuardDead || GuardStart != 1 || Death1 != 0) {
+	guardianPic.angle = 0;
+		if (!animationNoOff) {
+		guardianPic_1_animation.reset_frame();
+		}
+	}
+	//bossWave7pic enemy animation//
+	if (wave == 7 && spawnBoss7 == 1 && !BossDead) {
+	bossWave7pic.angle += 0.05;
+		if (animationNoOff) {
+		bossWave7pic_1_animation.update();
+		}
+	} else {
+	bossWave7pic.angle = 0;
+		if (!animationNoOff) {
+		bossWave7pic_1_animation.reset_frame();
+		}
+	}
+	//bossWave7sheildPic enemy animation//
+	bossWave7sheildPic.angle = bossWave7pic.angle;
+	if (bossSheildMode == 1) {
+		if (animationNoOff) {
+		bossWave7sheildPic_1_animation.update();
+		}
+	} else {
+		if (!animationNoOff) {
+		bossWave7sheildPic_1_animation.reset_frame();
+		}
+	}
+	//ship1 ship animation//
+	ship1.angle += 0.05;
+	if (Death1 == 0 && playerShip == 0 && animationNoOff) {
+	ship1_1_animation.update();
+	}
+	if (Death1 != 0 || playerShip != 0) {
+		if (!animationNoOff) {
+		ship1_1_animation.reset_frame();
+		}
+	}
+	//ship1Show animation//
+	ship1Show.angle += 0.05;
+	shipHighLight1.angle -= 0.5;
+	if (pauseGame == 1 && !pauseGameKeys && weaponVault == 0 && animationNoOff) {
+	shipShow1_1_animation.update();
+	}
+	if (pauseGame != 1 || pauseGameKeys || weaponVault != 0) {
+		if (!animationNoOff) {
+		shipShow1_1_animation.reset_frame();
+		}
+	}
+	//ship2 ship animation//
+	ship2.angle += 0.05;
+	if (Death1 == 0 && playerShip == 1 && animationNoOff) {
+	ship2_1_animation.update();
+	}
+	if (Death1 != 0 || playerShip != 1) {
+		if (!animationNoOff) {
+		ship2_1_animation.reset_frame();
+		}
+	}
+	//ship2Show animation//
+	ship2Show.angle += 0.05;
+	shipHighLight2.angle -= 0.5;
+	if (pauseGame == 1 && !pauseGameKeys && weaponVault == 0 && animationNoOff) {
+	shipShow2_1_animation.update();
+	}
+	if (pauseGame != 1 || pauseGameKeys || weaponVault != 0) {
+		if (!animationNoOff) {
+		shipShow2_1_animation.reset_frame();
+		}
+	}
+	//ship3 ship animation//
+	ship3.angle += 0.05;
+	if (Death1 == 0 && playerShip == 2 && animationNoOff) {
+	ship3_1_animation.update();
+	}
+	if (Death1 != 0 || playerShip != 2) {
+		if (!animationNoOff) {
+		ship3_1_animation.reset_frame();
+		}
+	}
+	//ship3Show animation//
+	ship3Show.angle += 0.05;
+	shipHighLight3.angle -= 0.5;
+	if (pauseGame == 1 && !pauseGameKeys && weaponVault == 0 && animationNoOff) {
+	shipShow3_1_animation.update();
+	}
+	if (pauseGame != 1 || pauseGameKeys || weaponVault != 0) {
+		if (!animationNoOff) {
+		shipShow3_1_animation.reset_frame();
+		}
+	}
+	//ship4 ship animation//
+	ship4.angle += 0.05;
+	if (Death1 == 0 && playerShip == 3 && animationNoOff) {
+	ship4_1_animation.update();
+	}
+	if (Death1 != 0 || playerShip != 3) {
+		if (!animationNoOff) {
+		ship4_1_animation.reset_frame();
+		}
+	}
+	//ship4Show animation//
+	ship4Show.angle += 0.05;
+	shipHighLight4.angle -= 0.5;
+	if (pauseGame == 1 && !pauseGameKeys && weaponVault == 0 && animationNoOff) {
+	shipShow4_1_animation.update();
+	}
+	if (pauseGame != 1 || pauseGameKeys || weaponVault != 0) {
+		if (!animationNoOff) {
+		shipShow4_1_animation.reset_frame();
+		}
+	}
+	//ship5 ship animation//
+	ship5.angle += 0.05;
+	if (Death1 == 0 && playerShip == 4 && animationNoOff) {
+	ship5_1_animation.update();
+	}
+	if (Death1 != 0 || playerShip != 4) {
+		if (!animationNoOff) {
+		ship5_1_animation.reset_frame();
+		}
+	}
+	//ship5Show animation//
+	ship5Show.angle += 0.05;
+	shipHighLight5.angle -= 0.5;
+	if (pauseGame == 1 && !pauseGameKeys && weaponVault == 0 && animationNoOff) {
+	shipShow5_1_animation.update();
+	}
+	if (pauseGame != 1 || pauseGameKeys || weaponVault != 0) {
+		if (!animationNoOff) {
+		shipShow5_1_animation.reset_frame();
+		}
+	}
+	//ship6 ship animation//
+	ship6.angle += 0.05;
+	if (Death1 == 0 && playerShip == 5 && animationNoOff) {
+	ship6_1_animation.update();
+	}
+	if (Death1 != 0 || playerShip != 5) {
+		if (!animationNoOff) {
+		ship6_1_animation.reset_frame();
+		}
+	}
+	//ship6Show animation//
+	ship6Show.angle += 0.05;
+	shipHighLight6.angle -= 0.5;
+	if (pauseGame == 1 && !pauseGameKeys && weaponVault == 0 && animationNoOff) {
+	shipShow6_1_animation.update();
+	}
+	if (pauseGame != 1 || pauseGameKeys || weaponVault != 0) {
+		if (animationNoOff == false) {
+		shipShow6_1_animation.reset_frame();
+		}
+	}
 //bpic bullet animation//
 bpic.angle += 0.08;
 //bpic2 bullet animation//
@@ -1778,290 +1126,6 @@ this.start_timer = function() {
 }
 }
 
-function ComponentSpawner(width, height, color, x, y, type, radius, outcolor, thickness, health, weakness, ammo, waveNumberToSpawnIn_start, waveNumberToSpawnIn_end, numberToSpawnInWave, randomPosition, typeOfAI, typeOfAttack, attackSpeed, slowTime, easyDamage, mediumDamage, hardDamage, typeOfCollision, targetForAI, targetBulletsForAI, AINormalSpeed_min, AINormalSpeed_max, AIAngrySpeed_min, AIAngrySpeed_max, AINormalSlowSpeed_min, AINormalSlowSpeed_max, AIAngrySlowSpeed_min, AIAngrySlowSpeed_max, wallArray) {
-this.width = width;
-this.height = height;
-this.color = color;
-this.x = x;
-this.y = y;
-this.type = type;
-this.radius = radius;
-this.outcolor = outcolor;
-this.thickness = thickness;
-this.health = health;
-this.weakness = weakness;
-this.ammo = ammo;
-this.waveNumberToSpawnIn_start = waveNumberToSpawnIn_start;
-this.waveNumberToSpawnIn_end = waveNumberToSpawnIn_end;
-this.numberToSpawnInWave = numberToSpawnInWave;
-this.randomPosition = randomPosition;
-this.typeOfAI = typeOfAI;
-this.typeOfAttack = typeOfAttack;
-this.attackSpeed = attackSpeed;
-this.slowTime = slowTime;
-this.easyDamage = easyDamage;
-this.mediumDamage = mediumDamage;
-this.hardDamage = hardDamage;
-this.typeOfCollision = typeOfCollision;
-this.targetForAI = targetForAI;
-this.targetBulletsForAI = targetBulletsForAI;
-this.AINormalSpeed_min = AINormalSpeed_min;
-this.AINormalSpeed_max = AINormalSpeed_max;
-this.AIAngrySpeed_min = AIAngrySpeed_min;
-this.AIAngrySpeed_max = AIAngrySpeed_max;
-this.AINormalSlowSpeed_min = AINormalSlowSpeed_min;
-this.AINormalSlowSpeed_max = AINormalSlowSpeed_max;
-this.AIAngrySlowSpeed_min = AIAngrySlowSpeed_min;
-this.AIAngrySlowSpeed_max = AIAngrySlowSpeed_max;
-this.wallArray = wallArray;
-this.timer_ = new TimerComponent(0, this.attackSpeed);
-this.objectContainer = [];
-this.objectHealthBarContainer = [];
-this.objectNormalSpeedContainer = [];
-this.objectNormalSlowSpeedContainer = [];
-this.objectAngrySpeedContainer = [];
-this.objectAngrySlowSpeedContainer = [];
-this.objectTimerContainer = [];
-this.resetObjectArray = function() {
-this.objectContainer = [];
-this.objectHealthBarContainer = [];
-this.objectNormalSpeedContainer = [];
-this.objectNormalSlowSpeedContainer = [];
-this.objectAngrySpeedContainer = [];
-this.objectAngrySlowSpeedContainer = [];
-this.objectTimerContainer = [];
-}
-this.objectAI = function() {
-if (this.typeOfAI == "Normal") {
-	for (let i = 0; i < this.objectContainer.length; i++) {
-		if (this.targetForAI.x + (this.targetForAI.width/2) < this.objectContainer[i].x + (this.objectContainer[i].width/2) && this.targetForAI.crashWith(this.objectContainer[i]) == false) {
-			this.objectContainer[i].speedX = -this.objectContainer[i].speed;
-		}
-		if (this.targetForAI.x + (this.targetForAI.width/2) == this.objectContainer[i].x + (this.objectContainer[i].width/2) && this.targetForAI.crashWith(this.objectContainer[i]) == false) {
-			this.objectContainer[i].speedX = 0;
-		}
-		if (this.targetForAI.x + (this.targetForAI.width/2) > this.objectContainer[i].x + (this.objectContainer[i].width/2 && this.targetForAI.crashWith(this.objectContainer[i]) == false)) {
-			this.objectContainer[i].speedX = this.objectContainer[i].speed;
-		}
-		if (this.targetForAI.y + (this.targetForAI.height/2) < this.objectContainer[i].y + (this.objectContainer[i].height/2) && this.targetForAI.crashWith(this.objectContainer[i]) == false) {
-			this.objectContainer[i].speedY = -this.objectContainer[i].speed;
-		}
-		if (this.targetForAI.y + (this.targetForAI.height/2) == this.objectContainer[i].y + (this.objectContainer[i].height/2) && this.targetForAI.crashWith(this.objectContainer[i]) == false) {
-			this.objectContainer[i].speedY = 0;
-		}
-		if (this.targetForAI.y + (this.targetForAI.height/2) > this.objectContainer[i].y + (this.objectContainer[i].height/2) && this.targetForAI.crashWith(this.objectContainer[i]) == false) {
-			this.objectContainer[i].speedY = this.objectContainer[i].speed;
-		}
-		if (this.targetForAI.crashWith(this.objectContainer[i])) {
-			this.objectContainer[i].speedX = 0;
-			this.objectContainer[i].speedY = 0;
-		}
-	}
-}
-}
-this.objectAIAttack = function() {
-if (this.typeOfAttack == "Normal") {
-	for (let i = 0; i < this.objectContainer.length; i++) {
-		if (this.targetForAI.crashWith(this.objectContainer[i])) {
-			if (this.targetForAI.type == "player1") {
-			if (playerHealth > 0) {
-			if (difficulty == 0) {
-			playerHealth -= this.easyDamage;
-			}
-			if (difficulty == 1) {
-			playerHealth -= this.mediumDamage;
-			}
-			if (difficulty == 2) {
-			playerHealth -= this.hardDamage;
-			}
-			}
-			}
-			if (this.targetForAI.type != "player1") {
-			if (this.targetForAI.health > 0) {
-			if (difficulty == 0) {
-			this.targetForAI.health -= this.easyDamage;
-			}
-			if (difficulty == 1) {
-			this.targetForAI.health -= this.mediumDamage;
-			}
-			if (difficulty == 2) {
-			this.targetForAI.health -= this.hardDamage;
-			}
-			}
-			}
-			}
-	}
-}
-}
-this.objectAIDeffence = function() {
-for (let i = 0; i < this.objectContainer.length; i++) {
-	if (this.targetForAI.type == "player1") {
-	if (this.objectContainer[i].crashWith(bullbox)) {
-	if (fire > 0) {
-	if (weapon == 1) {
-	this.objectTimerContainer[i].timer_ON_OFF = true;
-	}
-	if (this.weakness == "" || this.weakness == 0) {
-	this.objectContainer[i].health -= PlayerDamageDeal;
-	}
-	fire = 0;
-	}
-	}
-	}
-	if (this.targetForAI.type != "player1" && targetBulletsForAI != "" && targetBulletsForAI != 0) {
-	if (this.objectContainer[i].crashWith(targetBulletsForAI)) {
-	if (this.weakness == "" || this.weakness == 0) {
-	this.objectContainer[i].health -= targetBulletsForAI.damage;
-	}
-	}
-	}
-}
-}
-this.update = function() {
-	if (this.objectContainer.length != this.numberToSpawnInWave && wave >= this.waveNumberToSpawnIn_start && wave <= this.waveNumberToSpawnIn_end) {
-	this.Objects = new component(this.width, this.height, this.color, this.x, this.y, this.type, this.radius, this.outcolor, this.thickness);
-	this.objectContainer.push(this.Objects);
-    }
-	if (this.objectTimerContainer.length != this.numberToSpawnInWave && wave >= this.waveNumberToSpawnIn_start && wave <= this.waveNumberToSpawnIn_end) {
-	this.timer2_ = new TimerComponent(0, this.slowTime);
-	this.objectTimerContainer.push(this.timer2_);
-    }
-	if (this.objectNormalSpeedContainer.length != this.numberToSpawnInWave && wave >= this.waveNumberToSpawnIn_start && wave <= this.waveNumberToSpawnIn_end) {
-	if (this.AINormalSpeed_min != "" || this.AINormalSpeed_min != 0) {
-	this.output = Math.random()*this.AINormalSpeed_max+0.1;
-	} else {
-	this.output = this.AINormalSpeed_max;
-	}
-	if (this.output < this.AINormalSpeed_min) {
-	this.output = Math.random()*this.AINormalSpeed_max+0.1;
-	} else {
-	this.objectNormalSpeedContainer.push(this.output);
-	}
-    }
-	if (this.objectAngrySpeedContainer.length != this.numberToSpawnInWave && wave >= this.waveNumberToSpawnIn_start && wave <= this.waveNumberToSpawnIn_end) {
-	if (this.AIAngrySpeed_min != "" || this.AIAngrySpeed_min != 0) {
-	this.output2 = Math.random()*this.AIAngrySpeed_max+0.1;
-	} else {
-	this.output2 = this.AIAngrySpeed_max;
-	}
-	if (this.output2 < this.AIAngrySpeed_min) {
-	this.output2 = Math.random()*this.AIAngrySpeed_max+0.1;
-	} else {
-	this.objectAngrySpeedContainer.push(this.output2);
-	}
-    }
-	if (this.objectNormalSlowSpeedContainer.length != this.numberToSpawnInWave && wave >= this.waveNumberToSpawnIn_start && wave <= this.waveNumberToSpawnIn_end) {
-	if (this.AINormalSlowSpeed_min != "" || this.AINormalSlowSpeed_min != 0) {
-	this.output3 = Math.random()*this.AINormalSlowSpeed_max+0.1;
-	} else {
-	this.output3 = this.AINormalSlowSpeed_max;
-	}
-	if (this.output3 < this.AINormalSlowSpeed_min) {
-	this.output3 = Math.random()*this.AINormalSlowSpeed_max+0.1;
-	} else {
-	this.objectNormalSlowSpeedContainer.push(this.output3);
-	}
-    }
-	if (this.objectAngrySlowSpeedContainer.length != this.numberToSpawnInWave && wave >= this.waveNumberToSpawnIn_start && wave <= this.waveNumberToSpawnIn_end) {
-	if (this.AIAngrySlowSpeed_min != "" || this.AIAngrySlowSpeed_min != 0) {
-	this.output4 = Math.random()*this.AIAngrySlowSpeed_max+0.1;
-	} else {
-	this.output4 = this.AIAngrySlowSpeed_max;
-	}
-	if (this.output4 < this.AIAngrySlowSpeed_min) {
-	this.output4 = Math.random()*this.AIAngrySlowSpeed_max+0.1;
-	} else {
-	this.objectAngrySlowSpeedContainer.push(this.output4);
-	}
-    }
-	if (wave < this.waveNumberToSpawnIn_start || wave > this.waveNumberToSpawnIn_end) {
-	this.resetObjectArray();
-    }
-	for (let i = 0; i < this.objectContainer.length; i++) {
-		if (this.objectContainer[i] != null) {
-		if (this.objectContainer[i].init == true) {
-		this.objectContainer[i].health = this.health;
-		this.objectContainer[i].ammo = this.ammo;
-		if (this.randomPosition == true) {
-		if (this.objectContainer[i].x == NaN) {
-		this.objectContainer[i].x = Math.floor((Math.random() * 790));
-		}
-		if (this.objectContainer[i].x < 10) {
-			this.objectContainer[i].x = Math.floor((Math.random() * 790));
-		}
-		if (this.objectContainer[i].y == NaN) {
-		this.objectContainer[i].y = Math.floor((Math.random() * 380));
-		}
-		if (this.objectContainer[i].y < 380) {
-			this.objectContainer[i].y = Math.floor((Math.random() * 380));
-		}
-		if (this.objectContainer[i].x < 0 || this.objectContainer[i].x > 800 || this.objectContainer[i].y < 0 || this.objectContainer[i].y > 390) { //gohere//
-		this.objectContainer[i].x = Math.floor((Math.random() * 790));
-		this.objectContainer[i].y = Math.floor((Math.random() * 380));
-		}
-		}
-		if (this.objectContainer[i].x != NaN && this.objectContainer[i].y != NaN && this.objectContainer[i].x >= 10 && this.objectContainer[i].y <= 380) {
-		this.objectContainer[i].init = false;
-		}
-		}
-		if (this.objectHealthBarContainer.length != this.numberToSpawnInWave && wave >= this.waveNumberToSpawnIn_start && wave <= this.waveNumberToSpawnIn_end) {
-		this.ObjectsHealthBar = new component(this.objectContainer[i].health/2, 5, this.objectContainer[i].healthBarColor, this.objectContainer[i].healthBarX, this.objectContainer[i].healthBarY, "rec", "", "", "");	
-		this.objectHealthBarContainer.push(this.ObjectsHealthBar);
-		}
-		if (this.objectContainer[i].init == false && this.objectHealthBarContainer[i] && this.objectHealthBarContainer[i] != null && this.objectHealthBarContainer[i] != undefined && this.objectContainer[i] && this.objectContainer[i] != null && this.objectContainer[i] != undefined) {
-		if (this.objectContainer[i].health <= 0) {
-			this.objectContainer[i].alive = false;
-			count++;
-			this.objectContainer.splice(i, 1);
-		}
-		if (this.objectContainer[i] != undefined && this.objectContainer[i].health != undefined && this.objectContainer[i].health > 0) {
-			this.objectContainer[i].alive = true;
-		}
-		if (this.objectContainer[i] != undefined && this.objectContainer[i].alive != undefined && this.objectContainer[i].alive == true && upgrademenu == 0 && pauseGame == 0 && menu == 2) {
-			this.objectContainer[i].update();
-			this.objectContainer[i].newPos();
-			if (this.objectContainer[i].health > (2/4)*this.health && this.objectTimerContainer[i].timer_ON_OFF == false) {
-			this.objectContainer[i].speed = this.objectNormalSpeedContainer[i];
-			}
-			if (this.objectContainer[i].health <= (2/4)*this.health && this.objectTimerContainer[i].timer_ON_OFF == false) {
-			this.objectContainer[i].speed = this.objectAngrySpeedContainer[i];
-			}
-			if (this.objectContainer[i].health > (2/4)*this.health && this.objectTimerContainer[i].timer_ON_OFF == true) {
-			this.objectContainer[i].speed = this.objectNormalSlowSpeedContainer[i];
-			}
-			if (this.objectContainer[i].health <= (2/4)*this.health && this.objectTimerContainer[i].timer_ON_OFF == true) {
-			this.objectContainer[i].speed = this.objectAngrySlowSpeedContainer[i];
-			}
-			if (HB == true) {
-				this.objectHealthBarContainer[i].x = ((this.objectContainer[i].x + this.objectContainer[i].width/2) - this.objectContainer[i].health/4);
-				this.objectHealthBarContainer[i].y = this.objectContainer[i].y - 8;
-				this.objectHealthBarContainer[i].width = this.objectContainer[i].health/2;
-				this.objectHealthBarContainer[i].color = this.objectContainer[i].healthBarColor;
-				if (this.objectContainer[i].health <= this.health) {
-				this.objectContainer[i].healthBarColor = "green";
-				}
-				if (this.objectContainer[i].health <= (3/4)*this.health) {
-				this.objectContainer[i].healthBarColor = "yellow";
-				}
-				if (this.objectContainer[i].health <= (2/4)*this.health) {
-				this.objectContainer[i].healthBarColor = "orange";
-				}
-				if (this.objectContainer[i].health <= (1/4)*this.health) {
-				this.objectContainer[i].healthBarColor = "red";
-				}
-				this.objectHealthBarContainer[i].update();
-			}
-			this.objectAI();
-			this.objectAIAttack();
-			this.objectTimerContainer[i].start_timer();
-			this.objectAIDeffence();
-		}
-		}
-		}	
-	}
-}
-}
-
 function component(width, height, color, x, y, type, radius, outcolor, thickness, doorX, doorY) {
 this.type = type;
 this.speedX = 0;
@@ -2070,10 +1134,8 @@ this.x = x;
 this.y = y;
 this.sx = 0;
 this.sy = 0;
-this.lockOut = false;
 this.endpositionX = radius;
 this.endpositionY = outcolor;
-this.animationFrame = 0;
 this.rotateSpeed = 0;
 this.angle = 0;
 this.align = "start";
@@ -2086,14 +1148,6 @@ this.color = color;
 this.thickness = thickness;
 this.outcolor = outcolor;
 this.radius = radius;
-this.init = true;
-this.alive = false;
-this.speed = 0;
-this.health = 0;
-this.healthBarColor = "";
-this.ammo = 0;
-this.bullets = [];
-this.damage = 0;
 this.shadowColor_ = "";
 this.shadowBlur_ = 0;
 this.shadowOffsetX_ = 0;
@@ -2537,9 +1591,11 @@ showmessage = 1;
   }  
  }
 }
+
 function stopshow() {
 showmessage = 0;
 }
+
 var crate1X = 374;
 var crate1Y = 184.5;
 var crateh1X = 399;
@@ -2554,6 +1610,7 @@ healthcrate1picO = new component(20, 20, "healthpic1", crateh1X, crateh1Y, "img"
 SWeapon1 = new component(10, 10, "bullpic4", cratesw1X, cratesw1Y, "img");
 SWeapon1Box = new component(10, 10, "orange", cratesw1X, cratesw1Y, "rec");
 }
+
 var wave = 22;
 var oldwave = 1;
 var upgrademenu = 0;
@@ -2568,6 +1625,7 @@ function checkwave() {
 		oldwave = wave;
 	}
 }
+
 var resetframe = 6;
 var tickCount = 0;
 var frameIndex = 0;
@@ -3267,6 +2325,7 @@ frameNumber:0,
 	return result;
 	}
 };
+
 function FPS_CONTROLLER() {
 		FPSText.globalAlpha = 1;
 		FPSText.text = fps.getFPS();
@@ -3315,7 +2374,6 @@ if (pauseGame > 1) {
    pauseGame = 0;
    }
 Datechecker();
-mute();
 if (openpatchinfo == 1) {
 document.getElementById("updateinfo").style.visibility = "visible";
  }
@@ -3347,8 +2405,9 @@ fireCoolDown();
 Boss7AI();
 resetfire();
 costToRevive.text = "You must have $" + revivecost + " to revive";
-playSound();
-skipSound();
+Play_sound();
+Set_volume()
+Skip_sound();
 detectbox.update();
 circle.update();
 box.update();
@@ -3597,16 +2656,6 @@ bossWave7pic.update();
 if (bossSheildMode == 1) {
 bossWave7sheildPic.update();	
  }
-}
-if (wave == 8000) {
-if (STPDAYEVENTSTART == true && HatDeath == false) {
-for (var i = STBOSSBULLETS.length - 1; i >= 0; i--){
-STBOSSBULLETS[i].update();
-}
-STPDAYEVENTBOSS.update();
-STPDAYEVENTBOSSHEALTHBAR.update();
-STPDAYEVENTBOSSHEALTHBARTEXT.update();
-}
 }
 badboxspawn();
 badtriboxspawn();
@@ -5020,168 +4069,139 @@ function keyDownHandler(event)
 {
 	keyPressed = event.key;
 	keyPressed2 = String.fromCharCode(event.keyCode);
-	
 	if (keyPressed && UnlockControls == true) {
 	keyHit = true;
-	console.log(keyHit);
 	}
-    
-	if (keyPressed == Up_ && blockKeys == false && pauseGameKeys == false)
-	{		
+	if (keyPressed == Up_ && blockKeys == false && pauseGameKeys == false) {		
 		if (pauseGame == 0) {
-            moveUp();
-			}
+        moveUp();
+		}
 	}
-	else if (keyPressed == Down_ && blockKeys == false && pauseGameKeys == false)
-	{	
+	else if (keyPressed == Down_ && blockKeys == false && pauseGameKeys == false) {	
 		if (pauseGame == 0) {
-            moveDown();
-			}		
+        moveDown();
+		}		
 	}
-	else if (keyPressed == Left_ && blockKeys == false && pauseGameKeys == false)
-	{	
+	else if (keyPressed == Left_ && blockKeys == false && pauseGameKeys == false) {	
 		if (pauseGame == 0) {
-            moveLeft();
-			}		
+        moveLeft();
+		}		
 	}
-	else if (keyPressed == Right_ && blockKeys == false && pauseGameKeys == false)
-	{	
+	else if (keyPressed == Right_ && blockKeys == false && pauseGameKeys == false) {	
 		if (pauseGame == 0) {
-            moveRight();
-
-			}		
+        moveRight();
+		}		
 	}
 	if (keyPressed == "Enter" && wave == 22 && blockKeys == false && pauseGameKeys == false) {
-		WarpZoneControls();
+	WarpZoneControls();
 	}
-	if (keyPressed == Esssc_ && blockKeys == false && pauseGameKeys == false) 
-	{
-		backfunc();
-		tip = Math.floor(Math.random() * tips);
+	if (keyPressed == Esssc_ && blockKeys == false && pauseGameKeys == false) {
+	backfunc();
+	tip = Math.floor(Math.random() * tips);
 	}
-	if (keyPressed == Esssc_ && blockKeys == false && document.getElementById('settings').style.visibility == "visible") 
-	{
-		showStop();
+	if (keyPressed == Esssc_ && blockKeys == false && document.getElementById('settings').style.visibility == "visible") {
+	showStop();
 	}
-	if (keyPressed == Revive_ && blockKeys == false && pauseGameKeys == false)
-	{
-		relive();
+	if (keyPressed == Revive_ && blockKeys == false && pauseGameKeys == false) {
+	relive();
 	}
-	if (keyPressed == Mute_ && blockKeys == false)
-	{
-		mutemusic += 1;
-		localStorage && (localStorage.MuteVol = mutemusic);
+	if (keyPressed == Mute_ && blockKeys == false) {
+	mutemusic++;
+	localStorage && (localStorage.MuteVol = mutemusic);
 	}
-	if (keyPressed == SShow && blockKeys == false)
-	{
-		show();
+	if (keyPressed == SShow && blockKeys == false) {
+	show();
 	}
-	if (keyPressed == Patch_ && blockKeys == false && pauseGameKeys == false)
-	{
-		patchinfo();
+	if (keyPressed == Patch_ && blockKeys == false && pauseGameKeys == false) {
+	patchinfo();
 	}
-	if (keyPressed == shootUp_ && blockKeys == false && pauseGameKeys == false)
-	{		
+	if (keyPressed == shootUp_ && blockKeys == false && pauseGameKeys == false) {		
 		if (pauseGame == 0) {
-            autoUp();
-		  }
+        autoUp();
+		}
 	}
-	else if (keyPressed == shootDown_ && blockKeys == false && pauseGameKeys == false)
-	{	
+	else if (keyPressed == shootDown_ && blockKeys == false && pauseGameKeys == false) {	
 		if (pauseGame == 0) {
-            autoDown();
-		  }	
+        autoDown();
+		}	
 	}
-	else if (keyPressed == shootLeft_ && blockKeys == false && pauseGameKeys == false)
-	{	
+	else if (keyPressed == shootLeft_ && blockKeys == false && pauseGameKeys == false) {	
 		if (pauseGame == 0) {
-            autoLeft();
-		  }		
+        autoLeft();
+		}		
 	}
-	else if (keyPressed == shootRight_ && blockKeys == false && pauseGameKeys == false)
-	{	
+	else if (keyPressed == shootRight_ && blockKeys == false && pauseGameKeys == false) {	
 		if (pauseGame == 0) {
-            autoRight();
-		  }		
+        autoRight();
+		}		
 	}
 	if (keyPressed2 == SpecialKey_2) 
 	{
-		specialWandS = 1;
-		console.log(specialWandS);
+	specialWandS = 1;
 	}
 	if (keyPressed == "w")
 	{
-	if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    goToWarpZone = 1;
-	}
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		goToWarpZone = 1;
+		}
 	}
 	if (keyPressed == "1") {
-	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    swapweap1();
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		swapweap1();
+		}
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		playerShip = 0;
+		playerHealthMax = 100;
+		}
+		if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
+		upgrade1func();
+		}
 	}
-	if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 0;
-			playerHealthMax = 100;
+	if (keyPressed == "2") {
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		swapweap2();
+		}
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		playerShip = 1;
+		playerHealthMax = 100;
+		}
 	}
-	if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
-		    upgrade1func();
+	if (keyPressed == "3") {
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		swapweap3();
+		}
+		if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		playerShip = 2;
+		playerHealthMax = 100;
+		}
 	}
+	if (keyPressed == "4") {
+		if (upgrademenu == 0 && miniBossShip == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		playerShip = 3;
+		playerHealthMax = 300;
+		}
 	}
-	if (keyPressed == "2")
-	{
-	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    swapweap2();
+	if (keyPressed == "5") {
+		if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		playerShip = 4;
+		playerHealthMax = 200;
+		}
 	}
-	if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 1;
-			playerHealthMax = 100; //add maxHealthMod//
+	if (keyPressed == "6") {
+		if (upgrademenu == 0 && STPRIZESHIP == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
+		playerShip = 5;
+		playerHealthMax = 200;
+		}
 	}
+	if (keyPressed == "h") {
+		if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
+		healthRecovery();
+		}
 	}
-	if (keyPressed == "3")
-	{
-	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    swapweap3();
-	}
-	if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 2;
-			playerHealthMax = 100;
-	}
-	}
-	if (keyPressed == "4")
-	{
-	if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    swapweap4();
-	}
-	if (upgrademenu == 0 && miniBossShip == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 3;
-			playerHealthMax = 300;
-	}
-	}
-	if (keyPressed == "5")
-	{
-	if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 4;
-			playerHealthMax = 200;
-	}
-	}
-	if (keyPressed == "6")
-	{
-	if (upgrademenu == 0 && STPRIZESHIP == 1 && pauseGame == 1 && specialalert1 == 0 && weaponVault == 0 && blockKeys == false && pauseGameKeys == false) {
-		    playerShip = 5;
-			playerHealthMax = 200;
-	}
-	}
-	if (keyPressed == "h")
-	{
-	if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
-			healthRecovery();
-	}
-	}
-	if (keyPressed == "a")
-	{
-	if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
-			ammoRecovery();
-	}
+	if (keyPressed == "a") {
+		if (upgrademenu == 1 && blockKeys == false && pauseGameKeys == false) {
+		ammoRecovery();
+		}
 	}
 }
 
@@ -5189,56 +4209,44 @@ function keyUpHandler(event)
 {
 	keyPressed = event.key;
 	keyPressed2 = String.fromCharCode(event.keyCode);
-	
-	if (keyPressed == Up_)
-	{		
-		clearmoveu();
+	if (keyPressed == Up_) {		
+	clearmoveu();
 	}
-	else if (keyPressed == Down_)
-	{	
-		clearmoved();		
+	else if (keyPressed == Down_) {	
+	clearmoved();		
 	}
-	else if (keyPressed == Left_)
-	{	
-		clearmovel();		
+	else if (keyPressed == Left_) {	
+	clearmovel();		
 	}
-	else if (keyPressed == Right_)
-	{	
-		clearmover();		
+	else if (keyPressed == Right_) {	
+	clearmover();		
 	}
-	if (keyPressed == Revive_)
-	{
-		stopshow();
+	if (keyPressed == Revive_) {
+	stopshow();
 	}
-	if (keyPressed == shootUp_)
-	{		
-		clearAutoU();
+	if (keyPressed == shootUp_) {		
+	clearAutoU();
 	}
-	else if (keyPressed == shootDown_)
-	{	
-		clearAutoD();		
+	else if (keyPressed == shootDown_) {	
+	clearAutoD();		
 	}
-	else if (keyPressed == shootLeft_)
-	{	
-		clearAutoL();		
+	else if (keyPressed == shootLeft_) {	
+	clearAutoL();		
 	}
-	else if (keyPressed == shootRight_)
-	{	
-		clearAutoR();		
+	else if (keyPressed == shootRight_) {	
+	clearAutoR();		
 	}
-	if (keyPressed2 == SpecialKey_2) 
-	{
-		specialWandS = 0;
-		console.log(specialWandS);
+	if (keyPressed2 == SpecialKey_2) {
+	specialWandS = 0;
 	}
 }
 
 var openpatchinfo = 0;
 function patchinfo() { 
-openpatchinfo += 1;
-if (openpatchinfo > 1) {
-openpatchinfo = 0;
- }
+openpatchinfo++;
+	if (openpatchinfo > 1) {
+	openpatchinfo = 0;
+	}
 }
 
 function resizeHandler() {
@@ -5257,61 +4265,61 @@ ctx.setTransform(scaleFillNativeWidth,0,0,scaleFillNativeHeight,0,0);
 var tip = 0;
 var tips = 8;
 function TipsText() {
-if (tip == 0) {
-if (christmasSkin == 0) {
-TipsTxt.text = "Tip: Play in December..."
-TipsTxt.font = "16px Consolas";
-} else {
-tip++;
-}
-}
-if (tip == 1) {
-if (easyShipPrize == 0) {
-TipsTxt.text = "Tip: Die and get something special..."
-TipsTxt.font = "14px Consolas";
-} else {
-tip++;
-}
-}
-if (tip == 2) {
-if (miniBossShip == 0) {
-TipsTxt.text = "Tip: Beat wave 7 boss..."
-TipsTxt.font = "16px Consolas";
-} else {
-tip++;
-}
-}
-if (tip == 3) {
-TipsTxt.text = "Tip: Watch your health..."
-TipsTxt.font = "16px Consolas";
-}
-if (tip == 4) {
-TipsTxt.text = "Tip: Watch your ammo..."
-TipsTxt.font = "16px Consolas";
- }
-if (tip == 5) {
-TipsTxt.text = "Tip: Don't let them surround you..."
-TipsTxt.font = "14px Consolas";
- }
-if (tip == 6) {
-if (stcweapon == 0) {
-TipsTxt.text = "Tip: Play during September 11th-30th to find a secret..."
-TipsTxt.font = "9px Consolas";
-} else {
-tip++;
-}
-}
-if (tip == 7) {
-if (stcweapon == 1 && stcget == 0) {
-TipsTxt.text = "Tip: Search the trees for a special weapon..."
-TipsTxt.font = "10px Consolas";
-} else {
-tip++;
-}
-}
-if (tip > (tips - 1)) {
-tip = 0;
-}
+	if (tip == 0) {
+		if (christmasSkin == 0) {
+		TipsTxt.text = "Tip: Play in December..."
+		TipsTxt.font = "16px Consolas";
+		} else {
+		tip++;
+		}
+	}
+	if (tip == 1) {
+		if (easyShipPrize == 0) {
+		TipsTxt.text = "Tip: Die and get something special..."
+		TipsTxt.font = "14px Consolas";
+		} else {
+		tip++;
+		}
+	}
+	if (tip == 2) {
+		if (miniBossShip == 0) {
+		TipsTxt.text = "Tip: Beat wave 7 boss..."
+		TipsTxt.font = "16px Consolas";
+		} else {
+		tip++;
+		}
+	}
+	if (tip == 3) {
+	TipsTxt.text = "Tip: Watch your health..."
+	TipsTxt.font = "16px Consolas";
+	}
+	if (tip == 4) {
+	TipsTxt.text = "Tip: Watch your ammo..."
+	TipsTxt.font = "16px Consolas";
+	}
+	if (tip == 5) {
+	TipsTxt.text = "Tip: Don't let them surround you..."
+	TipsTxt.font = "14px Consolas";
+	}
+	if (tip == 6) {
+		if (stcweapon == 0) {
+		TipsTxt.text = "Tip: Play during September 11th-30th to find a secret..."
+		TipsTxt.font = "9px Consolas";
+		} else {
+		tip++;
+		}
+	}
+	if (tip == 7) {
+		if (stcweapon == 1 && stcget == 0) {
+		TipsTxt.text = "Tip: Search the trees for a special weapon..."
+		TipsTxt.font = "10px Consolas";
+		} else {
+		tip++;
+		}
+	}
+	if (tip > (tips - 1)) {
+	tip = 0;
+	}
 }
 
 var weaponupgrade1 = 0;
@@ -5323,96 +4331,67 @@ var weapname = "Pistol";
 var stcget = 0;
 var specialWandS = 0;
 function waveammoweapon() {
-if (weapon == 0) {
- weapname = "Z-01";
- PlayerDamageDeal = 20;
- WeaponCoolDown = 30;
- bullrange = 3;
- ammocon = 1;
-}
-if (weapon == 1) {
-if (weaponupgrade1 > 0) {
- weapname = "Hi-Beam";
- PlayerDamageDeal = 25;
- WeaponCoolDown = 20;
- bullrange = 2;
- ammocon = 1;
- }
-}
-if (weapon == 2) {
-if (weaponupgrade1 > 1) {
- weapname = "Zapper";
- PlayerDamageDeal = 35;
- WeaponCoolDown = 20;
- bullrange = 4;
- ammocon = 1;
- }
-}
-if (weapon == 3) {
-if (stcweapon == 1) {
-if (stcget == 1) {
- weapname = "Cube";
- PlayerDamageDeal = 45;
- WeaponCoolDown = 25;
- bullrange = 1;
- ammocon = 0.5;
-  }
- }
-}
-if (weapon == 4) {
-if (STPRIZEWEAPON == 1) {
- weapname = "Lucky";
- PlayerDamageDeal = 40;
- WeaponCoolDown = 20;
- bullrange = 3;
- ammocon = 1;
- }
-}
-obo = new component(100, 80, "black", 350, 430, "rec"); 
-obo2 = new component(63, 80, "black", 438, 447, "rec");
-oba = new component(90, 80, "#63218a", 355, 435, "rec");
-oba2 = new component(60, 60, "#63218a", 435, 452, "rec");
-bam = new component(83, 15, "#812bb3", 358, 438, "rec");
-bwa = new component(83, 15, "#812bb3", 358, 477, "rec");
-ammotxt = new component("30px", "Consolas", "orange", 360, 450, "text");
+	if (weapon == 0) {
+	weapname = "Z-01";
+	PlayerDamageDeal = 20;
+	WeaponCoolDown = 30;
+	bullrange = 3;
+	ammocon = 1;
+	}
+	if (weapon == 1 && weaponupgrade1 > 0) {
+	weapname = "Hi-Beam";
+	PlayerDamageDeal = 25;
+	WeaponCoolDown = 20;
+	bullrange = 2;
+	ammocon = 1;
+	}
+	if (weapon == 2 && weaponupgrade1 > 1) {
+	weapname = "Zapper";
+	PlayerDamageDeal = 35;
+	WeaponCoolDown = 20;
+	bullrange = 4;
+	ammocon = 1;
+	}
+	if (weapon == 3 && stcweapon == 1 && stcget == 1) {
+	weapname = "Cube";
+	PlayerDamageDeal = 45;
+	WeaponCoolDown = 25;
+	bullrange = 1;
+	ammocon = 0.5;
+	}
+	if (weapon == 4 && STPRIZEWEAPON == 1) {
+	weapname = "Lucky";
+	PlayerDamageDeal = 40;
+	WeaponCoolDown = 20;
+	bullrange = 3;
+	ammocon = 1;
+	}
 ammotxt.font="18px Consolas";
 ammotxt.text="Ammo:" + Math.floor(ammo);
-weaptxt = new component("30px", "Consolas", "black", 358, 470, "text");
 weaptxt.font="12px Consolas bold";
 weaptxt.text="Weapon:" + weapname;
-wavetxt = new component("30px", "Consolas", "lightgray", 360, 490, "text");
 wavetxt.font="18px Consolas";
 wavetxt.text="Wave:" + wave;
-if (endless == 0 && wave == 9000) {
-wavetxt.font="14px Consolas";
-wavetxt.text="Wave:Ryan";
-}
-if (endless == 0 && wave == 8000) {
-wavetxt.font="13px Consolas";
-wavetxt.text="Wave:Clover";
-}
-if (endless == 0 && wave == 22) {
-wavetxt.font="14px Consolas";
-wavetxt.text="Wave:Space";
-}
-UnmutedP = new component(50, 50, "UnmutedPic", 446, 450, "img");
-MutedP = new component(50, 50, "MutedPic", 446, 450, "img");
-obo.update();
-obo2.update();
-oba.update();
-oba2.update();
-bam.update();
-bwa.update();
+	if (endless == 0 && wave == 22) {
+	wavetxt.font="14px Consolas";
+	wavetxt.text="Wave:Space";
+	}
+middle_UI_edge.update();
+middle_UI.update();
+backgroung_ammo.update();
+backgroung_weapon.update();
+backgroung_wave.update();
 ammotxt.update();
 weaptxt.update();
 wavetxt.update();
-if (mutemusic == 0) {
-UnmutedP.update();
+Mute_UI.update();
+	if (mutemusic != 0) {
+	Mute_UI.sx = 80;
+	} else {
+	Mute_UI.sx = 0;
+	}
 }
-if (mutemusic == 1) {
-MutedP.update();
- }
-}
+
 var spawnbad2pos = Math.floor(Math.random() * 2);
 var spawnbad3pos = Math.floor(Math.random() * 2);
 var spawnbad4pos = Math.floor(Math.random() * 2);
@@ -5517,7 +4496,6 @@ moneyperendie = Math.floor(Math.random() * 3) + 2;
 }
 count += 1;
 countSwitch1 = 1;
-console.log("Count: " + count);
        }
       }
      }
@@ -5547,7 +4525,6 @@ moneyperendie2 = Math.floor(Math.random() * 6) + 5;
 }
 count += 1;
 countSwitch2 = 1;
-console.log("Count: " + count);
   }
  }
 }
@@ -8767,97 +7744,97 @@ negbadspeedai3 = -1;
 badhurtspeedai3 = 1.6;
 negbadhurtspeedai3 = -1.6;
 startTime3 = 0;
- }
+}
 if (tribox.y > tripos1.y) {
 tribox.speedY = -5;
 }
 if (tribox.y < tripos1.y) {
 tribox.speedY = 5;
 }
- }
+}
 if (BadDeath3 < 1) {
 if (Badhealth3 <= 120) {
-	badHealthBarColor4 = "green";
+badHealthBarColor4 = "green";
 }
 if (Badhealth3 <= 75) {
-	badHealthBarColor4 = "yellow";
+badHealthBarColor4 = "yellow";
 }
 if (Badhealth3 <= 50) {
-	badHealthBarColor4 = "orange";
+badHealthBarColor4 = "orange";
 }
 if (Badhealth3 <= 25) {
-	badHealthBarColor4 = "red";
+badHealthBarColor4 = "red";
 }
 if (tribox.crashWith(wallright) == false) {
 if (tribox.crashWith(wallleft) == false) {
 if (tribox.crashWith(wall3) == false) {
 if (tribox.crashWith(wall4) == false) {
 if (tribox.x > box.x + tribox.width) {
-    sidebad3 = 0;
+sidebad3 = 0;
 }
 if (tribox.x + tribox.width < box.x) {
-    sidebad3 = 1;
+sidebad3 = 1;
 }
 if (tribox.x > box.x + tribox.width) {
 if (sidebad3 == 0) {
 tribox.speedX = negbadspeedai3;
 if (Badhealth3 <= 50) {
 tribox.speedX = negbadhurtspeedai3;
-  }
- }
+}
+}
 } else if (tribox.x + tribox.width < box.x) {
 if (sidebad3 == 1) {
 tribox.speedX = badspeedai3;
 if (Badhealth3 <= 50) {
 tribox.speedX = badhurtspeedai3;
-  }
- }
+}
+}
 }
 if (tribox.y > box.y + tribox.height) {
 tribox.speedY = negbadspeedai3;
 if (Badhealth3 <= 50) {
 tribox.speedY = negbadhurtspeedai3;
- }
+}
 }
 if (tribox.y + tribox.height < box.y) {
 tribox.speedY = badspeedai3;
 if (Badhealth3 <= 50) {
 tribox.speedY = badhurtspeedai3;
-     }
-    }
-   }
-  }
- }
+}
+}
+}
+}
+}
 }
 if (box.crashWith(tribox)) {
 if (playerHealth > 0) {
 playerHealth -= Bad3DamageDeal;
- }
+}
 }//goherenoww//
 if (weapon == 1) {
- if (bullbox.crashWith(tribox)) {
- if (fire > 0) {
-  if (startTime3 == 0) {
-  startTime3 = 1;
-    }
-   }
-  }
+if (bullbox.crashWith(tribox)) {
+if (fire > 0) {
+if (startTime3 == 0) {
+startTime3 = 1;
+}
+}
+}
 }
 if (startTime3 == 1) {
- badspeedai3 = 0.3;
- negbadspeedai3 = -0.3;
- badhurtspeedai3 = 0.5;
- negbadhurtspeedai3 = -0.5;
-   } else 
+badspeedai3 = 0.3;
+negbadspeedai3 = -0.3;
+badhurtspeedai3 = 0.5;
+negbadhurtspeedai3 = -0.5;
+} else 
 if (startTime3 == 0) {
- badspeedai3 = 1;
- negbadspeedai3 = -1;
- badhurtspeedai3 = 1.6;
- negbadhurtspeedai3 = -1.6;
-   }
- }
- }
- }
+badspeedai3 = 1;
+negbadspeedai3 = -1;
+badhurtspeedai3 = 1.6;
+negbadhurtspeedai3 = -1.6;
+}
+}
+}
+}
 }
 }
 }
@@ -8866,35 +7843,32 @@ if (startTime3 == 0) {
 var Badhealth5 = 0;
 var Bad5DamageDeal = 2;
 function badxboxspawn() {
-if (difficulty == 0) {
-	Bad5DamageDeal = 0.02;
+	switch (difficulty) {
+		case 0:
+		Bad5DamageDeal = 0.02;
+		break;
+		case 1:
+		Bad5DamageDeal = 0.07;
+		break;
+		case 2:
+		Bad5DamageDeal = 0.12;
+		break;
+	}
+	if (wave > 5 && wave < 7) {
+		if (bullbox.crashWith(xbox1) && Badhealth5 >= 0 && fire > 0) {
+		Badhealth5 -= PlayerDamageDeal;
+		fire = 0;
+		}
+		if (Badhealth5 > 0) {
+		BadDeath5 = 0;
+		}
+		if (Badhealth5 <= 0) {
+		BadDeath5 = 1;
+		Badhealth5 = 0;
+		}
+	}
 }
-if (difficulty == 1) {
-	Bad5DamageDeal = 0.07;
-}
-if (difficulty == 2) {
-	Bad5DamageDeal = 0.12;
-}
-if (wave > 5 && wave < 7) {
-if (bullbox.crashWith(xbox1)) {
-if (Badhealth5 >= 0) {
-if (fire > 0) {
-Badhealth5 -= PlayerDamageDeal;
-fire = 0;
-  }
- }
-}
-if (Badhealth5 >= 0) {
-BadDeath5 = 0;
- }
-if (Badhealth5 <= 0) {
-BadDeath5 = 1;
- }
-if (Badhealth5 < 0) {
-Badhealth5 = 0;
-  }
- }
-}
+
 var BadDeath5 = 1;
 var sidebad5 = 0;
 var touchwallrightbad5 = 0;
@@ -8912,157 +7886,128 @@ badguy1healthbar5.x = xbox1.x - 12;
 badguy1healthbar5.y = xbox1.y - 8;
 badguy1healthbar5.color = badHealthBarColor5;
 badguy1healthbar5.width = Badhealth5 / 2;
-if (menu == 2) {
-if (upgrademenu == 0) {
-if (pauseGame == 0) {
-if (Death1 == 0) {
-if (wave == 6) {
-if (BadDeath5 > 0) {
-if (xbox1.x > xpos1.x) {
-xbox1.speedX = -5;
-}
-if (xbox1.x < xpos1.x) {
-xbox1.speedX = 5;
-}
-if (xbox1.crashWith(xpos1)) {
-xbox1.speedY = 0;
-xbox1.speedX = 0;
-Badhealth5 = 100;
-BadDeath5 = 0;
-badspeedai5 = 1.6;
-negbadspeedai5 = -1.6;
-badhurtspeedai5 = 2;
-negbadhurtspeedai5 = -2;
-startTime7 = 0;
- }
-if (xbox1.y > xpos1.y) {
-xbox1.speedY = -5;
-}
-if (xbox1.y < xpos1.y) {
-xbox1.speedY = 5;
-}
- }
-if (BadDeath5 < 1) {
-if (Badhealth5 <= 120) {
-	badHealthBarColor5 = "green";
-}
-if (Badhealth5 <= 75) {
-	badHealthBarColor5 = "yellow";
-}
-if (Badhealth5 <= 50) {
-	badHealthBarColor5 = "orange";
-}
-if (Badhealth5 <= 25) {
-	badHealthBarColor5 = "red";
-}
-if (xbox1.crashWith(wallright) == false) {
-if (xbox1.crashWith(wallleft) == false) {
-if (xbox1.crashWith(wall3) == false) {
-if (xbox1.crashWith(wall4) == false) {
-if (xbox1.x > box.x + xbox1.width) {
-    sidebad5 = 0;
-}
-if (xbox1.x + xbox1.width < box.x) {
-    sidebad5 = 1;
-}
-if (xbox1.x > box.x + xbox1.width) {
-if (sidebad5 == 0) {
-xbox1.speedX = negbadspeedai5;
-if (Badhealth5 <= 50) {
-xbox1.speedX = negbadhurtspeedai5;
-  }
- }
-} else if (xbox1.x + xbox1.width < box.x) {
-if (sidebad5 == 1) {
-xbox1.speedX = badspeedai5;
-if (Badhealth5 <= 50) {
-xbox1.speedX = badhurtspeedai5;
-  }
- }
-}
-if (xbox1.y > box.y + xbox1.height) {
-xbox1.speedY = negbadspeedai5;
-if (Badhealth5 <= 50) {
-xbox1.speedY = negbadhurtspeedai5;
- }
-}
-if (xbox1.y + xbox1.height < box.y) {
-xbox1.speedY = badspeedai5;
-if (Badhealth5 <= 50) {
-xbox1.speedY = badhurtspeedai5;
-     }
-    }
-   }
-  }
- }
-}
-if (box.crashWith(xbox1)) {
-if (playerHealth > 0) {
-playerHealth -= Bad5DamageDeal;
- }
-}
-if (weapon == 1) {
- if (bullbox.crashWith(xbox1)) {
- if (fire > 0) {
-  if (startTime7 == 0) {
-  startTime7 = 1;
-    }
-   }
-  }
-}
-if (startTime7 == 1) {
- badspeedai5 = 0.5;
- negbadspeedai5 = -0.5;
- badhurtspeedai5 = 0.7;
- negbadhurtspeedai5 = -0.7;
-   } else 
-if (startTime7 == 0) {
- badspeedai5 = 1.6;
- negbadspeedai5 = -1.6;
- badhurtspeedai5 = 2;
- negbadhurtspeedai5 = -2;
-   }
- }
- }
- }
-}
-}
-}
+	if (menu == 2 && upgrademenu == 0 && pauseGame == 0 && Death1 == 0 && wave == 6) {
+		if (BadDeath5 > 0) {
+			if (xbox1.x > xpos1.x) {
+			xbox1.speedX = -5;
+			}
+			if (xbox1.x < xpos1.x) {
+			xbox1.speedX = 5;
+			}
+			if (xbox1.crashWith(xpos1)) {
+			xbox1.speedY = 0;
+			xbox1.speedX = 0;
+			Badhealth5 = 100;
+			BadDeath5 = 0;
+			badspeedai5 = 1.6;
+			negbadspeedai5 = -1.6;
+			badhurtspeedai5 = 2;
+			negbadhurtspeedai5 = -2;
+			startTime7 = 0;
+			}
+			if (xbox1.y > xpos1.y) {
+			xbox1.speedY = -5;
+			}
+			if (xbox1.y < xpos1.y) {
+			xbox1.speedY = 5;
+			}
+		}
+		if (BadDeath5 < 1) {
+			if (Badhealth5 <= 120) {
+			badHealthBarColor5 = "green";
+			}
+			if (Badhealth5 <= 75) {
+			badHealthBarColor5 = "yellow";
+			}
+			if (Badhealth5 <= 50) {
+			badHealthBarColor5 = "orange";
+			}
+			if (Badhealth5 <= 25) {
+			badHealthBarColor5 = "red";
+			}
+			if (!xbox1.crashWith(wallright) && !xbox1.crashWith(wallleft) && !xbox1.crashWith(wall3) && !xbox1.crashWith(wall4)) {
+				if (xbox1.x > box.x + xbox1.width) {
+				sidebad5 = 0;
+				}
+				if (xbox1.x + xbox1.width < box.x) {
+				sidebad5 = 1;
+				}
+				if (xbox1.x > box.x + xbox1.width && sidebad5 == 0) {
+				xbox1.speedX = negbadspeedai5;
+					if (Badhealth5 <= 50) {
+					xbox1.speedX = negbadhurtspeedai5;
+					}
+				}
+				if (xbox1.x + xbox1.width < box.x && sidebad5 == 1) {
+				xbox1.speedX = badspeedai5;
+					if (Badhealth5 <= 50) {
+					xbox1.speedX = badhurtspeedai5;
+					}
+				}
+				if (xbox1.y > box.y + xbox1.height) {
+				xbox1.speedY = negbadspeedai5;
+					if (Badhealth5 <= 50) {
+					xbox1.speedY = negbadhurtspeedai5;
+					}
+				}
+				if (xbox1.y + xbox1.height < box.y) {
+				xbox1.speedY = badspeedai5;
+					if (Badhealth5 <= 50) {
+					xbox1.speedY = badhurtspeedai5;
+					}
+				}
+			}
+			if (box.crashWith(xbox1) && playerHealth > 0) {
+			playerHealth -= Bad5DamageDeal;
+			}
+			if (weapon == 1 && bullbox.crashWith(xbox1) && fire > 0 && startTime7 == 0) {
+			startTime7 = 1;
+			}
+			if (startTime7 == 0) {
+			badspeedai5 = 1.6;
+			negbadspeedai5 = -1.6;
+			badhurtspeedai5 = 2;
+			negbadhurtspeedai5 = -2;
+			} else {
+			badspeedai5 = 0.5;
+			negbadspeedai5 = -0.5;
+			badhurtspeedai5 = 0.7;
+			negbadhurtspeedai5 = -0.7;
+			}
+		}
+	}
 }
 
 var BadDeath4 = 1;
 var Badhealth4 = 0;
 var Bad4DamageDeal = 0.13;
 function badrecspawn1() {
-if (difficulty == 0) {
-	Bad4DamageDeal = 0.10;
+	switch (difficulty) {
+		case 0:
+		Bad4DamageDeal = 0.10;
+		break;
+		case 1:
+		Bad4DamageDeal = 0.13;
+		break;
+		case 2:
+		Bad4DamageDeal = 0.16;
+		break;
+	}
+	if (wave < 5 && wave > 2) {
+		if (recbox1.crashWith(bullbox) && Badhealth4 >= 0 && fire > 0) {
+		Badhealth4 -= PlayerDamageDeal;
+		fire = 0;
+		}
+		if (Badhealth4 > 0) {
+		BadDeath4 = 0;
+		}
+		if (Badhealth4 <= 0) {
+		BadDeath4 = 1;
+		Badhealth4 = 0;
+		}
+	}
 }
-if (difficulty == 1) {
-	Bad4DamageDeal = 0.13;
-}
-if (difficulty == 2) {
-	Bad4DamageDeal = 0.16;
-}
-if (wave < 5 && wave > 2) {
-if (recbox1.crashWith(bullbox)) {
-if (Badhealth4 >= 0) {
-if (fire > 0) {
-Badhealth4 -= PlayerDamageDeal;
-fire = 0;
-  }
- }
-}
-if (Badhealth4 >= 0) {
-BadDeath4 = 0;
- }
-if (Badhealth4 <= 0) {
-BadDeath4 = 1;
- }
-if (Badhealth4 < 0) {
-Badhealth4 = 0;
- }
- }
-}
+
 var sidebad4 = 0;
 var touchwallrightbad4 = 0;
 var touchwallleftbad4 = 0;
@@ -9079,167 +8024,96 @@ badguy1healthbar3.x = recbox1.x - 16;
 badguy1healthbar3.y = recbox1.y - 8;
 badguy1healthbar3.color = badHealthBarColor3;
 badguy1healthbar3.width = Badhealth4 / 2;
-if (menu == 2) {
-if (upgrademenu == 0) {
-if (pauseGame == 0) {
-if (Death1 == 0) {
-if (wave > 2 && wave < 5) {
-if (BadDeath4 > 0) {
-if (recbox1.x > recpos1.x) {
-recbox1.speedX = -5;
-}
-if (recbox1.x < recpos1.x) {
-recbox1.speedX = 5;
-}
-if (recbox1.crashWith(recpos1)) {
-recbox1.speedY = 0;
-recbox1.speedX = 0;
-Badhealth4 = 120;
-BadDeath4 = 0;
-badspeedai4 = 1;
-negbadspeedai4 = -1;
-badhurtspeedai4 = 1.5;
-negbadhurtspeedai4 = -1.5;
-startTime4 = 0;
- }
-if (recbox1.y > recpos1.y) {
-recbox1.speedY = -5;
-}
-if (recbox1.y < recpos1.y) {
-recbox1.speedY = 5;
-}
- }
-if (BadDeath4 < 1) {
-if (Badhealth4 <= 120) {
-	badHealthBarColor3 = "green";
-}
-if (Badhealth4 <= 75) {
-	badHealthBarColor3 = "yellow";
-}
-if (Badhealth4 <= 50) {
-	badHealthBarColor3 = "orange";
-}
-if (Badhealth4 <= 25) {
-	badHealthBarColor3 = "red";
-}
-if (recbox1.crashWith(wallright) == false) {
-if (recbox1.crashWith(wallleft) == false) {
-if (recbox1.crashWith(wall3) == false) {
-if (recbox1.crashWith(wall4) == false) {
-if (recbox1.crashWith(wallhouse3) == false) {
-if (recbox1.crashWith(wallhouse2_2) == false) {
-if (recbox1.crashWith(wallhouse7) == false) {
-if (recbox1.crashWith(wallhouse3_2) == false) {
-if (recbox1.crashWith(wallhouse2) == false) {
-if (recbox1.crashWith(wallhouse5) == false) {
-if (recbox1.crashWith(wallhouse1) == false) {
-if (recbox1.crashWith(wallhouse4_2) == false) {
-if (recbox1.crashWith(wallhouse6_2) == false) {
-if (recbox1.crashWith(wallhouse1_2) == false) {
-if (recbox1.crashWith(wallhouse4) == false) {
-if (recbox1.crashWith(wallhouse6) == false) {
-if (recbox1.crashWith(wall2house3) == false) {
-if (recbox1.crashWith(wall2house2_2) == false) {
-if (recbox1.crashWith(wall2house7) == false) {
-if (recbox1.crashWith(wall2house3_2) == false) {
-if (recbox1.crashWith(wall2house2) == false) {
-if (recbox1.crashWith(wall2house5) == false) {
-if (recbox1.crashWith(wall2house1) == false) {
-if (recbox1.crashWith(wall2house4_2) == false) {
-if (recbox1.crashWith(wall2house6_2) == false) {
-if (recbox1.crashWith(wall2house1_2) == false) {
-if (recbox1.crashWith(wall2house4) == false) {
-if (recbox1.crashWith(wall2house6) == false) {
-if (recbox1.x > box.x + recbox1.width) {
-recbox1.speedX = negbadspeedai4;
-if (Badhealth4 <= 50) {
-recbox1.speedX = negbadhurtspeedai4;
-  }
- }
-if (recbox1.x <= box.x + recbox1.width && recbox1.x + recbox1.width >= box.x) {
-recbox1.speedX = 0;
- }
-if (recbox1.x + recbox1.width < box.x) {
-recbox1.speedX = badspeedai4;
-if (Badhealth4 <= 50) {
-recbox1.speedX = badhurtspeedai4;
-  }
- }
-if (recbox1.y > box.y + recbox1.height) {
-recbox1.speedY = negbadspeedai4;
-if (Badhealth4 <= 50) {
-recbox1.speedY = negbadhurtspeedai4;
- }
-}
-if (recbox1.y <= box.y + recbox1.height && recbox1.y + recbox1.height >= box.y) {
-recbox1.speedY = 0;
- }
-if (recbox1.y + recbox1.height < box.y) {
-recbox1.speedY = badspeedai4;
-if (Badhealth4 <= 50) {
-recbox1.speedY = badhurtspeedai4;
- }
-}
-                    } 
-	                }
-	                }
-	                }
-	                }
-	                }
-	                }
-	                }
-	               }
-	              }
-	             } 
-	            }
-	           }
-	          }
-	         }
-	        }
-	       }
-	      }
-	     }
-	    }
-       }
-      }
-     }
-    }
-   }
-  }
- }
-}
-if (box.crashWith(recbox1)) {
-if (playerHealth > 0) {
-playerHealth -= Bad4DamageDeal;
- }
-}
-if (weapon == 1) {
- if (bullbox.crashWith(recbox1)) {
- if (fire > 0) {
-  if (startTime4 == 0) {
-  startTime4 = 1;
-    }
-   }
-  }
-}
-if (startTime4 == 1) {
- badspeedai4 = 0.15;
- negbadspeedai4 = -0.15;
- badhurtspeedai4 = 0.25;
- negbadhurtspeedai4 = -0.25;
-   } else 
-if (startTime4 == 0) {
- badspeedai4 = 1.2;
- negbadspeedai4 = -1.2;
- badhurtspeedai4 = 1.6;
- negbadhurtspeedai4 = -1.6;
-   }
- }
- }
- }
-}
-}
-}
+	if (menu == 2 && upgrademenu == 0 && pauseGame == 0 && Death1 == 0 && wave > 2 && wave < 5) {
+		if (BadDeath4 > 0) {
+			if (recbox1.x > recpos1.x) {
+			recbox1.speedX = -5;
+			}
+			if (recbox1.x < recpos1.x) {
+			recbox1.speedX = 5;
+			}
+			if (recbox1.crashWith(recpos1)) {
+			recbox1.speedY = 0;
+			recbox1.speedX = 0;
+			Badhealth4 = 120;
+			BadDeath4 = 0;
+			badspeedai4 = 1;
+			negbadspeedai4 = -1;
+			badhurtspeedai4 = 1.5;
+			negbadhurtspeedai4 = -1.5;
+			startTime4 = 0;
+			}
+			if (recbox1.y > recpos1.y) {
+			recbox1.speedY = -5;
+			}
+			if (recbox1.y < recpos1.y) {
+			recbox1.speedY = 5;
+			}
+		}
+		if (BadDeath4 < 1) {
+			if (Badhealth4 <= 120) {
+			badHealthBarColor3 = "green";
+			}
+			if (Badhealth4 <= 75) {
+			badHealthBarColor3 = "yellow";
+			}
+			if (Badhealth4 <= 50) {
+			badHealthBarColor3 = "orange";
+			}
+			if (Badhealth4 <= 25) {
+			badHealthBarColor3 = "red";
+			}
+			if (!recbox1.crashWith(wallright) && !recbox1.crashWith(wallleft) && !recbox1.crashWith(wall3) && !recbox1.crashWith(wall4) && !recbox1.crashWith(wallhouse3) && !recbox1.crashWith(wallhouse2_2) && !recbox1.crashWith(wallhouse7) && !recbox1.crashWith(wallhouse3_2) && !recbox1.crashWith(wallhouse2) && !recbox1.crashWith(wallhouse5) && !recbox1.crashWith(wallhouse1) && !recbox1.crashWith(wallhouse4_2) && !recbox1.crashWith(wallhouse6_2) && !recbox1.crashWith(wallhouse1_2) && !recbox1.crashWith(wallhouse4) && !recbox1.crashWith(wallhouse6) && !recbox1.crashWith(wall2house3) && !recbox1.crashWith(wall2house2_2) && !recbox1.crashWith(wall2house7) && !recbox1.crashWith(wall2house3_2) && !recbox1.crashWith(wall2house2) && !recbox1.crashWith(wall2house5) && !recbox1.crashWith(wall2house1) && !recbox1.crashWith(wall2house4_2) && !recbox1.crashWith(wall2house6_2) && !recbox1.crashWith(wall2house1_2) && !recbox1.crashWith(wall2house4) && !recbox1.crashWith(wall2house6) == false) {
+				if (recbox1.x > box.x + recbox1.width) {
+				recbox1.speedX = negbadspeedai4;
+					if (Badhealth4 <= 50) {
+					recbox1.speedX = negbadhurtspeedai4;
+					}
+				}
+				if (recbox1.x <= box.x + recbox1.width && recbox1.x + recbox1.width >= box.x) {
+				recbox1.speedX = 0;
+				}
+				if (recbox1.x + recbox1.width < box.x) {
+				recbox1.speedX = badspeedai4;
+					if (Badhealth4 <= 50) {
+					recbox1.speedX = badhurtspeedai4;
+					}
+				}
+				if (recbox1.y > box.y + recbox1.height) {
+				recbox1.speedY = negbadspeedai4;
+					if (Badhealth4 <= 50) {
+					recbox1.speedY = negbadhurtspeedai4;
+					}
+				}
+				if (recbox1.y <= box.y + recbox1.height && recbox1.y + recbox1.height >= box.y) {
+				recbox1.speedY = 0;
+				}
+				if (recbox1.y + recbox1.height < box.y) {
+				recbox1.speedY = badspeedai4;
+					if (Badhealth4 <= 50) {
+					recbox1.speedY = badhurtspeedai4;
+					}
+				}
+			}
+			if (box.crashWith(recbox1) && playerHealth > 0) {
+			playerHealth -= Bad4DamageDeal;
+			}
+			if (weapon == 1 && bullbox.crashWith(recbox1) && fire > 0 && startTime4 == 0) {
+			startTime4 = 1;
+			}
+			if (startTime4 == 0) {
+			badspeedai4 = 1.2;
+			negbadspeedai4 = -1.2;
+			badhurtspeedai4 = 1.6;
+			negbadhurtspeedai4 = -1.6;
+			} else {
+			badspeedai4 = 0.15;
+			negbadspeedai4 = -0.15;
+			badhurtspeedai4 = 0.25;
+			negbadhurtspeedai4 = -0.25;
+			}
+		}
+	}
 }
 	
 var autoUpVar = 0;
@@ -9247,38 +8121,41 @@ var autoDownVar = 0;
 var autoLeftVar = 0;
 var autoRightVar = 0;
 function autoUp() {
-if (upgrademenu == 0) {
-autoUpVar = 1;
- }
+	if (upgrademenu == 0) {
+	autoUpVar = 1;
+	}
 }
 	
 function autoDown() {
-if (upgrademenu == 0) {
-autoDownVar = 1;
- }
+	if (upgrademenu == 0) {
+	autoDownVar = 1;
+	}
 }
 	
 function autoLeft() {
-if (upgrademenu == 0) {
-autoLeftVar = 1;
- }
+	if (upgrademenu == 0) {
+	autoLeftVar = 1;
+	}
 }
 	
 function autoRight() {
-if (upgrademenu == 0) {
-autoRightVar = 1;
- }
+	if (upgrademenu == 0) {
+	autoRightVar = 1;
+	}
 }
 	
 function clearAutoU() {
 autoUpVar = 0;
-}	
+}
+	
 function clearAutoD() {
 autoDownVar = 0;
 }
+
 function clearAutoL() {
 autoLeftVar = 0;
 }
+
 function clearAutoR() {
 autoRightVar = 0;
 }
@@ -9286,15 +8163,15 @@ autoRightVar = 0;
 var startTimer = 0;
 var coolTick = 0;
 function fireCoolDown() {
-if (startTimer == 1) {
-coolTick++;
-if (coolTick >= WeaponCoolDown) {
-startTimer = 0;	
- }
-}
-if (startTimer == 0) {
-coolTick = 0;
-}
+	if (startTimer == 1) {
+	coolTick++;
+		if (coolTick >= WeaponCoolDown) {
+		startTimer = 0;	
+		}
+	}
+	if (startTimer == 0) {
+	coolTick = 0;
+	}
 }
 
 var fire = 0;
@@ -9304,87 +8181,63 @@ var fireU = 0;
 var fireD = 0;
 var ammocon = 1;
 function shootUp() {
-if (Death1 == 0) {
-if (fire == 0 && startTimer == 0) {
-if (ammo > 0) {
-fire = 1;
-fireU = 1;
-startTimer = 1;
-ammo -= ammocon;
-if (menu == 0) {
-starttime = 1;
-}
-if (menu > 0) {
-if (frameIndex5 == 0) {
-firesoundstart = 1;
- }
-}
-   }
-  }
- }
+	if (Death1 == 0 && fire == 0 && startTimer == 0 && ammo > 0) {
+	fire = 1;
+	fireU = 1;
+	startTimer = 1;
+	ammo -= ammocon;
+		if (menu == 0) {
+		starttime = 1;
+		}
+		if (menu > 0 && frameIndex5 == 0) {
+		firesoundstart = 1;
+		}
+	}
 }
 	
 function shootDown() {
-if (Death1 == 0) {
-if (fire == 0 && startTimer == 0) {
-if (ammo > 0) {
-fire = 1;
-fireD = 1;
-startTimer = 1;
-ammo -= ammocon;
-if (menu == 0) {
-starttime = 1;
-}
-if (menu > 0) {
-if (frameIndex5 == 0) {
-firesoundstart = 1;
- }
-}
-   }
-  }
- }
+	if (Death1 == 0 && fire == 0 && startTimer == 0 && ammo > 0) {
+	fire = 1;
+	fireD = 1;
+	startTimer = 1;
+	ammo -= ammocon;
+		if (menu == 0) {
+		starttime = 1;
+		}
+		if (menu > 0 && frameIndex5 == 0) {
+		firesoundstart = 1;
+		}
+	}
 }
 	
 function shootLeft() {
-if (Death1 == 0) {
-if (fire == 0 && startTimer == 0) {
-if (ammo > 0) {
-fire = 1;
-fireL = 1;
-startTimer = 1;
-ammo -= ammocon;
-if (menu == 0) {
-starttime = 1;
-}
-if (menu > 0) {
-if (frameIndex5 == 0) {
-firesoundstart = 1;
- }
-}
-   }
-  }
- }
+	if (Death1 == 0 && fire == 0 && startTimer == 0 && ammo > 0) {
+	fire = 1;
+	fireL = 1;
+	startTimer = 1;
+	ammo -= ammocon;
+		if (menu == 0) {
+		starttime = 1;
+		}
+		if (menu > 0 && frameIndex5 == 0) {
+		firesoundstart = 1;
+		}
+	}
 }
 	
 function shootRight() {
-if (Death1 == 0) {
-if (fire == 0 && startTimer == 0) {
-if (ammo > 0) {
-fire = 1;
-fireR = 1;
-startTimer = 1;
-ammo -= ammocon;
-if (menu == 0) {
-starttime = 1;
-}
-if (menu > 0) {
-if (frameIndex5 == 0) {
-firesoundstart = 1;
- }
-}
-   }
-  }
- }
+	if (Death1 == 0 && fire == 0 && startTimer == 0 && ammo > 0) {
+	fire = 1;
+	fireR = 1;
+	startTimer = 1;
+	ammo -= ammocon;
+		if (menu == 0) {
+		starttime = 1;
+		}
+		if (menu > 0 && frameIndex5 == 0) {
+		firesoundstart = 1;
+		}
+	}
 }
 
 var tribullettime = 0;
@@ -9393,91 +8246,79 @@ var tribullrange = 3;
 var trifire = 0;
 var trisidebad = 0;
 var TriBullDamageDeal = 2;
-function tribulletai() {//bull//
+function tribulletai() {
 tribpic.x = tribbox.x;
 tribpic.y = tribbox.y;
-if (difficulty == 0) {
-TriBullDamageDeal = 2;
-}
-if (difficulty == 1) {
-TriBullDamageDeal = 3;
-}
-if (difficulty == 2) {
-TriBullDamageDeal = 5;
-}
-if (trifire == 0) {
-tribpic.angle = 0;
-tribbox.x = tribox.x + tribox.width/2 - tribbox.width/2;
-tribbox.y = tribox.y + tribox.height/2 - tribbox.height/2;
-}
-if (menu == 2) {
-if (upgrademenu == 0) {
-if (pauseGame == 0) {
-if (Death1 == 0) {
-if (trifire == 1) {
-tribpic.angle += 0.08;
-if (-10 + tribbox.x > box.x) {
-tribbox.speedX = -tribullrange;
-} 
-if (-10 + tribbox.x < box.x) {
-tribbox.speedX = tribullrange;
-}
-if (-10 + tribbox.y > box.y) {
-tribbox.speedY = -tribullrange;
-}
-if (-10 + tribbox.y < box.y) {
-tribbox.speedY = tribullrange;
-}
-} 
-if (tribullettime >= tribulletfirerate) {
-tribullettime = 0;
-trifire = 1;
-}
-if (trifire == 0) {
-if (tribox.crashWith(detectbox)) {
-tribullettime += 0.5;	
-}	
-}
-if (tribbox.crashWith(wallright) || tribbox.crashWith(wallleft) || tribbox.crashWith(wall3) || tribbox.crashWith(wall4)) {
-trifire = 0;
-}
-if (tribbox.crashWith(wall3house1) || tribbox.crashWith(wall3house1_2) || tribbox.crashWith(wall3house2) || tribbox.crashWith(wall3house2_2) || tribbox.crashWith(wall3house3) || tribbox.crashWith(wall3house3_2) || tribbox.crashWith(wall3house4_4) || tribbox.crashWith(wall3house5_4) || tribbox.crashWith(wall4house1) || tribbox.crashWith(wall4house1_1) || tribbox.crashWith(wall4house2) || tribbox.crashWith(wall4house2_1) || tribbox.crashWith(wall4house3) || tribbox.crashWith(wall4house3_1) || tribbox.crashWith(wall4house4_3) || tribbox.crashWith(wall4house5_3) || tribbox.crashWith(wall4house6_4)) {
-trifire = 0;
-}
-if (wave > 4 && wave < 7) {
-if (tribbox.crashWith(box)) {
-if (playerHealth > 0) {
-if (trifire == 1) {
-playerHealth -= TriBullDamageDeal;
-trifire = 0;
-      }
-     }
+	switch (difficulty) {
+		case 0:
+		TriBullDamageDeal = 2;
+		break;
+		case 1:
+		TriBullDamageDeal = 3;
+		break;
+		case 2:
+		TriBullDamageDeal = 5;
+		break;
 	}
-   }
-  }
- }
-}
-}
+	if (trifire == 0) {
+	tribpic.angle = 0;
+	tribbox.x = tribox.x + tribox.width/2 - tribbox.width/2;
+	tribbox.y = tribox.y + tribox.height/2 - tribbox.height/2;
+	}
+	if (menu == 2 && upgrademenu == 0 && pauseGame == 0 && Death1 == 0) {
+		if (trifire == 0) {
+			if (tribox.crashWith(detectbox)) {
+			tribullettime += 0.5;	
+			}	
+		} else {
+		tribpic.angle += 0.08;
+			if (-10 + tribbox.x > box.x) {
+			tribbox.speedX = -tribullrange;
+			} 
+			if (-10 + tribbox.x < box.x) {
+			tribbox.speedX = tribullrange;
+			}
+			if (-10 + tribbox.y > box.y) {
+			tribbox.speedY = -tribullrange;
+			}
+			if (-10 + tribbox.y < box.y) {
+			tribbox.speedY = tribullrange;
+			}
+			if (wave > 4 && wave < 7 && tribbox.crashWith(box) && playerHealth > 0) {
+			playerHealth -= TriBullDamageDeal;
+			trifire = 0;
+			}
+		} 
+		if (tribullettime >= tribulletfirerate) {
+		tribullettime = 0;
+		trifire = 1;
+		}
+		if (tribbox.crashWith(wallright) || tribbox.crashWith(wallleft) || tribbox.crashWith(wall3) || tribbox.crashWith(wall4)) {
+		trifire = 0;
+		}
+		if (tribbox.crashWith(wall3house1) || tribbox.crashWith(wall3house1_2) || tribbox.crashWith(wall3house2) || tribbox.crashWith(wall3house2_2) || tribbox.crashWith(wall3house3) || tribbox.crashWith(wall3house3_2) || tribbox.crashWith(wall3house4_4) || tribbox.crashWith(wall3house5_4) || tribbox.crashWith(wall4house1) || tribbox.crashWith(wall4house1_1) || tribbox.crashWith(wall4house2) || tribbox.crashWith(wall4house2_1) || tribbox.crashWith(wall4house3) || tribbox.crashWith(wall4house3_1) || tribbox.crashWith(wall4house4_3) || tribbox.crashWith(wall4house5_3) || tribbox.crashWith(wall4house6_4)) {
+		trifire = 0;
+		}
+	}
 }
 
 var starttime = 0;
 var timeforbullet = 0;
 function resetfire() {
-if (starttime == 1) {
-timeforbullet += 1;
- }
-if (timeforbullet > 100 && menu == 0) {
-menu = 1;
-timeforbullet = 0;
- }
-if (menu > 0) {
-starttime = 0;
- }
+	if (starttime == 1) {
+	timeforbullet += 1;
+	}
+	if (timeforbullet > 100 && menu == 0) {
+	menu = 1;
+	timeforbullet = 0;
+	}
+	if (menu > 0) {
+	starttime = 0;
+	}
 }
 
 var bullrange = 3;
 var bulletHomeRange = 20;
-var debugBullets = false;
 function bulletai() {
 bullcir.radius = bulletHomeRange;
 bullcir.x = bullbox.x + bullbox.width/2;
@@ -9492,59 +8333,55 @@ bpic4.x = bullbox.x;
 bpic4.y = bullbox.y;
 bpic5.x = bullbox.x;
 bpic5.y = bullbox.y;
-if (debugBullets == true) {
-console.log("Bullet X: " + bullbox.x + " Bullet Y: " + bullbox.y + " Fire Dir: " + fireU + " " + fireD + " " + fireL + " " + fireR + " Bullet Time: " + bullettime);
-}
-if (fire == 0) {
-bullettime = 0;
-bullbox.speedX = 0;
-bullbox.speedY = 0;
-bullbox.x = (box.x + box.width/2) - bullbox.width/2;
-bullbox.y = (box.y + box.height/2) - bullbox.height/2;
-}
-if (fire > 0) {
- if (fireL > 0) {
-  bullbox.speedX -= bullrange;
-  bullbox.speedY = 0;
-  bullettime += 0.5;
-  }
- if (fireR > 0) {
-  bullbox.speedX += bullrange;
-  bullbox.speedY = 0;
-  bullettime += 0.5;
-  }
-  if (fireU > 0) {
-  bullbox.speedX = 0;
-  bullbox.speedY -= bullrange;
-  bullettime += 0.5;
-  }
-  if (fireD > 0) {
-  bullbox.speedX = 0;
-  bullbox.speedY += bullrange;
-  bullettime += 0.5;
-  }
- if (bullettime >= 5) {
-  fire = 0;
-  fireR = 0;
-  fireL = 0;
-  fireU = 0;
-  fireD = 0;
-  bullettime = 0;
-  }
- }
-if (bullbox.crashWith(wallright) || bullbox.crashWith(wallleft) || bullbox.crashWith(wall3) || bullbox.crashWith(wall4)) {
-fire = 0;
- }
-if (wave < 5) {
-if (bullbox.crashWith(wallhouse3) || bullbox.crashWith(wallhouse2_2) || bullbox.crashWith(wallhouse7) || bullbox.crashWith(wallhouse3_2) || bullbox.crashWith(wallhouse2) || bullbox.crashWith(wallhouse5) || bullbox.crashWith(wallhouse1) || bullbox.crashWith(wallhouse4_2) || bullbox.crashWith(wallhouse6_2) || bullbox.crashWith(wallhouse1_2) || bullbox.crashWith(wallhouse4) || bullbox.crashWith(wallhouse6) || bullbox.crashWith(wall2house3) || bullbox.crashWith(wall2house2_2) || bullbox.crashWith(wall2house7) || bullbox.crashWith(wall2house3_2) || bullbox.crashWith(wall2house2) || bullbox.crashWith(wall2house5) || bullbox.crashWith(wall2house1) || bullbox.crashWith(wall2house4_2) || bullbox.crashWith(wall2house6_2) || bullbox.crashWith(wall2house1_2) || bullbox.crashWith(wall2house4) || bullbox.crashWith(wall2house6)) {
-fire = 0;
-  }
- }
-if (wave >= 5 && wave < 7) {
-if (bullbox.crashWith(wall3house1) || bullbox.crashWith(wall3house1_2) || bullbox.crashWith(wall3house2) || bullbox.crashWith(wall3house2_2) || bullbox.crashWith(wall3house3) || bullbox.crashWith(wall3house3_2) || bullbox.crashWith(wall3house4_4) || bullbox.crashWith(wall3house5_4) || bullbox.crashWith(wall4house1) || bullbox.crashWith(wall4house1_1) || bullbox.crashWith(wall4house2) || bullbox.crashWith(wall4house2_1) || bullbox.crashWith(wall4house3) || bullbox.crashWith(wall4house3_1) || bullbox.crashWith(wall4house4_3) || bullbox.crashWith(wall4house5_3) || bullbox.crashWith(wall4house6_4)) {
-fire = 0;
-  }
- }
+	if (fire == 0) {
+	bullettime = 0;
+	bullbox.speedX = 0;
+	bullbox.speedY = 0;
+	bullbox.x = (box.x + box.width/2) - bullbox.width/2;
+	bullbox.y = (box.y + box.height/2) - bullbox.height/2;
+	} else {
+		if (fireL > 0) {
+		bullbox.speedX -= bullrange;
+		bullbox.speedY = 0;
+		bullettime += 0.5;
+		}
+		if (fireR > 0) {
+		bullbox.speedX += bullrange;
+		bullbox.speedY = 0;
+		bullettime += 0.5;
+		}
+		if (fireU > 0) {
+		bullbox.speedX = 0;
+		bullbox.speedY -= bullrange;
+		bullettime += 0.5;
+		}
+		if (fireD > 0) {
+		bullbox.speedX = 0;
+		bullbox.speedY += bullrange;
+		bullettime += 0.5;
+		}
+		if (bullettime >= 5) {
+		fire = 0;
+		fireR = 0;
+		fireL = 0;
+		fireU = 0;
+		fireD = 0;
+		bullettime = 0;
+		}
+	}
+	if (bullbox.crashWith(wallright) || bullbox.crashWith(wallleft) || bullbox.crashWith(wall3) || bullbox.crashWith(wall4)) {
+	fire = 0;
+	}
+	if (wave < 5) {
+		if (bullbox.crashWith(wallhouse3) || bullbox.crashWith(wallhouse2_2) || bullbox.crashWith(wallhouse7) || bullbox.crashWith(wallhouse3_2) || bullbox.crashWith(wallhouse2) || bullbox.crashWith(wallhouse5) || bullbox.crashWith(wallhouse1) || bullbox.crashWith(wallhouse4_2) || bullbox.crashWith(wallhouse6_2) || bullbox.crashWith(wallhouse1_2) || bullbox.crashWith(wallhouse4) || bullbox.crashWith(wallhouse6) || bullbox.crashWith(wall2house3) || bullbox.crashWith(wall2house2_2) || bullbox.crashWith(wall2house7) || bullbox.crashWith(wall2house3_2) || bullbox.crashWith(wall2house2) || bullbox.crashWith(wall2house5) || bullbox.crashWith(wall2house1) || bullbox.crashWith(wall2house4_2) || bullbox.crashWith(wall2house6_2) || bullbox.crashWith(wall2house1_2) || bullbox.crashWith(wall2house4) || bullbox.crashWith(wall2house6)) {
+		fire = 0;
+		}
+	}
+	if (wave >= 5 && wave < 7) {
+		if (bullbox.crashWith(wall3house1) || bullbox.crashWith(wall3house1_2) || bullbox.crashWith(wall3house2) || bullbox.crashWith(wall3house2_2) || bullbox.crashWith(wall3house3) || bullbox.crashWith(wall3house3_2) || bullbox.crashWith(wall3house4_4) || bullbox.crashWith(wall3house5_4) || bullbox.crashWith(wall4house1) || bullbox.crashWith(wall4house1_1) || bullbox.crashWith(wall4house2) || bullbox.crashWith(wall4house2_1) || bullbox.crashWith(wall4house3) || bullbox.crashWith(wall4house3_1) || bullbox.crashWith(wall4house4_3) || bullbox.crashWith(wall4house5_3) || bullbox.crashWith(wall4house6_4)) {
+		fire = 0;
+		}
+	}
 }
 
 var UI_Shadows = true;
@@ -9556,136 +8393,135 @@ this.ShadowColor = ShadowColor;
 this.ShadowBlur = ShadowBlur;
 this.ShadowXOffSetMax = ShadowXOffSetMax;
 this.ShadowYOffSetMax = ShadowYOffSetMax;
-this.update = function() {
-for (let i = 0; i < this.PlayerShipArray.length; i++) { //here//
-	if (PlayerShadowsOn == true) {
-	this.PlayerShipArray[i].shadowColor_ = this.ShadowColor;
-	this.PlayerShipArray[i].shadowBlur_ = this.ShadowBlur;
-	if (up == 1) {
-		if (this.PlayerShipArray[i].shadowOffsetY_ < this.ShadowYOffSetMax) {
-			this.PlayerShipArray[i].shadowOffsetY_ += 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetY_ >= this.ShadowYOffSetMax) {
-			this.PlayerShipArray[i].shadowOffsetY_ = this.ShadowYOffSetMax;
-		}
-		if (left == 0 && right != 1) {
-		if (this.PlayerShipArray[i].shadowOffsetX_ < 0) {
-			this.PlayerShipArray[i].shadowOffsetX_ += 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetX_ >= 0) {
-			this.PlayerShipArray[i].shadowOffsetX_ = 0;
-		}
-		}
-		if (right == 0 && left != 1) {
-		if (this.PlayerShipArray[i].shadowOffsetX_ > 0) {
-			this.PlayerShipArray[i].shadowOffsetX_ -= 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetX_ <= 0) {
-			this.PlayerShipArray[i].shadowOffsetX_ = 0;
-		}
-		}
-	}
-	if (down == 1) {
-		if (this.PlayerShipArray[i].shadowOffsetY_ > -this.ShadowYOffSetMax) {
-			this.PlayerShipArray[i].shadowOffsetY_ -= 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetY_ <= -this.ShadowYOffSetMax) {
-			this.PlayerShipArray[i].shadowOffsetY_ = -this.ShadowYOffSetMax;
-		}
-		if (left == 0 && right != 1) {
-		if (this.PlayerShipArray[i].shadowOffsetX_ < 0) {
-			this.PlayerShipArray[i].shadowOffsetX_ += 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetX_ >= 0) {
-			this.PlayerShipArray[i].shadowOffsetX_ = 0;
-		}
-		}
-		if (right == 0 && left != 1) {
-		if (this.PlayerShipArray[i].shadowOffsetX_ > 0) {
-			this.PlayerShipArray[i].shadowOffsetX_ -= 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetX_ <= 0) {
-			this.PlayerShipArray[i].shadowOffsetX_ = 0;
-		}
-		}
-	}
-	if (left == 1) {
-		if (this.PlayerShipArray[i].shadowOffsetX_ < this.ShadowXOffSetMax) {
-			this.PlayerShipArray[i].shadowOffsetX_ += 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetX_ >= this.ShadowXOffSetMax) {
-			this.PlayerShipArray[i].shadowOffsetX_ = this.ShadowXOffSetMax;
-		}
-		if (up == 0 && down != 1) {
-		if (this.PlayerShipArray[i].shadowOffsetY_ < 0) {
-			this.PlayerShipArray[i].shadowOffsetY_ += 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetY_ >= 0) {
+	this.update = function() {
+		for (let i = 0; i < this.PlayerShipArray.length; i++) {
+			if (PlayerShadowsOn) {
+			this.PlayerShipArray[i].shadowColor_ = this.ShadowColor;
+			this.PlayerShipArray[i].shadowBlur_ = this.ShadowBlur;
+				if (up == 1) {
+					if (this.PlayerShipArray[i].shadowOffsetY_ < this.ShadowYOffSetMax) {
+					this.PlayerShipArray[i].shadowOffsetY_ += 0.05;
+					}
+					if (this.PlayerShipArray[i].shadowOffsetY_ >= this.ShadowYOffSetMax) {
+					this.PlayerShipArray[i].shadowOffsetY_ = this.ShadowYOffSetMax;
+					}
+					if (left == 0 && right != 1) {
+						if (this.PlayerShipArray[i].shadowOffsetX_ < 0) {
+						this.PlayerShipArray[i].shadowOffsetX_ += 0.05;
+						}
+						if (this.PlayerShipArray[i].shadowOffsetX_ >= 0) {
+						this.PlayerShipArray[i].shadowOffsetX_ = 0;
+						}
+					}
+					if (right == 0 && left != 1) {
+						if (this.PlayerShipArray[i].shadowOffsetX_ > 0) {
+						this.PlayerShipArray[i].shadowOffsetX_ -= 0.05;
+						}
+						if (this.PlayerShipArray[i].shadowOffsetX_ <= 0) {
+						this.PlayerShipArray[i].shadowOffsetX_ = 0;
+						}
+					}
+				}
+				if (down == 1) {
+					if (this.PlayerShipArray[i].shadowOffsetY_ > -this.ShadowYOffSetMax) {
+					this.PlayerShipArray[i].shadowOffsetY_ -= 0.05;
+					}
+					if (this.PlayerShipArray[i].shadowOffsetY_ <= -this.ShadowYOffSetMax) {
+					this.PlayerShipArray[i].shadowOffsetY_ = -this.ShadowYOffSetMax;
+					}
+					if (left == 0 && right != 1) {
+						if (this.PlayerShipArray[i].shadowOffsetX_ < 0) {
+						this.PlayerShipArray[i].shadowOffsetX_ += 0.05;
+						}
+						if (this.PlayerShipArray[i].shadowOffsetX_ >= 0) {
+						this.PlayerShipArray[i].shadowOffsetX_ = 0;
+						}
+					}
+					if (right == 0 && left != 1) {
+						if (this.PlayerShipArray[i].shadowOffsetX_ > 0) {
+						this.PlayerShipArray[i].shadowOffsetX_ -= 0.05;
+						}
+						if (this.PlayerShipArray[i].shadowOffsetX_ <= 0) {
+						this.PlayerShipArray[i].shadowOffsetX_ = 0;
+						}
+					}
+				}
+				if (left == 1) {
+					if (this.PlayerShipArray[i].shadowOffsetX_ < this.ShadowXOffSetMax) {
+					this.PlayerShipArray[i].shadowOffsetX_ += 0.05;
+					}
+					if (this.PlayerShipArray[i].shadowOffsetX_ >= this.ShadowXOffSetMax) {
+					this.PlayerShipArray[i].shadowOffsetX_ = this.ShadowXOffSetMax;
+					}
+					if (up == 0 && down != 1) {
+						if (this.PlayerShipArray[i].shadowOffsetY_ < 0) {
+						this.PlayerShipArray[i].shadowOffsetY_ += 0.05;
+						}
+						if (this.PlayerShipArray[i].shadowOffsetY_ >= 0) {
+						this.PlayerShipArray[i].shadowOffsetY_ = 0;
+						}
+					}
+					if (down == 0 && up != 1) {
+						if (this.PlayerShipArray[i].shadowOffsetY_ > 0) {
+						this.PlayerShipArray[i].shadowOffsetY_ -= 0.05;
+						}
+						if (this.PlayerShipArray[i].shadowOffsetY_ <= 0) {
+						this.PlayerShipArray[i].shadowOffsetY_ = 0;
+						}
+					}
+				}
+				if (right == 1) {
+					if (this.PlayerShipArray[i].shadowOffsetX_ > -this.ShadowXOffSetMax) {
+					this.PlayerShipArray[i].shadowOffsetX_ -= 0.05;
+					}
+					if (this.PlayerShipArray[i].shadowOffsetX_ <= -this.ShadowXOffSetMax) {
+					this.PlayerShipArray[i].shadowOffsetX_ = -this.ShadowXOffSetMax;
+					}
+					if (up == 0 && down != 1) {
+						if (this.PlayerShipArray[i].shadowOffsetY_ < 0) {
+						this.PlayerShipArray[i].shadowOffsetY_ += 0.05;
+						}
+						if (this.PlayerShipArray[i].shadowOffsetY_ >= 0) {
+						this.PlayerShipArray[i].shadowOffsetY_ = 0;
+						}
+					}
+					if (down == 0 && up != 1) {
+						if (this.PlayerShipArray[i].shadowOffsetY_ > 0) {
+						this.PlayerShipArray[i].shadowOffsetY_ -= 0.05;
+						}
+						if (this.PlayerShipArray[i].shadowOffsetY_ <= 0) {
+						this.PlayerShipArray[i].shadowOffsetY_ = 0;
+						}
+					}
+				}
+				if (up == 0 && down == 0 && left == 0 && right == 0) {
+					if (this.PlayerShipArray[i].shadowOffsetY_ < 0) {
+					this.PlayerShipArray[i].shadowOffsetY_ += 0.05;
+					}
+					if (this.PlayerShipArray[i].shadowOffsetY_ > 0) {
+					this.PlayerShipArray[i].shadowOffsetY_ -= 0.05;
+					}
+					if (this.PlayerShipArray[i].shadowOffsetY_ == 0) {
+					this.PlayerShipArray[i].shadowOffsetY_ = 0;
+					}
+					if (this.PlayerShipArray[i].shadowOffsetX_ < 0) {
+					this.PlayerShipArray[i].shadowOffsetX_ += 0.05;
+					}
+					if (this.PlayerShipArray[i].shadowOffsetX_ == 0) {
+					this.PlayerShipArray[i].shadowOffsetX_ = 0;
+					}
+					if (this.PlayerShipArray[i].shadowOffsetX_ > 0) {
+					this.PlayerShipArray[i].shadowOffsetX_ -= 0.05;
+					}
+				}
+			} else {
+			this.PlayerShipArray[i].shadowColor_ = "";
+			this.PlayerShipArray[i].shadowBlur_ = 0;
 			this.PlayerShipArray[i].shadowOffsetY_ = 0;
-		}
-		}
-		if (down == 0 && up != 1) {
-		if (this.PlayerShipArray[i].shadowOffsetY_ > 0) {
-			this.PlayerShipArray[i].shadowOffsetY_ -= 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetY_ <= 0) {
-			this.PlayerShipArray[i].shadowOffsetY_ = 0;
-		}
-		}
-	}
-	if (right == 1) {
-		if (this.PlayerShipArray[i].shadowOffsetX_ > -this.ShadowXOffSetMax) {
-			this.PlayerShipArray[i].shadowOffsetX_ -= 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetX_ <= -this.ShadowXOffSetMax) {
-			this.PlayerShipArray[i].shadowOffsetX_ = -this.ShadowXOffSetMax;
-		}
-		if (up == 0 && down != 1) {
-		if (this.PlayerShipArray[i].shadowOffsetY_ < 0) {
-			this.PlayerShipArray[i].shadowOffsetY_ += 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetY_ >= 0) {
-			this.PlayerShipArray[i].shadowOffsetY_ = 0;
-		}
-		}
-		if (down == 0 && up != 1) {
-		if (this.PlayerShipArray[i].shadowOffsetY_ > 0) {
-			this.PlayerShipArray[i].shadowOffsetY_ -= 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetY_ <= 0) {
-			this.PlayerShipArray[i].shadowOffsetY_ = 0;
-		}
-		}
-	}
-	if (up == 0 && down == 0 && left == 0 && right == 0) {
-		if (this.PlayerShipArray[i].shadowOffsetY_ < 0) {
-			this.PlayerShipArray[i].shadowOffsetY_ += 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetY_ > 0) {
-			this.PlayerShipArray[i].shadowOffsetY_ -= 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetY_ == 0) {
-			this.PlayerShipArray[i].shadowOffsetY_ = 0;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetX_ < 0) {
-			this.PlayerShipArray[i].shadowOffsetX_ += 0.05;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetX_ == 0) {
 			this.PlayerShipArray[i].shadowOffsetX_ = 0;
-		}
-		if (this.PlayerShipArray[i].shadowOffsetX_ > 0) {
-			this.PlayerShipArray[i].shadowOffsetX_ -= 0.05;
+			}
 		}
 	}
-	}
-	if (PlayerShadowsOn == false) {
-		this.PlayerShipArray[i].shadowColor_ = "";
-		this.PlayerShipArray[i].shadowBlur_ = 0;
-		this.PlayerShipArray[i].shadowOffsetY_ = 0;
-		this.PlayerShipArray[i].shadowOffsetX_ = 0;
-	}
-}
-}
 }
 
 var bullettime = 0;
@@ -9706,43 +8542,51 @@ up = 1;
 upE = 1;
 lockUpE = 1;
 }
+
 function moveDown() {
 down = 1;
 downE = 1;
 lockDownE = 1;
 }
+
 function moveLeft() {
 left = 1;
 leftE = 1;
 lockLeftE = 1;
 }
+
 function moveRight() {
 right = 1;
 rightE = 1;
 lockRightE = 1;
 }
+
 function clearmoveu() {
-if (upE > 0) {
- up = 0;
- }
+lockUpE = 0;
+	if (upE > 0) {
+	up = 0;
+	}
 }
+
 function clearmoved() {
 lockDownE = 0;
-if (downE > 0) {
- down = 0;
- }
+	if (downE > 0) {
+	down = 0;
+	}
 }
+
 function clearmovel() {
 lockLeftE = 0;
-if (leftE > 0) {
- left = 0;
- }
+	if (leftE > 0) {
+	left = 0;
+	}
 }
+
 function clearmover() {
 lockRightE = 0;
-if (rightE > 0) {
- right = 0;
- }
+	if (rightE > 0) {
+	right = 0;
+	}
 }
 
 var mutemusic = 0;
@@ -9756,620 +8600,547 @@ var sound = 0
 var muteShooting = false;
 var muteLowAmmo = false;
 var muteExplosion = false;
-function playSound() {
+function Play_sound() {
 MShooting = document.getElementById("mute_SHOOTING").checked;
 MLowAmmo = document.getElementById("mute_LOW_AMMO").checked;
 MExplosion = document.getElementById("mute_EXPLOSION").checked;
 document.getElementById("Music_Volume").innerHTML = "Music: " + val + "%";
 document.getElementById("Sound_Effects_Volume").innerHTML = "Sound Effects: " + val2 + "%";
-if (MShooting == true) {
-muteShooting = true;
-} else {
-muteShooting = false;
-}
-if (MLowAmmo == true) {
-muteLowAmmo = true;
-} else {
-muteLowAmmo = false;
-}
-if (MExplosion == true) {
-muteExplosion = true;
-} else {
-muteExplosion = false;
-}
-if (mutemusic == 0) {
-mutemusic = 0;
-if (upgrademenu == 0) {
- if (Death1 == 0) {
-if (wave < 5) {
-if (menu > 0) {
-document.getElementById('level1').play();
-   }
-  }
- }
-}
-if (menu == 0) {
-if (Death1 == 0) {
-document.getElementById('title').play();
- }
-}
-if (Death1 > 0) {
-document.getElementById('Death').play();
-}
-if (upgrademenu > 0) {
-if (Death1 == 0) {
-document.getElementById('upgradeMenu').play();
- }
-}
-if (menu != 0) {
-if (wave == 22) {
-document.getElementById('warpZone').play();
-}
-}
-if (upgrademenu == 0) {
-if (Death1 == 0) {
-if (wave > 4 && wave < 7) {
-if (menu > 0) {
-document.getElementById('level2').play();
-    }
-   }
-  }
- }
-if (upgrademenu == 0) {
-if (Death1 == 0) {
-if (wave == 7) {
-if (menu > 0) {
-document.getElementById('boss7').play();
-    }
-   }
-  }
- }
-if (upgrademenu == 0 && wave == 7 && count != 10 && menu > 0 && pauseGame == 0 && spawnBoss7 == 0) {
-document.getElementById('explosion').play();
-}
-if (ammo <= 20/100 * maxAmmo && playerHealth > 0) {
-document.getElementById('lowammo').play();
-}
-if (firesoundstart > 0) {
-if (menu > 0) {
-document.getElementById('firesound').play();
-   }
-  }
- } 
+	if (MShooting) {
+	muteShooting = true;
+	} else {
+	muteShooting = false;
+	}
+	if (MLowAmmo) {
+	muteLowAmmo = true;
+	} else {
+	muteLowAmmo = false;
+	}
+	if (MExplosion) {
+	muteExplosion = true;
+	} else {
+	muteExplosion = false;
+	}
+	if (mutemusic == 0) {
+		if (upgrademenu == 0 && Death1 == 0 && wave < 5 && menu > 0) {
+		document.getElementById('level1').play();
+		}
+		if (menu == 0 && Death1 == 0) {
+		document.getElementById('title').play();
+		}
+		if (Death1 > 0) {
+		document.getElementById('Death').play();
+		}
+		if (upgrademenu > 0 && Death1 == 0) {
+		document.getElementById('upgradeMenu').play();
+		}
+		if (menu != 0 && wave == 22) {
+		document.getElementById('warpZone').play();
+		}
+		if (upgrademenu == 0 && Death1 == 0 && wave > 4 && wave < 7 && menu > 0) {
+		document.getElementById('level2').play();
+		}
+		if (upgrademenu == 0 && Death1 == 0 && wave == 7 && menu > 0) {
+		document.getElementById('boss7').play();
+		}
+		if (upgrademenu == 0 && wave == 7 && count != 10 && menu > 0 && pauseGame == 0 && spawnBoss7 == 0) {
+		document.getElementById('explosion').play();
+		}
+		if (ammo <= 20/100 * maxAmmo && playerHealth > 0) {
+		document.getElementById('lowammo').play();
+		}
+		if (fire == 1 && frameIndex5 == 0 && menu > 0) {
+		document.getElementById('firesound').play();
+		}
+	} 
 }
 	
-function SetVolume() {
-if (mutemusic == 0) {
-document.getElementById('level1').volume = val / 100;
-document.getElementById('level2').volume = val / 100;
-document.getElementById('boss7').volume = val / 100;
-document.getElementById('title').volume = val / 100;
-document.getElementById('upgradeMenu').volume = val / 100;
-document.getElementById('warpZone').volume = val / 100;
-document.getElementById('Death').volume = val / 100;
- }
-}
-
-function SetVolume2() {
-if (mutemusic == 0) {
-if (muteShooting == false) {
-document.getElementById('firesound').volume = val2 / 300;
-} else {
-document.getElementById('firesound').volume = 0 / 300;
-}
-if (muteLowAmmo == false) {
-document.getElementById('lowammo').volume = val2 / 300;
-} else {
-document.getElementById('lowammo').volume = 0 / 300;
-}
-if (muteExplosion == false) {
-document.getElementById('explosion').volume = val2 / 300;
-} else {
-document.getElementById('explosion').volume = 0 / 300;
-}
- }
-}
-
-function mute() {
-if (mutemusic == 1) {
-document.getElementById('level1').volume = 0 / 100;
-document.getElementById('level2').volume = 0 / 100;
-document.getElementById('boss7').volume = 0 / 100;
-document.getElementById('title').volume = 0 / 100;
-document.getElementById('upgradeMenu').volume = 0 / 100;
-document.getElementById('warpZone').volume = 0 / 100;
-document.getElementById('Death').volume = 0 / 100;
-document.getElementById('firesound').volume = 0 / 300;
-document.getElementById('lowammo').volume = 0 / 300;
-document.getElementById('explosion').volume = 0 / 300;
- }
-if (mutemusic == 0) {
-document.getElementById('level1').volume = val / 100;
-document.getElementById('level2').volume = val / 100;
-document.getElementById('boss7').volume = val / 100;
-document.getElementById('title').volume = val / 100;
-document.getElementById('upgradeMenu').volume = val / 100;
-document.getElementById('warpZone').volume = val / 100;
-document.getElementById('Death').volume = val / 100;
-if (muteShooting == false) {
-document.getElementById('firesound').volume = val2 / 300;
-} else {
-document.getElementById('firesound').volume = 0 / 300;
-}
-if (muteLowAmmo == false) {
-document.getElementById('lowammo').volume = val2 / 300;
-} else {
-document.getElementById('lowammo').volume = 0 / 300;
-}
-if (muteExplosion == false) {
-document.getElementById('explosion').volume = val2 / 300;
-} else {
-document.getElementById('explosion').volume = 0 / 300;
-}
- }
-if (mutemusic > 1) {
-mutemusic = 0;
- }
+function Set_volume() {
+	if (mutemusic != 0) {
+	document.getElementById('level1').volume = 0 / 100;
+	document.getElementById('level2').volume = 0 / 100;
+	document.getElementById('boss7').volume = 0 / 100;
+	document.getElementById('title').volume = 0 / 100;
+	document.getElementById('upgradeMenu').volume = 0 / 100;
+	document.getElementById('warpZone').volume = 0 / 100;
+	document.getElementById('Death').volume = 0 / 100;
+	document.getElementById('firesound').volume = 0 / 300;
+	document.getElementById('lowammo').volume = 0 / 300;
+	document.getElementById('explosion').volume = 0 / 300;
+	} else {
+	document.getElementById('level1').volume = val / 100;
+	document.getElementById('level2').volume = val / 100;
+	document.getElementById('boss7').volume = val / 100;
+	document.getElementById('title').volume = val / 100;
+	document.getElementById('upgradeMenu').volume = val / 100;
+	document.getElementById('warpZone').volume = val / 100;
+	document.getElementById('Death').volume = val / 100;
+		if (!muteShooting) {
+		document.getElementById('firesound').volume = val2 / 300;
+		} else {
+		document.getElementById('firesound').volume = 0 / 300;
+		}
+		if (!muteLowAmmo) {
+		document.getElementById('lowammo').volume = val2 / 300;
+		} else {
+		document.getElementById('lowammo').volume = 0 / 300;
+		}
+		if (!muteExplosion) {
+		document.getElementById('explosion').volume = val2 / 300;
+		} else {
+		document.getElementById('explosion').volume = 0 / 300;
+		}
+	}
+	if (mutemusic > 1) {
+	mutemusic = 0;
+	}
 }
 	
-function skipSound() {
- if (upgrademenu == 1) {
- level1.pause();
- level1.currentTime = 0;
- level2.pause();
- level2.currentTime = 0;
- boss7.pause();
- boss7.currentTime = 0;
- firesound.pause();
- firesound.currentTime = 0;
- }
- if (Death1 > 0) {
- level1.pause();
- level1.currentTime = 0;
- level2.pause();
- level2.currentTime = 0;
- boss7.pause();
- boss7.currentTime = 0;
- firesound.pause();
- firesound.currentTime = 0;
- title.pause();
- title.currentTime = 0;
- upgradeMenu.pause();
- upgradeMenu.currentTime = 0;
- }
- if (Death1 == 0) {
- Death.pause();
- Death.currentTime = 0;
- }
- if (wave >= 5) {
- level1.pause();
- level1.currentTime = 0;
- }
- if (wave >= 7 || wave < 5) {
- level2.pause();
- level2.currentTime = 0;
- }
- if (wave < 7 || wave > 7) {
- boss7.pause();
- boss7.currentTime = 0;
- explosion.pause();
- explosion.currentTime = 0;
- }
- if (menu > 0) {
- if (upgrademenu == 0) {
- title.pause();
- title.currentTime = 0;
- upgradeMenu.pause();
- upgradeMenu.currentTime = 0;
-  }
- }
- if (wave != 22) {
- document.getElementById('warpZone').pause();
- document.getElementById('warpZone').currentTime = 0;
- }
- if (fire == 0) {
- if (frameIndex5 == 1) {
- firesound.pause();
- firesound.currentTime = 0;
-  }
- }
- if (ammo > 20/100 * maxAmmo || playerHealth <= 0) {
- lowammo.pause();
- lowammo.currentTime = 0;
- }
+function Skip_sound() {
+	if (upgrademenu == 1) {
+	level1.pause();
+	level1.currentTime = 0;
+	level2.pause();
+	level2.currentTime = 0;
+	boss7.pause();
+	boss7.currentTime = 0;
+	firesound.pause();
+	firesound.currentTime = 0;
+	}
+	if (Death1 > 0) {
+	level1.pause();
+	level1.currentTime = 0;
+	level2.pause();
+	level2.currentTime = 0;
+	boss7.pause();
+	boss7.currentTime = 0;
+	firesound.pause();
+	firesound.currentTime = 0;
+	title.pause();
+	title.currentTime = 0;
+	upgradeMenu.pause();
+	upgradeMenu.currentTime = 0;
+	}
+	if (Death1 == 0) {
+	Death.pause();
+	Death.currentTime = 0;
+	}
+	if (wave >= 5) {
+	level1.pause();
+	level1.currentTime = 0;
+	}
+	if (wave >= 7 || wave < 5) {
+	level2.pause();
+	level2.currentTime = 0;
+	}
+	if (wave < 7 || wave > 7) {
+	boss7.pause();
+	boss7.currentTime = 0;
+	explosion.pause();
+	explosion.currentTime = 0;
+	}
+	if (menu > 0) {
+		if (upgrademenu == 0) {
+		title.pause();
+		title.currentTime = 0;
+		upgradeMenu.pause();
+		upgradeMenu.currentTime = 0;
+		}
+	}
+	if (wave != 22) {
+	document.getElementById('warpZone').pause();
+	document.getElementById('warpZone').currentTime = 0;
+	}
+	if (frameIndex5 == 3 || fire == 0) {
+	firesound.pause();
+	firesound.currentTime = 0;
+	}
+	if (ammo > 20/100 * maxAmmo || playerHealth <= 0) {
+	lowammo.pause();
+	lowammo.currentTime = 0;
+	}
 }
 
 function statscommand() {
- statstxt = new component("30px", "Consolas", "white", 45, upgrade1Y + 0, "text");
- statstxt.font = "15px Consolas";
- statstxt.text = "Weapon Stats:";
- stats2txt = new component("30px", "Consolas", "white", 555, upgrade1Y + 0, "text");
- stats2txt.font = "15px Consolas";
- stats2txt.text = "Ship Stats:";
- stat1_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
- stat1_w.font = "15px Consolas";
- stat1_w.text = "Number: #1";
- stat1_2w = new component("30px", "Consolas", "white", 555, upgrade1Y + 30, "text");
- stat1_2w.font = "15px Consolas";
- stat1_2w.text = "Starting Max Health: 100";
- stat1_3w = new component("30px", "Consolas", "white", 555, upgrade1Y + 45, "text");
- stat1_3w.font = "15px Consolas";
- stat1_3w.text = "Max Health: " + playerHealthMax;
- stat1_4w = new component("30px", "Consolas", "white", 555, upgrade1Y + 60, "text");
- stat1_4w.font = "15px Consolas";
- stat1_4w.text = "Starting Speed: " + playerStartSpeed;
- stat1_5w = new component("30px", "Consolas", "white", 555, upgrade1Y + 75, "text");
- stat1_5w.font = "15px Consolas";
- stat1_5w.text = "Max Speed: " + playerMaxSpeed;
- stat2_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
- stat2_w.font = "15px Consolas";
- stat2_w.text = "Number: #2";
- stat3_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
- stat3_w.font = "15px Consolas";
- stat3_w.text = "Number: #3";
- stat4_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
- stat4_w.font = "15px Consolas";
- stat4_w.text = "Number: #4";
- stat5_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
- stat5_w.font = "15px Consolas";
- stat5_w.text = "Number: #5";
- stat6_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
- stat6_w.font = "15px Consolas";
- stat6_w.text = "Number: #6";
- stat6_w_1 = new component("30px", "Consolas", "white", 555, upgrade1Y + 90, "text");
- stat6_w_1.font = "15px Consolas";
- stat6_w_1.text = "Beat The Saint Patrick's Day";
- stat6_w_2 = new component("30px", "Consolas", "white", 555, upgrade1Y + 105, "text");
- stat6_w_2.font = "15px Consolas";
- stat6_w_2.text = "Boss On Hard To Unlock The";
- stat6_w_3 = new component("30px", "Consolas", "white", 555, upgrade1Y + 120, "text");
- stat6_w_3.font = "15px Consolas";
- stat6_w_3.text = "Ships Special Weapon!";
- stat1 = new component("30px", "Consolas", "white", 45, upgrade1Y + 15, "text");
- stat1.font = "15px Consolas";
- stat1.text = "Name: " + weapname;
- stat1_2 = new component("30px", "Consolas", "white", 45, upgrade1Y + 30, "text");
- stat1_2.font = "15px Consolas";
- stat1_2.text = "Damage: " + PlayerDamageDeal;
- stat1_3 = new component("30px", "Consolas", "white", 45, upgrade1Y + 45, "text");
- stat1_3.font = "15px Consolas";
- stat1_3.text = "Range: " + bullrange;
- stat1_5 = new component("30px", "Consolas", "white", 45, upgrade1Y + 60, "text");
- stat1_5.font = "15px Consolas";
- stat1_5.text = "Cool Down: " + WeaponCoolDown;
- stat1_4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
- stat1_4.font = "15px Consolas";
- stat1_4.text = "Special: Nothing";
- stat2_4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
- stat2_4.font = "15px Consolas";
- stat2_4.text = "Special: Slows Enemies";
- stat3_4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
- stat3_4.font = "15px Consolas";
- stat3_4.text = "Special: Uses Less Ammo";
-if (pauseGame == 1 && pauseGameKeys == false) {
-statstxt.update();
-stats2txt.update();
-if (playerShip == 0) {
-stat1_w.update();
-stat1_2w.update();
-stat1_3w.update();
-stat1_4w.update();
-stat1_5w.update();
-}
-if (playerShip == 1) {
-stat2_w.update();
-stat1_2w.update();
-stat1_3w.update();	
-stat1_4w.update();
-stat1_5w.update();
-}
-if (playerShip == 2) {
-stat3_w.update();
-stat1_2w.update();
-stat1_3w.update();	
-stat1_4w.update();
-stat1_5w.update();
-}
-if (playerShip == 3) {
-stat4_w.update();
-stat1_2w.update();
-stat1_3w.update();	
-stat1_4w.update();
-stat1_5w.update();
-}
-if (playerShip == 4) {
-stat5_w.update();
-stat1_2w.update();
-stat1_3w.update();	
-stat1_4w.update();
-stat1_5w.update();
-}
-if (playerShip == 5) {
-stat6_w.update();
-if (STPRIZEWEAPON == 0) {
-stat6_w_1.update();
-stat6_w_2.update();
-stat6_w_3.update();
-}
-stat1_2w.update();
-stat1_3w.update();	
-stat1_4w.update();
-stat1_5w.update();
-}
-stat1.update();
-stat1_2.update();
-stat1_3.update();
-stat1_5.update();
-if (weapon == 0) {
-stat1_4.update();
- }
-if (weapon == 1) {
-stat2_4.update();
- }
-if (weapon == 2) {
-stat1_4.update();
- }
-if (weapon == 3) {
-stat3_4.update();
- }
-if (weapon == 4) {
-stat1_4.update();
- }
- }
+statstxt = new component("30px", "Consolas", "white", 45, upgrade1Y + 0, "text");
+statstxt.font = "15px Consolas";
+statstxt.text = "Weapon Stats:";
+stats2txt = new component("30px", "Consolas", "white", 555, upgrade1Y + 0, "text");
+stats2txt.font = "15px Consolas";
+stats2txt.text = "Ship Stats:";
+stat1_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
+stat1_w.font = "15px Consolas";
+stat1_w.text = "Number: #1";
+stat1_2w = new component("30px", "Consolas", "white", 555, upgrade1Y + 30, "text");
+stat1_2w.font = "15px Consolas";
+stat1_2w.text = "Starting Max Health: 100";
+stat1_3w = new component("30px", "Consolas", "white", 555, upgrade1Y + 45, "text");
+stat1_3w.font = "15px Consolas";
+stat1_3w.text = "Max Health: " + playerHealthMax;
+stat1_4w = new component("30px", "Consolas", "white", 555, upgrade1Y + 60, "text");
+stat1_4w.font = "15px Consolas";
+stat1_4w.text = "Starting Speed: " + playerStartSpeed;
+stat1_5w = new component("30px", "Consolas", "white", 555, upgrade1Y + 75, "text");
+stat1_5w.font = "15px Consolas";
+stat1_5w.text = "Max Speed: " + playerMaxSpeed;
+stat2_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
+stat2_w.font = "15px Consolas";
+stat2_w.text = "Number: #2";
+stat3_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
+stat3_w.font = "15px Consolas";
+stat3_w.text = "Number: #3";
+stat4_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
+stat4_w.font = "15px Consolas";
+stat4_w.text = "Number: #4";
+stat5_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
+stat5_w.font = "15px Consolas";
+stat5_w.text = "Number: #5";
+stat6_w = new component("30px", "Consolas", "white", 555, upgrade1Y + 15, "text");
+stat6_w.font = "15px Consolas";
+stat6_w.text = "Number: #6";
+stat6_w_1 = new component("30px", "Consolas", "white", 555, upgrade1Y + 90, "text");
+stat6_w_1.font = "15px Consolas";
+stat6_w_1.text = "Beat The Saint Patrick's Day";
+stat6_w_2 = new component("30px", "Consolas", "white", 555, upgrade1Y + 105, "text");
+stat6_w_2.font = "15px Consolas";
+stat6_w_2.text = "Boss On Hard To Unlock The";
+stat6_w_3 = new component("30px", "Consolas", "white", 555, upgrade1Y + 120, "text");
+stat6_w_3.font = "15px Consolas";
+stat6_w_3.text = "Ships Special Weapon!";
+stat1 = new component("30px", "Consolas", "white", 45, upgrade1Y + 15, "text");
+stat1.font = "15px Consolas";
+stat1.text = "Name: " + weapname;
+stat1_2 = new component("30px", "Consolas", "white", 45, upgrade1Y + 30, "text");
+stat1_2.font = "15px Consolas";
+stat1_2.text = "Damage: " + PlayerDamageDeal;
+stat1_3 = new component("30px", "Consolas", "white", 45, upgrade1Y + 45, "text");
+stat1_3.font = "15px Consolas";
+stat1_3.text = "Range: " + bullrange;
+stat1_5 = new component("30px", "Consolas", "white", 45, upgrade1Y + 60, "text");
+stat1_5.font = "15px Consolas";
+stat1_5.text = "Cool Down: " + WeaponCoolDown;
+stat1_4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
+stat1_4.font = "15px Consolas";
+stat1_4.text = "Special: Nothing";
+stat2_4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
+stat2_4.font = "15px Consolas";
+stat2_4.text = "Special: Slows Enemies";
+stat3_4 = new component("30px", "Consolas", "white", 45, upgrade1Y + 75, "text");
+stat3_4.font = "15px Consolas";
+stat3_4.text = "Special: Uses Less Ammo";
+	if (pauseGame == 1 && pauseGameKeys == false) {
+	statstxt.update();
+	stats2txt.update();
+		switch (playerShip) {
+			case 0:
+			stat1_w.update();
+			stat1_2w.update();
+			stat1_3w.update();
+			stat1_4w.update();
+			stat1_5w.update();
+			break;
+			case 1:
+			stat2_w.update();
+			stat1_2w.update();
+			stat1_3w.update();	
+			stat1_4w.update();
+			stat1_5w.update();
+			break;
+			case 2:
+			stat3_w.update();
+			stat1_2w.update();
+			stat1_3w.update();	
+			stat1_4w.update();
+			stat1_5w.update();
+			break;
+			case 3:
+			stat4_w.update();
+			stat1_2w.update();
+			stat1_3w.update();	
+			stat1_4w.update();
+			stat1_5w.update();
+			break;
+			case 4:
+			stat5_w.update();
+			stat1_2w.update();
+			stat1_3w.update();	
+			stat1_4w.update();
+			stat1_5w.update();
+			break;
+			case 5:
+			stat6_w.update();
+				if (STPRIZEWEAPON == 0) {
+				stat6_w_1.update();
+				stat6_w_2.update();
+				stat6_w_3.update();
+				}
+			stat1_2w.update();
+			stat1_3w.update();	
+			stat1_4w.update();
+			stat1_5w.update();
+			break;
+		}
+		stat1.update();
+		stat1_2.update();
+		stat1_3.update();
+		stat1_5.update();
+		if (weapon == 0) {
+		stat1_4.update();
+		}
+		if (weapon == 1) {
+		stat2_4.update();
+		}
+		if (weapon == 2) {
+		stat1_4.update();
+		}
+		if (weapon == 3) {
+		stat3_4.update();
+		}
+		if (weapon == 4) {
+		stat1_4.update();
+		}
+	}
 }
 
-//WarpHere//
 var Earth_Text_Global_Alpha_Swap = false;
 var Earth_Popup_Message_Show = false;
 function warpZone() {
-if (wave != 22) {
-Earth_Text_Global_Alpha_Swap = false;
-Earth_Popup_Message_Show = false;
-}
-if (wave == 22) {
-ammo = maxAmmo;
-playerHealth = playerHealthMax;
-upgrademenu = 0;
-if (Level_Shadows == true) {
-Earth_Planet.shadowColor_ = "black";
-Earth_Planet.shadowBlur_ = 3;
-Earth_Planet.shadowOffsetX_ = 3;
-Earth_Planet.shadowOffsetY_ = 3;
-}
-if (Level_Shadows == false) {
-Earth_Planet.shadowColor_ = "";
-Earth_Planet.shadowBlur_ = 0;
-Earth_Planet.shadowOffsetX_ = 0;
-Earth_Planet.shadowOffsetY_ = 0;
-}
-if (UI_Shadows == true) {
-EarthHitEnterText.y = 126;
-EarthHitEnterText.shadowColor_ = "black";
-EarthHitEnterText.shadowBlur_ = 2;
-EarthHitEnterText.shadowOffsetX_ = 1;
-EarthHitEnterText.shadowOffsetY_ = 1;
-Earth_PopUp_Message_Border.shadowColor_ = "black";
-Earth_PopUp_Message_Border.shadowBlur_ = 3;
-Earth_PopUp_Message_Border.shadowOffsetX_ = 3;
-Earth_PopUp_Message_Border.shadowOffsetY_ = 3;
-Earth_Location_Text.shadowColor_ = "black";
-Earth_Location_Text.shadowBlur_ = 2;
-Earth_Location_Text.shadowOffsetX_ = 1;
-Earth_Location_Text.shadowOffsetY_ = 1;
-Earth_Type_Text.shadowColor_ = "black";
-Earth_Type_Text.shadowBlur_ = 2;
-Earth_Type_Text.shadowOffsetX_ = 1;
-Earth_Type_Text.shadowOffsetY_ = 1;
-Earth_NumOfWaves_Text.shadowColor_ = "black";
-Earth_NumOfWaves_Text.shadowBlur_ = 2;
-Earth_NumOfWaves_Text.shadowOffsetX_ = 1;
-Earth_NumOfWaves_Text.shadowOffsetY_ = 1;
-Earth_NumOfBosses_Text.shadowColor_ = "black";
-Earth_NumOfBosses_Text.shadowBlur_ = 2;
-Earth_NumOfBosses_Text.shadowOffsetX_ = 1;
-Earth_NumOfBosses_Text.shadowOffsetY_ = 1;
-Earth_Completed_Text.shadowColor_ = "black";
-Earth_Completed_Text.shadowBlur_ = 2;
-Earth_Completed_Text.shadowOffsetX_ = 1;
-Earth_Completed_Text.shadowOffsetY_ = 1;
-Earth_PopUp_Yes_Button.shadowColor_ = "black";
-Earth_PopUp_Yes_Button.shadowBlur_ = 3;
-Earth_PopUp_Yes_Button.shadowOffsetX_ = 3;
-Earth_PopUp_Yes_Button.shadowOffsetY_ = 3;
-Earth_PopUp_Yes_Text.shadowColor_ = "white";
-Earth_PopUp_Yes_Text.shadowBlur_ = 2;
-Earth_PopUp_Yes_Text.shadowOffsetX_ = 1;
-Earth_PopUp_Yes_Text.shadowOffsetY_ = 1;
-Earth_PopUp_No_Button.shadowColor_ = "black";
-Earth_PopUp_No_Button.shadowBlur_ = 3;
-Earth_PopUp_No_Button.shadowOffsetX_ = 3;
-Earth_PopUp_No_Button.shadowOffsetY_ = 3;
-Earth_PopUp_No_Text.shadowColor_ = "white";
-Earth_PopUp_No_Text.shadowBlur_ = 2;
-Earth_PopUp_No_Text.shadowOffsetX_ = 1;
-Earth_PopUp_No_Text.shadowOffsetY_ = 1;
-}
-if (UI_Shadows == false) {
-EarthHitEnterText.y = 124;
-EarthHitEnterText.shadowColor_ = "";
-EarthHitEnterText.shadowBlur_ = 0;
-EarthHitEnterText.shadowOffsetX_ = 0;
-EarthHitEnterText.shadowOffsetY_ = 0;
-Earth_PopUp_Message_Border.shadowColor_ = "";
-Earth_PopUp_Message_Border.shadowBlur_ = 0;
-Earth_PopUp_Message_Border.shadowOffsetX_ = 0;
-Earth_PopUp_Message_Border.shadowOffsetY_ = 0;
-Earth_Location_Text.shadowColor_ = "";
-Earth_Location_Text.shadowBlur_ = 0;
-Earth_Location_Text.shadowOffsetX_ = 0;
-Earth_Location_Text.shadowOffsetY_ = 0;
-Earth_Type_Text.shadowColor_ = "";
-Earth_Type_Text.shadowBlur_ = 0;
-Earth_Type_Text.shadowOffsetX_ = 0;
-Earth_Type_Text.shadowOffsetY_ = 0;
-Earth_NumOfWaves_Text.shadowColor_ = "";
-Earth_NumOfWaves_Text.shadowBlur_ = 0;
-Earth_NumOfWaves_Text.shadowOffsetX_ = 0;
-Earth_NumOfWaves_Text.shadowOffsetY_ = 0;
-Earth_NumOfBosses_Text.shadowColor_ = "";
-Earth_NumOfBosses_Text.shadowBlur_ = 0;
-Earth_NumOfBosses_Text.shadowOffsetX_ = 0;
-Earth_NumOfBosses_Text.shadowOffsetY_ = 0;
-Earth_Completed_Text.shadowColor_ = "";
-Earth_Completed_Text.shadowBlur_ = 0;
-Earth_Completed_Text.shadowOffsetX_ = 0;
-Earth_Completed_Text.shadowOffsetY_ = 0;
-Earth_PopUp_Yes_Button.shadowColor_ = "";
-Earth_PopUp_Yes_Button.shadowBlur_ = 0;
-Earth_PopUp_Yes_Button.shadowOffsetX_ = 0;
-Earth_PopUp_Yes_Button.shadowOffsetY_ = 0;
-Earth_PopUp_Yes_Text.shadowColor_ = "";
-Earth_PopUp_Yes_Text.shadowBlur_ = 0;
-Earth_PopUp_Yes_Text.shadowOffsetX_ = 0;
-Earth_PopUp_Yes_Text.shadowOffsetY_ = 0;
-Earth_PopUp_No_Button.shadowColor_ = "";
-Earth_PopUp_No_Button.shadowBlur_ = 0;
-Earth_PopUp_No_Button.shadowOffsetX_ = 0;
-Earth_PopUp_No_Button.shadowOffsetY_ = 0;
-Earth_PopUp_No_Text.shadowColor_ = "";
-Earth_PopUp_No_Text.shadowBlur_ = 0;
-Earth_PopUp_No_Text.shadowOffsetX_ = 0;
-Earth_PopUp_No_Text.shadowOffsetY_ = 0;
-}
-if (circle.circleCrashWith(Earth_Planet_Circle_Collider) == true) {
-if (EarthHitEnterText.globalAlpha < 1 && Earth_Text_Global_Alpha_Swap == false) {
-EarthHitEnterText.globalAlpha += 0.02;
-}
-if (EarthHitEnterText.globalAlpha >= 1) {
-EarthHitEnterText.globalAlpha = 1;
-Earth_Text_Global_Alpha_Swap = true;
-}
-if (EarthHitEnterText.globalAlpha > 0 && Earth_Text_Global_Alpha_Swap == true) {
-EarthHitEnterText.globalAlpha -= 0.02;
-}
-if (EarthHitEnterText.globalAlpha <= 0) {
-EarthHitEnterText.globalAlpha = 0;
-Earth_Text_Global_Alpha_Swap = false;
-}
-}
-if (circle.circleCrashWith(Earth_Planet_Circle_Collider) == false) {
-if (EarthHitEnterText.globalAlpha > 0) {
-EarthHitEnterText.globalAlpha -= 0.02;
-}
-if (EarthHitEnterText.globalAlpha <= 0) {
-EarthHitEnterText.globalAlpha = 0;
-}
-}
-WarpZone_BG.update();
-Earth_Planet.update();
-EarthHitEnterText.update();
-Earth_PopUp_Message_Border.update();
-Earth_PopUp_Message.update();
-Earth_Location_Text.update();
-Earth_Type_Text.update();
-Earth_NumOfWaves_Text.update();
-Earth_NumOfBosses_Text.update();
-Earth_Completed_Text.update();
-Earth_PopUp_Yes_Button.update();
-Earth_PopUp_Yes_Text.update();
-Earth_PopUp_No_Button.update();
-Earth_PopUp_No_Text.update();
-if (Earth_Popup_Message_Show == true) {
-if (circle.mixCrashWith(Earth_PopUp_Yes_Button) == true) {
-		PlayerShadowManager.ShadowColor = "green";
-}
-if (circle.mixCrashWith(Earth_PopUp_No_Button) == true) {
-		PlayerShadowManager.ShadowColor = "red";
-}
-}
-//reset shadow color//
-if (circle.mixCrashWith(Earth_PopUp_Yes_Button) == false && circle.mixCrashWith(Earth_PopUp_No_Button) == false) {
-	if (Earth_Popup_Message_Show == true) {
-		PlayerShadowManager.ShadowColor = "black";
+	if (wave != 22) {
+	Earth_Text_Global_Alpha_Swap = false;
+	Earth_Popup_Message_Show = false;
 	}
-}
-}
-if (Earth_Popup_Message_Show == false) {
-		PlayerShadowManager.ShadowColor = "black";
-}
-if (Earth_Popup_Message_Show == true) {
-if (Earth_PopUp_Message.globalAlpha < 1) {
-Earth_PopUp_Message.globalAlpha += 0.02;
-Earth_PopUp_Message_Border.globalAlpha += 0.02;
-Earth_Location_Text.globalAlpha += 0.02;
-Earth_Type_Text.globalAlpha += 0.02;
-Earth_NumOfWaves_Text.globalAlpha += 0.02;
-Earth_NumOfBosses_Text.globalAlpha += 0.02;
-Earth_Completed_Text.globalAlpha += 0.02;
-Earth_PopUp_Yes_Button.globalAlpha += 0.02;
-Earth_PopUp_Yes_Text.globalAlpha += 0.02;
-Earth_PopUp_No_Button.globalAlpha += 0.02;
-Earth_PopUp_No_Text.globalAlpha += 0.02;
-}
-if (Earth_PopUp_Message.globalAlpha >= 1) {
-Earth_PopUp_Message.globalAlpha = 1;
-Earth_PopUp_Message_Border.globalAlpha = 1;
-Earth_Location_Text.globalAlpha = 1;
-Earth_Type_Text.globalAlpha = 1;
-Earth_NumOfWaves_Text.globalAlpha = 1;
-Earth_NumOfBosses_Text.globalAlpha = 1;
-Earth_Completed_Text.globalAlpha = 1;
-Earth_PopUp_Yes_Button.globalAlpha = 1;
-Earth_PopUp_Yes_Text.globalAlpha = 1;
-Earth_PopUp_No_Button.globalAlpha = 1;
-Earth_PopUp_No_Text.globalAlpha = 1;
-}
-}
-if (Earth_Popup_Message_Show == false) {
-if (Earth_PopUp_Message.globalAlpha > 0) {
-Earth_PopUp_Message.globalAlpha -= 0.02;
-Earth_PopUp_Message_Border.globalAlpha -= 0.02;
-Earth_Location_Text.globalAlpha -= 0.02;
-Earth_Type_Text.globalAlpha -= 0.02;
-Earth_NumOfWaves_Text.globalAlpha -= 0.02;
-Earth_NumOfBosses_Text.globalAlpha -= 0.02;
-Earth_Completed_Text.globalAlpha -= 0.02;
-Earth_PopUp_Yes_Button.globalAlpha -= 0.02;
-Earth_PopUp_Yes_Text.globalAlpha -= 0.02;
-Earth_PopUp_No_Button.globalAlpha -= 0.02;
-Earth_PopUp_No_Text.globalAlpha -= 0.02;
-}
-if (Earth_PopUp_Message.globalAlpha <= 0) {
-Earth_PopUp_Message.globalAlpha = 0;
-Earth_PopUp_Message_Border.globalAlpha = 0;
-Earth_Location_Text.globalAlpha = 0;
-Earth_Type_Text.globalAlpha = 0;
-Earth_NumOfWaves_Text.globalAlpha = 0;
-Earth_NumOfBosses_Text.globalAlpha = 0;
-Earth_Completed_Text.globalAlpha = 0;
-Earth_PopUp_Yes_Button.globalAlpha = 0;
-Earth_PopUp_Yes_Text.globalAlpha = 0;
-Earth_PopUp_No_Button.globalAlpha = 0;
-Earth_PopUp_No_Text.globalAlpha = 0;
-}
-}
+	if (wave == 22) {
+	ammo = maxAmmo;
+	playerHealth = playerHealthMax;
+	upgrademenu = 0;
+		if (Level_Shadows) {
+		Earth_Planet.shadowColor_ = "black";
+		Earth_Planet.shadowBlur_ = 3;
+		Earth_Planet.shadowOffsetX_ = 3;
+		Earth_Planet.shadowOffsetY_ = 3;
+		} else {
+		Earth_Planet.shadowColor_ = "";
+		Earth_Planet.shadowBlur_ = 0;
+		Earth_Planet.shadowOffsetX_ = 0;
+		Earth_Planet.shadowOffsetY_ = 0;
+		}
+		if (UI_Shadows) {
+		EarthHitEnterText.y = 126;
+		EarthHitEnterText.shadowColor_ = "black";
+		EarthHitEnterText.shadowBlur_ = 2;
+		EarthHitEnterText.shadowOffsetX_ = 1;
+		EarthHitEnterText.shadowOffsetY_ = 1;
+		Earth_PopUp_Message_Border.shadowColor_ = "black";
+		Earth_PopUp_Message_Border.shadowBlur_ = 3;
+		Earth_PopUp_Message_Border.shadowOffsetX_ = 3;
+		Earth_PopUp_Message_Border.shadowOffsetY_ = 3;
+		Earth_Location_Text.shadowColor_ = "black";
+		Earth_Location_Text.shadowBlur_ = 2;
+		Earth_Location_Text.shadowOffsetX_ = 1;
+		Earth_Location_Text.shadowOffsetY_ = 1;
+		Earth_Type_Text.shadowColor_ = "black";
+		Earth_Type_Text.shadowBlur_ = 2;
+		Earth_Type_Text.shadowOffsetX_ = 1;
+		Earth_Type_Text.shadowOffsetY_ = 1;
+		Earth_NumOfWaves_Text.shadowColor_ = "black";
+		Earth_NumOfWaves_Text.shadowBlur_ = 2;
+		Earth_NumOfWaves_Text.shadowOffsetX_ = 1;
+		Earth_NumOfWaves_Text.shadowOffsetY_ = 1;
+		Earth_NumOfBosses_Text.shadowColor_ = "black";
+		Earth_NumOfBosses_Text.shadowBlur_ = 2;
+		Earth_NumOfBosses_Text.shadowOffsetX_ = 1;
+		Earth_NumOfBosses_Text.shadowOffsetY_ = 1;
+		Earth_Completed_Text.shadowColor_ = "black";
+		Earth_Completed_Text.shadowBlur_ = 2;
+		Earth_Completed_Text.shadowOffsetX_ = 1;
+		Earth_Completed_Text.shadowOffsetY_ = 1;
+		Earth_PopUp_Yes_Button.shadowColor_ = "black";
+		Earth_PopUp_Yes_Button.shadowBlur_ = 3;
+		Earth_PopUp_Yes_Button.shadowOffsetX_ = 3;
+		Earth_PopUp_Yes_Button.shadowOffsetY_ = 3;
+		Earth_PopUp_Yes_Text.shadowColor_ = "white";
+		Earth_PopUp_Yes_Text.shadowBlur_ = 2;
+		Earth_PopUp_Yes_Text.shadowOffsetX_ = 1;
+		Earth_PopUp_Yes_Text.shadowOffsetY_ = 1;
+		Earth_PopUp_No_Button.shadowColor_ = "black";
+		Earth_PopUp_No_Button.shadowBlur_ = 3;
+		Earth_PopUp_No_Button.shadowOffsetX_ = 3;
+		Earth_PopUp_No_Button.shadowOffsetY_ = 3;
+		Earth_PopUp_No_Text.shadowColor_ = "white";
+		Earth_PopUp_No_Text.shadowBlur_ = 2;
+		Earth_PopUp_No_Text.shadowOffsetX_ = 1;
+		Earth_PopUp_No_Text.shadowOffsetY_ = 1;
+		} else {
+		EarthHitEnterText.y = 124;
+		EarthHitEnterText.shadowColor_ = "";
+		EarthHitEnterText.shadowBlur_ = 0;
+		EarthHitEnterText.shadowOffsetX_ = 0;
+		EarthHitEnterText.shadowOffsetY_ = 0;
+		Earth_PopUp_Message_Border.shadowColor_ = "";
+		Earth_PopUp_Message_Border.shadowBlur_ = 0;
+		Earth_PopUp_Message_Border.shadowOffsetX_ = 0;
+		Earth_PopUp_Message_Border.shadowOffsetY_ = 0;
+		Earth_Location_Text.shadowColor_ = "";
+		Earth_Location_Text.shadowBlur_ = 0;
+		Earth_Location_Text.shadowOffsetX_ = 0;
+		Earth_Location_Text.shadowOffsetY_ = 0;
+		Earth_Type_Text.shadowColor_ = "";
+		Earth_Type_Text.shadowBlur_ = 0;
+		Earth_Type_Text.shadowOffsetX_ = 0;
+		Earth_Type_Text.shadowOffsetY_ = 0;
+		Earth_NumOfWaves_Text.shadowColor_ = "";
+		Earth_NumOfWaves_Text.shadowBlur_ = 0;
+		Earth_NumOfWaves_Text.shadowOffsetX_ = 0;
+		Earth_NumOfWaves_Text.shadowOffsetY_ = 0;
+		Earth_NumOfBosses_Text.shadowColor_ = "";
+		Earth_NumOfBosses_Text.shadowBlur_ = 0;
+		Earth_NumOfBosses_Text.shadowOffsetX_ = 0;
+		Earth_NumOfBosses_Text.shadowOffsetY_ = 0;
+		Earth_Completed_Text.shadowColor_ = "";
+		Earth_Completed_Text.shadowBlur_ = 0;
+		Earth_Completed_Text.shadowOffsetX_ = 0;
+		Earth_Completed_Text.shadowOffsetY_ = 0;
+		Earth_PopUp_Yes_Button.shadowColor_ = "";
+		Earth_PopUp_Yes_Button.shadowBlur_ = 0;
+		Earth_PopUp_Yes_Button.shadowOffsetX_ = 0;
+		Earth_PopUp_Yes_Button.shadowOffsetY_ = 0;
+		Earth_PopUp_Yes_Text.shadowColor_ = "";
+		Earth_PopUp_Yes_Text.shadowBlur_ = 0;
+		Earth_PopUp_Yes_Text.shadowOffsetX_ = 0;
+		Earth_PopUp_Yes_Text.shadowOffsetY_ = 0;
+		Earth_PopUp_No_Button.shadowColor_ = "";
+		Earth_PopUp_No_Button.shadowBlur_ = 0;
+		Earth_PopUp_No_Button.shadowOffsetX_ = 0;
+		Earth_PopUp_No_Button.shadowOffsetY_ = 0;
+		Earth_PopUp_No_Text.shadowColor_ = "";
+		Earth_PopUp_No_Text.shadowBlur_ = 0;
+		Earth_PopUp_No_Text.shadowOffsetX_ = 0;
+		Earth_PopUp_No_Text.shadowOffsetY_ = 0;
+		}
+		if (circle.circleCrashWith(Earth_Planet_Circle_Collider)) {
+			if (EarthHitEnterText.globalAlpha < 1 && !Earth_Text_Global_Alpha_Swap) {
+			EarthHitEnterText.globalAlpha += 0.02;
+			}
+			if (EarthHitEnterText.globalAlpha >= 1) {
+			EarthHitEnterText.globalAlpha = 1;
+			Earth_Text_Global_Alpha_Swap = true;
+			}
+			if (EarthHitEnterText.globalAlpha > 0 && Earth_Text_Global_Alpha_Swap) {
+			EarthHitEnterText.globalAlpha -= 0.02;
+			}
+			if (EarthHitEnterText.globalAlpha <= 0) {
+			EarthHitEnterText.globalAlpha = 0;
+			Earth_Text_Global_Alpha_Swap = false;
+			}
+		}
+		if (!circle.circleCrashWith(Earth_Planet_Circle_Collider)) {
+			if (EarthHitEnterText.globalAlpha > 0) {
+			EarthHitEnterText.globalAlpha -= 0.02;
+			}
+			if (EarthHitEnterText.globalAlpha <= 0) {
+			EarthHitEnterText.globalAlpha = 0;
+			}
+		}
+	WarpZone_BG.update();
+	Earth_Planet.update();
+	EarthHitEnterText.update();
+	Earth_PopUp_Message_Border.update();
+	Earth_PopUp_Message.update();
+	Earth_Location_Text.update();
+	Earth_Type_Text.update();
+	Earth_NumOfWaves_Text.update();
+	Earth_NumOfBosses_Text.update();
+	Earth_Completed_Text.update();
+	Earth_PopUp_Yes_Button.update();
+	Earth_PopUp_Yes_Text.update();
+	Earth_PopUp_No_Button.update();
+	Earth_PopUp_No_Text.update();
+		if (Earth_Popup_Message_Show) {
+			if (circle.mixCrashWith(Earth_PopUp_Yes_Button)) {
+			PlayerShadowManager.ShadowColor = "green";
+			}
+			if (circle.mixCrashWith(Earth_PopUp_No_Button)) {
+			PlayerShadowManager.ShadowColor = "red";
+			}
+		}
+		if (!circle.mixCrashWith(Earth_PopUp_Yes_Button) && !circle.mixCrashWith(Earth_PopUp_No_Button)) {
+			if (Earth_Popup_Message_Show) {
+			PlayerShadowManager.ShadowColor = "black";
+			}
+		}
+	}
+	if (!Earth_Popup_Message_Show) {
+	PlayerShadowManager.ShadowColor = "black";
+		if (Earth_PopUp_Message.globalAlpha > 0) {
+		Earth_PopUp_Message.globalAlpha -= 0.02;
+		Earth_PopUp_Message_Border.globalAlpha -= 0.02;
+		Earth_Location_Text.globalAlpha -= 0.02;
+		Earth_Type_Text.globalAlpha -= 0.02;
+		Earth_NumOfWaves_Text.globalAlpha -= 0.02;
+		Earth_NumOfBosses_Text.globalAlpha -= 0.02;
+		Earth_Completed_Text.globalAlpha -= 0.02;
+		Earth_PopUp_Yes_Button.globalAlpha -= 0.02;
+		Earth_PopUp_Yes_Text.globalAlpha -= 0.02;
+		Earth_PopUp_No_Button.globalAlpha -= 0.02;
+		Earth_PopUp_No_Text.globalAlpha -= 0.02;
+		}
+		if (Earth_PopUp_Message.globalAlpha <= 0) {
+		Earth_PopUp_Message.globalAlpha = 0;
+		Earth_PopUp_Message_Border.globalAlpha = 0;
+		Earth_Location_Text.globalAlpha = 0;
+		Earth_Type_Text.globalAlpha = 0;
+		Earth_NumOfWaves_Text.globalAlpha = 0;
+		Earth_NumOfBosses_Text.globalAlpha = 0;
+		Earth_Completed_Text.globalAlpha = 0;
+		Earth_PopUp_Yes_Button.globalAlpha = 0;
+		Earth_PopUp_Yes_Text.globalAlpha = 0;
+		Earth_PopUp_No_Button.globalAlpha = 0;
+		Earth_PopUp_No_Text.globalAlpha = 0;
+		}
+	} else  {
+		if (Earth_PopUp_Message.globalAlpha < 1) {
+		Earth_PopUp_Message.globalAlpha += 0.02;
+		Earth_PopUp_Message_Border.globalAlpha += 0.02;
+		Earth_Location_Text.globalAlpha += 0.02;
+		Earth_Type_Text.globalAlpha += 0.02;
+		Earth_NumOfWaves_Text.globalAlpha += 0.02;
+		Earth_NumOfBosses_Text.globalAlpha += 0.02;
+		Earth_Completed_Text.globalAlpha += 0.02;
+		Earth_PopUp_Yes_Button.globalAlpha += 0.02;
+		Earth_PopUp_Yes_Text.globalAlpha += 0.02;
+		Earth_PopUp_No_Button.globalAlpha += 0.02;
+		Earth_PopUp_No_Text.globalAlpha += 0.02;
+		}
+		if (Earth_PopUp_Message.globalAlpha >= 1) {
+		Earth_PopUp_Message.globalAlpha = 1;
+		Earth_PopUp_Message_Border.globalAlpha = 1;
+		Earth_Location_Text.globalAlpha = 1;
+		Earth_Type_Text.globalAlpha = 1;
+		Earth_NumOfWaves_Text.globalAlpha = 1;
+		Earth_NumOfBosses_Text.globalAlpha = 1;
+		Earth_Completed_Text.globalAlpha = 1;
+		Earth_PopUp_Yes_Button.globalAlpha = 1;
+		Earth_PopUp_Yes_Text.globalAlpha = 1;
+		Earth_PopUp_No_Button.globalAlpha = 1;
+		Earth_PopUp_No_Text.globalAlpha = 1;
+		}
+	}
 }
 
 function WarpZoneControls() {
-if (wave == 22 && menu == 2 && pauseGame == 0) {
-if (Earth_PopUp_Message.globalAlpha <= 0) {
-if (circle.circleCrashWith(Earth_Planet_Circle_Collider) == true) {
-	if (Earth_Popup_Message_Show == false) {
+	if (wave == 22 && menu == 2 && pauseGame == 0) {
+		if (Earth_PopUp_Message.globalAlpha <= 0 && circle.circleCrashWith(Earth_Planet_Circle_Collider) && !Earth_Popup_Message_Show) {
 		Earth_Popup_Message_Show = true;
+		}
+		if (Earth_PopUp_Message.globalAlpha >= 1 && Earth_Popup_Message_Show) {
+			if (circle.mixCrashWith(Earth_PopUp_Yes_Button)) {
+			goBack = 1;
+			}
+			if (circle.mixCrashWith(Earth_PopUp_No_Button)) {
+			Earth_Popup_Message_Show = false;
+			}
+		}
 	}
-}
-}
-if (Earth_PopUp_Message.globalAlpha >= 1) {
-if (Earth_Popup_Message_Show == true) {
-if (circle.mixCrashWith(Earth_PopUp_Yes_Button) == true) {
-		goBack = 1;
-}
-if (circle.mixCrashWith(Earth_PopUp_No_Button) == true) {
-		Earth_Popup_Message_Show = false;
-}
-}
-}
-}
 }
 
 var locationV = "Monty Forest Cabins";
@@ -10396,199 +9167,171 @@ difficulty = 2;
 }
 
 function nameFC() {
- locationN = new component("30px", "Consolas", "white", namebX - 40, namebY + 45, "text");
- locationN.font="12px Consolas";
- locationN.text= "Location: " + locationV;
- locationN.update();
- if (wave < 5) {
- locationV = "Monty Forest Cabins";
- switchpos = 0;
- }
- if (wave >= 5 && wave < 7) {
- locationV = "Monty Trailer Park";
- }
- if (wave == 22) {
- locationV = "Warp Zone";
- }
- if (wave == 4000) {
- locationV = "Test Field";
- }
- if (wave == 8000) {
- locationV = "Blossom Fields";
- }
- /**if (CapName == wavebonus) {
- wave = 9000;
- document.getElementById('name').value = "";
- }**/
- if (goToWarpZone == 1) {
+locationN = new component("30px", "Consolas", "white", namebX - 40, namebY + 45, "text");
+locationN.font="12px Consolas";
+locationN.text= "Location: " + locationV;
+locationN.update();
+	if (wave < 5) {
+	locationV = "Monty Forest Cabins";
+	switchpos = 0;
+	}
+	if (wave >= 5 && wave < 7) {
+	locationV = "Monty Trailer Park";
+	}
+	if (wave == 22) {
+	locationV = "Warp Zone";
+	}
+	if (goToWarpZone == 1) {
 	wave = 22;
 	count = 0;
 	pauseGame = 0;
 	cratespawn = 0;
-    cratespawn2 = 0;
+	cratespawn2 = 0;
 	goToWarpZone = 0;
 	totalMoney = (Number(totalMoney)+Number(money));
 	localStorage && (localStorage.totalMoney_ = totalMoney);
- }
- if (goBack == 1) {
- goBack = 0;
- if (wave == 22) {
- money = 50;
- }
- PlayerShipsArray = [];
- switchpos = 0;
- wave = 1;
- count = 0;
- pauseGame = 0;
- ammo = maxAmmo;
- playerHealthMax = 100;
- playerHealth = playerHealthMax;
- weaponupgrade1 = 0;
- backSwitch = 0;
- weapon = 0;
- resetcrate = 0;
- cratespawn = 0;
- cratespawn2 = 0;
- badguy1.x = 650;
- badguy1.y = 450;
- badguy2.x = 40;
- badguy2.y = 150;
- recbox1.x = 450;
- recbox1.y = 60;
- tribox.x = 430;
- tribox.y = 100;
- crate1X = 374;
- crate1Y = 184.5;
- crateh1X = 399;
- crateh1Y = 184.5;
- cratesw1X = 640;
- cratesw1Y = 50;
- GuardStart = 0;
- GuardHealth = 100;
- GuardDead = false;
- GuardSwitch = 0;
- frameIndex_1 = 0;
- spawnBoss7 = 0;
- ExplosionCycle = 0;
- stopGuardSpawn = 0;
- switchBoss7 = 0;
- bullbox = new component(10, 10, "orange", 400, 180, "rec");
- bpic = new component(10, 10, "bullpic1", 400, 180, "animated-img-rot");
- bpic2 = new component(10, 10, "bullpic2", 400, 180, "animated-img-rot");
- bpic3 = new component(10, 10, "bullpic3", 400, 180, "animated-img-rot");
- bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
- bpic5 = new component(10, 10, "bullpic5", 400, 180, "animated-img-rot");
- box = new component(25, 25, "black", playerX, playerY, "rec");
- ship1 = new component(32, 32, "player1img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
- PlayerShipsArray.push(ship1);
- ship2 = new component(25, 25, "player2img", playerX, playerY, "animated-img-rot");
- PlayerShipsArray.push(ship2);
- ship3 = new component(25, 25, "player3img", playerX, playerY, "animated-img-rot");
- PlayerShipsArray.push(ship3);
- ship4 = new component(25, 25, "player4img", playerX, playerY, "animated-img-rot");
- PlayerShipsArray.push(ship4);
- ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
- PlayerShipsArray.push(ship5);
- ship6 = new component(25, 25, "player6img", playerX, playerY, "animated-img-rot");
- PlayerShipsArray.push(ship6);
- PlayerShadowManager = new PlayerShadowHandler(PlayerShipsArray, "black", 5, 3, 3);
- }
- //if (CapName == weapv) {
- //vaultShow = 1;
- //}
- //if (CapName != weapv) {
- //vaultShow = 0;
- //}
+	}
+	if (goBack == 1) {
+	goBack = 0;
+		if (wave == 22) {
+		money = 50;
+		}
+	PlayerShipsArray = [];
+	switchpos = 0;
+	wave = 1;
+	count = 0;
+	pauseGame = 0;
+	ammo = maxAmmo;
+	playerHealthMax = 100;
+	playerHealth = playerHealthMax;
+	weaponupgrade1 = 0;
+	backSwitch = 0;
+	weapon = 0;
+	resetcrate = 0;
+	cratespawn = 0;
+	cratespawn2 = 0;
+	badguy1.x = 650;
+	badguy1.y = 450;
+	badguy2.x = 40;
+	badguy2.y = 150;
+	recbox1.x = 450;
+	recbox1.y = 60;
+	tribox.x = 430;
+	tribox.y = 100;
+	crate1X = 374;
+	crate1Y = 184.5;
+	crateh1X = 399;
+	crateh1Y = 184.5;
+	cratesw1X = 640;
+	cratesw1Y = 50;
+	GuardStart = 0;
+	GuardHealth = 100;
+	GuardDead = false;
+	GuardSwitch = 0;
+	frameIndex_1 = 0;
+	spawnBoss7 = 0;
+	ExplosionCycle = 0;
+	stopGuardSpawn = 0;
+	switchBoss7 = 0;
+	bullbox = new component(10, 10, "orange", 400, 180, "rec");
+	bpic = new component(10, 10, "bullpic1", 400, 180, "animated-img-rot");
+	bpic2 = new component(10, 10, "bullpic2", 400, 180, "animated-img-rot");
+	bpic3 = new component(10, 10, "bullpic3", 400, 180, "animated-img-rot");
+	bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
+	bpic5 = new component(10, 10, "bullpic5", 400, 180, "animated-img-rot");
+	box = new component(25, 25, "black", playerX, playerY, "rec");
+	ship1 = new component(32, 32, "player1img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+	PlayerShipsArray.push(ship1);
+	ship2 = new component(25, 25, "player2img", playerX, playerY, "animated-img-rot");
+	PlayerShipsArray.push(ship2);
+	ship3 = new component(25, 25, "player3img", playerX, playerY, "animated-img-rot");
+	PlayerShipsArray.push(ship3);
+	ship4 = new component(25, 25, "player4img", playerX, playerY, "animated-img-rot");
+	PlayerShipsArray.push(ship4);
+	ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+	PlayerShipsArray.push(ship5);
+	ship6 = new component(25, 25, "player6img", playerX, playerY, "animated-img-rot");
+	PlayerShipsArray.push(ship6);
+	PlayerShadowManager = new PlayerShadowHandler(PlayerShipsArray, "black", 5, 3, 3);
+	}
 }
+
 var money = 50;
 var totalMoney = 0;
-var mbX = 580;
-var mbY = 480;
 function playerMoney() {
- var moneyg = "$"
- moneyf = new component("30px", "Consolas", "green", mbX, mbY, "text");
- q = new component(300, 100, "#63218a", mbX - 5, mbY - 25, "rec");
- mbo = new component(300, 100, "black", 570, 450, "rec");
- moneyf.font="30px Consolas";
- //add waves in here//
- if (wave < 22 || wave == 8000 || wave == 9000) {
- moneyf.text=moneyg + Math.round(money);
- }
- if (wave >= 22 && wave != 8000 && wave != 9000) {
- moneyf.text=moneyg + Math.round(totalMoney); 
- }
- mbo.update();
- q.update();
- moneyf.update();
+money_text = new component("30px", "Consolas", "green", 580, 480, "text");
+money_text.font="30px Consolas";
+left_UI = new component(300, 100, "#63218a", 575, 455, "rec");
+left_UI_edge = new component(300, 100, "black", 570, 450, "rec");
+	if (wave < 22) {
+	money_text.text = "$"+Math.round(money);
+	}
+	if (wave >= 22) {
+	money_text.text = "$"+Math.round(totalMoney); 
+	}
+left_UI_edge.update();
+left_UI.update();
+money_text.update();
 }
+
 var switchy = 0;
 function swapweap1() {
-if (specialWandS == 0) {
-if (switchy == -1) {
-switchy = 0;
+	if (specialWandS == 0) {
+		if (switchy == -1) {
+		switchy = 0;
+		}
+		if (stcget == 1) {
+		switchy += 1;
+		}
+		if (stcget == 0) {
+		switchy = 0;
+		weapon = 0;
+		}
+	}
+	if (specialWandS == 1) {
+		if (playerShip == 5 && STPRIZEWEAPON == 1) {
+		switchy = -1;
+		weapon = 4;
+		}
+	}
 }
-if (stcget == 1) {
-switchy += 1;
- }
-if (stcget == 0) {
-switchy = 0;
-weapon = 0;
-  }
- }
-if (specialWandS == 1) {
-console.log("tef");
-if (playerShip == 5 && STPRIZEWEAPON == 1) {
-switchy = -1;
-weapon = 4;
-  }
- }
-}
+
 function swapweap2() {
-if (specialWandS == 0) {
-if (weaponupgrade1 > 0) {
-if (stcweapon == 1) {
-    switchy = -1;
+	if (specialWandS == 0) {
+		if (weaponupgrade1 > 0) {
+			if (stcweapon == 1) {
+			switchy = -1;
+			}
+		weapon = 1;
+		}
+	}
 }
-    weapon = 1;
-  }
- }
-}
+
 function swapweap3() {
-if (specialWandS == 0) {
-if (weaponupgrade1 > 1) {
-if (stcweapon == 1) {
-    switchy = -1;
-}
-    weapon = 2;
-  }
- }
+	if (specialWandS == 0) {
+		if (weaponupgrade1 > 1) {
+			if (stcweapon == 1) {
+			switchy = -1;
+			}
+		weapon = 2;
+		}
+	}
 }
 
-function swapweap4() { //goherenow//
-
-}
 var pauseGame = 0;
 var backSwitch = 0;
 function backfunc() {
-   backSwitch = 0;
-   if (specialalert1 == 0) {
-   if (pauseGame == 0) {
-   if (upgrademenu > 0) {
-            backSwitch = 1;
-			upgrademenu = 0;
-		}
-	  }
+backSwitch = 0;
+	if (specialalert1 == 0 && pauseGame == 0 && upgrademenu > 0) {
+	backSwitch = 1;
+	upgrademenu = 0;
 	}
-   if (specialalert1 == 1) {
-   specialalert1 = 0;
-   }
-   if (backSwitch == 0) {
-   if (upgrademenu == 0) {
-   if (menu > 0) {
-   pauseGame += 1;
-     }
-    }
-   }
+	if (specialalert1 == 1) {
+	specialalert1 = 0;
+	}
+	if (backSwitch == 0 && upgrademenu == 0 && menu > 0) {
+	pauseGame += 1;
+	}
 	if (Death1 > 0) {
 	goBack = 1;
 	}
@@ -10599,90 +9342,82 @@ var upgrade1trigger = false;
 var healthUpgradeTrigger = false;
 var ammoUpgradeTrigger = false;
 function UpgradeMenuTrigger() {
-if (weaponupgrade1 == 0) {
-if (money >= 100) {
-upgrade1trigger = true;
-}
-if (money < 100) {
-upgrade1trigger = false;
-}
-}
-if (weaponupgrade1 == 1) {
-if (money >= 200) {
-upgrade1trigger = true;
-}
-if (money < 200) {
-upgrade1trigger = false;
-}
-}
-if (playerHealth != playerHealthMax) {
-if (Math.floor(playerHealthMax - playerHealth) <= money) {
-healthUpgradeTrigger = true;
-}
-if (Math.floor(playerHealthMax - playerHealth) > money) {
-healthUpgradeTrigger = false;
-}
-}
-if (playerHealth >= playerHealthMax) {
-healthUpgradeTrigger = false;
-}
-if (ammo != maxAmmo) {
-if (Math.floor(maxAmmo - ammo) <= money) {
-ammoUpgradeTrigger = true;
-}
-if (Math.floor(maxAmmo - ammo) > money) {
-ammoUpgradeTrigger = false;
-}
-}
-if (ammo >= maxAmmo) {
-ammoUpgradeTrigger = false;
-}
-if (healthUpgradeTrigger == true || ammoUpgradeTrigger == true || upgrade1trigger == true) {
-NOUPGRADESAVAILABLE = false;
-}
-if (healthUpgradeTrigger == false && ammoUpgradeTrigger == false && upgrade1trigger == false) {
-NOUPGRADESAVAILABLE = true;
-}
-if (upgrademenu != 1) {
-if (money == 0 || NOUPGRADESAVAILABLE == true) {
-upgrademenu = 0;
-}
-}
+	if (weaponupgrade1 == 0) {
+		if (money >= 100) {
+		upgrade1trigger = true;
+		}
+		if (money < 100) {
+		upgrade1trigger = false;
+		}
+	}
+	if (weaponupgrade1 == 1) {
+		if (money >= 200) {
+		upgrade1trigger = true;
+		}
+		if (money < 200) {
+		upgrade1trigger = false;
+		}
+	}
+	if (playerHealth != playerHealthMax) {
+		if (Math.floor(playerHealthMax - playerHealth) <= money) {
+		healthUpgradeTrigger = true;
+		}
+		if (Math.floor(playerHealthMax - playerHealth) > money) {
+		healthUpgradeTrigger = false;
+		}
+	}
+	if (playerHealth >= playerHealthMax) {
+	healthUpgradeTrigger = false;
+	}
+	if (ammo != maxAmmo) {
+		if (Math.floor(maxAmmo - ammo) <= money) {
+		ammoUpgradeTrigger = true;
+		}
+		if (Math.floor(maxAmmo - ammo) > money) {
+		ammoUpgradeTrigger = false;
+		}
+	}
+	if (ammo >= maxAmmo) {
+	ammoUpgradeTrigger = false;
+	}
+	if (healthUpgradeTrigger || ammoUpgradeTrigger || upgrade1trigger) {
+	NOUPGRADESAVAILABLE = false;
+	}
+	if (!healthUpgradeTrigger && !ammoUpgradeTrigger && !upgrade1trigger) {
+	NOUPGRADESAVAILABLE = true;
+	}
+	if (upgrademenu != 1) {
+		if (money == 0 || NOUPGRADESAVAILABLE) {
+		upgrademenu = 0;
+		}
+	}
 }
 
 var nextUpgrade = 0;
 function upgrade1func() {
-        if (upgrademenu > 0) {
-        nextUpgrade = 1;	
-		if (weaponupgrade1 == 0) {
-		if (money >= 100) {
-			weaponupgrade1 = 1;
-			money -= 100;
-			nextUpgrade = 0;
+	if (upgrademenu > 0) {
+	nextUpgrade = 1;	
+		if (weaponupgrade1 == 0 && money >= 100) {
+		weaponupgrade1 = 1;
+		money -= 100;
+		nextUpgrade = 0;
 		}
-	   }
-	   if (nextUpgrade == 1) {
-	    if (weaponupgrade1 == 1) {
-		 if (money >= 200) {
-			weaponupgrade1 = 2;
-			money -= 200;
-		 }
+		if (nextUpgrade == 1 && weaponupgrade1 == 1 && money >= 200) {
+		weaponupgrade1 = 2;
+		money -= 200;
 		}
-	   }
-	  }
+	}
 }
 
 var healthLocker = 0;
 function healthRecovery() {
 	if (upgrademenu == 1) {
 	healthLocker = 1;
-	if (playerHealth != playerHealthMax && healthLocker == 1) {
-		if (Math.floor(playerHealthMax - playerHealth) <= money) {
-			money -= Math.floor(playerHealthMax - playerHealth);
-			playerHealth += (playerHealthMax - playerHealth);
-			healthLocker = 0;
+		if (playerHealth != playerHealthMax && healthLocker == 1 && Math.floor(playerHealthMax - playerHealth) <= money) {
+		money -= Math.floor(playerHealthMax - playerHealth);
+		playerHealth += (playerHealthMax - playerHealth);
+		healthLocker = 0;
 		}
-	 }
 	}
 }
 
@@ -10690,12 +9425,10 @@ var ammoLocker = 0;
 function ammoRecovery() {
 	if (upgrademenu == 1) {
 	ammoLocker = 1;
-	if (ammo != maxAmmo && ammoLocker == 1) {
-		if (Math.floor(maxAmmo - ammo) <= money) {
-			money -= Math.floor(maxAmmo - ammo);
-			ammo += (maxAmmo - ammo);
-			ammoLocker = 0;
+		if (ammo != maxAmmo && ammoLocker == 1 && Math.floor(maxAmmo - ammo) <= money) {
+		money -= Math.floor(maxAmmo - ammo);
+		ammo += (maxAmmo - ammo);
+		ammoLocker = 0;
 		}
-	 }
 	}
 }
