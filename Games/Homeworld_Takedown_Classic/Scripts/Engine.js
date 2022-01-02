@@ -1,4 +1,4 @@
-var update_date = {"month":11,"startDay":26,"endDay":31};
+var update_date = {"month":0,"startDay":2,"endDay":9};
 var popup = 1;
 var stcweapon = 0;
 var christmasSkin = 0;
@@ -8150,34 +8150,34 @@ document.getElementById("Sound_Effects_Volume").innerHTML = "Sound Effects: " + 
 	muteExplosion = false;
 	}
 	if (mutemusic == 0) {
-		if (upgrademenu == 0 && Death1 == 0 && wave < 5 && menu > 0) {
+		if (upgrademenu == 0 && Death1 == 0 && wave < 5 && menu > 0 && level1.paused) {
 		document.getElementById('level1').play();
 		}
-		if (menu == 0 && Death1 == 0) {
+		if (menu == 0 && Death1 == 0 && title.paused) {
 		document.getElementById('title').play();
 		}
-		if (Death1 > 0) {
+		if (Death1 > 0 && Death.paused) {
 		document.getElementById('Death').play();
 		}
-		if (upgrademenu > 0 && Death1 == 0) {
+		if (upgrademenu > 0 && Death1 == 0 && upgradeMenu.paused) {
 		document.getElementById('upgradeMenu').play();
 		}
-		if (menu != 0 && wave == 22) {
+		if (menu != 0 && wave == 22 && warpZone.paused) {
 		document.getElementById('warpZone').play();
 		}
-		if (upgrademenu == 0 && Death1 == 0 && wave > 4 && wave < 7 && menu > 0) {
+		if (upgrademenu == 0 && Death1 == 0 && wave > 4 && wave < 7 && menu > 0 && level2.paused) {
 		document.getElementById('level2').play();
 		}
-		if (upgrademenu == 0 && Death1 == 0 && wave == 7 && menu > 0) {
+		if (upgrademenu == 0 && Death1 == 0 && wave == 7 && menu > 0 && boss7.paused) {
 		document.getElementById('boss7').play();
 		}
-		if (upgrademenu == 0 && wave == 7 && count != 10 && menu > 0 && pauseGame == 0 && spawnBoss7 == 0) {
+		if (upgrademenu == 0 && wave == 7 && count != 10 && menu > 0 && pauseGame == 0 && spawnBoss7 == 0 && explosion.paused) {
 		document.getElementById('explosion').play();
 		}
-		if (ammo <= 20/100 * maxAmmo && playerHealth > 0) {
+		if (ammo <= 20/100 * maxAmmo && playerHealth > 0 && lowammo.paused) {
 		document.getElementById('lowammo').play();
 		}
-		if (fire == 1 && frameIndex5 == 0 && menu > 0) {
+		if (fire == 1 && frameIndex5 == 0 && menu > 0 && firesound.paused) {
 		document.getElementById('firesound').play();
 		}
 	} 

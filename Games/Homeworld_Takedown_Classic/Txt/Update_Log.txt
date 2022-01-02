@@ -1,7 +1,8 @@
 :PRESS P TO TOGGLE THE PIB:
 
-What's new in V0.5.4.1-
+What's new in V0.5.4.2-
    Added new ui image
    Fixed bullet sound
+   Fixed audio bug
    New animation system
    Finished: Code clean up
