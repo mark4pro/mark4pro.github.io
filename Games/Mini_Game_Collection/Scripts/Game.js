@@ -310,13 +310,23 @@ function menuManager() {
 	this.mainBackground.style.zIndex = "1";
 	this.mainBackground.style.margin = "0px";
 	document.body.appendChild(this.mainBackground);
+	//BG Image
+	this.mainBgImage = document.createElement("img");
+	this.mainBgImage.src = imagePath+"Title_Screen.png";
+	this.mainBgImage.style.position = "fixed";
+	this.mainBgImage.style.top = "0px";
+	this.mainBgImage.style.left = "0px";
+	this.mainBgImage.style.margin = "0px";
+	this.mainBackground.appendChild(this.mainBgImage);
 	//Title
 	this.mainTitle = document.createElement("h1");
 	this.mainTitle.innerHTML = "Minigame Collection";
 	this.mainTitle.style.textAlign = "center";
+	this.mainTitle.style.fontFamily = "Arial";
 	this.mainTitle.style.color = "white";
 	this.mainTitle.style.margin = "0px";
 	this.mainTitle.style.position = "fixed";
+	this.mainTitle.style.textShadow = "2.5px 2.5px black";
 	this.mainBackground.appendChild(this.mainTitle);
 	//Tank War Button
 	this.tankWarBttn = document.createElement("button");
@@ -585,6 +595,8 @@ function menuManager() {
 		//main menu
 		this.mainBackground.style.width = screen.getDeviceRes().x+"px";
 		this.mainBackground.style.height = screen.getDeviceRes().y+"px";
+		this.mainBgImage.style.width = this.mainBackground.style.width;
+		this.mainBgImage.style.height = this.mainBackground.style.height;
 		this.menuSize = new Vector2(parseFloat(this.mainBackground.style.width), parseFloat(this.mainBackground.style.height));
 		let halfSize = this.menuSize.div(2);
 		this.mainTitle.style.left = (halfSize.x-(this.mainTitle.getBoundingClientRect().width/2))+"px";
