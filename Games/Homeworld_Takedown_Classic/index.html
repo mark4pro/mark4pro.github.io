@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Homeworld Takedown Classic</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link rel="icon" type="image/vnd.microsoft.icon"
+     href="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Icon/Icon.ico" />
+<style>
+	#screen {
+	background-color: blue;
+	margin-left: 0px;
+	margin-right: 0px;
+	display: block;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	position: fixed;
+	image-rendering: pixelated;
+	}
+	html {
+	overflow: hidden;
+	}
+	#title {
+	font-size: 50px;
+	background-color: #63218a;
+	border:5px solid black;
+	visibility: visible; 
+	z-index: 200; 
+	bottom: 12%;
+	left: 20%;
+	right: 20%;
+	position: fixed;
+	}
+	.texts {
+	word-break: keep-all;
+	margin: auto;
+	width: 50%;
+	color: white;
+	}
+	p {
+	color: white;
+	}
+	.unselectable {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	}
+	.check {
+	cursor: pointer;
+	background-color: #000000;
+	outline: none;
+	opacity: 0.7;
+	width: 25px;
+	height: 25px;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
+	}
+	.check:hover {
+	opacity: 1;
+	}
+	.buttons {
+	background-color: #000000;
+	color: white;
+	border: none;
+	opacity: 0.7;
+	width: 200px;
+	height: 50px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 30px;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
+	}
+	.buttons:hover {
+	opacity: 1;
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	}
+	.saveButtons {
+	background-color: #000000;
+	color: white;
+	border: none;
+	opacity: 0.7;
+	width: 100px;
+	height: 30px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 25px;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
+	margin-left: 10px;
+	}
+	.saveButtons:hover {
+	opacity: 1;
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	}
+	.slider {
+	-webkit-appearance: none;
+	width: 50%;
+	height: 25px;
+	background: #d3d3d3;
+	outline: none;
+	opacity: 0.7;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
+	}
+	.slider:hover {
+	opacity: 1;
+	}
+	.slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 25px;
+	height: 25px;
+	background: #000000;
+	cursor: pointer;
+	}
+	.slider::-moz-range-thumb {
+	width: 25px;
+	height: 25px;
+	background: #000000;
+	cursor: pointer;
+	}
+	#content{
+	border:5px solid black;
+	background-color: #63218a;
+	overflow: none;
+	height: 120px;
+	padding: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	bottom: 0%;
+	left: 20%;
+	right: 20%;
+	position: fixed;
+	}
+	#settings{
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 1s; 
+	background-color: #660063;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: 9999;
+	overflow: auto;
+	}
+	#updateinfo{
+	background-color: white;
+	top: 5%;
+	bottom: 40%;
+	left: 2%;
+	position: fixed;
+	width: 300px;
+	height: 533px;
+	}
+	#loader {
+	opacity: 1;
+	transition: opacity 1s; 
+	visibility: visible;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Loading.gif) center no-repeat grey;
+	}
+</style>
+<div id="updateinfo">
+<object width="300" height="533" type="text/plain" data="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Txt/Update_Log.txt" border="0"></object>
+</div>
+<!-- Where Images Go -->
+	<img id="player1img" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Player_Ship_1_Sprite_Sheet.png">
+	<img id="player2img" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Player_Ship_2_Sprite_Sheet.png">
+	<img id="player3img" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Player_Ship_3_Sprite_Sheet.png">
+	<img id="player4img" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Player_Ship_4_Sprite_Sheet.png">
+	<img id="player5img" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Player_Ship_5_Sprite_Sheet.png">
+	<img id="player6img" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Player_Ship_6_Sprite_Sheet.png">
+	<img id="bullpic1" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Bullet_1.png">
+	<img id="bullpic2" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Bullet_2.png">
+	<img id="bullpic3" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Bullet_3.png">
+	<img id="bullpic4" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Bullet_4.png">
+	<img id="bullpic5" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Bullet_5.png">
+	<img id="badguy1img" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Enemy_1_Sprite_Sheet.png">
+	<img id="badguy2img" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Enemy_2_Sprite_Sheet.png">
+	<img id="badguy3img" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Enemy_3_Sprite_Sheet.png">
+	<img id="badguy4img" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Enemy_4_Sprite_Sheet.png">
+	<img id="badguy5img" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Enemy_5_Sprite_Sheet.png">
+	<img id="enemybull" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Enemy_Bullet_1.png">
+	<img id="wave7boss" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Boss_1_Sprite_Sheet.png">
+	<img id="wave7bossSheild" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Boss_1_Sheilded_Sprite_Sheet.png">
+	<img id="Boss7Bull" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Boss_1_Bullet.png">
+	<img id="titlescreen" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Title_Screen.png">
+	<img id="deathscreen" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Death_Screen.png">
+	<img id="endscreen" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/End.png">
+	<img id="lowhealth" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Low_Health_Border_1.png">
+	<img id="warp_zone" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Warp_Zone.png">
+	<img id="earth" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Earth.png">
+	<img id="wave1t5" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Wave_1-4_Background.png">
+	<img id="1-5platform" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Platform_1.png">
+	<img id="1-5sideborder" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/1-5_Border_1.png">
+	<img id="wave5t7" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Wave_5-7_Background.png">
+	<img id="ammopic1" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Ammo_Crate_1.png">
+	<img id="healthpic1" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Health_Crate_1.png">
+	<img id="housefloor1" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Floor_1.png">
+	<img id="housefloor2" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Floor_2.png">
+	<img id="housefloor3" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Floor_3.png">
+	<img id="houseroof1" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Roof_1.png">
+	<img id="houseroof2" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Roof_2.png">
+	<img id="houseroof3" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Roof_3.png">
+	<img id="Burnt" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Burnt_House.png">
+	<img id="tree" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Tree_1.png">
+	<img id="Mute" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Sound_ON_OFF_UI.png">
+	<img id="plantbox1" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Plant_Box.png">
+	<img id="EXFrame1" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Explosion_Frame_1.png">
+	<img id="EXFrame2" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Explosion_Frame_2.png">
+	<img id="EXFrame3" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Explosion_Frame_3.png">
+	<img id="EXFrame4" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Explosion_Frame_4.png">
+	<img id="EXFrame5" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Explosion_Frame_5.png">
+	<img id="EXFrame6" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Explosion_Frame_6.png">
+	<img id="EXFrame7" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Explosion_Frame_7.png">
+	<img id="hiddenShip" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Hidden_Ship.png">
+	<img id="highlight" width="0" height="0" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Images/Highlight_Ship.png">
+
+<!-- Where Sounds Go -->
+		<!--Music-->
+	    <audio id="level1" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Audio/Music/HT_LEVEL_1.wav"></audio>
+	    <audio id="level2" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Audio/Music/HT_LEVEL_2.wav"></audio>
+		<audio id="boss7" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Audio/Music/HT_BOSS_1.wav"></audio>
+		<audio id="title" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Audio/Music/HT_Title_Screen.wav"></audio>
+		<audio id="upgradeMenu" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Audio/Music/HT_Upgrade_Menu.wav"></audio>
+		<audio id="warpZone" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Audio/Music/HT_Warp_Zone.wav"></audio>
+		<audio id="Death" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Audio/Music/HT_Death_Screen.wav"></audio>
+		<!--SFX-->
+	    <audio id="firesound" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Audio/Sound Effects/Primary_Weapon.wav"></audio>
+		<audio id="lowammo" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Audio/Sound Effects/Low_Ammo_Sound.mp3"></audio>
+		<audio id="explosion" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Audio/Sound Effects/Explosion.wav"></audio>
+</head>
+<body onload="start()">
+<script>
+var interval = setInterval(function() {
+    if(document.readyState === 'complete') {
+	clearInterval(interval);
+	done();
+    }    
+}, 100);
+function done() {
+	if (document.getElementById('loader').style.opacity > 0) {
+	document.getElementById('loader').style.opacity -= 0.001;
+	}
+	if (document.getElementById('loader').style.opacity <= 0) {
+	document.getElementById('loader').style.visibility = "hidden";
+	}
+}
+</script>
+<label class="unselectable">
+	<div id="loader"></div>
+	<div id="settings">
+		<p align="center" style="font-size:50px;">SETTINGS</p>
+		<div align="center" style="width:100%;"><div id="Music_Volume" style="color:white;font-size:20px;">Music: </div><input type="range" min="0" max="100" id="volume" class="slider" step="1" value="15"></input><button class="saveButtons" onmousedown="saveSettings(Music_)">Save</button></div><br>
+		<div align="center" style="width:100%;"><div id="Sound_Effects_Volume" style="color:white;font-size:20px;">Sound Effects: </div><input type="range" min="0" max="100" id="soundvolume" class="slider" step="1"></input><button class="saveButtons" onmousedown="saveSettings(SoundFX_)">Save</button></div>
+		<br><p align="center" style="font-size:50px;margin:0px;">Extras:</p>
+		<p align="center" style="font-size:20px;">*Experimental* Player Shadows? <input type="checkbox" class="check" id="PSshow" value="" checked><button class="saveButtons" onmousedown="saveSettings(PShadows_)">Save</button></p>
+		<p align="center" style="font-size:20px;">*Experimental* Level Shadows? <input type="checkbox" class="check" id="LSshow" value="" checked><button class="saveButtons" onmousedown="saveSettings(LShadows_)">Save</button></p>
+		<p align="center" style="font-size:20px;">*Experimental* UI Shadows? <input type="checkbox" class="check" id="UISshow" value="" checked><button class="saveButtons" onmousedown="saveSettings(UIShadows_)">Save</button></p>
+		<p align="center" style="font-size:20px;">Image Smoothing? <input type="checkbox" class="check" id="imgSmooth" value=""><button class="saveButtons" onmousedown="saveSettings(ImgSmooth_)">Save</button></p>
+		<p align="center" style="font-size:20px;">Enemy Health Bars? <input type="checkbox" class="check" id="HBshow" value="" checked><button class="saveButtons" onmousedown="saveSettings(HBar_)">Save</button></p>
+		<p align="center" style="font-size:20px;">Animated Sprites? <input type="checkbox" class="check" id="AnimatedSprites" value="" checked><button class="saveButtons" onmousedown="saveSettings(ASprites_)">Save</button></p>
+		<p align="center" style="font-size:20px;">FPS Counter? <input type="checkbox" class="check" id="FPSShow" value=""><button class="saveButtons" onmousedown="saveSettings(FPSShow_)">Save</button></p>
+		<p align="center" style="font-size:20px;">Mute "Shooting" Sound Effect? <input type="checkbox" class="check" id="mute_SHOOTING" value=""><button class="saveButtons" onmousedown="saveSettings(MShooting_)">Save</button></p>
+		<p align="center" style="font-size:20px;">Mute "Low Ammo" Sound Effect? <input type="checkbox" class="check" id="mute_LOW_AMMO" value=""><button class="saveButtons" onmousedown="saveSettings(MLAmmo_)">Save</button></p>
+		<p align="center" style="font-size:20px;">Mute "Explosion" Sound Effect? <input type="checkbox" class="check" id="mute_EXPLOSION" value=""><button class="saveButtons" onmousedown="saveSettings(MExplosions_)">Save</button></p>
+		<p align="center" style="font-size:50px;margin:0px;">Controls:</p>
+		<div align="center"><div id="Up_Button_Text" style="color:white;font-size:50px;">Move Up: </div><br><button id="UpButton" class="buttons" onmousedown="keyBinder(MoveUp_)">Change</button></div>
+		<div align="center"><div id="Down_Button_Text" style="color:white;font-size:50px;">Move Down: </div><br><button id="DownButton" class="buttons" onmousedown="keyBinder(MoveDown_)">Change</button></div>
+		<div align="center"><div id="Left_Button_Text" style="color:white;font-size:50px;">Move Left: </div><br><button id="LeftButton" class="buttons" onmousedown="keyBinder(MoveLeft_)">Change</button></div>
+		<div align="center"><div id="Right_Button_Text" style="color:white;font-size:50px;">Move Right: </div><br><button id="RightButton" class="buttons" onmousedown="keyBinder(MoveRight_)">Change</button></div>
+		<div align="center"><div id="Shoot_Up_Button_Text" style="color:white;font-size:50px;">Fire Up: </div><br><button id="ShootUpButton" class="buttons" onmousedown="keyBinder(ShootUp_1)">Change</button></div>
+		<div align="center"><div id="Shoot_Down_Button_Text" style="color:white;font-size:50px;">Fire Down: </div><br><button id="ShootDownButton" class="buttons" onmousedown="keyBinder(ShootDown_1)">Change</button></div>
+		<div align="center"><div id="Shoot_Left_Button_Text" style="color:white;font-size:50px;">Fire Left: </div><br><button id="ShootLeftButton" class="buttons" onmousedown="keyBinder(ShootLeft_1)">Change</button></div>
+		<div align="center"><div id="Shoot_Right_Button_Text" style="color:white;font-size:50px;">Fire Right: </div><br><button id="ShootRightButton" class="buttons" onmousedown="keyBinder(ShootRight_1)">Change</button></div>
+		<div align="center"><div id="Back_Button_Text" style="color:white;font-size:50px;">Exit/Back: </div><br><button id="BackButton" class="buttons" onmousedown="keyBinder(Back_1)">Change</button></div>
+		<div align="center"><div id="Mute_Button_Text" style="color:white;font-size:50px;">Mute/Unmute: </div><br><button id="MuteButton" class="buttons" onmousedown="keyBinder(Mute_1)">Change</button></div>
+		<div align="center"><div id="Patch_Button_Text" style="color:white;font-size:50px;">Patch Info: </div><br><button id="PatchButton" class="buttons" onmousedown="keyBinder(Patch_1)">Change</button></div>
+		<div align="center"><div id="Revive_Button_Text" style="color:white;font-size:50px;">Revive: </div><br><button id="ReviveButton" class="buttons" onmousedown="keyBinder(Revive_1)">Change</button></div>
+		<div align="center"><div id="Special_Button_Text" style="color:white;font-size:50px;">Special Key: </div><br><button id="SpecialButton" class="buttons" onmousedown="keyBinder(Special_1)">Change</button></div>
+		<div align="center"><div id="Settings_Button_Text" style="color:white;font-size:50px;">Settings Button: </div><br><button id="ShowSettingsButton" class="buttons" onmousedown="keyBinder(ShowSettings_)">Change</button></div><br>
+		<div align="center" class="texts" style="font-size:30px;">Use any of the number keys to switch through weapons. Use any of the number keys plus "Special Key" to switch through special weapons. Use the any corresponding Number Keys to upgrade. Hit "Enter" when your ship is over a button in the "Warp Zone" to use it. (The numbers correspond with numbers in the upgrade menu are labeled with a "#" in front of it.)</div>
+		<br><p align="center" style="font-size:50px;margin:0px;">Difficulties:</p>
+		<p align="center" style="font-size:20px;">Easy: <input type="checkbox" class="check" id="Easy_" value="" checked></p>
+		<p align="center" style="font-size:20px;">Medium: <input type="checkbox" class="check" id="Medium_" value=""><button class="saveButtons" onmousedown="saveSettings(Diff_)">Save</button></p>
+		<p align="center" style="font-size:20px;">Hard: <input type="checkbox" class="check" id="Hard_" value=""></p>
+		<p align="center"><button class="buttons" onmousedown="saveSettings(All_)">Save All</button></p>
+		<p align="center"><button class="buttons" onmousedown="showStop()">Back</button></p>
+	</div>
+</label>
+<script type="text/javascript" src="https://mark4pro.github.io/Games/Homeworld_Takedown_Classic/Scripts/Engine.js"></script>
+</body>
+</html>

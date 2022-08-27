@@ -1,2968 +1,1770 @@
-//Block key defaults
-var keys = {};
-window.addEventListener("keydown",
-	function(e){
-		keys[e.keyCode] = true;
-		switch(e.keyCode){
-			case 37: case 39: case 38:  case 40: //Arrow keys
-			case 32: e.preventDefault(); break; //Space
-			default: break; //Do not block other keys
-		}
-	},
-false);
-window.addEventListener('keyup',
-	function(e){
-		keys[e.keyCode] = false;
-	},
-false);
-
-//Html elements
-var pageIcon = document.getElementById('pageIcon');
-var canvas = document.getElementById('screen');
-var mainMenu = document.getElementById('mainMenu');
-var mainTitle = document.getElementById('mainTitle');
-var tankWarBttn = document.getElementById('tankWarBttn');
-var lineBattleBttn = document.getElementById('lineBattleBttn');
-var settingsBttn = document.getElementById('settingsBttn');
-var UIScaleSlider = document.getElementById('locationForUIScale');
-var UIScale = document.getElementById('UI_Scale');
-var player1Bttn = document.getElementById('player1Bttn');
-var player2Bttn = document.getElementById('player2Bttn');
-var player3Bttn = document.getElementById('player3Bttn');
-var player4Bttn = document.getElementById('player4Bttn');
-var pauseBttn = document.getElementById('pauseBttn');
-
-//Global game varibles
-var UIScaleNumber = 0;
-var ctx = canvas.getContext("2d");
-var isLoaded = false;
-var debug = false;
-var pause = false;
-var menus = 0; //0- MAIN MENU | 1- TANK WAR MENU | 2- LINE BATTLE MENU | 3- OPTIONS MENU
-var players = 2;
-var teams = false;
-var player1Controls = 0; //0- OG CONTROLS | 1- JOYSTICK CONTROLS | 2- DIRECTIONAL KEYBOARD CONTROLS ONLY
-var player2Controls = 0; //0- OG CONTROLS | 1- JOYSTICK CONTROLS | 2- DIRECTIONAL KEYBOARD CONTROLS ONLY
-var player3Controls = 0; //0- OG CONTROLS | 1- JOYSTICK CONTROLS | 2- DIRECTIONAL KEYBOARD CONTROLS ONLY
-var player4Controls = 0; //0- OG CONTROLS | 1- JOYSTICK CONTROLS | 2- DIRECTIONAL KEYBOARD CONTROLS ONLY
-var gamemode = 0; //0- NO GAME | 1- TANK WAR | 2- LINE BATTLE
-var mainObjectArray = []; //Main object array
-var gameObjects0 = []; //Global gameObjects
-var gameObjects1 = []; //Tank War gameObjects
-var gameObjects2 = []; //Line Battle gameObjects
-var stopControls = false;
-var StartRotation1 = false;
-var StartRotation2 = false;
-
-
-//Global line battle varibles
-var Player1ButtetRadius = 5;
-var Player2ButtetRadius = 5;
-var LBPlayerSpeed = 3;
-var LBPlayerRotateSpeed = 3;
-var TailLength = 10; //max 150 | min 10
-var TailFullness = 2;
-var ChaosMode = false; 
-var MaxPointsLB = 10; //max 100 | min 1
-var focusLight = true;
-var focusLightPosX = 640;
-var focusLightPosY = 360;
-
-//Global tank war varibles
-var TWPlayer1Speed = 2; //number of upgrades 2 | upgrade 1- 2>3 upgrade 2- 3>4
-var TWPlayer2Speed = 2;
-var TWPlayer3Speed = 2;
-var TWPlayer4Speed = 2;
-var Player1BulletSize = 5;
-var Player2BulletSize = 5;
-var Player3BulletSize = 5;
-var Player4BulletSize = 5;
-var Player1BulletRate = 40; //number of upgrades 5 | upgrade 1- 40>35 upgrade 2- 35>30 upgrade 3- 30>25 upgrade 4- 25>20 upgrade 5- 20>15
-var Player2BulletRate = 40;
-var Player3BulletRate = 40;
-var Player4BulletRate = 40;
-var Player1RotationSpeed = 1; //number of upgrades 2 | upgrade 1- 1>2 upgrade 2- 2>3
-var Player2RotationSpeed = 1;
-var Player3RotationSpeed = 1;
-var Player4RotationSpeed = 1;
-var UpgradeMenu = false;
-var MaxPointsTW = 10; //max 100 | min 2
-
-function profile1() {
-this.name_ = "Blue";
-this.image_ = "https://mark4pro.github.io/Games/Mini_Game_Collection/Images/Blue_Ball.png";
-	this.setUpPf = function() {
-	this.pfpic = document.createElement("img");
-	this.pfpic.id = "blue";	
-	this.pfpic.width = "0";
-	this.pfpic.height = "0";
-	this.pfpic.src = this.image_;
-	document.getElementById("profileImages").appendChild(this.pfpic);
+const engineSettings = {
+	"Image_Smoothing":false,
+	"Allow_Shadows":true,
+	"Debug":{
+		"Show_FPS_Counter":false,
+		"Show_Delta_Time":false,
+		"Show_Debug_Cursor":false
 	}
-}
-function profile2() {
-this.name_ = "Red";
-this.image_ = "https://mark4pro.github.io/Games/Mini_Game_Collection/Images/Red_Ball.png";
-	this.setUpPf = function() {
-	this.pfpic = document.createElement("img");
-	this.pfpic.id = "red";	
-	this.pfpic.width = "0";
-	this.pfpic.height = "0";
-	this.pfpic.src = this.image_;
-	document.getElementById("profileImages").appendChild(this.pfpic);   
-	}
-}
-
-function iconSetup() {
-	switch (gamemode) {
-		case 0:
-			if (menus === 0 || menus === 3) {
-			pageIcon.href = "https://mark4pro.github.io/MiniGameCollection/Images/Icons/Main_Icon.ico";
-			}
-			if (menus === 1) {
-			pageIcon.href = "https://mark4pro.github.io/MiniGameCollection/Images/Icons/Tank_War_Icon.ico";
-			}
-			if (menus === 2) {
-			pageIcon.href = "https://mark4pro.github.io/MiniGameCollection/Images/Icons/Line_Battle_Icon.ico";
-			}
-		break;
-		case 1:
-		pageIcon.href = "https://mark4pro.github.io/MiniGameCollection/Images/Icons/Tank_War_Icon.ico";
-		break;
-		case 2:
-		pageIcon.href = "https://mark4pro.github.io/MiniGameCollection/Images/Icons/Line_Battle_Icon.ico";
-		break;
-	}
-}
-
-//inits everything
-function init(type) {
-this.type = type;
-	if (this.type === 'full') {
-	iconSetup();
-	window.addEventListener('resize', resizeHandler);
-	loadSettings();
-	Setup.init();
-	isLoaded = true;
-	}
-}
-
-function initMain() {
-//component(name, width, height, color, x, y, type, id, lineWidth, strokeStyle, timeAlive)
-//bottom
-//Main gameObjects
-winButton = new component("win", 410, 70, "grey", 640, 360, "rec");
-winButton.globalAlpha = 0;
-gameObjects0.push(winButton);
-profilePic1 = new component("win", 50, 50, "Line_Battle_Dead_Player", 465, 360, "img");
-profilePic1.globalAlpha = 0;
-gameObjects0.push(profilePic1);
-profilePic2 = new component("win", 50, 50, "Line_Battle_Dead_Player", 815, 360, "img");
-profilePic2.globalAlpha = 0;
-gameObjects0.push(profilePic2);
-winText = new component("win", "50px", "Arial", "white", 640, 375, "text", "center");
-winText.globalAlpha = 0;
-gameObjects0.push(winText);
-cursor = new component("cursor", 10, 10, "green", 200, 200, "rec");
-gameObjects0.push(cursor);
-//top
-}
-
-/**(x/target, y/positionData, positionData/repeat, repeat/startingFrame, startingFrame/numberOfFrames,
-frameWidth/speed, frameHeight/numberOfFrames/startFade, numberOfFrames/speed/fadeSpeed, speed/startFade/frameToStartFade,
-startFade/fadeSpeed/movingAnimationMode, fadeSpeed/frameToStartFade, frameToStartFade/movingAnimationMode, movingAnimationMode)**/
-function initTW() {
-//component(name, width, height, color, x, y, type, id, lineWidth, strokeStyle, timeAlive)
-//bottom
-//Tank War
-TWBackground1 = new component("BG1", 1280, 720, "Tank_War_Background_1", 640, 360, "img");
-gameObjects1.push(TWBackground1);
-TWPlayer2Collision = new component("Player2Coll", 50, 50, "red", 1230, 600, "rec");
-TWPlayer2Collision.globalAlpha = 0;
-gameObjects1.push(TWPlayer2Collision);
-TWPlayer2 = new component("Player2", 50, 50, "Tank_War_Player_2", 1230, 600, "img");
-gameObjects1.push(TWPlayer2);
-TWPlayer1Collision = new component("Player1Coll", 50, 50, "blue", 50, 120, "rec");
-TWPlayer1Collision.globalAlpha = 0;
-gameObjects1.push(TWPlayer1Collision);
-TWPlayer1 = new component("Player1", 50, 50, "Tank_War_Player_1", 50, 120, "img");
-gameObjects1.push(TWPlayer1);
-Tank2Explosion = new animation(TWPlayer2Collision.x, TWPlayer2Collision.y, ["Tank_War_Eplosion_1","Tank_War_Eplosion_2","Tank_War_Eplosion_3","Tank_War_Eplosion_4","Tank_War_Eplosion_5","Tank_War_Eplosion_6","Tank_War_Eplosion_7"], false, 0, [{w:45,h:45},{w:119,h:113},{w:196,h:191},{w:354,h:342},{w:345,h:333},{w:193,h:208},{w:126,h:136}], 6, 2, "both", 0.08, 3);
-Tank1Explosion = new animation(TWPlayer1Collision.x, TWPlayer1Collision.y, ["Tank_War_Eplosion_1","Tank_War_Eplosion_2","Tank_War_Eplosion_3","Tank_War_Eplosion_4","Tank_War_Eplosion_5","Tank_War_Eplosion_6","Tank_War_Eplosion_7"], false, 0, [{w:45,h:45},{w:119,h:113},{w:196,h:191},{w:354,h:342},{w:345,h:333},{w:193,h:208},{w:126,h:136}], 6, 2, "both", 0.08, 3);
-//upgrade menu
-UGMenu = new component("UpgradeMenu", 1280, 720, "grey", 640, 360, "rec");
-UGMenu.globalAlpha = 0;
-gameObjects1.push(UGMenu);
-UGText = new component("Upgrade Menu", "50px", "Arial", "white", 640, 50, "text", "center");
-UGText.globalAlpha = 0;
-gameObjects1.push(UGText);
-UGTank1Points = new component("Blue's Points:", "50px", "Arial", "white", 640, 50, "text", "start");
-UGTank1Points.globalAlpha = 0;
-gameObjects1.push(UGTank1Points);
-UGTank2Points = new component("Red's Points:", "50px", "Arial", "white", 640, 50, "text", "start");
-UGTank2Points.globalAlpha = 0;
-gameObjects1.push(UGTank2Points);
-UGButton1 = new component("UpgradeMenu", 200, 100, "darkgrey", 640, 150, "rec");
-UGButton1.globalAlpha = 0;
-gameObjects1.push(UGButton1);
-UGButton1Txt = new component("Speed (0/2)", "30px", "Arial", "white", 640, 160, "text", "center");
-UGButton1Txt.globalAlpha = 0;
-gameObjects1.push(UGButton1Txt);
-UGButton2 = new component("UpgradeMenu", 200, 100, "darkgrey", 640, 282.5, "rec");
-UGButton2.globalAlpha = 0;
-gameObjects1.push(UGButton2);
-UGButton2Txt = new component("Bullet", "30px", "Arial", "white", 640, 280, "text", "center");
-UGButton2Txt.globalAlpha = 0;
-gameObjects1.push(UGButton2Txt);
-UGButton2_1Txt = new component("Rate (0/5)", "30px", "Arial", "white", 640, 310, "text", "center");
-UGButton2_1Txt.globalAlpha = 0;
-gameObjects1.push(UGButton2_1Txt);
-UGButton3 = new component("UpgradeMenu", 200, 100, "darkgrey", 640, 417.5, "rec");
-UGButton3.globalAlpha = 0;
-gameObjects1.push(UGButton3);
-UGButton3Txt = new component("Rotation", "30px", "Arial", "white", 640, 412.5, "text", "center");
-UGButton3Txt.globalAlpha = 0;
-gameObjects1.push(UGButton3Txt);
-UGButton3_1Txt = new component("Speed (0/2)", "30px", "Arial", "white", 640, 445, "text", "center");
-UGButton3_1Txt.globalAlpha = 0;
-gameObjects1.push(UGButton3_1Txt);
-UGButtonNext = new component("UpgradeMenu", 200, 100, "darkgrey", 640, 550, "rec");
-UGButtonNext.globalAlpha = 0;
-gameObjects1.push(UGButtonNext);
-UGButtonNextTxt = new component("Next", "50px", "Arial", "white", 640, 565, "text", "center");
-UGButtonNextTxt.globalAlpha = 0;
-gameObjects1.push(UGButtonNextTxt);
-UGTurnTxt = new component("Turn", "50px", "Arial", "white", 640, 680, "text", "center");
-UGTurnTxt.globalAlpha = 0;
-gameObjects1.push(UGTurnTxt);
-//top
-}
-
-function initLB() {
-//component(name, width, height, color, x, y, type, id, lineWidth, strokeStyle, timeAlive)
-//bottom
-//Line Battle
-LBPlayer1Collision = new component("Player1Coll", 25, 50, "blue", 50, 120, "cir");
-LBPlayer1Collision.globalAlpha = 0;
-gameObjects2.push(LBPlayer1Collision);
-LBPlayer1 = new component("Player1", 50, 50, "Line_Battle_Player_1", 50, 120, "img");
-gameObjects2.push(LBPlayer1);
-LBPlayer2Collision = new component("Player2Coll", 25, 50, "red", 1230, 600, "cir");
-LBPlayer2Collision.globalAlpha = 0;
-gameObjects2.push(LBPlayer2Collision);
-LBPlayer2 = new component("Player2", 50, 50, "Line_Battle_Player_2", 1230, 600, "img");
-gameObjects2.push(LBPlayer2);
-//top
-}
-
-//sets saved vars
-function loadSettings() {
-//move to own function
-P1info = new profile1();
-P2info = new profile2()
-//P1info.image_;
-//P2info.image_;
-P1info.setUpPf();
-P2info.setUpPf();
-	if (localStorage && 'UISCALE_' in localStorage) {
-	UIScaleNumber = localStorage.UISCALE_;
-	UIScale.value = localStorage.UISCALE_;
-	resizeHandler("fuckRightOff");
-	} else {
-	resizeHandler();
-	}
-}
-
-//menu controls
-function menuManger(type) {
-this.type = type;
-	switch (this.type) {
-		case 'Back':
-			if (menus !== 0) {
-			menus = 0;
-			}
-		break;
-		case 'Leave':
-		resetGame("Master");
-		gamemode = 0;
-		menus = 0;//delete later
-		break;
-		case 'Tank':
-		menus = 1;
-		gamemode = 1;//delete later
-		scaleControls();//change later
-		break;
-		case 'Line':
-		menus = 2;
-		gamemode = 2;//delete later
-		scaleControls();//change later
-		break;
-		case 'Settings':
-		menus = 3;
-		break;
-	}
-}
-
-//sets up game stuff
-var nativeWidth = 1280; 
-var nativeHeight = 720;
-var Setup = {
-	init : function() {
-	canvas.className = "unselectable";
-	document.addEventListener("keydown",keyDownHandler, false);	
-	document.addEventListener("keyup",keyUpHandler, false);
-	this.interval = setInterval(mainUpdateLoop, 10);
-	}, 
-	updateScreen : function(){
-	ctx.clearRect(0, 0, nativeWidth, nativeHeight);
-		if (pause) {
-		Setup.pause();
-		}
-		if (!pause) {
-		Setup.unpause();
-		}
-	},
-	pause : function(){
-	stopControls = true;
-	},
-	unpause : function(){
-	stopControls = false;
-    }
-}
-
-//handles screen resize
-var deviceWidth = window.innerWidth;
-var deviceHeight = window.innerHeight;
-var scaleFillNativeWidth = (parseFloat(deviceWidth / nativeWidth)+parseFloat(UIScaleNumber));
-var scaleFillNativeHeight = (parseFloat(deviceHeight / nativeHeight)+parseFloat(UIScaleNumber));
-var scaleHeight = parseFloat(deviceHeight / nativeHeight);
-function resizeHandler(setup) {
-this.setup = setup;
-deviceWidth = window.innerWidth;
-deviceHeight = window.innerHeight;
-scaleFillNativeWidth = (parseFloat(deviceWidth / nativeWidth)+parseFloat(UIScaleNumber));
-scaleFillNativeHeight = (parseFloat(deviceHeight / nativeHeight)+parseFloat(UIScaleNumber));
-scaleWidth = parseFloat(deviceWidth / nativeWidth);
-scaleHeight = parseFloat(deviceHeight / nativeHeight);
-canvas.width = deviceWidth;
-canvas.height = deviceHeight;
-	if (this.setup === undefined || this.setup === null) {
-	localStorage && (localStorage.UISCALE_ = UIScaleNumber);
-	}
-ctx.setTransform(scaleWidth,0,0,scaleHeight,0,0);
-scaleControls();
-}
-
-//constructor
-function component(name, width, height, color, x, y, type, id, lineWidth, strokeStyle) {
-this.name = name;
-this.width = width;
-this.height = height;
-this.color = color;
-this.x = x;
-this.y = y;
-this.type = type;
-this.id = id;
-this.lineWidth = lineWidth;
-this.strokeStyle = strokeStyle;
-this.timeAlive = 0;
-this.radius = width;
-this.globalAlpha = 1;
-this.points = 0;
-this.upgradePoints = 0;
-this.speedUpgrade = 0;
-this.bulletRateUpgrade = 0;
-this.rotateSpeedUpgrade = 0;
-this.dead = false;
-this.won = false;
-this.scored = false;
-this.setRot = false;
-this.directionSwitch = 0;
-this.rotLock = false;
-this.speed = 0;
-this.rotationSpeed = 0;
-this.angle = 0;
-this.pointsX = [];
-this.pointsY = [];
-this._bullets = [];
-this._dirtTracks = [];
-this.numOfTracks = 0;
-this.numOfRings = 0;
-this.fireTime = 0;
-this.shadowColor_ = "";
-this.shadowBlur_ = 0;
-this.shadowOffsetX_ = 0;
-this.shadowOffsetY_ = 0;
-this.frameX = 0;
-this.frameY = 0;
-this.frameWidth = this.width;
-this.frameHeight = this.height;
-this._badObjs = [];
-	this.returnPoints = function(type_) {
-	this.type_ = type_;
-		switch (this.type_) {
-			case "normal":
-			return this.points;
-			break;
-			case "roundUp":
-			this.renderedPoints = Math.ceil(this.points);
-			return this.renderedPoints;
-			break;
-			case "roundDown":
-			this.renderedPoints = Math.floor(this.points);
-			return this.renderedPoints;
-			break;
-		}
-	}
-	this.returnDistance = function(object) {
-	this.object = object;
-	var a = this.x-object.x;
-	var b = this.y-object.y;
-	return Math.sqrt((a*a)+(b*b));
-	}
-	this.update = function() {
-		ctx.imageSmoothingEnabled = false;
-		switch (this.type) {
-			case "text":
-			ctx.globalAlpha = this.globalAlpha;
-			ctx.shadowColor = this.shadowColor_;
-			ctx.shadowBlur = this.shadowBlur_;
-			ctx.shadowOffsetX = this.shadowOffsetX_;
-			ctx.shadowOffsetY = this.shadowOffsetY_;
-			ctx.textAlign = this.id;
-			ctx.font = this.width + " " + this.height;
-			ctx.fillStyle = this.color;
-			ctx.fillText(this.name, this.x, this.y);
-			break;
-			case "rec":
-			ctx.globalAlpha = this.globalAlpha;
-			ctx.shadowColor = this.shadowColor_;
-			ctx.shadowBlur = this.shadowBlur_;
-			ctx.shadowOffsetX = this.shadowOffsetX_;
-			ctx.shadowOffsetY = this.shadowOffsetY_;
-				if (gamemode !== 1) {
-				ctx.save();
-				ctx.translate(this.x, this.y);
-				ctx.rotate(this.angleDegrees);
-				ctx.fillStyle = this.color;
-				ctx.fillRect(this.width/-2, this.height/-2, this.width, this.height);
-				ctx.restore();
-				} else {
-				this.pointsX[0]=(-this.width/2*Math.cos(this.angleDegrees)-(-this.width/2)*Math.sin(this.angleDegrees))+this.x;
-				this.pointsY[0]=(-this.height/2*Math.sin(this.angleDegrees)+(-this.height/2)*Math.cos(this.angleDegrees))+this.y;
-				this.pointsX[1]=(this.width/2*Math.cos(-this.angleDegrees)-this.width/2*Math.sin(-this.angleDegrees))+this.x;
-				this.pointsY[1]=(-this.height/2*Math.sin(-this.angleDegrees)+(-this.height/2)*Math.cos(-this.angleDegrees))+this.y;
-				this.pointsX[2]=(this.width/2*Math.cos(this.angleDegrees)-this.width/2*Math.sin(this.angleDegrees))+this.x;
-				this.pointsY[2]=(this.height/2*Math.sin(this.angleDegrees)+this.height/2*Math.cos(this.angleDegrees))+this.y;
-				this.pointsX[3]=(-this.width/2*Math.cos(-this.angleDegrees)-(-this.width/2)*Math.sin(-this.angleDegrees))+this.x;
-				this.pointsY[3]=(this.height/2*Math.sin(-this.angleDegrees)+this.height/2*Math.cos(-this.angleDegrees))+this.y;
-				ctx.beginPath();
-				ctx.moveTo(this.x, this.y);//center position
-				ctx.lineTo(this.pointsX[0], this.pointsY[0]);
-				ctx.lineTo(this.pointsX[1], this.pointsY[1]);
-				ctx.lineTo(this.pointsX[2], this.pointsY[2]);
-				ctx.lineTo(this.pointsX[3], this.pointsY[3]);
-				ctx.lineTo(this.pointsX[0], this.pointsY[0]);
-				ctx.fillStyle = this.color;
-				ctx.fill();
-				}
-			break;
-			case "cir":
-			ctx.globalAlpha = this.globalAlpha;
-			ctx.shadowColor = this.shadowColor_;
-			ctx.shadowBlur = this.shadowBlur_;
-			ctx.shadowOffsetX = this.shadowOffsetX_;
-			ctx.shadowOffsetY = this.shadowOffsetY_;
-			ctx.beginPath();
-			ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);
-			ctx.fillStyle = this.color;
-			ctx.fill();
-			ctx.closePath();
-				if (this.name !== "bullet" && gamemode === 1) {
-				ctx.lineWidth = this.lineWidth;
-				ctx.strokeStyle = this.strokeStyle;
-				ctx.stroke();
-				}
-			break;
-			case "img":
-			ctx.globalAlpha = this.globalAlpha;
-			ctx.shadowColor = this.shadowColor_;
-			ctx.shadowBlur = this.shadowBlur_;
-			ctx.shadowOffsetX = this.shadowOffsetX_;
-			ctx.shadowOffsetY = this.shadowOffsetY_;
-			ctx.save();
-			ctx.translate(this.x, this.y);
-			ctx.rotate(this.angleDegrees);
-			var img = document.getElementById(this.color);
-			ctx.drawImage(img, this.frameX, this.frameY, this.frameWidth, this.frameHeight, this.width/-2, this.height/-2, this.width, this.height);
-			ctx.restore();
-			break;
-		}
-	}
-	this.newPos = function() {
-		if (this.name === "bullet") {
-		this.timeAlive += 0.2;
-		}
-		if (gamemode === 3) {
-			if (this.angleDegrees > 180) {
-			this.angle = 0;
-			}
-			if (this.angleDegrees < 0) {
-			this.angle = 180;
-			}
-		}
-		if (gamemode !== 3) {
-			if (this.angleDegrees > 360) {
-			this.angle = 0;
-			}
-			if (this.angleDegrees < 0) {
-			this.angle = 360;
-			}
-		}
-	this.angleDegrees = (this.angle*(Math.PI/180));
-	this.x += (this.speed*Math.sin(this.angleDegrees));
-	this.y += (-this.speed*Math.cos(this.angleDegrees));
-	}
-	switch (this.name) {
-		case "Player1Coll":
-			this.shoot = function(){
-				if(!this.dead){
-					if (gamemode === 1) {
-					var __bullet = new component("bullet", Player1BulletSize, Player1BulletSize, "darkblue", TWPlayer1Collision.x, TWPlayer1Collision.y, "rec", "", "");
-					__bullet.shadowColor_ = "white";
-					__bullet.shadowBlur_ = 15;
-					__bullet.angle = this.angle;
-					__bullet.speed = (-TWPlayer1Speed*2);
-					}
-					if (gamemode === 2) {
-					var __bullet = new component("bullet", 5, 5, "darkblue", LBPlayer1Collision.x, LBPlayer1Collision.y, "cir", "", "");
-					}
-				this._bullets.push(__bullet);
-				}
-			}
-		break;
-		case "Player2Coll":
-			this.shoot = function(){
-				if(!this.dead){
-					if (gamemode === 1) {
-					var __bullet = new component("bullet", Player2BulletSize, Player2BulletSize, "darkred", TWPlayer2Collision.x, TWPlayer2Collision.y, "rec", "", "");
-					__bullet.shadowColor_ = "white";
-					__bullet.shadowBlur_ = 15;
-					__bullet.angle = (this.angle + 180);
-					__bullet.speed = (-TWPlayer2Speed*2)
-					}
-					if (gamemode === 2) {
-					var __bullet = new component("bullet", 5, 5, "darkred", LBPlayer2Collision.x, LBPlayer2Collision.y, "cir", "", "");
-					}
-				this._bullets.push(__bullet);
-				}
-			}
-		break;
-		case "Player3Coll":
-			this.shoot = function(){
-				if(!this.dead){
-				/*var __bullet = new component("lightblue", this.bulletSize, this.bulletSize, "Tank2Bull", Tank2.x, Tank2.y, "Bull", "Tank2");
-				this._bullets.push(__bullet);*/
-				}
-			}
-		break;
-		case "Player4Coll":
-			this.shoot = function(){
-				if(!this.dead){
-				/*var __bullet = new component("lightblue", this.bulletSize, this.bulletSize, "Tank2Bull", Tank2.x, Tank2.y, "Bull", "Tank2");
-				this._bullets.push(__bullet);*/
-				}
-			}
-		break;
-	}
-	this.dirtTracks = function(){
-		if(!this.dead){
-			if (gamemode === 1) {
-				if (this.name === "Player1Coll") {
-					if (StartRotation1) {
-					var __dirt = new component("dirt", 50, 50, "Tank_War_Dirt_Tracks", this.x, this.y, "img");
-					this.numOfTracks++;
-					__dirt.angle = this.angle;
-					} else {
-					var __dirt = new component("dirtRing", 50, 50, "Tank_War_Dirt_Ring", this.x, this.y, "img");
-					this.numOfRings++;
-					}
-				}
-				if (this.name === "Player2Coll") {
-					if (StartRotation2) {
-					var __dirt = new component("dirt", 50, 50, "Tank_War_Dirt_Tracks", this.x, this.y, "img");
-					this.numOfTracks++;
-					__dirt.angle = this.angle;
-					} else {
-					var __dirt = new component("dirtRing", 50, 50, "Tank_War_Dirt_Ring", this.x, this.y, "img");
-					this.numOfRings++;
-					}
-				}
-			}
-		this._dirtTracks.push(__dirt);
-		}
-	}
-	this.spawn = function(){
-		if(!this.dead){
-		var __badObj = new component("badObj", 5, 5, "#A30F0F", Math.floor((Math.random()*1280-20)+20), Math.floor((Math.random()*720-1)+1), "cir");
-		this._badObjs.push(__badObj);
-		}
-	}
-	//circle vs. circle
-	this.circleCrashWith = function(otherobj) {
-	var distance_x = (this.x - otherobj.x);
-	var distance_y = (this.y - otherobj.y);
-	var rSum = (this.radius + otherobj.radius);
-	var result1 = (Math.pow(distance_x, 2) + Math.pow(distance_y, 2));
-	var result2 = Math.pow(rSum, 2);
-		if (result1 <= result2) { 
-		return true;
-		} else {
-		return false;
-		}
-	}
-	//rectangle vs. rectangle
-	this.crashWith = function(otherobj) {
-	var r1 = ((this.x-this.width/2) + this.width);
-	var b1 = ((this.y-this.height/2) + this.height);
-	var r2 = ((otherobj.x-otherobj.width/2) + otherobj.width);
-	var b2 = ((otherobj.y-otherobj.height/2) + otherobj.height);
-		if (b1 < otherobj.y-otherobj.height/2 || this.y-this.height/2 > b2 || r1 < otherobj.x-otherobj.width/2 || this.x-this.width/2 > r2) {
-		return false;
-		} else {
-		return true;
-		}
-	}
-	//circle vs. rectangle
-	this.mixCrashWith = function(otherobj) {
-		if (this.type === "cir") {
-		var widthHalf = (otherobj.width/2);
-		var heightHalf = (otherobj.height/2);
-		var distance_x = Math.abs(this.x - otherobj.x - widthHalf);
-		var distance_y = Math.abs(this.y - otherobj.y - heightHalf);
-		var result1 = (widthHalf + this.radius);
-		var result2 = (heightHalf + this.radius);
-		var dx = (distance_x - widthHalf);
-		var dy = (distance_y - heightHalf);
-		var result3 = (Math.pow(dx, 2) + Math.pow(dy, 2));
-		var result4 = Math.pow(this.radius, 2);
-			if (distance_x > result1 || distance_y > result2) {
-			return false;
-			}
-			if (distance_x <= widthHalf && distance_y <= heightHalf) {
-			return true;
-			} 
-			if (result3 <= result4) {
-			return true;
-			}
-		} else {
-		var widthHalf = this.width/2;
-		var heightHalf = this.height/2;
-		var distance_x = Math.abs(otherobj.x - this.x - widthHalf);
-		var distance_y = Math.abs(otherobj.y - this.y - heightHalf);
-		var result1 = (widthHalf + otherobj.radius);
-		var result2 = (heightHalf + otherobj.radius);
-		var dx = (distance_x - widthHalf);
-		var dy = (distance_y - heightHalf);
-		var result3 = (Math.pow(dx, 2) + Math.pow(dy, 2));
-		var result4 = Math.pow(otherobj.radius, 2);
-			if (distance_x > result1 || distance_y > result2) {
-			return false;
-			}
-			if (distance_x <= widthHalf && distance_y <= heightHalf) {
-			return true;
-			} 
-			if (result3 <= result4) {
-			return true;
-			}
-		}
-	}
-}
-
-/**(x/target, y/positionData, positionData/repeat, repeat/startingFrame, startingFrame/numberOfFrames,
-frameWidth/speed, frameHeight/numberOfFrames/startFade, numberOfFrames/speed/fadeSpeed,
-speed/startFade/frameToStartFade, startFade/fadeSpeed/movingAnimationMode, fadeSpeed/frameToStartFade,
-frameToStartFade/movingAnimationMode, movingAnimationMode)
-component(name, width, height, color, x, y, type, id, lineWidth, strokeStyle)**/
-function animation(x, y, positionData, repeat, startingFrame, frameWidth, frameHeight, numberOfFrames, speed, startFade, fadeSpeed, frameToStartFade, movingAnimationMode) {
-//enternal vars
-this.x = x;
-this.y = y;
-this.positionData = positionData;
-this.repeat = repeat;
-this.startingFrame = startingFrame;
-this.frameWidth = frameWidth;
-this.frameHeight = frameHeight;
-this.numberOfFrames = numberOfFrames;
-this.speed = speed;
-this.startFade = startFade;
-this.fadeSpeed = fadeSpeed;
-this.frameToStartFade = frameToStartFade;
-this.movingAnimationMode = movingAnimationMode;
-//internal vars
-this.targetMode = false;
-this.dataMode = false;
-this.sizeDataMode = false;
-this.time = 0;
-this.initialize = false;
-this.setup = false;
-this.startingGlobalAlpha = 1;
-this.done = false;
-	if (typeof this.x === "object") {
-	this.targetMode = true;
-		if (this.frameHeight === "fadeIn" || this.frameHeight === "both") {
-		this.startingGlobalAlpha = 0;
-		this.x.globalAlpha = this.startingGlobalAlpha;
-		}
-		if (this.frameHeight === "fadeOut") {
-		this.startingGlobalAlpha = 1;
-		this.x.globalAlpha = this.startingGlobalAlpha;
-		}
-	} else {
-	this.targetMode = false;
-		if (typeof this.frameWidth === "object") {
-		this.sizeDataMode = true;
-		this.animationObj = new component("animation", this.frameWidth[0].w, this.frameWidth[0].h, this.positionData[0], this.x, this.y, "img");
-			if (this.speed === "fadeIn" || this.speed === "both") {
-			this.startingGlobalAlpha = 0;
-			}
-			if (this.speed === "fadeOut") {
-			this.startingGlobalAlpha = 1;
-			}
-		this.animationObj.globalAlpha = this.startingGlobalAlpha;
-			if (gamemode === 1) {
-			gameObjects1.push(this.animationObj);
-			}
-			if (gamemode === 2) {
-			gameObjects2.push(this.animationObj);
-			}
-			if (gamemode === 3) {
-			gameObjects3.push(this.animationObj);
-			}
-		} else {
-		this.sizeDataMode = false;
-		this.animationObj = new component("animation", this.frameWidth, this.frameHeight, this.positionData[0], this.x, this.y, "img");
-			if (this.startFade === "fadeIn" || this.startFade === "both") {
-			this.startingGlobalAlpha = 0;
-			}
-			if (this.startFade === "fadeOut") {
-			this.startingGlobalAlpha = 1;
-			}
-		this.animationObj.globalAlpha = this.startingGlobalAlpha;
-			if (gamemode === 1) {
-			gameObjects1.push(this.animationObj);
-			}
-			if (gamemode === 2) {
-			gameObjects2.push(this.animationObj);
-			}
-			if (gamemode === 3) {
-			gameObjects3.push(this.animationObj);
-			}
-		}
-	}
-//logic
-	this.init = function() {
-		if (typeof this.y[0] === "object") {
-		this.dataMode = true;
-		} else {
-		this.dataMode = false;
-		}
-		if (!this.targetMode) {
-		this.currentFrame = this.startingFrame;
-		} else {
-		this.currentFrame = this.repeat;
-		}
-	}
-	this.resetANIMATION = function() {
-		this.done = false;
-		this.time = 0;
-		if (this.targetMode) {
-		this.currentFrame = this.repeat;
-		this.x.globalAlpha = this.startingGlobalAlpha;
-		} else {
-		this.currentFrame = this.startingFrame;
-		this.animationObj.globalAlpha = this.startingGlobalAlpha;
-		}
-	}
-	this.update = function() {
-		if (!this.initialize) {
-		this.init();
-		this.initialize = true;
-		} else {
-			if (this.targetMode) {
-				if (this.currentFrame < this.startingFrame) {
-				this.time += this.frameWidth;
-				}
-				if (this.time >= 10) {
-					if (this.currentFrame !== this.startingFrame) {
-					this.currentFrame++;;
-					}
-				this.time = 0;
-				}
-				if (debug) {
-				console.log("Current Frame: "+ this.currentFrame +" Time: "+ this.time +" Done: "+ this.done +" Global Alpha: "+ this.x.globalAlpha +" Upgrade Menu Active: "+ UpgradeMenu +" Upgrade Menu Global Alpha: "+ UGMenu.globalAlpha);
-				}
-				if (this.currentFrame >= this.startingFrame && this.positionData) {
-				this.resetANIMATION();
-				}
-				if (this.currentFrame >= this.startingFrame && !this.positionData) {
-				this.done = true;
-				}
-				if (this.frameHeight === "fadeIn" && this.currentFrame >= this.numberOfFrames) {
-						if (this.x.globalAlpha < 1) {
-						this.x.globalAlpha += this.startFade;
-						}
-						if (this.x.globalAlpha >= 1) {
-						this.x.globalAlpha = 1;
-						}
-					}
-					if (this.frameHeight === "fadeOut" && this.currentFrame >= this.numberOfFrames) {
-						if (this.x.globalAlpha > 0) {
-						this.x.globalAlpha -= this.startFade;
-						}
-						if (this.x.globalAlpha <= 0) {
-						this.x.globalAlpha = 0;
-						}
-					}
-					if (this.frameHeight === "both") {
-						if (this.currentFrame < this.numberOfFrames) {
-							if (this.x.globalAlpha < 1) {
-							this.x.globalAlpha += this.startFade;
-							}
-							if (this.x.globalAlpha >= 1) {
-							this.x.globalAlpha = 1;
-							}
-						}
-						if (this.currentFrame >= this.numberOfFrames) {
-							if (this.x.globalAlpha > 0) {
-							this.x.globalAlpha -= this.startFade;
-							}
-							if (this.x.globalAlpha <= 0) {
-							this.x.globalAlpha = 0;
-							}
-						}
-					}
-				if (this.dataMode) {
-				this.x.frameX = this.y[this.currentFrame].x;
-				this.x.frameY = this.y[this.currentFrame].y;
-				} else {
-				this.x.color = this.y[this.currentFrame];
-				}
-			} else {
-				if (this.sizeDataMode) {
-					if (this.currentFrame < this.frameHeight) {
-					this.time += this.numberOfFrames;
-					}
-					if (this.time >= 10) {
-						if (this.currentFrame !== this.frameHeight) {
-						this.currentFrame++;;
-						console.log("test " + this.animationObj.globalAlpha);
-						}
-					this.time = 0;
-					}
-					if (debug) {
-					console.log("Current Frame: "+ this.currentFrame +" Time: "+ this.time +" Done: "+ this.done +" Global Alpha: "+ this.animationObj.globalAlpha +" Upgrade Menu Active: "+ UpgradeMenu +" Upgrade Menu Global Alpha: "+ UGMenu.globalAlpha);
-					}
-					if (this.currentFrame >= this.frameHeight && this.repeat) {
-					this.resetANIMATION();
-					}
-					if (this.currentFrame >= this.frameHeight && !this.repeat) {
-					this.done = true;
-					}
-					if (this.speed === "fadeIn" && this.currentFrame >= this.fadeSpeed) {
-						if (this.animationObj.globalAlpha < 1) {
-						this.animationObj.globalAlpha += this.startFade;
-						}
-						if (this.animationObj.globalAlpha >= 1) {
-						this.animationObj.globalAlpha = 1;
-						}
-					}
-					if (this.speed === "fadeOut" && this.currentFrame >= this.fadeSpeed) {
-						if (this.animationObj.globalAlpha > 0) {
-						this.animationObj.globalAlpha -= this.startFade;
-						}
-						if (this.animationObj.globalAlpha <= 0) {
-						this.animationObj.globalAlpha = 0;
-						}
-					}
-					if (this.speed === "both") {
-						if (this.currentFrame < this.fadeSpeed) {
-							if (this.animationObj.globalAlpha < 1) {
-							this.animationObj.globalAlpha += this.startFade;
-							}
-							if (this.animationObj.globalAlpha >= 1) {
-							this.animationObj.globalAlpha = 1;
-							}
-						}
-						if (this.currentFrame >= this.fadeSpeed) {
-							if (this.animationObj.globalAlpha > 0) {
-							this.animationObj.globalAlpha -= this.startFade;
-							}
-							if (this.animationObj.globalAlpha <= 0) {
-							this.animationObj.globalAlpha = 0;
-							}
-						}
-					}
-					this.animationObj.width = this.frameWidth[this.currentFrame].w;
-					this.animationObj.height = this.frameWidth[this.currentFrame].h;
-					this.animationObj.frameWidth = this.frameWidth[this.currentFrame].w;
-					this.animationObj.frameHeight = this.frameWidth[this.currentFrame].h;
-					this.animationObj.color = this.positionData[this.currentFrame];
-				} else {
-					if (this.currentFrame < this.numberOfFrames) {
-					this.time += this.speed;
-					}
-					if (this.time >= 10) {
-						if (this.currentFrame !== this.numberOfFrames) {
-						this.currentFrame++;;
-						}
-					this.time = 0;
-					}
-					if (debug) {
-					console.log("Current Frame: "+ this.currentFrame +" Time: "+ this.time +" Done: "+ this.done +" Global Alpha: "+ this.animationObj.globalAlpha +" Upgrade Menu Active: "+ UpgradeMenu +" Upgrade Menu Global Alpha: "+ UGMenu.globalAlpha);
-					}
-					if (this.currentFrame >= this.numberOfFrames && this.repeat) {
-					this.resetANIMATION();
-					}
-					if (this.currentFrame >= this.numberOfFrames && !this.repeat) {
-					this.done = true;
-					}
-					if (this.startFade === "fadeIn" && this.currentFrame >= this.frameToStartFade) {
-						if (this.animationObj.globalAlpha < 1) {
-						this.animationObj.globalAlpha += this.fadeSpeed;
-						}
-						if (this.animationObj.globalAlpha >= 1) {
-						this.animationObj.globalAlpha = 1;
-						}
-					}
-					if (this.startFade === "fadeOut" && this.currentFrame >= this.frameToStartFade) {
-						if (this.animationObj.globalAlpha > 0) {
-						this.animationObj.globalAlpha -= this.fadeSpeed;
-						}
-						if (this.animationObj.globalAlpha <= 0) {
-						this.animationObj.globalAlpha = 0;
-						}
-					}
-					if (this.startFade === "both") {
-						if (this.currentFrame < this.frameToStartFade) {
-							if (this.animationObj.globalAlpha < 1) {
-							this.animationObj.globalAlpha += this.fadeSpeed;
-							}
-							if (this.animationObj.globalAlpha >= 1) {
-							this.animationObj.globalAlpha = 1;
-							}
-						}
-						if (this.currentFrame >= this.frameToStartFade) {
-							if (this.animationObj.globalAlpha > 0) {
-							this.animationObj.globalAlpha -= this.fadeSpeed;
-							}
-							if (this.animationObj.globalAlpha <= 0) {
-							this.animationObj.globalAlpha = 0;
-							}
-						}
-					}
-					this.animationObj.color = this.positionData[this.currentFrame];	
-				}
-			}
-		}
-	}
-}
-
-function array_move(arr, old_index, new_index) {
-    if (new_index >= arr.length) {
-        var k = new_index - arr.length + 1;
-        while (k--) {
-            arr.push(undefined);
-        }
-    }
-    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-    return arr; // for testing
 };
 
-//main update loop
-var arrayLoad = false;
-function mainUpdateLoop() {
-	iconSetup();
-	controlsSwapper();
-	Setup.updateScreen();
-	controlReset();
-	arrayLoader();
-	LayerFixer();
-	upgradeMenuManager();
-	dirtTrackMG();
-	rotationMovement();
-	updatePos();
-	objectManipulation();
-	bulletCollision();
-	playerCollision();
-	deadCheck();
-	winCheck();
-	renderer();
-}
+let isPaused = false;
 
-//Fix for layer issues
-var PLAY1 = 0;
-var PLAY2 = 0;
-function LayerFixer() {
-	if (gamemode === 1) {
-		if (StartRotation1) {
-			for (let i = 0; i < mainObjectArray.length; i++) {
-					if (mainObjectArray[i].name === "Player1") {
-					PLAY1 = i;
-					lockP1ArrayPos = true;
-					}
-					if (mainObjectArray[i].name === "Player2") {
-					PLAY2 = i;
-					lockP2ArrayPos = true;
-					}
-			}
-		array_move(mainObjectArray, PLAY2, PLAY1);
-		}
-		if (StartRotation2) {
-			for (let i = 0; i < mainObjectArray.length; i++) {
-					if (mainObjectArray[i].name === "Player1") {
-					PLAY1 = i;
-					lockP1ArrayPos = true;
-					}
-					if (mainObjectArray[i].name === "Player2") {
-					PLAY2 = i;
-					lockP2ArrayPos = true;
-					}
-			}
-		array_move(mainObjectArray, PLAY2, PLAY1);
-		}
+//Image folder path
+const imagePath = "./Images/";
+const videoPath = "./Videos/";
+
+//Engine resources
+let Close_UI = new imageData("close_ui", imagePath+"Close_Icon.png", new Vector2(64, 64));
+let Close_UI_Hover = new imageData("close_ui_hover", imagePath+"Close_Icon_Hover.png", new Vector2(64, 64));
+let Settings_Icon = new imageData("settings_icon", imagePath+"Settings.png", new Vector2(50, 50));
+
+//Clamp to a range
+function clamp(value=0, min=0, max=10) {
+	if (value < min) {
+		value = min;
 	}
-}
-
-//Logic for Upgrade Menu
-var turn = 0;
-var nextLock = false;
-var clickLock = false;
-function upgradeMenuManager() {
-	switch (gamemode) {
-		case 1:
-			switch (TWPlayer1Collision.speedUpgrade) {
-				case 0:
-				TWPlayer1Speed = 2;
-				break;
-				case 1:
-				TWPlayer1Speed = 3;
-				break;
-				case 2:
-				TWPlayer1Speed = 4;
-				break;
-			}
-			switch (TWPlayer1Collision.bulletRateUpgrade) {
-				case 0:
-				Player1BulletRate = 40;
-				break;
-				case 1:
-				Player1BulletRate = 35;
-				break;
-				case 2:
-				Player1BulletRate = 30;
-				break;
-				case 3:
-				Player1BulletRate = 25;
-				break;
-				case 4:
-				Player1BulletRate = 20;
-				break;
-				case 5:
-				Player1BulletRate = 15;
-				break;
-			}
-			switch (TWPlayer1Collision.rotateSpeedUpgrade) {
-				case 0:
-				Player1RotationSpeed = 1;
-				break;
-				case 1:
-				Player1RotationSpeed = 2;
-				break;
-				case 2:
-				Player1RotationSpeed = 3;
-				break;
-			}
-			switch (TWPlayer2Collision.speedUpgrade) {
-				case 0:
-				TWPlayer2Speed = 2;
-				break;
-				case 1:
-				TWPlayer2Speed = 3;
-				break;
-				case 2:
-				TWPlayer2Speed = 4;
-				break;
-			}
-			switch (TWPlayer2Collision.bulletRateUpgrade) {
-				case 0:
-				Player2BulletRate = 40;
-				break;
-				case 1:
-				Player2BulletRate = 35;
-				break;
-				case 2:
-				Player2BulletRate = 30;
-				break;
-				case 3:
-				Player2BulletRate = 25;
-				break;
-				case 4:
-				Player2BulletRate = 20;
-				break;
-				case 5:
-				Player2BulletRate = 15;
-				break;
-			}
-			switch (TWPlayer2Collision.rotateSpeedUpgrade) {
-				case 0:
-				Player2RotationSpeed = 1;
-				break;
-				case 1:
-				Player2RotationSpeed = 2;
-				break;
-				case 2:
-				Player2RotationSpeed = 3;
-				break;
-			}
-			if (UpgradeMenu) {
-				if (TWPlayer1Collision.scored || TWPlayer2Collision.scored) {
-					UGTank1Points.name = P1info.name_+"'s Points: "+TWPlayer1Collision.upgradePoints;
-					UGTank1Points.x = 5;
-					UGTank1Points.y = 360-25;
-					UGTank2Points.name = P2info.name_+"'s Points: "+TWPlayer2Collision.upgradePoints;
-					UGTank2Points.x = 5;
-					UGTank2Points.y = 360+25;
-					//Fade in
-					if (UGMenu.globalAlpha < 1) {
-					UGMenu.globalAlpha += 0.1;
-					UGText.globalAlpha += 0.1;
-					UGTank1Points.globalAlpha += 0.1;
-					UGTank2Points.globalAlpha += 0.1;
-					UGButton1.globalAlpha += 0.1;
-					UGButton1Txt.globalAlpha += 0.1;
-					UGButton2.globalAlpha += 0.1;
-					UGButton2Txt.globalAlpha += 0.1;
-					UGButton2_1Txt.globalAlpha += 0.1;
-					UGButton3.globalAlpha += 0.1;
-					UGButton3Txt.globalAlpha += 0.1;
-					UGButton3_1Txt.globalAlpha += 0.1;
-					UGButtonNext.globalAlpha += 0.1;
-					UGButtonNextTxt.globalAlpha += 0.1;
-					UGTurnTxt.globalAlpha += 0.1;
-					}
-					if (UGMenu.globalAlpha >= 1) {
-					UGMenu.globalAlpha = 1;
-					UGText.globalAlpha = 1;
-					UGTank1Points.globalAlpha = 1;
-					UGTank2Points.globalAlpha = 1;
-					UGButton1.globalAlpha = 1;
-					UGButton1Txt.globalAlpha = 1;
-					UGButton2.globalAlpha = 1;
-					UGButton2Txt.globalAlpha = 1;
-					UGButton2_1Txt.globalAlpha = 1;
-					UGButton3.globalAlpha = 1;
-					UGButton3Txt.globalAlpha = 1;
-					UGButton3_1Txt.globalAlpha = 1;
-					UGButtonNext.globalAlpha = 1;
-					UGButtonNextTxt.globalAlpha = 1;
-					UGTurnTxt.globalAlpha = 1;
-					}
-					//Change button color on hover
-					if (cursor.crashWith(UGButton1)) {
-					UGButton1.color = "#5B5B5B";
-					} else {
-					UGButton1.color = "darkgrey";
-					}
-					if (cursor.crashWith(UGButton2)) {
-					UGButton2.color = "#5B5B5B";
-					} else {
-					UGButton2.color = "darkgrey";
-					}
-					if (cursor.crashWith(UGButton3)) {
-					UGButton3.color = "#5B5B5B";
-					} else {
-					UGButton3.color = "darkgrey";
-					}
-					if (cursor.crashWith(UGButtonNext)) {
-					UGButtonNext.color = "#5B5B5B";
-					} else {
-					UGButtonNext.color = "darkgrey";
-					}
-					//Shadow on click/Action
-					if (cursor.crashWith(UGButton1) && pressed && !clickLock) {
-					UGButton1.shadowColor_ = "black";
-					UGButton1.shadowBlur_ = 10;
-					UGButton1.shadowOffsetX_ = 5;
-					UGButton1.shadowOffsetY_ = 5;
-					if (turn === 0 && TWPlayer1Collision.scored) {
-						if (TWPlayer1Collision.speedUpgrade < 2 && TWPlayer1Collision.upgradePoints !== 0) {
-						TWPlayer1Collision.speedUpgrade++;
-						TWPlayer1Collision.upgradePoints--;
-						}
-						if (TWPlayer1Collision.speedUpgrade >= 2) {
-						UGButton1Txt.color = "red";
-						}
-						if (TWPlayer1Collision.upgradePoints === 0) {
-						UGTank1Points.color = "red";
-						}
-					}
-					if (turn === 1 && TWPlayer1Collision.scored) {
-						if (TWPlayer2Collision.speedUpgrade < 2 && TWPlayer2Collision.upgradePoints !== 0) {
-						TWPlayer2Collision.speedUpgrade++;
-						TWPlayer2Collision.upgradePoints--;
-						}
-						if (TWPlayer2Collision.speedUpgrade >= 2) {
-						UGButton1Txt.color = "red";
-						}
-						if (TWPlayer2Collision.upgradePoints === 0) {
-						UGTank2Points.color = "red";
-						}
-					}
-					if (turn === 0 && TWPlayer2Collision.scored) {
-						if (TWPlayer2Collision.speedUpgrade < 2 && TWPlayer2Collision.upgradePoints !== 0) {
-						TWPlayer2Collision.speedUpgrade++;
-						TWPlayer2Collision.upgradePoints--;
-						}
-						if (TWPlayer2Collision.speedUpgrade >= 2) {
-						UGButton1Txt.color = "red";
-						}
-						if (TWPlayer2Collision.upgradePoints === 0) {
-						UGTank2Points.color = "red";
-						}
-					}
-					if (turn === 1 && TWPlayer2Collision.scored) {
-						if (TWPlayer1Collision.speedUpgrade < 2 && TWPlayer1Collision.upgradePoints !== 0) {
-						TWPlayer1Collision.speedUpgrade++;
-						TWPlayer1Collision.upgradePoints--;
-						}
-						if (TWPlayer1Collision.speedUpgrade >= 2) {
-						UGButton1Txt.color = "red";
-						}
-						if (TWPlayer1Collision.upgradePoints === 0) {
-						UGTank1Points.color = "red";
-						}
-					}
-					clickLock = true;
-					}
-					if (cursor.crashWith(UGButton2) && pressed && !clickLock) {
-					UGButton2.shadowColor_ = "black";
-					UGButton2.shadowBlur_ = 10;
-					UGButton2.shadowOffsetX_ = 5;
-					UGButton2.shadowOffsetY_ = 5;
-					if (turn === 0 && TWPlayer1Collision.scored) {
-						if (TWPlayer1Collision.bulletRateUpgrade < 5 && TWPlayer1Collision.upgradePoints !== 0) {
-						TWPlayer1Collision.bulletRateUpgrade++;
-						TWPlayer1Collision.upgradePoints--;
-						}
-						if (TWPlayer1Collision.bulletRateUpgrade >= 5) {
-						UGButton2Txt.color = "red";
-						UGButton2_1Txt.color = "red";
-						}
-						if (TWPlayer1Collision.upgradePoints === 0) {
-						UGTank1Points.color = "red";
-						}
-					}
-					if (turn === 1 && TWPlayer1Collision.scored) {
-						if (TWPlayer2Collision.bulletRateUpgrade < 5 && TWPlayer2Collision.upgradePoints !== 0) {
-						TWPlayer2Collision.bulletRateUpgrade++;
-						TWPlayer2Collision.upgradePoints--;
-						}
-						if (TWPlayer2Collision.bulletRateUpgrade >= 5) {
-						UGButton2Txt.color = "red";
-						UGButton2_1Txt.color = "red";
-						}
-						if (TWPlayer2Collision.upgradePoints === 0) {
-						UGTank2Points.color = "red";
-						}
-					}
-					if (turn === 0 && TWPlayer2Collision.scored) {
-						if (TWPlayer2Collision.bulletRateUpgrade < 5 && TWPlayer2Collision.upgradePoints !== 0) {
-						TWPlayer2Collision.bulletRateUpgrade++;
-						TWPlayer2Collision.upgradePoints--;
-						}
-						if (TWPlayer2Collision.bulletRateUpgrade >= 5) {
-						UGButton2Txt.color = "red";
-						UGButton2_1Txt.color = "red";
-						}
-						if (TWPlayer2Collision.upgradePoints === 0) {
-						UGTank2Points.color = "red";
-						}
-					}
-					if (turn === 1 && TWPlayer2Collision.scored) {
-						if (TWPlayer1Collision.bulletRateUpgrade < 5 && TWPlayer1Collision.upgradePoints !== 0) {
-						TWPlayer1Collision.bulletRateUpgrade++;
-						TWPlayer1Collision.upgradePoints--;
-						}
-						if (TWPlayer1Collision.bulletRateUpgrade >= 5) {
-						UGButton2Txt.color = "red";
-						UGButton2_1Txt.color = "red";
-						}
-						if (TWPlayer1Collision.upgradePoints === 0) {
-						UGTank1Points.color = "red";
-						}
-					}
-					clickLock = true;
-					}
-					if (cursor.crashWith(UGButton3) && pressed && !clickLock) {
-					UGButton3.shadowColor_ = "black";
-					UGButton3.shadowBlur_ = 10;
-					UGButton3.shadowOffsetX_ = 5;
-					UGButton3.shadowOffsetY_ = 5;
-					if (turn === 0 && TWPlayer1Collision.scored) {
-						if (TWPlayer1Collision.rotateSpeedUpgrade < 2 && TWPlayer1Collision.upgradePoints !== 0) {
-						TWPlayer1Collision.rotateSpeedUpgrade++;
-						TWPlayer1Collision.upgradePoints--;
-						}
-						if (TWPlayer1Collision.rotateSpeedUpgrade >= 2) {
-						UGButton3Txt.color = "red";
-						UGButton3_1Txt.color = "red";
-						}
-						if (TWPlayer1Collision.upgradePoints === 0) {
-						UGTank1Points.color = "red";
-						}
-					}
-					if (turn === 1 && TWPlayer1Collision.scored) {
-						if (TWPlayer2Collision.rotateSpeedUpgrade < 2 && TWPlayer2Collision.upgradePoints !== 0) {
-						TWPlayer2Collision.rotateSpeedUpgrade++;
-						TWPlayer2Collision.upgradePoints--;
-						}
-						if (TWPlayer2Collision.rotateSpeedUpgrade >= 2) {
-						UGButton3Txt.color = "red";
-						UGButton3_1Txt.color = "red";
-						}
-						if (TWPlayer2Collision.upgradePoints === 0) {
-						UGTank2Points.color = "red";
-						}
-					}
-					if (turn === 0 && TWPlayer2Collision.scored) {
-						if (TWPlayer2Collision.rotateSpeedUpgrade < 2 && TWPlayer2Collision.upgradePoints !== 0) {
-						TWPlayer2Collision.rotateSpeedUpgrade++;
-						TWPlayer2Collision.upgradePoints--;
-						}
-						if (TWPlayer2Collision.rotateSpeedUpgrade >= 2) {
-						UGButton3Txt.color = "red";
-						UGButton3_1Txt.color = "red";
-						}
-						if (TWPlayer2Collision.upgradePoints === 0) {
-						UGTank2Points.color = "red";
-						}
-					}
-					if (turn === 1 && TWPlayer2Collision.scored) {
-						if (TWPlayer1Collision.rotateSpeedUpgrade < 2 && TWPlayer1Collision.upgradePoints !== 0) {
-						TWPlayer1Collision.rotateSpeedUpgrade++;
-						TWPlayer1Collision.upgradePoints--;
-						}
-						if (TWPlayer1Collision.rotateSpeedUpgrade >= 2) {
-						UGButton3Txt.color = "red";
-						UGButton3_1Txt.color = "red";
-						}
-						if (TWPlayer1Collision.upgradePoints === 0) {
-						UGTank1Points.color = "red";
-						}
-					}
-					clickLock = true;
-					}
-					if (cursor.crashWith(UGButtonNext) && pressed && !clickLock) {
-					UGButtonNext.shadowColor_ = "black";
-					UGButtonNext.shadowBlur_ = 10;
-					UGButtonNext.shadowOffsetX_ = 5;
-					UGButtonNext.shadowOffsetY_ = 5;
-					turn++;
-					clickLock = true;
-					}
-					//Unshadow the buttons
-					if (!pressed) {
-					UGTank1Points.color = "white";
-					UGTank2Points.color = "white";
-					UGButton1.shadowColor_ = "";
-					UGButton1.shadowBlur_ = 0;
-					UGButton1.shadowOffsetX_ = 0;
-					UGButton1.shadowOffsetY_ = 0;
-					UGButton1Txt.color = "white";
-					upgrade1Lock = false;
-					UGButton2.shadowColor_ = "";
-					UGButton2.shadowBlur_ = 0;
-					UGButton2.shadowOffsetX_ = 0;
-					UGButton2.shadowOffsetY_ = 0;
-					UGButton2Txt.color = "white";
-					UGButton2_1Txt.color = "white";
-					upgrade2Lock = false;
-					UGButton3.shadowColor_ = "";
-					UGButton3.shadowBlur_ = 0;
-					UGButton3.shadowOffsetX_ = 0;
-					UGButton3.shadowOffsetY_ = 0;
-					UGButton3Txt.color = "white";
-					UGButton3_1Txt.color = "white";
-					upgrade3Lock = false;
-					UGButtonNext.shadowColor_ = "";
-					UGButtonNext.shadowBlur_ = 0;
-					UGButtonNext.shadowOffsetX_ = 0;
-					UGButtonNext.shadowOffsetY_ = 0;
-					nextLock = false;
-					}
-					//Set text values/next button action
-					if (turn === 0 && TWPlayer1Collision.scored) {
-					UGTurnTxt.name = P1info.name_+"'s Turn";
-					UGTurnTxt.color = "blue";
-						if (TWPlayer1Collision.speedUpgrade < 2) {
-						UGButton1Txt.name = "Speed ("+TWPlayer1Collision.speedUpgrade+"/2)";
-						}
-						if (TWPlayer1Collision.speedUpgrade >= 2) {
-						UGButton1Txt.name = "Speed [MAX]";	
-						}
-						if (TWPlayer1Collision.bulletRateUpgrade < 5) {
-						UGButton2_1Txt.name = "Rate ("+TWPlayer1Collision.bulletRateUpgrade+"/5)";
-						}
-						if (TWPlayer1Collision.bulletRateUpgrade >= 5) {
-						UGButton2_1Txt.name = "Rate [MAX]";	
-						}
-						if (TWPlayer1Collision.rotateSpeedUpgrade < 2) {
-						UGButton3_1Txt.name = "Speed ("+TWPlayer1Collision.rotateSpeedUpgrade+"/2)";
-						}
-						if (TWPlayer1Collision.rotateSpeedUpgrade >= 2) {
-						UGButton3_1Txt.name = "Speed [MAX]";	
-						}
-					}
-					if (turn === 1 && TWPlayer1Collision.scored) {
-					UGTurnTxt.name = P2info.name_+"'s Turn";
-					UGTurnTxt.color = "red";
-						if (TWPlayer2Collision.speedUpgrade < 2) {
-						UGButton1Txt.name = "Speed ("+TWPlayer2Collision.speedUpgrade+"/2)";
-						}
-						if (TWPlayer2Collision.speedUpgrade >= 2) {
-						UGButton1Txt.name = "Speed [MAX]";	
-						}
-						if (TWPlayer2Collision.bulletRateUpgrade < 5) {
-						UGButton2_1Txt.name = "Rate ("+TWPlayer2Collision.bulletRateUpgrade+"/5)";
-						}
-						if (TWPlayer2Collision.bulletRateUpgrade >= 5) {
-						UGButton2_1Txt.name = "Rate [MAX]";	
-						}
-						if (TWPlayer2Collision.rotateSpeedUpgrade < 2) {
-						UGButton3_1Txt.name = "Speed ("+TWPlayer2Collision.rotateSpeedUpgrade+"/2)";
-						}
-						if (TWPlayer2Collision.rotateSpeedUpgrade >= 2) {
-						UGButton3_1Txt.name = "Speed [MAX]";	
-						}
-					}
-					if (turn === 0 && TWPlayer2Collision.scored) {
-					UGTurnTxt.name = P2info.name_+"'s Turn";
-					UGTurnTxt.color = "red";
-						if (TWPlayer2Collision.speedUpgrade < 2) {
-						UGButton1Txt.name = "Speed ("+TWPlayer2Collision.speedUpgrade+"/2)";
-						}
-						if (TWPlayer2Collision.speedUpgrade >= 2) {
-						UGButton1Txt.name = "Speed [MAX]";	
-						}
-						if (TWPlayer2Collision.bulletRateUpgrade < 5) {
-						UGButton2_1Txt.name = "Rate ("+TWPlayer2Collision.bulletRateUpgrade+"/5)";
-						}
-						if (TWPlayer2Collision.bulletRateUpgrade >= 5) {
-						UGButton2_1Txt.name = "Rate [MAX]";	
-						}
-						if (TWPlayer2Collision.rotateSpeedUpgrade < 2) {
-						UGButton3_1Txt.name = "Speed ("+TWPlayer2Collision.rotateSpeedUpgrade+"/2)";
-						}
-						if (TWPlayer2Collision.rotateSpeedUpgrade >= 2) {
-						UGButton3_1Txt.name = "Speed [MAX]";	
-						}
-					}
-					if (turn === 1 && TWPlayer2Collision.scored) {
-					UGTurnTxt.name = P1info.name_+"'s Turn";
-					UGTurnTxt.color = "blue";
-						if (TWPlayer1Collision.speedUpgrade < 2) {
-						UGButton1Txt.name = "Speed ("+TWPlayer1Collision.speedUpgrade+"/2)";
-						}
-						if (TWPlayer1Collision.speedUpgrade >= 2) {
-						UGButton1Txt.name = "Speed [MAX]";	
-						}
-						if (TWPlayer1Collision.bulletRateUpgrade < 5) {
-						UGButton2_1Txt.name = "Rate ("+TWPlayer1Collision.bulletRateUpgrade+"/5)";
-						}
-						if (TWPlayer1Collision.bulletRateUpgrade >= 5) {
-						UGButton2_1Txt.name = "Rate [MAX]";	
-						}
-						if (TWPlayer1Collision.rotateSpeedUpgrade < 2) {
-						UGButton3_1Txt.name = "Speed ("+TWPlayer1Collision.rotateSpeedUpgrade+"/2)";
-						}
-						if (TWPlayer1Collision.rotateSpeedUpgrade >= 2) {
-						UGButton3_1Txt.name = "Speed [MAX]";	
-						}
-					}
-					if (turn === 2) {
-					resetGame();
-					}
-				}
-			}
-			//Fade out
-			if (!TWPlayer1Collision.scored && !TWPlayer2Collision.scored) {
-				if (UGMenu.globalAlpha > 0) {
-				UGMenu.globalAlpha -= 0.1;
-				UGText.globalAlpha -= 0.1;
-				UGTank1Points.globalAlpha -= 0.1;
-				UGTank2Points.globalAlpha -= 0.1;
-				UGButton1.globalAlpha -= 0.1;
-				UGButton1Txt.globalAlpha -= 0.1;
-				UGButton2.globalAlpha -= 0.1;
-				UGButton2Txt.globalAlpha -= 0.1;
-				UGButton2_1Txt.globalAlpha -= 0.1;
-				UGButton3.globalAlpha -= 0.1;
-				UGButton3Txt.globalAlpha -= 0.1;
-				UGButton3_1Txt.globalAlpha -= 0.1;
-				UGButtonNext.globalAlpha -= 0.1;
-				UGButtonNextTxt.globalAlpha -= 0.1;
-				UGTurnTxt.globalAlpha -= 0.1;
-				}
-				if (UGMenu.globalAlpha <= 0) {
-				UGMenu.globalAlpha = 0;
-				UGText.globalAlpha = 0;
-				UGTank1Points.globalAlpha = 0;
-				UGTank2Points.globalAlpha = 0;
-				UGButton1.globalAlpha = 0;
-				UGButton1Txt.globalAlpha = 0;
-				UGButton2.globalAlpha = 0;
-				UGButton2Txt.globalAlpha = 0;
-				UGButton2_1Txt.globalAlpha = 0;
-				UGButton3.globalAlpha = 0;
-				UGButton3Txt.globalAlpha = 0;
-				UGButton3_1Txt.globalAlpha = 0;
-				UGButtonNext.globalAlpha = 0;
-				UGButtonNextTxt.globalAlpha = 0;
-				UGTurnTxt.globalAlpha = 0;
-				}
-			}
-			//If tie make player one go first
-			if (TWPlayer1Collision.scored && TWPlayer2Collision.scored) {
-			TWPlayer2Collision.scored = false;
-			}
-		break;
+	if (value > max) {
+		value = max;
 	}
+	return value;
 }
 
-//Controls dirt tracks
-var Player1Time = 0;
-var Player2Time = 0;
-var DistanceBetweenDirtTracks1 = 15;
-var DistanceBetweenDirtTracks2 = 15;
-var DirtTrackDecayTime1 = 0.01;
-var DirtTrackDecayTime2 = 0.01;
-var RingLock1 = false;
-var RingLock2 = false;
-function dirtTrackMG() {
-	if (gamemode === 1) {
-		switch (TWPlayer1Speed) {
-			case 2:
-			DistanceBetweenDirtTracks1 = 15;
-			DirtTrackDecayTime1 = 0.01;
-			break;
-			case 3:
-			DistanceBetweenDirtTracks1 = 10;
-			DirtTrackDecayTime1 = 0.012;
-			break;
-			case 4:
-			DistanceBetweenDirtTracks1 = 5;
-			DirtTrackDecayTime1 = 0.015;
-			break;
-		}
-		switch (TWPlayer2Speed) {
-			case 2:
-			DistanceBetweenDirtTracks2 = 15;
-			DirtTrackDecayTime2 = 0.01;
-			break;
-			case 3:
-			DistanceBetweenDirtTracks2 = 10;
-			DirtTrackDecayTime2 = 0.012;
-			break;
-			case 4:
-			DistanceBetweenDirtTracks2 = 5;
-			DirtTrackDecayTime2 = 0.015;
-			break;
-		}
-		if (StartRotation1) {
-			RingLock1 = false;
-			Player1Time++;
-			if (TWPlayer1Collision._dirtTracks.length === 0) {
-			TWPlayer1Collision.dirtTracks();
-			}
-			for (let i = 0; i < TWPlayer1Collision._dirtTracks.length; i++) {
-				if (Player1Time >= DistanceBetweenDirtTracks1) {
-				TWPlayer1Collision.dirtTracks();
-				Player1Time = 0;
-				}
-			}
-		} else {
-		Player1Time = 0;
-			for (let i = 0; i < TWPlayer1Collision._dirtTracks.length; i++) {
-				if (TWPlayer1Collision._dirtTracks[i].name === "dirtRing") {
-					if (TWPlayer1Collision._dirtTracks[i].x !== TWPlayer1Collision.x && TWPlayer1Collision._dirtTracks[i].y !== TWPlayer1Collision.y) {
-						if (TWPlayer1Collision._dirtTracks.length < 3 && TWPlayer1Collision._dirtTracks[i].globalAlpha > 0 && !TWPlayer1Collision.crashWith(TWPlayer2Collision)) {
-						TWPlayer1Collision._dirtTracks[i].globalAlpha -= DirtTrackDecayTime1;
-						RingLock1 = false;
-						}
-						if (TWPlayer1Collision._dirtTracks[i].globalAlpha !== 1) {
-							if (!RingLock1) {
-							TWPlayer1Collision.dirtTracks();
-							RingLock1 = true;
+//Radians to Degrees
+function radToDeg(rad=0) {
+	return rad*(180/Math.PI);
+}
+
+//Degrees to Radians
+function degToRad(deg=0) {
+	return deg/(180/Math.PI);
+}
+
+//Average
+function average(nums=[0,0]) {
+	return nums.reduce((a, b) => a+b,0)/nums.length;
+}
+
+//Gets closest point in an array of points
+function getClosestPoint(pXy, aXys) {
+	let minDist;
+	let fTo;
+	let x;
+	let y;
+	let i;
+	let dist;
+		if (aXys.length > 1) {
+			for (let n = 1 ; n < aXys.length ; n++) {
+				if (aXys[n] != undefined) {
+					if (aXys[n].x != aXys[n - 1].x) {
+					let a = (aXys[n].y - aXys[n - 1].y) / (aXys[n].x - aXys[n - 1].x);
+					let b = aXys[n].y - a * aXys[n].x;
+					dist = Math.abs(a * pXy.x + b - pXy.y) / Math.sqrt(a * a + 1);
+					}
+					else
+					dist = Math.abs(pXy.x - aXys[n].x)
+					let rl2 = Math.pow(aXys[n].y - aXys[n - 1].y, 2) + Math.pow(aXys[n].x - aXys[n - 1].x, 2);
+					let ln2 = Math.pow(aXys[n].y - pXy.y, 2) + Math.pow(aXys[n].x - pXy.x, 2);
+					let lnm12 = Math.pow(aXys[n - 1].y - pXy.y, 2) + Math.pow(aXys[n - 1].x - pXy.x, 2);
+					let dist2 = Math.pow(dist, 2);
+					let calcrl2 = ln2 - dist2 + lnm12 - dist2;
+					if (calcrl2 > rl2)
+						dist = Math.sqrt(Math.min(ln2, lnm12));
+					if ((minDist == null) || (minDist > dist)) {
+						if (calcrl2 > rl2) {
+							if (lnm12 < ln2) {
+							fTo = 0;
+							}
+							else {
+							fTo = 1;
 							}
 						}
-					}
-				} else {
-					if (TWPlayer1Collision.numOfRings < 1) {
-					TWPlayer1Collision.dirtTracks();
-					}
-				}
-			}
-			if (TWPlayer1Collision._dirtTracks.length === 0) {
-			TWPlayer1Collision.dirtTracks();
-			}
-		}
-		if (StartRotation2) {
-			RingLock2 = false;
-			Player2Time++;
-			if (TWPlayer2Collision._dirtTracks.length === 0) {
-			TWPlayer2Collision.dirtTracks();
-			}
-			for (let i = 0; i < TWPlayer2Collision._dirtTracks.length; i++) {
-				if (Player2Time >= DistanceBetweenDirtTracks2) {
-				TWPlayer2Collision.dirtTracks();
-				Player2Time = 0;
-				}
-			}
-		} else {
-		Player2Time = 0;
-			for (let i = 0; i < TWPlayer2Collision._dirtTracks.length; i++) {
-				if (TWPlayer2Collision._dirtTracks[i].name === "dirtRing") {
-					if (TWPlayer2Collision._dirtTracks[i].x !== TWPlayer2Collision.x && TWPlayer2Collision._dirtTracks[i].y !== TWPlayer2Collision.y) {
-						if (TWPlayer2Collision._dirtTracks.length < 3 && TWPlayer2Collision._dirtTracks[i].globalAlpha > 0 && !TWPlayer1Collision.crashWith(TWPlayer2Collision)) {
-						TWPlayer2Collision._dirtTracks[i].globalAlpha -= DirtTrackDecayTime2;
-						RingLock2 = false;
+						else {
+						fTo = ((Math.sqrt(lnm12 - dist2)) / Math.sqrt(rl2));
 						}
-						if (TWPlayer2Collision._dirtTracks[i].globalAlpha !== 1) {
-							if (!RingLock2) {
-							TWPlayer2Collision.dirtTracks();
-							RingLock2 = true;
-							}
-						}
-					}
-				} else {
-					if (TWPlayer2Collision.numOfRings < 1) {
-					TWPlayer2Collision.dirtTracks();
+					minDist = dist;
+					i = n;
 					}
 				}
 			}
-			if (TWPlayer2Collision._dirtTracks.length === 0) {
-			TWPlayer2Collision.dirtTracks();
-			}
+		let dx = aXys[i - 1].x - aXys[i].x;
+		let dy = aXys[i - 1].y - aXys[i].y;
+		x = aXys[i - 1].x - (dx * fTo);
+		y = aXys[i - 1].y - (dy * fTo);
 		}
-		for (let i = 0; i < TWPlayer1Collision._dirtTracks.length; i++) {
-			if (TWPlayer1Collision._dirtTracks[i].name !== "dirtRing") {
-			TWPlayer1Collision._dirtTracks[i].globalAlpha -= DirtTrackDecayTime1;
-			}
-			if (TWPlayer1Collision._dirtTracks[i].name === "dirtRing") {
-				if (TWPlayer1Collision._dirtTracks[i].globalAlpha !== 1) {
-				TWPlayer1Collision._dirtTracks[i].globalAlpha -= DirtTrackDecayTime1;
-				} else
-				if (StartRotation1) {
-				TWPlayer1Collision._dirtTracks[i].globalAlpha -= DirtTrackDecayTime1;
-				}
-			}
-			if (TWPlayer1Collision._dirtTracks[i].globalAlpha <= 0) {
-				if (TWPlayer1Collision._dirtTracks[i].name !== "dirtRing") {
-				TWPlayer1Collision.numOfTracks--;
-				}
-				if (TWPlayer1Collision._dirtTracks[i].name === "dirtRing") {
-				TWPlayer1Collision.numOfRings--;
-				}
-			TWPlayer1Collision._dirtTracks.splice(i, 1);
-			}
-		}
-		for (let i = 0; i < TWPlayer2Collision._dirtTracks.length; i++) {
-			if (TWPlayer2Collision._dirtTracks[i].name !== "dirtRing") {
-			TWPlayer2Collision._dirtTracks[i].globalAlpha -= DirtTrackDecayTime2;
-			}
-			if (TWPlayer2Collision._dirtTracks[i].name === "dirtRing") {
-				if (TWPlayer2Collision._dirtTracks[i].globalAlpha !== 1) {
-				TWPlayer2Collision._dirtTracks[i].globalAlpha -= DirtTrackDecayTime2;
-				} else
-				if (StartRotation2) {
-				TWPlayer2Collision._dirtTracks[i].globalAlpha -= DirtTrackDecayTime2;
-				}
-			}
-			if (TWPlayer2Collision._dirtTracks[i].globalAlpha <= 0) {
-				if (TWPlayer2Collision._dirtTracks[i].name !== "dirtRing") {
-				TWPlayer2Collision.numOfTracks--;
-				}
-				if (TWPlayer2Collision._dirtTracks[i].name === "dirtRing") {
-				TWPlayer2Collision.numOfRings--;
-				}
-			TWPlayer2Collision._dirtTracks.splice(i, 1);
-			}
-		}
+	return new Vector2(x, y);
+}
+
+//Helper function for random ints same as range just with less steps
+function rangeInt(min=0, max=1) {
+	return Range(min, max, 0, false);
+}
+
+//Helper function for random floats same as range just with less steps
+function rangeFloat(min=0, max=1, dec_place=1) {
+	return Range(min, max, dec_place);
+}
+
+//Returns a random number between min and max
+function Range(min=0, max=1, dec_place=1, is_float=true) {
+	let result = 0;
+	let factor = Math.pow(10, dec_place);
+	if (is_float) {
+		result = Math.random()*(max-min)+min;
+	} else {
+		result = Math.round(Math.random()*(max-min)+min);
+	}
+	return Math.round(result*factor)/factor;
+}
+
+//Checks if an array has everything from another
+function arrayCompare(arr=[], target=[], all=true) {
+	if (all) {
+		return target.every((item) => {
+			return arr.includes(item);
+		});
+	} else {
+		return target.some((item) => {
+			return arr.includes(item);
+		});
 	}
 }
 
-//Array loader
-function arrayLoader() {
-	switch (gamemode) {
-	//gamemode 0
+//Math variables
+const PI2 = Math.PI*2;
+
+//Vector class
+const ZERO = new Vector2();
+const ONE = new Vector2(1, 1);
+const UP = new Vector2(0, -1);
+const UP_LEFT = new Vector2(-1, -1);
+const UP_RIGHT = new Vector2(1, -1);
+const DOWN = new Vector2(0, 1);
+const DOWN_LEFT = new Vector2(-1, 1);
+const DOWN_RIGHT = new Vector2(1, 1);
+const LEFT = new Vector2(-1, 0);
+const RIGHT = new Vector2(1, 0);
+function Vector2(x=0, y=0, r=0, o=0, s=0) {
+	this.x = x; //x
+	this.y = y; //y
+	this.r = r; //angle
+	this.o = o; //offset angle
+	this.s = s; //speed
+	//Set vector
+	this.set = function(vector2) {
+		this.x = vector2.x;
+		this.y = vector2.y;
+		this.r = vector2.r;
+		this.o = vector2.o;
+		this.s = vector2.s;
+	}
+	//Vector2 to array
+	this.array = function() {
+		return [this.x, this.y];
+	}
+	//Vector2 duplicate
+	this.duplicate = function() {
+		return new Vector2(this.x, this.y, this.r, this.o, this.s);
+	}
+	//Compare vectors
+	this.same = function(vector2=ZERO) {
+		let result = false;
+		if (this.x == vector2.x && this.y == vector2.y) {
+			result = true;
+		}
+		return result;
+	}
+	//Get rotation between 2 vectors
+	this.getRotation = function(vector2, rad=true) {
+		this.vector2 = vector2;
+		if (rad) {
+			return Math.atan2(-this.y+this.vector2.y, -this.x+this.vector2.x)+degToRad(90);
+		} else {
+			return radToDeg(Math.atan2(-this.y+this.vector2.y, -this.x+this.vector2.x)-degToRad(90));
+		}
+	}
+	//Simple math
+	this.add = function(num) {
+		return new Vector2(this.x+num, this.y+num);
+	}
+	this.addV = function(vector2) {
+		return new Vector2(this.x+vector2.x, this.y+vector2.y);
+	}
+	this.sub = function(num) {
+		return new Vector2(this.x-num, this.y-num);
+	}
+	this.subV = function(vector2) {
+		return new Vector2(this.x-vector2.x, this.y-vector2.y);
+	}
+	this.neg = function(place="x") { //"x" or "y"
+		if (place == "x") {
+			return new Vector2(-this.x, this.y);
+		}
+		if (place == "y") {
+			return new Vector2(this.x, -this.y);
+		}
+	}
+	this.multi = function(num) {
+		return new Vector2(this.x*num, this.y*num);
+	}
+	this.multiV = function(vector2) {
+		return new Vector2(this.x*vector2.x, this.y*vector2.y);
+	}
+	this.div = function(num) {
+		if (num == 0) {
+			num == 1;
+		}
+		return new Vector2(this.x/num, this.y/num);
+	}
+	this.divV = function(vector2) {
+		if (vector2.x == 0) {
+			vector2.x == 1;
+		}
+		if (vector2.y == 0) {
+			vector2.y == 1;
+		}
+		return new Vector2(this.x/vector2.x, this.y/vector2.y);
+	}
+	this.min = function(vector2) {
+		return new Vector2(Math.min(this.x, vector2.x), Math.min(this.y, vector2.y));
+	}
+	this.max = function(vector2) {
+		return new Vector2(Math.max(this.x, vector2.x), Math.max(this.y, vector2.y));
+	}
+	//Returns distance between 2 vectors
+	this.distance = function(vector2=ZERO) {
+		let dx = vector2.x-this.x;
+		let dy = vector2.y-this.y;
+		return Math.sqrt(dx*dx+dy*dy);
+	}
+	//Rotate point by this vector
+	this.rotateVector2 = function(vector2, rotation) {
+		return new Vector2(Math.cos(rotation)*(vector2.x-this.x)-Math.sin(rotation)*(vector2.y-this.y)+this.x, Math.sin(rotation)*(vector2.x-this.x)+Math.cos(rotation)*(vector2.y-this.y)+this.y);
+	}
+}
+
+//Creates canvas
+const screen = new Screen();
+const ctx = screen.ctx;
+function Screen(id="canvas", size=new Vector2(800,450), mode=0) {
+	document.documentElement.style.overflow = "hidden";
+	this.resolution = size;
+	this.halfResolution = this.resolution.div(2);
+	this.setResolution = function(size=new Vector2(800,450)) {
+		this.resolution = size;
+		this.halfResolution = this.resolution.div(2);
+		this.scale();
+	}
+	this.canvas = document.createElement("CANVAS");
+	this.canvas.id = id;
+	this.canvas.style.backgroundColor = "black";
+    this.canvas.style.width = "100%";
+    this.canvas.style.height = "100%";
+    this.canvas.style.marginLeft = "0px";
+    this.canvas.style.marginRight = "0px";
+	this.canvas.style.marginTop = "0px";
+    this.canvas.style.marginBottom = "0px";
+	this.canvas.style.border = "0px";
+    this.canvas.style.display = "block";
+    this.canvas.style.position = "fixed";
+    this.canvas.style.top = "0px";
+    this.canvas.style.left = "0px";
+	this.canvas.style.zIndex = "0";
+	this.renderMode = {
+		0:"pixelated",
+		1:"crisp-edges"
+	};
+	this.canvas.style.imageRendering = this.renderMode[mode];
+    this.setRenderMode = function(mode=0) {
+        this.canvas.style.imageRendering = this.renderMode[mode];
+    }
+	this.setColor = function(c="black") {
+		this.canvas.style.backgroundColor = c;
+	}
+	this.setImage = function(i) {
+		this.canvas.style.backgroundImage = i;
+	}
+	document.body.appendChild(this.canvas);
+	this.ctx = this.canvas.getContext("2d");
+	//Scale canvas
+    let scaleFactor = new Vector2();
+    this.getScale = function() {
+        return scaleFactor;
+    }
+	let deviceResolution = new Vector2(window.innerWidth,window.innerHeight);
+    this.getDeviceRes = function() {
+        return deviceResolution;
+    }
+	this.getHalfDeviceRes = function() {
+		return deviceResolution.div(2);
+	}
+	const scaler = () => {this.scale()};
+    window.addEventListener("resize", scaler);
+    window.addEventListener("keydown", function(e){
+		switch(e.Key){
+			case "ArrowUp": case "ArrowDown": case "ArrowLeft":  case "ArrowRight": case "Shift": case "Tab":
+				e.preventDefault(); 
+			break;
+			default: 
+			break;
+		}
+	});
+    this.scale = function() {
+        deviceResolution = new Vector2(window.innerWidth,window.innerHeight);
+        scaleFactor = new Vector2(deviceResolution.x/this.resolution.x,deviceResolution.y/this.resolution.y);
+        this.canvas.width = deviceResolution.x;
+        this.canvas.height = deviceResolution.y;
+        this.ctx.setTransform(scaleFactor.x,0,0,scaleFactor.y,0,0);
+    }
+    scaler();
+}
+
+//FPS Counter
+const FPS = {
+	fpsCounter:document.createElement('p'),
+	fpsColor:"grey",
+	fpsSize:25,
+	fpsOffset:"0px",
+	counterLoaded:false,
+	fps:0,
+	lastLoop:Date.now(),
+	updateFPS:function() {
+		if (!FPS.counterLoaded) {
+			FPS.fpsCounter.id = "fps";
+			FPS.fpsCounter.style.position = "fixed";
+			FPS.fpsCounter.style.marginLeft = "0px";
+			FPS.fpsCounter.style.marginRight = "0px";
+			FPS.fpsCounter.style.marginTop = "0px";
+			FPS.fpsCounter.style.marginBottom = "0px";
+			FPS.fpsCounter.style.left = "5px";
+			FPS.fpsCounter.style.top = "5px";
+			FPS.fpsCounter.style.zIndex = "2";
+			document.body.appendChild(FPS.fpsCounter);
+			FPS.counterLoaded = true;
+		}
+		if (engineSettings.Debug.Show_FPS_Counter) {
+			FPS.fpsOffset = (FPS.fpsSize+10);
+			FPS.fpsCounter.style.display = "block";
+			FPS.fpsCounter.style.fontSize = FPS.fpsSize+"px";
+			FPS.fpsCounter.style.color = FPS.fpsColor;
+			FPS.fpsCounter.innerHTML = "FPS: "+FPS.getFPS();
+		} else {
+			FPS.fpsOffset = "0";
+			FPS.fpsCounter.style.display = "none";
+		}
+		let thisLoop = Date.now();
+		FPS.fps = 1000/(thisLoop-FPS.lastLoop);
+		FPS.lastLoop = thisLoop;
+	},
+	getFPS:function() {
+		return (60/FPS.fps).toFixed(1)*60;
+	}
+};
+
+//Delta Counter
+const DELTA = {
+	deltaCounter:document.createElement('p'),
+	deltaColor:"grey",
+	deltaSize:25,
+	deltaOffset:"0",
+	counterLoaded:false,
+	delta:0,
+	lastUpdate:Date.now(),
+	updateDelta:function() {
+		if (!DELTA.counterLoaded) {
+			DELTA.deltaCounter.id = "delta";
+			DELTA.deltaCounter.style.position = "fixed";
+			DELTA.deltaCounter.style.marginLeft = "0px";
+			DELTA.deltaCounter.style.marginRight = "0px";
+			DELTA.deltaCounter.style.marginTop = "0px";
+			DELTA.deltaCounter.style.marginBottom = "0px";
+			DELTA.deltaCounter.style.left = "5px";
+			DELTA.deltaCounter.style.zIndex = "2";
+			document.body.appendChild(DELTA.deltaCounter);
+			DELTA.counterLoaded = true;
+		}
+		if (engineSettings.Debug.Show_Delta_Time) {
+			DELTA.deltaOffset = (FPS.fpsOffset+DELTA.deltaSize+10);
+			DELTA.deltaCounter.style.display = "block";
+			DELTA.deltaCounter.style.top = (FPS.fpsOffset)+"px";
+			DELTA.deltaCounter.style.fontSize = DELTA.deltaSize+"px";
+			DELTA.deltaCounter.style.color = DELTA.deltaColor;
+			DELTA.deltaCounter.innerHTML = "Delta: "+DELTA.delta;
+		} else {
+			DELTA.deltaOffset = "0";
+			DELTA.deltaCounter.style.display = "none";
+		}
+		let now = Date.now();
+		DELTA.delta = ((1000/60)/(now-DELTA.lastUpdate)).toFixed(1);
+		DELTA.lastUpdate = now;
+	}
+};
+
+//Update loop
+let updateArray = [];
+function addUpdate(func, id, tag) {
+	updateArray.push({"function":func,"id":id,"tag":tag});
+}
+
+function deleteUpdate(mode=1, op1, op2) {
+	if (mode < 0) {
+		mode = 0;
+	}
+	if (mode > 2) {
+		mode = 2;
+	}
+	switch (mode) {
 		case 0:
-			if (arrayLoad) {
-			mainObjectArray = [];
-			arrayLoad = false;
-			}
+			updateArray = updateArray.filter((u) => {
+				return !(u.id == op1 && u.tag == op2);
+			});
 		break;
-	//gamemode 1
 		case 1:
-			if (!arrayLoad) {
-			mainObjectArray = mainObjectArray.concat(gameObjects1, gameObjects0);
-			arrayLoad = true;
-			}
-			//Tank War reset dir switch
-			if (TWPlayer1Collision.directionSwitch > 1) {
-			TWPlayer1Collision.directionSwitch = 0;
-			}
-			if (TWPlayer1Collision.directionSwitch > 1) {
-			TWPlayer1Collision.directionSwitch = 0;
-			}
-			if (TWPlayer2Collision.directionSwitch > 1) {
-			TWPlayer2Collision.directionSwitch = 0;
-			}
-			if (TWPlayer2Collision.directionSwitch > 1) {
-			TWPlayer2Collision.directionSwitch = 0;
-			}
-		break;
-	//gamemode 2
-		case 2:
-			if (!arrayLoad) {
-			mainObjectArray = mainObjectArray.concat(gameObjects2, gameObjects0);
-			arrayLoad = true;
-			}
-			//Line Battle reset dir switch
-			if (LBPlayer1Collision.directionSwitch > 1) {
-			LBPlayer1Collision.directionSwitch = 0;
-			}
-			if (LBPlayer1Collision.directionSwitch > 1) {
-			LBPlayer1Collision.directionSwitch = 0;
-			}
-			if (LBPlayer2Collision.directionSwitch > 1) {
-			LBPlayer2Collision.directionSwitch = 0;
-			}
-			if (LBPlayer2Collision.directionSwitch > 1) {
-			LBPlayer2Collision.directionSwitch = 0;
-			}
-		break;
-	}
-}
-
-//Do rotation
-function rotationMovement() {
-	if (gamemode !== 0) {
-		if (StartRotation1) {
-			if (player1Controls !== 2) {
-			Player1ControlsDown(false);
-			} else {
-			Player1ControlsDown(true);
-			}
-		}
-		if (StartRotation2) {
-			if (player2Controls !== 2) {
-			Player2ControlsDown(false);
-			} else {
-			Player2ControlsDown(true);
-			}
-		}
-	}
-}
-
-//updates positions with logic
-var mousePos = [];
-function updatePos() {
-cursor.x = mousePos[0];
-cursor.y = mousePos[1];
-}
-
-function winCheck() {
-	switch (gamemode) {
-		case 1:
-			if (TWPlayer1Collision.points >= MaxPointsTW) {
-			TWPlayer1Collision.won = true;
-			}
-			if (TWPlayer2Collision.points >= MaxPointsTW) {
-			TWPlayer2Collision.won = true;
-			}
-			if (TWPlayer1Collision.won && !TWPlayer2Collision.won) {
-			winButton.globalAlpha = 1;
-			profilePic1.globalAlpha = 1;
-			profilePic1.color = P1info.pfpic.id;
-			profilePic2.globalAlpha = 1;
-			profilePic2.color = P1info.pfpic.id;
-			winText.globalAlpha = 1;
-			winText.name = P1info.name_ + " won!";
-			}
-			if (!TWPlayer1Collision.won && TWPlayer2Collision.won) {
-			winButton.globalAlpha = 1;
-			profilePic1.globalAlpha = 1;
-			profilePic1.color = P2info.pfpic.id;
-			profilePic2.globalAlpha = 1;
-			profilePic2.color = P2info.pfpic.id;
-			winText.globalAlpha = 1;
-			winText.name = P2info.name_ + " won!";
-			}
-			if (TWPlayer1Collision.won && TWPlayer2Collision.won) {
-			winButton.globalAlpha = 1;
-			profilePic1.globalAlpha = 1;
-			profilePic1.color = P1info.pfpic.id;
-			profilePic2.globalAlpha = 1;
-			profilePic2.color = P2info.pfpic.id;
-			winText.globalAlpha = 1;
-			winText.name = "Tie!";
-			}
-			if (!TWPlayer1Collision.won && !TWPlayer2Collision.won) {
-			winButton.globalAlpha = 0;
-			profilePic1.globalAlpha = 0;
-			profilePic1.color = "Line_Battle_Dead_Player";
-			profilePic2.globalAlpha = 0;
-			profilePic2.color = "Line_Battle_Dead_Player";
-			winText.globalAlpha = 0;
-			winText.name = "";
-			}
-			if (TWPlayer1Collision.won || TWPlayer2Collision.won) {
-				if (winButton.globalAlpha === 1) {
-					if (cursor.crashWith(winButton) && pressed) {
-					resetGame();
-					}
-				}
-			}
+			updateArray = updateArray.filter((u) => {
+				return !(u.id == op1);
+			});
 		break;
 		case 2:
-			if (LBPlayer1Collision.points >= MaxPointsLB) {
-			LBPlayer1Collision.won = true;
-			}
-			if (LBPlayer2Collision.points >= MaxPointsLB) {
-			LBPlayer2Collision.won = true;
-			}
-			if (LBPlayer1Collision.won && !LBPlayer2Collision.won) {
-			winButton.globalAlpha = 1;
-			profilePic1.globalAlpha = 1;
-			profilePic1.color = P1info.pfpic.id;
-			profilePic2.globalAlpha = 1;
-			profilePic2.color = P1info.pfpic.id;
-			winText.globalAlpha = 1;
-			winText.name = P1info.name_ + " won!";
-			}
-			if (!LBPlayer1Collision.won && LBPlayer2Collision.won) {
-			winButton.globalAlpha = 1;
-			profilePic1.globalAlpha = 1;
-			profilePic1.color = P2info.pfpic.id;
-			profilePic2.globalAlpha = 1;
-			profilePic2.color = P2info.pfpic.id;
-			winText.globalAlpha = 1;
-			winText.name = P2info.name_ + " won!";
-			}
-			if (LBPlayer1Collision.won && LBPlayer2Collision.won) {
-			winButton.globalAlpha = 1;
-			profilePic1.globalAlpha = 1;
-			profilePic1.color = P1info.pfpic.id;
-			profilePic2.globalAlpha = 1;
-			profilePic2.color = P2info.pfpic.id;
-			winText.globalAlpha = 1;
-			winText.name = "Tie!";
-			}
-			if (!LBPlayer1Collision.won && !LBPlayer2Collision.won) {
-			winButton.globalAlpha = 0;
-			profilePic1.globalAlpha = 0;
-			profilePic1.color = "Line_Battle_Dead_Player";
-			profilePic2.globalAlpha = 0;
-			profilePic2.color = "Line_Battle_Dead_Player";
-			winText.globalAlpha = 0;
-			winText.name = "";
-			}
-			if (LBPlayer1Collision.won || LBPlayer2Collision.won) {
-				if (winButton.globalAlpha === 1) {
-					if (cursor.crashWith(winButton) && pressed) {
-					resetGame();
-					}
-				}
-			}
+			updateArray = updateArray.filter((u) => {
+				return !(u.tag == op1);
+			});
 		break;
 	}
 }
 
-function deadCheck() {
-	switch (gamemode) {
-		case 1:
-			if (!TWPlayer1Collision.won || !TWPlayer2Collision.won) {
-				if (TWPlayer1Collision.dead) {
-					if (TWPlayer1Collision.points < MaxPointsTW && TWPlayer2Collision.points < MaxPointsTW) {
-					TWPlayer2Collision.scored = true;
-					}
-				TWPlayer1Collision.angleDegrees = 3.14159265;
-				TWPlayer1.color = "Tank_War_Dead_Player";
-				TWPlayer1Collision._bullets.length = 0;
-				TWPlayer2Collision._bullets.length = 0;
-				}
-				if (TWPlayer2Collision.dead) {
-					if (TWPlayer1Collision.points < MaxPointsTW && TWPlayer2Collision.points < MaxPointsTW) {
-					TWPlayer1Collision.scored = true;
-					}
-				TWPlayer2Collision.angleDegrees = 0;
-				TWPlayer2.color = "Tank_War_Dead_Player";
-				TWPlayer1Collision._bullets.length = 0;
-				TWPlayer2Collision._bullets.length = 0;
-				}
-			}
-			if (TWPlayer1Collision.dead) {
-			Tank1Explosion.animationObj.x = TWPlayer1Collision.x;
-			Tank1Explosion.animationObj.y = TWPlayer1Collision.y;
-			Tank1Explosion.update();
-				if (!TWPlayer1Collision.won || !TWPlayer2Collision.won) {
-					if (Tank1Explosion.done && Tank1Explosion.animationObj.globalAlpha === 0) {
-					UpgradeMenu = true;
-					}
-				}
-			}
-			if (TWPlayer2Collision.dead) {
-			Tank2Explosion.animationObj.x = TWPlayer2Collision.x;
-			Tank2Explosion.animationObj.y = TWPlayer2Collision.y;
-			Tank2Explosion.update();
-				if (!TWPlayer1Collision.won || !TWPlayer2Collision.won) {
-					if (Tank2Explosion.done && Tank2Explosion.animationObj.globalAlpha === 0) {
-					UpgradeMenu = true;
-					}
-				}
-			}
-		break;
-		case 2:
-			if (!LBPlayer1Collision.won || !LBPlayer2Collision.won) {
-				if (LBPlayer1Collision.dead) {
-				LBPlayer1Collision.directionSwitch = 0;
-				LBPlayer2Collision.directionSwitch = 0;
-				LBPlayer1Collision.angle = 0;
-				LBPlayer2Collision.angle = 0;
-				Player1ControlsUp();
-				Player2ControlsUp();
-					if (LBPlayer1Collision._bullets.length === 0 && LBPlayer2Collision._bullets.length === 0) {
-					resetGame();
-					}
-				LBPlayer1.color = "Line_Battle_Dead_Player";
-					for (let i = 0; i < LBPlayer1Collision._bullets.length; i++) {
-					LBPlayer1Collision._bullets[i].color = "grey";
-					}
-				}
-				if (LBPlayer2Collision.dead) {
-				LBPlayer1Collision.directionSwitch = 0;
-				LBPlayer2Collision.directionSwitch = 0;
-				LBPlayer1Collision.angle = 0;
-				LBPlayer2Collision.angle = 0;
-				Player1ControlsUp();
-				Player2ControlsUp();
-					if (LBPlayer1Collision._bullets.length === 0 && LBPlayer2Collision._bullets.length === 0) {
-					resetGame();
-					}
-				LBPlayer2.color = "Line_Battle_Dead_Player";
-					for (let i = 0; i < LBPlayer2Collision._bullets.length; i++) {
-					LBPlayer2Collision._bullets[i].color = "grey";
-					}
-				}
-			}
-			if (!LBPlayer1Collision.dead) {
-			LBPlayer1.color = "Line_Battle_Player_1";
-				for (let i = 0; i < LBPlayer1Collision._bullets.length; i++) {
-				LBPlayer1Collision._bullets[i].color = "darkblue";
-				}
-			}
-			if (!LBPlayer2Collision.dead) {
-			LBPlayer2.color = "Line_Battle_Player_2";
-				for (let i = 0; i < LBPlayer2Collision._bullets.length; i++) {
-				LBPlayer2Collision._bullets[i].color = "darkred";
-				}
-			}
-		break;
-	}
+function getUpdate(id) {
+	updateArray.forEach((u, i) => {if (u.id == id) {return u}});
 }
 
-//player on player collision
-function playerCollision() {
-	switch (gamemode) {
-		case 1:
-			if (!TWPlayer1Collision.dead && !TWPlayer2Collision.dead) {
-				if(TWPlayer1Collision.crashWith(TWPlayer2Collision)){
-					if(TWPlayer1Collision.x < TWPlayer2Collision.x){
-					TWPlayer1Collision.x = TWPlayer1Collision.x - 1;
-					TWPlayer2Collision.x = TWPlayer2Collision.x + 1;
-					}else 
-					if(TWPlayer1Collision.x > TWPlayer2Collision.x){
-					TWPlayer1Collision.x = TWPlayer1Collision.x + 1;
-					TWPlayer2Collision.x = TWPlayer2Collision.x - 1;
-					}
-					if(TWPlayer1Collision.y < TWPlayer2Collision.y){
-					TWPlayer1Collision.y = TWPlayer1Collision.y - 1;
-					TWPlayer2Collision.y = TWPlayer2Collision.y + 1;
-					}else 
-					if(TWPlayer1Collision.y > TWPlayer2Collision.y){
-					TWPlayer1Collision.y = TWPlayer1Collision.y + 1;
-					TWPlayer2Collision.y = TWPlayer2Collision.y - 1;
-					}
-				}
-			}
-		break;
-		case 2:
-			if (!LBPlayer1Collision.dead && !LBPlayer2Collision.dead) {
-				if(LBPlayer1Collision.circleCrashWith(LBPlayer2Collision)){
-					if(LBPlayer1Collision.x < LBPlayer2Collision.x){
-					LBPlayer1Collision.x = LBPlayer1Collision.x - 1;
-					LBPlayer2Collision.x = LBPlayer2Collision.x + 1;
-					}else 
-					if(LBPlayer1Collision.x > LBPlayer2Collision.x){
-					LBPlayer1Collision.x = LBPlayer1Collision.x + 1;
-					LBPlayer2Collision.x = LBPlayer2Collision.x - 1;
-					}
-					if(LBPlayer1Collision.y < LBPlayer2Collision.y){
-					LBPlayer1Collision.y = LBPlayer1Collision.y - 1;
-					LBPlayer2Collision.y = LBPlayer2Collision.y + 1;
-					}else 
-					if(LBPlayer1Collision.y > LBPlayer2Collision.y){
-					LBPlayer1Collision.y = LBPlayer1Collision.y + 1;
-					LBPlayer2Collision.y = LBPlayer2Collision.y - 1;
-					}
-				}
-			}
-		break;
+let loaded = false;
+let objectArray = [];
+const layer = {
+	1:[],
+	2:[],
+	3:[],
+	4:[],
+	5:[],
+	6:[],
+	7:[],
+	8:[],
+	"length":9
+};
+let delta = 0;
+function Updater() {
+	FPS.updateFPS();
+	DELTA.updateDelta();
+	delta = DELTA.delta;
+	if (!loaded) {
+		objectArray = layer[1].concat(layer[2], layer[3], layer[4], layer[5], layer[6], layer[7], layer[8]);
+		loaded = true;
 	}
-}
-
-//player on bullet collision
-var Player1Scored = false;
-var Player2Scored = false;
-function bulletCollision() {
-	switch (gamemode) {
-		case 1:
-			if (!TWPlayer1Collision.dead && !TWPlayer2Collision.dead) {
-			Player1Scored = false;
-			Player2Scored = false;
-			}
-			if (!TWPlayer1Collision.dead && !TWPlayer2Collision.dead) {
-				for (let i = 0; i < TWPlayer2Collision._bullets.length; i++) {
-				var precalc1 = Math.abs(TWPlayer1Collision.x-TWPlayer2Collision._bullets[i].x);
-				var precalc2 = Math.abs(TWPlayer1Collision.y-TWPlayer2Collision._bullets[i].y);
-					if (precalc1 < 10 || precalc2 < 10) {
-						if (TWPlayer1Collision.circleCrashWith(TWPlayer2Collision._bullets[i])) {
-						TWPlayer2Collision._bullets.splice(i, 1);
-							if (!TWPlayer1Collision.won && !TWPlayer2Collision.won && !Player2Scored) {
-							TWPlayer2Collision.points++;
-							TWPlayer2Collision.upgradePoints += 2;
-							TWPlayer1Collision.upgradePoints++;
-							TWPlayer1Collision.dead = true;
-							Player2Scored = true;
-							}
-						}
-					}
-				}
-				for (let i = 0; i < TWPlayer1Collision._bullets.length; i++) {
-				var precalc1 = Math.abs(TWPlayer2Collision.x-TWPlayer1Collision._bullets[i].x);
-				var precalc2 = Math.abs(TWPlayer2Collision.y-TWPlayer1Collision._bullets[i].y);
-					if (precalc1 < 10 || precalc2 < 10) {
-						if (TWPlayer2Collision.circleCrashWith(TWPlayer1Collision._bullets[i])) {
-						TWPlayer1Collision._bullets.splice(i, 1);
-							if (!TWPlayer1Collision.won && !TWPlayer2Collision.won && !Player1Scored) {
-							TWPlayer1Collision.points++;
-							TWPlayer1Collision.upgradePoints += 2;
-							TWPlayer2Collision.upgradePoints++;
-							TWPlayer2Collision.dead = true;
-							Player1Scored = true;
-							}
-						}
-					}
-				}
-			}
-			for (let i = 0; i < TWPlayer1Collision._bullets.length; i++) {
-				if (TWPlayer1Collision._bullets[i] !== undefined && TWPlayer1Collision._bullets[i].x <= 0) {
-				TWPlayer1Collision._bullets.splice(i, 1);
-				} else
-				if (TWPlayer1Collision._bullets[i] !== undefined && TWPlayer1Collision._bullets[i].x >= 1280) {
-				TWPlayer1Collision._bullets.splice(i, 1);
-				}
-				if (TWPlayer1Collision._bullets[i] !== undefined && TWPlayer1Collision._bullets[i].y <= 0) {
-				TWPlayer1Collision._bullets.splice(i, 1);
-				} else
-				if (TWPlayer1Collision._bullets[i] !== undefined && TWPlayer1Collision._bullets[i].y >= 720) {
-				TWPlayer1Collision._bullets.splice(i, 1);
-				}
-			}
-			for (let i = 0; i < TWPlayer2Collision._bullets.length; i++) {
-				if (TWPlayer2Collision._bullets[i] !== undefined && TWPlayer2Collision._bullets[i].x <= 0) {
-				TWPlayer2Collision._bullets.splice(i, 1);
-				} else
-				if (TWPlayer2Collision._bullets[i] !== undefined && TWPlayer2Collision._bullets[i].x >= 1280) {
-				TWPlayer2Collision._bullets.splice(i, 1);
-				}
-				if (TWPlayer2Collision._bullets[i] !== undefined && TWPlayer2Collision._bullets[i].y <= 0) {
-				TWPlayer2Collision._bullets.splice(i, 1);
-				} else
-				if (TWPlayer2Collision._bullets[i] !== undefined && TWPlayer2Collision._bullets[i].y >= 720) {
-				TWPlayer2Collision._bullets.splice(i, 1);
-				}
-			}
-		break;
-		case 2:
-			if (!LBPlayer1Collision.dead && !LBPlayer2Collision.dead) {
-			Player1Scored = false;
-			Player2Scored = false;
-			}
-			if (!LBPlayer1Collision.dead && !LBPlayer2Collision.dead) {
-				for (let i = 0; i < LBPlayer2Collision._bullets.length; i++) {
-					if (LBPlayer1Collision.circleCrashWith(LBPlayer2Collision._bullets[i])) {
-						if (ChaosMode) {
-							if(LBPlayer1Collision.x < LBPlayer2Collision._bullets[i].x){
-							LBPlayer1Collision.x = LBPlayer1Collision.x - 1;
-							}
-							else if(LBPlayer1Collision.x > LBPlayer2Collision._bullets[i].x){
-							LBPlayer1Collision.x = LBPlayer1Collision.x + 1;
-							}
-							if(LBPlayer1Collision.y < LBPlayer2Collision._bullets[i].y){
-							LBPlayer1Collision.y = LBPlayer1Collision.y + 1;
-							}
-							else if(LBPlayer1Collision.y > LBPlayer2Collision._bullets[i].y){
-							LBPlayer1Collision.y = LBPlayer1Collision.y - 1;
-							}
-						}
-					LBPlayer2Collision._bullets.splice(i, 1);
-						if (!LBPlayer1Collision.won && !LBPlayer2Collision.won && !Player1Scored) {
-							if (!ChaosMode) {
-							LBPlayer1Collision.speed = 0;
-							LBPlayer2Collision.points++;
-							LBPlayer1Collision.dead = true;
-							Player1Scored = true;
-							}
-						}
-					}
-				}
-				for (let i = 0; i < LBPlayer1Collision._bullets.length; i++) {
-					if (LBPlayer2Collision.circleCrashWith(LBPlayer1Collision._bullets[i])) {
-						if (ChaosMode) {
-							if(LBPlayer2Collision.x < LBPlayer1Collision._bullets[i].x){
-							LBPlayer2Collision.x = LBPlayer2Collision.x - 1;
-							}
-							else if(LBPlayer2Collision.x > LBPlayer1Collision._bullets[i].x){
-							LBPlayer2Collision.x = LBPlayer2Collision.x + 1;
-							}
-							if(LBPlayer2Collision.y < LBPlayer1Collision._bullets[i].y){
-							LBPlayer2Collision.y = LBPlayer2Collision.y + 1;
-							}
-							else if(LBPlayer2Collision.y > LBPlayer1Collision._bullets[i].y){
-							LBPlayer2Collision.y = LBPlayer2Collision.y - 1;
-							}
-						}
-					LBPlayer1Collision._bullets.splice(i, 1);
-						if (!LBPlayer1Collision.won && !LBPlayer2Collision.won && !Player2Scored) {
-							if (!ChaosMode) {
-							LBPlayer1Collision.speed = 0;
-							LBPlayer1Collision.points++;
-							LBPlayer2Collision.dead = true;
-							Player2Scored = true;
-							}
-						}
-					}
-				}
-			}
-		break;
-	}
-}
-
-function objectManipulation() {
-	switch (gamemode) {
-		case 2:
-			for(let i = 0; i < LBPlayer1Collision._bullets.length; i++) {
-				if (LBPlayer1Collision._bullets[i].timeAlive >= TailLength) {
-				LBPlayer1Collision._bullets.shift();
-				}
-				if (LBPlayer1Collision._bullets[i+1] !== undefined) {
-					if (LBPlayer1Collision._bullets[i].returnDistance(LBPlayer1Collision._bullets[i+1]) <= TailFullness) {
-					LBPlayer1Collision._bullets.splice(i, 1);
-					}
-				}
-			}
-			for(let i = 0; i < LBPlayer2Collision._bullets.length; i++) {
-				if (LBPlayer2Collision._bullets[i].timeAlive >= TailLength) {
-				LBPlayer2Collision._bullets.shift();
-				}
-				if (LBPlayer2Collision._bullets[i+1] !== undefined) {
-					if (LBPlayer2Collision._bullets[i].returnDistance(LBPlayer2Collision._bullets[i+1]) <= TailFullness) {
-					LBPlayer2Collision._bullets.splice(i, 1);
-					}
-				}
-			}
-		break;
-	}
-	for (let i = 0; i < mainObjectArray.length; i++) {
-		switch (gamemode) {
-		//set player image position/rotation to the player collision circle
-			case 1:
-				if (mainObjectArray[i].name === "Player1") {
-				mainObjectArray[i].x = TWPlayer1Collision.x;
-				mainObjectArray[i].y = TWPlayer1Collision.y;
-					if (mainObjectArray[i].angleDegrees !== (TWPlayer1Collision.angleDegrees-3.14159265)) {
-					mainObjectArray[i].angleDegrees = (TWPlayer1Collision.angleDegrees-3.14159265);
-					}
-				}
-				if (mainObjectArray[i].name === "Player2") {
-				mainObjectArray[i].x = TWPlayer2Collision.x;
-				mainObjectArray[i].y = TWPlayer2Collision.y;
-					if (mainObjectArray[i].angleDegrees !== TWPlayer2Collision.angleDegrees) {
-					mainObjectArray[i].angleDegrees = TWPlayer2Collision.angleDegrees;
-					}
-				}
-				//rotation
-				if (!stopControls) {
-					if (!TWPlayer1Collision.dead && !TWPlayer2Collision.dead) {
-						if (mainObjectArray[i].name === "Player1Coll") {
-							if (!StartRotation1) {
-								if (mainObjectArray[i].directionSwitch === 0) {
-								mainObjectArray[i].angle += -Player1RotationSpeed;
-								} else {
-								mainObjectArray[i].angle += Player1RotationSpeed;
-								}
-							}
-						}
-						if (mainObjectArray[i].name === "Player2Coll") {
-							if (!StartRotation2) {
-								if (mainObjectArray[i].directionSwitch === 0) {
-								mainObjectArray[i].angle += -Player2RotationSpeed;
-								} else {
-								mainObjectArray[i].angle += Player2RotationSpeed;
-								}
-							}
-						}
-					} else {
-						if (mainObjectArray[i].name === "Player1Coll") {
-						mainObjectArray[i].speed = 0;
-						} else {
-						mainObjectArray[i].speed = 0;
-						}
-					}
-				}
-				//map edge teleport
-				if (mainObjectArray[i].name === "Player1Coll") {
-					if (mainObjectArray[i].x <= 0) {
-					mainObjectArray[i].x = 1279;
-					} else
-					if (mainObjectArray[i].x >= 1280) {
-					mainObjectArray[i].x = 1;
-					}
-					if (mainObjectArray[i].y <= 0) {
-					mainObjectArray[i].y = 719;
-					} else
-					if (mainObjectArray[i].y >= 720) {
-					mainObjectArray[i].y = 1;
-					}
-				}
-				if (mainObjectArray[i].name === "Player2Coll") {
-					if (mainObjectArray[i].x <= 0) {
-					mainObjectArray[i].x = 1279;
-					} else
-					if (mainObjectArray[i].x >= 1280) {
-					mainObjectArray[i].x = 1;
-					}
-					if (mainObjectArray[i].y <= 0) {
-					mainObjectArray[i].y = 719;
-					} else
-					if (mainObjectArray[i].y >= 720) {
-					mainObjectArray[i].y = 1;
-					}
-				}
-			break;
-			case 2:
-				if (mainObjectArray[i].name === "Player1") {
-				mainObjectArray[i].x = LBPlayer1Collision.x;
-				mainObjectArray[i].y = LBPlayer1Collision.y;
-					if (!focusLight) {
-						if (mainObjectArray[i].angleDegrees !== (LBPlayer1Collision.angleDegrees-1.57079633)) {
-						mainObjectArray[i].angleDegrees = (LBPlayer1Collision.angleDegrees-1.57079633);
-						}
-					} else {
-					mainObjectArray[i].angleDegrees = (Math.atan2(mainObjectArray[i].y-focusLightPosY,mainObjectArray[i].x-focusLightPosX)-6.28318531);
-					}
-				}
-				if (mainObjectArray[i].name === "Player2") {
-				mainObjectArray[i].x = LBPlayer2Collision.x;
-				mainObjectArray[i].y = LBPlayer2Collision.y;
-					if (!focusLight) {
-						if (mainObjectArray[i].angleDegrees !== (LBPlayer2Collision.angleDegrees+1.57079633)) {
-						mainObjectArray[i].angleDegrees = (LBPlayer2Collision.angleDegrees+1.57079633);
-						}
-					} else {
-					mainObjectArray[i].angleDegrees = (Math.atan2(mainObjectArray[i].y-focusLightPosY,mainObjectArray[i].x-focusLightPosX)-6.28318531);
-					}
-				}
-				//speed
-				if (!LBPlayer1Collision.dead && !LBPlayer2Collision.dead) {
-					if (!stopControls) {
-						if (mainObjectArray[i].name === "Player1Coll") {
-						mainObjectArray[i].speed = -LBPlayerSpeed;
-						mainObjectArray[i].shoot();
-						}
-						if (mainObjectArray[i].name === "Player2Coll") {
-						mainObjectArray[i].speed = LBPlayerSpeed;
-						mainObjectArray[i].shoot();
-						}	
-					} else {
-						if (mainObjectArray[i].name === "Player1Coll") {
-						mainObjectArray[i].speed = 0;
-						}
-						if (mainObjectArray[i].name === "Player2Coll") {
-						mainObjectArray[i].speed = 0;
-						}	
-					}
-				//map edge teleport
-					if (mainObjectArray[i].name === "Player1Coll") {
-						if (mainObjectArray[i].x <= 0) {
-						mainObjectArray[i].x = 1279;
-						} else
-						if (mainObjectArray[i].x >= 1280) {
-						mainObjectArray[i].x = 1;
-						}
-						if (mainObjectArray[i].y <= 0) {
-						mainObjectArray[i].y = 719;
-						} else
-						if (mainObjectArray[i].y >= 720) {
-						mainObjectArray[i].y = 1;
-						}
-					}
-					if (mainObjectArray[i].name === "Player2Coll") {
-						if (mainObjectArray[i].x <= 0) {
-						mainObjectArray[i].x = 1279;
-						} else
-						if (mainObjectArray[i].x >= 1280) {
-						mainObjectArray[i].x = 1;
-						}
-						if (mainObjectArray[i].y <= 0) {
-						mainObjectArray[i].y = 719;
-						} else
-						if (mainObjectArray[i].y >= 720) {
-						mainObjectArray[i].y = 1;
-						}
-					}
-				}
-			break;
-		}
-		if (gamemode !== 0) {
-		//stop moving players
-			if (!stopControls) {
-				if (mainObjectArray[i].name === "Player1Coll") {
-					if (mainObjectArray[i].scored || mainObjectArray[i].dead) {
-					stopControls = true;
-					}
-				}
-				if (mainObjectArray[i].name === "Player2Coll") {
-					if (mainObjectArray[i].scored || mainObjectArray[i].dead) {
-					stopControls = true;
-					}
-				}
-			} else {
-				if (mainObjectArray[i].name === "Player1Coll") {
-				mainObjectArray[i].speed = 0;
-				}
-				if (mainObjectArray[i].name === "Player2Coll") {
-				mainObjectArray[i].speed = 0;
-				}
-			}
-		}	
-		//cursor/debug shit
-		if (mainObjectArray[i].name == "cursor") {
-			//show cursor collision box when in debug mode
-			if (debug) {
-			mainObjectArray[i].globalAlpha = 1;
-				if (pressed) {
-				mainObjectArray[i].color = "green";
-				} else {
-				mainObjectArray[i].color = "red";
-				}
-			} else {
-			mainObjectArray[i].globalAlpha = 0;
-			}
-		}
-		//show debug text when in debug mode
-		if (debug) {
-		
+	Renderer();
+	updateArray.forEach((u) => {
+		if (typeof u.function == "function") {
+			u.function();
 		} else {
-		
+			eval(u.function);
 		}
-	}
+	});
 }
 
-//object renderer
-function renderer() {
-	for (let i = 0; i < mainObjectArray.length; i++) {
-		mainObjectArray[i].update();
-		//bullet render
-		if (mainObjectArray[i].name === "Player1Coll" || mainObjectArray[i].name === "Player2Coll") {
-		var object = mainObjectArray[i]
-			for (let v = 0; v < object._bullets.length; v++) {
-			object._bullets[v].update();
-			object._bullets[v].newPos();
-			}
-		}
-		//dirt render
-		if (gamemode === 1) {
-			if (mainObjectArray[i].name === "Player1Coll" || mainObjectArray[i].name === "Player2Coll") {
-			var object2 = mainObjectArray[i]
-				for (let v = 0; v < object2._dirtTracks.length; v++) {
-					if (!TWPlayer1Collision.dead && !TWPlayer2Collision.dead) {
-					object2._dirtTracks[v].newPos();
-					object2._dirtTracks[v].update();
-					}
-				}
-			}
-		}
-		if (!mainObjectArray[i].dead) {
-		mainObjectArray[i].newPos();
-		}
-	}
+const updateInterval = setInterval(Updater, 1000/60);
+
+//Rendering Classes
+//Shadow data
+const NO_SHADOW = new Shadow();
+const DEFAULT_SHADOW = new Shadow(ZERO, "black", 5);
+function Shadow(offset=ZERO, color="", blur=0) {
+	this.offset = offset;
+	this.color = color;
+	this.blur = blur;
 }
 
-//Controls scaler
-function scaleControls() {
-	if (gamemode === 0) {
-		switch (menus) {
+//NameTag
+const BLANK_NAMETAG = new nameTag();
+function nameTag(name="",tag="") {
+	this.name = name;
+	this.tag = tag;
+	this.same = function(nameTag=new nameTag(), mode=0, include=false) {
+		if (mode < 0) {
+			mode = 0;
+		}
+		if (mode > 2) {
+			mode = 2
+		}
+		switch (mode) {
 			case 0:
-			mainTitle.style.transform = "scale("+(1*scaleFillNativeWidth).toString()+","+(1*scaleFillNativeHeight).toString()+")"; 
-			mainTitle.style.fontSize = (50*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)) + "px";
-			tankWarBttn.style.width = (200*scaleFillNativeWidth) + "px";
-			tankWarBttn.style.height = (90*scaleFillNativeHeight) + "px";
-			lineBattleBttn.style.width = (200*scaleFillNativeWidth) + "px";
-			lineBattleBttn.style.height = (90*scaleFillNativeHeight) + "px";
-			settingsBttn.style.width = (200*scaleFillNativeWidth) + "px";
-			settingsBttn.style.height = (90*scaleFillNativeHeight) + "px";
-			tankWarBttn.style.top = (20*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)).toString()+"%";
-			tankWarBttn.style.left = (deviceWidth/2-parseInt(tankWarBttn.style.width.replace("px",""))/2).toString()+"px";
-			tankWarBttn.style.fontSize = (40*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)) + "px";
-			lineBattleBttn.style.top = (35*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)).toString()+"%";
-			lineBattleBttn.style.left = (deviceWidth/2-parseInt(lineBattleBttn.style.width.replace("px",""))/2).toString()+"px";
-			lineBattleBttn.style.fontSize = (40*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)) + "px";
-			settingsBttn.style.top = (60*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)).toString()+"%";
-			settingsBttn.style.left = (deviceWidth/2-parseInt(settingsBttn.style.width.replace("px",""))/2).toString()+"px";
-			settingsBttn.style.fontSize = (40*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)) + "px";
+				if (!include) {
+					return (this.name == nameTag.name && this.tag == nameTag.tag);
+				} else {
+					return ((this.name == nameTag.name && this.tag == nameTag.tag) || (this.name.includes(nameTag.name) && this.tag.includes(nameTag.tag)));
+				}
+			break;
+			case 1:
+				if (!include) {
+					return this.name == nameTag.name;
+				} else {
+					return ((this.name == nameTag.name) || this.name.includes(nameTag.name));
+				}
+			break;
+			case 2:
+				if (!include) {
+					return this.tag == nameTag.tag;
+				} else {
+					return ((this.tag == nameTag.tag) || this.tag.includes(nameTag.tag));
+				}
 			break;
 		}
 	}
-	if (gamemode === 1 || gamemode === 2) {
-		pauseBttn.style.width = (100*scaleFillNativeWidth) + "px";
-		pauseBttn.style.height = (70*scaleFillNativeHeight) + "px";
-		pauseBttn.style.fontSize = (30*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)) + "px";
-		if (player1Controls === 0 || player1Controls === 2) {
-		player1Bttn.style.width = (100*scaleFillNativeWidth) + "px";
-		player1Bttn.style.height = (70*scaleFillNativeHeight) + "px";
-		player1Bttn.style.fontSize = (65*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)) + "px";
+	this.duplicate = function() {
+		return new nameTag(this.name, this.tag);
+	}
+}
+
+//Line data
+const DEFAULT_LINE = new lineData();
+function lineData(stroked=false, cap=0, width=1, dashOffset=0, pattern=[]) {
+	let caps = {
+		0:"butt",
+		1:"round",
+		2:"square"
+	};
+	if (cap < 0) {
+		cap = 0;
+	}
+	if (cap > 2) {
+		cap = 2;
+	}
+	this.stroked = stroked;
+	this.cap = caps[cap];
+	this.width = width;
+	this.dashOffset = dashOffset;
+	this.pattern = pattern;
+}
+
+//Color data
+const NO_COLOR = new colorData("");
+const DEFAULT_COLOR = new colorData();
+function colorData(color="white", alpha=1, comp=0) {
+	this.color = color;
+	this.alpha = alpha;
+	this.compMode = comp;
+	this.mode = {
+		0:"source-over",
+		1:"source-in",
+		2:"source-out",
+		3:"source-atop",
+		4:"destination-over",
+		5:"destination-in",
+		6:"destination-out",
+		7:"destination-atop",
+		8:"lighter",
+		9:"copy",
+		10:"xor",
+		11:"multiply",
+		12:"screen",
+		13:"overlay",
+		14:"darken",
+		15:"lighten",
+		16:"color-dodge",
+		17:"color-burn",
+		18:"hard-light",
+		19:"soft-light",
+		20:"difference",
+		21:"exclusion",
+		22:"hue",
+		23:"saturation",
+		24:"color",
+		25:"luminosity"
+	};
+	this.duplicate = function() {
+		return new colorData(this.color, this.alpha, this.compMode);
+	}
+	this.same = function(data, mode=0) {
+		if (mode < 0) {
+			mode = 0;
 		}
-		if (player2Controls === 0 || player2Controls === 2) {
-		player2Bttn.style.width = player1Bttn.style.width;
-		player2Bttn.style.height = player1Bttn.style.height;
-		player2Bttn.style.fontSize = (65*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)) + "px";
+		if (mode > 6) {
+			mode = 6;
+		}
+		switch (mode) {
+			//All
+			case 0:
+				return this.color == data.color && this.alpha == data.alpha && this.compMode == data.compMode;
+			break;
+			//Color
+			case 1:
+				return this.color == data.color;
+			break;
+			//Alpha
+			case 2:
+				return this.alpha == data.alpha;
+			break;
+			//Comp
+			case 3:
+				return this.compMode == data.compMode;
+			break;
+			//Color & Alpha
+			case 4:
+				return this.color == data.color && this.alpha == data.alpha;
+			break;
+			//Alpha & Comp
+			case 5:
+				return this.alpha == data.alpha && this.compMode == data.compMode;
+			break;
+			//Color & Comp
+			case 6:
+				return this.color == data.color && this.compMode == data.compMode;
+			break;
 		}
 	}
-	if (gamemode === 1) {
-		if (player3Controls === 0 || player3Controls === 2) {
-		player3Bttn.style.width = player1Bttn.style.width;
-		player3Bttn.style.height = player1Bttn.style.height;
-		player3Bttn.style.fontSize = (65*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)) + "px";
-		}
-		if (player4Controls === 0 || player4Controls === 2) {
-		player4Bttn.style.width = player1Bttn.style.width;
-		player4Bttn.style.height = player1Bttn.style.height;
-		player4Bttn.style.fontSize = (65*Math.min(scaleFillNativeWidth,scaleFillNativeHeight)) + "px";
+	if (typeof comp == "string") {
+		this.comp = comp;
+	} else {
+		if (comp < 0 || comp > 25) {
+			this.comp = "source-over";
+		} else {
+			this.comp = this.mode[comp];
 		}
 	}
 }
 
-//Swaps out control options
-var controlsLoad = false;
-function controlsSwapper() {
-	switch (gamemode) {
-		case 0:
-			if (controlsLoad) {
-			player1Bttn.style.display = "none";
-			player2Bttn.style.display = "none";
-			player3Bttn.style.display = "none";
-			player4Bttn.style.display = "none";
-			pauseBttn.style.display = "none";
-			pause = false;
-			controlsLoad = false;
+//Image data
+function imageData(id="", src="", size=new Vector2()) {
+	let data = document.createElement("img");
+	data.id = id;
+	data.src = src;
+	data.width = size.x;
+	data.height = size.y;
+	data.style.display = "none";
+	document.body.appendChild(data);
+	this.getColor = function(alpha=1, comp=0) {
+		return new colorData(data.id, alpha, comp);
+	}
+	this.getSrc = function() {
+		return data.src;
+	}
+}
+
+//Base for objects
+const EMPTY_OBJECT = new baseObject();
+function baseObject(nameTag=BLANK_NAMETAG, size=ZERO, position=ZERO, color=DEFAULT_COLOR, shadow=NO_SHADOW, rotOrigin=null) {
+	this.nameTag = nameTag;
+	this.size = size;
+	this.position = position;
+	this.color = color;
+	this.shadow = shadow;
+	this.rotOrigin = rotOrigin;
+	this.startPosition = position;
+	this.marked = false;
+	if (this.rotOrigin == null) {
+		this.rotOrigin = this.position;
+	}
+	this.updatePosition = function() {
+		if (!isPaused) {
+			this.position.x += this.position.s*Math.sin(this.position.r+this.position.o)*delta;
+			this.position.y -= this.position.s*Math.cos(this.position.r+this.position.o)*delta;
+		}
+	}
+}
+
+//Sets up object
+function setupObject(base=EMPTY_OBJECT, line=DEFAULT_LINE) {
+	ctx.imageSmoothingEnabled = engineSettings.Image_Smoothing;
+	ctx.globalAlpha = base.color.alpha;
+	ctx.globalCompositeOperation = base.color.comp;
+	if (engineSettings.Allow_Shadows) {
+		ctx.shadowColor = base.shadow.color;
+		ctx.shadowBlur = base.shadow.blur;
+		ctx.shadowOffsetX = base.shadow.offset.x;
+		ctx.shadowOffsetY = base.shadow.offset.y;
+	} else {
+		ctx.shadowColor = NO_SHADOW.color;
+		ctx.shadowBlur = NO_SHADOW.blur;
+		ctx.shadowOffsetX = NO_SHADOW.offset.x;
+		ctx.shadowOffsetY = NO_SHADOW.offset.y;
+	}
+	base.position.r = (base.position.r+PI2)%(PI2);
+	ctx.setLineDash(line.pattern);
+	ctx.lineDashOffset = line.dashOffset;
+	ctx.lineCap = line.cap;
+	ctx.lineWidth = line.width;
+	ctx.fillStyle = base.color.color;
+	ctx.strokeStyle = base.color.color;
+}
+
+//Rectangle class
+const BLANK_OBJECT = new Rectangle(0, new baseObject(BLANK_NAMETAG, new Vector2(10, 10), screen.halfResolution));
+function Rectangle(layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) {
+	this.layerNumber = layerNumber;
+	this.base = base;
+	this.line = line;
+	this.type = "rectangle";
+	let points = [];
+	this.getPoints = function() {
+		return points;
+	}
+	this.draw = function() {
+		setupObject(this.base, this.line);
+		points = [
+			this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r),
+			this.base.rotOrigin.rotateVector2(new Vector2(this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r),
+			this.base.rotOrigin.rotateVector2(new Vector2(this.base.size.x/2+this.base.position.x, this.base.size.y/2+this.base.position.y), this.base.position.r),
+			this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, this.base.size.y/2+this.base.position.y), this.base.position.r),
+			this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r)];
+		ctx.beginPath();
+		ctx.moveTo(this.base.position.x, this.base.position.y);
+		for (let i=0;i<points.length;i++) {
+			ctx.lineTo(points[i].x, points[i].y);
+		}
+		if (!this.line.stroked) {
+			ctx.fill();
+		} else {
+			ctx.stroke();
+		}
+	}
+	if (layerNumber >= 1 && layerNumber <= 8) {
+		layer[layerNumber].push(this);
+		loaded = false;
+	}
+}
+
+//Circle class
+function Circle(layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) {
+	this.layerNumber = layerNumber;
+	this.base = base;
+	this.line = line;
+	this.type = "circle";
+	this.draw = function() {
+		setupObject(this.base, this.line);
+		ctx.beginPath();
+		ctx.ellipse(this.base.position.x, this.base.position.y, this.base.size.x, this.base.size.y, this.base.position.r, 0, 2*Math.PI);
+		if (!this.line.stroked) {
+			ctx.fill();
+		} else {
+			ctx.stroke();
+		}
+	}
+	if (layerNumber >= 1 && layerNumber <= 8) {
+		layer[layerNumber].push(this);
+		loaded = false;
+	}
+}
+
+//Circle class
+function Sprite(layerNumber=1, base=EMPTY_OBJECT) {
+	this.layerNumber = layerNumber;
+	this.base = base;
+	this.type = "sprite";
+	let sprite = document.getElementById(this.base.color.color);
+	this.dPosition = new Vector2();
+	this.dSize = new Vector2(sprite.width, sprite.height);
+	let points = [];
+	this.getPoints = function() {
+		return points;
+	}
+	this.draw = function() {
+		setupObject(this.base, DEFAULT_LINE);
+		let newSprite = document.getElementById(this.base.color.color);
+		if (sprite.id != newSprite.id) {
+			sprite = newSprite;
+		}
+		points = [
+			this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r),
+			this.base.rotOrigin.rotateVector2(new Vector2(this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r),
+			this.base.rotOrigin.rotateVector2(new Vector2(this.base.size.x/2+this.base.position.x, this.base.size.y/2+this.base.position.y), this.base.position.r),
+			this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, this.base.size.y/2+this.base.position.y), this.base.position.r),
+			this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r)];
+		ctx.save();
+		ctx.translate(this.base.position.x, this.base.position.y);
+		ctx.rotate(this.base.position.r);
+		ctx.drawImage(sprite, this.dPosition.x, this.dPosition.y, this.dSize.x, this.dSize.y, this.base.size.x/-2, this.base.size.y/-2, this.base.size.x, this.base.size.y);
+		ctx.restore();
+	}
+	if (layerNumber >= 1 && layerNumber <= 8) {
+		layer[layerNumber].push(this);
+		loaded = false;
+	}
+}
+
+//Text class
+//base.size = new Vector2(font: number, autoAlign: true|false, textAlign: left|right|center);
+//Add text scaling
+function Text(layerNumber=1, text="", base=EMPTY_OBJECT, line=DEFAULT_LINE) {
+	this.layerNumber = layerNumber;
+	this.text = text;
+	this.base = base;
+	this.line = line;
+	this.type = "text";
+	let flip = 1;
+	this.draw = function() {
+		setupObject(this.base, this.line);
+		if (this.base.position.r >= Math.PI*3/2 || this.base.position.r <= Math.PI/2) {
+			if (this.base.size.y) {
+				ctx.textAlign = "left";
 			}
-		UIScaleSlider.style.display = "initial";
-			if (!pause) {
-				if (menus == 0) {
-				mainMenu.style.display = "initial";
+			flip = 1;
+		} else {
+			if (this.base.size.y) {
+				ctx.textAlign = "right";
+			}
+			flip = -1;
+		}
+		if (!this.base.size.y) {
+			ctx.textAlign = this.base.size.r;
+		}
+		ctx.textBaseline = "middle";
+		ctx.font = this.base.size.x;
+		ctx.save();
+		ctx.translate(this.base.position.x, this.base.position.y);
+		ctx.rotate(this.base.position.r);
+		ctx.scale(flip,flip);
+		if (!this.line.stroked) {
+			ctx.fillText(this.text, 0, 0);
+		} else {
+			ctx.strokeText(this.text, 0, 0);
+		}
+		ctx.restore();
+	}
+	if (layerNumber >= 1 && layerNumber <= 8) {
+		layer[layerNumber].push(this);
+		loaded = false;
+	}
+}
+
+//Helper function to add objects (Basic)
+function addObject(object) {
+	layer[object.layerNumber].push(object);
+	loaded = false;
+}
+
+//Helper function to delete objects by nameTag 
+function deleteByNameTag(nameTag=BLANK_NAMETAG, mode=0, include=false) {
+	for (let i=1;i<layer.length;i++) {
+		layer[i] = layer[i].filter((o) => {
+			return !o.base.nameTag.same(nameTag, mode, include);
+		});
+	}
+	loaded = false;
+}
+
+//Helper function to delete objects by nameTag 
+function deleteByMarked() {
+	for (let i=1;i<layer.length;i++) {
+		layer[i] = layer[i].filter((o) => {
+			return o.marked;
+		});
+	}
+	loaded = false;
+}
+
+//Helper function to get objects by nameTag
+function getByNameTag(nameTag=BLANK_NAMETAG, mode=0, returnIndex=false, include=false, getMode=0) {
+	let results = [];
+	let result = null;
+	if (getMode < 0) {
+		getMode = 0;
+	}
+	if (getMode > 1) {
+		getMode = 1;
+	}
+	switch (getMode) {
+		case 0:
+			for (let i=1;i<layer.length;i++) {
+				if (!returnIndex) {
+					results[i] = layer[i].filter((o) => {
+						return o.base.nameTag.same(nameTag, mode, include);
+					});
 				} else {
-				mainMenu.style.display = "none";	
+					results[i] = layer[i].map((o,index) => {
+						if (o.base.nameTag.same(nameTag, mode, include)) {
+							return index;
+						}
+					});
+				}
+			}
+		break;
+		case 1:
+			if (!returnIndex) {
+				results = objectArray.filter((o) => {
+					return o.base.nameTag.same(nameTag, mode, include);
+				});
+			} else {
+				results = objectArray.map((o,index) => {
+					if (o.base.nameTag.same(nameTag, mode, include)) {
+						return index;
+					}
+				});
+			}
+		break;
+	}
+	results = results.flat().filter((o) => {
+		return (o != undefined);
+	});
+	if (results.length == 0) {
+		result = null;
+	}
+	if (results.length == 1) {
+		result = results[0];
+	}
+	if (results.length > 1) {
+		result = results;
+	}
+	return result;
+}
+
+//Helper function to get objects by nameTag (and color)
+function getByColorData(colorData=NO_COLOR, colorMode=0, returnIndex=false, getMode=0) {
+	let results = [];
+	let result = null;
+	if (getMode < 0) {
+		getMode = 0;
+	}
+	if (getMode > 1) {
+		getMode = 1;
+	}
+	switch (getMode) {
+		case 0:
+			for (let i=1;i<layer.length;i++) {
+				if (!returnIndex) {
+					results[i] = layer[i].filter((o) => {
+						return o.base.color.same(colorData, colorMode);
+					});
+				} else {
+					results[i] = layer[i].map((o,index) => {
+						if (o.base.color.same(colorData, colorMode)) {
+							return index;
+						}
+					});
+				}
+			}
+		break;
+		case 1:
+			if (!returnIndex) {
+				results = objectArray.filter((o) => {
+					return o.base.color.same(colorData, colorMode);
+				});
+			} else {
+				results = objectArray.map((o,index) => {
+					if (o.base.color.same(colorData, colorMode)) {
+						return index;
+					}
+				});
+			}
+		break;
+	}
+	results = results.flat().filter((o) => {
+		return (o != undefined);
+	});
+	if (results.length == 0) {
+		result = null;
+	}
+	if (results.length == 1) {
+		result = results[0];
+	}
+	if (results.length > 1) {
+		result = results;
+	}
+	return result;
+}
+
+//Renderer
+function Renderer() {
+	ctx.clearRect(0, 0, screen.resolution.x, screen.resolution.y);
+	objectArray.forEach((i) => {i.draw();i.base.updatePosition();});
+}
+
+//collisions
+//rectangle vs. rectangle
+function recCollision(object_1, object_2) {
+	let obj1pos = object_1.base.position;
+	let obj1size = object_1.base.size;
+	let obj2pos = object_2.base.position;
+	let obj2size = object_2.base.size;
+	let r1 = ((obj1pos.x-obj1size.x/2) + obj1size.x);
+	let b1 = ((obj1pos.y-obj1size.y/2) + obj1size.y);
+	let r2 = ((object_2.x-object_2.x/2) + object_2.x);
+	let b2 = ((object_2.y-object_2.y/2) + object_2.y);
+	if ((object_1.type != "rectangle" || object_2.type != "rectangle") && (object_1.type != "sprite" || object_2.type != "sprite")) {
+		return false;
+	}
+	if (b1 < object_2.y-object_2.y/2 || obj1pos.y-obj1size.y/2 > b2 || r1 < object_2.x-object_2.x/2 || obj1pos.x-obj1size.x/2 > r2) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+//circle vs. circle
+function cirCollision(object_1, object_2) {
+	let obj1pos = object_1.base.position;
+	let obj1size = object_1.base.size;
+	let obj1radius = average(obj1size.array())/2;
+	let obj2pos = object_2.base.position;
+	let obj2size = object_2.base.size;
+	let obj2radius = average(obj2size.array())/2;
+	let dx = (obj1pos.x+obj1radius)-(obj2pos.x+obj2radius);
+	let dy = (obj1pos.y+obj1radius)-(obj2pos.y+obj2radius);
+	let distance = Math.sqrt(dx * dx + dy * dy);
+	if ((object_1.type != "circle" || object_2.type != "circle") && (object_1.type != "sprite" || object_2.type != "sprite") && (object_1.type != "circle" || object_2.type != "sprite") && (object_1.type != "sprite" || object_2.type != "circle")) {
+		return false;
+	}
+	if (distance <= obj1radius+obj2radius) { 
+		return true;
+	} else {
+		return false;
+	}
+}
+
+//circle vs. polygon
+function cirPolyCollision(object_1, object_2) {
+	let obj1pos = object_1.base.position;
+	let obj1size = object_1.base.size;
+	let obj1radius = average(obj1size.array())/2;
+	let t = getClosestPoint({x:obj1pos.x,y:obj1pos.y}, object_2.getPoints());
+	let distance = t.distance(obj1pos);
+		if (distance <= obj1radius) {
+		return true;
+		}
+	return false;
+}
+
+//Settings menu
+const SettingsMenu = new settingsMenu();
+
+function menuToggle() {
+	if (!SettingsMenu.active) {
+		SettingsMenu.show();
+	} else {
+		SettingsMenu.hide();
+	}
+}
+
+function settingsMenu() {
+	this.active = false;
+	this.menuSize = new Vector2(800, 600);
+	//Settings button
+	this.settingsIcon = document.createElement('input');
+	this.settingsIcon.type = "image";
+	this.settingsIcon.src = Settings_Icon.getSrc();
+	this.settingsIcon.style.width = "50px";
+	this.settingsIcon.style.height = "50px";
+	this.settingsIcon.style.marginLeft = "0px";
+	this.settingsIcon.style.marginRight = "0px";
+	this.settingsIcon.style.marginTop = "0px";
+	this.settingsIcon.style.marginBottom = "0px";
+	this.settingsIcon.style.position = "fixed";
+	this.settingsIcon.style.top = "5px";
+	this.settingsIcon.style.right = "5px";
+	this.settingsIcon.style.zIndex = "3";
+	this.settingsIcon.style.opacity = "0.3";
+	this.settingsIcon.style.display = "block";
+	this.settingsIcon.onmouseover = () => {
+		this.settingsIcon.style.opacity = "0.7";
+	};
+	this.settingsIcon.onmouseleave = () => {
+		this.settingsIcon.style.opacity = "0.3";
+	};
+	this.settingsIcon.onclick = () => {
+		this.show();
+	};
+	document.body.appendChild(this.settingsIcon);
+	//Settings menu
+	this.menu = document.createElement('div');
+	this.menu.style.backgroundColor = "grey";
+	this.menu.style.zIndex = "2";
+	this.menu.style.marginLeft = "0px";
+	this.menu.style.marginRight = "0px";
+	this.menu.style.marginTop = "0px";
+	this.menu.style.marginBottom = "0px";
+	this.menu.style.display = "none";
+	this.menu.style.position = "fixed";
+	this.menu.style.boxShadow = "5px 5px darkgrey";
+	document.body.appendChild(this.menu);
+	//Title
+	this.title = document.createElement('h1');
+	this.title.innerHTML = "Settings Menu";
+	this.title.style.textAlign = "center";
+	this.title.style.color = "white";
+	this.title.style.marginLeft = "0px";
+	this.title.style.marginRight = "0px";
+	this.title.style.marginTop = "0px";
+	this.title.style.marginBottom = "0px";
+	this.menu.appendChild(this.title);
+	//Close button
+	this.closeBttn = document.createElement('input');
+	this.closeBttn.type = "image";
+	this.closeBttn.src = Close_UI.getSrc();
+	this.closeBttn.style.width = "32px";
+	this.closeBttn.style.height = "32px";
+	this.closeBttn.style.marginLeft = "0px";
+	this.closeBttn.style.marginRight = "5px";
+	this.closeBttn.style.marginTop = "5px";
+	this.closeBttn.style.marginBottom = "0px";
+	this.closeBttn.style.position = "absolute";
+	this.closeBttn.style.top = "0px";
+	this.closeBttn.style.right = "0px";
+	this.closeBttn.onmouseover = () => {
+		this.closeBttn.src = Close_UI_Hover.getSrc();
+	};
+	this.closeBttn.onmouseleave = () => {
+		this.closeBttn.src = Close_UI.getSrc();
+	};
+	this.closeBttn.onclick = () => {
+		this.hide();
+	};
+	this.menu.appendChild(this.closeBttn);
+	//Buttons visual div
+	this.buttonsSep = document.createElement('div');
+	this.buttonsSep.style.backgroundColor = "lightgrey";
+	this.buttonsSep.style.marginLeft = "0px";
+	this.buttonsSep.style.marginRight = "0px";
+	this.buttonsSep.style.marginTop = "0px";
+	this.buttonsSep.style.marginBottom = "0px";
+	this.buttonsSep.style.width = "100%";
+	this.buttonsSep.style.height = "80%";
+	this.buttonsSep.style.overflowY = "scroll";
+	this.buttonsSep.style.overflowX = "none";
+	this.buttonsSep.style.position = "fixed";
+	this.menu.appendChild(this.buttonsSep);
+	//Keybinding bttn
+	this.keybinderBttn = document.createElement('button');
+	this.keybinderBttn.innerHTML = "Controls";
+	this.keybinderBttn.style.fontSize = "35px";
+	this.keybinderBttn.style.marginLeft = "0px";
+	this.keybinderBttn.style.marginRight = "0px";
+	this.keybinderBttn.style.marginTop = "0px";
+	this.keybinderBttn.style.marginBottom = "0px";
+	this.keybinderBttn.style.width = "100%";
+	this.keybinderBttn.style.height = "50px";
+	this.keybinderBttn.onclick = () => {
+		keybinder.show();
+	};
+	this.buttonsSep.appendChild(this.keybinderBttn);
+	//Mods bttn
+	this.modsBttn = document.createElement('button');
+	this.modsBttn.innerHTML = "Mods";
+	this.modsBttn.style.fontSize = "35px";
+	this.modsBttn.style.marginLeft = "0px";
+	this.modsBttn.style.marginRight = "0px";
+	this.modsBttn.style.marginTop = "0px";
+	this.modsBttn.style.marginBottom = "0px";
+	this.modsBttn.style.width = "100%";
+	this.modsBttn.style.height = "50px";
+	this.modsBttn.onclick = () => {
+		ModLoader.show();
+	};
+	this.buttonsSep.appendChild(this.modsBttn);
+	//Quit bttn
+	this.quitBttn = document.createElement('button');
+	this.quitBttn.innerHTML = "Exit Game";
+	this.quitBttn.style.fontSize = "35px";
+	this.quitBttn.style.marginLeft = "0px";
+	this.quitBttn.style.marginRight = "0px";
+	this.quitBttn.style.marginTop = "0px";
+	this.quitBttn.style.marginBottom = "0px";
+	this.quitBttn.style.width = "100%";
+	this.quitBttn.style.height = "50px";
+	this.quitBttn.style.display = "none";
+	this.quitBttn.onclick = () => {
+		if (typeof nw != "undefined") {
+			let win = nw.Window.get();
+			win.close();
+		}
+	};
+	this.buttonsSep.appendChild(this.quitBttn);
+	//Shows menu
+	this.show = function() {
+		this.menu.style.display = "block";
+		this.settingsIcon.style.display = "none";
+		isPaused = true;
+		this.active = true;
+	}
+	//Hides menu
+	this.hide = function() {
+		this.menu.style.display = "none";
+		this.settingsIcon.style.display = "block";
+		ModLoader.hide();
+		keybinder.hide();
+		isPaused = false;
+		this.active = false;
+	}
+	const update = () => this.update();
+	this.update = function() {
+		this.menu.style.width = (this.menuSize.x*screen.getScale().x)+"px";
+		this.menu.style.height = (this.menuSize.y*screen.getScale().y)+"px";
+		this.menu.style.top = (screen.getHalfDeviceRes().y)-((this.menuSize.y/2)*screen.getScale().y)+"px";
+		this.menu.style.left = (screen.getHalfDeviceRes().x)-((this.menuSize.x/2)*screen.getScale().x)+"px";
+		this.title.style.fontSize = (35*screen.getScale().x)+"px";
+		this.closeBttn.style.marginRight = (5*screen.getScale().x)+"px";
+		this.closeBttn.style.marginTop = (5*screen.getScale().y)+"px";
+		this.closeBttn.style.width = (32*screen.getScale().x)+"px";
+		this.closeBttn.style.height = (32*screen.getScale().x)+"px";
+		this.buttonsSep.style.width = this.menu.style.width;
+		this.buttonsSep.style.height = (parseFloat(this.menu.style.height)-(40*screen.getScale().y))+"px";
+		this.buttonsSep.style.top = (parseFloat(this.menu.style.top)+(40*screen.getScale().y))+"px";
+		this.buttonsSep.style.left = this.menu.style.left;
+		this.keybinderBttn.style.fontSize = (35*screen.getScale().x)+"px";
+		this.modsBttn.style.fontSize = (35*screen.getScale().x)+"px";
+		this.quitBttn.style.fontSize = (35*screen.getScale().x)+"px";
+		if (typeof nw != "undefined") {
+			this.quitBttn.style.display = "block";
+		} else {
+			this.quitBttn.style.display = "none";
+		}
+	}
+	addUpdate(update, "settings menu");
+}
+
+//Mod loader helper function
+const ModLoader = new modLoader();
+
+function mod(path="", id="") {
+	this.path = path;
+	this.id = id;
+	this.load = function() {
+		let script = document.createElement('script');
+		script.id = this.id;
+		script.src = this.path;
+		ModLoader.modDiv.appendChild(script);
+		ModLoader.addVisual(this.id+"V");
+	}
+	this.unload = function() {
+		deleteUpdate(2, this.id);
+		deleteByNameTag(new nameTag("", this.id), 2, true);
+		for (let i=0;i<gameModeData.length;i++) {
+			deleteMap(this.id, i, true, true);
+		}
+		let script = document.getElementById(this.id);
+		let scriptV = document.getElementById(this.id+"V");
+		ModLoader.modDiv.removeChild(script);
+		ModLoader.modSep.removeChild(scriptV);
+	}
+	this.load();
+}
+
+//Mod loader
+function modLoader() {
+	this.menu = null;
+	this.title = null;
+	this.input = null;
+	this.loadBttn = null;
+	this.modSep = null;
+	this.closeBttn = null;
+	this.menuSize = new Vector2(800, 600);
+	this.path = "";
+	this.mods = [];
+	this.show = function() {
+		if (this.menu != null) {
+			this.menu.style.display = "block";
+		}
+	}
+	this.hide = function() {
+		if (this.menu != null) {
+			this.menu.style.display = "none";
+		}
+	}
+	//Mods container
+	this.modDiv = document.createElement('div');
+	this.modDiv.style.display = "none";
+	document.body.appendChild(this.modDiv);
+	this.createMenu = function() {
+		//Background
+		this.menu = document.createElement('div');
+		this.menu.style.backgroundColor = "grey";
+		this.menu.style.zIndex = "2";
+		this.menu.style.marginLeft = "0px";
+		this.menu.style.marginRight = "0px";
+		this.menu.style.marginTop = "0px";
+		this.menu.style.marginBottom = "0px";
+		this.menu.style.display = "none";
+		this.menu.style.position = "fixed";
+		this.menu.style.boxShadow = "5px 5px darkgrey";
+		document.body.appendChild(this.menu);
+		//Title
+		this.title = document.createElement('h1');
+		this.title.innerHTML = "Mod Menu";
+		this.title.style.textAlign = "center";
+		this.title.style.color = "white";
+		this.title.style.marginLeft = "0px";
+		this.title.style.marginRight = "0px";
+		this.title.style.marginTop = "0px";
+		this.title.style.marginBottom = "0px";
+		this.menu.appendChild(this.title);
+		//File input
+		this.input = document.createElement('input');
+		this.input.type = "file";
+		this.input.style.color = "white";
+		this.input.style.marginLeft = "0px";
+		this.input.style.marginRight = "0px";
+		this.input.style.marginTop = "0px";
+		this.input.style.marginBottom = "0px";
+		this.input.style.position = "fixed";
+		this.menu.appendChild(this.input);
+		//Load button
+		this.loadBttn = document.createElement('button');
+		this.loadBttn.innerHTML = "Add Mod";
+		this.loadBttn.style.textAlign = "center";
+		this.loadBttn.style.color = "black";
+		this.loadBttn.style.marginLeft = "0px";
+		this.loadBttn.style.marginRight = "0px";
+		this.loadBttn.style.marginTop = "0px";
+		this.loadBttn.style.marginBottom = "0px";
+		this.loadBttn.style.position = "fixed";
+		this.menu.appendChild(this.loadBttn);
+		//Mod visual div
+		this.modSep = document.createElement('div');
+		this.modSep.style.backgroundColor = "lightgrey";
+		this.modSep.style.marginLeft = "0px";
+		this.modSep.style.marginRight = "0px";
+		this.modSep.style.marginTop = "0px";
+		this.modSep.style.marginBottom = "0px";
+		this.modSep.style.width = "100%";
+		this.modSep.style.height = "80%";
+		this.modSep.style.overflowY = "scroll";
+		this.modSep.style.overflowX = "none";
+		this.modSep.style.position = "fixed";
+		this.menu.appendChild(this.modSep);
+		//Close button
+		this.closeBttn = document.createElement('input');
+		this.closeBttn.type = "image";
+		this.closeBttn.src = Close_UI.getSrc();
+		this.closeBttn.style.width = "32px";
+		this.closeBttn.style.height = "32px";
+		this.closeBttn.style.marginLeft = "0px";
+		this.closeBttn.style.marginRight = "5px";
+		this.closeBttn.style.marginTop = "5px";
+		this.closeBttn.style.marginBottom = "0px";
+		this.closeBttn.style.position = "absolute";
+		this.closeBttn.style.top = "0px";
+		this.closeBttn.style.right = "0px";
+		this.closeBttn.onmouseover = () => {
+			this.closeBttn.src = Close_UI_Hover.getSrc();
+		};
+		this.closeBttn.onmouseleave = () => {
+			this.closeBttn.src = Close_UI.getSrc();
+		};
+		this.closeBttn.onclick = () => {
+			this.hide();
+		};
+		this.menu.appendChild(this.closeBttn);
+		addUpdate(updater, "mod_loader");
+	}
+	const updater = () => {this.update()};
+	this.update = function() {
+		this.menu.style.width = (this.menuSize.x*screen.getScale().x)+"px";
+		this.menu.style.height = (this.menuSize.y*screen.getScale().y)+"px";
+		this.menu.style.top = (screen.getHalfDeviceRes().y)-((this.menuSize.y/2)*screen.getScale().y)+"px";
+		this.menu.style.left = (screen.getHalfDeviceRes().x)-((this.menuSize.x/2)*screen.getScale().x)+"px";
+		this.title.style.fontSize = (35*screen.getScale().x)+"px";
+		this.input.style.fontSize = (15*screen.getScale().x)+"px";
+		this.input.style.top = (parseInt(this.menu.style.top)+(50*screen.getScale().y))+"px";
+		this.input.style.left = (screen.getHalfDeviceRes().x-((parseInt(this.loadBttn.style.width)/2+50)*screen.getScale().x))+"px";
+		this.loadBttn.style.fontSize = (15*screen.getScale().x)+"px";
+		this.loadBttn.style.width = (100*screen.getScale().x)+"px";
+		this.loadBttn.style.height = (20*screen.getScale().y)+"px";
+		this.loadBttn.style.top = (parseInt(this.menu.style.top)+(80*screen.getScale().y))+"px";
+		this.loadBttn.style.left = (screen.getHalfDeviceRes().x-parseInt(this.loadBttn.style.width)/2)+"px";
+		this.modSep.style.width = this.menu.style.width;
+		this.modSep.style.height = (parseFloat(this.menu.style.height)-(105*screen.getScale().y))+"px";
+		this.modSep.style.top = (parseFloat(this.menu.style.top)+(105*screen.getScale().y))+"px";
+		this.modSep.style.left = this.menu.style.left;
+		this.closeBttn.style.marginRight = (5*screen.getScale().x)+"px";
+		this.closeBttn.style.marginTop = (5*screen.getScale().y)+"px";
+		this.closeBttn.style.width = (32*screen.getScale().x)+"px";
+		this.closeBttn.style.height = (32*screen.getScale().x)+"px";
+		//Gets path
+		this.path = this.input.value.replace(/\\/g, "/").replace("C:/fakepath", "./Mods");
+		if (this.path.includes("Mods")) {
+			this.path = "./"+this.path.slice(this.path.indexOf("Mods"), this.path.length);
+		}
+		//Add mod to mods list
+		this.loadBttn.onclick = () => {
+			let modName = this.path.replace("./Mods/", "").replace(".js", "");
+			let check = document.getElementById(modName);
+			if (check == null && this.path.length != 0) {
+				let newMod = new mod(this.path, modName);
+				this.mods.push(newMod);
+				console.log("%cMod added: "+modName, "color:green");
+			} else {
+				if (this.path.length != 0) {
+					console.log("%cMod "+modName+" is already loaded!", "color:orange");
+				} else {
+					console.log("%cNo mod is chosen!", "color:orange");
+				}
+			}
+		};
+		//Scale mod text
+		this.mods.forEach((m) => {
+			let idElement = document.getElementById(m.id+"V_text");
+			if (idElement.innerHTML.length > 30) {
+				let scaleFactor = 1-(30/idElement.innerHTML.length);
+				idElement.style.fontSize = (35*Math.abs(screen.getScale().x-scaleFactor))+"px";
+			} else {
+				idElement.style.fontSize = (35*screen.getScale().x)+"px";
+			}
+		});
+	}
+	this.addVisual = function(id="") {
+		//Box
+		let mV = document.createElement('div');
+		mV.id = id;
+		mV.style.backgroundColor = "darkgrey";
+		mV.style.marginLeft = "0px";
+		mV.style.marginRight = "0px";
+		mV.style.marginTop = "0px";
+		mV.style.marginBottom = "1px";
+		mV.style.width = "100%";
+		mV.style.height = "50px";
+		mV.style.boxShadow = "0px 5px black";
+		this.modSep.appendChild(mV);
+		//Mod name
+		let modNameV = document.createElement('h1');
+		modNameV.id = id+"_text";
+		modNameV.innerHTML = "Mod: "+id.replaceAll("V", "").replaceAll("_", " ");
+		modNameV.style.color = "white";
+		modNameV.style.marginLeft = "20px";
+		modNameV.style.marginRight = "0px";
+		modNameV.style.marginTop = "0px";
+		modNameV.style.marginBottom = "0px";
+		modNameV.style.fontSize = "35px";
+		modNameV.style.display = "inline-block";
+		mV.appendChild(modNameV);
+		//Delete button
+		let deleteBttnV = document.createElement('button');
+		deleteBttnV.innerHTML = "Unload";
+		deleteBttnV.style.fontSize = "35px";
+		deleteBttnV.style.marginLeft = "0px";
+		deleteBttnV.style.marginRight = "0px";
+		deleteBttnV.style.marginTop = "0px";
+		deleteBttnV.style.marginBottom = "0px";
+		deleteBttnV.style.width = "200px";
+		deleteBttnV.style.height = "100%";
+		deleteBttnV.style.float = "right";
+		deleteBttnV.style.display = "inline-block";
+		deleteBttnV.onclick = () => {
+			let id = mV.id.replace("V", "");
+			deleteModLocal(id);
+		};
+		mV.appendChild(deleteBttnV);
+	}
+	let deleteModLocal = (id) => {this.deleteMod(id);};
+	this.deleteMod = function(name="") {
+		this.mods.forEach((m, i) => {
+			if (m.id == name) {
+				this.mods[i].unload();
+				this.mods.splice(i, 1);
+				console.log("%cMod deleted: "+m.id, "color:orange");
+			}
+		});
+	}
+}
+
+//Keybinder
+const keys = [];
+const keyBuffer = [];
+
+const keybinder = new keyBinder();
+
+function keyBinder() {
+	this.menu = null;
+	this.title = null;
+	this.keySep = null;
+	this.closeBttn = null;
+	this.menuSize = new Vector2(800, 600);
+	this.show = function() {
+		if (this.menu != null) {
+			this.menu.style.display = "block";
+		}
+	}
+	this.hide = function() {
+		if (this.menu != null) {
+			this.menu.style.display = "none";
+		}
+	}
+	this.createMenu = function() {
+		//Background
+		this.menu = document.createElement('div');
+		this.menu.style.backgroundColor = "grey";
+		this.menu.style.zIndex = "2";
+		this.menu.style.marginLeft = "0px";
+		this.menu.style.marginRight = "0px";
+		this.menu.style.marginTop = "0px";
+		this.menu.style.marginBottom = "0px";
+		this.menu.style.display = "none";
+		this.menu.style.position = "fixed";
+		this.menu.style.boxShadow = "5px 5px darkgrey";
+		document.body.appendChild(this.menu);
+		//Title
+		this.title = document.createElement('h1');
+		this.title.innerHTML = "Keybinder";
+		this.title.style.textAlign = "center";
+		this.title.style.color = "white";
+		this.title.style.marginLeft = "0px";
+		this.title.style.marginRight = "0px";
+		this.title.style.marginTop = "0px";
+		this.title.style.marginBottom = "0px";
+		this.menu.appendChild(this.title);
+		//Key visual div
+		this.keySep = document.createElement('div');
+		this.keySep.style.backgroundColor = "lightgrey";
+		this.keySep.style.marginLeft = "0px";
+		this.keySep.style.marginRight = "0px";
+		this.keySep.style.marginTop = "0px";
+		this.keySep.style.marginBottom = "0px";
+		this.keySep.style.width = "100%";
+		this.keySep.style.height = "90%";
+		this.keySep.style.overflowX = "hidden";
+		this.keySep.style.overflowY = "scroll";
+		this.keySep.style.position = "none";
+		this.menu.appendChild(this.keySep);
+		//Close button
+		this.closeBttn = document.createElement('input');
+		this.closeBttn.type = "image";
+		this.closeBttn.src = Close_UI.getSrc();
+		this.closeBttn.style.width = "32px";
+		this.closeBttn.style.height = "32px";
+		this.closeBttn.style.marginLeft = "0px";
+		this.closeBttn.style.marginRight = "5px";
+		this.closeBttn.style.marginTop = "5px";
+		this.closeBttn.style.marginBottom = "0px";
+		this.closeBttn.style.position = "absolute";
+		this.closeBttn.style.top = "0px";
+		this.closeBttn.style.right = "0px";
+		this.closeBttn.onmouseover = () => {
+			this.closeBttn.src = Close_UI_Hover.getSrc();
+		};
+		this.closeBttn.onmouseleave = () => {
+			this.closeBttn.src = Close_UI.getSrc();
+		};
+		this.closeBttn.onclick = () => {
+			this.hide();
+		};
+		this.menu.appendChild(this.closeBttn);
+		addUpdate(updater, "key_binder");
+	}
+	const updater = () => {this.update()};
+	this.update = function() {
+		this.menu.style.width = (this.menuSize.x*screen.getScale().x)+"px";
+		this.menu.style.height = (this.menuSize.y*screen.getScale().y)+"px";
+		this.menu.style.top = (screen.getHalfDeviceRes().y)-((this.menuSize.y/2)*screen.getScale().y)+"px";
+		this.menu.style.left = (screen.getHalfDeviceRes().x)-((this.menuSize.x/2)*screen.getScale().x)+"px";
+		this.title.style.fontSize = (35*screen.getScale().x)+"px";
+		this.keySep.style.width = this.menu.style.width;
+		this.keySep.style.height = (parseFloat(this.menu.style.height)-(40*screen.getScale().y))+"px";
+		this.keySep.style.top = (parseFloat(this.menu.style.top)+(40*screen.getScale().y))+"px";
+		this.keySep.style.left = this.menu.style.left;
+		this.closeBttn.style.marginRight = (5*screen.getScale().x)+"px";
+		this.closeBttn.style.marginTop = (5*screen.getScale().y)+"px";
+		this.closeBttn.style.width = (32*screen.getScale().x)+"px";
+		this.closeBttn.style.height = (32*screen.getScale().x)+"px";
+		keys.forEach((k) => {
+			let idElement_1 = document.getElementById(k.id+"_name");
+			idElement_1.style.fontSize = (35*screen.getScale().x)+"px";
+			k.keys.forEach((k2, i) => {
+				let idElement_2 = document.getElementById(k.id+"_"+i);
+				idElement_2.style.width = (100*screen.getScale().x)+"px";
+				if (idElement_2.innerHTML.length > 3) {
+					let scaleFactor = 1-(3/idElement_2.innerHTML.length);
+					idElement_2.style.fontSize = (35*Math.abs(screen.getScale().x-scaleFactor))+"px";
+				} else {
+					idElement_2.style.fontSize = (35*screen.getScale().x)+"px";
+				}
+			});
+		});
+	}
+	this.createMenu();
+}
+
+function keyData(key="", location=0) {
+	this.key = key;
+	this.location = location;
+}
+
+function key(id="", thisKeys=[], functions=new Vector2(), ifPaused=true) {
+	this.id = id;
+	this.keys = thisKeys;
+	this.functions = functions;
+	this.ifPaused = ifPaused;
+	let pickKey = -1;
+	let keyPressed = "";
+	let locPressed = 0;
+	//UI
+	//Box
+	let kV = document.createElement('div');
+	kV.id = id;
+	kV.style.backgroundColor = "darkgrey";
+	kV.style.marginLeft = "0px";
+	kV.style.marginRight = "0px";
+	kV.style.marginTop = "0px";
+	kV.style.marginBottom = "1px";
+	kV.style.width = "100%";
+	kV.style.height = "50px";
+	kV.style.boxShadow = "0px 5px black";
+	keybinder.keySep.appendChild(kV);
+	//Key name
+	let keyNameV = document.createElement('h1');
+	keyNameV.id = id+"_name";
+	keyNameV.style.color = "white";
+	keyNameV.style.marginLeft = "20px";
+	keyNameV.style.marginRight = "0px";
+	keyNameV.style.marginTop = "0px";
+	keyNameV.style.marginBottom = "0px";
+	keyNameV.style.fontSize = "35px";
+	keyNameV.style.display = "inline-block";
+	kV.appendChild(keyNameV);
+	//Change key 1 button
+	this.keys.forEach((t, i) => {
+		let keyBttnV = document.createElement('button');
+		keyBttnV.id = this.id+"_"+i;
+		keyBttnV.innerHTML = t.key;
+		keyBttnV.style.fontSize = "35px";
+		keyBttnV.style.marginLeft = "0px";
+		keyBttnV.style.marginRight = "0px";
+		keyBttnV.style.marginTop = "0px";
+		keyBttnV.style.marginBottom = "0px";
+		keyBttnV.style.width = "100px";
+		keyBttnV.style.height = "100%";
+		keyBttnV.style.float = "right";
+		keyBttnV.style.display = "inline-block";
+		keyBttnV.onclick = () => {
+			let index = i;
+			let object = keyBttnV;
+			changeKey(index, object);
+		};
+		kV.appendChild(keyBttnV);
+	});
+	this.printKeys = function() {
+		keyNameV.innerHTML = this.id+" key: ";
+		this.keys.forEach((t,i) => {
+			//Name keys
+			let length = this.keys.length-1;
+			if (i != length) {
+				keyNameV.innerHTML += t.key.toUpperCase()+", ";
+			} else {
+				keyNameV.innerHTML += t.key.toUpperCase();
+			}
+			//Name bttns
+			let bttn = document.getElementById(this.id+"_"+i);
+			bttn.innerHTML = t.key.toUpperCase();
+		});
+		
+		pickKey = -1;
+	}
+	const changeKey = (index=0, object=null) => {this.changeKey(index, object);};
+	this.changeKey = function(index=0, object=null) {
+		keyNameV.innerHTML = "Press key:";
+		object.innerHTML = "*";
+		pickKey = index;
+	}
+	document.addEventListener("keydown",(e) => {
+		if (pickKey != -1) {
+			this.keys[pickKey].key = e.key;
+			this.keys[pickKey].location = e.location;
+			this.printKeys();
+			this.save();
+		}
+	}, false);	
+	document.addEventListener("keyup",(e) => {
+		pickKey = -1;
+	}, false);
+	this.save = function() {
+		localStorage.setItem(this.id, JSON.stringify(this.keys));
+	}
+	this.load = function() {
+		if (localStorage.getItem(this.id) != null) {
+			this.keys = JSON.parse(localStorage.getItem(this.id));
+		} else {
+			this.save();
+		}
+	}
+	this.compare = function(arr=[]) {
+		let results = [];
+		this.keys.forEach((k) => {
+			arr.forEach((k2) => {
+				if (k.key.toUpperCase() == k2.key.toUpperCase() && k.location == k2.location) {
+					results.push(true);
+				}
+			});
+		});
+		if (results.length == this.keys.length) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	this.load();
+	this.printKeys();
+	keys.push(this);
+}
+
+function updateKey() {
+	keys.forEach((k) => {
+		if (k.compare(keyBuffer)) {
+			if (typeof k.functions.x != "string") {
+				if (k.functions.x != null && (k.ifPaused == false || (k.ifPaused == true && isPaused == false))) {
+					k.functions.x();
 				}
 			} else {
-			mainMenu.style.display = "none";
-			}
-			if (scaleFillNativeWidth !== ((deviceWidth / nativeWidth)+UIScale.value) || scaleFillNativeHeight != ((deviceHeight / nativeHeight)+UIScale.value)) {
-			resizeHandler();
-			}
-			UIScaleNumber = UIScale.value;
-		break;
-		case 1:
-			pauseBttn.style.display = "initial";
-			if (player1Controls === 0 || player1Controls === 2) {
-			player1Bttn.innerHTML = TWPlayer1Collision.points;
-			}
-			if (player2Controls === 0 || player2Controls === 2) {
-			player2Bttn.innerHTML = TWPlayer2Collision.points;
-			}
-			if (!controlsLoad) {
-				if (players >= 2) {
-					if (player1Controls === 0 || player1Controls === 2) {
-					player1Bttn.style.display = "initial";
-					} else {
-					player1Bttn.style.display = "none";
-					}
-					if (player2Controls === 0 || player2Controls === 2) {
-					player2Bttn.style.display = "initial";
-					} else {
-					player2Bttn.style.display = "none";
-					}
+				if (k.ifPaused == false || (k.ifPaused == true && isPaused == false)) {
+					eval(k.functions.x);
 				}
-				if (players > 3) {
-					if (player3Controls === 0 || player3Controls === 2) {
-					player3Bttn.style.display = "initial";
-					player3Bttn.innerHTML = TWPlayer3Collision.points;
-					} else {
-					player3Bttn.style.display = "none";
-					}
-				}
-				if (players === 4) {
-					if (player4Controls === 0 || player4Controls === 2) {
-					player4Bttn.style.display = "initial";
-					player4Bttn.innerHTML = TWPlayer4Collision.points;
-					} else {
-					player4Bttn.style.display = "none";
-					}
-				}
-			controlsLoad = true;
 			}
-		break;
-		case 2:
-			pauseBttn.style.display = "initial";
-			if (player1Controls === 0 || player1Controls === 2) {
-			player1Bttn.innerHTML = LBPlayer1Collision.points;
-			}
-			if (player2Controls === 0 || player2Controls === 2) {
-			player2Bttn.innerHTML = LBPlayer2Collision.points;
-			}
-			if (!controlsLoad) {
-				if (players >= 3) {
-				players = 2;
-				}
-				if (players >= 2) {
-					if (player1Controls === 0 || player1Controls === 2) {
-					player1Bttn.style.display = "initial";
-					} else {
-					player1Bttn.style.display = "none";
-					}
-					if (player2Controls === 0 || player2Controls === 2) {
-					player2Bttn.style.display = "initial";
-					} else {
-					player2Bttn.style.display = "none";
-					}
-				}
-			player3Bttn.style.display = "none";
-			player4Bttn.style.display = "none";
-			controlsLoad = true;
-			}
-		break;
-	}
-	if (gamemode !== 0) {
-	mainMenu.style.display = "none";
-	UIScaleSlider.style.display = "none";
-	}
+		}
+	});
 }
+addUpdate(updateKey, "key updater");
 
-//gets mouse info for the cursor
-function getMouseInfo(data, XorY) {
-this.data = data;
-this.XorY = XorY;
-	switch (this.XorY) {
-	case "x": 
-	return (this.data/scaleWidth);
-	break;
-	case "y": 
-	return (this.data/scaleHeight);
-	break;
+document.addEventListener("keydown",(e) => {
+	let check = keyBuffer.every((i) => i.key.toUpperCase() != e.key.toUpperCase() && i.location != e.location);
+	if (check) {
+		keyBuffer.push({"key":e.key,"location":e.location});
 	}
-}
-
-//event listeners
-var pressed = false;
-window.addEventListener("mousemove", function(event) {
-	if (isLoaded) {
-	mousePos[0] = getMouseInfo(event.clientX, "x");
-	mousePos[1] = getMouseInfo(event.clientY, "y");
-	}
-});
-document.onmousedown = function(event){
-mouse_button = event.button;
-	if (event.button === 0) {
-	pressed = true;
-	}
-}
-document.addEventListener("contextmenu", function(e){
-      e.preventDefault();
+}, false);	
+document.addEventListener("keyup",(e) => {
+	keys.forEach((k) => {
+		if (k.compare(keyBuffer)) {
+			if (typeof k.functions.y != "string") {
+				if (k.functions.y != null) {
+					k.functions.y();
+				}
+			} else {
+				eval(k.functions.y);
+			}
+		}
+	});
+	keyBuffer.forEach((o, i) => {
+		if (o.key.toUpperCase() == e.key.toUpperCase() && o.location == e.location) {
+			keyBuffer.splice(i, 1);
+		}
+	});
 }, false);
-document.onmouseup = function(event){
-mouse_button = event.button;
-	if (event.button === 0) {
-	pressed = false;
-	clickLock = false;
+
+//Engine Controls
+let MenuBttn = new key(
+	"Menu",
+	[
+		new keyData("Escape", 0)
+	],
+	new Vector2(null, menuToggle)
+);
+
+//Server
+if (typeof require != "undefined") {
+	const { Server } = require("socket.io");
+	let gameServer = null;
+
+	function startServer(port=3000) {
+		gameServer = new Server(port);
+		gameServer.on('connection', (socket) => {
+		  console.log('a user connected');
+		});
 	}
 }
 
-window.addEventListener("touchstart", function(event) {
-pressed = true;
-	if (isLoaded) {
-	mousePos[0] = getMouseInfo(event.touches[0].clientX, "x");
-	mousePos[1] = getMouseInfo(event.touches[0].clientY, "y");
-	}
-});
-window.addEventListener("touchend", function(event) {
-pressed = false;
-clickLock = false;
-});
-window.addEventListener("touchmove", function(event) {
-	if (isLoaded) {
-	mousePos[0] = getMouseInfo(event.touches[0].clientX, "x");
-	mousePos[1] = getMouseInfo(event.touches[0].clientY, "y");
-	}
-});
+//Client
+let socket = null;
 
-//Controls
-//Player 1
-function Player1ControlsDown(rotLockOff) {
-this.rotLockOff = rotLockOff;
-	if (gamemode === 1) {
-		if (!TWPlayer1Collision.dead && !TWPlayer2Collision.dead) {
-		TWPlayer1Collision.speed = -TWPlayer1Speed;
-		TWPlayer1Collision.fireTime++;
-			if (TWPlayer1Collision.fireTime >= Player1BulletRate) {
-			TWPlayer1Collision.shoot();
-			TWPlayer1Collision.fireTime = 0;
-			}
-			if (!this.rotLockOff || this.rotLockOff === undefined) {
-				if (TWPlayer1Collision.rotLock == 0) {
-				TWPlayer1Collision.directionSwitch += 1;
-				TWPlayer1Collision.rotLock = 1;
-				}
-			}
-		}
-	}
-	if (gamemode === 2) {
-		if (!LBPlayer1Collision.dead && !LBPlayer2Collision.dead) {
-			if (LBPlayer1Collision.directionSwitch === 0) {
-			LBPlayer1Collision.angle += LBPlayerRotateSpeed; 
-			}
-			if (LBPlayer1Collision.directionSwitch === 1) {
-			LBPlayer1Collision.angle += -LBPlayerRotateSpeed; 
-			}
-			if (!this.rotLockOff || this.rotLockOff === undefined) {
-				if (LBPlayer1Collision.rotLock == 0) {
-				LBPlayer1Collision.directionSwitch += 1;
-				LBPlayer1Collision.rotLock = 1;
-				}
-			}
-		}
-	}
-}
-function Player1ControlsUp() {
-	if (gamemode === 1) {
-	TWPlayer1Collision.speed = 0; 
-	TWPlayer1Collision.rotLock = 0;
-	TWPlayer1Collision.fireTime = 0;
-	}
-	if (gamemode === 2) {
-	LBPlayer1Collision.rotLock = 0;
-	}
-StartRotation1 = false;
-}
-//Player 2
-function Player2ControlsDown(rotLockOff) {
-this.rotLockOff = rotLockOff;
-	if (gamemode === 1) {
-		if (!TWPlayer1Collision.dead && !TWPlayer2Collision.dead) {
-		TWPlayer2Collision.speed = TWPlayer2Speed; 
-		TWPlayer2Collision.fireTime++;
-			if (TWPlayer2Collision.fireTime >= Player2BulletRate) {
-			TWPlayer2Collision.shoot();
-			TWPlayer2Collision.fireTime = 0;
-			}
-			if (!this.rotLockOff || this.rotLockOff === undefined) {
-				if (TWPlayer2Collision.rotLock == 0) {
-				TWPlayer2Collision.directionSwitch += 1;
-				TWPlayer2Collision.rotLock = 1;
-				}
-			}
-		}
-	}
-	if (gamemode === 2) {
-		if (!LBPlayer1Collision.dead && !LBPlayer2Collision.dead) {
-			if (LBPlayer2Collision.directionSwitch === 0) {
-			LBPlayer2Collision.angle += LBPlayerRotateSpeed; 
-			}
-			if (LBPlayer2Collision.directionSwitch === 1) {
-			LBPlayer2Collision.angle += -LBPlayerRotateSpeed; 
-			}
-			if (!this.rotLockOff || this.rotLockOff === undefined) {
-				if (LBPlayer2Collision.rotLock === 0) {
-				LBPlayer2Collision.directionSwitch += 1;
-				LBPlayer2Collision.rotLock = 1;
-				}
-			}
-		}
-	}
-}
-function Player2ControlsUp() {
-	if (gamemode === 1) {
-	TWPlayer2Collision.speed = 0;
-	TWPlayer2Collision.rotLock = 0;
-	TWPlayer2Collision.fireTime = 0;
-	}
-	if (gamemode === 2) {
-	LBPlayer2Collision.rotLock = 0;
-	}
-StartRotation2 = false;
-}
-
-var loadedGameObjects = false;
-function controlReset() {
-	switch (gamemode) {
-		case 0:
-		loadedGameObjects = false;
-		Player1RotSwitch = false;
-		Player2RotSwitch = false;
-		gameObjects0 = [];
-		gameObjects1 = [];
-		gameObjects2 = [];
-		initMain();
-		initTW();
-		initLB();
-		break;
-		case 1:
-			if (!loadedGameObjects) {
-			gameObjects0 = [];
-			gameObjects1 = [];
-			gameObjects2 = [];
-			initMain();
-			initTW();
-			loadedGameObjects = true;
-			}
-		break;
-		case 2:
-			if (!loadedGameObjects) {
-			gameObjects0 = [];
-			gameObjects1 = [];
-			gameObjects2 = [];
-			initMain();
-			initLB();
-			loadedGameObjects = true;
-			}
-		break;
-	}
-}
-
-//button events
-//Player 1
-player1Bttn.onmousedown = function(event){
-	if (player1Controls !== 2) {
-	StartRotation1 = true;
-	}
-}
-player1Bttn.onmouseup = function(event){
-	if (player1Controls !== 2) {
-	Player1ControlsUp();
-	}
-}
-player1Bttn.ontouchstart = function(event){
-	if (player1Controls !== 2) {
-	StartRotation1 = true;
-	}
-}
-player1Bttn.ontouchend = function(event){
-	if (player1Controls !== 2) {
-	Player1ControlsUp();
-	}
-}
-//Player 2
-player2Bttn.onmousedown = function(event){
-	if (player2Controls !== 2) {
-	StartRotation2 = true;
-	}
-}
-player2Bttn.onmouseup = function(event){
-	if (player2Controls !== 2) {
-	Player2ControlsUp();
-	}
-}
-player2Bttn.ontouchstart = function(event){
-	if (player2Controls !== 2) {
-	StartRotation2 = true;
-	}
-}
-player2Bttn.ontouchend = function(event){
-	if (player2Controls !== 2) {
-	Player2ControlsUp();
-	}
-}
-
-//keyboard events
-function keyDownHandler(event) {
-	switch (event.key) {
-		case "w":
-			if (player1Controls !== 2) {
-			StartRotation1 = true;
-			}
-		break;
-		case "ArrowUp": 
-			if (player2Controls !== 2) {
-			StartRotation2 = true;
-			}
-		break;
-		case "a":
-			if (player1Controls === 2) {
-			LBPlayer1Collision.directionSwitch = 1;
-			StartRotation1 = true;
-			}
-		break;
-		case "d":
-			if (player1Controls === 2) {
-			LBPlayer1Collision.directionSwitch = 0;
-			StartRotation1 = true;
-			}
-		break;
-		case "ArrowLeft":
-			if (player2Controls === 2) {
-			LBPlayer2Collision.directionSwitch = 1;
-			StartRotation2 = true;
-			}
-		break;
-		case "ArrowRight":
-			if (player2Controls === 2) {
-			LBPlayer2Collision.directionSwitch = 0;
-			StartRotation2 = true;
-			}
-		break;
-	}
-}
-function keyUpHandler(event) {
-	switch (event.key) {
-		case "w":
-			if (player1Controls !== 2) {
-			Player1ControlsUp();
-			}
-		break;
-		case "ArrowUp":
-			if (player2Controls !== 2) {
-			Player2ControlsUp();
-			}
-		break;
-		case "a":
-			if (player1Controls === 2) {
-			Player1ControlsUp();
-			}
-		break;
-		case "d":
-			if (player1Controls === 2) {
-			Player1ControlsUp();
-			}
-		break;
-		case "ArrowLeft":
-			if (player2Controls === 2) {
-			Player2ControlsUp();
-			}
-		break;
-		case "ArrowRight":
-			if (player2Controls === 2) {
-			Player2ControlsUp();
-			}
-		break;
-	}
-}
-
-
-//reset game
-function resetGame(type) {
-	Player1RotSwitch = false;
-	Player2RotSwitch = false;
-	UpgradeMenu = false;
-	turn = 0;
-	nextLock = false;
-	this.type = type;
-	switch (gamemode) {
-		case 1:
-			if (this.type === "Master") {
-			TWPlayer1Collision.won = true;
-			TWPlayer2Collision.won = true;
-			}
-			TWPlayer1Collision.angle = 0;
-			TWPlayer1.color = "Tank_War_Player_1";
-			TWPlayer1Collision.x = 50;
-			TWPlayer1Collision.y = 120;
-			TWPlayer1Collision.dead = false;
-			TWPlayer1Collision.scored = false;
-			TWPlayer1Collision._dirtTracks.length = 0;
-			Tank1Explosion.resetANIMATION();
-			TWPlayer2Collision.angle = 0;
-			TWPlayer2.color = "Tank_War_Player_2";
-			TWPlayer2Collision.x = 1230;
-			TWPlayer2Collision.y = 600;
-			TWPlayer2Collision.dead = false;
-			TWPlayer2Collision.scored = false;
-			TWPlayer2Collision._dirtTracks.length = 0;
-			Tank2Explosion.resetANIMATION();
-			if (pressed) {
-				if (TWPlayer1Collision.won || TWPlayer2Collision.won) {
-				TWPlayer1Collision.points = 0;
-				TWPlayer1Collision._bullets.length = 0;
-				TWPlayer1Collision._dirtTracks.length = 0;
-				TWPlayer1Collision.won = false;
-				TWPlayer1Collision.upgradePoints = 0;
-				TWPlayer1Collision.speedUpgrade = 0;
-				TWPlayer1Collision.bulletRateUpgrade = 0;
-				TWPlayer1Collision.rotateSpeedUpgrade = 0;
-				TWPlayer2Collision.points = 0;
-				TWPlayer2Collision._bullets.length = 0;
-				TWPlayer2Collision._dirtTracks.length = 0;
-				TWPlayer2Collision.won = false;
-				TWPlayer2Collision.upgradePoints = 0;
-				TWPlayer2Collision.speedUpgrade = 0;
-				TWPlayer2Collision.bulletRateUpgrade = 0;
-				TWPlayer2Collision.rotateSpeedUpgrade = 0;
-				}
-			}
-		break;
-		case 2:
-			if (this.type === "Master") {
-			LBPlayer1Collision.won = true;
-			LBPlayer2Collision.won = true;
-			}
-			LBPlayer1Collision.angle = 0;
-			LBPlayer1Collision.x = 50;
-			LBPlayer1Collision.y = 120;
-			LBPlayer1Collision.dead = false;
-			LBPlayer2Collision.angle = 0;
-			LBPlayer2Collision.x = 1230;
-			LBPlayer2Collision.y = 600;
-			LBPlayer2Collision.dead = false;
-			if (pressed) {
-				if (LBPlayer1Collision.won || LBPlayer2Collision.won) {
-				LBPlayer1Collision.points = 0;
-				LBPlayer1Collision._bullets.length = 0;
-				LBPlayer1Collision.won = false;
-				LBPlayer2Collision.points = 0;
-				LBPlayer2Collision._bullets.length = 0;
-				LBPlayer2Collision.won = false;
-				}
-			}
-		break;
-	}
+function connect(ip="localhost", port="3000") {
+	socket = io("ws://"+ip+":"+port);
 }

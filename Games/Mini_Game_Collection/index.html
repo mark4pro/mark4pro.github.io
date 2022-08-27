@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Minigame Collection V2</title>
+		<link rel="icon" type="image/vnd.microsoft.icon" href="./Images/Icons/Main_Icon.ico"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+		<meta name="application-name" content="Minigame Collection" />
+		<meta name="description" content="3 games to play; Tank War, Line Battle, and Ball Bouncers!" />
+		<meta name="keywords" content="game jolt, javascript, game, free, indie, minigames, casual" />
+		<style>
+			.slider::-webkit-slider-thumb {
+				width: 30px;
+				height: 30px;
+				appearance: none;
+				cursor: pointer;
+				background: grey;
+				border-radius: 90px;
+				opacity: 0.9;
+			}
+			.slider::-webkit-slider-thumb:hover {
+				opacity: 1;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="../node_modules/socket.io/client-dist/socket.io.js"></script>
+		<script src="./Scripts/APIs/gj-js-api.js"></script>
+		<script src="./Scripts/Engine.js"></script>
+		<script src="./Scripts/Game.js"></script>
+		<!--<script>
+		let start = 1;
+		function startGame() {
+		Player1 = new component("player1", 30, 30, "blue", 50, 120, "cir");
+		Player2 = new component("player2", 30, 30, "red", window.innerWidth - 50, window.innerHeight - 120, "cir");
+		goal = new component("goal", 30, 30, "green", -100, -100, "cir");
+		goal.radius = 10;
+		background = new component("", 10000000, 10000000, "rgb("+redC+", "+greenC+", "+blueC+")", 100, 0, "rec");
+		GameArea.start();
+		}
+
+		let pause = true;
+		let blueBttn = document.getElementById("blueBttn");
+		let redBttn = document.getElementById("redBttn");
+		let winBttn = document.getElementById("winBttn");
+		let GameArea = {
+		start : function() {
+		let canvas = document.getElementById('canvas');
+		this.context = canvas.getContext("2d");
+		document.body.insertBefore(canvas, document.body.childNodes[0]);
+		this.interval = setInterval(updateGameArea, 10);
+		}, 
+		updateCV : function(){
+		this.context.clearRect(0, 0, canvas.width, canvas.height);
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		background.width = canvas.width * 2;
+		background.height = canvas.height * 2;
+		background.x = 0;
+		background.y = 0;
+		winBttn.style.top = canvas.height / 2 - 50 / 2 + "px";
+		winBttn.style.left = canvas.width / 2 - 180 / 2 + "px";
+		blueBttn.style.top = "15px";
+		blueBttn.style.left = "15px";
+		redBttn.style.bottom = "15px";
+		redBttn.style.right = "15px";
+		if (pause == true) {
+		GameArea.pause();
+		}
+		if (pause == false) {
+		GameArea.unpause();
+		 }
+		},
+		pause : function(){
+		canvas.style.display = "none";
+		pauseG.style.display = "none";
+		},
+		unpause : function(){
+		canvas.style.display = "initial";
+		pauseG.style.display = "initial";
+		}
+		}
+
+		let _bullets = [];
+		let _badGs = [];
+		function component(name, width, height, color, x, y, type, id, timeAlive) {
+		this.type = type;
+		this.color = color;
+		this.width = width;
+		this.height = height;
+		this.id = id;
+		this.name = name;
+		this.text = name;
+		this.speed = 0;
+		this.angle = 0;
+		this.moveAngle = 0;
+		this.dead = false;
+		this.points = 0;
+		this.radius = 25;
+		this.timeAlive = timeAlive;
+		this.x = x;
+		this.y = y;	
+		this.update = function() {
+		ctx = GameArea.context;
+		if (this.type == "text") {
+		  ctx.font = this.font;
+		  ctx.fillStyle = color;
+		  ctx.fillText(this.text, this.x, this.y);
+		  } 
+		  if (this.type == "rec") {
+		  ctx.save();
+		  ctx.translate(this.x, this.y);
+		  ctx.rotate(this.angle);
+		  ctx.fillStyle = this.color;
+		  ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
+		  ctx.restore();	
+		  }
+		  if (this.type == "Bull") {
+		  ctx.save();
+		  ctx.translate(this.x, this.y);
+		  ctx.rotate(this.angle);
+		  ctx.fillStyle = this.color;
+		  ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);	
+		  ctx.restore();
+		  }
+		  if (type == "cir") {
+		  ctx.beginPath();
+		  ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true);
+		  ctx.fillStyle = this.color;
+		  ctx.fill();
+		  ctx.lineWidth = 0;
+		  ctx.strokeStyle = 0;
+		  ctx.stroke();
+		 }
+		if (this.type == "Bull") {
+		this.timeAlive += 0.2;
+		 }
+		}
+		this.newPos = function() {
+		this.angle += this.moveAngle * Math.PI / 180;
+		this.x += this.speed * Math.sin(this.angle);
+		this.y -= this.speed * Math.cos(this.angle);
+		}
+		this.clicked = function() {
+		let myleft = this.x;
+		let myright = this.x + (this.width);
+		let mytop = this.y;
+		let mybottom = this.y + (this.height);
+		let clicked = true;
+		if (startgame == 0) {
+		Player1.speed = 0;
+		Player2.speed = 0; 
+		Player1.angle += 1 * Math.PI / -180; 
+		Player2.angle += 1 * Math.PI / 180;   
+		}
+		if ((mybottom < GameArea.y) || (mytop > GameArea.y) || (myright < GameArea.x) || (myleft > GameArea.x)) {
+		clicked = false;
+		}
+		return clicked;
+		}
+		if (name == "player1") {
+		this.shoot = function(){
+		if(this.dead === false){
+		let __bullet = new component("", 10, 10, "darkblue", Player1.x, Player1.y + 10, "Bull", "Tank1", 0);
+		__bullet.angle = this.angle;
+		_bullets.push(__bullet);
+		}
+		   }
+		  } else
+		  if (name == "player2") {
+		this.shoot = function(){
+		if(this.dead === false){
+		let __bullet = new component("", 10, 10, "darkred", Player2.x, Player2.y + 10, "Bull", "Tank2", 0);
+		__bullet.angle = this.angle;
+		_bullets.push(__bullet);
+		}
+		   }
+		  }
+		this.spawn = function(){
+		if(this.dead === false){
+		let __badG = new component("badGoal", 5, 5, "#A30F0F", Math.floor((Math.random()*canvas.width-20)+20), Math.floor((Math.random()*canvas.height-1)+1), "cir");
+		__badG.radius = 10;
+		_badGs.push(__badG);
+		 }
+		}
+		this.circleCrashWith = function(otherobj) {
+		let distance_x = this.x - otherobj.x;
+		let distance_y = this.y - otherobj.y;
+		let rSum = this.radius + otherobj.radius;
+		if (distance_x * distance_x + distance_y * distance_y <= rSum * rSum) { 
+		return true;
+		} else {
+		return false;
+		 }
+		}
+		}
+		let plusTwo = 0;
+		function random() {
+		goal.x = Math.floor((Math.random()*canvas.width-1)+1);
+		goal.y = Math.floor((Math.random()*canvas.height-1)+1);
+		plusTwo = Math.floor(Math.random()*10);
+		if (plusTwo == 10 || plusTwo == 5) {
+		goal.color = "yellow";
+		}
+		if (plusTwo == 2 || plusTwo == 6) {
+		goal.color = "purple";
+		}
+		if (plusTwo != 10 && plusTwo != 5 && plusTwo != 2 && plusTwo != 6) {
+		goal.color = "green";
+		}
+		}
+		let startgame = 0;
+		let startmove2 = 0;
+		let dirSwitch = 0;
+		let dirSwitch2 = 0;
+		let lock = 0;
+		let lock2 = 0;
+		let win = false;
+		let tankReset = 0;
+		let chaosMode = false;
+		let switchPos = 1;
+		let lossPointSW = false;
+		let lossPointSW2 = false;
+		let redC = document.getElementById('redCr').value;
+		let greenC = document.getElementById('greenCr').value;
+		let blueC = document.getElementById('blueCr').value;
+		let numOfWaves = document.getElementById('wave').value;
+		function updateGameArea() {
+		numOfWaves = document.getElementById('wave').value;
+		let numOfBad = document.getElementById('num').value;
+		let lineLength = document.getElementById('tail').value;
+		redC = document.getElementById('redCr').value;
+		greenC = document.getElementById('greenCr').value;
+		blueC = document.getElementById('blueCr').value;
+		document.getElementById('tailNum').innerHTML = "Tail Length: " + lineLength;
+		document.getElementById('waveNum').innerHTML = "Number Of Points: " + numOfWaves;
+		document.getElementById('badNum').innerHTML = "Number Of Objects: " + numOfBad;
+		BGColor.style.backgroundColor = "rgb("+redC+", "+greenC+", "+blueC+")";
+		blueBttn.innerHTML = Player1.points;
+		redBttn.innerHTML = Player2.points;
+		if (start == 1 && pause == false) {
+		start = 0;
+		document.getElementById('welcome').style.display = "none";
+		}
+		if (numOfBad > 0) {
+		if (_badGs.length < numOfBad) {
+		background.spawn();
+		}
+		if (_badGs.length > numOfBad) {
+		_badGs.length = numOfBad;
+		}
+		} else {
+		_badGs.length = 0;
+		}
+		GameArea.updateCV();
+		if (switchPos == 1) {
+		random();
+		switchPos = 0;
+		}
+		if (chaosMode == true) {
+		if (Player1.circleCrashWith(goal) && switchPos == 0) {
+		switchPos = 1;
+		overPoints = 0;
+		overPoints2 = 0;
+		button3_down = false;
+		if (win == false) {
+		Player1.points++;
+		if (plusTwo == 10 || plusTwo == 5) {
+		Player1.points++;
+		}
+		if (plusTwo == 2 || plusTwo == 6 && Player2.points > 0) {
+		Player2.points--;
+		}
+		 }
+		}
+		if (Player2.circleCrashWith(goal) && switchPos == 0) {
+		switchPos = 1;
+		overPoints = 0;
+		overPoints2 = 0;
+		button3_down = false;
+		if (win == false) {
+		Player2.points++;
+		if (plusTwo == 10 || plusTwo == 5) {
+		Player2.points++;
+		}
+		if (plusTwo == 2 || plusTwo == 6 && Player1.points > 0) {
+		Player1.points--;
+		}
+		 }
+		}
+		}
+		if (pause == false) {
+		blueBttn.style.display = "initial";
+		redBttn.style.display = "initial";
+		} else {
+		blueBttn.style.display = "none";
+		redBttn.style.display = "none";
+		}
+		for(let u = _bullets.length - 1; u >= 0; u--) {
+		if (_bullets[u].id == "Tank1" && _bullets[u].timeAlive >= lineLength) {
+		_bullets.shift();
+
+		}
+		}
+		if (Player1.dead == false || Player2.dead == false && pause == false) {
+		Player1.speed = -3;
+		Player2.speed = 3;
+		Player1.shoot();
+		Player2.shoot();
+		}
+		if (button_down == true && pause == false) {
+		if (dirSwitch == 0) {
+		Player1.angle += 3 * Math.PI / 180; 
+		}
+		if (dirSwitch == 1) {
+		Player1.angle += 3 * Math.PI / -180; 
+		}
+		if (lock == 0) {
+		dirSwitch += 1;
+		lock = 1;
+		}
+		}
+		if (button_down == false) {
+		startgame = 1;
+		lock = 0;
+		}
+		if (button2_down == true && pause == false) {
+		if (dirSwitch2 == 0) {
+		Player2.angle += 3 * Math.PI / 180;   
+		}
+		if (dirSwitch2 == 1) {
+		Player2.angle += 3 * Math.PI / -180;   
+		}
+		if (lock2 == 0) {
+		dirSwitch2 += 1;
+		lock2 = 1;
+		}
+		}
+		if (button2_down == false) {
+		startgame = 1;
+		lock2 = 0;
+		}
+		if (Player1.y <= 5) {
+		Player1.y += window.innerHeight - 5;
+		}
+		if (Player1.y >= window.innerHeight - 5) {
+		Player1.y -= window.innerHeight - 5;
+		}
+		if (Player1.x <= 0) {
+		Player1.x += window.innerWidth;
+		}
+		if (Player1.x >= window.innerWidth) {
+		Player1.x -= window.innerWidth;
+		}
+		if (Player2.y <= 5) {
+		Player2.y += window.innerHeight - 5;
+		}
+		if (Player2.y >= window.innerHeight - 5) {
+		Player2.y -= window.innerHeight - 5;
+		}
+		if (Player2.x <= 0) {
+		Player2.x += window.innerWidth;
+		}
+		if (Player2.x >= window.innerWidth) {
+		Player2.x -= window.innerWidth;
+		}
+		for(let j = _bullets.length - 1; j >= 0; j--) {
+		if (_bullets[j].id == "Tank2" && Player1.dead === false && Player1.circleCrashWith(_bullets[j]) && win == false) {
+		if (chaosMode == true) {
+		if(Player1.x < _bullets[j].x){
+		 Player1.x = Player1.x - 1;
+		}
+		else if(Player1.x > _bullets[j].x){
+		 Player1.x = Player1.x + 1;
+		}
+		if(Player1.y < _bullets[j].y){
+		 Player1.y = Player1.y + 1;
+		}
+		else if(Player1.y > _bullets[j].y){
+		 Player1.y = Player1.y - 1;
+		}
+		}
+		_bullets.splice(j, 1);
+		if (chaosMode == false) {
+		Player1.dead = true;
+		if (win == false) {
+		Player2.points++;
+		}
+		}
+		}
+		}
+		for(let k = _bullets.length - 1; k >= 0; k--) {
+		if (_bullets[k].id == "Tank1" && Player2.dead === false && Player2.circleCrashWith(_bullets[k]) && win == false) {
+		if (chaosMode == true) {
+		if(Player2.x < _bullets[k].x){
+		 Player2.x = Player2.x - 1;
+		}
+		else if(Player2.x > _bullets[k].x){
+		 Player2.x = Player2.x + 1;
+		}
+		if(Player2.y < _bullets[k].y){
+		 Player2.y = Player2.y + 1;
+		}
+		else if(Player2.y > _bullets[k].y){
+		 Player2.y = Player2.y - 1;
+		}
+		}
+		_bullets.splice(k, 1);
+		if (chaosMode == false) {
+		Player2.dead = true;
+		if (win == false) {
+		Player1.points++;
+		}
+		}
+		}
+		}
+		background.update();
+		if (win == true) {
+		if (pause == 0) {
+		winBttn.style.display = "initial";
+		 }
+		} else {
+		winBttn.style.display = "none";
+		}
+		if (pause == true) {
+		winBttn.style.display = "none";
+		}
+		if (Player1.dead) {
+		tankReset++;
+		Player1.color = "grey";
+		Player1.speed = 0;
+		Player1.angle = 0;
+		Player2.speed = 0;
+		Player2.angle = 0;
+		dirSwitch = 0;
+		dirSwitch2 = 0;
+		button_down = false;
+		button2_down = false;
+		button3_down = false;
+		_bullets.length = 0;
+		if (tankReset > 50) {
+		deathReset();
+		 }
+		}
+		if (Player1.dead == false && Player2.dead == false) {
+		tankReset = 0;
+		}
+		if (Player2.dead) {
+		tankReset++;
+		Player2.color = "grey";
+		Player2.speed = 0;
+		Player2.angle = 0;
+		Player1.speed = 0;
+		Player1.angle = 0;
+		dirSwitch = 0;
+		dirSwitch2 = 0;
+		button_down = false;
+		button2_down = false;
+		button3_down = false;
+		_bullets.length = 0;
+		if (tankReset > 50) {
+		deathReset();
+		 }
+		}
+		if (dirSwitch  > 1) {
+		dirSwitch = 0;
+		}
+		if (dirSwitch2  > 1) {
+		dirSwitch2 = 0;
+		}
+		for (let i = _bullets.length - 1; i >= 0; i--){
+		_bullets[i].update();
+		if (_bullets[i].x <= 0 || _bullets[i].x >= window.innerWidth || _bullets[i].y >= window.innerHeight || _bullets[i].y <= 0){
+		 _bullets.splice(i, 1);
+		}
+		   }
+		for(let p = _badGs.length - 1; p >= 0; p--) {
+		//make exeption to stop spawning near player//
+		if (_badGs[p].x < 100) {
+		_badGs[p].x = Math.floor((Math.random()*canvas.width-20)+20);
+		}
+		if (_badGs[p].x > canvas.width - 100) {
+		_badGs[p].x = Math.floor((Math.random()*canvas.width-20)+20);
+		}
+		if (_badGs[p].circleCrashWith(goal)) {
+		_badGs[p].x = Math.floor((Math.random()*canvas.width-20)+20);
+		_badGs[p].y = Math.floor((Math.random()*canvas.height-1)+1);
+		}
+		if (Player1.circleCrashWith(_badGs[p]) && _badGs[p].x > 100 && _badGs[p].x < canvas.width - 100) {
+		Player1.dead = true;
+		if (Player1.points > 0 && lossPointSW == false && win == false) {
+		lossPointSW = true;
+		Player1.points--;
+		}
+		}
+		if (Player2.circleCrashWith(_badGs[p]) && _badGs[p].x > 100 && _badGs[p].x < canvas.width - 100) {
+		Player2.dead = true;
+		if (Player2.points > 0 && lossPointSW2 == false && win == false) {
+		lossPointSW2 = true;
+		Player2.points--;
+		}
+		}
+		_badGs[p].update();
+		}
+		if (switchPos == 0 && chaosMode == true) {
+		goal.update();
+		}
+		Player1.update();
+		Player1.newPos();
+		Player2.update();
+		Player2.newPos();
+		if(Player1.circleCrashWith(Player2)){
+		if(Player1.x < Player2.x){
+		 Player1.x = Player1.x - 1;
+		 Player1.y = Player1.y - 1;
+		 Player2.x = Player2.x + 1;
+		 Player2.y = Player2.y + 1;
+		}
+		else if(Player1.x > Player2.x){
+		 Player1.x = Player1.x + 1;
+		 Player1.y = Player1.y + 1;
+		 Player2.x = Player2.x - 1;
+		 Player2.y = Player2.y - 1;
+		}
+		  }
+		background.color = "rgb("+redC+", "+greenC+", "+blueC+")";
+		  if (Player1.points >= numOfWaves && Player2.points < numOfWaves) {
+		winBttn.innerHTML = "Blue Wins!";
+		win = true;
+		 }
+		  if (Player2.points >= numOfWaves && Player1.points < numOfWaves) {
+		winBttn.innerHTML = "Red Wins!";
+		win = true;
+		 }
+		  if (Player1.points >= numOfWaves && Player2.points >= numOfWaves) {
+		winBttn.innerHTML = "Tie!";
+		win = true;
+		 }
+		if (win == true && button3_down == true) {
+			winReset();
+		 }
+		}
+
+		function deathReset() {
+		modeLock = false;
+		button3_down = false;
+		if (Player1.dead == true) {
+		 Player1.dead = false;
+		 Player1.color = "blue";
+		 Player1.x = 50;
+		 Player1.y = 120;
+		 Player2.x = window.innerWidth - 50;
+		 Player2.y = window.innerHeight - 120;
+		 Player1.speed = 0;
+		 Player2.speed = 0;
+		 lossPointSW = false;
+		 }
+		if (Player2.dead == true) {
+		 Player2.dead = false;
+		 Player2.color = "red";
+		 Player1.x = 50;
+		 Player1.y = 120;
+		 Player2.x = window.innerWidth - 50;
+		 Player2.y = window.innerHeight - 120;
+		 Player1.speed = 0;
+		 Player2.speed = 0;
+		 lossPointSW2 = false;
+		 }
+		 overPoints = 0;
+		 overPoints2 = 0;
+		 _badGs.length = 0;
+		 random();
+		}
+
+		let overPoints = 0;
+		let overPoints2 = 0;
+		function winReset() {
+		if (win == true) {
+		if (Player1.points > numOfWaves && chaosMode == true) {
+		 overPoints = Player1.points - numOfWaves;
+		}
+		if (Player2.points > numOfWaves && chaosMode == true) {
+		 overPoints2 = Player2.points - numOfWaves;
+		}
+		 _bullets.length = 0;
+		 dirSwitch = 0;
+		 dirSwitch2 = 0;
+		 button_down = false;
+		 button2_down = false;
+		 button3_down = false;
+		 Player1.angle = 0;
+		 Player2.angle = 0;
+		 Player1.dead = false;
+		 Player2.dead = false;
+		 Player1.points = overPoints;
+		 Player2.points = overPoints2;
+		 Player1.color = "blue";
+		 Player2.color = "red";
+		 Player1.x = 50;
+		 Player1.y = 120;
+		 Player2.x = window.innerWidth - 50;
+		 Player2.y = window.innerHeight - 120;
+		 Player1.speed = 0;
+		 Player2.speed = 0;
+		 win = false;
+		 }
+		} setTimeout(winReset, 1000);
+
+		let button_down = false, button2_down = false, button3_down = false;
+
+		blueBttn.onmousedown = function() {button_down = true; blueBttn.style.backgroundColor = "darkblue";}
+		blueBttn.onmouseup = function() {button_down = false; blueBttn.style.backgroundColor = "blue";}
+		redBttn.onmousedown = function() {button2_down = true; redBttn.style.backgroundColor = "darkred";}
+		redBttn.onmouseup = function() {button2_down = false; redBttn.style.backgroundColor = "red";}
+		winBttn.onmousedown = function() {button3_down = true; winBttn.style.backgroundColor = "purple";}
+		winBttn.onmouseup = function() {button3_down = false; winBttn.style.backgroundColor = "magenta";}
+			
+		blueBttn.ontouchstart = function() {button_down = true; blueBttn.style.backgroundColor = "darkblue";}
+		blueBttn.ontouchend = function() {button_down = false; blueBttn.style.backgroundColor = "blue";}
+		redBttn.ontouchstart = function() {button2_down = true; redBttn.style.backgroundColor = "darkred";}
+		redBttn.ontouchend = function() {button2_down = false; redBttn.style.backgroundColor = "red";}
+		winBttn.ontouchstart = function() {button3_down = true; winBttn.style.backgroundColor = "purple";}
+		winBttn.ontouchend = function() {button3_down = false; winBttn.style.backgroundColor = "magenta";}
+
+		document.onkeydown = function(e) {
+		switch (e.keyCode) {
+		case 87:
+				button_down = true; 
+				blueBttn.style.backgroundColor = "darkblue";		
+					break;
+				case 38:
+				button2_down = true;
+				redBttn.style.backgroundColor = "darkred";		
+					break;
+		}
+		};
+		document.onkeyup = function(e) {
+		switch (e.keyCode) {
+		case 87:
+				button_down = false;  
+				blueBttn.style.backgroundColor = "blue";		
+					break;
+				case 38:
+				button2_down = false;
+				redBttn.style.backgroundColor = "red";		
+					break;
+		}
+		};
+		</script>-->
+	</body>
+</html>
