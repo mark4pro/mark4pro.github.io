@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Homeworld Takedown V1.0.0</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link rel="icon" type="image/vnd.microsoft.icon" href="./Images/Icons/Homeworld_Takedown_Icon.ico"/>
+<style>
+	#screen {
+		display: block;
+		background-color: blue;
+		margin: 0px;
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		image-rendering: -moz-crisp-edges;         /* Firefox */
+		image-rendering: -webkit-crisp-edges;      /* Webkit */
+		-ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+		image-rendering: crisp-edges;                /* Chrome */
+		z-index: 0;
+	}
+	#settings{
+		opacity: 0;
+		transition: visibility 0.5s, opacity 0.5s;
+		visibility: hidden;
+		background-color: #660063;
+		overflow: auto;
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		z-index: 2;
+	}
+	#loader {
+		opacity: 1;
+		transition: visibility 1s, opacity 1s;
+		visibility: visible;
+		background: url(./Images/loading.gif) center no-repeat #787878;
+		background-size: 100px 100px;
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		z-index: 2;
+	}
+	#patchInfo{
+		opacity: 0;
+		transition: visibility 0.5s, opacity 0.5s;
+		visibility: hidden;
+		background-color: white;
+		width: 250px;
+		height: 400px;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		z-index: 3;
+	}
+	#collisionMapper {
+		visibility: hidden;
+		overflow: auto;
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		z-index: 4;
+	}
+	#moveJoystick { 
+		opacity: 0;
+		transition: visibility 0.5s, opacity 0.5s;
+		visibility: hidden;
+		position: fixed;
+		bottom: 100px;
+		left: 100px;
+		z-index: 1;
+	}
+	#shootJoystick { 
+		opacity: 0;
+		transition: visibility 0.5s, opacity 0.5s;
+		visibility: hidden;
+		position: fixed;
+		bottom: 100px;
+		right: 100px;
+		z-index: 1;
+	}
+	p {
+		color: white;
+	}
+	img {
+		display: none;
+	}
+	.unselectable {
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+	.texts {
+		word-break: keep-all;
+		margin: auto;
+		width: 50%;
+		color: white;
+	}
+	.check {
+		cursor: pointer;
+		background-color: #000000;
+		outline: none;
+		opacity: 0.7;
+		width: 25px;
+		height: 25px;
+		-webkit-transition: .2s;
+		transition: opacity .2s;
+	}
+	.check:hover {
+		opacity: 1;
+	}
+	.buttons {
+		background-color: #000000;
+		color: white;
+		border: none;
+		opacity: 0.7;
+		width: 200px;
+		height: 50px;
+		text-align: center;
+		text-decoration: none;
+		font-size: 30px;
+		-webkit-transition: .2s;
+		transition: opacity .2s;
+	}
+	.buttons:hover {
+		opacity: 1;
+		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	}
+	.saveButtons {
+		background-color: #000000;
+		color: white;
+		border: none;
+		opacity: 0.7;
+		width: 100px;
+		height: 30px;
+		text-align: center;
+		text-decoration: none;
+		font-size: 25px;
+		-webkit-transition: .2s;
+		transition: opacity .2s;
+		margin-left: 10px;
+	}
+	.saveButtons:hover {
+		opacity: 1;
+		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	}
+	.slider {
+		-webkit-appearance: none;
+		width: 50%;
+		height: 25px;
+		background: #d3d3d3;
+		outline: none;
+		opacity: 0.7;
+		-webkit-transition: .2s;
+		transition: opacity .2s;
+	}
+	.slider:hover {
+		opacity: 1;
+	}
+	.slider::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		appearance: none;
+		width: 25px;
+		height: 25px;
+		background: #000000;
+		cursor: pointer;
+	}
+	.slider::-moz-range-thumb {
+		width: 25px;
+		height: 25px;
+		background: #000000;
+		cursor: pointer;
+	}
+</style>
+	<!--Where Images Go-->
+	<!--Player Ships-->
+	<img id="player1Img" src="./Images/Player_Ship_1_Sprite_Sheet.png">
+	<img id="player2Img" src="./Images/Player_Ship_2_Sprite_Sheet.png">
+	<img id="player3Img" src="./Images/Player_Ship_3_Sprite_Sheet.png">
+	<img id="player4Img" src="./Images/Player_Ship_4_Sprite_Sheet.png">
+	<img id="player5Img" src="./Images/Player_Ship_5_Sprite_Sheet.png">
+	<img id="player6Img" src="./Images/Player_Ship_6_Sprite_Sheet.png">
+	<!--Player Bullets-->
+	<img id="bullet1Img" src="./Images/Bullet_1.png">
+	<img id="bullet2Img" src="./Images/Bullet_2.png">
+	<img id="bullet3Img" src="./Images/Bullet_3.png">
+	<img id="bullet4Img" src="./Images/Bullet_4.png">
+	<!--Emenies-->
+	<img id="enemy1Img" src="./Images/Enemy_1_Sprite_Sheet.png">
+	<img id="enemy2Img" src="./Images/Enemy_2_Sprite_Sheet.png">
+	<img id="enemy3Img" src="./Images/Enemy_3_Sprite_Sheet.png">
+	<img id="enemy4Img" src="./Images/Enemy_4_Sprite_Sheet.png">
+	<img id="enemy5Img" src="./Images/Enemy_5_Sprite_Sheet.png">
+	<!--Enemy Bullets-->
+	<img id="enemyBullet1Img" src="./Images/Enemy_Bullet_1.png">
+	<!--Crates-->
+	<img id="healthCrate1Img" src="./Images/Health_Crate_1.png">
+	<img id="sheildCrate1Img" src="./Images/Sheild_Crate_1.png">
+	<img id="ammoCrate1Img" src="./Images/Ammo_Crate_1.png">
+	<!--Backgrounds-->
+	<img id="startScreen" src="./Images/Start_Screen.png">
+	<img id="deathScreen" src="./Images/Death_Screen.png">
+	<img id="warpZoneBackground" src="./Images/Warp_Zone_Background.png">
+	<img id="wave1-5Background" src="./Images/Wave_1-4_Background.png">
+	<img id="wave5-7Background" src="./Images/Wave_5-7_Background.png">
+	<img id="wave8-12Background" src="./Images/Wave_8-12_Background.png">
+	<img id="wave13-20Background" src="./Images/Wave_13-20_Background.png">
+	<img id="endScreen" src="./Images/End_Screen.png">
+	<!--Planets-->
+	<img id="earth" src="./Images/Earth.png">
+	<img id="stpEarth" src="./Images/Shamrock_Earth.png">
+	<!--Normal Level Objects-->
+	<img id="plantBox1Img" src="./Images/Plant_Box.png">
+	<img id="platform" src="./Images/Platform.png">
+	<img id="wave1-5Border" src="./Images/Wave_1-4_Border.png">
+	<img id="wave8-12Border" src="./Images/Wave_8-12_Border.png">
+	<img id="wave13-20Border" src="./Images/Wave_13-20_Border.png">
+	<img id="wall_1" src="./Images/Wall_1.png">
+	<img id="tree" src="./Images/Tree.png">
+	<img id="burnedHouse" src="./Images/Burnt_House.png">
+	<img id="houseFloor1Img" src="./Images/Floor_1.png">
+	<img id="houseFloor2Img" src="./Images/Floor_2.png">
+	<img id="houseFloor3Img" src="./Images/Floor_3.png">
+	<img id="houseRoof1Img" src="./Images/Roof_1.png">
+	<img id="houseRoof2Img" src="./Images/Roof_2.png">
+	<img id="houseRoof3Img" src="./Images/Roof_3.png">
+	<!--UI-->
+	<img id="soundOnOff" src="./Images/Sound_ON_OFF_UI.png">
+	<img id="lowHealthBorder" src="./Images/Low_Health_Border.png">
+	<img id="hiddenShip" src="./Images/Hidden_Ship.png">
+	<img id="settingsButton" src="./Images/Settings.png">
+	<img id="uiPanel" src="./Images/UI_Panel.png">
+	<img id="uiBackground" src="./Images/UI_Background.png">
+	<img id="versionPatch" src="./Images/Version_Patch.png">
+	<img id="youtubeLogo" src="./Images/yt_logo_rgb_light.png">
+	<img id="githubLogo" src="./Images/GitHub_Logo.png">
+	<!--Bosses-->
+	<img id="wave7Boss" src="./Images/Boss_1_Sprite_Sheet.png">
+	<img id="wave7BossSheild" src="./Images/Boss_1_Sheilded_Sprite_Sheet.png">
+	<!--Boss Bullets-->
+	<img id="wave7BossBullet1Img" src="./Images/Boss_Bullet_1.png">
+	<!--SFX-->
+	<img id="EXFrame1" src="./Images/Explosion_Frame_1.png">
+	<img id="EXFrame2" src="./Images/Explosion_Frame_2.png">
+	<img id="EXFrame3" src="./Images/Explosion_Frame_3.png">
+	<img id="EXFrame4" src="./Images/Explosion_Frame_4.png">
+	<img id="EXFrame5" src="./Images/Explosion_Frame_5.png">
+	<img id="EXFrame6" src="./Images/Explosion_Frame_6.png">
+	<img id="EXFrame7" src="./Images/Explosion_Frame_7.png">
+	<!-- Where Sounds Go -->
+	<audio id="titleScreen" src="./Audio/Music/HT_Title_Screen.wav"></audio>
+	<audio id="warpZone" src="./Audio/Music/HT_Warp_Zone.wav"></audio>
+	
+	<audio id="buttonSelect" src="./Audio/Sound Effects/BUTTON_SELECT.wav"></audio>
+	<audio id="startGame" src="./Audio/Sound Effects/GAME_START.wav"></audio>
+	<audio id="back" src="./Audio/Sound Effects/GO_BACK.wav"></audio>
+</head>
+<body onload="start()">
+	<div id="collisionMapper"> 
+	<p id="collisionOutput" align="center" style="font-size:20px;margin-left:10px;margin-top:50px;"></p>
+	</div>
+	<label class="unselectable">
+	<div id="moveJoystick"></div>
+	<div id="shootJoystick"></div>
+	<canvas id="screen"></canvas>
+	<div id="loader"></div>
+	<div id="settings">
+		<p align="center" style="font-size:50px;">SETTINGS</p>
+		<br><p align="center" style="font-size:50px;margin:0px;">Sound:</p>
+		<div align="center" style="width:100%;"><div id="Music_Volume" style="color:white;font-size:20px;">Music: </div><input type="range" min="0" max="100" id="musicVolume" class="slider" step="1" value="15"></input><button class="saveButtons" onmousedown="saveSettings('musicVolume');buttonSelectTrack.play();">Save</button></div><br>
+		<div align="center" style="width:100%;"><div id="Sound_Effects_Volume" style="color:white;font-size:20px;">Sound Effects: </div><input type="range" min="0" max="100" id="soundVolume" class="slider" step="1"></input><button class="saveButtons" onmousedown="saveSettings('soundVolume');buttonSelectTrack.play();">Save</button></div>
+		<!--<p align="center" style="font-size:20px;">Mute "Shooting" Sound Effect: <input type="checkbox" class="check" id="mute_SHOOTING" value=""><button class="saveButtons" onmousedown="buttonSelectTrack.play();">Save</button></p>
+		<p align="center" style="font-size:20px;">Mute "Low Ammo" Sound Effect: <input type="checkbox" class="check" id="mute_LOW_AMMO" value=""><button class="saveButtons" onmousedown="buttonSelectTrack.play();">Save</button></p>
+		<p align="center" style="font-size:20px;">Mute "Explosion" Sound Effect: <input type="checkbox" class="check" id="mute_EXPLOSION" value=""><button class="saveButtons" onmousedown="buttonSelectTrack.play();">Save</button></p>-->
+		<p align="center" style="font-size:20px;">Mute All Sound: <input type="checkbox" class="check" id="mute" value=""><button class="saveButtons" onmousedown="saveSettings('mute');buttonSelectTrack.play();">Save</button></p>
+		<br><p align="center" style="font-size:50px;margin:0px;">Extras:</p>
+		<p align="center" style="font-size:20px;">Image Smoothing: <input type="checkbox" class="check" id="imageSmooth" value="" checked><button class="saveButtons" onmousedown="saveSettings('imageSmooth');buttonSelectTrack.play();">Save</button></p>
+		<p align="center" style="font-size:20px;">Enemy Health Bars: <input type="checkbox" class="check" id="healthBars" value="" checked><button class="saveButtons" onmousedown="saveSettings('healthBars');buttonSelectTrack.play();">Save</button></p>
+		<p align="center" style="font-size:20px;">FPS Counter: <input type="checkbox" class="check" id="showFPSCounter" value=""><button class="saveButtons" onmousedown="saveSettings('showFPSCounter');buttonSelectTrack.play();">Save</button></p>
+		<p align="center" style="font-size:20px;margin:0px;">Control Method: </p>
+		<p align="center" style="font-size:20px;">Keyboard: <input type="checkbox" class="check" id="Keyboard" value="" checked></p>
+		<p align="center" style="font-size:20px;">Controller: <input type="checkbox" class="check" id="Controller" value=""></p>
+		<br><p align="center" style="font-size:40px;margin:0px;">Controller:</p>
+		<p align="center" id="Controllers_Connected" style="font-size:20px;margin:0px;">Controllers Conected: </p>
+		<p align="center" id="Player_Controller" style="font-size:20px;margin:0px;">Controller: </p>
+		<div align="center"><button id="controllerDown" class="buttons" onmousedown="changePlayer1Controller('down');buttonSelectTrack.play();"><-</button><button id="controllerUp" class="buttons" onmousedown="changePlayer1Controller('up');buttonSelectTrack.play();">-></button></div>
+		<br><p align="center" style="font-size:40px;margin:0px;">Keyboard:</p>
+		<div align="center"><div id="Up_Button_Text" style="color:white;font-size:30px;">Move Up: </div><br><button id="UpButton" class="buttons" onmousedown="keySetter('upKey');buttonSelectTrack.play();">Change</button></div>
+		<div align="center"><div id="Down_Button_Text" style="color:white;font-size:30px;">Move Down: </div><br><button id="DownButton" class="buttons" onmousedown="keySetter('downKey');buttonSelectTrack.play();">Change</button></div>
+		<div align="center"><div id="Left_Button_Text" style="color:white;font-size:30px;">Move Left: </div><br><button id="LeftButton" class="buttons" onmousedown="keySetter('leftKey');buttonSelectTrack.play();">Change</button></div>
+		<div align="center"><div id="Right_Button_Text" style="color:white;font-size:30px;">Move Right: </div><br><button id="RightButton" class="buttons" onmousedown="keySetter('rightKey');buttonSelectTrack.play();">Change</button></div>
+		<div align="center"><div id="Back_Button_Text" style="color:white;font-size:30px;">Back: </div><br><button id="BackButton" class="buttons" onmousedown="keySetter('backKey');buttonSelectTrack.play();">Change</button></div>
+		<div align="center"><div id="Enter_Button_Text" style="color:white;font-size:30px;">Enter Key: </div><br><button id="EnterButton" class="buttons" onmousedown="keySetter('enterKey');buttonSelectTrack.play();">Change</button></div><br>
+		<br><p align="center" style="font-size:50px;margin:0px;">Difficulties:</p>
+		<p align="center" style="font-size:20px;">Easy: <input type="checkbox" class="check" id="Easy_" value="" checked></p>
+		<p align="center" style="font-size:20px;">Medium: <input type="checkbox" class="check" id="Medium_" value=""><button class="saveButtons" onmousedown="saveSettings(['Easy_', 'Medium_', 'Hard_']);buttonSelectTrack.play();">Save</button></p>
+		<p align="center" style="font-size:20px;">Hard: <input type="checkbox" class="check" id="Hard_" value=""></p>
+		<p align="center"><button class="buttons" onmousedown="saveSettings('all');buttonSelectTrack.play();">Save All</button></p>
+		<p align="center"><button class="buttons" onmousedown="if (!unlockControls) {settingsState++};backTrack.play();">Back</button></p>
+	</div>
+</label>
+<script type="text/javascript" src="./Scripts/Pathfinding.js"></script>
+<script type="text/javascript" src="./Scripts/Engine.js"></script>
+</body>
+</html>
