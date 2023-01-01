@@ -1,174 +1,180 @@
-let uiLoaded = false;
-
-let previewToggle = false;
+modVars.add(false, "uiLoaded", "Abyss_Color_Changer");
+modVars.add(false, "previewToggle", "Abyss_Color_Changer");
 
 //Allowed maps
-let isOnAllowed = false;
-let allowedMaps = ["Abyss"];
+modVars.add(false, "isOnAllowed", "Abyss_Color_Changer");
+modVars.add(["Abyss"], "allowedMaps", "Abyss_Color_Changer");
 
 //Color vector
-let abyssColorVec = new Vector2(0, 0, 0);
+modVars.add(new Vector2(0, 0, 0), "abyssColorVec", "Abyss_Color_Changer");
 
 //R
-let abyssColorRTitle = document.createElement("p");
-abyssColorRTitle.innerHTML = "R: ";
-abyssColorRTitle.style.textAlign = "center";
-abyssColorRTitle.style.color = "white";
-abyssColorRTitle.style.margin = "0px";
-abyssColorRTitle.style.position = "fixed";
-menuMG.lbMenu.appendChild(abyssColorRTitle);
-let abyssColorRSlider = document.createElement("input");
-abyssColorRSlider.classList.add("slider");
-abyssColorRSlider.type = "range";
-abyssColorRSlider.min = "0";
-abyssColorRSlider.max = "255";
-abyssColorRSlider.value = "0";
-abyssColorRSlider.style.margin = "0px";
-abyssColorRSlider.style.position = "fixed";
-abyssColorRSlider.style.appearance = "none";
-abyssColorRSlider.style.background = "lightgrey";
-abyssColorRSlider.style.outline = "none";
-abyssColorRSlider.style.borderRadius = "90px";
-menuMG.lbMenu.appendChild(abyssColorRSlider);
+modVars.add(document.createElement("p"), "abyssColorRTitle", "Abyss_Color_Changer");
+modVars.get("abyssColorRTitle", "Abyss_Color_Changer").innerHTML = "R: ";
+modVars.get("abyssColorRTitle", "Abyss_Color_Changer").style.textAlign = "center";
+modVars.get("abyssColorRTitle", "Abyss_Color_Changer").style.color = "white";
+modVars.get("abyssColorRTitle", "Abyss_Color_Changer").style.margin = "0px";
+modVars.get("abyssColorRTitle", "Abyss_Color_Changer").style.position = "fixed";
+modVars.get("abyssColorRTitle", "Abyss_Color_Changer").classList.add("Abyss_Color_Changer");
+menuMG.lbMenu.appendChild(modVars.get("abyssColorRTitle", "Abyss_Color_Changer"));
+modVars.add(document.createElement("input"), "abyssColorRSlider", "Abyss_Color_Changer");
+modVars.get("abyssColorRSlider", "Abyss_Color_Changer").classList.add("slider");
+modVars.get("abyssColorRSlider", "Abyss_Color_Changer").type = "range";
+modVars.get("abyssColorRSlider", "Abyss_Color_Changer").min = "0";
+modVars.get("abyssColorRSlider", "Abyss_Color_Changer").max = "255";
+modVars.get("abyssColorRSlider", "Abyss_Color_Changer").value = "0";
+modVars.get("abyssColorRSlider", "Abyss_Color_Changer").style.margin = "0px";
+modVars.get("abyssColorRSlider", "Abyss_Color_Changer").style.position = "fixed";
+modVars.get("abyssColorRSlider", "Abyss_Color_Changer").style.appearance = "none";
+modVars.get("abyssColorRSlider", "Abyss_Color_Changer").style.background = "lightgrey";
+modVars.get("abyssColorRSlider", "Abyss_Color_Changer").style.outline = "none";
+modVars.get("abyssColorRSlider", "Abyss_Color_Changer").style.borderRadius = "90px";
+modVars.get("abyssColorRSlider", "Abyss_Color_Changer").classList.add("Abyss_Color_Changer");
+menuMG.lbMenu.appendChild(modVars.get("abyssColorRSlider", "Abyss_Color_Changer"));
 //G
-let abyssColorGTitle = document.createElement("p");
-abyssColorGTitle.innerHTML = "G: ";
-abyssColorGTitle.style.textAlign = "center";
-abyssColorGTitle.style.color = "white";
-abyssColorGTitle.style.margin = "0px";
-abyssColorGTitle.style.position = "fixed";
-menuMG.lbMenu.appendChild(abyssColorGTitle);
-let abyssColorGSlider = document.createElement("input");
-abyssColorGSlider.classList.add("slider");
-abyssColorGSlider.type = "range";
-abyssColorGSlider.min = "0";
-abyssColorGSlider.max = "255";
-abyssColorGSlider.value = "0";
-abyssColorGSlider.style.margin = "0px";
-abyssColorGSlider.style.position = "fixed";
-abyssColorGSlider.style.appearance = "none";
-abyssColorGSlider.style.background = "lightgrey";
-abyssColorGSlider.style.outline = "none";
-abyssColorGSlider.style.borderRadius = "90px";
-menuMG.lbMenu.appendChild(abyssColorGSlider);
+modVars.add(document.createElement("p"), "abyssColorGTitle", "Abyss_Color_Changer");
+modVars.get("abyssColorGTitle", "Abyss_Color_Changer").innerHTML = "G: ";
+modVars.get("abyssColorGTitle", "Abyss_Color_Changer").style.textAlign = "center";
+modVars.get("abyssColorGTitle", "Abyss_Color_Changer").style.color = "white";
+modVars.get("abyssColorGTitle", "Abyss_Color_Changer").style.margin = "0px";
+modVars.get("abyssColorGTitle", "Abyss_Color_Changer").style.position = "fixed";
+modVars.get("abyssColorGTitle", "Abyss_Color_Changer").classList.add("Abyss_Color_Changer");
+menuMG.lbMenu.appendChild(modVars.get("abyssColorGTitle", "Abyss_Color_Changer"));
+modVars.add(document.createElement("input"), "abyssColorGSlider", "Abyss_Color_Changer");
+modVars.get("abyssColorGSlider", "Abyss_Color_Changer").classList.add("slider");
+modVars.get("abyssColorGSlider", "Abyss_Color_Changer").type = "range";
+modVars.get("abyssColorGSlider", "Abyss_Color_Changer").min = "0";
+modVars.get("abyssColorGSlider", "Abyss_Color_Changer").max = "255";
+modVars.get("abyssColorGSlider", "Abyss_Color_Changer").value = "0";
+modVars.get("abyssColorGSlider", "Abyss_Color_Changer").style.margin = "0px";
+modVars.get("abyssColorGSlider", "Abyss_Color_Changer").style.position = "fixed";
+modVars.get("abyssColorGSlider", "Abyss_Color_Changer").style.appearance = "none";
+modVars.get("abyssColorGSlider", "Abyss_Color_Changer").style.background = "lightgrey";
+modVars.get("abyssColorGSlider", "Abyss_Color_Changer").style.outline = "none";
+modVars.get("abyssColorGSlider", "Abyss_Color_Changer").style.borderRadius = "90px";
+modVars.get("abyssColorGSlider", "Abyss_Color_Changer").classList.add("Abyss_Color_Changer");
+menuMG.lbMenu.appendChild(modVars.get("abyssColorGSlider", "Abyss_Color_Changer"));
 //B
-let abyssColorBTitle = document.createElement("p");
-abyssColorBTitle.innerHTML = "B: ";
-abyssColorBTitle.style.textAlign = "center";
-abyssColorBTitle.style.color = "white";
-abyssColorBTitle.style.margin = "0px";
-abyssColorBTitle.style.position = "fixed";
-menuMG.lbMenu.appendChild(abyssColorBTitle);
-let abyssColorBSlider = document.createElement("input");
-abyssColorBSlider.classList.add("slider");
-abyssColorBSlider.type = "range";
-abyssColorBSlider.min = "0";
-abyssColorBSlider.max = "255";
-abyssColorBSlider.value = "0";
-abyssColorBSlider.style.margin = "0px";
-abyssColorBSlider.style.position = "fixed";
-abyssColorBSlider.style.appearance = "none";
-abyssColorBSlider.style.background = "lightgrey";
-abyssColorBSlider.style.outline = "none";
-abyssColorBSlider.style.borderRadius = "90px";
-menuMG.lbMenu.appendChild(abyssColorBSlider);
+modVars.add(document.createElement("p"), "abyssColorBTitle", "Abyss_Color_Changer");
+modVars.get("abyssColorBTitle", "Abyss_Color_Changer").innerHTML = "B: ";
+modVars.get("abyssColorBTitle", "Abyss_Color_Changer").style.textAlign = "center";
+modVars.get("abyssColorBTitle", "Abyss_Color_Changer").style.color = "white";
+modVars.get("abyssColorBTitle", "Abyss_Color_Changer").style.margin = "0px";
+modVars.get("abyssColorBTitle", "Abyss_Color_Changer").style.position = "fixed";
+modVars.get("abyssColorBTitle", "Abyss_Color_Changer").classList.add("Abyss_Color_Changer");
+menuMG.lbMenu.appendChild(modVars.get("abyssColorBTitle", "Abyss_Color_Changer"));
+modVars.add(document.createElement("input"), "abyssColorBSlider", "Abyss_Color_Changer");
+modVars.get("abyssColorBSlider", "Abyss_Color_Changer").classList.add("slider");
+modVars.get("abyssColorBSlider", "Abyss_Color_Changer").type = "range";
+modVars.get("abyssColorBSlider", "Abyss_Color_Changer").min = "0";
+modVars.get("abyssColorBSlider", "Abyss_Color_Changer").max = "255";
+modVars.get("abyssColorBSlider", "Abyss_Color_Changer").value = "0";
+modVars.get("abyssColorBSlider", "Abyss_Color_Changer").style.margin = "0px";
+modVars.get("abyssColorBSlider", "Abyss_Color_Changer").style.position = "fixed";
+modVars.get("abyssColorBSlider", "Abyss_Color_Changer").style.appearance = "none";
+modVars.get("abyssColorBSlider", "Abyss_Color_Changer").style.background = "lightgrey";
+modVars.get("abyssColorBSlider", "Abyss_Color_Changer").style.outline = "none";
+modVars.get("abyssColorBSlider", "Abyss_Color_Changer").style.borderRadius = "90px";
+modVars.get("abyssColorBSlider", "Abyss_Color_Changer").classList.add("Abyss_Color_Changer");
+menuMG.lbMenu.appendChild(modVars.get("abyssColorBSlider", "Abyss_Color_Changer"));
 //Preview button
-let abyssPreviewBttn = document.createElement("button");
-abyssPreviewBttn.style.textAlign = "center";
-abyssPreviewBttn.style.backgroundColor = "gray"; //Change later
-abyssPreviewBttn.style.color = "white";
-abyssPreviewBttn.style.margin = "0px";
-abyssPreviewBttn.style.position = "fixed";
-abyssPreviewBttn.onmouseover = () => {
-	abyssPreviewBttn.style.backgroundColor = "lightgrey";
+modVars.add(document.createElement("button"), "abyssPreviewBttn", "Abyss_Color_Changer");
+modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.textAlign = "center";
+modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.backgroundColor = "gray"; //Change later
+modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.color = "white";
+modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.margin = "0px";
+modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.position = "fixed";
+modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").onmouseover = () => {
+	modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.backgroundColor = "lightgrey";
 };
-abyssPreviewBttn.onmouseout = () => {
-	abyssPreviewBttn.style.backgroundColor = "gray";
+modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").onmouseout = () => {
+	modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.backgroundColor = "gray";
 };
-abyssPreviewBttn.onclick = () => {
-	previewToggle = !previewToggle;
+modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").onclick = () => {
+	modVars.set(!modVars.get("previewToggle", "Abyss_Color_Changer"), "previewToggle", "Abyss_Color_Changer");
 };
-menuMG.lbMenu.appendChild(abyssPreviewBttn);
+modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").classList.add("Abyss_Color_Changer");
+menuMG.lbMenu.appendChild(modVars.get("abyssPreviewBttn", "Abyss_Color_Changer"));
 
 function updateLoop() {
 	//Clamp
-	abyssColorVec.x = clamp(abyssColorVec.x, 0, 255);
-	abyssColorVec.y = clamp(abyssColorVec.y, 0, 255);
-	abyssColorVec.r = clamp(abyssColorVec.r, 0, 255);
+	modVars.get("abyssColorVec", "Abyss_Color_Changer").x = clamp(modVars.get("abyssColorVec", "Abyss_Color_Changer").x, 0, 255);
+	modVars.get("abyssColorVec", "Abyss_Color_Changer").y = clamp(modVars.get("abyssColorVec", "Abyss_Color_Changer").y, 0, 255);
+	modVars.get("abyssColorVec", "Abyss_Color_Changer").r = clamp(modVars.get("abyssColorVec", "Abyss_Color_Changer").r, 0, 255);
 	//Convert to rgb css function
-	let abyssColor = "rgb("+abyssColorVec.x+","+abyssColorVec.y+","+abyssColorVec.r+")";
+	let abyssColor = "rgb("+modVars.get("abyssColorVec", "Abyss_Color_Changer").x+","+modVars.get("abyssColorVec", "Abyss_Color_Changer").y+","+modVars.get("abyssColorVec", "Abyss_Color_Changer").r+")";
 	//Checks map and sets bg color
 	if (currentMap != null) {
 		if (currentMap.id == "Abyss") {
 			currentMap.backgroundColor = abyssColor;
 		}
 	}
-	if (gameData.gameMode == -1 && isOnAllowed) {
+	if (gameData.gameMode == -1 && modVars.get("isOnAllowed", "Abyss_Color_Changer")) {
 		screen.setColor(abyssColor);
 	}
 	//Returns to default
-	if (!isOnAllowed) {
+	if (!modVars.get("isOnAllowed", "Abyss_Color_Changer")) {
 		screen.setColor("black");
-		abyssColorRTitle.style.display = "none";
-		abyssColorRSlider.style.display = "none";
-		abyssColorGTitle.style.display = "none";
-		abyssColorGSlider.style.display = "none";
-		abyssColorBTitle.style.display = "none";
-		abyssColorBSlider.style.display = "none";
-		abyssPreviewBttn.style.display = "none";
+		modVars.get("abyssColorRTitle", "Abyss_Color_Changer").style.display = "none";
+		modVars.get("abyssColorRSlider", "Abyss_Color_Changer").style.display = "none";
+		modVars.get("abyssColorGTitle", "Abyss_Color_Changer").style.display = "none";
+		modVars.get("abyssColorGSlider", "Abyss_Color_Changer").style.display = "none";
+		modVars.get("abyssColorBTitle", "Abyss_Color_Changer").style.display = "none";
+		modVars.get("abyssColorBSlider", "Abyss_Color_Changer").style.display = "none";
+		modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.display = "none";
 	} else {
-		abyssColorRTitle.style.display = "block";
-		abyssColorRSlider.style.display = "block";
-		abyssColorGTitle.style.display = "block";
-		abyssColorGSlider.style.display = "block";
-		abyssColorBTitle.style.display = "block";
-		abyssColorBSlider.style.display = "block";
-		abyssPreviewBttn.style.display = "block";
+		modVars.get("abyssColorRTitle", "Abyss_Color_Changer").style.display = "block";
+		modVars.get("abyssColorRSlider", "Abyss_Color_Changer").style.display = "block";
+		modVars.get("abyssColorGTitle", "Abyss_Color_Changer").style.display = "block";
+		modVars.get("abyssColorGSlider", "Abyss_Color_Changer").style.display = "block";
+		modVars.get("abyssColorBTitle", "Abyss_Color_Changer").style.display = "block";
+		modVars.get("abyssColorBSlider", "Abyss_Color_Changer").style.display = "block";
+		modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.display = "block";
 	}
 	//Check map
 	let localMap = gameModeData[1].settings.maps[gameModeData[1].settings.map.x];
-	isOnAllowed = allowedMaps.includes(localMap.id);
+	modVars.set(modVars.get("allowedMaps", "Abyss_Color_Changer").includes(localMap.id), "isOnAllowed", "Abyss_Color_Changer");
 	//Scaling
 	let halfSize = menuMG.menuSize.div(2);
-	abyssColorRTitle.style.top = parseFloat(abyssColorRSlider.style.top)-(40*screen.getScale().y)+"px";
-	abyssColorRTitle.style.left = (((halfSize.x+300)-(abyssColorRTitle.getBoundingClientRect().width/2))*screen.getScale().y)+"px";
-	abyssColorRTitle.style.fontSize = (30*screen.getScale().x)+"px";
-	abyssColorRTitle.innerHTML = "R: "+abyssColorVec.x;
-	abyssColorRSlider.style.top = (120*screen.getScale().y)+"px";
-	abyssColorRSlider.style.left = (((halfSize.x+300)-(abyssColorRSlider.getBoundingClientRect().width/2))*screen.getScale().y)+"px";
-	abyssColorRSlider.style.width = (300*screen.getScale().x)+"px";
-	abyssColorRSlider.style.height = (20*screen.getScale().y)+"px";
-	abyssColorVec.x = parseInt(abyssColorRSlider.value);
-	abyssColorGTitle.style.top = parseFloat(abyssColorGSlider.style.top)-(40*screen.getScale().y)+"px";
-	abyssColorGTitle.style.left = (((halfSize.x+300)-(abyssColorGTitle.getBoundingClientRect().width/2))*screen.getScale().y)+"px";
-	abyssColorGTitle.style.fontSize = (30*screen.getScale().x)+"px";
-	abyssColorGTitle.innerHTML = "G: "+abyssColorVec.y;
-	abyssColorGSlider.style.top = (180*screen.getScale().y)+"px";
-	abyssColorGSlider.style.left = (((halfSize.x+300)-(abyssColorGSlider.getBoundingClientRect().width/2))*screen.getScale().y)+"px";
-	abyssColorGSlider.style.width = (300*screen.getScale().x)+"px";
-	abyssColorGSlider.style.height = (20*screen.getScale().y)+"px";
-	abyssColorVec.y = parseInt(abyssColorGSlider.value);
-	abyssColorBTitle.style.top = parseFloat(abyssColorBSlider.style.top)-(40*screen.getScale().y)+"px";
-	abyssColorBTitle.style.left = (((halfSize.x+300)-(abyssColorBTitle.getBoundingClientRect().width/2))*screen.getScale().y)+"px";
-	abyssColorBTitle.style.fontSize = (30*screen.getScale().x)+"px";
-	abyssColorBTitle.innerHTML = "B: "+abyssColorVec.r;
-	abyssColorBSlider.style.top = (240*screen.getScale().y)+"px";
-	abyssColorBSlider.style.left = (((halfSize.x+300)-(abyssColorBSlider.getBoundingClientRect().width/2))*screen.getScale().y)+"px";
-	abyssColorBSlider.style.width = (300*screen.getScale().x)+"px";
-	abyssColorBSlider.style.height = (20*screen.getScale().y)+"px";
-	abyssColorVec.r = parseInt(abyssColorBSlider.value);
-	abyssPreviewBttn.style.left = (((halfSize.x+300)-(abyssPreviewBttn.getBoundingClientRect().width/2))*screen.getScale().y)+"px";
-	abyssPreviewBttn.style.top = (300*screen.getScale().y)+"px";
-	abyssPreviewBttn.style.width = (300*screen.getScale().x)+"px";
-	abyssPreviewBttn.style.height = (50*screen.getScale().y)+"px";
-	abyssPreviewBttn.style.fontSize = (40*screen.getScale().x)+"px";
+	modVars.get("abyssColorRTitle", "Abyss_Color_Changer").style.top = parseFloat(modVars.get("abyssColorRSlider", "Abyss_Color_Changer").style.top)-(40*screen.getScale().y)+"px";
+	modVars.get("abyssColorRTitle", "Abyss_Color_Changer").style.left = (((halfSize.x+300)-(modVars.get("abyssColorRTitle", "Abyss_Color_Changer").getBoundingClientRect().width/2))*screen.getScale().y)+"px";
+	modVars.get("abyssColorRTitle", "Abyss_Color_Changer").style.fontSize = (30*screen.getScale().x)+"px";
+	modVars.get("abyssColorRTitle", "Abyss_Color_Changer").innerHTML = "R: "+modVars.get("abyssColorVec", "Abyss_Color_Changer").x;
+	modVars.get("abyssColorRSlider", "Abyss_Color_Changer").style.top = (120*screen.getScale().y)+"px";
+	modVars.get("abyssColorRSlider", "Abyss_Color_Changer").style.left = (((halfSize.x+300)-(modVars.get("abyssColorRSlider", "Abyss_Color_Changer").getBoundingClientRect().width/2))*screen.getScale().y)+"px";
+	modVars.get("abyssColorRSlider", "Abyss_Color_Changer").style.width = (300*screen.getScale().x)+"px";
+	modVars.get("abyssColorRSlider", "Abyss_Color_Changer").style.height = (20*screen.getScale().y)+"px";
+	modVars.get("abyssColorVec", "Abyss_Color_Changer").x = parseInt(modVars.get("abyssColorRSlider", "Abyss_Color_Changer").value);
+	modVars.get("abyssColorGTitle", "Abyss_Color_Changer").style.top = parseFloat(modVars.get("abyssColorGSlider", "Abyss_Color_Changer").style.top)-(40*screen.getScale().y)+"px";
+	modVars.get("abyssColorGTitle", "Abyss_Color_Changer").style.left = (((halfSize.x+300)-(modVars.get("abyssColorGTitle", "Abyss_Color_Changer").getBoundingClientRect().width/2))*screen.getScale().y)+"px";
+	modVars.get("abyssColorGTitle", "Abyss_Color_Changer").style.fontSize = (30*screen.getScale().x)+"px";
+	modVars.get("abyssColorGTitle", "Abyss_Color_Changer").innerHTML = "G: "+modVars.get("abyssColorVec", "Abyss_Color_Changer").y;
+	modVars.get("abyssColorGSlider", "Abyss_Color_Changer").style.top = (180*screen.getScale().y)+"px";
+	modVars.get("abyssColorGSlider", "Abyss_Color_Changer").style.left = (((halfSize.x+300)-(modVars.get("abyssColorGSlider", "Abyss_Color_Changer").getBoundingClientRect().width/2))*screen.getScale().y)+"px";
+	modVars.get("abyssColorGSlider", "Abyss_Color_Changer").style.width = (300*screen.getScale().x)+"px";
+	modVars.get("abyssColorGSlider", "Abyss_Color_Changer").style.height = (20*screen.getScale().y)+"px";
+	modVars.get("abyssColorVec", "Abyss_Color_Changer").y = parseInt(modVars.get("abyssColorGSlider", "Abyss_Color_Changer").value);
+	modVars.get("abyssColorBTitle", "Abyss_Color_Changer").style.top = parseFloat(modVars.get("abyssColorBSlider", "Abyss_Color_Changer").style.top)-(40*screen.getScale().y)+"px";
+	modVars.get("abyssColorBTitle", "Abyss_Color_Changer").style.left = (((halfSize.x+300)-(modVars.get("abyssColorBTitle", "Abyss_Color_Changer").getBoundingClientRect().width/2))*screen.getScale().y)+"px";
+	modVars.get("abyssColorBTitle", "Abyss_Color_Changer").style.fontSize = (30*screen.getScale().x)+"px";
+	modVars.get("abyssColorBTitle", "Abyss_Color_Changer").innerHTML = "B: "+modVars.get("abyssColorVec", "Abyss_Color_Changer").r;
+	modVars.get("abyssColorBSlider", "Abyss_Color_Changer").style.top = (240*screen.getScale().y)+"px";
+	modVars.get("abyssColorBSlider", "Abyss_Color_Changer").style.left = (((halfSize.x+300)-(modVars.get("abyssColorBSlider", "Abyss_Color_Changer").getBoundingClientRect().width/2))*screen.getScale().y)+"px";
+	modVars.get("abyssColorBSlider", "Abyss_Color_Changer").style.width = (300*screen.getScale().x)+"px";
+	modVars.get("abyssColorBSlider", "Abyss_Color_Changer").style.height = (20*screen.getScale().y)+"px";
+	modVars.get("abyssColorVec", "Abyss_Color_Changer").r = parseInt(modVars.get("abyssColorBSlider", "Abyss_Color_Changer").value);
+	modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.left = (((halfSize.x+300)-(modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").getBoundingClientRect().width/2))*screen.getScale().y)+"px";
+	modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.top = (300*screen.getScale().y)+"px";
+	modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.width = (300*screen.getScale().x)+"px";
+	modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.height = (50*screen.getScale().y)+"px";
+	modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").style.fontSize = (40*screen.getScale().x)+"px";
 	//Preview
-	if (previewToggle && isOnAllowed) {
+	if (modVars.get("previewToggle", "Abyss_Color_Changer") && modVars.get("isOnAllowed", "Abyss_Color_Changer")) {
 		menuMG.lbBackground.style.display = "none";
-		abyssPreviewBttn.innerHTML = "Preview NO";
+		modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").innerHTML = "Preview NO";
 	} else {
 		menuMG.lbBackground.style.display = "block";
-		abyssPreviewBttn.innerHTML = "Preview OFF";
+		modVars.get("abyssPreviewBttn", "Abyss_Color_Changer").innerHTML = "Preview OFF";
 	}
 }
 

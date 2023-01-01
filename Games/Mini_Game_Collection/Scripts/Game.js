@@ -322,7 +322,6 @@ function menuManager() {
 	this.mainTitle = document.createElement("h1");
 	this.mainTitle.innerHTML = "Minigame Collection";
 	this.mainTitle.style.textAlign = "center";
-	this.mainTitle.style.fontFamily = "Arial";
 	this.mainTitle.style.color = "white";
 	this.mainTitle.style.margin = "0px";
 	this.mainTitle.style.position = "fixed";
@@ -446,7 +445,7 @@ function menuManager() {
 	this.lbModeSlider = document.createElement("input");
 	this.lbModeSlider.classList.add("slider");
 	this.lbModeSlider.type = "range";
-	this.lbModeSlider.max = "0";//gameModeData[1].settings.mode.y;// Change this
+	this.lbModeSlider.max = "1";//gameModeData[1].settings.mode.y;// Change this
 	this.lbModeSlider.value = "0";
 	this.lbModeSlider.style.margin = "0px";
 	this.lbModeSlider.style.position = "fixed";
@@ -843,9 +842,19 @@ const LBGM = new lineBattleGM();
 function lineBattleGM() {
 	let localMap = currentMap;
 	this.data = {
-		"player_speed":5,
-		"player_size":new Vector2(50, 50),
-		"line_size":new Vector2(15, 15),
+		"player_speed":5, //Every players speed
+		"player_size":new Vector2(50, 50), //Every players size
+		"line_size":new Vector2(15, 15), //Every players line size
+		"obstacle":false,
+		"player_points":[], //An array that stores each players points
+		"end_of_match":false, //True when someone wins a match
+		"win_state":false, //True when someone wins the game
+		"players_loaded":false, //True when all players are loaded
+		"obstacles_loaded":false, //True when all obstacles are loaded
+		"goal_loaded":false, //True when the goal is loaded
+		"game_loaded":false, //True when the players, obstacles, and goal is loaded
+		"teams":false,
+		"pointCollector":false,
 		"player_image":{
 			0:{
 				"img":blueBall.getColor(),
@@ -864,14 +873,115 @@ function lineBattleGM() {
 				"color":new colorData("green")
 			}
 		},
-		"obstacle":false,
-		"player_points":[],
-		"win_state":false,
-		"game_finished":false,
-		"game_loaded":false
+		"obstacles_data":{
+			0:{
+				"color":new colorData("darkred"),
+				"size":new Vector2(5, 5),
+				"points":new Vector2(1, null, "-"),
+				"description":"Takes a point away from you."
+			},
+			1:{
+				"color":new colorData("#FF4A00"),
+				"size":new Vector2(5, 5),
+				"points":new Vector2(1, 1, "-", "-"),
+				"description":"Takes a point away from everyone."
+			},
+			"length":2
+		},
+		"points_data":{
+			0:{
+				"color":new colorData("green"),
+				"size":new Vector2(5, 5),
+				"points":new Vector2(1, null, "+"),
+				"description":"Gives you 1 point"
+			},
+			1:{
+				"color":new colorData("#FFFD00"),
+				"size":new Vector2(5, 5),
+				"points":new Vector2(2, null, "+"),
+				"description":"Gives you 2 point"
+			},
+			2:{
+				"color":new colorData("purple"),
+				"size":new Vector2(5, 5),
+				"points":new Vector2(1, 1, "+", "-"),
+				"description":"Steals 1 point from opponents and gives you 1 point"
+			},
+			3:{
+				"color":new colorData("lightblue"),
+				"size":new Vector2(5, 5),
+				"points":new Vector2(2, null, "*"),
+				"description":"Doubles your points"
+			},
+			4:{
+				"color":new colorData("darkblue"),
+				"size":new Vector2(5, 5),
+				"points":new Vector2(1, 2, "+", "/"),
+				"description":"Halfs your opponents points and gives you 1 point"
+			},
+			"length":5
+		}
 	};
+	this.getObstacleTypeData = function(type) {
+		return this.data.obstacles_data[type];
+	}
+	this.getGoalTypeData = function(type) {
+		return this.data.points_data[type];
+	}
+	this.changePointsFromOpponents = function(exceptions=null, points=0, experesion="-") {
+		for (let i=0;i<gameData.maxPlayers.x;i++) {
+			let thisNameTag = new nameTag(("player_"+(i+1)), "lineBattle");
+			let thisPoints = this.getPoints(thisNameTag);
+			let player = getByNameTag(thisNameTag);
+			if (exceptions != null) {
+				let check = exceptions.some(e => e.same(thisNameTag));
+				if (!check && thisPoints.points > 0) {
+					switch (experesion) {
+						case "+":
+							thisPoints.points += points;
+						break;
+						case "-":
+							thisPoints.points -= points;
+						break;
+						case "*":
+							thisPoints.points *= points;
+						break;
+						case "/":
+							thisPoints.points /= points;
+						break;
+					}
+				}
+			} else {
+				if (thisPoints.points > 0) {
+					switch (experesion) {
+						case "+":
+							thisPoints.points += points;
+						break;
+						case "-":
+							thisPoints.points -= points;
+						break;
+						case "*":
+							thisPoints.points *= points;
+						break;
+						case "/":
+							thisPoints.points /= points;
+						break;
+					}
+				}
+			}
+		}
+	}
+	this.checkPoints = function(nameTag) {
+		if ( this.data.player_points.filter((p) => nameTag.same(p.nameTag)).length == 0) {
+			this.data.player_points.push({"points":0,"nameTag":nameTag});
+		}
+	}
+	this.getPoints = function(nameTag) {
+		this.checkPoints(nameTag);
+		return this.data.player_points.filter((p) => nameTag.same(p.nameTag))[0];
+	}
 	this.spawnPlayers = function() {
-		this.data.game_loaded = false;
+		this.data.players_loaded = false;
 		for (let i=0;i<gameData.maxPlayers.x;i++) {
 			const data = this.data;
 			let thisNameTag = new nameTag(("player_"+(i+1)), "lineBattle");
@@ -887,29 +997,38 @@ function lineBattleGM() {
 			} else {
 				spawnPoint = spawns[i];
 			}
-			let newPlayer = new Sprite(4, new baseObject(thisNameTag.duplicate(), data.player_size, spawnPoint.duplicate(), data.player_image[i].img.duplicate()));
-			let thisPoints = 0;
-			let pointsCal = this.data.player_points[(this.data.player_points.length-(parseInt(thisNameTag.name.replace("player_", ""))+1))+1];
-			if (pointsCal != undefined) {
-				thisPoints = pointsCal;
+			let newPlayer = new Sprite(5, new baseObject(true, thisNameTag.duplicate(), data.player_size, spawnPoint.duplicate(), data.player_image[i].img.duplicate()));
+			let thisPoints = this.data.player_points.filter((p) => thisNameTag.same(p.nameTag));
+			if (thisPoints.length == 0) {
+				thisPoints[0] = {"points":0,"nameTag":thisNameTag};
 			}
-			let playerPoints = new Text(5, thisPoints, new baseObject(thisTextNameTag.duplicate(), new Vector2("25px Arial", false, "center"), spawnPoint.duplicate().subV(new Vector2(0, newPlayer.base.size.div(2).y)), new colorData("white")));
+			let playerPoints = new Text(5, thisPoints[0].points, new baseObject(true, thisTextNameTag.duplicate(), new Vector2("25px Arial", false, "center"), spawnPoint.duplicate().subV(new Vector2(0, newPlayer.base.size.div(2).y)), new colorData("white")));
 			newPlayer.collectedPoints = false;
 			newPlayer.dead = false;
 			newPlayer.base.position.s = this.data.player_speed;
+			newPlayer.hitPlayer = false;
 			newPlayer.linePieces = [];
+			newPlayer.lineNameTag = thisLineNameTag.duplicate();
 			newPlayer.drawLine = () => {
 				let position = new Vector2(newPlayer.base.position.x, newPlayer.base.position.y, newPlayer.base.position.r, newPlayer.base.position.o)
-				let linePiece = new Rectangle(3, new baseObject(thisLineNameTag.duplicate(), data.line_size, position, data.player_image[i].color.duplicate()));
+				let linePiece = new Rectangle(4, new baseObject(true, newPlayer.lineNameTag.duplicate(), data.line_size, position, data.player_image[i].color.duplicate()));
 				linePiece.time = 0;
 				newPlayer.linePieces.push(linePiece);
 			};
 		}
+		setTimeout(() => {
+			this.data.players_loaded = true;
+		}, 1000);
+	}
+	this.spawnObstacles = function() {
+		this.data.obstacles_loaded = false;
 		for (let i=0;i<gameModeData[1].settings.object_amount;i++) {
 			let thisNameTag = new nameTag(("obstacle_"+(i+1)), "lineBattle_obstacles");
 			deleteByNameTag(thisNameTag);
-			let spawnPoint = new Vector2(rangeFloat(0, 1280), rangeFloat(0, 720));
-			let newObstacle = new Circle(3, new baseObject(thisNameTag.duplicate(), new Vector2(12.5, 12.5), spawnPoint.duplicate(), new colorData("red")));
+			let obstacleType = rangeInt(0, this.data.obstacles_data.length-1);
+			let spawnPoint = new Vector2(rangeFloat(100, 1180), rangeFloat(10, 710));
+			let newObstacle = new Circle(2, new baseObject(true, thisNameTag.duplicate(), this.getObstacleTypeData(obstacleType).size, spawnPoint.duplicate(), this.getObstacleTypeData(obstacleType).color));
+			newObstacle.obstacleType = obstacleType;
 		}
 		let obstacleArray = getByNameTag(new nameTag("", "obstacles"), 2, false, true);
 		if (obstacleArray != null) {
@@ -930,8 +1049,27 @@ function lineBattleGM() {
 			}
 		}
 		setTimeout(() => {
-			this.data.game_loaded = true;
+			this.data.obstacles_loaded = true;
 		}, 1000);
+	}
+	this.spawnGoal = function(silent=false) {
+		if (!silent) {
+		this.data.goal_loaded = false;
+		}
+		if (this.data.pointCollector) {
+			let thisNameTag = new nameTag("goal", "lineBattle_goal");
+			deleteByNameTag(thisNameTag);
+			let goalType = rangeInt(0, this.data.points_data.length-1);
+			let spawnPoint = new Vector2(rangeFloat(100, 1180), rangeFloat(10, 710));
+			let newGoal = new Circle(3, new baseObject(true, thisNameTag.duplicate(), this.getGoalTypeData(goalType).size, spawnPoint.duplicate(), this.getGoalTypeData(goalType).color));
+			newGoal.goalType = goalType;
+		}
+		
+		if (!silent) {
+			setTimeout(() => {
+				this.data.goal_loaded = true;
+			}, 1000);
+		}
 	}
 	const resetGame = () => {this.resetGame()};
 	this.resetGame = function(resetPoints=false) {
@@ -939,48 +1077,76 @@ function lineBattleGM() {
 		for (let i=0;i<gameData.maxPlayers.x;i++) {
 			let thisNameTag = new nameTag(("player_"+(i+1)), "lineBattle");
 			let player = getByNameTag(thisNameTag);
-			if (this.data.player_points[i] == undefined) {
-				this.data.player_points[i] = 0;
-			}
+			this.checkPoints(thisNameTag);
 			if (player != undefined && !player.dead && !player.collectedPoints && !this.data.obstacle) {
-				this.data.player_points[(this.data.player_points.length-i)-1]++;
+				this.getPoints(thisNameTag).points++;
 				player.collectedPoints = true;
 			}
 		}
 		//Reset points
 		if (resetPoints) {
 			this.data.player_points = [];
-			this.data.game_finished = false;
+			this.data.win_state = false;
 		}
 		setTimeout(() => {
-			this.data.win_state = false;
+			this.data.end_of_match = false;
 			//Reset players
 			this.spawnPlayers();
+			//Reset obstacles
+			this.spawnObstacles();
+			//Reset goal
+			this.spawnGoal();
 		}, 1000);
 	}
 	this.update = function() {
 		if (gameData.gameMode == 1) {
+			//Sets vars for each mode
+			switch (gameModeData[1].settings.mode.x) {
+				case 0:
+					this.data.pointCollector = false;
+					this.data.teams = false;
+				break;
+				case 1:
+					this.data.pointCollector = true;
+					this.data.teams = false;
+				break;
+				case 2:
+					this.data.pointCollector = false;
+					this.data.teams = true;
+				break;
+				case 3:
+					this.data.pointCollector = true;
+					this.data.teams = true;
+				break;
+			}
+			//Check if game is loaded
+			if (this.data.players_loaded && this.data.obstacles_loaded && this.data.goal_loaded) {
+				this.data.game_loaded = true;
+			} else {
+				this.data.game_loaded = false;
+			}
 			//Check for tie
-			let hasTied = this.data.player_points.filter(number => number == gameModeData[1].settings.winning_points).length > 1;
+			let hasTied = this.data.player_points.filter(p => p.points == gameModeData[1].settings.winning_points).length > 1;
 			//Check game win
 			this.data.player_points.forEach((p, i) => {
-				if (p >= gameModeData[1].settings.winning_points && !hasTied) {
-					this.data.game_finished = true;
-					winScreen.show((this.data.player_points.length-(i+1))+1);
+				if (p.points >= gameModeData[1].settings.winning_points && !hasTied) {
+					this.data.win_state = true;
+					winScreen.show(parseInt(p.nameTag.name.replace("player_", "")));
 				}
 			});
-			//Player spawn
+			//Set local map
 			if (localMap == null && currentMap != null && currentMap != undefined) {
 				localMap = currentMap;
-				//this.spawnPlayers();
 			}
 			if (localMap != null && localMap.id != currentMap.id) {
 				localMap = currentMap;
-				//this.spawnPlayers();
 			}
+			//Player spawn
 			for (let i=0;i<gameData.maxPlayers.x;i++) {
 				if (localMap != null && localMap.id == currentMap.id) {
 					let thisNameTag = new nameTag(("player_"+(i+1)), "lineBattle");
+					let thisPoints = this.getPoints(thisNameTag);
+					thisPoints.points = Math.floor(thisPoints.points);
 					let player = getByNameTag(thisNameTag);
 					if (player != undefined) {
 						//Dead
@@ -988,10 +1154,10 @@ function lineBattleGM() {
 							player.base.color = greyBall.getColor();
 						}
 						//Win state
-						if (this.data.win_state || isPaused) {
+						if (this.data.end_of_match || isPaused) {
 							player.base.position.s = 0;
 						}
-						if (!this.data.win_state && player.base.position.s == 0 && !isPaused) {
+						if (!this.data.end_of_match && player.base.position.s == 0 && !isPaused) {
 							player.base.position.s = this.data.player_speed;
 						}
 						//Wrap effect
@@ -1007,81 +1173,152 @@ function lineBattleGM() {
 						if (player.base.position.y > screen.resolution.y) {
 							player.base.position.y = 0;
 						}
-						//Obstacle collisions
+						//Obstacle/Goal collisions
 						let obstacleArray = getByNameTag(new nameTag("", "obstacles"), 2, false, true);
-						if (obstacleArray != null && this.data.game_loaded) {
-							if (Array.isArray(obstacleArray)) {
-								obstacleArray.forEach((object) => {
-									if (cirCollision(player, object)) {
-										let thisPoints = this.data.player_points[(this.data.player_points.length-(parseInt(thisNameTag.name.replace("player_", ""))+1))+1];
-										if (thisPoints != 0 && thisPoints != undefined) {
-											this.data.player_points[(this.data.player_points.length-(parseInt(thisNameTag.name.replace("player_", ""))+1))+1]--;
-											thisPoints = this.data.player_points[(this.data.player_points.length-(parseInt(thisNameTag.name.replace("player_", ""))+1))+1];
+						let goalObj = getByNameTag(new nameTag("", "goal"), 2, false, true);
+						if (this.data.game_loaded && !isPaused) {
+							if (obstacleArray != null) {
+								if (Array.isArray(obstacleArray)) {
+									obstacleArray.forEach((object) => {
+										let obstData = this.getObstacleTypeData(object.obstacleType);
+										if (cirCollision(player, object)) {
+											if (!this.data.win_state) {
+												if (obstData.points.x != null) {
+													switch (obstData.points.r) {
+														case "+":
+															this.checkPoints(thisNameTag);
+															thisPoints.points += obstData.points.x;
+														break;
+														case "-":
+															if (thisPoints.points > 0) {
+																thisPoints.points -= obstData.points.x;
+															}
+														break;
+														case "*":
+															if (thisPoints.points > 0) {
+																thisPoints.points *= obstData.points.x;
+															}
+														break;
+														case "/":
+															if (thisPoints.points > 0) {
+																thisPoints.points /= obstData.points.x;
+															}
+														break;
+													}
+												}
+												if (obstData.points.y != null) {
+													this.changePointsFromOpponents([thisNameTag], obstData.points.y, obstData.points.r);
+													
+												}
+											}
+											deleteByNameTag(object.base.nameTag);
 										}
-										deleteByNameTag(object.base.nameTag);
+									});
+								} else {
+									let obstData = this.data.obstacles_data[obstacleArray.obstacleType];
+									if (cirCollision(player, obstacleArray)) {
+										if (!this.data.win_state) {
+											if (obstData.points.x != null) {
+												switch (obstData.points.r) {
+													case "+":
+														this.checkPoints(thisNameTag);
+														thisPoints.points += obstData.points.x;
+													break;
+													case "-":
+														if (thisPoints.points > 0) {
+															thisPoints.points -= obstData.points.x;
+														}
+													break;
+													case "*":
+														if (thisPoints.points > 0) {
+															thisPoints.points *= obstData.points.x;
+														}
+													break;
+													case "/":
+														if (thisPoints.points > 0) {
+															thisPoints.points /= obstData.points.x;
+														}
+													break;
+												}
+											}
+											if (obstData.points.y != null) {
+												this.changePointsFromOpponents([thisNameTag], obstData.points.y, obstData.points.r);
+												
+											}
+										}
+										deleteByNameTag(obstacleArray.base.nameTag);
 									}
-								});
-							} else {
-								console.log(cirCollision(player, obstacleArray));
-								if (cirCollision(player, obstacleArray)) {
-									let thisPoints = this.data.player_points[(this.data.player_points.length-(parseInt(thisNameTag.name.replace("player_", ""))+1))+1];
-									if (thisPoints != 0 && thisPoints != undefined) {
-										this.data.player_points[(this.data.player_points.length-(parseInt(thisNameTag.name.replace("player_", ""))+1))+1]--;
-										thisPoints = this.data.player_points[(this.data.player_points.length-(parseInt(thisNameTag.name.replace("player_", ""))+1))+1];
-									}
-									deleteByNameTag(obstacleArray.base.nameTag);
 								}
+							}
+							if (goalObj != null) {
+								let goalData = this.getGoalTypeData(goalObj.goalType);
+								if (cirCollision(player, goalObj)) {
+									if (!this.data.win_state) {
+										if (goalData.points.x != null) {
+											switch (goalData.points.r) {
+												case "+":
+													this.checkPoints(thisNameTag);
+													thisPoints.points += goalData.points.x;
+												break;
+												case "-":
+													if (thisPoints.points > 0) {
+														thisPoints.points -= goalData.points.x;
+													}
+												break;
+												case "*":
+													if (thisPoints.points > 0) {
+														thisPoints.points *= goalData.points.x;
+													}
+												break;
+												case "/":
+													if (thisPoints.points > 0) {
+														thisPoints.points /= goalData.points.x;
+													}
+												break;
+											}
+										}
+										if (goalData.points.y != null) {
+											this.changePointsFromOpponents([thisNameTag], goalData.points.y, goalData.points.r);
+										}
+									}
+									deleteByNameTag(goalObj.base.nameTag);
+								}
+							} else {
+								this.spawnGoal(true);
 							}
 						}
 						//Player collisions
 						for (let i=0;i<gameData.maxPlayers.x;i++) {
-							if (!this.data.game_finished && !isPaused) {
+							if (!this.data.win_state && !isPaused) {
 								let thisNameTag2 = new nameTag(("player_"+(i+1)), "lineBattle");
 								let player2 = getByNameTag(thisNameTag2);
 								let isSame = player.base.nameTag.same(thisNameTag2);
 								if (!isSame) {
-									if(cirCollision(player, player2) && !this.data.win_state){
-										if(player.base.position.x == player2.base.position.x){
-											let randomDir = rangeInt();
-											if (randomDir == 0) {
-												player.base.position.r -= 0.5*delta;
-												player2.base.position.r += 0.5*delta;
-											} else {
-												player.base.position.r += 0.5*delta;
-												player2.base.position.r -= 0.5*delta;
+									//Ball physics hitPlayer
+									if (!this.data.end_of_match) {
+										if (cirCollision(player, player2)){
+											if (!player.hitPlayer) {
+												player.base.position.s = -player.base.position.s;
+												player.hitPlayer = true;
+												player2.hitPlayer = true;
 											}
-										}
-										if(player.base.position.y == player2.base.position.y){
-											let randomDir = rangeInt();
-											if (randomDir == 0) {
-												player.base.position.r -= 0.5*delta;
-												player2.base.position.r += 0.5*delta;
-											} else {
-												player.base.position.r += 0.5*delta;
-												player2.base.position.r -= 0.5*delta;
-											}
-										}
-										if(player.base.position.x < player2.base.position.x){
-											player.base.position.r -= 0.5*delta;
-											player2.base.position.r += 0.5*delta;
-										}
-										if(player.base.position.x > player2.base.position.x){
-											player.base.position.r += 0.5*delta;
-											player2.base.position.r -= 0.5*delta;
-										}
-										if(player.base.position.y < player2.base.position.y){
-											player.base.position.r -= 0.5*delta;
-											player2.base.position.r += 0.5*delta;
-										}
-										if(player.base.position.y > player2.base.position.y){
-											player.base.position.r += 0.5*delta;
-											player2.base.position.r -= 0.5*delta;
+										} else {
+											player.hitPlayer = false;
+											player2.hitPlayer = false;
 										}
 									}
-									player2.linePieces.forEach((i) => {
-										if (cirPolyCollision(player, i)) {
-											this.data.win_state = true;
-											player.dead = true;
+									//Line collide check
+									player2.linePieces.forEach((l, i) => {
+										if (cirPolyCollision(player, l)) {
+											if (!this.data.pointCollector) {
+												this.data.end_of_match = true;
+												player.dead = true;
+											} else {
+												player.base.position.s = -player.base.position.s;
+												l.marked = true;
+												deleteByMarked();
+												player2.linePieces.splice(i, 1);
+											}
 										}
 									});
 								}
@@ -1091,18 +1328,13 @@ function lineBattleGM() {
 						let thisNameTag2 = new nameTag(("player_"+(i+1)+"_points"), "lineBattle");
 						let playerPoints = getByNameTag(thisNameTag2);
 						playerPoints.base.position = player.base.position.duplicate().subV(new Vector2(0, player.base.size.div(2).y));
-						let pointsCal = this.data.player_points[(this.data.player_points.length-(parseInt(thisNameTag.name.replace("player_", ""))+1))+1];
-						if (pointsCal == undefined) {
-							playerPoints.text = 0; 
-						} else {
-							playerPoints.text = pointsCal; 
-						}
+						playerPoints.text = thisPoints.points;
 						//Line code
 						let line = player.linePieces;
 						let lineLength = gameModeData[1].settings.line_length;
 						let lastPiece = line[line.length-1];
 						//Length limiter
-						if (line.length == lineLength || this.data.win_state) {
+						if (line.length == lineLength || this.data.end_of_match) {
 							layer[line[0].layerNumber].splice(getByColorData(line[0].base.color, 0, true), 1);
 							loaded = false;
 							line.splice(0, 1);
@@ -1131,7 +1363,7 @@ function lineBattleGM() {
 				}
 			}
 			//Win state
-			if (this.data.win_state) {
+			if (this.data.end_of_match) {
 				resetGame();
 			}
 		} else {
@@ -1270,8 +1502,3 @@ function gameUpdateLoop() {
 //Init
 addMap(map_abyss, 1);
 addUpdate(gameUpdateLoop, "mainGameLoop", "main");
-
-//BlueBall = new Sprite(1, new baseObject(new nameTag("blue", "lineBattle"), new Vector2(50, 50), new Vector2(35, 35, -degToRad(90)), blueBall.getColor()));
-//RedBall = new Sprite(1, new baseObject(new nameTag("red", "lineBattle"), new Vector2(50, 50), new Vector2(1245, 35, -degToRad(90)), redBall.getColor()));
-//YellowBall = new Sprite(1, new baseObject(new nameTag("yellow", "lineBattle"), new Vector2(50, 50), new Vector2(35, 685, degToRad(90)), yellowBall.getColor()));
-//GreenBall = new Sprite(1, new baseObject(new nameTag("green", "lineBattle"), new Vector2(50, 50), new Vector2(1245, 685, degToRad(90)), greenBall.getColor()));
