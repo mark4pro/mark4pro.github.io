@@ -243,7 +243,7 @@ let cratesw1X = 640;
 let cratesw1Y = 50;
 let wave = 22;
 let oldwave = 1;
-let upgrademenu = 0;
+let upgradeMenu = false;
 let resetframe = 6;
 let tickCount = 0;
 let frameIndex = 0;
@@ -488,7 +488,7 @@ let autoLeftlet = 0;
 let autoRightlet = 0;
 let startTimer = 0;
 let coolTick = 0;
-let fire = 0;
+let shoot = false;
 let fireR = 0;
 let fireL = 0;
 let fireU = 0;
@@ -541,7 +541,7 @@ let goToWarpZone = false;
 let money = 50;
 let totalMoney = 0;
 let switchy = 0;
-let pauseGame = 0;
+let pauseGame = false;
 let backSwitch = 0;
 let NOUPGRADESAVAILABLE = false;
 let upgrade1trigger = false;
@@ -1089,8 +1089,8 @@ function animationComponent(object, num_of_frames, width, height, speed=30, loop
 			this.done = false;
 		}
 		//Update frame
-		object.sx = this.frame_x*object.width;
-		object.sy = this.frame_y*object.height;
+		this.object.sx = this.frame_x*this.object.width;
+		this.object.sy = this.frame_y*this.object.height;
 	}
 	this.reset_frame = function() {
 		this.time = 0;
@@ -1138,9 +1138,10 @@ function animations() {
 	}
 	if (wave >= 5 || BadDeath > 0 || playerDead) {
 		badguypic1.angle = 0;
-		if (!animationNoOff) {
-			badguypic1_1_animation.reset_frame();
-		}
+		badguypic1_1_animation.reset_frame();
+	}
+	if (!animationNoOff) {
+		badguypic1_1_animation.reset_frame();
 	}
 	//badguypic2 enemy animation//
 	if (wave < 7 && wave > 1 && BadDeath2 < 1 && !playerDead) {
@@ -1151,9 +1152,10 @@ function animations() {
 	}
 	if (wave >= 7 || wave < 2 || BadDeath2 > 0 || playerDead) {
 		badguypic2.angle = 0;
-		if (!animationNoOff) {
-			badguypic2_1_animation.reset_frame();
-		}
+		badguypic2_1_animation.reset_frame();
+	}
+	if (!animationNoOff) {
+		badguypic2_1_animation.reset_frame();
 	}
 	//recenemypic1 enemy animation//
 	if (wave > 2 && wave < 5 && BadDeath4 < 1 && !playerDead) {
@@ -1164,9 +1166,10 @@ function animations() {
 	}
 	if (wave >= 5 || wave <= 2 || BadDeath4 > 0 || playerDead) {
 		recenemypic1.angle = 0;
-		if (!animationNoOff) {
-			recenemypic1_1_animation.reset_frame();
-		}
+		recenemypic1_1_animation.reset_frame();
+	}
+	if (!animationNoOff) {
+		recenemypic1_1_animation.reset_frame();
 	}
 	//trienemypic enemy animation//
 	trienemypic.angle = Math.atan2(-box.y+trienemypic.y, -box.x+trienemypic.x)+1.5707963268;
@@ -1175,10 +1178,8 @@ function animations() {
 			trienemypic_1_animation.update();
 		}
 	}
-	if (wave >= 7 || wave <= 4 || BadDeath3 > 0 || playerDead) {
-		if (!animationNoOff) {
-			trienemypic_1_animation.reset_frame();
-		}
+	if (wave >= 7 || wave <= 4 || BadDeath3 > 0 || playerDead || !animationNoOff) {
+		trienemypic_1_animation.reset_frame();
 	}
 	//xenemypic1 enemy animation//
 	if (wave > 5 && wave < 7 && BadDeath5 < 1 && !playerDead) {
@@ -1189,9 +1190,10 @@ function animations() {
 	}
 	if (wave >= 7 || wave <= 5 || BadDeath5 > 0 || playerDead) {
 		xenemypic1.angle = 0;
-		if (!animationNoOff) {
-			xenemypic1_1_animation.reset_frame();
-		}
+		xenemypic1_1_animation.reset_frame();
+	}
+	if (!animationNoOff) {
+		xenemypic1_1_animation.reset_frame();
 	}
 	//guardianPic enemy animation//
 	if (wave == 7 && !GuardDead && GuardStart == 1 && !playerDead) {
@@ -1209,9 +1211,10 @@ function animations() {
 	}
 	if (wave != 7 || GuardDead || GuardStart != 1 || playerDead) {
 		guardianPic.angle = 0;
-		if (!animationNoOff) {
-			guardianPic_1_animation.reset_frame();
-		}
+		guardianPic_1_animation.reset_frame();
+	}
+	if (!animationNoOff) {
+		guardianPic_1_animation.reset_frame();
 	}
 	//bossWave7pic enemy animation//
 	if (wave == 7 && spawnBoss7 == 1 && !BossDead) {
@@ -1221,9 +1224,10 @@ function animations() {
 		}
 	} else {
 		bossWave7pic.angle = 0;
-		if (!animationNoOff) {
-			bossWave7pic_1_animation.reset_frame();
-		}
+		bossWave7pic_1_animation.reset_frame();
+	}
+	if (!animationNoOff) {
+		bossWave7pic_1_animation.reset_frame();
 	}
 	//bossWave7sheildPic enemy animation//
 	bossWave7sheildPic.angle = bossWave7pic.angle;
@@ -1232,129 +1236,106 @@ function animations() {
 			bossWave7sheildPic_1_animation.update();
 		}
 	} else {
-		if (!animationNoOff) {
-			bossWave7sheildPic_1_animation.reset_frame();
-		}
+		bossWave7sheildPic_1_animation.reset_frame();
+	}
+	if (!animationNoOff) {
+		bossWave7sheildPic_1_animation.reset_frame();
 	}
 	//ship1 ship animation//
 	ship1.angle += 0.05;
 	if (!playerDead && playerShip == 0 && animationNoOff) {
 		ship1_1_animation.update();
 	}
-	if (playerDead || playerShip != 0) {
-		if (!animationNoOff) {
-			ship1_1_animation.reset_frame();
-		}
+	if (playerDead || playerShip != 0 || !animationNoOff) {
+		ship1_1_animation.reset_frame();
 	}
 	//ship1Show animation//
 	ship1Show.angle += 0.05;
-	if (pauseGame == 1 && !pauseGameKeys && !collection && animationNoOff) {
+	if (pauseGame && !pauseGameKeys && !collection && animationNoOff) {
 		shipShow1_1_animation.update();
 	}
-	if (pauseGame != 1 || pauseGameKeys || collection) {
-		if (!animationNoOff) {
-			shipShow1_1_animation.reset_frame();
-		}
+	if (!pauseGame || pauseGameKeys || collection || !animationNoOff) {
+		shipShow1_1_animation.reset_frame();
 	}
 	//ship2 ship animation//
 	ship2.angle += 0.05;
 	if (!playerDead && playerShip == 1 && animationNoOff) {
 		ship2_1_animation.update();
 	}
-	if (playerDead || playerShip != 1) {
-		if (!animationNoOff) {
-			ship2_1_animation.reset_frame();
-		}
+	if (playerDead || playerShip != 1 || !animationNoOff) {
+		ship2_1_animation.reset_frame();
 	}
 	//ship2Show animation//
 	ship2Show.angle += 0.05;
-	if (pauseGame == 1 && !pauseGameKeys && !collection && animationNoOff) {
+	if (pauseGame && !pauseGameKeys && !collection && animationNoOff) {
 		shipShow2_1_animation.update();
 	}
-	if (pauseGame != 1 || pauseGameKeys || collection) {
-		if (!animationNoOff) {
-			shipShow2_1_animation.reset_frame();
-		}
+	if (!pauseGame || pauseGameKeys || collection || !animationNoOff) {
+		shipShow2_1_animation.reset_frame();
 	}
 	//ship3 ship animation//
 	ship3.angle += 0.05;
 	if (!playerDead && playerShip == 2 && animationNoOff) {
 		ship3_1_animation.update();
 	}
-	if (playerDead || playerShip != 2) {
-		if (!animationNoOff) {
-			ship3_1_animation.reset_frame();
-		}
+	if (playerDead || playerShip != 2 || !animationNoOff) {
+		ship3_1_animation.reset_frame();
 	}
 	//ship3Show animation//
 	ship3Show.angle += 0.05;
-	if (pauseGame == 1 && !pauseGameKeys && !collection && animationNoOff) {
+	if (pauseGame && !pauseGameKeys && !collection && animationNoOff) {
 		shipShow3_1_animation.update();
 	}
-	if (pauseGame != 1 || pauseGameKeys || collection) {
-		if (!animationNoOff) {
-			shipShow3_1_animation.reset_frame();
-		}
+	if (!pauseGame || pauseGameKeys || collection || !animationNoOff) {
+		shipShow3_1_animation.reset_frame();
 	}
 	//ship4 ship animation//
 	ship4.angle += 0.05;
 	if (!playerDead && playerShip == 3 && animationNoOff) {
 		ship4_1_animation.update();
 	}
-	if (playerDead || playerShip != 3) {
-		if (!animationNoOff) {
-			ship4_1_animation.reset_frame();
-		}
+	if (playerDead || playerShip != 3 || !animationNoOff) {
+		ship4_1_animation.reset_frame();
 	}
 	//ship4Show animation//
 	ship4Show.angle += 0.05;
-	if (pauseGame == 1 && !pauseGameKeys && !collection && animationNoOff) {
+	if (pauseGame && !pauseGameKeys && !collection && animationNoOff) {
 		shipShow4_1_animation.update();
 	}
-	if (pauseGame != 1 || pauseGameKeys || collection) {
-		if (!animationNoOff) {
-			shipShow4_1_animation.reset_frame();
-		}
+	if (!pauseGame || pauseGameKeys || collection || !animationNoOff) {
+		shipShow4_1_animation.reset_frame();
 	}
 	//ship5 ship animation//
 	ship5.angle += 0.05;
 	if (!playerDead && playerShip == 4 && animationNoOff) {
 		ship5_1_animation.update();
 	}
-	if (playerDead || playerShip != 4) {
-		if (!animationNoOff) {
-			ship5_1_animation.reset_frame();
-		}
+	if (playerDead || playerShip != 4 || !animationNoOff) {
+		ship5_1_animation.reset_frame();
 	}
 	//ship5Show animation//
 	ship5Show.angle += 0.05;
-	if (pauseGame == 1 && !pauseGameKeys && !collection && animationNoOff) {
+	if (pauseGame && !pauseGameKeys && !collection && animationNoOff) {
 		shipShow5_1_animation.update();
 	}
-	if (pauseGame != 1 || pauseGameKeys || collection) {
-		if (!animationNoOff) {
-			shipShow5_1_animation.reset_frame();
-		}
+	if (!pauseGame || pauseGameKeys || collection || !animationNoOff) {
+		shipShow5_1_animation.reset_frame();
 	}
 	//ship6 ship animation//
 	ship6.angle += 0.05;
 	if (!playerDead && playerShip == 5 && animationNoOff) {
 		ship6_1_animation.update();
 	}
-	if (playerDead || playerShip != 5) {
-		if (!animationNoOff) {
-			ship6_1_animation.reset_frame();
-		}
+	if (playerDead || playerShip != 5 || !animationNoOff) {
+		ship6_1_animation.reset_frame();
 	}
 	//ship6Show animation//
 	ship6Show.angle += 0.05;
-	if (pauseGame == 1 && !pauseGameKeys && !collection && animationNoOff) {
+	if (pauseGame && !pauseGameKeys && !collection && animationNoOff) {
 		shipShow6_1_animation.update();
 	}
-	if (pauseGame != 1 || pauseGameKeys || collection) {
-		if (!animationNoOff) {
-			shipShow6_1_animation.reset_frame();
-		}
+	if (!pauseGame || pauseGameKeys || collection || !animationNoOff) {
+		shipShow6_1_animation.reset_frame();
 	}
 	//bpic bullet animation//
 	bpic.angle += 0.08;
@@ -1665,13 +1646,13 @@ function component(width, height, color, x, y, type, radius, outcolor, thickness
 	}
 }
 
+function healthBarUI(size=new Vector2()) {
+	
+}
+
 function Health1() {
-	bo = new component(113, 56.5, "black", 25, 428, "rec");
-	w1 = new component(5, 48, "black", HealthX - 5, HealthY - 17, "rec");
-	w2 = new component(5, 48, "black", HealthX + 103, HealthY - 17, "rec");
-	w3 = new component(113, 5, "black", HealthX - 5, HealthY - 22, "rec");
-	w4 = new component(113, 5, "black", HealthX - 5, HealthY + 30, "rec");
-	g = new component(HealthWidth, HealthHeight, "#812bb3", HealthX, HealthY - 17, "rec");
+	border = new component(113, 57.5, "black", HealthX-5, HealthY-22.5, "rec");
+	background = new component(HealthWidth, HealthHeight, "#812bb3", HealthX, HealthY - 17, "rec");
 	texth = new component("18px Arial", "", "red", HealthX + 2, HealthY - 2, "text");
 	base = new component(HealthWidth, HealthHeight, "#63218a", HealthX, HealthY, "rec");
 	full = new component(healthBarLength, HealthHeight - 5, hcolor, HealthX + 1.5, HealthY + 2.5, "rec");
@@ -1680,12 +1661,8 @@ function Health1() {
 	} else {
 		healthBarLength = playerHealth;
 	}
-	w1.update();
-	w2.update();
-	w3.update();
-	w4.update();
-	bo.update();
-	g.update();
+	border.update();
+	background.update();
 	texth.text= "Health:"+Math.round(playerHealth);
 	texth.update();
 	base.update();
@@ -1706,10 +1683,10 @@ function Health1() {
 		hcolor = "red";
 	}
 	if (playerHealth <= 0) {
-		playerDead = 1;
+		playerDead = true;
 	}
 	if (playerHealth > 0) {
-		playerDead = 0;
+		playerDead = false;
 	}
 }
 
@@ -1744,7 +1721,7 @@ function ammocrate() {
 function checkwave() {
 	if (oldwave != wave && wave > oldwave){
 		if (money > 0 && !NOUPGRADESAVAILABLE) {
-			upgrademenu = 1;
+			upgradeMenu = true;
 		}
 		oldwave = wave;
 	}
@@ -2361,7 +2338,7 @@ function updateGameArea() {
 	detectbox.y = box.y - 35;
 	laserSetUp();
 	if (pauseGame > 1) {
-		pauseGame = 0;
+		pauseGame = false;
 	}
 	if (showPatch > 1) {
 		showPatch = 0;
@@ -2418,7 +2395,7 @@ function updateGameArea() {
 	if (wave == 22) {
 		Earth_Planet_Circle_Collider.update();
 	}
-	if (fire > 0) {
+	if (shoot) {
 		bullcir.update();
 		bullbox.update();
 	}
@@ -2511,12 +2488,12 @@ function updateGameArea() {
 			if (box.crashWith(SWeapon1Box)) {
 				stcget = 1;
 				tip = Math.floor(Math.random() * tips);
-				pauseGame = 1;
+				pauseGame = true;
 				specialalert1 = 1;
 			}
 		}
 	}
-	if (fire > 0) {
+	if (shoot) {
 		switch (weapon) {
 			case 0:
 				bpic.update();
@@ -2647,7 +2624,7 @@ function updateGameArea() {
 				circle.radius = 14;
 			break;
 		}
-		if (!startMenu && upgrademenu == 0) {
+		if (!startMenu && !upgradeMenu) {
 			box.newPos();
 			detectbox.newPos();
 		}
@@ -2773,7 +2750,7 @@ function updateGameArea() {
 	if (ammo <= 20/100 * maxAmmo) {
 		LowAmmoTxt.update();
 	}
-	if (upgrademenu == 0) {
+	if (!upgradeMenu) {
 		recenemypic1.newPos();
 		recbox1.newPos();
 		bullbox.newPos();
@@ -2823,45 +2800,42 @@ function updateGameArea() {
 	waveammoweapon();
 	ammocrate();
 	bulletai();
-	switch (pauseGame) {
-		case 0:
-			badai1();
-			triangleAI();
-			xAI();
-			badai2();
-			badrecai1();
-		break;
-		case 1:
-			badguypic1.speedX = 0;
-			badguy1.speedX = 0;
-			badguypic1.speedY = 0;
-			badguy1.speedY = 0;
-			badguypic2.speedX = 0;
-			badguy2.speedX = 0;
-			badguypic2.speedY = 0;
-			badguy2.speedY = 0;
-			tribox.speedX = 0;
-			trienemypic.speedX = 0;
-			tribox.speedY = 0;
-			trienemypic.speedY = 0;
-			xenemypic1.speedX = 0;
-			xenemypic1.speedY = 0;
-			xbox1.speedX = 0;
-			xbox1.speedY = 0;
-			recenemypic1.speedX = 0;
-			recbox1.speedX = 0;
-			recenemypic1.speedY = 0;
-			recbox1.speedY = 0;
-			bossWave7pic.speedX = 0;
-			bossWave7pic.speedY = 0;
-			bossWave7.speedX = 0;
-			bossWave7.speedY = 0;
-		break;
+	if (pauseGame) {
+		badguypic1.speedX = 0;
+		badguy1.speedX = 0;
+		badguypic1.speedY = 0;
+		badguy1.speedY = 0;
+		badguypic2.speedX = 0;
+		badguy2.speedX = 0;
+		badguypic2.speedY = 0;
+		badguy2.speedY = 0;
+		tribox.speedX = 0;
+		trienemypic.speedX = 0;
+		tribox.speedY = 0;
+		trienemypic.speedY = 0;
+		xenemypic1.speedX = 0;
+		xenemypic1.speedY = 0;
+		xbox1.speedX = 0;
+		xbox1.speedY = 0;
+		recenemypic1.speedX = 0;
+		recbox1.speedX = 0;
+		recenemypic1.speedY = 0;
+		recbox1.speedY = 0;
+		bossWave7pic.speedX = 0;
+		bossWave7pic.speedY = 0;
+		bossWave7.speedX = 0;
+		bossWave7.speedY = 0;
+	} else {
+		badai1();
+		triangleAI();
+		xAI();
+		badai2();
+		badrecai1();
 	}
 	housecontrols();
 	crashhitai1();
 	countwave();
-	if (upgrademenu == 1) {
+	if (upgradeMenu) {
 		upgradeboard.update();
 		infoboard2.update();
 		infoboard.update();
@@ -2915,7 +2889,7 @@ function updateGameArea() {
 		}
 	}
 	TipsText();
-	if (pauseGame == 1 && !pauseGameKeys) {
+	if (pauseGame && !pauseGameKeys) {
 		pauseboard.update();
 		pausetxt.update();
 		if (wave != 22) {
@@ -3068,10 +3042,10 @@ function updateGameArea() {
 	if (pauseGameKeys) {
 		pauseboard.update();
 	}
-	if (wave == 8 && upgrademenu == 0 && pauseGame == 0) {
+	if (wave == 8 && !upgradeMenu && !pauseGame) {
 		endCard.update();
 	}
-	if (startMenu && upgrademenu == 0) {
+	if (startMenu && !upgradeMenu) {
 		menuboard.update();
 		menuboardtxttimer.start_timer();
 		menuboardtxt.update();
@@ -3343,12 +3317,12 @@ function updateGameArea() {
 		pollGamepads();
 	}
 	if (!pauseGameKeys && !stopPause) {
-		pauseGame = 0;	
+		pauseGame = false;	
 		stopPause = true;
 	}
 	if (pauseGameKeys) {
 		tip = Math.floor(Math.random() * tips);
-		pauseGame = 1;	
+		pauseGame = true;	
 		stopPause = false;
 	}
 	if (up == 0 && playerSpeedY <= 0) {
@@ -3401,16 +3375,16 @@ function pollGamepads() {
 		if(gp.axes[1] != 0) {
 			cony = gp.axes[1];
 		}
-		if (cony < -0.2 && pauseGame == 0) {
+		if (cony < -0.2 && !pauseGame) {
 			moveUp();
 		}
-		if (cony > 0.2 && pauseGame == 0) {
+		if (cony > 0.2 && !pauseGame) {
 			moveDown();
 		}
-		if (conx < -0.2 && pauseGame == 0) {
+		if (conx < -0.2 && !pauseGame) {
 			moveLeft();
 		}
-		if (conx > 0.2 && pauseGame == 0) {
+		if (conx > 0.2 && !pauseGame) {
 			moveRight();
 		}
 		if (cony > -0.2 && cony != 0.2) {
@@ -3880,22 +3854,22 @@ function keyDownHandler(event) {
 		keyHit = true;
 	}
 	if (keyPressed == Up_ && !blockKeys && !pauseGameKeys) {		
-		if (pauseGame == 0) {
+		if (!pauseGame) {
 			moveUp();
 		}
 	}
 	else if (keyPressed == Down_ && !blockKeys && !pauseGameKeys) {	
-		if (pauseGame == 0) {
+		if (!pauseGame) {
 			moveDown();
 		}		
 	}
 	else if (keyPressed == Left_ && !blockKeys && !pauseGameKeys) {	
-		if (pauseGame == 0) {
+		if (!pauseGame) {
 			moveLeft();
 		}		
 	}
 	else if (keyPressed == Right_ && !blockKeys && !pauseGameKeys) {	
-		if (pauseGame == 0) {
+		if (!pauseGame) {
 			moveRight();
 		}		
 	}
@@ -3926,22 +3900,22 @@ function keyDownHandler(event) {
 		}
 	}
 	if (keyPressed == shootUp_ && !blockKeys && !pauseGameKeys) {		
-		if (pauseGame == 0 && wave != 22 && wave != 8) {
+		if (!pauseGame && wave != 22 && wave != 8) {
 			autoUp();
 		}
 	}
 	else if (keyPressed == shootDown_ && !blockKeys && !pauseGameKeys) {	
-		if (pauseGame == 0 && wave != 22 && wave != 8) {
+		if (!pauseGame && wave != 22 && wave != 8) {
 			autoDown();
 		}	
 	}
 	else if (keyPressed == shootLeft_ && !blockKeys && !pauseGameKeys) {	
-		if (pauseGame == 0 && wave != 22 && wave != 8) {
+		if (!pauseGame && wave != 22 && wave != 8) {
 			autoLeft();
 		}		
 	}
 	else if (keyPressed == shootRight_ && !blockKeys && !pauseGameKeys) {	
-		if (pauseGame == 0 && wave != 22 && wave != 8) {
+		if (!pauseGame && wave != 22 && wave != 8) {
 			autoRight();
 		}		
 	}
@@ -3951,71 +3925,71 @@ function keyDownHandler(event) {
 	}
 	if (keyPressed == "w")
 	{
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (!upgradeMenu && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			goToWarpZone = true;
 		}
 	}
 	if (keyPressed == "1") {
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (!upgradeMenu && !pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			swapweap1();
 		}
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (!upgradeMenu && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			playerShip = 0;
 			playerHealthMax = 100;
 		}
-		if (upgrademenu == 1 && !blockKeys && !pauseGameKeys) {
+		if (upgradeMenu && !blockKeys && !pauseGameKeys) {
 			upgrade1func();
 		}
 	}
 	if (keyPressed == "2") {
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (!upgradeMenu && !pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			swapweap2();
 		}
-		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (!upgradeMenu && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			playerShip = 1;
 			playerHealthMax = 100;
 		}
 	}
 	if (keyPressed == "3") {
-		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (!upgradeMenu && !pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			swapweap3();
 		}
-		if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (!upgradeMenu && christmasSkin == 1 && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			playerShip = 2;
 			playerHealthMax = 100;
 		}
 	}
 	if (keyPressed == "4") {
-		if (upgrademenu == 0 && miniBossShip == 1 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (!upgradeMenu && miniBossShip == 1 && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			playerShip = 3;
 			playerHealthMax = 300;
 		}
 	}
 	if (keyPressed == "5") {
-		if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (!upgradeMenu && easyShipPrize == 1 && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			playerShip = 4;
 			playerHealthMax = 200;
 		}
 	}
 	if (keyPressed == "6") {
-		if (upgrademenu == 0 && STPRIZESHIP == 1 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (!upgradeMenu && STPRIZESHIP == 1 && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			playerShip = 5;
 			playerHealthMax = 200;
 		}
 	}
 	if (keyPressed == "h") {
-		if (upgrademenu == 1 && !blockKeys && !pauseGameKeys) {
+		if (upgradeMenu && !blockKeys && !pauseGameKeys) {
 			healthRecovery();
 		}
 	}
 	if (keyPressed == "a") {
-		if (upgrademenu == 1 && !blockKeys && !pauseGameKeys) {
+		if (upgradeMenu && !blockKeys && !pauseGameKeys) {
 			ammoRecovery();
 		}
 	}
 	if (keyPressed == " ")
 	{
-		if (pauseGame == 0 && !blockKeys && !pauseGameKeys) {
+		if (!pauseGame && !blockKeys && !pauseGameKeys) {
 			startMenu = false;
 		}
 	}
@@ -4223,7 +4197,7 @@ function countwave() {
 			countSwitch1 = 0;
 		}
 		if (BadDeath > 0 && badguy1.crashWith(badwavebox1)) {
-			if (upgrademenu == 0) {
+			if (!upgradeMenu) {
 				if (Math.floor(Math.random() * chanceofdrop) == 1 && cratespawn2 == 0 && playerHealth < playerHealthMax) {
 					cratespawn2 += 1;
 					spawncrate2pos = Math.floor(Math.random() * 2);
@@ -4261,7 +4235,7 @@ function countwave() {
 					}
 				}
 			}
-			if (wave < 5 && upgrademenu == 0 && pauseGame == 0 && countSwitch1 == 0) {
+			if (wave < 5 && !upgradeMenu && !pauseGame && countSwitch1 == 0) {
 				money += moneyperendie;
 				if (wave < 3) {
 					moneyperendie = Math.floor(Math.random() * 2) + 1;
@@ -4280,7 +4254,7 @@ function countwave() {
 			countSwitch2 = 0;
 		}
 		if (BadDeath2 > 0 && !startMenu && badguy2.crashWith(badwavebox2)) {
-			if (upgrademenu == 0 && pauseGame == 0 && countSwitch2 == 0) {
+			if (!upgradeMenu && !pauseGame && countSwitch2 == 0) {
 				money += moneyperendie2;
 				if (wave < 6) {
 					moneyperendie2 = Math.floor(Math.random() * 5) + 2;
@@ -4354,7 +4328,7 @@ function countwave() {
 			countSwitch3 = 0;
 		}
 		if (BadDeath4 > 0 && recbox1.crashWith(recwavebox1)) {
-			if (upgrademenu == 0 && pauseGame == 0 && countSwitch3 == 0) {
+			if (!upgradeMenu && !pauseGame && countSwitch3 == 0) {
 				money += moneyperendie4;
 				count += 1;
 				if (wave < 4) {
@@ -4409,7 +4383,7 @@ function countwave() {
 			countSwitch4 = 0;
 		}
 		if (BadDeath3 > 0 && tribox.crashWith(triwavebox1)) {
-			if (upgrademenu == 0 && pauseGame == 0 && countSwitch4 == 0) {
+			if (!upgradeMenu && !pauseGame && countSwitch4 == 0) {
 				money += moneyperendie3;
 				count += 1;
 				if (wave < 6) {
@@ -4473,7 +4447,7 @@ function countwave() {
 			countSwitch5 = 0;
 		}
 		if (BadDeath5 > 0 && xbox1.crashWith(xwavebox1)) {
-			if (upgrademenu == 0 && pauseGame == 0 && countSwitch5 == 0) {
+			if (!upgradeMenu && !pauseGame && countSwitch5 == 0) {
 				money += moneyperendie5;
 				count += 1;
 				if (wave == 6) {
@@ -4528,7 +4502,7 @@ function countwave() {
 			}
 		}
 	}
-	if (upgrademenu == 0) {
+	if (!upgradeMenu) {
 		if (wave < 7 || wave > 7) {
 			if (count == numofbad) {
 				money += moneyperwave;
@@ -4562,9 +4536,9 @@ function countwave() {
 
 function badboxspawn() {
 	if (wave < 5) {
-		if (bullbox.crashWith(badguy1) && Badhealth1 >= 0 && fire > 0) {
+		if (bullbox.crashWith(badguy1) && Badhealth1 >= 0 && shoot) {
 			Badhealth1 -= PlayerDamageDeal;
-			fire = 0;
+			shoot = false;
 		}
 		if (Badhealth1 > 0) {
 			BadDeath = 0;
@@ -6465,7 +6439,7 @@ function Boss7AI() {
 	guardianhealthbar.x = guardianBox.x - 12;
 	guardianhealthbar.y = guardianBox.y - 8;
 	guardianhealthbar.width = GuardHealth/2;
-	if (!GuardDead && pauseGame == 0 && wave == 7 && GuardStart == 1 && !playerDead) {
+	if (!GuardDead && !pauseGame && wave == 7 && GuardStart == 1 && !playerDead) {
 		if (guardianBox.x + guardianBox.width < box.x) {
 			guardianBox.x += 2;
 		}
@@ -6479,10 +6453,10 @@ function Boss7AI() {
 			guardianBox.y -= 2;
 		}
 	}
-	if (guardianBox.crashWith(box) && !GuardDead && wave == 7 && pauseGame == 0 && !playerDead) {
+	if (guardianBox.crashWith(box) && !GuardDead && wave == 7 && !pauseGame && !playerDead) {
 		playerHealth -= GuardDamage;
 	}
-	if (GuardStart == 1 && guardianBox.crashWith(bullbox) && wave == 7 && GuardHealth > 0 && !GuardDead && fire > 0 && !playerDead) {
+	if (GuardStart == 1 && guardianBox.crashWith(bullbox) && wave == 7 && GuardHealth > 0 && !GuardDead && shoot && !playerDead) {
 		GuardHealth -= PlayerDamageDeal;
 	}
 	if (GuardSwitch == 0 && !GuardDead) {
@@ -6578,6 +6552,7 @@ function Boss7AI() {
 		wave = 8;
 		miniBossShip = 1;
 		localStorage.setItem("Ms", miniBossShip);
+		localStorage.setItem("completeEarth", true);
 		switchBoss7 = 1;
 		money += 200;
 	}
@@ -6639,7 +6614,7 @@ function Boss7AI() {
 	if (frameIndex_1 == resetframe_1) {
 		frameIndex_1 = 0;		
 	}
-	if (wave == 7 && !startMenu && upgrademenu == 0 && pauseGame == 0) {
+	if (wave == 7 && !startMenu && !upgradeMenu && !pauseGame) {
 		if (spawnBoss7 == 1) {
 			bossTickCount += 1;
 			EXCount = 0;
@@ -6910,14 +6885,14 @@ function Boss7AI() {
 					}
 				break; 
 			}
-			if (bullbox.crashWith(bossWave7) && BossHealth > 0 && fire > 0) {
+			if (bullbox.crashWith(bossWave7) && BossHealth > 0 && shoot) {
 				if (bossSheildMode == 0) {
 					BossHealth -= PlayerDamageDeal;
 				}
-				fire = 0;
+				shoot = false;
 			}
 		}
-		if (spawnBoss7 == 0 && pauseGame == 0) {
+		if (spawnBoss7 == 0 && !pauseGame) {
 			EXCount += 1;
 			if (EXCount >= 12) {
 				ExplosionCycle++;
@@ -6937,7 +6912,7 @@ function badai1() {
 	badguy1healthbar.y = badguy1.y - 8;
 	badguy1healthbar.color = badHealthBarColor;
 	badguy1healthbar.width = Badhealth1 / 2;
-	if (!startMenu && upgrademenu == 0 && pauseGame == 0 && !playerDead && wave < 5) {
+	if (!startMenu && !upgradeMenu && !pauseGame && !playerDead && wave < 5) {
 		if (BadDeath > 0) {
 			if (badguy1.x > badpos1.x) {
 				badguy1.speedX = -5;
@@ -7011,7 +6986,7 @@ function badai1() {
 			if (box.crashWith(badguy1) && playerHealth > 0) {
 				playerHealth -= Bad1DamageDeal;
 			}
-			if (weapon == 1 && bullbox.crashWith(badguy1) && fire > 0 && startTime == 0) {
+			if (weapon == 1 && bullbox.crashWith(badguy1) && shoot && startTime == 0) {
 				startTime = 1;
 			}
 			if (startTime != 0) {
@@ -7031,9 +7006,9 @@ function badai1() {
 
 function badboxspawn2() {
 	if (wave < 7 && wave > 1) {
-		if (badguy2.crashWith(bullbox) && Badhealth2 >= 0 && fire > 0) {
+		if (badguy2.crashWith(bullbox) && Badhealth2 >= 0 && shoot) {
 			Badhealth2 -= PlayerDamageDeal;
-			fire = 0;
+			shoot = false;
 		}
 		if (Badhealth2 > 0) {
 			BadDeath2 = 0;
@@ -7052,7 +7027,7 @@ function badai2() {
 	badguy1healthbar2.y = badguy2.y - 8;
 	badguy1healthbar2.color = badHealthBarColor2;
 	badguy1healthbar2.width = Badhealth2 / 2;
-	if (!startMenu && upgrademenu == 0 && pauseGame == 0 && !playerDead && wave > 1 && wave < 7) {
+	if (!startMenu && !upgradeMenu && !pauseGame && !playerDead && wave > 1 && wave < 7) {
 		if (BadDeath2 > 0) {
 			if (badguy2.x > badpos2.x) {
 				badguy2.speedX = -5;
@@ -7162,7 +7137,7 @@ function badai2() {
 			if (box.crashWith(badguy2) && playerHealth > 0) {
 				playerHealth -= Bad2DamageDeal;
 			}
-			if (weapon == 1 && bullbox.crashWith(badguy2) && fire > 0 && startTime2 == 0) {
+			if (weapon == 1 && bullbox.crashWith(badguy2) && shoot && startTime2 == 0) {
 				startTime2 = 1;
 			}
 			if (startTime2 != 0) {
@@ -7182,9 +7157,9 @@ function badai2() {
 
 function badtriboxspawn() {
 	if (wave > 4 && wave < 7) {
-		if (bullbox.crashWith(tribox) && Badhealth3 >= 0 && fire > 0) {
+		if (bullbox.crashWith(tribox) && Badhealth3 >= 0 && shoot) {
 			Badhealth3 -= PlayerDamageDeal;
-			fire = 0;
+			shoot = false;
 		}
 		if (Badhealth3 > 0) {
 			BadDeath3 = 0;
@@ -7203,7 +7178,7 @@ function triangleAI() {
 	badguy1healthbar4.y = tribox.y - 8;
 	badguy1healthbar4.color = badHealthBarColor4;
 	badguy1healthbar4.width = Badhealth3 / 2;
-	if (!startMenu && upgrademenu == 0 && pauseGame == 0 && !playerDead && wave > 4 && wave < 7) {
+	if (!startMenu && !upgradeMenu && !pauseGame && !playerDead && wave > 4 && wave < 7) {
 		if (BadDeath3 > 0) {
 			if (tribox.x > tripos1.x) {
 				tribox.speedX = -5;
@@ -7277,7 +7252,7 @@ function triangleAI() {
 			if (box.crashWith(tribox) && playerHealth > 0) {
 				playerHealth -= Bad3DamageDeal;
 			}
-			if (weapon == 1 && bullbox.crashWith(tribox) && fire > 0 && startTime3 == 0) {
+			if (weapon == 1 && bullbox.crashWith(tribox) && shoot && startTime3 == 0) {
 				startTime3 = 1;
 			}
 			if (startTime3 != 0) {
@@ -7297,9 +7272,9 @@ function triangleAI() {
 
 function badxboxspawn() {
 	if (wave > 5 && wave < 7) {
-		if (bullbox.crashWith(xbox1) && Badhealth5 >= 0 && fire > 0) {
+		if (bullbox.crashWith(xbox1) && Badhealth5 >= 0 && shoot) {
 			Badhealth5 -= PlayerDamageDeal;
-			fire = 0;
+			shoot = false;
 		}
 		if (Badhealth5 > 0) {
 			BadDeath5 = 0;
@@ -7318,7 +7293,7 @@ function xAI() {
 	badguy1healthbar5.y = xbox1.y - 8;
 	badguy1healthbar5.color = badHealthBarColor5;
 	badguy1healthbar5.width = Badhealth5 / 2;
-	if (!startMenu && upgrademenu == 0 && pauseGame == 0 && !playerDead && wave == 6) {
+	if (!startMenu && !upgradeMenu && !pauseGame && !playerDead && wave == 6) {
 		if (BadDeath5 > 0) {
 			if (xbox1.x > xpos1.x) {
 				xbox1.speedX = -5;
@@ -7392,7 +7367,7 @@ function xAI() {
 			if (box.crashWith(xbox1) && playerHealth > 0) {
 				playerHealth -= Bad5DamageDeal;
 			}
-			if (weapon == 1 && bullbox.crashWith(xbox1) && fire > 0 && startTime7 == 0) {
+			if (weapon == 1 && bullbox.crashWith(xbox1) && shoot && startTime7 == 0) {
 				startTime7 = 1;
 			}
 			if (startTime7 == 0) {
@@ -7412,9 +7387,9 @@ function xAI() {
 
 function badrecspawn1() {
 	if (wave < 5 && wave > 2) {
-		if (recbox1.crashWith(bullbox) && Badhealth4 >= 0 && fire > 0) {
+		if (recbox1.crashWith(bullbox) && Badhealth4 >= 0 && shoot) {
 			Badhealth4 -= PlayerDamageDeal;
-			fire = 0;
+			shoot = false;
 		}
 		if (Badhealth4 > 0) {
 			BadDeath4 = 0;
@@ -7433,7 +7408,7 @@ function badrecai1() {
 	badguy1healthbar3.y = recbox1.y - 8;
 	badguy1healthbar3.color = badHealthBarColor3;
 	badguy1healthbar3.width = Badhealth4 / 2;
-	if (!startMenu && upgrademenu == 0 && pauseGame == 0 && !playerDead && wave > 2 && wave < 5) {
+	if (!startMenu && !upgradeMenu && !pauseGame && !playerDead && wave > 2 && wave < 5) {
 		if (BadDeath4 > 0) {
 			if (recbox1.x > recpos1.x) {
 				recbox1.speedX = -5;
@@ -7507,7 +7482,7 @@ function badrecai1() {
 			if (box.crashWith(recbox1) && playerHealth > 0) {
 				playerHealth -= Bad4DamageDeal;
 			}
-			if (weapon == 1 && bullbox.crashWith(recbox1) && fire > 0 && startTime4 == 0) {
+			if (weapon == 1 && bullbox.crashWith(recbox1) && shoot && startTime4 == 0) {
 				startTime4 = 1;
 			}
 			if (startTime4 == 0) {
@@ -7526,25 +7501,25 @@ function badrecai1() {
 }
 	
 function autoUp() {
-	if (upgrademenu == 0) {
+	if (!upgradeMenu) {
 		autoUplet = 1;
 	}
 }
 	
 function autoDown() {
-	if (upgrademenu == 0) {
+	if (!upgradeMenu) {
 		autoDownlet = 1;
 	}
 }
 	
 function autoLeft() {
-	if (upgrademenu == 0) {
+	if (!upgradeMenu) {
 		autoLeftlet = 1;
 	}
 }
 	
 function autoRight() {
-	if (upgrademenu == 0) {
+	if (!upgradeMenu) {
 		autoRightlet = 1;
 	}
 }
@@ -7578,8 +7553,8 @@ function fireCoolDown() {
 }
 
 function shootUp() {
-	if (!playerDead && fire == 0 && startTimer == 0 && ammo > 0) {
-		fire = 1;
+	if (!playerDead && !shoot && startTimer == 0 && ammo > 0) {
+		shoot = true;
 		fireU = 1;
 		startTimer = 1;
 		ammo -= ammocon;
@@ -7590,8 +7565,8 @@ function shootUp() {
 }
 	
 function shootDown() {
-	if (!playerDead && fire == 0 && startTimer == 0 && ammo > 0) {
-		fire = 1;
+	if (!playerDead && !shoot && startTimer == 0 && ammo > 0) {
+		shoot = true;
 		fireD = 1;
 		startTimer = 1;
 		ammo -= ammocon;
@@ -7602,8 +7577,8 @@ function shootDown() {
 }
 	
 function shootLeft() {
-	if (!playerDead && fire == 0 && startTimer == 0 && ammo > 0) {
-		fire = 1;
+	if (!playerDead && !shoot && startTimer == 0 && ammo > 0) {
+		shoot = true;
 		fireL = 1;
 		startTimer = 1;
 		ammo -= ammocon;
@@ -7614,8 +7589,8 @@ function shootLeft() {
 }
 	
 function shootRight() {
-	if (!playerDead && fire == 0 && startTimer == 0 && ammo > 0) {
-		fire = 1;
+	if (!playerDead && !shoot && startTimer == 0 && ammo > 0) {
+		shoot = true;
 		fireR = 1;
 		startTimer = 1;
 		ammo -= ammocon;
@@ -7633,7 +7608,7 @@ function tribulletai() {
 		tribbox.x = tribox.x + tribox.width/2 - tribbox.width/2;
 		tribbox.y = tribox.y + tribox.height/2 - tribbox.height/2;
 	}
-	if (!startMenu && upgrademenu == 0 && pauseGame == 0 && !playerDead) {
+	if (!startMenu && !upgradeMenu && !pauseGame && !playerDead) {
 		if (trifire == 0) {
 			if (tribox.crashWith(detectbox)) {
 				tribullettime += 0.5;	
@@ -7684,7 +7659,7 @@ function bulletai() {
 	bpic4.y = bullbox.y;
 	bpic5.x = bullbox.x;
 	bpic5.y = bullbox.y;
-	if (fire == 0) {
+	if (!shoot) {
 		bullettime = 0;
 		bullbox.speedX = 0;
 		bullbox.speedY = 0;
@@ -7712,7 +7687,7 @@ function bulletai() {
 			bullettime += 0.5;
 		}
 		if (bullettime >= 5) {
-			fire = 0;
+			shoot = false;
 			fireR = 0;
 			fireL = 0;
 			fireU = 0;
@@ -7721,16 +7696,16 @@ function bulletai() {
 		}
 	}
 	if (bullbox.crashWith(wallright) || bullbox.crashWith(wallleft) || bullbox.crashWith(wall3) || bullbox.crashWith(wall4)) {
-		fire = 0;
+		shoot = false;
 	}
 	if (wave < 5) {
 		if (bullbox.crashWith(wallhouse3) || bullbox.crashWith(wallhouse2_2) || bullbox.crashWith(wallhouse7) || bullbox.crashWith(wallhouse3_2) || bullbox.crashWith(wallhouse2) || bullbox.crashWith(wallhouse5) || bullbox.crashWith(wallhouse1) || bullbox.crashWith(wallhouse4_2) || bullbox.crashWith(wallhouse6_2) || bullbox.crashWith(wallhouse1_2) || bullbox.crashWith(wallhouse4) || bullbox.crashWith(wallhouse6) || bullbox.crashWith(wall2house3) || bullbox.crashWith(wall2house2_2) || bullbox.crashWith(wall2house7) || bullbox.crashWith(wall2house3_2) || bullbox.crashWith(wall2house2) || bullbox.crashWith(wall2house5) || bullbox.crashWith(wall2house1) || bullbox.crashWith(wall2house4_2) || bullbox.crashWith(wall2house6_2) || bullbox.crashWith(wall2house1_2) || bullbox.crashWith(wall2house4) || bullbox.crashWith(wall2house6)) {
-			fire = 0;
+			shoot = false;
 		}
 	}
 	if (wave >= 5 && wave < 7) {
 		if (bullbox.crashWith(wall3house1) || bullbox.crashWith(wall3house1_2) || bullbox.crashWith(wall3house2) || bullbox.crashWith(wall3house2_2) || bullbox.crashWith(wall3house3) || bullbox.crashWith(wall3house3_2) || bullbox.crashWith(wall3house4_4) || bullbox.crashWith(wall3house5_4) || bullbox.crashWith(wall4house1) || bullbox.crashWith(wall4house1_1) || bullbox.crashWith(wall4house2) || bullbox.crashWith(wall4house2_1) || bullbox.crashWith(wall4house3) || bullbox.crashWith(wall4house3_1) || bullbox.crashWith(wall4house4_3) || bullbox.crashWith(wall4house5_3) || bullbox.crashWith(wall4house6_4)) {
-			fire = 0;
+			shoot = false;
 		}
 	}
 }
@@ -7946,36 +7921,36 @@ function Play_sound() {
 		muteExplosion = false;
 	}
 	if (mutemusic == 0) {
-		if (startMenu && !playerDead && title.paused) {
+		if (startMenu && !playerDead && document.getElementById('title').paused) {
 			document.getElementById('title').play();
 		}
-		if (playerDead && Death.paused) {
+		if (playerDead && document.getElementById('Death').paused) {
 			document.getElementById('Death').play();
 		}
-		if (upgrademenu > 0 && !playerDead && upgradeMenu.paused) {
+		if (upgradeMenu > 0 && !playerDead && document.getElementById('upgradeMenu').paused) {
 			document.getElementById('upgradeMenu').play();
 		}
 		if (!startMenu) {
-			if (wave == 22 && warpZone.paused) {
+			if (wave == 22 && document.getElementById('warpZone').paused) {
 				document.getElementById('warpZone').play();
 			}
-			if (upgrademenu == 0 && !playerDead && wave < 5 && level1.paused) {
+			if (!upgradeMenu && !playerDead && wave < 5 && document.getElementById('level1').paused) {
 				document.getElementById('level1').play();
 			}
-			if (upgrademenu == 0 && !playerDead && wave > 4 && wave < 7 && level2.paused) {
+			if (!upgradeMenu && !playerDead && wave > 4 && wave < 7 && document.getElementById('level2').paused) {
 				document.getElementById('level2').play();
 			}
-			if (upgrademenu == 0 && !playerDead && wave == 7 && boss7.paused) {
+			if (!upgradeMenu && !playerDead && wave == 7 && document.getElementById('boss7').paused) {
 				document.getElementById('boss7').play();
 			}
-			if (upgrademenu == 0 && wave == 7 && count != 10 && pauseGame == 0 && spawnBoss7 == 0 && explosion.paused) {
+			if (!upgradeMenu && wave == 7 && count != 10 && !pauseGame && spawnBoss7 == 0 && document.getElementById('explosion').paused) {
 				document.getElementById('explosion').play();
 			}
-			if (fire == 1 && frameIndex5 == 0 && firesound.paused) {
+			if (shoot && frameIndex5 == 0 && document.getElementById('firesound').paused) {
 				document.getElementById('firesound').play();
 			}
 		}
-		if (ammo <= 20/100 * maxAmmo && playerHealth > 0 && lowammo.paused) {
+		if (ammo <= 20/100 * maxAmmo && !playerDead && document.getElementById('lowammo').paused) {
 			document.getElementById('lowammo').play();
 		}
 	} 
@@ -8023,67 +7998,71 @@ function Set_volume() {
 }
 	
 function Skip_sound() {
-	if (upgrademenu == 1) {
-		level1.pause();
-		level1.currentTime = 0;
-		level2.pause();
-		level2.currentTime = 0;
-		boss7.pause();
-		boss7.currentTime = 0;
-		firesound.pause();
-		firesound.currentTime = 0;
+	if (upgradeMenu) {
+		document.getElementById('level1').pause();
+		document.getElementById('level1').currentTime = 0;
+		document.getElementById('level2').pause();
+		document.getElementById('level2').currentTime = 0;
+		document.getElementById('boss7').pause();
+		document.getElementById('boss7').currentTime = 0;
+		document.getElementById('firesound').pause();
+		document.getElementById('firesound').currentTime = 0;
 	}
 	if (playerDead) {
-		level1.pause();
-		level1.currentTime = 0;
-		level2.pause();
-		level2.currentTime = 0;
-		boss7.pause();
-		boss7.currentTime = 0;
-		firesound.pause();
-		firesound.currentTime = 0;
-		title.pause();
-		title.currentTime = 0;
-		upgradeMenu.pause();
-		upgradeMenu.currentTime = 0;
+		document.getElementById('level1').pause();
+		document.getElementById('level1').currentTime = 0;
+		document.getElementById('level2').pause();
+		document.getElementById('level2').currentTime = 0;
+		document.getElementById('boss7').pause();
+		document.getElementById('boss7').currentTime = 0;
+		document.getElementById('firesound').pause();
+		document.getElementById('firesound').currentTime = 0;
+		document.getElementById('title').pause();
+		document.getElementById('title').currentTime = 0;
+		document.getElementById('upgradeMenu').pause();
+		document.getElementById('upgradeMenu').currentTime = 0;
 	}
 	if (!playerDead) {
-		Death.pause();
-		Death.currentTime = 0;
+		document.getElementById('Death').pause();
+		document.getElementById('Death').currentTime = 0;
 	}
 	if (wave >= 5) {
-		level1.pause();
-		level1.currentTime = 0;
+		document.getElementById('level1').pause();
+		document.getElementById('level1').currentTime = 0;
 	}
 	if (wave >= 7 || wave < 5) {
-		level2.pause();
-		level2.currentTime = 0;
+		document.getElementById('level2').pause();
+		document.getElementById('level2').currentTime = 0;
 	}
 	if (wave < 7 || wave > 7) {
-		boss7.pause();
-		boss7.currentTime = 0;
-		explosion.pause();
-		explosion.currentTime = 0;
+		document.getElementById('boss7').pause();
+		document.getElementById('boss7').currentTime = 0;
+		document.getElementById('explosion').pause();
+		document.getElementById('explosion').currentTime = 0;
+	}
+	if (upgradeMenu || playerDead) {
+		document.getElementById('explosion').pause();
+		document.getElementById('explosion').currentTime = 0;
 	}
 	if (!startMenu) {
-		if (upgrademenu == 0) {
-			title.pause();
-			title.currentTime = 0;
-			upgradeMenu.pause();
-			upgradeMenu.currentTime = 0;
+		if (!upgradeMenu) {
+			document.getElementById('title').pause();
+			document.getElementById('title').currentTime = 0;
+			document.getElementById('upgradeMenu').pause();
+			document.getElementById('upgradeMenu').currentTime = 0;
 		}
 	}
 	if (wave != 22) {
 		document.getElementById('warpZone').pause();
 		document.getElementById('warpZone').currentTime = 0;
 	}
-	if (frameIndex5 == 3 || fire == 0) {
-		firesound.pause();
-		firesound.currentTime = 0;
+	if (frameIndex5 == 3 || !shoot) {
+		document.getElementById('firesound').pause();
+		document.getElementById('firesound').currentTime = 0;
 	}
-	if (ammo > 20/100 * maxAmmo || playerHealth <= 0) {
-		lowammo.pause();
-		lowammo.currentTime = 0;
+	if (ammo > 20/100 * maxAmmo || playerDead) {
+		document.getElementById('lowammo').pause();
+		document.getElementById('lowammo').currentTime = 0;
 	}
 }
 
@@ -8110,7 +8089,7 @@ function statscommand() {
 	stat1_4 = new component("15px Arial", "Special: Nothing", "white", 45, upgrade1Y+75, "text");
 	stat2_4 = new component("15px Arial", "Special: Slows Enemies", "white", 45, upgrade1Y+75, "text");
 	stat3_4 = new component("15px Arial", "Special: Uses Less Ammo", "white", 45, upgrade1Y+75, "text");
-	if (pauseGame == 1 && pauseGameKeys == false) {
+	if (pauseGame && pauseGameKeys == false) {
 		statstxt.update();
 		stats2txt.update();
 		switch (playerShip) {
@@ -8192,7 +8171,13 @@ function warpZone() {
 	if (wave == 22) {
 		ammo = maxAmmo;
 		playerHealth = playerHealthMax;
-		upgrademenu = 0;
+		upgradeMenu = false;
+		//Complete Earth
+		if (localStorage.getItem("completeEarth") != null) {
+			Earth_Completed_Text.text = "Completed: "+JSON.parse(localStorage.getItem("completeEarth"));
+		} else {
+			Earth_Completed_Text.text = "Completed: false";
+		}
 		if (Level_Shadows) {
 			Earth_Planet.shadowColor_ = "black";
 			Earth_Planet.shadowBlur_ = 3;
@@ -8408,7 +8393,7 @@ function warpZone() {
 }
 
 function WarpZoneControls() {
-	if (wave == 22 && !startMenu && pauseGame == 0) {
+	if (wave == 22 && !startMenu && !pauseGame) {
 		if (Earth_PopUp_Message.globalAlpha <= 0 && circle.circleCrashWith(Earth_Planet_Circle_Collider) && !Earth_Popup_Message_Show) {
 			Earth_Popup_Message_Show = true;
 		}
@@ -8442,7 +8427,7 @@ function nameFC() {
 	if (goToWarpZone) {
 		wave = 22;
 		count = 0;
-		pauseGame = 0;
+		pauseGame = false;
 		cratespawn = 0;
 		cratespawn2 = 0;
 		goToWarpZone = false;
@@ -8457,7 +8442,7 @@ function nameFC() {
 		switchpos = 0;
 		wave = 1;
 		count = 0;
-		pauseGame = 0;
+		pauseGame = false;
 		ammo = maxAmmo;
 		playerHealthMax = 100;
 		playerHealth = playerHealthMax;
@@ -8510,6 +8495,7 @@ function nameFC() {
 		ship6 = new component(25, 25, "player6img", playerX, playerY, "animated-img-rot");
 		playerShipsArray.push(ship6);
 		PlayerShadowManager = new PlayerShadowHandler(playerShipsArray, "black", 5, 3, 3);
+		animationInt();
 		goBack = false;
 	}
 }
@@ -8574,14 +8560,14 @@ function swapweap3() {
 
 function backfunc() {
 	backSwitch = 0;
-	if (specialalert1 == 0 && pauseGame == 0 && upgrademenu > 0) {
+	if (specialalert1 == 0 && !pauseGame && upgradeMenu > 0) {
 		backSwitch = 1;
-		upgrademenu = 0;
+		upgradeMenu = false;
 	}
 	if (specialalert1 == 1) {
 		specialalert1 = 0;
 	}
-	if (backSwitch == 0 && upgrademenu == 0 && !startMenu) {
+	if (backSwitch == 0 && !upgradeMenu && !startMenu) {
 		pauseGame++;
 	}
 	if (playerDead) {
@@ -8634,15 +8620,15 @@ function UpgradeMenuTrigger() {
 	if (!healthUpgradeTrigger && !ammoUpgradeTrigger && !upgrade1trigger) {
 		NOUPGRADESAVAILABLE = true;
 	}
-	if (upgrademenu != 1) {
+	if (!upgradeMenu) {
 		if (money == 0 || NOUPGRADESAVAILABLE) {
-			upgrademenu = 0;
+			upgradeMenu = false;
 		}
 	}
 }
 
 function upgrade1func() {
-	if (upgrademenu > 0) {
+	if (upgradeMenu > 0) {
 		nextUpgrade = 1;	
 		if (weaponupgrade1 == 0 && money >= 100) {
 			weaponupgrade1 = 1;
@@ -8657,7 +8643,7 @@ function upgrade1func() {
 }
 
 function healthRecovery() {
-	if (upgrademenu == 1) {
+	if (upgradeMenu) {
 		healthLocker = 1;
 		if (playerHealth != playerHealthMax && healthLocker == 1 && Math.floor(playerHealthMax - playerHealth) <= money) {
 			money -= Math.floor(playerHealthMax - playerHealth);
@@ -8668,7 +8654,7 @@ function healthRecovery() {
 }
 
 function ammoRecovery() {
-	if (upgrademenu == 1) {
+	if (upgradeMenu) {
 		ammoLocker = 1;
 		if (ammo != maxAmmo && ammoLocker == 1 && Math.floor(maxAmmo - ammo) <= money) {
 			money -= Math.floor(maxAmmo - ammo);
