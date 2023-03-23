@@ -1,10 +1,15 @@
 //Set screen size
+engineSettings.Settings_Menu.Image_Smoothing = false;
+engineSettings.Settings_Menu.Show_Debug_Cursor = false;
 screen.setResolution(new Vector2(1280,720));
 
 //Create mod menu
 ModLoader.createMenu();
 
 //Images
+//Main Menu
+let mainMenuBG = new imageData("mainMenuBG", imagePath+"Title_Screen.png", new Vector2(1280, 720));
+//Line Battle/Ball Bouncers Assets
 let blueBall = new imageData("blue_ball", imagePath+"Blue_Ball.png", new Vector2(50, 50));
 let redBall = new imageData("red_ball", imagePath+"Red_Ball.png", new Vector2(50, 50));
 let yellowBall = new imageData("yellow_ball", imagePath+"Yellow_Ball.png", new Vector2(50, 50));
@@ -103,7 +108,7 @@ let gameModeData = {
 			"ai":true, //enemy ai
 			"line_length":50, //max line length (longer line makes the game harder but slows down the game!)
 			"line_fade":true, //fades line
-			"line_fade_offset":0, //fade value + offset
+			"line_alpha_cutoff":0, //only detects collisions at or above this value
 			"object_amount":0, //amount of obstacles to spawn
 			"mode":new Vector2(0,3), //x-current mode, y-total modes
 			"modes":{
@@ -145,6 +150,202 @@ let gameModeData = {
 
 let modeData = gameModeData[gameData.gameMode];
 let currentMap = null;
+
+//Option menu addon
+const optionAddon = new optionMenuAddon();
+
+function optionMenuAddon() {
+	this.lineBattleSettingsDiv = document.createElement('div');
+	this.lineBattleSettingsDiv.style.marginLeft = "0px";
+	this.lineBattleSettingsDiv.style.marginRight = "0px";
+	this.lineBattleSettingsDiv.style.marginTop = "0px";
+	this.lineBattleSettingsDiv.style.marginBottom = "0px";
+	this.lineBattleSettingsDiv.style.width = "100%";
+	this.lineBattleSettingsDiv.style.height = "50px";
+	this.lineBattleSettingsDiv.style.backgroundColor = "darkgrey";
+	OptionsMenu.optionsSep.appendChild(this.lineBattleSettingsDiv);
+	this.lineBattleSettingsTxt = document.createElement('p');
+	this.lineBattleSettingsTxt.innerHTML = "Line Battle";
+	this.lineBattleSettingsTxt.style.fontSize = "35px";
+	this.lineBattleSettingsTxt.style.marginLeft = "0px";
+	this.lineBattleSettingsTxt.style.marginRight = "0px";
+	this.lineBattleSettingsTxt.style.marginTop = "0px";
+	this.lineBattleSettingsTxt.style.marginBottom = "0px";
+	this.lineBattleSettingsTxt.style.width = "100%";
+	this.lineBattleSettingsTxt.style.height = "100%";
+	this.lineBattleSettingsTxt.style.textAlign = "center";
+	this.lineBattleSettingsTxt.style.color = "white";
+	this.lineBattleSettingsDiv.appendChild(this.lineBattleSettingsTxt);
+	//Line fade option
+	this.lineFadeDiv = document.createElement('div');
+	this.lineFadeDiv.style.marginLeft = "0px";
+	this.lineFadeDiv.style.marginRight = "0px";
+	this.lineFadeDiv.style.marginTop = "0px";
+	this.lineFadeDiv.style.marginBottom = "0px";
+	this.lineFadeDiv.style.width = "100%";
+	this.lineFadeDiv.style.height = "50px";
+	this.lineFadeDiv.style.backgroundColor = "darkgrey";
+	this.lineBattleSettingsDiv.appendChild(this.lineFadeDiv);
+	this.lineFadeTxt = document.createElement('p');
+	this.lineFadeTxt.innerHTML = "Line Fade:";
+	this.lineFadeTxt.style.fontSize = "35px";
+	this.lineFadeTxt.style.marginLeft = "0px";
+	this.lineFadeTxt.style.marginRight = "0px";
+	this.lineFadeTxt.style.marginTop = "0px";
+	this.lineFadeTxt.style.marginBottom = "0px";
+	this.lineFadeTxt.style.width = "100%";
+	this.lineFadeTxt.style.height = "100%";
+	this.lineFadeTxt.style.color = "white";
+	this.lineFadeTxt.style.display = "inline";
+	this.lineFadeDiv.appendChild(this.lineFadeTxt);
+	this.lineFadeChkBx = document.createElement('input');
+	this.lineFadeChkBx.type = "checkbox";
+	this.lineFadeChkBx.style.marginLeft = "0px";
+	this.lineFadeChkBx.style.marginRight = "0px";
+	this.lineFadeChkBx.style.marginTop = "0px";
+	this.lineFadeChkBx.style.marginBottom = "0px";
+	this.lineFadeChkBx.style.width = "50px";
+	this.lineFadeChkBx.style.height = "100%";
+	this.lineFadeChkBx.style.float = "right";
+	this.lineFadeChkBx.style.display = "inline";
+	this.lineFadeChkBx.checked = true;
+	if (localStorage.getItem("Line_Fade") != null) {
+		this.lineFadeChkBx.checked = JSON.parse(localStorage.getItem("Line_Fade"));
+	}
+	this.lineFadeChkBx.onchange = () => {
+		localStorage.setItem("Line_Fade", JSON.stringify(this.lineFadeChkBx.checked));
+	};
+	this.lineFadeDiv.appendChild(this.lineFadeChkBx);
+	//Line length option
+	this.lineLengthDiv = document.createElement('div');
+	this.lineLengthDiv.style.marginLeft = "0px";
+	this.lineLengthDiv.style.marginRight = "0px";
+	this.lineLengthDiv.style.marginTop = "0px";
+	this.lineLengthDiv.style.marginBottom = "0px";
+	this.lineLengthDiv.style.width = "100%";
+	this.lineLengthDiv.style.height = "50px";
+	this.lineLengthDiv.style.backgroundColor = "darkgrey";
+	this.lineBattleSettingsDiv.appendChild(this.lineLengthDiv);
+	this.lineLengthTxt = document.createElement('p');
+	this.lineLengthTxt.innerHTML = "Line Length:";
+	this.lineLengthTxt.style.fontSize = "35px";
+	this.lineLengthTxt.style.marginLeft = "0px";
+	this.lineLengthTxt.style.marginRight = "0px";
+	this.lineLengthTxt.style.marginTop = "0px";
+	this.lineLengthTxt.style.marginBottom = "0px";
+	this.lineLengthTxt.style.width = "100%";
+	this.lineLengthTxt.style.height = "100%";
+	this.lineLengthTxt.style.color = "white";
+	this.lineLengthTxt.style.display = "inline";
+	this.lineLengthDiv.appendChild(this.lineLengthTxt);
+	this.lineLengthSlider = document.createElement("input");
+	this.lineLengthSlider.classList.add("slider");
+	this.lineLengthSlider.type = "range";
+	this.lineLengthSlider.value = "50";
+	this.lineLengthSlider.min = "10";
+	this.lineLengthSlider.max = "200";
+	this.lineLengthSlider.style.width = "50%";
+	this.lineLengthSlider.style.height = "50%";
+	this.lineLengthSlider.style.marginLeft = "10px";
+	this.lineLengthSlider.style.marginRight = "0px";
+	this.lineLengthSlider.style.marginTop = "0px";
+	this.lineLengthSlider.style.marginBottom = "0px";
+	this.lineLengthSlider.style.appearance = "none";
+	this.lineLengthSlider.style.background = "lightgrey";
+	this.lineLengthSlider.style.outline = "none";
+	this.lineLengthSlider.style.borderRadius = "90px";
+	this.lineLengthSlider.style.display = "inline";
+	if (localStorage.getItem("Line_Length") != null) {
+		this.lineLengthSlider.value = JSON.parse(localStorage.getItem("Line_Length"));
+	}
+	this.lineLengthSlider.onchange = () => {
+		localStorage.setItem("Line_Length", JSON.stringify(this.lineLengthSlider.value));
+	};
+	this.lineLengthDiv.appendChild(this.lineLengthSlider);
+	this.lineLengthValueTxt = document.createElement('p');
+	this.lineLengthValueTxt.innerHTML = "0";
+	this.lineLengthValueTxt.style.fontSize = "35px";
+	this.lineLengthValueTxt.style.marginLeft = "10px";
+	this.lineLengthValueTxt.style.marginRight = "0px";
+	this.lineLengthValueTxt.style.marginTop = "0px";
+	this.lineLengthValueTxt.style.marginBottom = "0px";
+	this.lineLengthValueTxt.style.width = "100%";
+	this.lineLengthValueTxt.style.height = "100%";
+	this.lineLengthValueTxt.style.color = "white";
+	this.lineLengthValueTxt.style.display = "inline";
+	this.lineLengthDiv.appendChild(this.lineLengthValueTxt);
+	//Line Collision Cutoff option
+	this.lineCollCutoffDiv = document.createElement('div');
+	this.lineCollCutoffDiv.style.marginLeft = "0px";
+	this.lineCollCutoffDiv.style.marginRight = "0px";
+	this.lineCollCutoffDiv.style.marginTop = "0px";
+	this.lineCollCutoffDiv.style.marginBottom = "0px";
+	this.lineCollCutoffDiv.style.width = "100%";
+	this.lineCollCutoffDiv.style.height = "50px";
+	this.lineCollCutoffDiv.style.backgroundColor = "darkgrey";
+	this.lineBattleSettingsDiv.appendChild(this.lineCollCutoffDiv);
+	this.lineCollCutoffTxt = document.createElement('p');
+	this.lineCollCutoffTxt.innerHTML = "Line Alpha Cutoff:";
+	this.lineCollCutoffTxt.style.fontSize = "35px";
+	this.lineCollCutoffTxt.style.marginLeft = "0px";
+	this.lineCollCutoffTxt.style.marginRight = "0px";
+	this.lineCollCutoffTxt.style.marginTop = "0px";
+	this.lineCollCutoffTxt.style.marginBottom = "0px";
+	this.lineCollCutoffTxt.style.width = "100%";
+	this.lineCollCutoffTxt.style.height = "100%";
+	this.lineCollCutoffTxt.style.color = "white";
+	this.lineCollCutoffTxt.style.display = "inline";
+	this.lineCollCutoffDiv.appendChild(this.lineCollCutoffTxt);
+	this.lineCollCutoffSlider = document.createElement("input");
+	this.lineCollCutoffSlider.classList.add("slider");
+	this.lineCollCutoffSlider.type = "range";
+	this.lineCollCutoffSlider.value = "0";
+	this.lineCollCutoffSlider.min = "0";
+	this.lineCollCutoffSlider.max = "1";
+	this.lineCollCutoffSlider.step = "0.01";
+	this.lineCollCutoffSlider.style.width = "35%";
+	this.lineCollCutoffSlider.style.height = "50%";
+	this.lineCollCutoffSlider.style.marginLeft = "10px";
+	this.lineCollCutoffSlider.style.marginRight = "0px";
+	this.lineCollCutoffSlider.style.marginTop = "0px";
+	this.lineCollCutoffSlider.style.marginBottom = "0px";
+	this.lineCollCutoffSlider.style.appearance = "none";
+	this.lineCollCutoffSlider.style.background = "lightgrey";
+	this.lineCollCutoffSlider.style.outline = "none";
+	this.lineCollCutoffSlider.style.borderRadius = "90px";
+	this.lineCollCutoffSlider.style.display = "inline";
+	if (localStorage.getItem("Line_Collision_Cutoff") != null) {
+		this.lineCollCutoffSlider.value = JSON.parse(localStorage.getItem("Line_Collision_Cutoff"));
+	}
+	this.lineCollCutoffSlider.onchange = () => {
+		localStorage.setItem("Line_Collision_Cutoff", JSON.stringify(this.lineCollCutoffSlider.value));
+	};
+	this.lineCollCutoffDiv.appendChild(this.lineCollCutoffSlider);
+	this.lineCollCutoffValueTxt = document.createElement('p');
+	this.lineCollCutoffValueTxt.innerHTML = "OFF";
+	this.lineCollCutoffValueTxt.style.fontSize = "35px";
+	this.lineCollCutoffValueTxt.style.marginLeft = "10px";
+	this.lineCollCutoffValueTxt.style.marginRight = "0px";
+	this.lineCollCutoffValueTxt.style.marginTop = "0px";
+	this.lineCollCutoffValueTxt.style.marginBottom = "0px";
+	this.lineCollCutoffValueTxt.style.width = "100%";
+	this.lineCollCutoffValueTxt.style.height = "100%";
+	this.lineCollCutoffValueTxt.style.color = "white";
+	this.lineCollCutoffValueTxt.style.display = "inline";
+	this.lineCollCutoffDiv.appendChild(this.lineCollCutoffValueTxt);
+	const update = () => {
+		gameModeData[1].settings.line_fade = this.lineFadeChkBx.checked;
+		gameModeData[1].settings.line_length = this.lineLengthSlider.value;
+		this.lineLengthValueTxt.innerHTML = this.lineLengthSlider.value;
+		gameModeData[1].settings.line_alpha_cutoff = this.lineCollCutoffSlider.value;
+		if (this.lineCollCutoffSlider.value == 0) {
+			this.lineCollCutoffValueTxt.innerHTML = "OFF";
+		} else {
+			this.lineCollCutoffValueTxt.innerHTML = Math.round(this.lineCollCutoffSlider.value*100)+"%";
+		}
+	}
+	addUpdate(update, "optionsAddon");
+}
 
 //GJ
 let user = null;
@@ -299,91 +500,83 @@ function menuManager() {
 	this.menuState = 0; //0: main menu, 1-3: game menus
 	this.menuSize = new Vector2();
 	//Main menu
-	//Background
-	this.mainBackground = document.createElement("div");
-	this.mainBackground.id = "mainMenu";
-	this.mainBackground.style.backgroundColor = "lightgrey"; //Change later
-	this.mainBackground.style.position = "fixed";
-	this.mainBackground.style.top = "0px";
-	this.mainBackground.style.left = "0px";
-	this.mainBackground.style.display = "none";
-	this.mainBackground.style.zIndex = "1";
-	this.mainBackground.style.margin = "0px";
-	document.body.appendChild(this.mainBackground);
-	//BG Image
-	this.mainBgImage = document.createElement("img");
-	this.mainBgImage.src = imagePath+"Title_Screen.png";
-	this.mainBgImage.style.position = "fixed";
-	this.mainBgImage.style.top = "0px";
-	this.mainBgImage.style.left = "0px";
-	this.mainBgImage.style.margin = "0px";
-	this.mainBackground.appendChild(this.mainBgImage);
-	//Title
-	this.mainTitle = document.createElement("h1");
-	this.mainTitle.innerHTML = "Minigame Collection";
-	this.mainTitle.style.textAlign = "center";
-	this.mainTitle.style.color = "white";
-	this.mainTitle.style.margin = "0px";
-	this.mainTitle.style.position = "fixed";
-	this.mainTitle.style.textShadow = "2.5px 2.5px black";
-	this.mainBackground.appendChild(this.mainTitle);
-	//Tank War Button
-	this.tankWarBttn = document.createElement("button");
-	this.tankWarBttn.innerHTML = "Tank War";
-	this.tankWarBttn.style.textAlign = "center";
-	this.tankWarBttn.style.backgroundColor = "black"; //Change later
-	this.tankWarBttn.style.color = "white";
-	this.tankWarBttn.style.margin = "0px";
-	this.tankWarBttn.style.position = "fixed";
-	this.tankWarBttn.onmouseover = () => {
-		this.tankWarBttn.style.backgroundColor = "grey";
-	};
-	this.tankWarBttn.onmouseout = () => {
-		this.tankWarBttn.style.backgroundColor = "black";
-	};
-	this.tankWarBttn.onclick = () => {
-		this.menuState = 1;
-	};
-	this.tankWarBttn.disabled = true; //Change this
-	this.mainBackground.appendChild(this.tankWarBttn);
-	//Line Battle Button
-	this.lineBattleBttn = document.createElement("button");
-	this.lineBattleBttn.innerHTML = "Line Battle";
-	this.lineBattleBttn.style.textAlign = "center";
-	this.lineBattleBttn.style.backgroundColor = "black"; //Change later
-	this.lineBattleBttn.style.color = "white";
-	this.lineBattleBttn.style.margin = "0px";
-	this.lineBattleBttn.style.position = "fixed";
-	this.lineBattleBttn.onmouseover = () => {
-		this.lineBattleBttn.style.backgroundColor = "grey";
-	};
-	this.lineBattleBttn.onmouseout = () => {
-		this.lineBattleBttn.style.backgroundColor = "black";
-	};
-	this.lineBattleBttn.onclick = () => {
-		this.menuState = 2;
-		this.lbBackground.play();
-	};
-	this.mainBackground.appendChild(this.lineBattleBttn);
-	//Ball Bouncers Button
-	this.ballBouncersBttn = document.createElement("button");
-	this.ballBouncersBttn.innerHTML = "Ball Bouncers";
-	this.ballBouncersBttn.style.textAlign = "center";
-	this.ballBouncersBttn.style.backgroundColor = "black"; //Change later
-	this.ballBouncersBttn.style.color = "white";
-	this.ballBouncersBttn.style.margin = "0px";
-	this.ballBouncersBttn.style.position = "fixed";
-	this.ballBouncersBttn.onmouseover = () => {
-		this.ballBouncersBttn.style.backgroundColor = "grey";
-	};
-	this.ballBouncersBttn.onmouseout = () => {
-		this.ballBouncersBttn.style.backgroundColor = "black";
-	};
-	this.ballBouncersBttn.onclick = () => {
-		this.menuState = 3;
-	};
-	this.ballBouncersBttn.disabled = true; //Change this
-	this.mainBackground.appendChild(this.ballBouncersBttn);
+	let mainMenuTag = "MainMenu";
+	this.mainMenuBG = null;
+	this.mainMenuLineBattleBttnLink = null;
+	this.mainGjLoginBttnLink = null;
+	let gjLoginTag = "gameJolt";
+	this.gjLoginBG = null;
+	this.gjLoginBttnTxt = null;
+	this.gjLoginBttnLink = null;
+	this.gjLoginCloseBttnLink = null;
+	this.spawnGJLogin = function() {
+		this.gjLoginBG = new Rectangle(4, new baseObject(true, new nameTag("Background", gjLoginTag), new Vector2(300, 200), screen.halfResolution, new colorData("darkgrey"), new Shadow(new Vector2(5, 5), "black", 5)));
+		this.gjLoginTitle = new Text(5, "Game Jolt Login", new baseObject(true, new nameTag("Title", gjLoginTag), new Vector2("30px Arial", false, "center"), screen.halfResolution.subV(new Vector2(0, 82.5)), new colorData("white")));
+		this.userNameTxt = new Text(5, "Username:", new baseObject(true, new nameTag("Username_Text", gjLoginTag), new Vector2("20px Arial", false, "center"), screen.halfResolution.subV(new Vector2(75, 35)), new colorData("white")));
+		this.userNameTxtBox = new TextBox(5, "30px Arial", "white", new baseObject(true, new nameTag("Username", gjLoginTag), new Vector2(125, 50), screen.halfResolution.subV(new Vector2(-50, 35)), new colorData("black")));
+		this.tokenTxt = new Text(5, "Token:", new baseObject(true, new nameTag("Token_Text", gjLoginTag), new Vector2("20px Arial", false, "center"), screen.halfResolution.subV(new Vector2(75, -20)), new colorData("white")));
+		this.tokenTxtBox = new TextBox(5, "30px Arial", "white", new baseObject(true, new nameTag("Token", gjLoginTag), new Vector2(125, 50), screen.halfResolution.subV(new Vector2(-50, -20)), new colorData("black")));
+		this.gjLoginBttn = new Rectangle(5, new baseObject(true, new nameTag("Login_Bttn", gjLoginTag), new Vector2(75, 35), screen.halfResolution.subV(new Vector2(0, -75)), new colorData("black"), new Shadow(new Vector2(5, 5), "black", 7)));
+		this.gjLoginBttnTxt = new Text(6, "Login", new baseObject(true, new nameTag("Login_Bttn_Txt", gjLoginTag), new Vector2("20px Arial", false, "center"), screen.halfResolution.subV(new Vector2(0, -75)), new colorData("white")));
+		this.gjLoginBttnLink = new buttonLink(this.gjLoginBttn, this.gjLoginBttnTxt, recCollision, () => {
+			if (user != null) {
+				GJAPI.UserLogout();
+				user = null;
+			} else {
+				login(this.userNameTxtBox.value, this.tokenTxtBox.value);
+			}
+		}, new Vector2(new colorData("black"), new colorData("grey")));
+		this.gjLoginBttnLink.link();
+		this.gjLoginCloseBttn = new Sprite(5, new baseObject(true, new nameTag("Close_Bttn", gjLoginTag), new Vector2(15, 15), screen.halfResolution.subV(new Vector2(-140, 90)), Close_UI.getColor(), new Shadow(new Vector2(5, 5), "black", 7)));
+		this.gjLoginCloseBttnLink = new buttonLink(this.gjLoginCloseBttn, null, recCollision, () => {
+			this.deleteGJLogin();
+		}, new Vector2(Close_UI.getColor(), Close_UI_Hover.getColor()));
+		this.gjLoginCloseBttnLink.link();
+	}
+	this.deleteGJLogin = function() {
+		this.gjLoginBttnLink.unlink();
+		this.gjLoginCloseBttnLink.unlink();
+		deleteByNameTag(new nameTag("", gjLoginTag), 2);
+		this.gjLoginBG = null;
+		this.gjLoginBttnTxt = null;
+		this.gjLoginBttnLink = null;
+		this.gjLoginCloseBttnLink = null;
+		if (!window.location.href.includes("gamejolt")) {
+			this.mainLoginBttnLink.link();
+		}
+	}
+	this.spawnMainMenu = function() {
+		this.mainMenuBG = new Sprite(1, new baseObject(true, new nameTag("Background", mainMenuTag), screen.resolution, screen.halfResolution, mainMenuBG.getColor()));
+		this.mainMenuTitle = new Text(2, "Minigame Collection", new baseObject(true, new nameTag("Title", mainMenuTag), new Vector2("60px Arial", false, "center"), new Vector2(screen.halfResolution.x, 40), new colorData("white"), new Shadow(new Vector2(2.5, 2.5), "black", 0)));
+		this.mainMenuLineBattleBttn = new Rectangle(2, new baseObject(true, new nameTag("LineBattleBttn", mainMenuTag), new Vector2(200, 100), screen.halfResolution, new colorData("black"), new Shadow(new Vector2(5, 5), "black", 7)));
+		this.mainMenuLineBattleBttnTxt = new Text(3, "Line Battle", new baseObject(true, new nameTag("LineBattleBttnTxt", mainMenuTag), new Vector2("40px Arial", false, "center"), screen.halfResolution, new colorData("white")));
+		this.mainMenuLineBattleBttnLink = new buttonLink(this.mainMenuLineBattleBttn, this.mainMenuLineBattleBttnTxt, recCollision, () => {
+			if (this.gjLoginBG == null) {
+				this.menuState = 2;
+				this.lbBackground.play();
+			}
+		}, new Vector2(new colorData("black"), new colorData("grey")));
+		this.mainMenuLineBattleBttnLink.link();
+		if (!window.location.href.includes("gamejolt")) {
+			this.mainGjLoginBttn = new Rectangle(2, new baseObject(true, new nameTag("Login_Bttn", mainMenuTag), new Vector2(100, 50), new Vector2(1225, 690), new colorData("black"), new Shadow(new Vector2(0, 0), "white", 5)));
+			this.mainGjLoginTxt = new Text(6, "Login", new baseObject(true, new nameTag("Login_Bttn_Txt", mainMenuTag), new Vector2("20px Arial", false, "center"), new Vector2(1225, 690), new colorData("white")));
+			this.mainLoginBttnLink = new buttonLink(this.mainGjLoginBttn, this.mainGjLoginTxt, recCollision, () => {
+				console.log();
+				if (this.gjLoginBG == null) {
+					this.spawnGJLogin();
+				}
+			}, new Vector2(new colorData("black"), new colorData("grey")));
+			this.mainLoginBttnLink.link();
+		}
+	}
+	this.deleteMainMenu = function() {
+		this.mainMenuLineBattleBttnLink.unlink();
+		if (!window.location.href.includes("gamejolt")) {
+			this.mainLoginBttnLink.unlink();
+		}
+		deleteByNameTag(new nameTag("", mainMenuTag), 2);
+		this.mainMenuBG = null;
+	}
 	//Line Battle Menu
 	//Div
 	this.lbMenu = document.createElement("div");
@@ -485,7 +678,7 @@ function menuManager() {
 	this.lbWinPointsSlider.classList.add("slider");
 	this.lbWinPointsSlider.type = "range";
 	this.lbWinPointsSlider.min = "1";
-	this.lbWinPointsSlider.max = "100";
+	this.lbWinPointsSlider.max = "1000";
 	this.lbWinPointsSlider.value = "10";
 	this.lbWinPointsSlider.style.margin = "0px";
 	this.lbWinPointsSlider.style.position = "fixed";
@@ -514,43 +707,6 @@ function menuManager() {
 	this.lbObjAmountSlider.style.outline = "none";
 	this.lbObjAmountSlider.style.borderRadius = "90px";
 	this.lbMenu.appendChild(this.lbObjAmountSlider);
-	//Line Length
-	this.lbLineLengthTitle = document.createElement("p");
-	this.lbLineLengthTitle.innerHTML = "Line Length: ";
-	this.lbLineLengthTitle.style.textAlign = "center";
-	this.lbLineLengthTitle.style.color = "white";
-	this.lbLineLengthTitle.style.margin = "0px";
-	this.lbLineLengthTitle.style.position = "fixed";
-	this.lbMenu.appendChild(this.lbLineLengthTitle);
-	this.lbLineLengthSlider = document.createElement("input");
-	this.lbLineLengthSlider.classList.add("slider");
-	this.lbLineLengthSlider.type = "range";
-	this.lbLineLengthSlider.min = "10";
-	this.lbLineLengthSlider.max = "100";
-	this.lbLineLengthSlider.value = "50";
-	this.lbLineLengthSlider.style.margin = "0px";
-	this.lbLineLengthSlider.style.position = "fixed";
-	this.lbLineLengthSlider.style.appearance = "none";
-	this.lbLineLengthSlider.style.background = "lightgrey";
-	this.lbLineLengthSlider.style.outline = "none";
-	this.lbLineLengthSlider.style.borderRadius = "90px";
-	this.lbMenu.appendChild(this.lbLineLengthSlider);
-	//Line Fade
-	this.lbLineFadeTitle = document.createElement("p");
-	this.lbLineFadeTitle.innerHTML = "Line Fade: ";
-	this.lbLineFadeTitle.style.textAlign = "center";
-	this.lbLineFadeTitle.style.color = "white";
-	this.lbLineFadeTitle.style.margin = "0px";
-	this.lbLineFadeTitle.style.position = "fixed";
-	this.lbMenu.appendChild(this.lbLineFadeTitle);
-	this.lbLineFadeSlider = document.createElement("input");
-	this.lbLineFadeSlider.type = "checkbox";
-	this.lbLineFadeSlider.checked = true;
-	this.lbLineFadeSlider.style.margin = "0px";
-	this.lbLineFadeSlider.style.position = "fixed";
-	this.lbLineFadeSlider.style.backgroundColor = "grey";
-	this.lbLineFadeSlider.style.outline = "none";
-	this.lbMenu.appendChild(this.lbLineFadeSlider);
 	//Play
 	this.lbPlayBttn = document.createElement("button");
 	this.lbPlayBttn.innerHTML = "Play";
@@ -588,33 +744,18 @@ function menuManager() {
 		this.menuState = 0;
 	};
 	this.lbMenu.appendChild(this.lbBackBttn);
-	const update = () => this.update();
-	this.update = function() {
+	const update = () => {
+		//GJ
+		if (this.gjLoginBttnTxt != null) {
+			if (user != null) {
+				this.gjLoginBttnTxt.text = "Logout";
+			} else {
+				this.gjLoginBttnTxt.text = "Login";
+			}
+		}
 		//Scale/Positioning
-		//main menu
-		this.mainBackground.style.width = screen.getDeviceRes().x+"px";
-		this.mainBackground.style.height = screen.getDeviceRes().y+"px";
-		this.mainBgImage.style.width = this.mainBackground.style.width;
-		this.mainBgImage.style.height = this.mainBackground.style.height;
-		this.menuSize = new Vector2(parseFloat(this.mainBackground.style.width), parseFloat(this.mainBackground.style.height));
+		this.menuSize = new Vector2(screen.getDeviceRes().x, screen.getDeviceRes().y);
 		let halfSize = this.menuSize.div(2);
-		this.mainTitle.style.left = (halfSize.x-(this.mainTitle.getBoundingClientRect().width/2))+"px";
-		this.mainTitle.style.fontSize = (60*screen.getScale().x)+"px";
-		this.tankWarBttn.style.left = (halfSize.x-(this.tankWarBttn.getBoundingClientRect().width/2))+"px";
-		this.tankWarBttn.style.top = ((200*screen.getScale().y)-(this.tankWarBttn.getBoundingClientRect().height/2))+"px";
-		this.tankWarBttn.style.width = (300*screen.getScale().x)+"px";
-		this.tankWarBttn.style.height = (100*screen.getScale().y)+"px";
-		this.tankWarBttn.style.fontSize = (40*screen.getScale().x)+"px";
-		this.lineBattleBttn.style.left = (halfSize.x-(this.lineBattleBttn.getBoundingClientRect().width/2))+"px";
-		this.lineBattleBttn.style.top = parseFloat(this.tankWarBttn.style.top)+100+"px";
-		this.lineBattleBttn.style.width = (300*screen.getScale().x)+"px";
-		this.lineBattleBttn.style.height = (100*screen.getScale().y)+"px";
-		this.lineBattleBttn.style.fontSize = (40*screen.getScale().x)+"px";
-		this.ballBouncersBttn.style.left = (halfSize.x-(this.ballBouncersBttn.getBoundingClientRect().width/2))+"px";
-		this.ballBouncersBttn.style.top = parseFloat(this.lineBattleBttn.style.top)+100+"px";
-		this.ballBouncersBttn.style.width = (300*screen.getScale().x)+"px";
-		this.ballBouncersBttn.style.height = (100*screen.getScale().y)+"px";
-		this.ballBouncersBttn.style.fontSize = (40*screen.getScale().x)+"px";
 		//lb menu
 		this.lbBackground.style.top = (halfSize.y-(this.lbBackground.getBoundingClientRect().height/2))+"px";
 		this.lbBackground.style.left = (halfSize.x-(this.lbBackground.getBoundingClientRect().width/2))+"px";
@@ -666,24 +807,6 @@ function menuManager() {
 		this.lbObjAmountSlider.style.width = (300*screen.getScale().x)+"px";
 		this.lbObjAmountSlider.style.height = (20*screen.getScale().y)+"px";
 		gameModeData[1].settings.object_amount = parseInt(this.lbObjAmountSlider.value);
-		this.lbLineLengthTitle.style.top = parseFloat(this.lbLineLengthSlider.style.top)-(40*screen.getScale().y)+"px";
-		this.lbLineLengthTitle.style.left = (halfSize.x-(this.lbLineLengthTitle.getBoundingClientRect().width/2))+"px";
-		this.lbLineLengthTitle.style.fontSize = (30*screen.getScale().x)+"px";
-		this.lbLineLengthTitle.innerHTML = "Line Length: "+gameModeData[1].settings.line_length;
-		this.lbLineLengthSlider.style.top = (420*screen.getScale().y)+"px";
-		this.lbLineLengthSlider.style.left = (halfSize.x-(this.lbLineLengthSlider.getBoundingClientRect().width/2))+"px";
-		this.lbLineLengthSlider.style.width = (300*screen.getScale().x)+"px";
-		this.lbLineLengthSlider.style.height = (20*screen.getScale().y)+"px";
-		gameModeData[1].settings.line_length = parseInt(this.lbLineLengthSlider.value);
-		this.lbLineFadeTitle.style.top = parseFloat(this.lbLineFadeSlider.style.top)-(40*screen.getScale().y)+"px";
-		this.lbLineFadeTitle.style.left = (halfSize.x-(this.lbLineFadeTitle.getBoundingClientRect().width/2))+"px";
-		this.lbLineFadeTitle.style.fontSize = (30*screen.getScale().x)+"px";
-		this.lbLineFadeTitle.innerHTML = "Line Fade: "+gameModeData[1].settings.line_fade.toString().toUpperCase();
-		this.lbLineFadeSlider.style.top = (480*screen.getScale().y)+"px";
-		this.lbLineFadeSlider.style.left = (halfSize.x-(this.lbLineFadeSlider.getBoundingClientRect().width/2))+"px";
-		this.lbLineFadeSlider.style.width = (30*screen.getScale().x)+"px";
-		this.lbLineFadeSlider.style.height = (30*screen.getScale().y)+"px";
-		gameModeData[1].settings.line_fade = this.lbLineFadeSlider.checked;
 		this.lbPlayBttn.style.left = (halfSize.x-(this.lbPlayBttn.getBoundingClientRect().width/2))+"px";
 		this.lbPlayBttn.style.top = (520*screen.getScale().y)+"px";
 		this.lbPlayBttn.style.width = (300*screen.getScale().x)+"px";
@@ -696,25 +819,35 @@ function menuManager() {
 		this.lbBackBttn.style.fontSize = (40*screen.getScale().x)+"px";
 		//State
 		if (gameData.gameMode != -1) {
-			this.mainBackground.style.display = "none";
+			if (this.mainMenuBG != null) {
+				this.deleteMainMenu();
+			}
 			this.lbMenu.style.display = "none";
 		} else {
 			switch (this.menuState) {
 				case 0:
-					this.mainBackground.style.display = "block";
+					if (this.mainMenuBG == null) {
+						this.spawnMainMenu();
+					}
 					this.lbMenu.style.display = "none";
 				break;
 				case 1:
-					this.mainBackground.style.display = "none";
+					if (this.mainMenuBG != null) {
+						this.deleteMainMenu();
+					}
 					this.lbMenu.style.display = "none";
 				break;
 				case 2:
+					if (this.mainMenuBG != null) {
+						this.deleteMainMenu();
+					}
 					this.lbMenu.style.display = "block";
-					this.mainBackground.style.display = "none";
 				break;
 				case 3:
+					if (this.mainMenuBG != null) {
+						this.deleteMainMenu();
+					}
 					this.lbMenu.style.display = "none";
-					this.mainBackground.style.display = "none";
 				break;
 			}
 		}
@@ -917,7 +1050,7 @@ function lineBattleGM() {
 				"color":new colorData("darkblue"),
 				"size":new Vector2(5, 5),
 				"points":new Vector2(1, 2, "+", "/"),
-				"description":"Halfs your opponents points and gives you 1 point"
+				"description":"Halves your opponents points and gives you 1 point"
 			},
 			"length":5
 		}
@@ -1011,9 +1144,11 @@ function lineBattleGM() {
 			newPlayer.lineNameTag = thisLineNameTag.duplicate();
 			newPlayer.drawLine = () => {
 				let position = new Vector2(newPlayer.base.position.x, newPlayer.base.position.y, newPlayer.base.position.r, newPlayer.base.position.o)
-				let linePiece = new Rectangle(4, new baseObject(true, newPlayer.lineNameTag.duplicate(), data.line_size, position, data.player_image[i].color.duplicate()));
+				let linePiece = new Rectangle(4, new baseObject(false, newPlayer.lineNameTag.duplicate(), data.line_size, position, data.
+				player_image[i].color.duplicate()));
 				linePiece.time = 0;
-				newPlayer.linePieces.push(linePiece);
+				newPlayer.linePieces.push(linePiece.duplicate());
+				addObject(newPlayer.linePieces[newPlayer.linePieces.length-1]);
 			};
 		}
 		setTimeout(() => {
@@ -1311,13 +1446,15 @@ function lineBattleGM() {
 									player2.linePieces.forEach((l, i) => {
 										if (cirPolyCollision(player, l)) {
 											if (!this.data.pointCollector) {
-												this.data.end_of_match = true;
-												player.dead = true;
+												if (l.base.color.alpha >= gameModeData[1].settings.line_alpha_cutoff) {
+													this.data.end_of_match = true;
+													player.dead = true;
+												}
 											} else {
 												player.base.position.s = -player.base.position.s;
-												l.marked = true;
-												deleteByMarked();
+												l.base.marked = true;
 												player2.linePieces.splice(i, 1);
+												deleteByMarked();
 											}
 										}
 									});
@@ -1334,7 +1471,7 @@ function lineBattleGM() {
 						let lineLength = gameModeData[1].settings.line_length;
 						let lastPiece = line[line.length-1];
 						//Length limiter
-						if (line.length == lineLength || this.data.end_of_match) {
+						if (line.length >= lineLength || this.data.end_of_match) {
 							layer[line[0].layerNumber].splice(getByColorData(line[0].base.color, 0, true), 1);
 							loaded = false;
 							line.splice(0, 1);
@@ -1348,11 +1485,9 @@ function lineBattleGM() {
 							player.drawLine();
 						}
 						//Fade line
-						let fadeOffset = gameModeData[1].settings.line_fade_offset;
 						if (gameModeData[1].settings.line_fade) {
 							line.forEach((l, index) => {
-								let alpha = index/lineLength;
-								l.base.color.alpha = alpha+fadeOffset;
+								l.base.color.alpha = index/lineLength;
 							});
 						} else {
 							line.forEach((l, index) => {
@@ -1376,6 +1511,7 @@ function lineBattleGM() {
 const BLANK_MAP = new Map();
 function Map(id="#", backgroundColor="black", spawns=[new Vector2(),new Vector2(),new Vector2(),new Vector2()], objects=[], script=null, modded=false) {
 	this.id = id; //id for map (so you can have scripts for certain maps)
+	this.originalBGColor = backgroundColor;
 	this.backgroundColor = backgroundColor; //canvas color
 	this.spawns = spawns; //Array of vectors | 4 spawns | x/y/r | use r to set spawn rotation
 	this.objects = objects; //Array of objects

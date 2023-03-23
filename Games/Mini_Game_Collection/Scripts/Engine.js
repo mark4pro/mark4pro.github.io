@@ -5,7 +5,16 @@ const engineSettings = {
 		"Show_FPS_Counter":false,
 		"Show_Delta_Time":false,
 		"Show_Debug_Cursor":false
-	}
+	},
+	"Settings_Menu":{
+		"Image_Smoothing":true,
+		"Shadows":true,
+		"Debug":true,
+		"Show_FPS":true,
+		"Show_DELTA":true,
+		"Show_Debug_Cursor":true
+	},
+	"Addons":[]
 };
 
 let isPaused = false;
@@ -14,6 +23,22 @@ let isPaused = false;
 const audioPath = "./Audio/";
 const imagePath = "./Images/";
 const videoPath = "./Videos/";
+const scriptPath = "./Scripts/";
+const addonPath = scriptPath+"Addons/";
+
+//Loads addons
+const loadAddons = () => {
+	engineSettings.Addons.forEach((t) => {
+		let check = document.getElementById(t);
+		if (check == undefined) {
+			let script = document.createElement('script');
+			script.id = t;
+			script.src = addonPath+t+".js";
+			document.body.appendChild(script);
+		}
+	});
+}
+loadAddons();
 
 //Engine resources
 let Close_UI = new imageData("close_ui", imagePath+"Close_Icon.png", new Vector2(64, 64));
@@ -24,32 +49,39 @@ let Settings_Icon = new imageData("settings_icon", imagePath+"Settings.png", new
 const modVars = new globalVars();
 
 function globalVars() {
-	this.vars = [];
-	this.add = function(value=null, name="", id="") {
-		let check = this.vars.filter((v) => (v.name == name && v.id == id));
-		if (check.length == 0) {
-			this.vars.push({"value":value, "name":name, "id":id});
+	this.modVarIndex = {};
+	this.deleteMod = (id="") => {
+		delete this.modVarIndex[id];
+	}
+	this.addMod = (id="") => {
+		if (this.modVarIndex[id] == undefined) {
+			this.modVarIndex[id] = {};
+		} else {
+			this.deleteMod(id);
+			this.modVarIndex[id] = {};
 		}
 	}
-	this.delete = function(name="", id="") {
-		let check = this.vars.filter((v) => (v.name == name && v.id == id));
-		if (check.length != 0) {
-			this.vars.forEach((v, i) => {
-				if (v.name == name && v.id == id) {
-					this.vars.splice(i, 1);
-				}
-			});
+	this.addVar = (id="", name="", value="") => {
+		if (this.modVarIndex[id] != undefined) {
+			this.modVarIndex[id][name] = value;
+		} else {
+			this.addMod(id);
+			this.modVarIndex[id][name] = value;
 		}
 	}
-	this.deleteById = function(id="") {
-		this.vars = this.vars.filter((v) => (v.id != id));
+	this.deleteVar = (id="", name="") => {
+		if (this.modVarIndex[id] != undefined) {
+			delete this.modVarIndex[id][name];
+		}
 	}
-	this.get = function(name="", id="") {
-		return this.vars.filter((v) => (v.name == name && v.id == id))[0].value;
-	}
-	this.set = function(value=null, name="", id="") {
-		this.vars.filter((v) => (v.name == name && v.id == id))[0].value = value;
-	}
+}
+
+const getModVar = (id="", name="") => {
+	return modVars.modVarIndex[id][name];
+}
+
+const setModVar = (id="", name="", value="") => {
+	modVars.modVarIndex[id][name] = value;
 }
 
 //Checks number to see if it's even or odd
@@ -249,6 +281,7 @@ function Vector2(x=0, y=0, r=0, o=0, s=0) {
 	this.duplicate = function() {
 		return new Vector2(this.x, this.y, this.r, this.o, this.s);
 	}
+	this.dup = this.duplicate;
 	//Compare vectors
 	this.same = function(vector2=ZERO) {
 		let result = false;
@@ -280,6 +313,7 @@ function Vector2(x=0, y=0, r=0, o=0, s=0) {
 		return new Vector2(this.x-vector2.x, this.y-vector2.y);
 	}
 	this.neg = function(place="x") { //"x" or "y"
+		place = place.toLowerCase();
 		if (place == "x") {
 			return new Vector2(-this.x, this.y);
 		}
@@ -498,19 +532,13 @@ function deleteUpdate(mode=1, op1, op2) {
 	}
 	switch (mode) {
 		case 0:
-			updateArray = updateArray.filter((u) => {
-				return !(u.id == op1 && u.tag == op2);
-			});
+			updateArray = updateArray.filter((u) => !(u.id == op1 && u.tag == op2));
 		break;
 		case 1:
-			updateArray = updateArray.filter((u) => {
-				return !(u.id == op1);
-			});
+			updateArray = updateArray.filter((u) => !(u.id == op1));
 		break;
 		case 2:
-			updateArray = updateArray.filter((u) => {
-				return !(u.tag == op1);
-			});
+			updateArray = updateArray.filter((u) => !(u.tag == op1));
 		break;
 	}
 }
@@ -540,6 +568,7 @@ const layer = {
 	8:[],
 	"length":8
 };
+
 let delta = 0;
 function Updater() {
 	FPS.updateFPS();
@@ -572,6 +601,7 @@ function Shadow(offset=ZERO, color="", blur=0) {
 	this.duplicate = function() {
 		return new Shadow(this.offset, this.color, this.blur);
 	}
+	this.dup = this.duplicate;
 }
 
 //NameTag
@@ -624,6 +654,7 @@ function nameTag(name="",tag="") {
 	this.duplicate = function() {
 		return new nameTag(this.name, this.tag);
 	}
+	this.dup = this.duplicate;
 }
 
 //Line data
@@ -648,6 +679,7 @@ function lineData(stroked=false, cap=0, width=1, dashOffset=0, pattern=[]) {
 	this.duplicate = function() {
 		return new lineData(this.stroked, this.cap, this.width, this.dashOffset, this.pattern);
 	}
+	this.dup = this.duplicate;
 }
 
 //Color data
@@ -688,6 +720,7 @@ function colorData(color="white", alpha=1, comp=0) {
 	this.duplicate = function() {
 		return new colorData(this.color, this.alpha, this.compMode);
 	}
+	this.dup = this.duplicate;
 	this.same = function(data, mode=0) {
 		if (mode < 0) {
 			mode = 0;
@@ -767,6 +800,7 @@ function gradientData(type=0, start=new Vector2(), end=new Vector2(), colors=[])
 	this.duplicate = function() {
 		return new gradientData(this.type, this.start, this.end, this.colors);
 	}
+	this.dup = this.duplicate;
 }
 
 //Image data
@@ -789,6 +823,29 @@ function imageData(id="", src="", size=new Vector2()) {
 	}
 }
 
+//Collision data
+/**
+	thisTag- the objects tag for others to search for
+	collideTagList- the list of tags to collide with
+	collisionType- the type of object it will rep in the collision function 
+	   -rec
+	   -cir
+	   -poly
+	   
+	**Design for collision system**
+	(runs for objects that have a collideTagList instead of null)
+	run a web worker to gather all objects with compatible tags in a 5-10 distance to the object
+	sort by closest distance
+	check collision types to determind the best collision function
+	check for collision and resolve
+	**End**
+**/
+function collisionData(thisTag=null, collideTagList=null, collisionType="rec") {
+	this.thisTag = thisTag;
+	this.collideTagList = collideTagList;
+	this.collisionType = collisionType;
+}
+
 //Base for objects
 const EMPTY_OBJECT = new baseObject();
 function baseObject(autoAdd=true, nameTag=BLANK_NAMETAG, size=ZERO, position=ZERO, color=DEFAULT_COLOR, shadow=NO_SHADOW, rotOrigin=null) {
@@ -799,20 +856,26 @@ function baseObject(autoAdd=true, nameTag=BLANK_NAMETAG, size=ZERO, position=ZER
 	this.color = color;
 	this.shadow = shadow;
 	this.rotOrigin = rotOrigin;
-	this.startPosition = position;
+	this.startPosition = position.duplicate();
 	this.marked = false;
+	this.overridePositionUpdateFunction = false; //Always runs the update position function even when the speed is 0 if true;
 	if (this.rotOrigin == null) {
 		this.rotOrigin = this.position;
 	}
 	this.updatePosition = function() {
 		if (!isPaused) {
-			this.position.x += this.position.s*Math.sin(this.position.r+this.position.o)*delta;
-			this.position.y -= this.position.s*Math.cos(this.position.r+this.position.o)*delta;
+			let velocity = new Vector2(this.position.s*Math.sin(this.position.r+this.position.o)*delta, this.position.s*Math.cos(this.position.r+this.position.o)*delta);
+			this.position.x += velocity.x;
+			this.position.y -= velocity.y;
 		}
+	}
+	this.destroy = function() {
+		deleteByNameTag(this.nameTag);
 	}
 	this.duplicate = function() {
 		return new baseObject(this.autoAdd, this.nameTag.duplicate(), this.size.duplicate(), this.position.duplicate(), this.color.duplicate(), this.shadow.duplicate(), this.rotOrigin.duplicate());
 	}
+	this.dup = this.duplicate;
 }
 
 //Sets up object
@@ -841,7 +904,7 @@ function setupObject(base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 }
 
 //Rectangle class
-const BLANK_OBJECT = new Rectangle(0, new baseObject(BLANK_NAMETAG, new Vector2(10, 10), screen.halfResolution));
+const BLANK_OBJECT = new Rectangle(0, new baseObject(false));
 function Rectangle(layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 	this.layerNumber = layerNumber;
 	this.base = base;
@@ -854,6 +917,7 @@ function Rectangle(layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 	this.duplicate = function() {
 		return new Rectangle(this.layerNumber, this.base.duplicate(), this.line.duplicate());
 	}
+	this.dup = this.duplicate;
 	this.draw = function() {
 		setupObject(this.base, this.line);
 		points = [
@@ -888,6 +952,7 @@ function Circle(layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 	this.duplicate = function() {
 		return new Circle(this.layerNumber, this.base.duplicate(), this.line.duplicate());
 	}
+	this.dup = this.duplicate;
 	this.draw = function() {
 		setupObject(this.base, this.line);
 		ctx.beginPath();
@@ -917,6 +982,7 @@ function Light(layerNumber=1, base=EMPTY_OBJECT, lightIntensity=new Vector2(), l
 	this.duplicate = function() {
 		return new Light(this.layerNumber, this.base.duplicate(), this.lightIntensity.duplicate(), this.line.duplicate());
 	}
+	this.dup = this.duplicate;
 	this.draw = function() {
 		setupObject(this.base, this.line);
 		ctx.beginPath();
@@ -955,6 +1021,7 @@ function Sprite(layerNumber=1, base=EMPTY_OBJECT, animator=null) {
 	let sprite = document.getElementById(this.base.color.color);
 	this.dPosition = new Vector2();
 	this.dSize = new Vector2(sprite.width, sprite.height);
+	this.scale = new Vector2(1, 1);
 	let points = [];
 	this.getPoints = function() {
 		return points;
@@ -966,6 +1033,7 @@ function Sprite(layerNumber=1, base=EMPTY_OBJECT, animator=null) {
 			return new Sprite(this.layerNumber, this.base.duplicate(), null);
 		}
 	}
+	this.dup = this.duplicate;
 	this.draw = function() {
 		setupObject(this.base, DEFAULT_LINE);
 		let newSprite = document.getElementById(this.base.color.color);
@@ -988,6 +1056,7 @@ function Sprite(layerNumber=1, base=EMPTY_OBJECT, animator=null) {
 		ctx.save();
 		ctx.translate(pos.x, pos.y);
 		ctx.rotate(this.base.position.r);
+		ctx.scale(this.scale.x, this.scale.y);
 		ctx.drawImage(sprite, this.dPosition.x, this.dPosition.y, this.dSize.x, this.dSize.y, this.base.size.x/-2, this.base.size.y/-2, this.base.size.x, this.base.size.y);
 		ctx.restore();
 	}
@@ -995,6 +1064,35 @@ function Sprite(layerNumber=1, base=EMPTY_OBJECT, animator=null) {
 		layer[this.layerNumber].push(this);
 		loaded = false;
 	}
+}
+
+//Sprite controller
+function spriteMind(clipPos=new Vector2(), clipSize=null) {
+	this.clipPos = clipPos;
+	this.clipSize = clipSize;
+	this.object = null;
+	this.setObject = function(object=null) {
+		this.object = object;
+		if (this.clipSize == null) {
+			this.clipSize = this.object.dSize;
+		}
+	}
+	this.setClipPos = function(newClipPos=new Vector2()) {
+		this.clipPos = newClipPos;
+	}
+	this.setClipSize = function(newClipSize=new Vector2()) {
+		this.clipSize = newClipSize;
+	}
+	this.update = function() {
+		if (this.object != null) {
+			this.object.dPosition = this.clipPos;
+			this.object.dSize = this.clipSize;
+		}
+	}
+	this.duplicate = function() {
+		return new spriteMind(this.clipPos, this.clipSize);
+	}
+	this.dup = this.duplicate;
 }
 
 //Sprite animator
@@ -1044,6 +1142,7 @@ function spriteAnimator(image=null, size=ZERO, speed=1, loop=false) {
 	this.duplicate = function() {
 		return new spriteAnimator(this.image, this.size.duplicate(), this.speed, this.loop);
 	}
+	this.dup = this.duplicate;
 }
 
 //Text class
@@ -1091,6 +1190,8 @@ function Text(layerNumber=1, text="", base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 	}
 }
 
+document.body.allow = "clipboard-read; clipboard-write";
+
 function TextBox(layerNumber=1, font="30px Arial", textColor="white", base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 	this.layerNumber = layerNumber;
 	this.font = font;
@@ -1117,28 +1218,42 @@ function TextBox(layerNumber=1, font="30px Arial", textColor="white", base=EMPTY
 	let scrollWaitTime = 0;
 	let scrollIndex = 0;
 	
+	this.isSelected = function() {
+		return selected;
+	}
+	
 	this.duplicate = function() {
 		return new TextBox(this.layerNumber, this.font, this.textColor, this.base.duplicate(), this.line.duplicate());
 	}
+	this.dup = this.duplicate;
+	
+	//Keybuffer
+	let thisKeyBuffer = [];
+	let thisPaste = false;
 	
 	//Keyboard controls
 	document.addEventListener("keydown",(e) => {
+		let check = thisKeyBuffer.every((i) => i.toUpperCase() != e.key.toUpperCase());
 		if (selected) {
-			if (e.key.length == 1) {
-				this.value = this.value+e.key;
-				this.reCalWidth();
-				console.log(calWidth);
+			if (check) {
+				thisKeyBuffer.push(e.key);
 			}
-			if (e.key.toLowerCase() == "space") {
-				this.value = this.value+" ";
-				this.reCalWidth();
-			}
-			if (e.key.toLowerCase() == "backspace") {
-				this.value = this.value.slice(0, this.value.length-1);
-				if (calWidth+2.5 < this.base.size.x-7.5 && scrollIndexReal != 0) {
-					scrollIndexReal--;
+			if (!thisKeyBuffer.includes("Control")) {
+				if (e.key.length == 1) {
+					this.value = this.value+e.key;
+					this.reCalWidth();
 				}
-				this.reCalWidth();
+				if (e.key.toLowerCase() == "space") {
+					this.value = this.value+" ";
+					this.reCalWidth();
+				}
+				if (e.key.toLowerCase() == "backspace") {
+					this.value = this.value.slice(0, this.value.length-1);
+					if (calWidth+2.5 < this.base.size.x-7.5 && scrollIndexReal != 0) {
+						scrollIndexReal--;
+					}
+					this.reCalWidth();
+				}
 			}
 			if (e.key.toLowerCase() == "enter") {
 				scrollIndexReal = 0;
@@ -1146,6 +1261,14 @@ function TextBox(layerNumber=1, font="30px Arial", textColor="white", base=EMPTY
 			}
 		}
 	}, false);	
+	
+	document.addEventListener("keyup",(e) => {
+		thisKeyBuffer.forEach((o, i) => {
+			if (o.toUpperCase() == e.key.toUpperCase()) {
+				thisKeyBuffer.splice(i, 1);
+			}
+		});
+	}, false);
 	
 	this.draw = function() {
 		setupObject(this.base, this.line);
@@ -1175,6 +1298,7 @@ function TextBox(layerNumber=1, font="30px Arial", textColor="white", base=EMPTY
 		ctx.fillStyle = this.textColor;
 		if (!selected) {
 			ctx.fillText(text, 0, 0);
+			thisKeyBuffer = [];
 		} else {
 			ctx.fillText("|"+text, 0, 0);
 		}
@@ -1229,11 +1353,27 @@ function TextBox(layerNumber=1, font="30px Arial", textColor="white", base=EMPTY
 			scrollState = 0;
 			selected = true;
 			this.reCalWidth();
-			console.log("test");
 		}
 		if (selected && mousePressed[0] && !recCollision(Cursor.cursor, this)) {
 			scrollIndex = 0;
 			selected = false;
+		}
+		
+		//Paste
+		if (thisKeyBuffer.includes("Control") && thisKeyBuffer.includes("v", 1)) {
+			thisPaste = true;
+			pasteTxt = true;
+		} else {
+			thisPaste = false;
+		}
+		if (selected && thisPaste) {
+			if (navigator.clipboard) {
+				setTimeout(async () => this.value = this.value+await navigator.clipboard.readText(), 0);
+			}
+			thisKeyBuffer = [];
+		}
+		if (selected && thisKeyBuffer.length == 0) {
+			this.reCalWidth();
 		}
 	}
 	this.reCalWidth = function() {
@@ -1274,9 +1414,7 @@ function deleteByNameTag(nameTag=BLANK_NAMETAG, mode=0, include=false) {
 //Helper function to delete objects by nameTag 
 function deleteByMarked() {
 	for (let i=1;i<layer.length;i++) {
-		layer[i] = layer[i].filter((o) => {
-			return !o.marked;
-		});
+		layer[i] = layer[i].filter((o) => !o.base.marked);
 	}
 	loaded = false;
 }
@@ -1394,7 +1532,14 @@ function getByColorData(colorData=NO_COLOR, colorMode=0, returnIndex=false, getM
 //Renderer
 function Renderer() {
 	ctx.clearRect(0, 0, screen.resolution.x, screen.resolution.y);
-	objectArray.forEach((i) => {i.draw();i.base.updatePosition();});
+	objectArray.forEach((i) => {
+		if (typeof i.base.size.x == "string" || (i.base.position.x-(i.base.size.x/2) <= screen.resolution.x && i.base.position.x+(i.base.size.x/2) >= 0 && i.base.position.y-(i.base.size.y/2) <= screen.resolution.y && i.base.position.y+(i.base.size.y/2) >= 0)) {
+			i.draw();
+		}
+		if (i.base.position.s != 0 || i.base.overridePositionUpdateFunction) {
+			i.base.updatePosition();
+		}
+	});
 }
 
 //collisions
@@ -1524,6 +1669,7 @@ function playerController(autoAdd=true, id="", object=null, maxSpeed=5, accel=ne
 	this.oldMoveDir = new Vector2();
 	this.moveDir = new Vector2(); //x- left/right, y- up/down | 1/-1
 	this.lockDir = new Vector2();
+	this.touchEdge = new Vector2(false, false);
 	const update = () => this.update();
 	this.update = function() {
 		if (this.moveDir.x != 0) {
@@ -1557,9 +1703,11 @@ function playerController(autoAdd=true, id="", object=null, maxSpeed=5, accel=ne
 					if (this.currentSpeed.x > -this.maxSpeed) {
 						this.currentSpeed.x -= this.accel.x;
 					}
+					this.touchEdge.x = false;
 				} else {
 					this.object.base.position.x = this.horizontalEdges.x+(this.object.base.size.x/2);
 					this.currentSpeed.x = 0;
+					this.touchEdge.x = true;
 				}
 			break;
 			case 1:
@@ -1570,12 +1718,15 @@ function playerController(autoAdd=true, id="", object=null, maxSpeed=5, accel=ne
 					if (this.currentSpeed.x < this.maxSpeed) {
 						this.currentSpeed.x += this.accel.x;
 					}
+					this.touchEdge.x = false;
 				} else {
 					this.object.base.position.x = Math.abs(this.horizontalEdges.y-this.object.base.size.x/2);
 					this.currentSpeed.x = 0;
+					this.touchEdge.x = true;
 				}
 			break;
 			case 0:
+				this.touchEdge.x = false;
 				if (this.object.base.position.x-(this.object.base.size.x/2) > this.horizontalEdges.x && this.object.base.position.x+(this.object.base.size.x/2) < this.horizontalEdges.y) {
 					if (this.oldMoveDir.x == -1) {
 						this.currentSpeed.x += this.accel.y;
@@ -1610,9 +1761,11 @@ function playerController(autoAdd=true, id="", object=null, maxSpeed=5, accel=ne
 					if (this.currentSpeed.y > -this.maxSpeed) {
 						this.currentSpeed.y -= this.accel.x;
 					}
+					this.touchEdge.y = false;
 				} else {
 					this.object.base.position.y = this.verticalEdges.x+(this.object.base.size.y/2);
 					this.currentSpeed.y = 0;
+					this.touchEdge.y = true;
 				}
 			break;
 			case 1:
@@ -1623,12 +1776,15 @@ function playerController(autoAdd=true, id="", object=null, maxSpeed=5, accel=ne
 					if (this.currentSpeed.y < this.maxSpeed) {
 						this.currentSpeed.y += this.accel.x;
 					}
+					this.touchEdge.y = false;
 				} else {
 					this.object.base.position.y = Math.abs(this.verticalEdges.y-this.object.base.size.y/2);
 					this.currentSpeed.y = 0;
+					this.touchEdge.y = true;
 				}
 			break;
 			case 0:
+				this.touchEdge.y = false;
 				if (this.object.base.position.y-(this.object.base.size.y/2) > this.verticalEdges.x && this.object.base.position.y+(this.object.base.size.y/2) < this.verticalEdges.y) {
 					if (this.oldMoveDir.y == -1) {
 						this.currentSpeed.y += this.accel.y;
@@ -1694,7 +1850,19 @@ function mod(path="", id="") {
 		domElements.forEach((e) => {
 			e.remove();
 		});
-		modVars.deleteById(this.id);
+		try {
+			eval(this.id+"_unload()");
+		} catch (e) {}
+		try {
+			eval(this.id+"_Unload()");
+		} catch (e) {}
+		try {
+			getModVar(this.id, "unload")();
+		} catch (e) {}
+		try {
+			getModVar(this.id, "Unload")();
+		} catch (e) {}
+		modVars.deleteMod(this.id);
 		let script = document.getElementById(this.id);
 		let scriptV = document.getElementById(this.id+"V");
 		ModLoader.modDiv.removeChild(script);
@@ -2018,7 +2186,7 @@ function keyBinder() {
 		this.menu.style.left = (screen.getHalfDeviceRes().x)-((this.menuSize.x/2)*screen.getScale().x)+"px";
 		this.title.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
 		this.keySep.style.width = this.menu.style.width;
-	this.keySep.style.height = (parseFloat(this.menu.style.height)-((40*this.menuScale)*screen.getScale().y))+"px";
+		this.keySep.style.height = (parseFloat(this.menu.style.height)-((40*this.menuScale)*screen.getScale().y))+"px";
 		this.keySep.style.top = (parseFloat(this.menu.style.top)+((40*this.menuScale)*screen.getScale().y))+"px";
 		this.keySep.style.left = this.menu.style.left;
 		this.closeBttn.style.marginRight = ((5*this.menuScale)*screen.getScale().x)+"px";
@@ -2214,6 +2382,384 @@ document.addEventListener("keyup",(e) => {
 	}
 }, false);
 
+//Options menu
+const OptionsMenu = new optionsMenu();
+
+function optionsMenu() {
+	this.active = false;
+	this.menuSize = new Vector2(800, 600);
+	this.menuScale = 1;
+	//Options menu
+	this.menu = document.createElement('div');
+	this.menu.style.backgroundColor = "grey";
+	this.menu.style.zIndex = "3";
+	this.menu.style.marginLeft = "0px";
+	this.menu.style.marginRight = "0px";
+	this.menu.style.marginTop = "0px";
+	this.menu.style.marginBottom = "0px";
+	this.menu.style.display = "none";
+	this.menu.style.position = "fixed";
+	this.menu.style.boxShadow = "5px 5px darkgrey";
+	document.body.appendChild(this.menu);
+	//Title
+	this.title = document.createElement('h1');
+	this.title.innerHTML = "Options Menu";
+	this.title.style.textAlign = "center";
+	this.title.style.color = "white";
+	this.title.style.marginLeft = "0px";
+	this.title.style.marginRight = "0px";
+	this.title.style.marginTop = "0px";
+	this.title.style.marginBottom = "0px";
+	this.menu.appendChild(this.title);
+	//Close button
+	this.closeBttn = document.createElement('input');
+	this.closeBttn.type = "image";
+	this.closeBttn.src = Close_UI.getSrc();
+	this.closeBttn.style.width = "32px";
+	this.closeBttn.style.height = "32px";
+	this.closeBttn.style.marginLeft = "0px";
+	this.closeBttn.style.marginRight = "5px";
+	this.closeBttn.style.marginTop = "5px";
+	this.closeBttn.style.marginBottom = "0px";
+	this.closeBttn.style.position = "absolute";
+	this.closeBttn.style.top = "0px";
+	this.closeBttn.style.right = "0px";
+	this.closeBttn.onmouseover = () => {
+		this.closeBttn.src = Close_UI_Hover.getSrc();
+	};
+	this.closeBttn.onmouseleave = () => {
+		this.closeBttn.src = Close_UI.getSrc();
+	};
+	this.closeBttn.onclick = () => {
+		this.hide();
+	};
+	this.menu.appendChild(this.closeBttn);
+	//Options visual div
+	this.optionsSep = document.createElement('div');
+	this.optionsSep.style.backgroundColor = "lightgrey";
+	this.optionsSep.style.marginLeft = "0px";
+	this.optionsSep.style.marginRight = "0px";
+	this.optionsSep.style.marginTop = "0px";
+	this.optionsSep.style.marginBottom = "0px";
+	this.optionsSep.style.width = "100%";
+	this.optionsSep.style.height = "80%";
+	this.optionsSep.style.overflowY = "scroll";
+	this.optionsSep.style.overflowX = "none";
+	this.optionsSep.style.position = "fixed";
+	this.menu.appendChild(this.optionsSep);
+	//GFX title
+	this.gfxDiv = document.createElement('div');
+	this.gfxDiv.style.marginLeft = "0px";
+	this.gfxDiv.style.marginRight = "0px";
+	this.gfxDiv.style.marginTop = "0px";
+	this.gfxDiv.style.marginBottom = "0px";
+	this.gfxDiv.style.width = "100%";
+	this.gfxDiv.style.height = "50px";
+	this.gfxDiv.style.backgroundColor = "darkgrey";
+	this.optionsSep.appendChild(this.gfxDiv);
+	this.gfxTxt = document.createElement('p');
+	this.gfxTxt.innerHTML = "GFX";
+	this.gfxTxt.style.fontSize = "35px";
+	this.gfxTxt.style.marginLeft = "0px";
+	this.gfxTxt.style.marginRight = "0px";
+	this.gfxTxt.style.marginTop = "0px";
+	this.gfxTxt.style.marginBottom = "0px";
+	this.gfxTxt.style.width = "100%";
+	this.gfxTxt.style.height = "100%";
+	this.gfxTxt.style.textAlign = "center";
+	this.gfxTxt.style.color = "white";
+	this.gfxDiv.appendChild(this.gfxTxt);
+	//Image smoothing option
+	this.imageSmoothingDiv = document.createElement('div');
+	this.imageSmoothingDiv.style.marginLeft = "0px";
+	this.imageSmoothingDiv.style.marginRight = "0px";
+	this.imageSmoothingDiv.style.marginTop = "0px";
+	this.imageSmoothingDiv.style.marginBottom = "0px";
+	this.imageSmoothingDiv.style.width = "100%";
+	this.imageSmoothingDiv.style.height = "50px";
+	this.imageSmoothingDiv.style.backgroundColor = "darkgrey";
+	this.optionsSep.appendChild(this.imageSmoothingDiv);
+	this.imageSmoothingTxt = document.createElement('p');
+	this.imageSmoothingTxt.innerHTML = "Image Smoothing:";
+	this.imageSmoothingTxt.style.fontSize = "35px";
+	this.imageSmoothingTxt.style.marginLeft = "0px";
+	this.imageSmoothingTxt.style.marginRight = "0px";
+	this.imageSmoothingTxt.style.marginTop = "0px";
+	this.imageSmoothingTxt.style.marginBottom = "0px";
+	this.imageSmoothingTxt.style.width = "100%";
+	this.imageSmoothingTxt.style.height = "100%";
+	this.imageSmoothingTxt.style.color = "white";
+	this.imageSmoothingTxt.style.display = "inline";
+	this.imageSmoothingDiv.appendChild(this.imageSmoothingTxt);
+	this.imageSmoothingChkBx = document.createElement('input');
+	this.imageSmoothingChkBx.type = "checkbox";
+	this.imageSmoothingChkBx.style.marginLeft = "0px";
+	this.imageSmoothingChkBx.style.marginRight = "0px";
+	this.imageSmoothingChkBx.style.marginTop = "0px";
+	this.imageSmoothingChkBx.style.marginBottom = "0px";
+	this.imageSmoothingChkBx.style.width = "50px";
+	this.imageSmoothingChkBx.style.height = "100%";
+	this.imageSmoothingChkBx.style.float = "right";
+	this.imageSmoothingChkBx.style.display = "inline";
+	if (localStorage.getItem("Image_Smoothing") != null) {
+		this.imageSmoothingChkBx.checked = JSON.parse(localStorage.getItem("Image_Smoothing"));
+	}
+	this.imageSmoothingChkBx.onchange = () => {
+		localStorage.setItem("Image_Smoothing", JSON.stringify(this.imageSmoothingChkBx.checked));
+	};
+	this.imageSmoothingDiv.appendChild(this.imageSmoothingChkBx);
+	//Shadows option
+	this.shadowsDiv = document.createElement('div');
+	this.shadowsDiv.style.marginLeft = "0px";
+	this.shadowsDiv.style.marginRight = "0px";
+	this.shadowsDiv.style.marginTop = "0px";
+	this.shadowsDiv.style.marginBottom = "0px";
+	this.shadowsDiv.style.width = "100%";
+	this.shadowsDiv.style.height = "50px";
+	this.shadowsDiv.style.backgroundColor = "darkgrey";
+	this.optionsSep.appendChild(this.shadowsDiv);
+	this.shadowsTxt = document.createElement('p');
+	this.shadowsTxt.innerHTML = "Shadows:";
+	this.shadowsTxt.style.fontSize = "35px";
+	this.shadowsTxt.style.marginLeft = "0px";
+	this.shadowsTxt.style.marginRight = "0px";
+	this.shadowsTxt.style.marginTop = "0px";
+	this.shadowsTxt.style.marginBottom = "0px";
+	this.shadowsTxt.style.width = "100%";
+	this.shadowsTxt.style.height = "100%";
+	this.shadowsTxt.style.color = "white";
+	this.shadowsTxt.style.display = "inline";
+	this.shadowsDiv.appendChild(this.shadowsTxt);
+	this.shadowsChkBx = document.createElement('input');
+	this.shadowsChkBx.type = "checkbox";
+	this.shadowsChkBx.style.marginLeft = "0px";
+	this.shadowsChkBx.style.marginRight = "0px";
+	this.shadowsChkBx.style.marginTop = "0px";
+	this.shadowsChkBx.style.marginBottom = "0px";
+	this.shadowsChkBx.style.width = "50px";
+	this.shadowsChkBx.style.height = "100%";
+	this.shadowsChkBx.style.float = "right";
+	this.shadowsChkBx.style.display = "inline";
+	this.shadowsChkBx.checked = true;
+	if (localStorage.getItem("Shadows") != null) {
+		this.shadowsChkBx.checked = JSON.parse(localStorage.getItem("Shadows"));
+	}
+	this.shadowsChkBx.onchange = () => {
+		localStorage.setItem("Shadows", JSON.stringify(this.shadowsChkBx.checked));
+	};
+	this.shadowsDiv.appendChild(this.shadowsChkBx);
+	//Debug title
+	this.debugDiv = document.createElement('div');
+	this.debugDiv.style.marginLeft = "0px";
+	this.debugDiv.style.marginRight = "0px";
+	this.debugDiv.style.marginTop = "0px";
+	this.debugDiv.style.marginBottom = "0px";
+	this.debugDiv.style.width = "100%";
+	this.debugDiv.style.height = "50px";
+	this.debugDiv.style.backgroundColor = "darkgrey";
+	this.optionsSep.appendChild(this.debugDiv);
+	this.debugTxt = document.createElement('p');
+	this.debugTxt.innerHTML = "Debug";
+	this.debugTxt.style.fontSize = "35px";
+	this.debugTxt.style.marginLeft = "0px";
+	this.debugTxt.style.marginRight = "0px";
+	this.debugTxt.style.marginTop = "0px";
+	this.debugTxt.style.marginBottom = "0px";
+	this.debugTxt.style.width = "100%";
+	this.debugTxt.style.height = "100%";
+	this.debugTxt.style.textAlign = "center";
+	this.debugTxt.style.color = "white";
+	this.debugDiv.appendChild(this.debugTxt);
+	//FPS option
+	this.fpsDiv = document.createElement('div');
+	this.fpsDiv.style.marginLeft = "0px";
+	this.fpsDiv.style.marginRight = "0px";
+	this.fpsDiv.style.marginTop = "0px";
+	this.fpsDiv.style.marginBottom = "0px";
+	this.fpsDiv.style.width = "100%";
+	this.fpsDiv.style.height = "50px";
+	this.fpsDiv.style.backgroundColor = "darkgrey";
+	this.optionsSep.appendChild(this.fpsDiv);
+	this.fpsTxt = document.createElement('p');
+	this.fpsTxt.innerHTML = "Show FPS:";
+	this.fpsTxt.style.fontSize = "35px";
+	this.fpsTxt.style.marginLeft = "0px";
+	this.fpsTxt.style.marginRight = "0px";
+	this.fpsTxt.style.marginTop = "0px";
+	this.fpsTxt.style.marginBottom = "0px";
+	this.fpsTxt.style.width = "100%";
+	this.fpsTxt.style.height = "100%";
+	this.fpsTxt.style.color = "white";
+	this.fpsTxt.style.display = "inline";
+	this.fpsDiv.appendChild(this.fpsTxt);
+	this.fpsChkBx = document.createElement('input');
+	this.fpsChkBx.type = "checkbox";
+	this.fpsChkBx.style.marginLeft = "0px";
+	this.fpsChkBx.style.marginRight = "0px";
+	this.fpsChkBx.style.marginTop = "0px";
+	this.fpsChkBx.style.marginBottom = "0px";
+	this.fpsChkBx.style.width = "50px";
+	this.fpsChkBx.style.height = "100%";
+	this.fpsChkBx.style.float = "right";
+	this.fpsChkBx.style.display = "inline";
+	if (localStorage.getItem("Show_FPS") != null) {
+		this.fpsChkBx.checked = JSON.parse(localStorage.getItem("Show_FPS"));
+	}
+	this.fpsChkBx.onchange = () => {
+		localStorage.setItem("Show_FPS", JSON.stringify(this.fpsChkBx.checked));
+	};
+	this.fpsDiv.appendChild(this.fpsChkBx);
+	//DELTA option
+	this.deltaDiv = document.createElement('div');
+	this.deltaDiv.style.marginLeft = "0px";
+	this.deltaDiv.style.marginRight = "0px";
+	this.deltaDiv.style.marginTop = "0px";
+	this.deltaDiv.style.marginBottom = "0px";
+	this.deltaDiv.style.width = "100%";
+	this.deltaDiv.style.height = "50px";
+	this.deltaDiv.style.backgroundColor = "darkgrey";
+	this.optionsSep.appendChild(this.deltaDiv);
+	this.deltaTxt = document.createElement('p');
+	this.deltaTxt.innerHTML = "Show DELTA:";
+	this.deltaTxt.style.fontSize = "35px";
+	this.deltaTxt.style.marginLeft = "0px";
+	this.deltaTxt.style.marginRight = "0px";
+	this.deltaTxt.style.marginTop = "0px";
+	this.deltaTxt.style.marginBottom = "0px";
+	this.deltaTxt.style.width = "100%";
+	this.deltaTxt.style.height = "100%";
+	this.deltaTxt.style.color = "white";
+	this.deltaTxt.style.display = "inline";
+	this.deltaDiv.appendChild(this.deltaTxt);
+	this.deltaChkBx = document.createElement('input');
+	this.deltaChkBx.type = "checkbox";
+	this.deltaChkBx.style.marginLeft = "0px";
+	this.deltaChkBx.style.marginRight = "0px";
+	this.deltaChkBx.style.marginTop = "0px";
+	this.deltaChkBx.style.marginBottom = "0px";
+	this.deltaChkBx.style.width = "50px";
+	this.deltaChkBx.style.height = "100%";
+	this.deltaChkBx.style.float = "right";
+	this.deltaChkBx.style.display = "inline";
+	if (localStorage.getItem("Show_DELTA") != null) {
+		this.deltaChkBx.checked = JSON.parse(localStorage.getItem("Show_DELTA"));
+	}
+	this.deltaChkBx.onchange = () => {
+		localStorage.setItem("Show_DELTA", JSON.stringify(this.deltaChkBx.checked));
+	};
+	this.deltaDiv.appendChild(this.deltaChkBx);
+	//Debug cursor option
+	this.debugCursorDiv = document.createElement('div');
+	this.debugCursorDiv.style.marginLeft = "0px";
+	this.debugCursorDiv.style.marginRight = "0px";
+	this.debugCursorDiv.style.marginTop = "0px";
+	this.debugCursorDiv.style.marginBottom = "0px";
+	this.debugCursorDiv.style.width = "100%";
+	this.debugCursorDiv.style.height = "50px";
+	this.debugCursorDiv.style.backgroundColor = "darkgrey";
+	this.optionsSep.appendChild(this.debugCursorDiv);
+	this.debugCursorTxt = document.createElement('p');
+	this.debugCursorTxt.innerHTML = "Show Debug Cursor:";
+	this.debugCursorTxt.style.fontSize = "35px";
+	this.debugCursorTxt.style.marginLeft = "0px";
+	this.debugCursorTxt.style.marginRight = "0px";
+	this.debugCursorTxt.style.marginTop = "0px";
+	this.debugCursorTxt.style.marginBottom = "0px";
+	this.debugCursorTxt.style.width = "100%";
+	this.debugCursorTxt.style.height = "100%";
+	this.debugCursorTxt.style.color = "white";
+	this.debugCursorTxt.style.display = "inline";
+	this.debugCursorDiv.appendChild(this.debugCursorTxt);
+	this.debugCursorChkBx = document.createElement('input');
+	this.debugCursorChkBx.type = "checkbox";
+	this.debugCursorChkBx.style.marginLeft = "0px";
+	this.debugCursorChkBx.style.marginRight = "0px";
+	this.debugCursorChkBx.style.marginTop = "0px";
+	this.debugCursorChkBx.style.marginBottom = "0px";
+	this.debugCursorChkBx.style.width = "50px";
+	this.debugCursorChkBx.style.height = "100%";
+	this.debugCursorChkBx.style.float = "right";
+	this.debugCursorChkBx.style.display = "inline";
+	if (localStorage.getItem("Show_Debug_Cursor") != null) {
+		this.debugCursorChkBx.checked = JSON.parse(localStorage.getItem("Show_Debug_Cursor"));
+	}
+	this.debugCursorChkBx.onchange = () => {
+		localStorage.setItem("Show_Debug_Cursor", JSON.stringify(this.debugCursorChkBx.checked));
+	};
+	this.debugCursorDiv.appendChild(this.debugCursorChkBx);
+	//Shows menu
+	this.show = function() {
+		this.menu.style.display = "block";
+		SettingsMenu.settingsIcon.style.display = "none";
+		isPaused = true;
+		this.active = true;
+	}
+	//Hides menu
+	this.hide = function() {
+		this.menu.style.display = "none";
+		this.active = false;
+	}
+	const update = () => this.update();
+	this.update = function() {
+		this.menu.style.width = (this.menuSize.x*screen.getScale().x)+"px";
+		this.menu.style.height = (this.menuSize.y*screen.getScale().y)+"px";
+		this.menu.style.top = (screen.getHalfDeviceRes().y)-((this.menuSize.y/2)*screen.getScale().y)+"px";
+		this.menu.style.left = (screen.getHalfDeviceRes().x)-((this.menuSize.x/2)*screen.getScale().x)+"px";
+		this.title.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
+		this.closeBttn.style.marginRight = ((5*this.menuScale)*screen.getScale().x)+"px";
+		this.closeBttn.style.marginTop = ((5*this.menuScale)*screen.getScale().y)+"px";
+		this.closeBttn.style.width = ((32*this.menuScale)*screen.getScale().x)+"px";
+		this.closeBttn.style.height = ((32*this.menuScale)*screen.getScale().x)+"px";
+		this.optionsSep.style.width = this.menu.style.width;
+		this.optionsSep.style.height = (parseFloat(this.menu.style.height)-(40*screen.getScale().y))+"px";
+		this.optionsSep.style.top = (parseFloat(this.menu.style.top)+(40*screen.getScale().y))+"px";
+		this.optionsSep.style.left = this.menu.style.left;
+		this.gfxTxt.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
+		this.imageSmoothingTxt.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
+		engineSettings.Image_Smoothing = this.imageSmoothingChkBx.checked;
+		this.shadowsTxt.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
+		engineSettings.Allow_Shadows = this.shadowsChkBx.checked;
+		this.debugTxt.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
+		this.fpsTxt.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
+		engineSettings.Debug.Show_FPS_Counter = this.fpsChkBx.checked;
+		this.deltaTxt.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
+		engineSettings.Debug.Show_Delta_Time = this.deltaChkBx.checked;
+		this.debugCursorTxt.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
+		engineSettings.Debug.Show_Debug_Cursor = this.debugCursorChkBx.checked;
+		if (engineSettings.Settings_Menu.Image_Smoothing) {
+			this.imageSmoothingDiv.style.display = "inherit";
+		} else {
+			this.imageSmoothingDiv.style.display = "none";
+		}
+		if (engineSettings.Settings_Menu.Shadows) {
+			this.shadowsDiv.style.display = "inherit";
+		} else {
+			this.shadowsDiv.style.display = "none";
+		}
+		if (engineSettings.Settings_Menu.Debug) {
+			this.debugDiv.style.display = "inherit";
+		} else {
+			this.debugDiv.style.display = "none";
+		}
+		if (engineSettings.Settings_Menu.Show_FPS) {
+			this.fpsDiv.style.display = "inherit";
+		} else {
+			this.fpsDiv.style.display = "none";
+		}
+		if (engineSettings.Settings_Menu.Show_DELTA) {
+			this.deltaDiv.style.display = "inherit";
+		} else {
+			this.deltaDiv.style.display = "none";
+		}
+		if (engineSettings.Settings_Menu.Show_Debug_Cursor) {
+			this.debugCursorDiv.style.display = "inherit";
+		} else {
+			this.debugCursorDiv.style.display = "none";
+		}
+	}
+	addUpdate(update, "settings menu");
+}
+
 //Settings menu
 const SettingsMenu = new settingsMenu();
 
@@ -2230,6 +2776,7 @@ function menuToggle() {
 
 function settingsMenu() {
 	this.active = false;
+	this.iconHovered = false;
 	this.menuSize = new Vector2(800, 600);
 	this.menuScale = 1;
 	//Settings button
@@ -2250,9 +2797,11 @@ function settingsMenu() {
 	this.settingsIcon.style.display = "block";
 	this.settingsIcon.onmouseover = () => {
 		this.settingsIcon.style.opacity = "0.7";
+		this.iconHovered = true;
 	};
 	this.settingsIcon.onmouseleave = () => {
 		this.settingsIcon.style.opacity = "0.3";
+		this.iconHovered = false;
 	};
 	this.settingsIcon.onclick = () => {
 		this.show();
@@ -2330,6 +2879,20 @@ function settingsMenu() {
 		keybinder.show();
 	};
 	this.buttonsSep.appendChild(this.keybinderBttn);
+	//Options bttn
+	this.optionsBttn = document.createElement('button');
+	this.optionsBttn.innerHTML = "Options";
+	this.optionsBttn.style.fontSize = "35px";
+	this.optionsBttn.style.marginLeft = "0px";
+	this.optionsBttn.style.marginRight = "0px";
+	this.optionsBttn.style.marginTop = "0px";
+	this.optionsBttn.style.marginBottom = "0px";
+	this.optionsBttn.style.width = "100%";
+	this.optionsBttn.style.height = "50px";
+	this.optionsBttn.onclick = () => {
+		OptionsMenu.show();
+	};
+	this.buttonsSep.appendChild(this.optionsBttn);
 	//Mods bttn
 	this.modsBttn = document.createElement('button');
 	this.modsBttn.innerHTML = "Mods";
@@ -2394,6 +2957,7 @@ function settingsMenu() {
 		this.buttonsSep.style.top = (parseFloat(this.menu.style.top)+(40*screen.getScale().y))+"px";
 		this.buttonsSep.style.left = this.menu.style.left;
 		this.keybinderBttn.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
+		this.modsBttn.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
 		if (ModLoader.loaded) {
 			this.modsBttn.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
 			this.modsBttn.style.display = "initial";
@@ -2481,6 +3045,7 @@ function buttonLink(object=null, textObj=null, collision=null, func=null, hoverC
 const Cursor = new cursor();
 
 function cursor() {
+	this.offset = new Vector2();
 	this.cursor = new Rectangle(8, new baseObject(true, new nameTag("cursor", "Engine"), new Vector2(5, 5), new Vector2(-100, -100), new colorData("red")));
 	this.setImage = function(data=null) {
 		if (data != null) {
@@ -2488,8 +3053,7 @@ function cursor() {
 			this.cursor = new Sprite(8, new baseObject(true, new nameTag("cursor", "Engine"), new Vector2(5, 5), new Vector2(-100, -100), data));
 		}
 	}
-	const update = () => this.update();
-	this.update = function() {
+	const update = () => {
 		if (this.cursor.type == "rectangle" && engineSettings.Debug.Show_Debug_Cursor) {
 			this.cursor.base.color.alpha = 1;
 			if (mouseData().b0 && !mouseData().b1 && !mouseData().b2) {
@@ -2509,7 +3073,7 @@ function cursor() {
 			this.cursor.base.color.alpha = 0; 
 		}
 		if (getByNameTag(this.cursor.base.nameTag) != null) {
-			this.cursor.base.position = mouseData().pos;
+			this.cursor.base.position = mouseData().pos.addV(this.offset);
 		} else {
 			addObject(this.cursor);
 		}
@@ -2525,9 +3089,10 @@ function cursor() {
 //Mouse
 let mousePos = new Vector2();
 let mousePressed = [false,false,false];
+let mouseWheel = 0;
 
 function mouseData() {
-	return {"pos":new Vector2((mousePos.x/screen.getScale().x), (mousePos.y/screen.getScale().y)), "b0":mousePressed[0], "b1":mousePressed[1], "b2":mousePressed[2]};
+	return {"pos":new Vector2((mousePos.x/screen.getScale().x), (mousePos.y/screen.getScale().y)), "b0":mousePressed[0], "b1":mousePressed[1], "b2":mousePressed[2], "wheel":mouseWheel};
 };
 
 window.addEventListener("mousemove", function(event) {
@@ -2537,6 +3102,11 @@ window.addEventListener("mousemove", function(event) {
 window.addEventListener("dblclick", function(event) {
 	event.preventDefault();
 });
+
+window.addEventListener("wheel", (e) => {
+	mouseWheel = e.deltaY;
+});
+
 document.body.style.userSelect = "none";
 
 window.onmousedown = function(event){
