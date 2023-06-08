@@ -198,25 +198,46 @@ function getPolarDir(startPoint, endPoint) {
 }
 
 //Helper function for random ints same as range just with less steps
+//Range functions can take Vector2's in the min argument
 function rangeInt(min=0, max=1) {
-	return Range(min, max, 0, false);
+	if (typeof min == "number") {
+		return Range(min, max, 0, false);
+	} else {
+		return Range(min.x, min.y, 0, false);
+	}
 }
 
 //Helper function for random floats same as range just with less steps
+//Range functions can take Vector2's in the min argument
 function rangeFloat(min=0, max=1, dec_place=1) {
-	return Range(min, max, dec_place);
+	if (typeof min == "number") {
+		return Range(min, max, dec_place);
+	} else {
+		return Range(min.x, min.y, min.r);
+	}
 }
 
 //Returns a random number between min and max
+//Range functions can take Vector2's in the min argument
 function Range(min=0, max=1, dec_place=1, is_float=true) {
 	let result = 0;
-	let factor = Math.pow(10, dec_place);
-	if (is_float) {
-		result = Math.random()*(max-min)+min;
+	if (typeof min == "number") {
+		let factor = Math.pow(10, dec_place);
+		if (is_float) {
+			result = Math.random()*(max-min)+min;
+		} else {
+			result = Math.round(Math.random()*(max-min)+min);
+		}
+		return Math.round(result*factor)/factor;
 	} else {
-		result = Math.round(Math.random()*(max-min)+min);
+		let factor = Math.pow(10, min.r);
+		if (min.o) {
+			result = Math.random()*(min.y-min.x)+min.x;
+		} else {
+			result = Math.round(Math.random()*(min.y-min.x)+min.x);
+		}
+		return Math.round(result*factor)/factor;
 	}
-	return Math.round(result*factor)/factor;
 }
 
 //Checks if an array has everything from another
@@ -276,6 +297,20 @@ function Vector2(x=0, y=0, r=0, o=0, s=0) {
 	//Vector2 to array
 	this.array = function() {
 		return [this.x, this.y];
+	}
+	//Vector2 to angle
+	this.angle = function(rad=true) {
+		let calR = parseFloat(Math.atan2(this.y, this.x).toFixed(2));
+		if (rad) {
+			return calR;
+		} else {
+			let calD = Math.round(radToDeg(calR+1.57079633));
+			if (calR == 0) {
+				return 0;
+			} else {
+				return calD;
+			}
+		}
 	}
 	//Vector2 duplicate
 	this.duplicate = function() {
@@ -358,6 +393,12 @@ function Vector2(x=0, y=0, r=0, o=0, s=0) {
 	this.rotateVector2 = function(vector2, rotation) {
 		return new Vector2(Math.cos(rotation)*(vector2.x-this.x)-Math.sin(rotation)*(vector2.y-this.y)+this.x, Math.sin(rotation)*(vector2.x-this.x)+Math.cos(rotation)*(vector2.y-this.y)+this.y);
 	}
+}
+
+//Fills a vector2's x and y values with a single number
+//Useful shortcut for making square objects
+function FillVec2(xy=0) {
+	return new Vector2(xy, xy);
 }
 
 //Creates canvas
@@ -2093,6 +2134,134 @@ function modLoader() {
 	}
 }
 
+//Controller stuff
+let controllers = {};
+const controllerManager = new controllerMG();
+
+function controllerBttnBinding(player=1, func=null, funcName="", defaultBttn=0) {
+	this.player = player;
+	this.func = func;
+	this.funcName = funcName;
+	this.defaultBttn = defaultBttn;
+	if (controllerManager.config[this.player] == undefined) {
+		controllerManager.config[this.player] = {"controls":[]};
+		controllerManager.config[this.player].controls.push({"funcName":this.funcName,"func":this.func,"bttn":this.defaultBttn});
+	} else {
+		if (controllerManager.config[this.player].controls == undefined) {
+			controllerManager.config[this.player] = {"controls":[]};
+			controllerManager.config[this.player].controls.push({"funcName":this.funcName,"func":this.func,"bttn":this.defaultBttn});
+		} else {
+			controllerManager.config[this.player].controls.push({"funcName":this.funcName,"func":this.func,"bttn":this.defaultBttn});
+		}
+	}
+	this.duplicate = () => {
+		return new controllerBttnBinding(this.player, this.func, this.funcName, this.defaultBttn);
+	}
+	this.dup = this.duplicate;
+}
+
+function controllerAxesBinding(player=1, func=null, funcName="", axes=0, deadzone=0.2) {
+	this.player = player;
+	this.func = func;
+	this.funcName = funcName;
+	this.axes = axes; //0- left stick, 1- right stick
+	this.deadzone = deadzone;
+	if (axes > 1) {
+		this.axes = 1;
+	}
+	if (axes < 0) {
+		this.axes = 0;
+	}
+	if (controllerManager.config[this.player] == undefined) {
+		controllerManager.config[this.player] = {"axes":[]};
+		controllerManager.config[this.player].axes.push({"funcName":this.funcName,"func":this.func,"bttn":this.axes,"deadzone":this.deadzone});
+	} else {
+		if (controllerManager.config[this.player].axes == undefined) {
+			controllerManager.config[this.player] = {"axes":[]};
+			controllerManager.config[this.player].axes.push({"funcName":this.funcName,"func":this.func,"bttn":this.axes,"deadzone":this.deadzone});
+		} else {
+			controllerManager.config[this.player].axes.push({"funcName":this.funcName,"func":this.func,"bttn":this.axes,"deadzone":this.deadzone});
+		}
+	}
+	this.duplicate = () => {
+		return new controllerBttnBinding(this.player, this.func, this.funcName, this.axes, this.deadzone);
+	}
+	this.dup = this.duplicate;
+}
+
+function saveControllerConfig() {
+	
+}
+
+function controllerMG() {
+	this.players = 0; //0- no support
+	this.connected = 0;
+	
+	this.config = {};
+	
+	this.assignControllers = () => {
+		for (let i=1;i<this.players;i++) {
+			if (this.config[i] != undefined) {
+				if (this.config[i].controllerId == undefined) {
+					this.config[i].controllerId = i-1;
+				}
+			}
+		} 
+	}
+	this.assignControllers();
+	
+	this.calDeadzone = (vec, deadzone) => {
+		let m = Math.sqrt(vec.x*vec.x+vec.y*vec.y);
+		if (m < deadzone) {
+			return new Vector2(0, 0, true);
+		}
+		let over = m-deadzone;
+		let nover = over/(1-deadzone);
+		let nx = vec.x/m;
+		let ny = vec.y/m;
+		return new Vector2(clamp(nx*nover, -1, 1), clamp(ny*nover, -1, 1), (vec.x==0 && vec.y==0));
+	}
+	
+	const update = () => {
+		controllers = (navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []));
+		this.connected = controllers.filter((i)=>{return i!=null}).length;
+		if (this.players == 0) {
+			if (keybinder.controllerDiv.style.display != "none") {
+				keybinder.controllerDiv.style.display = "none";
+			}
+		} else {
+			if (keybinder.controllerDiv.style.display != "block") {
+				keybinder.controllerDiv.style.display = "block";
+			}
+			for (let i=1;i<this.players;i++) {
+				if (this.config[i] != undefined) {
+					let playerControls = this.config[i];
+					if (playerControls.axes != undefined) {
+						for (let a=0,length=playerControls.axes.length;a<length;a++) {
+							let axesData = playerControls.axes[a];
+							if (controllers[playerControls.controllerId] != undefined && controllers[playerControls.controllerId] != null) {
+								switch (axesData.bttn) {
+									case 0:
+										let calLeft = this.calDeadzone(new Vector2(controllers[playerControls.controllerId].axes[0], controllers[playerControls.controllerId].axes[1]), axesData.deadzone);
+										playerControls.leftStick = calLeft;
+										axesData.func(playerControls.leftStick);
+									break;
+									case 1:
+										let calRight = this.calDeadzone(new Vector2(controllers[playerControls.controllerId].axes[2], controllers[playerControls.controllerId].axes[3]), axesData.deadzone);
+										playerControls.rightStick = calRight;
+										axesData.func(playerControls.rightStick);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	addUpdate(update, "controller_manager");
+}
+
 //Keybinder
 const keys = [];
 const keyBuffer = [];
@@ -2105,6 +2274,7 @@ function keyBinder() {
 	this.title = null;
 	this.keySep = null;
 	this.closeBttn = null;
+	this.controllerDiv = null;
 	this.menuSize = new Vector2(800, 600);
 	this.menuScale = 1;
 	this.show = function() {
@@ -2132,7 +2302,7 @@ function keyBinder() {
 		document.body.appendChild(this.menu);
 		//Title
 		this.title = document.createElement('h1');
-		this.title.innerHTML = "Keybinder";
+		this.title.innerHTML = "Controls";
 		this.title.style.textAlign = "center";
 		this.title.style.color = "white";
 		this.title.style.marginLeft = "0px";
@@ -2148,10 +2318,10 @@ function keyBinder() {
 		this.keySep.style.marginTop = "0px";
 		this.keySep.style.marginBottom = "0px";
 		this.keySep.style.width = "100%";
-		this.keySep.style.height = "90%";
+		this.keySep.style.height = "80%";
 		this.keySep.style.overflowX = "hidden";
 		this.keySep.style.overflowY = "scroll";
-		this.keySep.style.position = "none";
+		this.keySep.style.position = "fixed";
 		this.menu.appendChild(this.keySep);
 		//Close button
 		this.closeBttn = document.createElement('input');
@@ -2177,17 +2347,28 @@ function keyBinder() {
 		};
 		this.menu.appendChild(this.closeBttn);
 		addUpdate(updater, "key_binder");
+		//Controller stuff
+		this.controllerDiv = document.createElement('div');
+		this.controllerDiv.id = "Controller";
+		this.controllerDiv.style.backgroundColor = "darkgrey";
+		this.controllerDiv.style.marginLeft = "0px";
+		this.controllerDiv.style.marginRight = "0px";
+		this.controllerDiv.style.marginTop = "0px";
+		this.controllerDiv.style.marginBottom = "1px";
+		this.controllerDiv.style.width = "100%";
+		this.controllerDiv.style.height = "100px";
+		this.controllerDiv.style.boxShadow = "0px 5px black";
+		this.keySep.appendChild(this.controllerDiv);
 	}
-	const updater = () => {this.update()};
-	this.update = function() {
+	const updater = () => {
 		this.menu.style.width = (this.menuSize.x*screen.getScale().x)+"px";
 		this.menu.style.height = (this.menuSize.y*screen.getScale().y)+"px";
 		this.menu.style.top = (screen.getHalfDeviceRes().y)-((this.menuSize.y/2)*screen.getScale().y)+"px";
 		this.menu.style.left = (screen.getHalfDeviceRes().x)-((this.menuSize.x/2)*screen.getScale().x)+"px";
 		this.title.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
 		this.keySep.style.width = this.menu.style.width;
-		this.keySep.style.height = (parseFloat(this.menu.style.height)-((40*this.menuScale)*screen.getScale().y))+"px";
-		this.keySep.style.top = (parseFloat(this.menu.style.top)+((40*this.menuScale)*screen.getScale().y))+"px";
+		this.keySep.style.height = (parseFloat(this.menu.style.height)-(40*screen.getScale().y))+"px";
+		this.keySep.style.top = (parseFloat(this.menu.style.top)+(40*screen.getScale().y))+"px";
 		this.keySep.style.left = this.menu.style.left;
 		this.closeBttn.style.marginRight = ((5*this.menuScale)*screen.getScale().x)+"px";
 		this.closeBttn.style.marginTop = ((5*this.menuScale)*screen.getScale().y)+"px";
@@ -2199,7 +2380,6 @@ function keyBinder() {
 			k.keys.forEach((k2, i) => {
 				let idElement_2 = document.getElementById(k.id+"_"+i);
 				idElement_2.style.width = ((100*this.menuScale)*screen.getScale().x)+"px";
-				idElement_2.innerHTML = idElement_2.innerHTML.slice(0, 3);
 				if (idElement_2.innerHTML.length > 3) {
 					let scaleFactor = 1-(3/idElement_2.innerHTML.length);
 					idElement_2.style.fontSize = ((35*this.menuScale)*Math.abs(screen.getScale().x-scaleFactor))+"px";
@@ -2237,7 +2417,11 @@ function key(id="", thisKeys=[], functions=new Vector2(), ifPaused=true) {
 	kV.style.width = "100%";
 	kV.style.height = "50px";
 	kV.style.boxShadow = "0px 5px black";
-	keybinder.keySep.appendChild(kV);
+	if (keybinder.keySep.children[0].id == "Controller") {
+		keybinder.keySep.insertBefore(kV, keybinder.keySep.children[0]);
+	} else {
+		keybinder.keySep.insertBefore(kV, keybinder.keySep.children[keybinder.keySep.children.length-1]);
+	}
 	//Key name
 	let keyNameV = document.createElement('h1');
 	keyNameV.id = id+"_name";
@@ -2253,7 +2437,7 @@ function key(id="", thisKeys=[], functions=new Vector2(), ifPaused=true) {
 	this.keys.forEach((t, i) => {
 		let keyBttnV = document.createElement('button');
 		keyBttnV.id = this.id+"_"+i;
-		keyBttnV.innerHTML = t.key;
+		keyBttnV.innerHTML = t.key.slice(0, 3);
 		keyBttnV.style.fontSize = "35px";
 		keyBttnV.style.marginLeft = "0px";
 		keyBttnV.style.marginRight = "0px";
@@ -2271,7 +2455,7 @@ function key(id="", thisKeys=[], functions=new Vector2(), ifPaused=true) {
 		kV.appendChild(keyBttnV);
 	});
 	this.printKeys = function() {
-		keyNameV.innerHTML = this.id+" key: ";
+		keyNameV.innerHTML = this.id+": ";
 		this.keys.forEach((t,i) => {
 			//Name keys
 			let length = this.keys.length-1;
@@ -2282,14 +2466,14 @@ function key(id="", thisKeys=[], functions=new Vector2(), ifPaused=true) {
 			}
 			//Name bttns
 			let bttn = document.getElementById(this.id+"_"+i);
-			bttn.innerHTML = t.key.toUpperCase();
+			bttn.innerHTML = t.key.slice(0, 3).toUpperCase();
 		});
 		
 		pickKey = -1;
 	}
 	const changeKey = (index=0, object=null) => {this.changeKey(index, object);};
 	this.changeKey = function(index=0, object=null) {
-		keyNameV.innerHTML = "Press key:";
+		keyNameV.innerHTML = this.id+": Press new key!";
 		object.innerHTML = "*";
 		pickKey = index;
 		keyLock = true;

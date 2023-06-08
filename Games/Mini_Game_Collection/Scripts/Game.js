@@ -25,57 +25,104 @@ let Player1Left = new key(
 	[
 		new keyData("a", 0)
 	],
-	new Vector2("console.log('p1 left')", null)
+	new Vector2(null, null)
 );
 let Player1Right = new key(
 	"P1 Right",
 	[
 		new keyData("d", 0)
 	],
-	new Vector2("console.log('p1 right')", null)
+	new Vector2(null, null)
 );
 let Player2Left = new key(
 	"P2 Left",
 	[
 		new keyData("ArrowLeft", 0)
 	],
-	new Vector2("console.log('p2 left')", null)
+	new Vector2(null, null)
 );
 let Player2Right = new key(
 	"P2 Right",
 	[
 		new keyData("ArrowRight", 0)
 	],
-	new Vector2("console.log('p2 right')", null)
+	new Vector2(null, null)
 );
 let Player3Left = new key(
 	"P3 Left",
 	[
 		new keyData("j", 0)
 	],
-	new Vector2("console.log('p3 left')", null)
+	new Vector2(null, null)
 );
 let Player3Right = new key(
 	"P3 Right",
 	[
 		new keyData("l", 0)
 	],
-	new Vector2("console.log('p3 right')", null)
+	new Vector2(null, null)
 );
 let Player4Left = new key(
 	"P4 Left",
 	[
 		new keyData("4", 3)
 	],
-	new Vector2("console.log('p4 left')", null)
+	new Vector2(null, null)
 );
 let Player4Right = new key(
 	"P4 Right",
 	[
 		new keyData("6", 3)
 	],
-	new Vector2("console.log('p4 right')", null)
+	new Vector2(null, null)
 );
+
+//Controller setup
+controllerManager.players = 4;
+let Player1Movement = new controllerAxesBinding(1, (e) => {
+	if (!e.r && !isPaused) {
+		if (gameData.gameMode == 1) {
+			let thisNameTag = new nameTag(("player_"+(1)), "lineBattle");
+			let player = getByNameTag(thisNameTag);
+			if (player != null) {
+				player.base.position.r = degToRad(e.angle(false)-270);
+			}
+		}
+	}
+}, "Movement", 0);
+let Player2Movement = new controllerAxesBinding(2, (e) => {
+	if (!e.r && !isPaused) {
+		if (gameData.gameMode == 1) {
+			let thisNameTag = new nameTag(("player_"+(2)), "lineBattle");
+			let player = getByNameTag(thisNameTag);
+			if (player != null) {
+				player.base.position.r = degToRad(e.angle(false)-270);
+			}
+		}
+	}
+}, "Movement", 0);
+let Player3Movement = new controllerAxesBinding(3, (e) => {
+	if (!e.r && !isPaused) {
+		if (gameData.gameMode == 1) {
+			let thisNameTag = new nameTag(("player_"+(3)), "lineBattle");
+			let player = getByNameTag(thisNameTag);
+			if (player != null) {
+				player.base.position.r = degToRad(e.angle(false)-270);
+			}
+		}
+	}
+}, "Movement", 0);
+let Player4Movement = new controllerAxesBinding(4, (e) => {
+	if (!e.r && !isPaused) {
+		if (gameData.gameMode == 1) {
+			let thisNameTag = new nameTag(("player_"+(4)), "lineBattle");
+			let player = getByNameTag(thisNameTag);
+			if (player != null) {
+				player.base.position.r = degToRad(e.angle(false)-270);
+			}
+		}
+	}
+}, "Movement", 0);
 
 //Game data
 let gameData = {
@@ -867,7 +914,6 @@ const playerControls = {
 const pM = new playerManager();
 let player_1 = new player("Player 1", null);
 
-//const BLANK_PLAYER = new player();
 function player(name="", profilePicPath="", controlMode=0, controllerNumber=0) {
 	this.name = name;
 	this.profilePicPath = profilePicPath; //Save this later
@@ -953,14 +999,18 @@ function playerManager() {
 				p.controls = playerControls[i+1];
 			}
 			p.controls.left.functions.x = () => {
-				let thisNameTag = new nameTag(("player_"+(p.index+1)), "lineBattle");
-				let player = getByNameTag(thisNameTag);
-				player.base.position.r -= 0.1*delta;
+				if (gameData.gameMode != -1) {
+					let thisNameTag = new nameTag(("player_"+(p.index+1)), "lineBattle");
+					let player = getByNameTag(thisNameTag);
+					player.base.position.r -= 0.1*delta;
+				}
 			}
 			p.controls.right.functions.x = () => {
-				let thisNameTag = new nameTag(("player_"+(p.index+1)), "lineBattle");
-				let player = getByNameTag(thisNameTag);
-				player.base.position.r += 0.1*delta;
+				if (gameData.gameMode != -1) {
+					let thisNameTag = new nameTag(("player_"+(p.index+1)), "lineBattle");
+					let player = getByNameTag(thisNameTag);
+					player.base.position.r += 0.1*delta;
+				}
 			}
 			if (p.profilePicPath == null && gameData.gameMode != -1) {
 				let iconPath = defaultIcon[i+1][gameData.gameMode];
@@ -971,6 +1021,25 @@ function playerManager() {
 	addUpdate(update, "player manager");
 }
 
+//Tank War game manager
+const TWGM = new tankWarGM();
+function tankWarGM() {
+	let localMap = currentMap;
+	this.data = {
+		"player_speed":new Vector2(2.5, 5), //Every players base speed/boost speed
+		//More advanced tank sprites for upgrades (split full sprite into multiple)
+		//Tread mark size and fading speed
+		"player_points":[], //An array that stores each players points (is also upgrade points)
+		"end_of_match":false, //True when someone wins a match
+		"win_state":false, //True when someone wins the game
+		"players_loaded":false, //True when all players are loaded
+		"game_loaded":false, //True when the players, obstacles, and goal is loaded
+		"teams":false,
+	}
+	
+}
+
+//Line Battle game manager
 const LBGM = new lineBattleGM();
 function lineBattleGM() {
 	let localMap = currentMap;
@@ -1067,21 +1136,29 @@ function lineBattleGM() {
 			let thisPoints = this.getPoints(thisNameTag);
 			let player = getByNameTag(thisNameTag);
 			if (exceptions != null) {
+				console.log(thisNameTag);
 				let check = exceptions.some(e => e.same(thisNameTag));
-				if (!check && thisPoints.points > 0) {
-					switch (experesion) {
-						case "+":
+				console.log(check);
+				if (!check) {
+					if (thisPoints.points > 0) {
+						switch (experesion) {
+							case "+":
+								thisPoints.points += points;
+							break;
+							case "-":
+								thisPoints.points -= points;
+							break;
+							case "*":
+								thisPoints.points *= points;
+							break;
+							case "/":
+								thisPoints.points /= points;
+							break;
+						}
+					} else {
+						if (experesion == "+") {
 							thisPoints.points += points;
-						break;
-						case "-":
-							thisPoints.points -= points;
-						break;
-						case "*":
-							thisPoints.points *= points;
-						break;
-						case "/":
-							thisPoints.points /= points;
-						break;
+						}
 					}
 				}
 			} else {
@@ -1099,6 +1176,10 @@ function lineBattleGM() {
 						case "/":
 							thisPoints.points /= points;
 						break;
+					}
+				} else {
+					if (experesion == "+") {
+						thisPoints.points += points;
 					}
 				}
 			}
@@ -1413,7 +1494,7 @@ function lineBattleGM() {
 											}
 										}
 										if (goalData.points.y != null) {
-											this.changePointsFromOpponents([thisNameTag], goalData.points.y, goalData.points.r);
+											this.changePointsFromOpponents([thisNameTag], goalData.points.y, goalData.points.o);
 										}
 									}
 									deleteByNameTag(goalObj.base.nameTag);
