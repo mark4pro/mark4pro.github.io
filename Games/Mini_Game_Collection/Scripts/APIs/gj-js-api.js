@@ -1,11 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 //*-------------------------------------------------------------------------*//
-//| Game Jolt API JS Library v1.1.0 (https://gamejolt.com)                  |//
+//| Game Jolt API JS Library v1.2.0 (https://gamejolt.com)                  |//
 //*-------------------------------------------------------------------------*//
 //| Special Thanks to:                                                      |//
 //|                                                                         |//
 //| David "CROS" DeCarmine, Bruno Assarisse, Jani "JNyknn" Nykänen,         |//
-//| Travis "Clonze" Miller, Garden Variety                                  |//
+//| Travis "Clonze" Miller, Garden Variety, softed                          |//
 //*-------------------------------------------------------------------------*//
 //| This is free and unencumbered software released into the public domain. |//
 //|                                                                         |//
@@ -32,7 +32,7 @@
 //*-------------------------------------------------------------------------*//
 ///////////////////////////////////////////////////////////////////////////////
 "use strict";
-var GJAPI = {};
+const GJAPI = {};
 
 // TODO: add login-check + error-msg on user-data-store operations without current user ?
 
@@ -41,10 +41,12 @@ var GJAPI = {};
 // configuration attributes
 GJAPI.iGameID    = 	552609;      // # change this
 GJAPI.sGameKey   = "ad1c4a8a4328b0ce232f9e528881200b";     // # change this too
-GJAPI.bAutoLogin = true;   // automatically log in users on Game Jolt
+GJAPI.bAutoLogin = true;    // automatically log in users on Game Jolt
+GJAPI.bDebugMode = false;   // enable verbose console logging
+
 if(GJAPI.iGameID === 0 || GJAPI.sGameKey === "") alert("Game ID or Game Key missing!");
 
-GJAPI.sAPI      = "https://gamejolt.com/api/game/v1";
+GJAPI.sAPI      = "https://api.gamejolt.com/api/game/v1_2";
 GJAPI.sLogName  = "[Game Jolt API]";
 GJAPI.iLogStack = 20;
 
@@ -53,14 +55,14 @@ GJAPI.iLogStack = 20;
 // utility functions
 GJAPI.asQueryParam = function()
 {
-    var asOutput = {};
-    var asList   = window.location.search.substring(1).split("&");
+    const asOutput = {};
+    const asList   = window.location.search.substring(1).split("&");
 
     // loop through all parameters
-    for(var i = 0; i < asList.length; ++i)
+    for(let i = 0; i < asList.length; ++i)
     {
         // separate key from value
-        var asPair = asList[i].split("=");
+        const asPair = asList[i].split("=");
 
         // insert value into map
         if(typeof asOutput[asPair[0]] === "undefined")
@@ -96,10 +98,10 @@ GJAPI.SEND_GENERAL  = false;
 GJAPI.SendRequest = function(sURL, bSendUser, pCallback)
 {
     // forward call to extended function
-    GJAPI.SendRequestEx(sURL, bSendUser, "json", "", pCallback);
+    GJAPI.SendRequestEx(sURL, bSendUser, "json", "", "", pCallback);
 }
 
-GJAPI.SendRequestEx = function(sURL, bSendUser, sFormat, sBodyData, pCallback)
+GJAPI.SendRequestEx = function(sURL, bSendUser, sFormat, sBodyData, sBodyFlat, pCallback)
 {
     // add main URL, game ID and format type
     sURL = GJAPI.sAPI + encodeURI(sURL)              +
@@ -115,12 +117,13 @@ GJAPI.SendRequestEx = function(sURL, bSendUser, sFormat, sBodyData, pCallback)
     }
 
     // generate MD5 signature
-    sURL += "&signature=" + hex_md5(sURL + GJAPI.sGameKey);
+    sURL += "&signature=" + hex_md5(sURL + sBodyFlat + GJAPI.sGameKey);
 
     // send off the request
     __CreateAjax(sURL, sBodyData, function(sResponse)
     {
-        console.info(GJAPI.sLogName + " <" + sURL + "> " + sResponse);
+        if(GJAPI.bDebugMode) console.info(GJAPI.sLogName + " <" + sURL + "> " + sResponse);
+
         if((sResponse === "") || (typeof pCallback !== "function")) return;
 
         switch(sFormat) 
@@ -130,9 +133,9 @@ GJAPI.SendRequestEx = function(sURL, bSendUser, sFormat, sBodyData, pCallback)
             break;
 
         case "dump":
-            var iLineBreakIndex = sResponse.indexOf("\n");
-            var sResult = sResponse.substr(0, iLineBreakIndex - 1);
-            var sData   = sResponse.substr(iLineBreakIndex + 1);
+            const iLineBreakIndex = sResponse.indexOf("\n");
+            const sResult = sResponse.substring(0, iLineBreakIndex - 1);
+            const sData   = sResponse.substring(iLineBreakIndex + 1);
 
             pCallback
             ({
@@ -176,7 +179,7 @@ GJAPI.SessionOpen = function()
     function(pResponse)
     {
         // check for success
-        if(pResponse.success)
+        if(pResponse.success === "true")
         {
             // add automatic session ping and close
             GJAPI.iSessionHandle = window.setInterval(GJAPI.SessionPing, 30000);
@@ -210,6 +213,11 @@ GJAPI.SessionClose = function()
     GJAPI.SendRequest("/sessions/close/", GJAPI.SEND_FOR_USER);
 };
 
+GJAPI.SessionCheck = function(pCallback)
+{
+    GJAPI.SendRequest("/sessions/check/", GJAPI.SEND_FOR_USER, pCallback);
+};
+
 // automatically start player session
 if(GJAPI.bLoggedIn) GJAPI.SessionOpen();
 
@@ -228,7 +236,7 @@ GJAPI.UserLoginManual = function(sUserName, sUserToken, pCallback)
     function(pResponse)
     {
         // check for success
-        if(pResponse.success)
+        if(pResponse.success === "true")
         {
             // save login properties
             GJAPI.bLoggedIn  = true;
@@ -303,14 +311,37 @@ GJAPI.TrophyAchieve = function(iTrophyID, pCallback)
     function(pResponse)
     {
         // check for success
-        if(pResponse.success)
+        if(pResponse.success === "true")
         {
             // save status
             GJAPI.abTrophyCache[iTrophyID] = true;
         }
 
         // execute nested callback
-        if(typeof pCallback === "function") 
+        if(typeof pCallback === "function")
+            pCallback(pResponse);
+    });
+};
+
+GJAPI.TrophyRemove = function(iTrophyID, pCallback)
+{
+    if(!GJAPI.bLoggedIn) {GJAPI.LogTrace("TrophyRemove(" + iTrophyID + ") failed: no user logged in"); return;}
+
+    // check if the trophy is not achieved
+    if(!GJAPI.abTrophyCache[iTrophyID]) return;
+
+    // send remove trophy requests
+    GJAPI.SendRequest("/trophies/remove-achieved/?trophy_id=" + iTrophyID, GJAPI.SEND_FOR_USER,
+    function(pResponse)
+    {
+        // update trophy status if successful
+        if(pResponse.success === "true")
+        {
+            GJAPI.abTrophyCache[iTrophyID] = false;
+        }
+
+        // execute nested callback
+        if(typeof pCallback === "function")
             pCallback(pResponse);
     });
 };
@@ -320,8 +351,8 @@ GJAPI.TrophyFetch = function(iAchieved, pCallback)
     if(!GJAPI.bLoggedIn) {GJAPI.LogTrace("TrophyFetch(" + iAchieved + ") failed: no user logged in"); return;}
 
     // only trophies with the requested status
-    var sTrophyData = (iAchieved === GJAPI.TROPHY_ALL) ? "" :
-                      "?achieved=" + ((iAchieved >= GJAPI.TROPHY_ONLY_ACHIEVED) ? "true" : "false");
+    const sTrophyData = (iAchieved === GJAPI.TROPHY_ALL) ? "" :
+                        "?achieved=" + ((iAchieved >= GJAPI.TROPHY_ONLY_ACHIEVED) ? "true" : "false");
 
     // send fetch-trophy request
     GJAPI.SendRequest("/trophies/" + sTrophyData, GJAPI.SEND_FOR_USER, pCallback);
@@ -341,6 +372,9 @@ GJAPI.TrophyFetchSingle = function(iTrophyID, pCallback)
 GJAPI.SCORE_ONLY_USER = true;
 GJAPI.SCORE_ALL       = false;
 
+GJAPI.BETTER_THAN = true;
+GJAPI.WORSE_THAN  = false;
+
 GJAPI.ScoreAdd = function(iScoreTableID, iScoreValue, sScoreText, sExtraData, pCallback)
 {
     if(!GJAPI.bLoggedIn) {GJAPI.LogTrace("ScoreAdd(" + iScoreTableID + ", " + iScoreValue + ", " + sScoreText + ") failed: no user logged in"); return;}
@@ -352,7 +386,7 @@ GJAPI.ScoreAdd = function(iScoreTableID, iScoreValue, sScoreText, sExtraData, pC
 GJAPI.ScoreAddGuest = function(iScoreTableID, iScoreValue, sScoreText, sGuestName, sExtraData, pCallback)
 {
     // use current user data or guest name
-    var bIsGuest = (sGuestName && sGuestName.length) ? true : false;
+    const bIsGuest = (sGuestName && sGuestName.length) ? true : false;
 
     // send add-score request
     GJAPI.SendRequest("/scores/add/"                                          +
@@ -369,13 +403,75 @@ GJAPI.ScoreFetch = function(iScoreTableID, bOnlyUser, iLimit, pCallback)
     if(!GJAPI.bLoggedIn && bOnlyUser) {GJAPI.LogTrace("ScoreFetch(" + iScoreTableID + ", " + bOnlyUser + ", " + iLimit + ") failed: no user logged in"); return;}
 
     // only scores from the current user or all scores
-    var bFetchAll = (bOnlyUser === GJAPI.SCORE_ONLY_USER) ? false : true;
+    const bFetchAll = (bOnlyUser === GJAPI.SCORE_ONLY_USER) ? false : true;
 
     // send fetch-score request
     GJAPI.SendRequest("/scores/"         +
                       "?limit=" + iLimit +
                       (iScoreTableID ? ("&table_id=" + iScoreTableID) : ""),
                       (bFetchAll ? GJAPI.SEND_GENERAL : GJAPI.SEND_FOR_USER), pCallback);
+};
+
+GJAPI.ScoreFetchGuest = function(iScoreTableID, sGuestName, iLimit, pCallback)
+{
+    GJAPI.SendRequest("/scores/"             +
+                      "?limit=" + iLimit     +
+                      "&guest=" + sGuestName +
+                      (iScoreTableID ? ("&table_id=" + iScoreTableID) : ""),
+                      GJAPI.SEND_GENERAL, pCallback);
+};
+
+// ScoreFetch, but with better_than or worse_than parameter
+// use GJAPI.BETTER_THAN and GJAPI.WORSE_THAN for better code readability
+// if iScoreValue is 0, it will work like ScoreFetch
+GJAPI.ScoreFetchEx = function(iScoreTableID, bOnlyUser, iLimit, bBetterOrWorse, iScoreValue, pCallback)
+{
+    if(!GJAPI.bLoggedIn && bOnlyUser) {GJAPI.LogTrace("ScoreFetch(" + iScoreTableID + ", " + bOnlyUser + ", " + iLimit + ", " + bBetterOrWorse + ", " + iScoreValue + ") failed: no user logged in"); return;}
+
+    const bFetchAll = (bOnlyUser === GJAPI.SCORE_ONLY_USER) ? false : true;
+
+    GJAPI.SendRequest("/scores/"         +
+                      "?limit=" + iLimit +
+                      (iScoreTableID  ? ("&table_id=" + iScoreTableID) : "") +
+                      (bBetterOrWorse ? "&better_than=" : "&worse_than=") + iScoreValue,
+                      (bFetchAll ? GJAPI.SEND_GENERAL : GJAPI.SEND_FOR_USER), pCallback);
+};
+
+// ScoreFetchGuest, but with better_than or worse_than parameter
+// use GJAPI.BETTER_THAN and GJAPI.WORSE_THAN for better code readability
+// if iScoreValue is 0, it will work like ScoreFetchGuest
+GJAPI.ScoreFetchGuestEx = function(iScoreTableID, sGuestName, iLimit, bBetterOrWorse, iScoreValue, pCallback)
+{
+    GJAPI.SendRequest("/scores/"             +
+                      "?limit=" + iLimit     +
+                      "&guest=" + sGuestName +
+                      (iScoreTableID  ? ("&table_id=" + iScoreTableID) : "") +
+                      (bBetterOrWorse ? "&better_than=" : "&worse_than=") + iScoreValue,
+                      GJAPI.SEND_GENERAL, pCallback);
+};
+
+GJAPI.ScoreGetRank = function(iScoreTableID, iScoreValue, pCallback)
+{
+    GJAPI.SendRequest("/scores/get-rank/"    +
+                      "?sort=" + iScoreValue +
+                      (iScoreTableID ? ("&table_id=" + iScoreTableID) : ""),
+                      GJAPI.SEND_GENERAL, pCallback);
+};
+
+GJAPI.ScoreGetTables = function(pCallback)
+{
+    GJAPI.SendRequest("/scores/tables/", GJAPI.SEND_GENERAL, pCallback);
+}
+
+
+// ****************************************************************
+// friend functions
+GJAPI.FriendsFetch = function(pCallback)
+{
+    if(!GJAPI.bLoggedIn) {GJAPI.LogTrace("FriendsFetch() failed: no user logged in"); return;}
+
+    // send fetch-friends request
+    GJAPI.SendRequest("/friends/", GJAPI.SEND_FOR_USER, pCallback);
 };
 
 
@@ -387,13 +483,13 @@ GJAPI.DATA_STORE_GLOBAL = 1;
 GJAPI.DataStoreSet = function(iStore, sKey, sData, pCallback)
 {
     // send set-data request
-    GJAPI.SendRequestEx("/data-store/set/?key=" + sKey, (iStore === GJAPI.DATA_STORE_USER), "json", "data=" + sData, pCallback);
+    GJAPI.SendRequestEx("/data-store/set/?key=" + sKey, (iStore === GJAPI.DATA_STORE_USER), "json", "data=" + sData, "data" + sData, pCallback);
 };
 
 GJAPI.DataStoreFetch = function(iStore, sKey, pCallback)
 {
     // send fetch-data request
-    GJAPI.SendRequestEx("/data-store/?key=" + sKey, (iStore === GJAPI.DATA_STORE_USER), "dump", "", pCallback);
+    GJAPI.SendRequestEx("/data-store/?key=" + sKey, (iStore === GJAPI.DATA_STORE_USER), "dump", "", "", pCallback);
 };
 
 GJAPI.DataStoreUpdate = function(iStore, sKey, sOperation, sValue, pCallback)
@@ -418,6 +514,16 @@ GJAPI.DataStoreGetKeys = function(iStore, pCallback)
     GJAPI.SendRequest("/data-store/get-keys/", (iStore === GJAPI.DATA_STORE_USER), pCallback);
 };
 
+
+// ****************************************************************
+// time functions
+GJAPI.TimeFetch = function(pCallback)
+{
+    // send fetch-time request
+    GJAPI.SendRequest("/time/", GJAPI.SEND_GENERAL, pCallback);
+};
+
+
 // ****************************************************************
 // create asynchronous request
 function __CreateAjax(sUrl, sBodyData, pCallback)
@@ -426,7 +532,7 @@ function __CreateAjax(sUrl, sBodyData, pCallback)
 
     if(window.XMLHttpRequest)
     {
-        var pRequest = new XMLHttpRequest();
+        const pRequest = new XMLHttpRequest();
 
         // bind callback function
         pRequest.onreadystatechange = function()
