@@ -1,4 +1,4 @@
-let update_date = {"month":0,"startDay":2,"endDay":9};
+let update_date = {"month":2,"startDay":13,"endDay":31};
 let popup = 1;
 let stcweapon = 0;
 let christmasSkin = 0;
@@ -243,7 +243,7 @@ let cratesw1X = 640;
 let cratesw1Y = 50;
 let wave = 22;
 let oldwave = 1;
-let upgradeMenu = false;
+let upgrademenu = 0;
 let resetframe = 6;
 let tickCount = 0;
 let frameIndex = 0;
@@ -488,7 +488,7 @@ let autoLeftlet = 0;
 let autoRightlet = 0;
 let startTimer = 0;
 let coolTick = 0;
-let shoot = false;
+let fire = 0;
 let fireR = 0;
 let fireL = 0;
 let fireU = 0;
@@ -519,11 +519,6 @@ let down = 0;
 let left = 0;
 let right = 0;
 let mutemusic = 0;
-let val = document.getElementById("volume").value;
-let val2 = document.getElementById("soundvolume").value;
-let MShooting = document.getElementById("mute_SHOOTING").checked;
-let MLowAmmo = document.getElementById("mute_LOW_AMMO").checked;
-let MExplosion = document.getElementById("mute_EXPLOSION").checked;
 let firesoundstart = 0;
 let sound = 0
 let muteShooting = false;
@@ -541,7 +536,7 @@ let goToWarpZone = false;
 let money = 50;
 let totalMoney = 0;
 let switchy = 0;
-let pauseGame = false;
+let pauseGame = 0;
 let backSwitch = 0;
 let NOUPGRADESAVAILABLE = false;
 let upgrade1trigger = false;
@@ -575,40 +570,40 @@ function start() {
 	}
 	//Settings
 	if (localStorage.getItem("PlayerShadows") != null) {
-		document.getElementById("PSshow").checked = JSON.parse(localStorage.getItem("PlayerShadows"));
+		PSshow.checked = JSON.parse(localStorage.getItem("PlayerShadows"));
 	}
 	if (localStorage.getItem("LevelShadows") != null) {
-		document.getElementById("LSshow").checked = JSON.parse(localStorage.getItem("LevelShadows"));
+		LSshow.checked = JSON.parse(localStorage.getItem("LevelShadows"));
 	}
 	if (localStorage.getItem("UserInterfaceShadows") != null) {
-		document.getElementById("UISshow").checked = JSON.parse(localStorage.getItem("UserInterfaceShadows"));
+		UISshow.checked = JSON.parse(localStorage.getItem("UserInterfaceShadows"));
 	}
 	if (localStorage.getItem("ImageSmoothing") != null) {
-		document.getElementById("imgSmooth").checked = JSON.parse(localStorage.getItem("ImageSmoothing"));
+		imgSmooth.checked = JSON.parse(localStorage.getItem("ImageSmoothing"));
 	}
 	if (localStorage.getItem("HealthBars") != null) {
-		document.getElementById("HBshow").checked = JSON.parse(localStorage.getItem("HealthBars"));
+		HBshow.checked = JSON.parse(localStorage.getItem("HealthBars"));
 	}
 	if (localStorage.getItem("AnimatedSprites_") != null) {
-		document.getElementById("AnimatedSprites").checked = JSON.parse(localStorage.getItem("AnimatedSprites_"));
+		AnimatedSprites.checked = JSON.parse(localStorage.getItem("AnimatedSprites_"));
 	}
 	if (localStorage.getItem("ShowFPSCounter_") != null) {
-		document.getElementById("FPSShow").checked = JSON.parse(localStorage.getItem("ShowFPSCounter_"));
+		FPSShow.checked = JSON.parse(localStorage.getItem("ShowFPSCounter_"));
 	}
 	if (localStorage.getItem("MuteShooting_") != null) {
-		document.getElementById("mute_SHOOTING").checked = JSON.parse(localStorage.getItem("MuteShooting_"));
+		mute_SHOOTING.checked = JSON.parse(localStorage.getItem("MuteShooting_"));
 	}
 	if (localStorage.getItem("MuteLAmmo_") != null) {
-		document.getElementById("mute_LOW_AMMO").checked = JSON.parse(localStorage.getItem("MuteLAmmo_"));
+		mute_LOW_AMMO.checked = JSON.parse(localStorage.getItem("MuteLAmmo_"));
 	}
 	if (localStorage.getItem("mute_EXPLOSION") != null) {
-		document.getElementById("mute_EXPLOSION").checked = JSON.parse(localStorage.getItem("mute_EXPLOSION"));
+		mute_EXPLOSION.checked = JSON.parse(localStorage.getItem("mute_EXPLOSION"));
 	}
 	if (localStorage.getItem("MusicVol") != null) {
-		document.getElementById("volume").value = JSON.parse(localStorage.getItem("MusicVol"));
+		music_volume.value = JSON.parse(localStorage.getItem("MusicVol"));
 	}
 	if (localStorage.getItem("SoundFXVol") != null) {
-		document.getElementById("soundvolume").value = JSON.parse(localStorage.getItem("SoundFXVol"));
+		sfx_volume.value = JSON.parse(localStorage.getItem("SoundFXVol"));
 	}
 	if (localStorage.getItem("MoveUpControl") != null) {
 		Up_ = localStorage.getItem("MoveUpControl");
@@ -661,76 +656,76 @@ function start() {
 	if (localStorage.getItem("Settings_") != null) {
 		SShow = localStorage.getItem("Settings_");
 	}
-	endCard = new component(800, 390, "endscreen", 0, 0, "img");
-	guardianPic = new component(25, 25, "badguy5img", 650, 450, "animated-img-rot");
+	endCard = new component(800, 390, "end_screen", 0, 0, "img");
+	guardianPic = new component(25, 25, "enemy_5", 650, 450, "animated-img-rot");
 	guardianPic_lazer = new component(0, "round", "#650014", 0, 0, "line", 0, 0);
 	guardianPic_lazer.globalAlpha = 0;
 	guardianBox = new component(25, 25, "red", 650, 450, "rec", "enemy");
 	guardianhealthbar = new component(GuardHealth / 2, 5, guardHealthBarColor, guardianBox.x, guardianBox.y - 8, "rec");
-	bossWave7pic = new component(35, 35, "wave7boss", Boss7_Start_X, Boss7_Start_Y, "animated-img-rot");
-	bossWave7sheildPic = new component(35, 35, "wave7bossSheild", Boss7_Start_X, Boss7_Start_Y, "animated-img-rot");
+	bossWave7pic = new component(35, 35, "boss_1", Boss7_Start_X, Boss7_Start_Y, "animated-img-rot");
+	bossWave7sheildPic = new component(35, 35, "boss_1_shielded", Boss7_Start_X, Boss7_Start_Y, "animated-img-rot");
 	bossWave7 = new component(35, 35, "red", Boss7_Start_X, Boss7_Start_Y, "rec");
 	boss7healthbar = new component(BossHealth / 2, 10, bossHealthBarColor, 150, 20, "rec");
 	bosstxt = new component("15px Arial", "BOSS:", "white", 150, 15, "text");
 	bosstxt2 = new component("15px Arial", "BOSS: Sheilded", "white", 150, 15, "text");
-	recenemypic1 = new component(25, 25, "badguy2img", 450, 60, "animated-img-rot");
+	recenemypic1 = new component(25, 25, "enemy_2", 450, 60, "animated-img-rot");
 	recenemypic1_lazer = new component(0, "round", "black", 0, 0, "line", 0, 0);
 	recenemypic1_lazer.globalAlpha = 0;
 	recbox1 = new component(25, 25, "red", 450, 60, "rec", "enemy");
 	badguy1healthbar3 = new component(Badhealth4 / 2, 5, badHealthBarColor3, recbox1.x, recbox1.y - 8, "rec");
 	recpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec", "enemy");
 	recwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
-	xenemypic1 = new component(31, 31, "badguy4img", 450, 60, "animated-img-rot");
+	xenemypic1 = new component(31, 31, "enemy_4", 450, 60, "animated-img-rot");
 	xenemypic1_lazer = new component(0, "round", "yellow", 0, 0, "line", 0, 0);
 	xenemypic1_lazer.globalAlpha = 0;
 	xbox1 = new component(31, 31, "red", 450, 60, "rec", "enemy");
 	badguy1healthbar5 = new component(Badhealth5 / 2, 5, badHealthBarColor5, xbox1.x, xbox1.y - 8, "rec");
 	xpos1 = new component(25, 25, "orange", rec1posX, rec1posY, "rec", "enemy");
 	xwavebox1 = new component(35, 35, "black", rec1posX - 5, rec1posY - 5, "rec");
-	badguypic1 = new component(25, 25, "badguy1img", 650, 450, "animated-img-rot");
+	badguypic1 = new component(25, 25, "enemy_1", 650, 450, "animated-img-rot");
 	badguypic1_lazer = new component(0, "round", "darkred", 0, 0, "line", 0, 0);
 	badguypic1_lazer.globalAlpha = 0;
 	badguy1 = new component(25, 25, "red", 650, 450, "rec", "enemy");
 	badguy1healthbar = new component(Badhealth1 / 2, 5, badHealthBarColor, badguy1.x, badguy1.y - 8, "rec");
 	badpos1 = new component(25, 25, "orange", bad1posX, bad1posY, "rec", "enemy");
 	badwavebox1 = new component(35, 35, "black", bad1posX - 5, bad1posY - 5, "rec");
-	badguypic2 = new component(25, 25, "badguy1img", 40, 150, "animated-img-rot");
+	badguypic2 = new component(25, 25, "enemy_1", 40, 150, "animated-img-rot");
 	badguypic2_lazer = new component(0, "round", "darkred", 0, 0, "line", 0, 0);
 	badguypic2_lazer.globalAlpha = 0;
 	badguy2 = new component(25, 25, "red", 40, 150, "rec", "enemy");
 	badguy1healthbar2 = new component(Badhealth2 / 2, 5, badHealthBarColor2, badguy2.x, badguy2.y - 8, "rec");
 	badpos2 = new component(25, 25, "orange", bad2posX, bad2posY, "rec");
 	badwavebox2 = new component(35, 35, "black", bad2posX - 5, bad2posY - 5, "rec");
-	trienemypic = new component(35, 34.5, "badguy3img", 430, 100, "animated-img-rot");
+	trienemypic = new component(35, 34.5, "enemy_3", 430, 100, "animated-img-rot");
 	trienemypic_lazer = new component(0, "round", "purple", 0, 0, "line", 0, 0);
 	trienemypic_lazer.globalAlpha = 0;
 	tribox = new component(35, 35, "red", 430, 100, "rec", "enemy");
 	badguy1healthbar4 = new component(Badhealth3 / 2, 5, badHealthBarColor4, tribox.x, tribox.y - 8, "rec");
-	tribpic = new component(10, 10, "enemybull", 400, 100, "img-rot");
+	tribpic = new component(10, 10, "enemy_bullet", 400, 100, "img-rot");
 	tribbox = new component(10, 10, "orange", 400, 100, "rec");
 	tripos1 = new component(5, 5, "orange", tri1posX, tri1posY, "rec");
 	triwavebox1 = new component(15, 15, "black", tri1posX - 5, tri1posY - 5, "rec");
 	bullbox = new component(10, 10, "orange", 400, 180, "rec");
 	bullcir = new component(10, 10, "grey", 400, 180, "cir", 3, "black", 0);
-	bpic = new component(10, 10, "bullpic1", 400, 180, "animated-img-rot");
-	bpic2 = new component(10, 10, "bullpic2", 400, 180, "animated-img-rot");
-	bpic3 = new component(10, 10, "bullpic3", 400, 180, "animated-img-rot");
-	bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
-	bpic5 = new component(10, 10, "bullpic5", 400, 180, "animated-img-rot");
+	bpic = new component(10, 10, "bullet_1", 400, 180, "animated-img-rot");
+	bpic2 = new component(10, 10, "bullet_2", 400, 180, "animated-img-rot");
+	bpic3 = new component(10, 10, "bullet_3", 400, 180, "animated-img-rot");
+	bpic4 = new component(10, 10, "bullet_4", 400, 180, "img");
+	bpic5 = new component(10, 10, "bullet_5", 400, 180, "animated-img-rot");
 	box = new component(25, 25, "grey", playerX, playerY, "player1", "player");
 	circle = new component(0, 0, "white", playerX, playerY, "cir", 16.5);
 	detectbox = new component(100, 100, "black", playerX - 37.5, playerY - 37.5, "rec");
-	ship1 = new component(32, 32, "player1img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+	ship1 = new component(32, 32, "player_1", playerX - 3.5, playerY - 3.5, "animated-img-rot");
 	playerShipsArray.push(ship1);
-	ship2 = new component(25, 25, "player2img", playerX, playerY, "animated-img-rot");
+	ship2 = new component(25, 25, "player_2", playerX, playerY, "animated-img-rot");
 	playerShipsArray.push(ship2);
-	ship3 = new component(25, 25, "player3img", playerX, playerY, "animated-img-rot");
+	ship3 = new component(25, 25, "player_3", playerX, playerY, "animated-img-rot");
 	playerShipsArray.push(ship3);
-	ship4 = new component(25, 25, "player4img", playerX, playerY, "animated-img-rot");
+	ship4 = new component(25, 25, "player_4", playerX, playerY, "animated-img-rot");
 	playerShipsArray.push(ship4);
-	ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+	ship5 = new component(32, 32, "player_5", playerX - 3.5, playerY - 3.5, "animated-img-rot");
 	playerShipsArray.push(ship5);
-	ship6 = new component(25, 25, "player6img", playerX, playerY, "animated-img-rot");
+	ship6 = new component(25, 25, "player_6", playerX, playerY, "animated-img-rot");
 	playerShipsArray.push(ship6);
 	PlayerShadowManager = new PlayerShadowHandler(playerShipsArray, "black", 5, 3, 3);"rec-rot-poly"
 	//Warp Zone
@@ -806,20 +801,20 @@ function start() {
 	Earth_PopUp_No_Text.shadowBlur_ = 2;
 	Earth_PopUp_No_Text.shadowOffsetX_ = 1;
 	Earth_PopUp_No_Text.shadowOffsetY_ = 1;
-	w1t5 = new component(800, 390, "wave1t5", 0, 0, "img");
-	w5t7 = new component(800, 390, "wave5t7", 0, 0, "img");
-	Explosion = new component(800, 390, "EXFrame1", 0, 0, "img");
-	Explosion_2 = new component(800, 390, "EXFrame1", 0, 0, "img");
-	Explosion_3 = new component(800, 390, "EXFrame1", 0, 0, "img");
-	Explosion_4 = new component(800, 390, "EXFrame1", 0, 0, "img");
-	Explosion_5 = new component(800, 390, "EXFrame1", 0, 0, "img");
+	w1t5 = new component(800, 390, "1-4_background", 0, 0, "img");
+	w5t7 = new component(800, 390, "5-7_background", 0, 0, "img");
+	Explosion = new component(800, 390, "explosion_frame_1", 0, 0, "img");
+	Explosion_2 = new component(800, 390, "explosion_frame_1", 0, 0, "img");
+	Explosion_3 = new component(800, 390, "explosion_frame_1", 0, 0, "img");
+	Explosion_4 = new component(800, 390, "explosion_frame_1", 0, 0, "img");
+	Explosion_5 = new component(800, 390, "explosion_frame_1", 0, 0, "img");
 	wallleft = new component(60, 400, "black", -60, 0, "rec");
 	wallright = new component(60, 400, "black", 800, 0, "rec");
 	wall3 = new component(800, 60, "black", 0, -60, "rec");
 	wall4 = new component(800, 60, "black", 0, 390, "rec");
-	roofhouse1 = new component(140, 130, "houseroof1", 70, 70, "img");
+	roofhouse1 = new component(140, 130, "house_roof_1", 70, 70, "img");
 	insidedetect1 = new component(120, 140, "gray", 80, 80, "rec");
-	floorhouse1 = new component(120, 120, "housefloor1", 80, 80, "img");
+	floorhouse1 = new component(120, 120, "house_floor_1", 80, 80, "img");
 	wallhouse1 = new component(120, 10, "grey", 80, 80, "rec");
 	wallhouse1_2 = new component(120, 10, "grey", 80, 70, "rec");
 	wallhouse2 = new component(10, 100, "grey", 80, 90, "rec");
@@ -850,9 +845,9 @@ function start() {
 	wall2house6_3 = new component(100, 20, "grey", 610, 190, "rec");
 	wall2house7 = new component(10, 5, "grey", 610, 197.5, "rec");
 	wall2house8 = new component(190, 20, "grey", 510, 190, "rec");
-	roof2house1 = new component(210, 120, "houseroof1", 500, 90, "img");
+	roof2house1 = new component(210, 120, "house_roof_1", 500, 90, "img");
 	inside2detect1 = new component(190, 130, "gray", 510, 100, "rec");
-	floor2house1 = new component(200, 120, "housefloor1", 500, 90, "img");
+	floor2house1 = new component(200, 120, "house_floor_1", 500, 90, "img");
 	tree1_1_D = new component(50, 50, "black", 80, 290, "rec");
 	tree1_1 = new component(50, 50, "tree", 80, 290, "img-rot");
 	tree1_1.angle = Math.random()*6.28318531;
@@ -899,10 +894,10 @@ function start() {
 	wall3house5_4 = new component(110, 20, "#666666", 640, 130, "rec");
 	wall3house6 = new component(270, 10, "#666666", 480, 140, "rec");
 	inside3detect1 = new component(260, 100, "black", 485, 60, "rec");
-	floor3house1 = new component(270, 100, "housefloor3", 480, 50, "img");
-	burntHouse1 = new component(270, 100, "Burnt", 480, 50, "img");
-	roof3house1 = new component(270, 100, "houseroof2", 480, 50, "img");
-	roof3house2 = new component(50, 50, "houseroof2", 590, 120, "img");
+	floor3house1 = new component(270, 100, "house_floor_3", 480, 50, "img");
+	burntHouse1 = new component(270, 100, "burnt_house", 480, 50, "img");
+	roof3house1 = new component(270, 100, "house_roof_2", 480, 50, "img");
+	roof3house2 = new component(50, 50, "house_roof_2", 590, 120, "img");
 	wall4house1 = new component(270, 10, "#666666", 480, 340, "rec");
 	wall4house1_1 = new component(250, 10, "#666666", 490, 330, "rec");
 	wall4house2 = new component(10, 90, "#666666", 480, 255, "rec");
@@ -923,16 +918,16 @@ function start() {
 	wall4house6_3 = new component(10, 5, "#666666", 640, 257.5, "rec");
 	wall4house6_4 = new component(70, 20, "#666666", 580, 250, "rec");
 	wall4house7 = new component(270, 10, "#666666", 480, 250, "rec");
-	floor4house1 = new component(270, 90, "housefloor2", 480, 250, "img");
-	burntHouse2 = new component(270, 100, "Burnt", 480, 250, "img");
+	floor4house1 = new component(270, 90, "house_floor_2", 480, 250, "img");
+	burntHouse2 = new component(270, 100, "burnt_house", 480, 250, "img");
 	inside4detect1 = new component(250, 90, "black", 490, 245, "rec");
-	roof4house1 = new component(270, 100, "houseroof3", 480, 250, "img");
-	roof4house2 = new component(50, 50, "houseroof3", 530, 230, "img");
-	roof4house3 = new component(50, 50, "houseroof3", 650, 230, "img");
-	plantbox1_1 = new component(50, 50, "plantbox1", 360, 280, "img");
-	plantbox2_1 = new component(50, 50, "plantbox1", 60, 280, "img");
-	plantbox3_1 = new component(50, 50, "plantbox1", 260, 280, "img");
-	plantbox4_1 = new component(50, 50, "plantbox1", 160, 280, "img");
+	roof4house1 = new component(270, 100, "house_roof_3", 480, 250, "img");
+	roof4house2 = new component(50, 50, "house_roof_3", 530, 230, "img");
+	roof4house3 = new component(50, 50, "house_roof_3", 650, 230, "img");
+	plantbox1_1 = new component(50, 50, "plant_box", 360, 280, "img");
+	plantbox2_1 = new component(50, 50, "plant_box", 60, 280, "img");
+	plantbox3_1 = new component(50, 50, "plant_box", 260, 280, "img");
+	plantbox4_1 = new component(50, 50, "plant_box", 160, 280, "img");
 	tree2_3_D = new component(50, 50, "black", 360, 280, "rec");
 	tree2_3 = new component(50, 50, "tree", 360, 280, "img-rot");
 	tree2_3.angle = Math.random()*6.28318531;
@@ -979,19 +974,19 @@ function start() {
 	ammoBtxt = new component("15px Arial", "(A) Recover Ammo", "white", upgrade1X + 237.5, upgrade1Y + 100, "text", "center");
 	ammotxtinfo = new component("15px Arial", "Ammo Recovery Cost: $"+(maxAmmo-ammo), "white", 45, backY+115, "text");
 	costToRevive = new component("30px Arial", "", "darkred", 10, 490, "text");
-	menuboard = new component(800, 500, "titlescreen", 0, 0, "img");
+	menuboard = new component(800, 500, "title_screen", 0, 0, "img");
 	menuboardtxttimer = new TimerComponent(0, 100);
 	menuboardtxt = new component("30px Arial", "Press Space To Start!", "#bc8dd3", menuboard.width/2, menuboard.height/2 + 30, "text", "center");
 	menuboardtxt.globalAlpha = 0;
-	formplat = new component(75, 75, "1-5platform", 359, 157, "img");
-	border1_5 = new component(800, 390, "1-5sideborder", 0, 0, "img");
-	LowHealth_ = new component(800, 390, "lowhealth", 0, 0, "img");
+	formplat = new component(75, 75, "1-4_platform", 359, 157, "img");
+	border1_4 = new component(800, 390, "1-4_border", 0, 0, "img");
+	LowHealth_ = new component(800, 390, "low_health", 0, 0, "img");
 	LowHealthTxt = new component("35px Arial", "Low Health!", "orange", 30, 35, "text");
 	LowAmmoTxt = new component("35px Arial", "Low Ammo!", "yellow", 30, 380, "text");
 	GotoWarp = new component(205, 50, "#812bb3", 297.5, 450, "rec");
 	GotoWarptxt = new component("20px Arial", "(W) Goto Warp", "white", 400, 482.5, "text", "center");
 	TipsTxt = new component("10px Arial", "Tip:", "white", 10, 482.5, "text");
-	DeathForPlayer = new component(800, 500, "deathscreen", 0, 0, "img");
+	DeathForPlayer = new component(800, 500, "death_screen", 0, 0, "img");
 	middle_UI_edge = new component(100, 80, "black", 350, 430, "rec"); 
 	middle_UI = new component(90, 80, "#63218a", 355, 435, "rec");
 	backgroung_ammo = new component(83, 15, "#812bb3", 358, 438, "rec");
@@ -1000,39 +995,39 @@ function start() {
 	ammotxt = new component("12px Arial", "Arial", "orange", 360, 450, "text");
 	weaptxt = new component("12px Arial", "", "white", 360, 470, "text");
 	wavetxt = new component("12px Arial", "", "white", 360, 490, "text");
-	Mute_UI = new component(80, 80, "Mute", 470, 420, "animated-img");
+	Mute_UI = new component(80, 80, "mute_icon", 470, 420, "animated-img");
 	//pause menu//
 	weap_ship = new component(200, 200, "grey", 300, 40, "rec");
 	shiptxt = new component("15px Arial", "Shipyard", "white", 400, 55, "text", "center");
 	pausetxt = new component("20px Arial", "Collection", "white", 400, 30, "text", "center");
 	//ship yard//
-	ship1Show = new component(32, 32, "player1img", 305, 60, "animated-img-rot");
+	ship1Show = new component(32, 32, "player_1", 305, 60, "animated-img-rot");
 	shipHighLight1 = new component(40, 40, "highlight", ship1Show.x - ((40-ship1Show.width)/2), ship1Show.y - ((40-ship1Show.height)/2), "img-rot");
 	shipHighLight1.globalAlpha = 0;
 	ship1txt = new component("15px Arial", "#1", "white", 321, 105, "text", "center");
-	ship2Show = new component(25, 25, "player2img", 350, 63.5, "animated-img-rot");
+	ship2Show = new component(25, 25, "player_2", 350, 63.5, "animated-img-rot");
 	shipHighLight2 = new component(33, 33, "highlight", ship2Show.x - ((33-ship2Show.width)/2), ship2Show.y - ((33-ship2Show.height)/2), "img-rot");
 	shipHighLight2.globalAlpha = 0;
 	ship2txt = new component("15px Arial", "#2", "white", 362.5, 105, "text", "center");
-	ship3Show = new component(25, 25, "player3img", 387.5, 63.5, "animated-img-rot");
+	ship3Show = new component(25, 25, "player_3", 387.5, 63.5, "animated-img-rot");
 	shipHighLight3 = new component(33, 33, "highlight", ship3Show.x - ((33-ship3Show.width)/2), ship3Show.y - ((33-ship3Show.height)/2), "img-rot");
 	shipHighLight3.globalAlpha = 0;
-	ship3Hidden = new component(25, 25, "hiddenShip", ship3Show.x, ship3Show.y, "img");
+	ship3Hidden = new component(25, 25, "hidden_ship", ship3Show.x, ship3Show.y, "img");
 	ship3txt = new component("15px Arial", "#3", "white", 400, 105, "text", "center");
-	ship4Show = new component(25, 25, "player4img", 425, 63.5, "animated-img-rot");
+	ship4Show = new component(25, 25, "player_4", 425, 63.5, "animated-img-rot");
 	shipHighLight4 = new component(33, 33, "highlight", ship4Show.x - ((33-ship4Show.width)/2), ship4Show.y - ((33-ship4Show.height)/2), "img-rot");
 	shipHighLight4.globalAlpha = 0;
-	ship4Hidden = new component(25, 25, "hiddenShip", ship4Show.x, ship4Show.y, "img");
+	ship4Hidden = new component(25, 25, "hidden_ship", ship4Show.x, ship4Show.y, "img");
 	ship4txt = new component("15px Arial", "#4", "white", 437.5, 105, "text", "center");
-	ship5Show = new component(32, 32, "player5img", 463, 60, "animated-img-rot");
+	ship5Show = new component(32, 32, "player_5", 463, 60, "animated-img-rot");
 	shipHighLight5 = new component(40, 40, "highlight", ship5Show.x - ((40-ship5Show.width)/2), ship5Show.y - ((40-ship5Show.height)/2), "img-rot");
 	shipHighLight5.globalAlpha = 0;
-	ship5Hidden = new component(32, 32, "hiddenShip", ship5Show.x, ship5Show.y, "img");
+	ship5Hidden = new component(32, 32, "hidden_ship", ship5Show.x, ship5Show.y, "img");
 	ship5txt = new component("15px Arial", "#5", "white", 479, 105, "text", "center");
-	ship6Show = new component(25, 25, "player6img", 308.5, 113.5, "animated-img-rot");
+	ship6Show = new component(25, 25, "player_6", 308.5, 113.5, "animated-img-rot");
 	shipHighLight6 = new component(33, 33, "highlight", ship6Show.x - ((33-ship6Show.width)/2), ship6Show.y - ((33-ship6Show.height)/2), "img-rot");
 	shipHighLight6.globalAlpha = 0;
-	ship6Hidden = new component(25, 25, "hiddenShip", ship6Show.x, ship6Show.y, "img");
+	ship6Hidden = new component(25, 25, "hidden_ship", ship6Show.x, ship6Show.y, "img");
 	ship6txt = new component("15px Arial", "#6", "white", 321, 155, "text", "center");
 	FPSText = new component("20px Arial", fps.getFPS(), "green", 10, 20, "text");
 	FPSText.globalAlpha = 0;
@@ -1089,8 +1084,8 @@ function animationComponent(object, num_of_frames, width, height, speed=30, loop
 			this.done = false;
 		}
 		//Update frame
-		this.object.sx = this.frame_x*this.object.width;
-		this.object.sy = this.frame_y*this.object.height;
+		object.sx = this.frame_x*object.width;
+		object.sy = this.frame_y*object.height;
 	}
 	this.reset_frame = function() {
 		this.time = 0;
@@ -1138,10 +1133,9 @@ function animations() {
 	}
 	if (wave >= 5 || BadDeath > 0 || playerDead) {
 		badguypic1.angle = 0;
-		badguypic1_1_animation.reset_frame();
-	}
-	if (!animationNoOff) {
-		badguypic1_1_animation.reset_frame();
+		if (!animationNoOff) {
+			badguypic1_1_animation.reset_frame();
+		}
 	}
 	//badguypic2 enemy animation//
 	if (wave < 7 && wave > 1 && BadDeath2 < 1 && !playerDead) {
@@ -1152,10 +1146,9 @@ function animations() {
 	}
 	if (wave >= 7 || wave < 2 || BadDeath2 > 0 || playerDead) {
 		badguypic2.angle = 0;
-		badguypic2_1_animation.reset_frame();
-	}
-	if (!animationNoOff) {
-		badguypic2_1_animation.reset_frame();
+		if (!animationNoOff) {
+			badguypic2_1_animation.reset_frame();
+		}
 	}
 	//recenemypic1 enemy animation//
 	if (wave > 2 && wave < 5 && BadDeath4 < 1 && !playerDead) {
@@ -1166,10 +1159,9 @@ function animations() {
 	}
 	if (wave >= 5 || wave <= 2 || BadDeath4 > 0 || playerDead) {
 		recenemypic1.angle = 0;
-		recenemypic1_1_animation.reset_frame();
-	}
-	if (!animationNoOff) {
-		recenemypic1_1_animation.reset_frame();
+		if (!animationNoOff) {
+			recenemypic1_1_animation.reset_frame();
+		}
 	}
 	//trienemypic enemy animation//
 	trienemypic.angle = Math.atan2(-box.y+trienemypic.y, -box.x+trienemypic.x)+1.5707963268;
@@ -1178,8 +1170,10 @@ function animations() {
 			trienemypic_1_animation.update();
 		}
 	}
-	if (wave >= 7 || wave <= 4 || BadDeath3 > 0 || playerDead || !animationNoOff) {
-		trienemypic_1_animation.reset_frame();
+	if (wave >= 7 || wave <= 4 || BadDeath3 > 0 || playerDead) {
+		if (!animationNoOff) {
+			trienemypic_1_animation.reset_frame();
+		}
 	}
 	//xenemypic1 enemy animation//
 	if (wave > 5 && wave < 7 && BadDeath5 < 1 && !playerDead) {
@@ -1190,10 +1184,9 @@ function animations() {
 	}
 	if (wave >= 7 || wave <= 5 || BadDeath5 > 0 || playerDead) {
 		xenemypic1.angle = 0;
-		xenemypic1_1_animation.reset_frame();
-	}
-	if (!animationNoOff) {
-		xenemypic1_1_animation.reset_frame();
+		if (!animationNoOff) {
+			xenemypic1_1_animation.reset_frame();
+		}
 	}
 	//guardianPic enemy animation//
 	if (wave == 7 && !GuardDead && GuardStart == 1 && !playerDead) {
@@ -1211,10 +1204,9 @@ function animations() {
 	}
 	if (wave != 7 || GuardDead || GuardStart != 1 || playerDead) {
 		guardianPic.angle = 0;
-		guardianPic_1_animation.reset_frame();
-	}
-	if (!animationNoOff) {
-		guardianPic_1_animation.reset_frame();
+		if (!animationNoOff) {
+			guardianPic_1_animation.reset_frame();
+		}
 	}
 	//bossWave7pic enemy animation//
 	if (wave == 7 && spawnBoss7 == 1 && !BossDead) {
@@ -1224,10 +1216,9 @@ function animations() {
 		}
 	} else {
 		bossWave7pic.angle = 0;
-		bossWave7pic_1_animation.reset_frame();
-	}
-	if (!animationNoOff) {
-		bossWave7pic_1_animation.reset_frame();
+		if (!animationNoOff) {
+			bossWave7pic_1_animation.reset_frame();
+		}
 	}
 	//bossWave7sheildPic enemy animation//
 	bossWave7sheildPic.angle = bossWave7pic.angle;
@@ -1236,106 +1227,129 @@ function animations() {
 			bossWave7sheildPic_1_animation.update();
 		}
 	} else {
-		bossWave7sheildPic_1_animation.reset_frame();
-	}
-	if (!animationNoOff) {
-		bossWave7sheildPic_1_animation.reset_frame();
+		if (!animationNoOff) {
+			bossWave7sheildPic_1_animation.reset_frame();
+		}
 	}
 	//ship1 ship animation//
 	ship1.angle += 0.05;
 	if (!playerDead && playerShip == 0 && animationNoOff) {
 		ship1_1_animation.update();
 	}
-	if (playerDead || playerShip != 0 || !animationNoOff) {
-		ship1_1_animation.reset_frame();
+	if (playerDead || playerShip != 0) {
+		if (!animationNoOff) {
+			ship1_1_animation.reset_frame();
+		}
 	}
 	//ship1Show animation//
 	ship1Show.angle += 0.05;
-	if (pauseGame && !pauseGameKeys && !collection && animationNoOff) {
+	if (pauseGame == 1 && !pauseGameKeys && !collection && animationNoOff) {
 		shipShow1_1_animation.update();
 	}
-	if (!pauseGame || pauseGameKeys || collection || !animationNoOff) {
-		shipShow1_1_animation.reset_frame();
+	if (pauseGame != 1 || pauseGameKeys || collection) {
+		if (!animationNoOff) {
+			shipShow1_1_animation.reset_frame();
+		}
 	}
 	//ship2 ship animation//
 	ship2.angle += 0.05;
 	if (!playerDead && playerShip == 1 && animationNoOff) {
 		ship2_1_animation.update();
 	}
-	if (playerDead || playerShip != 1 || !animationNoOff) {
-		ship2_1_animation.reset_frame();
+	if (playerDead || playerShip != 1) {
+		if (!animationNoOff) {
+			ship2_1_animation.reset_frame();
+		}
 	}
 	//ship2Show animation//
 	ship2Show.angle += 0.05;
-	if (pauseGame && !pauseGameKeys && !collection && animationNoOff) {
+	if (pauseGame == 1 && !pauseGameKeys && !collection && animationNoOff) {
 		shipShow2_1_animation.update();
 	}
-	if (!pauseGame || pauseGameKeys || collection || !animationNoOff) {
-		shipShow2_1_animation.reset_frame();
+	if (pauseGame != 1 || pauseGameKeys || collection) {
+		if (!animationNoOff) {
+			shipShow2_1_animation.reset_frame();
+		}
 	}
 	//ship3 ship animation//
 	ship3.angle += 0.05;
 	if (!playerDead && playerShip == 2 && animationNoOff) {
 		ship3_1_animation.update();
 	}
-	if (playerDead || playerShip != 2 || !animationNoOff) {
-		ship3_1_animation.reset_frame();
+	if (playerDead || playerShip != 2) {
+		if (!animationNoOff) {
+			ship3_1_animation.reset_frame();
+		}
 	}
 	//ship3Show animation//
 	ship3Show.angle += 0.05;
-	if (pauseGame && !pauseGameKeys && !collection && animationNoOff) {
+	if (pauseGame == 1 && !pauseGameKeys && !collection && animationNoOff) {
 		shipShow3_1_animation.update();
 	}
-	if (!pauseGame || pauseGameKeys || collection || !animationNoOff) {
-		shipShow3_1_animation.reset_frame();
+	if (pauseGame != 1 || pauseGameKeys || collection) {
+		if (!animationNoOff) {
+			shipShow3_1_animation.reset_frame();
+		}
 	}
 	//ship4 ship animation//
 	ship4.angle += 0.05;
 	if (!playerDead && playerShip == 3 && animationNoOff) {
 		ship4_1_animation.update();
 	}
-	if (playerDead || playerShip != 3 || !animationNoOff) {
-		ship4_1_animation.reset_frame();
+	if (playerDead || playerShip != 3) {
+		if (!animationNoOff) {
+			ship4_1_animation.reset_frame();
+		}
 	}
 	//ship4Show animation//
 	ship4Show.angle += 0.05;
-	if (pauseGame && !pauseGameKeys && !collection && animationNoOff) {
+	if (pauseGame == 1 && !pauseGameKeys && !collection && animationNoOff) {
 		shipShow4_1_animation.update();
 	}
-	if (!pauseGame || pauseGameKeys || collection || !animationNoOff) {
-		shipShow4_1_animation.reset_frame();
+	if (pauseGame != 1 || pauseGameKeys || collection) {
+		if (!animationNoOff) {
+			shipShow4_1_animation.reset_frame();
+		}
 	}
 	//ship5 ship animation//
 	ship5.angle += 0.05;
 	if (!playerDead && playerShip == 4 && animationNoOff) {
 		ship5_1_animation.update();
 	}
-	if (playerDead || playerShip != 4 || !animationNoOff) {
-		ship5_1_animation.reset_frame();
+	if (playerDead || playerShip != 4) {
+		if (!animationNoOff) {
+			ship5_1_animation.reset_frame();
+		}
 	}
 	//ship5Show animation//
 	ship5Show.angle += 0.05;
-	if (pauseGame && !pauseGameKeys && !collection && animationNoOff) {
+	if (pauseGame == 1 && !pauseGameKeys && !collection && animationNoOff) {
 		shipShow5_1_animation.update();
 	}
-	if (!pauseGame || pauseGameKeys || collection || !animationNoOff) {
-		shipShow5_1_animation.reset_frame();
+	if (pauseGame != 1 || pauseGameKeys || collection) {
+		if (!animationNoOff) {
+			shipShow5_1_animation.reset_frame();
+		}
 	}
 	//ship6 ship animation//
 	ship6.angle += 0.05;
 	if (!playerDead && playerShip == 5 && animationNoOff) {
 		ship6_1_animation.update();
 	}
-	if (playerDead || playerShip != 5 || !animationNoOff) {
-		ship6_1_animation.reset_frame();
+	if (playerDead || playerShip != 5) {
+		if (!animationNoOff) {
+			ship6_1_animation.reset_frame();
+		}
 	}
 	//ship6Show animation//
 	ship6Show.angle += 0.05;
-	if (pauseGame && !pauseGameKeys && !collection && animationNoOff) {
+	if (pauseGame == 1 && !pauseGameKeys && !collection && animationNoOff) {
 		shipShow6_1_animation.update();
 	}
-	if (!pauseGame || pauseGameKeys || collection || !animationNoOff) {
-		shipShow6_1_animation.reset_frame();
+	if (pauseGame != 1 || pauseGameKeys || collection) {
+		if (!animationNoOff) {
+			shipShow6_1_animation.reset_frame();
+		}
 	}
 	//bpic bullet animation//
 	bpic.angle += 0.08;
@@ -1646,13 +1660,13 @@ function component(width, height, color, x, y, type, radius, outcolor, thickness
 	}
 }
 
-function healthBarUI(size=new Vector2()) {
-	
-}
-
 function Health1() {
-	border = new component(113, 57.5, "black", HealthX-5, HealthY-22.5, "rec");
-	background = new component(HealthWidth, HealthHeight, "#812bb3", HealthX, HealthY - 17, "rec");
+	bo = new component(113, 56.5, "black", 25, 428, "rec");
+	w1 = new component(5, 48, "black", HealthX - 5, HealthY - 17, "rec");
+	w2 = new component(5, 48, "black", HealthX + 103, HealthY - 17, "rec");
+	w3 = new component(113, 5, "black", HealthX - 5, HealthY - 22, "rec");
+	w4 = new component(113, 5, "black", HealthX - 5, HealthY + 30, "rec");
+	g = new component(HealthWidth, HealthHeight, "#812bb3", HealthX, HealthY - 17, "rec");
 	texth = new component("18px Arial", "", "red", HealthX + 2, HealthY - 2, "text");
 	base = new component(HealthWidth, HealthHeight, "#63218a", HealthX, HealthY, "rec");
 	full = new component(healthBarLength, HealthHeight - 5, hcolor, HealthX + 1.5, HealthY + 2.5, "rec");
@@ -1661,8 +1675,12 @@ function Health1() {
 	} else {
 		healthBarLength = playerHealth;
 	}
-	border.update();
-	background.update();
+	w1.update();
+	w2.update();
+	w3.update();
+	w4.update();
+	bo.update();
+	g.update();
 	texth.text= "Health:"+Math.round(playerHealth);
 	texth.update();
 	base.update();
@@ -1683,10 +1701,10 @@ function Health1() {
 		hcolor = "red";
 	}
 	if (playerHealth <= 0) {
-		playerDead = true;
+		playerDead = 1;
 	}
 	if (playerHealth > 0) {
-		playerDead = false;
+		playerDead = 0;
 	}
 }
 
@@ -1712,16 +1730,16 @@ function stopshow() {
 function ammocrate() {
 	ammocrate1 = new component(20, 20, "yellow", crate1X, crate1Y, "rec");
 	healthcrate1 = new component(20, 20, "red", crateh1X, crateh1Y, "rec");
-	ammocrate1picO = new component(20, 20, "ammopic1", crate1X, crate1Y, "img");
-	healthcrate1picO = new component(20, 20, "healthpic1", crateh1X, crateh1Y, "img");
-	SWeapon1 = new component(10, 10, "bullpic4", cratesw1X, cratesw1Y, "img");
+	ammocrate1picO = new component(20, 20, "ammo_crate", crate1X, crate1Y, "img");
+	healthcrate1picO = new component(20, 20, "health_crate", crateh1X, crateh1Y, "img");
+	SWeapon1 = new component(10, 10, "bullet_4", cratesw1X, cratesw1Y, "img");
 	SWeapon1Box = new component(10, 10, "orange", cratesw1X, cratesw1Y, "rec");
 }
 
 function checkwave() {
 	if (oldwave != wave && wave > oldwave){
 		if (money > 0 && !NOUPGRADESAVAILABLE) {
-			upgradeMenu = true;
+			upgrademenu = 1;
 		}
 		oldwave = wave;
 	}
@@ -2338,7 +2356,7 @@ function updateGameArea() {
 	detectbox.y = box.y - 35;
 	laserSetUp();
 	if (pauseGame > 1) {
-		pauseGame = false;
+		pauseGame = 0;
 	}
 	if (showPatch > 1) {
 		showPatch = 0;
@@ -2356,12 +2374,10 @@ function updateGameArea() {
 	}
 	Datechecker();
 	if (showPatch == 1) {
-		document.getElementById("updateinfo").style.visibility = "visible";
+		updateinfo.style.visibility = "visible";
 	} else {
-		document.getElementById("updateinfo").style.visibility = "hidden";
+		updateinfo.style.visibility = "hidden";
 	}
-	val = document.getElementById("volume").value;
-	val2 = document.getElementById("soundvolume").value;
 	HB = document.getElementById("HBshow").checked;
 	PlayerShadowsOn = document.getElementById("PSshow").checked;
 	Level_Shadows = document.getElementById("LSshow").checked;
@@ -2395,7 +2411,7 @@ function updateGameArea() {
 	if (wave == 22) {
 		Earth_Planet_Circle_Collider.update();
 	}
-	if (shoot) {
+	if (fire > 0) {
 		bullcir.update();
 		bullbox.update();
 	}
@@ -2488,12 +2504,12 @@ function updateGameArea() {
 			if (box.crashWith(SWeapon1Box)) {
 				stcget = 1;
 				tip = Math.floor(Math.random() * tips);
-				pauseGame = true;
+				pauseGame = 1;
 				specialalert1 = 1;
 			}
 		}
 	}
-	if (shoot) {
+	if (fire > 0) {
 		switch (weapon) {
 			case 0:
 				bpic.update();
@@ -2624,7 +2640,7 @@ function updateGameArea() {
 				circle.radius = 14;
 			break;
 		}
-		if (!startMenu && !upgradeMenu) {
+		if (!startMenu && upgrademenu == 0) {
 			box.newPos();
 			detectbox.newPos();
 		}
@@ -2741,7 +2757,7 @@ function updateGameArea() {
 	}
 	ui.update();
 	if (wave < 5) {
-		border1_5.update();
+		border1_4.update();
 	}
 	if (playerHealth <= 35/100 * playerHealthMax) {
 		LowHealth_.update();
@@ -2750,7 +2766,7 @@ function updateGameArea() {
 	if (ammo <= 20/100 * maxAmmo) {
 		LowAmmoTxt.update();
 	}
-	if (!upgradeMenu) {
+	if (upgrademenu == 0) {
 		recenemypic1.newPos();
 		recbox1.newPos();
 		bullbox.newPos();
@@ -2800,42 +2816,45 @@ function updateGameArea() {
 	waveammoweapon();
 	ammocrate();
 	bulletai();
-	if (pauseGame) {
-		badguypic1.speedX = 0;
-		badguy1.speedX = 0;
-		badguypic1.speedY = 0;
-		badguy1.speedY = 0;
-		badguypic2.speedX = 0;
-		badguy2.speedX = 0;
-		badguypic2.speedY = 0;
-		badguy2.speedY = 0;
-		tribox.speedX = 0;
-		trienemypic.speedX = 0;
-		tribox.speedY = 0;
-		trienemypic.speedY = 0;
-		xenemypic1.speedX = 0;
-		xenemypic1.speedY = 0;
-		xbox1.speedX = 0;
-		xbox1.speedY = 0;
-		recenemypic1.speedX = 0;
-		recbox1.speedX = 0;
-		recenemypic1.speedY = 0;
-		recbox1.speedY = 0;
-		bossWave7pic.speedX = 0;
-		bossWave7pic.speedY = 0;
-		bossWave7.speedX = 0;
-		bossWave7.speedY = 0;
-	} else {
-		badai1();
-		triangleAI();
-		xAI();
-		badai2();
-		badrecai1();
+	switch (pauseGame) {
+		case 0:
+			badai1();
+			triangleAI();
+			xAI();
+			badai2();
+			badrecai1();
+		break;
+		case 1:
+			badguypic1.speedX = 0;
+			badguy1.speedX = 0;
+			badguypic1.speedY = 0;
+			badguy1.speedY = 0;
+			badguypic2.speedX = 0;
+			badguy2.speedX = 0;
+			badguypic2.speedY = 0;
+			badguy2.speedY = 0;
+			tribox.speedX = 0;
+			trienemypic.speedX = 0;
+			tribox.speedY = 0;
+			trienemypic.speedY = 0;
+			xenemypic1.speedX = 0;
+			xenemypic1.speedY = 0;
+			xbox1.speedX = 0;
+			xbox1.speedY = 0;
+			recenemypic1.speedX = 0;
+			recbox1.speedX = 0;
+			recenemypic1.speedY = 0;
+			recbox1.speedY = 0;
+			bossWave7pic.speedX = 0;
+			bossWave7pic.speedY = 0;
+			bossWave7.speedX = 0;
+			bossWave7.speedY = 0;
+		break;
 	}
 	housecontrols();
 	crashhitai1();
 	countwave();
-	if (upgradeMenu) {
+	if (upgrademenu == 1) {
 		upgradeboard.update();
 		infoboard2.update();
 		infoboard.update();
@@ -2889,7 +2908,7 @@ function updateGameArea() {
 		}
 	}
 	TipsText();
-	if (pauseGame && !pauseGameKeys) {
+	if (pauseGame == 1 && !pauseGameKeys) {
 		pauseboard.update();
 		pausetxt.update();
 		if (wave != 22) {
@@ -3042,10 +3061,10 @@ function updateGameArea() {
 	if (pauseGameKeys) {
 		pauseboard.update();
 	}
-	if (wave == 8 && !upgradeMenu && !pauseGame) {
+	if (wave == 8 && upgrademenu == 0 && pauseGame == 0) {
 		endCard.update();
 	}
-	if (startMenu && !upgradeMenu) {
+	if (startMenu && upgrademenu == 0) {
 		menuboard.update();
 		menuboardtxttimer.start_timer();
 		menuboardtxt.update();
@@ -3317,12 +3336,12 @@ function updateGameArea() {
 		pollGamepads();
 	}
 	if (!pauseGameKeys && !stopPause) {
-		pauseGame = false;	
+		pauseGame = 0;	
 		stopPause = true;
 	}
 	if (pauseGameKeys) {
 		tip = Math.floor(Math.random() * tips);
-		pauseGame = true;	
+		pauseGame = 1;	
 		stopPause = false;
 	}
 	if (up == 0 && playerSpeedY <= 0) {
@@ -3375,16 +3394,16 @@ function pollGamepads() {
 		if(gp.axes[1] != 0) {
 			cony = gp.axes[1];
 		}
-		if (cony < -0.2 && !pauseGame) {
+		if (cony < -0.2 && pauseGame == 0) {
 			moveUp();
 		}
-		if (cony > 0.2 && !pauseGame) {
+		if (cony > 0.2 && pauseGame == 0) {
 			moveDown();
 		}
-		if (conx < -0.2 && !pauseGame) {
+		if (conx < -0.2 && pauseGame == 0) {
 			moveLeft();
 		}
-		if (conx > 0.2 && !pauseGame) {
+		if (conx > 0.2 && pauseGame == 0) {
 			moveRight();
 		}
 		if (cony > -0.2 && cony != 0.2) {
@@ -3854,22 +3873,22 @@ function keyDownHandler(event) {
 		keyHit = true;
 	}
 	if (keyPressed == Up_ && !blockKeys && !pauseGameKeys) {		
-		if (!pauseGame) {
+		if (pauseGame == 0) {
 			moveUp();
 		}
 	}
 	else if (keyPressed == Down_ && !blockKeys && !pauseGameKeys) {	
-		if (!pauseGame) {
+		if (pauseGame == 0) {
 			moveDown();
 		}		
 	}
 	else if (keyPressed == Left_ && !blockKeys && !pauseGameKeys) {	
-		if (!pauseGame) {
+		if (pauseGame == 0) {
 			moveLeft();
 		}		
 	}
 	else if (keyPressed == Right_ && !blockKeys && !pauseGameKeys) {	
-		if (!pauseGame) {
+		if (pauseGame == 0) {
 			moveRight();
 		}		
 	}
@@ -3900,22 +3919,22 @@ function keyDownHandler(event) {
 		}
 	}
 	if (keyPressed == shootUp_ && !blockKeys && !pauseGameKeys) {		
-		if (!pauseGame && wave != 22 && wave != 8) {
+		if (pauseGame == 0 && wave != 22 && wave != 8) {
 			autoUp();
 		}
 	}
 	else if (keyPressed == shootDown_ && !blockKeys && !pauseGameKeys) {	
-		if (!pauseGame && wave != 22 && wave != 8) {
+		if (pauseGame == 0 && wave != 22 && wave != 8) {
 			autoDown();
 		}	
 	}
 	else if (keyPressed == shootLeft_ && !blockKeys && !pauseGameKeys) {	
-		if (!pauseGame && wave != 22 && wave != 8) {
+		if (pauseGame == 0 && wave != 22 && wave != 8) {
 			autoLeft();
 		}		
 	}
 	else if (keyPressed == shootRight_ && !blockKeys && !pauseGameKeys) {	
-		if (!pauseGame && wave != 22 && wave != 8) {
+		if (pauseGame == 0 && wave != 22 && wave != 8) {
 			autoRight();
 		}		
 	}
@@ -3925,71 +3944,71 @@ function keyDownHandler(event) {
 	}
 	if (keyPressed == "w")
 	{
-		if (!upgradeMenu && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			goToWarpZone = true;
 		}
 	}
 	if (keyPressed == "1") {
-		if (!upgradeMenu && !pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			swapweap1();
 		}
-		if (!upgradeMenu && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			playerShip = 0;
 			playerHealthMax = 100;
 		}
-		if (upgradeMenu && !blockKeys && !pauseGameKeys) {
+		if (upgrademenu == 1 && !blockKeys && !pauseGameKeys) {
 			upgrade1func();
 		}
 	}
 	if (keyPressed == "2") {
-		if (!upgradeMenu && !pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			swapweap2();
 		}
-		if (!upgradeMenu && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (upgrademenu == 0 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			playerShip = 1;
 			playerHealthMax = 100;
 		}
 	}
 	if (keyPressed == "3") {
-		if (!upgradeMenu && !pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (upgrademenu == 0 && pauseGame == 0 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			swapweap3();
 		}
-		if (!upgradeMenu && christmasSkin == 1 && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (upgrademenu == 0 && christmasSkin == 1 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			playerShip = 2;
 			playerHealthMax = 100;
 		}
 	}
 	if (keyPressed == "4") {
-		if (!upgradeMenu && miniBossShip == 1 && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (upgrademenu == 0 && miniBossShip == 1 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			playerShip = 3;
 			playerHealthMax = 300;
 		}
 	}
 	if (keyPressed == "5") {
-		if (!upgradeMenu && easyShipPrize == 1 && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (upgrademenu == 0 && easyShipPrize == 1 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			playerShip = 4;
 			playerHealthMax = 200;
 		}
 	}
 	if (keyPressed == "6") {
-		if (!upgradeMenu && STPRIZESHIP == 1 && pauseGame && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
+		if (upgrademenu == 0 && STPRIZESHIP == 1 && pauseGame == 1 && specialalert1 == 0 && !collection && !blockKeys && !pauseGameKeys) {
 			playerShip = 5;
 			playerHealthMax = 200;
 		}
 	}
 	if (keyPressed == "h") {
-		if (upgradeMenu && !blockKeys && !pauseGameKeys) {
+		if (upgrademenu == 1 && !blockKeys && !pauseGameKeys) {
 			healthRecovery();
 		}
 	}
 	if (keyPressed == "a") {
-		if (upgradeMenu && !blockKeys && !pauseGameKeys) {
+		if (upgrademenu == 1 && !blockKeys && !pauseGameKeys) {
 			ammoRecovery();
 		}
 	}
 	if (keyPressed == " ")
 	{
-		if (!pauseGame && !blockKeys && !pauseGameKeys) {
+		if (pauseGame == 0 && !blockKeys && !pauseGameKeys) {
 			startMenu = false;
 		}
 	}
@@ -4197,7 +4216,7 @@ function countwave() {
 			countSwitch1 = 0;
 		}
 		if (BadDeath > 0 && badguy1.crashWith(badwavebox1)) {
-			if (!upgradeMenu) {
+			if (upgrademenu == 0) {
 				if (Math.floor(Math.random() * chanceofdrop) == 1 && cratespawn2 == 0 && playerHealth < playerHealthMax) {
 					cratespawn2 += 1;
 					spawncrate2pos = Math.floor(Math.random() * 2);
@@ -4235,7 +4254,7 @@ function countwave() {
 					}
 				}
 			}
-			if (wave < 5 && !upgradeMenu && !pauseGame && countSwitch1 == 0) {
+			if (wave < 5 && upgrademenu == 0 && pauseGame == 0 && countSwitch1 == 0) {
 				money += moneyperendie;
 				if (wave < 3) {
 					moneyperendie = Math.floor(Math.random() * 2) + 1;
@@ -4254,7 +4273,7 @@ function countwave() {
 			countSwitch2 = 0;
 		}
 		if (BadDeath2 > 0 && !startMenu && badguy2.crashWith(badwavebox2)) {
-			if (!upgradeMenu && !pauseGame && countSwitch2 == 0) {
+			if (upgrademenu == 0 && pauseGame == 0 && countSwitch2 == 0) {
 				money += moneyperendie2;
 				if (wave < 6) {
 					moneyperendie2 = Math.floor(Math.random() * 5) + 2;
@@ -4328,7 +4347,7 @@ function countwave() {
 			countSwitch3 = 0;
 		}
 		if (BadDeath4 > 0 && recbox1.crashWith(recwavebox1)) {
-			if (!upgradeMenu && !pauseGame && countSwitch3 == 0) {
+			if (upgrademenu == 0 && pauseGame == 0 && countSwitch3 == 0) {
 				money += moneyperendie4;
 				count += 1;
 				if (wave < 4) {
@@ -4383,7 +4402,7 @@ function countwave() {
 			countSwitch4 = 0;
 		}
 		if (BadDeath3 > 0 && tribox.crashWith(triwavebox1)) {
-			if (!upgradeMenu && !pauseGame && countSwitch4 == 0) {
+			if (upgrademenu == 0 && pauseGame == 0 && countSwitch4 == 0) {
 				money += moneyperendie3;
 				count += 1;
 				if (wave < 6) {
@@ -4447,7 +4466,7 @@ function countwave() {
 			countSwitch5 = 0;
 		}
 		if (BadDeath5 > 0 && xbox1.crashWith(xwavebox1)) {
-			if (!upgradeMenu && !pauseGame && countSwitch5 == 0) {
+			if (upgrademenu == 0 && pauseGame == 0 && countSwitch5 == 0) {
 				money += moneyperendie5;
 				count += 1;
 				if (wave == 6) {
@@ -4502,7 +4521,7 @@ function countwave() {
 			}
 		}
 	}
-	if (!upgradeMenu) {
+	if (upgrademenu == 0) {
 		if (wave < 7 || wave > 7) {
 			if (count == numofbad) {
 				money += moneyperwave;
@@ -4536,9 +4555,9 @@ function countwave() {
 
 function badboxspawn() {
 	if (wave < 5) {
-		if (bullbox.crashWith(badguy1) && Badhealth1 >= 0 && shoot) {
+		if (bullbox.crashWith(badguy1) && Badhealth1 >= 0 && fire > 0) {
 			Badhealth1 -= PlayerDamageDeal;
-			shoot = false;
+			fire = 0;
 		}
 		if (Badhealth1 > 0) {
 			BadDeath = 0;
@@ -6439,7 +6458,7 @@ function Boss7AI() {
 	guardianhealthbar.x = guardianBox.x - 12;
 	guardianhealthbar.y = guardianBox.y - 8;
 	guardianhealthbar.width = GuardHealth/2;
-	if (!GuardDead && !pauseGame && wave == 7 && GuardStart == 1 && !playerDead) {
+	if (!GuardDead && pauseGame == 0 && wave == 7 && GuardStart == 1 && !playerDead) {
 		if (guardianBox.x + guardianBox.width < box.x) {
 			guardianBox.x += 2;
 		}
@@ -6453,10 +6472,10 @@ function Boss7AI() {
 			guardianBox.y -= 2;
 		}
 	}
-	if (guardianBox.crashWith(box) && !GuardDead && wave == 7 && !pauseGame && !playerDead) {
+	if (guardianBox.crashWith(box) && !GuardDead && wave == 7 && pauseGame == 0 && !playerDead) {
 		playerHealth -= GuardDamage;
 	}
-	if (GuardStart == 1 && guardianBox.crashWith(bullbox) && wave == 7 && GuardHealth > 0 && !GuardDead && shoot && !playerDead) {
+	if (GuardStart == 1 && guardianBox.crashWith(bullbox) && wave == 7 && GuardHealth > 0 && !GuardDead && fire > 0 && !playerDead) {
 		GuardHealth -= PlayerDamageDeal;
 	}
 	if (GuardSwitch == 0 && !GuardDead) {
@@ -6552,59 +6571,58 @@ function Boss7AI() {
 		wave = 8;
 		miniBossShip = 1;
 		localStorage.setItem("Ms", miniBossShip);
-		localStorage.setItem("completeEarth", true);
 		switchBoss7 = 1;
 		money += 200;
 	}
 	switch (ExplosionCycle) {
 		case 0:
-			Explosion.color = "EXFrame1";
-			Explosion_2.color = "EXFrame1";
-			Explosion_3.color = "EXFrame1";
-			Explosion_4.color = "EXFrame1";
-			Explosion_5.color = "EXFrame1";
+			Explosion.color = "explosion_frame_1";
+			Explosion_2.color = "explosion_frame_1";
+			Explosion_3.color = "explosion_frame_1";
+			Explosion_4.color = "explosion_frame_1";
+			Explosion_5.color = "explosion_frame_1";
 		break;
 		case 1:
-			Explosion.color = "EXFrame2";
-			Explosion_2.color = "EXFrame2";
-			Explosion_3.color = "EXFrame2";
-			Explosion_4.color = "EXFrame2";
-			Explosion_5.color = "EXFrame2";
+			Explosion.color = "explosion_frame_2";
+			Explosion_2.color = "explosion_frame_2";
+			Explosion_3.color = "explosion_frame_2";
+			Explosion_4.color = "explosion_frame_2";
+			Explosion_5.color = "explosion_frame_2";
 		break;
 		case 2:
-			Explosion.color = "EXFrame3";
-			Explosion_2.color = "EXFrame3";
-			Explosion_3.color = "EXFrame3";
-			Explosion_4.color = "EXFrame3";
-			Explosion_5.color = "EXFrame3";
+			Explosion.color = "explosion_frame_3";
+			Explosion_2.color = "explosion_frame_3";
+			Explosion_3.color = "explosion_frame_3";
+			Explosion_4.color = "explosion_frame_3";
+			Explosion_5.color = "explosion_frame_3";
 		break;
 		case 3:
-			Explosion.color = "EXFrame4";
-			Explosion_2.color = "EXFrame4";
-			Explosion_3.color = "EXFrame4";
-			Explosion_4.color = "EXFrame4";
-			Explosion_5.color = "EXFrame4";
+			Explosion.color = "explosion_frame_4";
+			Explosion_2.color = "explosion_frame_4";
+			Explosion_3.color = "explosion_frame_4";
+			Explosion_4.color = "explosion_frame_4";
+			Explosion_5.color = "explosion_frame_4";
 		break;
 		case 4:
-			Explosion.color = "EXFrame5";
-			Explosion_2.color = "EXFrame5";
-			Explosion_3.color = "EXFrame5";
-			Explosion_4.color = "EXFrame5";
-			Explosion_5.color = "EXFrame5";
+			Explosion.color = "explosion_frame_5";
+			Explosion_2.color = "explosion_frame_5";
+			Explosion_3.color = "explosion_frame_5";
+			Explosion_4.color = "explosion_frame_5";
+			Explosion_5.color = "explosion_frame_5";
 		break;
 		case 5:
-			Explosion.color = "EXFrame6";
-			Explosion_2.color = "EXFrame6";
-			Explosion_3.color = "EXFrame6";
-			Explosion_4.color = "EXFrame6";
-			Explosion_5.color = "EXFrame6";
+			Explosion.color = "explosion_frame_6";
+			Explosion_2.color = "explosion_frame_6";
+			Explosion_3.color = "explosion_frame_6";
+			Explosion_4.color = "explosion_frame_6";
+			Explosion_5.color = "explosion_frame_6";
 		break;
 		case 6:
-			Explosion.color = "EXFrame7";
-			Explosion_2.color = "EXFrame7";
-			Explosion_3.color = "EXFrame7";
-			Explosion_4.color = "EXFrame7";
-			Explosion_5.color = "EXFrame7";
+			Explosion.color = "explosion_frame_7";
+			Explosion_2.color = "explosion_frame_7";
+			Explosion_3.color = "explosion_frame_7";
+			Explosion_4.color = "explosion_frame_7";
+			Explosion_5.color = "explosion_frame_7";
 		break;
 	}
 	if (bossTickCount > ticksPerFrame_1) {
@@ -6614,7 +6632,7 @@ function Boss7AI() {
 	if (frameIndex_1 == resetframe_1) {
 		frameIndex_1 = 0;		
 	}
-	if (wave == 7 && !startMenu && !upgradeMenu && !pauseGame) {
+	if (wave == 7 && !startMenu && upgrademenu == 0 && pauseGame == 0) {
 		if (spawnBoss7 == 1) {
 			bossTickCount += 1;
 			EXCount = 0;
@@ -6625,7 +6643,7 @@ function Boss7AI() {
 				bossFire = true;
 			}
 			if (bossFire == true && bossSheildMode == 0) {
-				let __bossBullet = new component(15, 15, "Boss7Bull", bossWave7.getMidX(), bossWave7.getMidY(), "img");
+				let __bossBullet = new component(15, 15, "boss_1_bullet", bossWave7.getMidX(), bossWave7.getMidY(), "img");
 				_bossBullets.push(__bossBullet);
 				bossFire = false;
 			}
@@ -6885,14 +6903,14 @@ function Boss7AI() {
 					}
 				break; 
 			}
-			if (bullbox.crashWith(bossWave7) && BossHealth > 0 && shoot) {
+			if (bullbox.crashWith(bossWave7) && BossHealth > 0 && fire > 0) {
 				if (bossSheildMode == 0) {
 					BossHealth -= PlayerDamageDeal;
 				}
-				shoot = false;
+				fire = 0;
 			}
 		}
-		if (spawnBoss7 == 0 && !pauseGame) {
+		if (spawnBoss7 == 0 && pauseGame == 0) {
 			EXCount += 1;
 			if (EXCount >= 12) {
 				ExplosionCycle++;
@@ -6912,7 +6930,7 @@ function badai1() {
 	badguy1healthbar.y = badguy1.y - 8;
 	badguy1healthbar.color = badHealthBarColor;
 	badguy1healthbar.width = Badhealth1 / 2;
-	if (!startMenu && !upgradeMenu && !pauseGame && !playerDead && wave < 5) {
+	if (!startMenu && upgrademenu == 0 && pauseGame == 0 && !playerDead && wave < 5) {
 		if (BadDeath > 0) {
 			if (badguy1.x > badpos1.x) {
 				badguy1.speedX = -5;
@@ -6986,7 +7004,7 @@ function badai1() {
 			if (box.crashWith(badguy1) && playerHealth > 0) {
 				playerHealth -= Bad1DamageDeal;
 			}
-			if (weapon == 1 && bullbox.crashWith(badguy1) && shoot && startTime == 0) {
+			if (weapon == 1 && bullbox.crashWith(badguy1) && fire > 0 && startTime == 0) {
 				startTime = 1;
 			}
 			if (startTime != 0) {
@@ -7006,9 +7024,9 @@ function badai1() {
 
 function badboxspawn2() {
 	if (wave < 7 && wave > 1) {
-		if (badguy2.crashWith(bullbox) && Badhealth2 >= 0 && shoot) {
+		if (badguy2.crashWith(bullbox) && Badhealth2 >= 0 && fire > 0) {
 			Badhealth2 -= PlayerDamageDeal;
-			shoot = false;
+			fire = 0;
 		}
 		if (Badhealth2 > 0) {
 			BadDeath2 = 0;
@@ -7027,7 +7045,7 @@ function badai2() {
 	badguy1healthbar2.y = badguy2.y - 8;
 	badguy1healthbar2.color = badHealthBarColor2;
 	badguy1healthbar2.width = Badhealth2 / 2;
-	if (!startMenu && !upgradeMenu && !pauseGame && !playerDead && wave > 1 && wave < 7) {
+	if (!startMenu && upgrademenu == 0 && pauseGame == 0 && !playerDead && wave > 1 && wave < 7) {
 		if (BadDeath2 > 0) {
 			if (badguy2.x > badpos2.x) {
 				badguy2.speedX = -5;
@@ -7137,7 +7155,7 @@ function badai2() {
 			if (box.crashWith(badguy2) && playerHealth > 0) {
 				playerHealth -= Bad2DamageDeal;
 			}
-			if (weapon == 1 && bullbox.crashWith(badguy2) && shoot && startTime2 == 0) {
+			if (weapon == 1 && bullbox.crashWith(badguy2) && fire > 0 && startTime2 == 0) {
 				startTime2 = 1;
 			}
 			if (startTime2 != 0) {
@@ -7157,9 +7175,9 @@ function badai2() {
 
 function badtriboxspawn() {
 	if (wave > 4 && wave < 7) {
-		if (bullbox.crashWith(tribox) && Badhealth3 >= 0 && shoot) {
+		if (bullbox.crashWith(tribox) && Badhealth3 >= 0 && fire > 0) {
 			Badhealth3 -= PlayerDamageDeal;
-			shoot = false;
+			fire = 0;
 		}
 		if (Badhealth3 > 0) {
 			BadDeath3 = 0;
@@ -7178,7 +7196,7 @@ function triangleAI() {
 	badguy1healthbar4.y = tribox.y - 8;
 	badguy1healthbar4.color = badHealthBarColor4;
 	badguy1healthbar4.width = Badhealth3 / 2;
-	if (!startMenu && !upgradeMenu && !pauseGame && !playerDead && wave > 4 && wave < 7) {
+	if (!startMenu && upgrademenu == 0 && pauseGame == 0 && !playerDead && wave > 4 && wave < 7) {
 		if (BadDeath3 > 0) {
 			if (tribox.x > tripos1.x) {
 				tribox.speedX = -5;
@@ -7252,7 +7270,7 @@ function triangleAI() {
 			if (box.crashWith(tribox) && playerHealth > 0) {
 				playerHealth -= Bad3DamageDeal;
 			}
-			if (weapon == 1 && bullbox.crashWith(tribox) && shoot && startTime3 == 0) {
+			if (weapon == 1 && bullbox.crashWith(tribox) && fire > 0 && startTime3 == 0) {
 				startTime3 = 1;
 			}
 			if (startTime3 != 0) {
@@ -7272,9 +7290,9 @@ function triangleAI() {
 
 function badxboxspawn() {
 	if (wave > 5 && wave < 7) {
-		if (bullbox.crashWith(xbox1) && Badhealth5 >= 0 && shoot) {
+		if (bullbox.crashWith(xbox1) && Badhealth5 >= 0 && fire > 0) {
 			Badhealth5 -= PlayerDamageDeal;
-			shoot = false;
+			fire = 0;
 		}
 		if (Badhealth5 > 0) {
 			BadDeath5 = 0;
@@ -7293,7 +7311,7 @@ function xAI() {
 	badguy1healthbar5.y = xbox1.y - 8;
 	badguy1healthbar5.color = badHealthBarColor5;
 	badguy1healthbar5.width = Badhealth5 / 2;
-	if (!startMenu && !upgradeMenu && !pauseGame && !playerDead && wave == 6) {
+	if (!startMenu && upgrademenu == 0 && pauseGame == 0 && !playerDead && wave == 6) {
 		if (BadDeath5 > 0) {
 			if (xbox1.x > xpos1.x) {
 				xbox1.speedX = -5;
@@ -7367,7 +7385,7 @@ function xAI() {
 			if (box.crashWith(xbox1) && playerHealth > 0) {
 				playerHealth -= Bad5DamageDeal;
 			}
-			if (weapon == 1 && bullbox.crashWith(xbox1) && shoot && startTime7 == 0) {
+			if (weapon == 1 && bullbox.crashWith(xbox1) && fire > 0 && startTime7 == 0) {
 				startTime7 = 1;
 			}
 			if (startTime7 == 0) {
@@ -7387,9 +7405,9 @@ function xAI() {
 
 function badrecspawn1() {
 	if (wave < 5 && wave > 2) {
-		if (recbox1.crashWith(bullbox) && Badhealth4 >= 0 && shoot) {
+		if (recbox1.crashWith(bullbox) && Badhealth4 >= 0 && fire > 0) {
 			Badhealth4 -= PlayerDamageDeal;
-			shoot = false;
+			fire = 0;
 		}
 		if (Badhealth4 > 0) {
 			BadDeath4 = 0;
@@ -7408,7 +7426,7 @@ function badrecai1() {
 	badguy1healthbar3.y = recbox1.y - 8;
 	badguy1healthbar3.color = badHealthBarColor3;
 	badguy1healthbar3.width = Badhealth4 / 2;
-	if (!startMenu && !upgradeMenu && !pauseGame && !playerDead && wave > 2 && wave < 5) {
+	if (!startMenu && upgrademenu == 0 && pauseGame == 0 && !playerDead && wave > 2 && wave < 5) {
 		if (BadDeath4 > 0) {
 			if (recbox1.x > recpos1.x) {
 				recbox1.speedX = -5;
@@ -7482,7 +7500,7 @@ function badrecai1() {
 			if (box.crashWith(recbox1) && playerHealth > 0) {
 				playerHealth -= Bad4DamageDeal;
 			}
-			if (weapon == 1 && bullbox.crashWith(recbox1) && shoot && startTime4 == 0) {
+			if (weapon == 1 && bullbox.crashWith(recbox1) && fire > 0 && startTime4 == 0) {
 				startTime4 = 1;
 			}
 			if (startTime4 == 0) {
@@ -7501,25 +7519,25 @@ function badrecai1() {
 }
 	
 function autoUp() {
-	if (!upgradeMenu) {
+	if (upgrademenu == 0) {
 		autoUplet = 1;
 	}
 }
 	
 function autoDown() {
-	if (!upgradeMenu) {
+	if (upgrademenu == 0) {
 		autoDownlet = 1;
 	}
 }
 	
 function autoLeft() {
-	if (!upgradeMenu) {
+	if (upgrademenu == 0) {
 		autoLeftlet = 1;
 	}
 }
 	
 function autoRight() {
-	if (!upgradeMenu) {
+	if (upgrademenu == 0) {
 		autoRightlet = 1;
 	}
 }
@@ -7553,8 +7571,8 @@ function fireCoolDown() {
 }
 
 function shootUp() {
-	if (!playerDead && !shoot && startTimer == 0 && ammo > 0) {
-		shoot = true;
+	if (!playerDead && fire == 0 && startTimer == 0 && ammo > 0) {
+		fire = 1;
 		fireU = 1;
 		startTimer = 1;
 		ammo -= ammocon;
@@ -7565,8 +7583,8 @@ function shootUp() {
 }
 	
 function shootDown() {
-	if (!playerDead && !shoot && startTimer == 0 && ammo > 0) {
-		shoot = true;
+	if (!playerDead && fire == 0 && startTimer == 0 && ammo > 0) {
+		fire = 1;
 		fireD = 1;
 		startTimer = 1;
 		ammo -= ammocon;
@@ -7577,8 +7595,8 @@ function shootDown() {
 }
 	
 function shootLeft() {
-	if (!playerDead && !shoot && startTimer == 0 && ammo > 0) {
-		shoot = true;
+	if (!playerDead && fire == 0 && startTimer == 0 && ammo > 0) {
+		fire = 1;
 		fireL = 1;
 		startTimer = 1;
 		ammo -= ammocon;
@@ -7589,8 +7607,8 @@ function shootLeft() {
 }
 	
 function shootRight() {
-	if (!playerDead && !shoot && startTimer == 0 && ammo > 0) {
-		shoot = true;
+	if (!playerDead && fire == 0 && startTimer == 0 && ammo > 0) {
+		fire = 1;
 		fireR = 1;
 		startTimer = 1;
 		ammo -= ammocon;
@@ -7608,7 +7626,7 @@ function tribulletai() {
 		tribbox.x = tribox.x + tribox.width/2 - tribbox.width/2;
 		tribbox.y = tribox.y + tribox.height/2 - tribbox.height/2;
 	}
-	if (!startMenu && !upgradeMenu && !pauseGame && !playerDead) {
+	if (!startMenu && upgrademenu == 0 && pauseGame == 0 && !playerDead) {
 		if (trifire == 0) {
 			if (tribox.crashWith(detectbox)) {
 				tribullettime += 0.5;	
@@ -7659,7 +7677,7 @@ function bulletai() {
 	bpic4.y = bullbox.y;
 	bpic5.x = bullbox.x;
 	bpic5.y = bullbox.y;
-	if (!shoot) {
+	if (fire == 0) {
 		bullettime = 0;
 		bullbox.speedX = 0;
 		bullbox.speedY = 0;
@@ -7687,7 +7705,7 @@ function bulletai() {
 			bullettime += 0.5;
 		}
 		if (bullettime >= 5) {
-			shoot = false;
+			fire = 0;
 			fireR = 0;
 			fireL = 0;
 			fireU = 0;
@@ -7696,16 +7714,16 @@ function bulletai() {
 		}
 	}
 	if (bullbox.crashWith(wallright) || bullbox.crashWith(wallleft) || bullbox.crashWith(wall3) || bullbox.crashWith(wall4)) {
-		shoot = false;
+		fire = 0;
 	}
 	if (wave < 5) {
 		if (bullbox.crashWith(wallhouse3) || bullbox.crashWith(wallhouse2_2) || bullbox.crashWith(wallhouse7) || bullbox.crashWith(wallhouse3_2) || bullbox.crashWith(wallhouse2) || bullbox.crashWith(wallhouse5) || bullbox.crashWith(wallhouse1) || bullbox.crashWith(wallhouse4_2) || bullbox.crashWith(wallhouse6_2) || bullbox.crashWith(wallhouse1_2) || bullbox.crashWith(wallhouse4) || bullbox.crashWith(wallhouse6) || bullbox.crashWith(wall2house3) || bullbox.crashWith(wall2house2_2) || bullbox.crashWith(wall2house7) || bullbox.crashWith(wall2house3_2) || bullbox.crashWith(wall2house2) || bullbox.crashWith(wall2house5) || bullbox.crashWith(wall2house1) || bullbox.crashWith(wall2house4_2) || bullbox.crashWith(wall2house6_2) || bullbox.crashWith(wall2house1_2) || bullbox.crashWith(wall2house4) || bullbox.crashWith(wall2house6)) {
-			shoot = false;
+			fire = 0;
 		}
 	}
 	if (wave >= 5 && wave < 7) {
 		if (bullbox.crashWith(wall3house1) || bullbox.crashWith(wall3house1_2) || bullbox.crashWith(wall3house2) || bullbox.crashWith(wall3house2_2) || bullbox.crashWith(wall3house3) || bullbox.crashWith(wall3house3_2) || bullbox.crashWith(wall3house4_4) || bullbox.crashWith(wall3house5_4) || bullbox.crashWith(wall4house1) || bullbox.crashWith(wall4house1_1) || bullbox.crashWith(wall4house2) || bullbox.crashWith(wall4house2_1) || bullbox.crashWith(wall4house3) || bullbox.crashWith(wall4house3_1) || bullbox.crashWith(wall4house4_3) || bullbox.crashWith(wall4house5_3) || bullbox.crashWith(wall4house6_4)) {
-			shoot = false;
+			fire = 0;
 		}
 	}
 }
@@ -7900,96 +7918,76 @@ function clearmover() {
 }
 
 function Play_sound() {
-	MShooting = document.getElementById("mute_SHOOTING").checked;
-	MLowAmmo = document.getElementById("mute_LOW_AMMO").checked;
-	MExplosion = document.getElementById("mute_EXPLOSION").checked;
-	document.getElementById("Music_Volume").innerHTML = "Music: " + val + "%";
-	document.getElementById("Sound_Effects_Volume").innerHTML = "Sound Effects: " + val2 + "%";
-	if (MShooting) {
-		muteShooting = true;
-	} else {
-		muteShooting = false;
-	}
-	if (MLowAmmo) {
-		muteLowAmmo = true;
-	} else {
-		muteLowAmmo = false;
-	}
-	if (MExplosion) {
-		muteExplosion = true;
-	} else {
-		muteExplosion = false;
-	}
+	Music_Volume.innerHTML = "Music: " + music_volume.value + "%";
+	Sound_Effects_Volume.innerHTML = "Sound Effects: " + sfx_volume.value + "%";
 	if (mutemusic == 0) {
-		if (startMenu && !playerDead && document.getElementById('title').paused) {
-			document.getElementById('title').play();
+		if (upgrademenu == 0 && !playerDead && wave < 5 && !startMenu && music_level_1.paused) {
+			music_level_1.play();
 		}
-		if (playerDead && document.getElementById('Death').paused) {
-			document.getElementById('Death').play();
+		if (startMenu && !playerDead && music_title.paused) {
+			music_title.play();
 		}
-		if (upgradeMenu > 0 && !playerDead && document.getElementById('upgradeMenu').paused) {
-			document.getElementById('upgradeMenu').play();
+		if (playerDead && music_death.paused) {
+			music_death.play();
 		}
-		if (!startMenu) {
-			if (wave == 22 && document.getElementById('warpZone').paused) {
-				document.getElementById('warpZone').play();
-			}
-			if (!upgradeMenu && !playerDead && wave < 5 && document.getElementById('level1').paused) {
-				document.getElementById('level1').play();
-			}
-			if (!upgradeMenu && !playerDead && wave > 4 && wave < 7 && document.getElementById('level2').paused) {
-				document.getElementById('level2').play();
-			}
-			if (!upgradeMenu && !playerDead && wave == 7 && document.getElementById('boss7').paused) {
-				document.getElementById('boss7').play();
-			}
-			if (!upgradeMenu && wave == 7 && count != 10 && !pauseGame && spawnBoss7 == 0 && document.getElementById('explosion').paused) {
-				document.getElementById('explosion').play();
-			}
-			if (shoot && frameIndex5 == 0 && document.getElementById('firesound').paused) {
-				document.getElementById('firesound').play();
-			}
+		if (upgrademenu > 0 && !playerDead && music_upgrade_menu.paused) {
+			music_upgrade_menu.play();
 		}
-		if (ammo <= 20/100 * maxAmmo && !playerDead && document.getElementById('lowammo').paused) {
-			document.getElementById('lowammo').play();
+		if (!startMenu && wave == 22 && music_warp_zone.paused) {
+			music_warp_zone.play();
+		}
+		if (upgrademenu == 0 && !playerDead && wave > 4 && wave < 7 && !startMenu && music_level_2.paused) {
+			music_level_2.play();
+		}
+		if (upgrademenu == 0 && !playerDead && wave == 7 && !startMenu && music_boss_1.paused) {
+			music_boss_1.play();
+		}
+		if (upgrademenu == 0 && wave == 7 && count != 10 && !startMenu && pauseGame == 0 && spawnBoss7 == 0 && sfx_explosion.paused) {
+			sfx_explosion.play();
+		}
+		if (ammo <= 20/100 * maxAmmo && playerHealth > 0 && sfx_lowammo.paused) {
+			sfx_lowammo.play();
+		}
+		if (fire == 1 && frameIndex5 == 0 && !startMenu && sfx_firesound.paused) {
+			sfx_firesound.play();
 		}
 	} 
 }
 	
 function Set_volume() {
 	if (mutemusic != 0) {
-		document.getElementById('level1').volume = 0 / 100;
-		document.getElementById('level2').volume = 0 / 100;
-		document.getElementById('boss7').volume = 0 / 100;
-		document.getElementById('title').volume = 0 / 100;
-		document.getElementById('upgradeMenu').volume = 0 / 100;
-		document.getElementById('warpZone').volume = 0 / 100;
-		document.getElementById('Death').volume = 0 / 100;
-		document.getElementById('firesound').volume = 0 / 300;
-		document.getElementById('lowammo').volume = 0 / 300;
-		document.getElementById('explosion').volume = 0 / 300;
+		music_level_1.volume = 0;
+		music_level_2.volume = 0;
+		music_boss_1.volume = 0;
+		music_title.volume = 0;
+		music_upgrade_menu.volume = 0;
+		music_warp_zone.volume = 0;
+		music_death.volume = 0;
+		sfx_firesound.volume = 0;
+		sfx_lowammo.volume = 0;
+		sfx_explosion.volume = 0;
 	} else {
-		document.getElementById('level1').volume = val / 100;
-		document.getElementById('level2').volume = val / 100;
-		document.getElementById('boss7').volume = val / 100;
-		document.getElementById('title').volume = val / 100;
-		document.getElementById('upgradeMenu').volume = val / 100;
-		document.getElementById('warpZone').volume = val / 100;
-		document.getElementById('Death').volume = val / 100;
-		if (!muteShooting) {
-			document.getElementById('firesound').volume = val2 / 300;
+		music_level_1.volume = music_volume.value / 100;
+		music_level_2.volume = music_volume.value / 100;
+		music_boss_1.volume = music_volume.value / 100;
+		music_title.volume = music_volume.value / 100;
+		music_upgrade_menu.volume = music_volume.value / 100;
+		music_warp_zone.volume = music_volume.value / 100;
+		music_death.volume = music_volume.value / 100;
+		if (!mute_SHOOTING.checked) {
+			sfx_firesound.volume = sfx_volume.value / 300;
 		} else {
-			document.getElementById('firesound').volume = 0 / 300;
+			sfx_firesound.volume = 0;
 		}
-		if (!muteLowAmmo) {
-			document.getElementById('lowammo').volume = val2 / 300;
+		if (!mute_LOW_AMMO.checked) {
+			sfx_lowammo.volume = sfx_volume.value / 300;
 		} else {
-			document.getElementById('lowammo').volume = 0 / 300;
+			sfx_lowammo.volume = 0;
 		}
-		if (!muteExplosion) {
-			document.getElementById('explosion').volume = val2 / 300;
+		if (!mute_EXPLOSION.checked) {
+			sfx_explosion.volume = sfx_volume.value / 300;
 		} else {
-			document.getElementById('explosion').volume = 0 / 300;
+			sfx_explosion.volume = 0;
 		}
 	}
 	if (mutemusic > 1) {
@@ -7998,71 +7996,67 @@ function Set_volume() {
 }
 	
 function Skip_sound() {
-	if (upgradeMenu) {
-		document.getElementById('level1').pause();
-		document.getElementById('level1').currentTime = 0;
-		document.getElementById('level2').pause();
-		document.getElementById('level2').currentTime = 0;
-		document.getElementById('boss7').pause();
-		document.getElementById('boss7').currentTime = 0;
-		document.getElementById('firesound').pause();
-		document.getElementById('firesound').currentTime = 0;
+	if (upgrademenu == 1) {
+		music_level_1.pause();
+		music_level_1.currentTime = 0;
+		music_level_2.pause();
+		music_level_2.currentTime = 0;
+		music_boss_1.pause();
+		music_boss_1.currentTime = 0;
+		sfx_firesound.pause();
+		sfx_firesound.currentTime = 0;
 	}
 	if (playerDead) {
-		document.getElementById('level1').pause();
-		document.getElementById('level1').currentTime = 0;
-		document.getElementById('level2').pause();
-		document.getElementById('level2').currentTime = 0;
-		document.getElementById('boss7').pause();
-		document.getElementById('boss7').currentTime = 0;
-		document.getElementById('firesound').pause();
-		document.getElementById('firesound').currentTime = 0;
-		document.getElementById('title').pause();
-		document.getElementById('title').currentTime = 0;
-		document.getElementById('upgradeMenu').pause();
-		document.getElementById('upgradeMenu').currentTime = 0;
+		music_level_1.pause();
+		music_level_1.currentTime = 0;
+		music_level_2.pause();
+		music_level_2.currentTime = 0;
+		music_boss_1.pause();
+		music_boss_1.currentTime = 0;
+		sfx_firesound.pause();
+		sfx_firesound.currentTime = 0;
+		music_title.pause();
+		music_title.currentTime = 0;
+		music_upgrade_menu.pause();
+		music_upgrade_menu.currentTime = 0;
 	}
 	if (!playerDead) {
-		document.getElementById('Death').pause();
-		document.getElementById('Death').currentTime = 0;
+		music_death.pause();
+		music_death.currentTime = 0;
 	}
 	if (wave >= 5) {
-		document.getElementById('level1').pause();
-		document.getElementById('level1').currentTime = 0;
+		music_level_1.pause();
+		music_level_1.currentTime = 0;
 	}
 	if (wave >= 7 || wave < 5) {
-		document.getElementById('level2').pause();
-		document.getElementById('level2').currentTime = 0;
+		music_level_2.pause();
+		music_level_2.currentTime = 0;
 	}
 	if (wave < 7 || wave > 7) {
-		document.getElementById('boss7').pause();
-		document.getElementById('boss7').currentTime = 0;
-		document.getElementById('explosion').pause();
-		document.getElementById('explosion').currentTime = 0;
-	}
-	if (upgradeMenu || playerDead) {
-		document.getElementById('explosion').pause();
-		document.getElementById('explosion').currentTime = 0;
+		music_boss_1.pause();
+		music_boss_1.currentTime = 0;
+		sfx_explosion.pause();
+		sfx_explosion.currentTime = 0;
 	}
 	if (!startMenu) {
-		if (!upgradeMenu) {
-			document.getElementById('title').pause();
-			document.getElementById('title').currentTime = 0;
-			document.getElementById('upgradeMenu').pause();
-			document.getElementById('upgradeMenu').currentTime = 0;
+		if (upgrademenu == 0) {
+			music_title.pause();
+			music_title.currentTime = 0;
+			music_upgrade_menu.pause();
+			music_upgrade_menu.currentTime = 0;
 		}
 	}
 	if (wave != 22) {
-		document.getElementById('warpZone').pause();
-		document.getElementById('warpZone').currentTime = 0;
+		music_warp_zone.pause();
+		music_warp_zone.currentTime = 0;
 	}
-	if (frameIndex5 == 3 || !shoot) {
-		document.getElementById('firesound').pause();
-		document.getElementById('firesound').currentTime = 0;
+	if (frameIndex5 == 3 || fire == 0) {
+		sfx_firesound.pause();
+		sfx_firesound.currentTime = 0;
 	}
-	if (ammo > 20/100 * maxAmmo || playerDead) {
-		document.getElementById('lowammo').pause();
-		document.getElementById('lowammo').currentTime = 0;
+	if (ammo > 20/100 * maxAmmo || playerHealth <= 0) {
+		sfx_lowammo.pause();
+		sfx_lowammo.currentTime = 0;
 	}
 }
 
@@ -8089,7 +8083,7 @@ function statscommand() {
 	stat1_4 = new component("15px Arial", "Special: Nothing", "white", 45, upgrade1Y+75, "text");
 	stat2_4 = new component("15px Arial", "Special: Slows Enemies", "white", 45, upgrade1Y+75, "text");
 	stat3_4 = new component("15px Arial", "Special: Uses Less Ammo", "white", 45, upgrade1Y+75, "text");
-	if (pauseGame && pauseGameKeys == false) {
+	if (pauseGame == 1 && pauseGameKeys == false) {
 		statstxt.update();
 		stats2txt.update();
 		switch (playerShip) {
@@ -8171,13 +8165,7 @@ function warpZone() {
 	if (wave == 22) {
 		ammo = maxAmmo;
 		playerHealth = playerHealthMax;
-		upgradeMenu = false;
-		//Complete Earth
-		if (localStorage.getItem("completeEarth") != null) {
-			Earth_Completed_Text.text = "Completed: "+JSON.parse(localStorage.getItem("completeEarth"));
-		} else {
-			Earth_Completed_Text.text = "Completed: false";
-		}
+		upgrademenu = 0;
 		if (Level_Shadows) {
 			Earth_Planet.shadowColor_ = "black";
 			Earth_Planet.shadowBlur_ = 3;
@@ -8393,7 +8381,7 @@ function warpZone() {
 }
 
 function WarpZoneControls() {
-	if (wave == 22 && !startMenu && !pauseGame) {
+	if (wave == 22 && !startMenu && pauseGame == 0) {
 		if (Earth_PopUp_Message.globalAlpha <= 0 && circle.circleCrashWith(Earth_Planet_Circle_Collider) && !Earth_Popup_Message_Show) {
 			Earth_Popup_Message_Show = true;
 		}
@@ -8427,7 +8415,7 @@ function nameFC() {
 	if (goToWarpZone) {
 		wave = 22;
 		count = 0;
-		pauseGame = false;
+		pauseGame = 0;
 		cratespawn = 0;
 		cratespawn2 = 0;
 		goToWarpZone = false;
@@ -8442,7 +8430,7 @@ function nameFC() {
 		switchpos = 0;
 		wave = 1;
 		count = 0;
-		pauseGame = false;
+		pauseGame = 0;
 		ammo = maxAmmo;
 		playerHealthMax = 100;
 		playerHealth = playerHealthMax;
@@ -8476,26 +8464,25 @@ function nameFC() {
 		stopGuardSpawn = 0;
 		switchBoss7 = 0;
 		bullbox = new component(10, 10, "orange", 400, 180, "rec");
-		bpic = new component(10, 10, "bullpic1", 400, 180, "animated-img-rot");
-		bpic2 = new component(10, 10, "bullpic2", 400, 180, "animated-img-rot");
-		bpic3 = new component(10, 10, "bullpic3", 400, 180, "animated-img-rot");
-		bpic4 = new component(10, 10, "bullpic4", 400, 180, "img");
-		bpic5 = new component(10, 10, "bullpic5", 400, 180, "animated-img-rot");
+		bpic = new component(10, 10, "bullet_1", 400, 180, "animated-img-rot");
+		bpic2 = new component(10, 10, "bullet_2", 400, 180, "animated-img-rot");
+		bpic3 = new component(10, 10, "bullet_3", 400, 180, "animated-img-rot");
+		bpic4 = new component(10, 10, "bullet_4", 400, 180, "img");
+		bpic5 = new component(10, 10, "bullet_5", 400, 180, "animated-img-rot");
 		box = new component(25, 25, "black", playerX, playerY, "rec");
-		ship1 = new component(32, 32, "player1img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+		ship1 = new component(32, 32, "player_1", playerX - 3.5, playerY - 3.5, "animated-img-rot");
 		playerShipsArray.push(ship1);
-		ship2 = new component(25, 25, "player2img", playerX, playerY, "animated-img-rot");
+		ship2 = new component(25, 25, "player_2", playerX, playerY, "animated-img-rot");
 		playerShipsArray.push(ship2);
-		ship3 = new component(25, 25, "player3img", playerX, playerY, "animated-img-rot");
+		ship3 = new component(25, 25, "player_3", playerX, playerY, "animated-img-rot");
 		playerShipsArray.push(ship3);
-		ship4 = new component(25, 25, "player4img", playerX, playerY, "animated-img-rot");
+		ship4 = new component(25, 25, "player_4", playerX, playerY, "animated-img-rot");
 		playerShipsArray.push(ship4);
-		ship5 = new component(32, 32, "player5img", playerX - 3.5, playerY - 3.5, "animated-img-rot");
+		ship5 = new component(32, 32, "player_5", playerX - 3.5, playerY - 3.5, "animated-img-rot");
 		playerShipsArray.push(ship5);
-		ship6 = new component(25, 25, "player6img", playerX, playerY, "animated-img-rot");
+		ship6 = new component(25, 25, "player_6", playerX, playerY, "animated-img-rot");
 		playerShipsArray.push(ship6);
 		PlayerShadowManager = new PlayerShadowHandler(playerShipsArray, "black", 5, 3, 3);
-		animationInt();
 		goBack = false;
 	}
 }
@@ -8560,14 +8547,14 @@ function swapweap3() {
 
 function backfunc() {
 	backSwitch = 0;
-	if (specialalert1 == 0 && !pauseGame && upgradeMenu > 0) {
+	if (specialalert1 == 0 && pauseGame == 0 && upgrademenu > 0) {
 		backSwitch = 1;
-		upgradeMenu = false;
+		upgrademenu = 0;
 	}
 	if (specialalert1 == 1) {
 		specialalert1 = 0;
 	}
-	if (backSwitch == 0 && !upgradeMenu && !startMenu) {
+	if (backSwitch == 0 && upgrademenu == 0 && !startMenu) {
 		pauseGame++;
 	}
 	if (playerDead) {
@@ -8620,15 +8607,15 @@ function UpgradeMenuTrigger() {
 	if (!healthUpgradeTrigger && !ammoUpgradeTrigger && !upgrade1trigger) {
 		NOUPGRADESAVAILABLE = true;
 	}
-	if (!upgradeMenu) {
+	if (upgrademenu != 1) {
 		if (money == 0 || NOUPGRADESAVAILABLE) {
-			upgradeMenu = false;
+			upgrademenu = 0;
 		}
 	}
 }
 
 function upgrade1func() {
-	if (upgradeMenu > 0) {
+	if (upgrademenu > 0) {
 		nextUpgrade = 1;	
 		if (weaponupgrade1 == 0 && money >= 100) {
 			weaponupgrade1 = 1;
@@ -8643,7 +8630,7 @@ function upgrade1func() {
 }
 
 function healthRecovery() {
-	if (upgradeMenu) {
+	if (upgrademenu == 1) {
 		healthLocker = 1;
 		if (playerHealth != playerHealthMax && healthLocker == 1 && Math.floor(playerHealthMax - playerHealth) <= money) {
 			money -= Math.floor(playerHealthMax - playerHealth);
@@ -8654,7 +8641,7 @@ function healthRecovery() {
 }
 
 function ammoRecovery() {
-	if (upgradeMenu) {
+	if (upgrademenu == 1) {
 		ammoLocker = 1;
 		if (ammo != maxAmmo && ammoLocker == 1 && Math.floor(maxAmmo - ammo) <= money) {
 			money -= Math.floor(maxAmmo - ammo);

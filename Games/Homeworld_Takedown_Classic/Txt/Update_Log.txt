@@ -14,7 +14,7 @@ I don't know when it's going to be
 implemented since to demo isn't out
 yet but sometime after that.
 
-What's new in V0.5.5-
+What's new in V0.6.2-
    Updated assets
    Cleaned and fixed audio code
    Cleaned up code
