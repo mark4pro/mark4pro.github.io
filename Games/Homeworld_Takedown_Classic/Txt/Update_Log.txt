@@ -1,8 +1,25 @@
 :PRESS P TO TOGGLE THE PIB:
 
-What's new in V0.5.4.2-
-   Added new ui image
+*Note*
+There may still be more updates out
+while I work on the new game.
+I'm doing this to fix old bugs and
+"keep it up to date" and make it less
+of a pain to manage it. I do have plans
+for this game even after the new game
+releases. I'll go ahead and say that
+save exporting will be implemented at
+some point with rewards for doing so.
+I don't know when it's going to be
+implemented since to demo isn't out
+yet but sometime after that.
+
+What's new in V0.5.5-
+   Updated assets
+   Cleaned and fixed audio code
+   Cleaned up code
+
+Last Update-
    Fixed bullet sound
-   Fixed audio bug
    New animation system
-   Finished: Code clean up
+   Code clean up
