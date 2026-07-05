@@ -1,10 +1,21 @@
 //Set screen size
-engineSettings.Settings_Menu.Image_Smoothing = false;
-engineSettings.Settings_Menu.Show_Debug_Cursor = false;
-screen.setResolution(new Vector2(1280,720));
+screen.setResolution(Vec2(1280,720));
+SettingsMenu.menuScale = 0.85;
+OptionsMenu.menuScale = 0.85;
+keybinder.menuScale = 0.85;
+ModLoader.menuScale = 0.85;
+if (typeof require != "undefined") {
+	SettingsMenu.menuScale = 0.75;
+	OptionsMenu.menuScale = 0.75;
+	keybinder.menuScale = 0.75;
+	ModLoader.menuScale = 0.75;
+}
 
 //Create mod menu
 ModLoader.createMenu();
+
+//Version
+const version = "V1.4.1";
 
 //Paths
 const lbPath = imagePath+"Line_Battle/";
@@ -29,6 +40,16 @@ const levelsPath = (game="lb") => {
 		break;
 	}
 };
+const objectsPath = (game="lb") => {
+	switch (game) {
+		case "lb":
+			return lbPath+"Objects/";
+		break;
+		case "tw":
+			return twPath+"Objects/";
+		break;
+	}
+};
 const playersPath = (game="lb") => {
 	switch (game) {
 		case "lb":
@@ -42,101 +63,492 @@ const playersPath = (game="lb") => {
 
 //Images
 //Main Menu
-let mainMenuBG = new imageData("mainMenuBG", imagePath+"Title_Screen.png", new Vector2(1280, 720));
+let mainMenuBG = imageD("mainMenuBG", imagePath+"Title_Screen.png", Vec2(1280, 720));
 //Line Battle/Ball Bouncers Assets
-let blueBall = new imageData("blue_ball", playersPath("lb")+"Blue_Ball.png", new Vector2(50, 50));
-let redBall = new imageData("red_ball", playersPath("lb")+"Red_Ball.png", new Vector2(50, 50));
-let yellowBall = new imageData("yellow_ball", playersPath("lb")+"Yellow_Ball.png", new Vector2(50, 50));
-let greenBall = new imageData("green_ball", playersPath("lb")+"Green_Ball.png", new Vector2(50, 50));
-let greyBall = new imageData("grey_ball", playersPath("lb")+"Grey_Ball.png", new Vector2(50, 50));
+let blueBall = imageD("blue_ball", playersPath("lb")+"Blue_Ball.png", Vec2(50, 50));
+let redBall = imageD("red_ball", playersPath("lb")+"Red_Ball.png", Vec2(50, 50));
+let yellowBall = imageD("yellow_ball", playersPath("lb")+"Yellow_Ball.png", Vec2(50, 50));
+let greenBall = imageD("green_ball", playersPath("lb")+"Green_Ball.png", Vec2(50, 50));
+let greyBall = imageD("grey_ball", playersPath("lb")+"Grey_Ball.png", Vec2(50, 50));
+let distortionBG = imageD("distortion_background", levelsPath("lb")+"Distortion_Level_BG.png", Vec2(1280, 720));
+let powerups = imageD("powerups", objectsPath("lb")+"Power-ups.png", Vec2(75, 50));
 //Tank War Assets
-let explosion = new imageData("explosion", effectsPath("tw")+"Explosion_Frame_1.png", new Vector2(45, 45));
-let dirtRing = new imageData("dirt_ring", effectsPath("tw")+"Dirt_Ring.png", new Vector2(50, 50));
-let dirtTracks = new imageData("dirt_tracks", effectsPath("tw")+"Dirt_Tracks.png", new Vector2(50, 50));
-let blueTank = new imageData("blue_tank", playersPath("tw")+"Blue_Tank.png", new Vector2(50, 50));
-let redTank = new imageData("red_tank", playersPath("tw")+"Red_Tank.png", new Vector2(50, 50));
-let yellowTank = new imageData("yellow_tank", playersPath("tw")+"Yellow_Tank.png", new Vector2(50, 50));
-let greenTank = new imageData("green_tank", playersPath("tw")+"Green_Tank.png", new Vector2(50, 50));
-let deadTank = new imageData("dead_tank", playersPath("tw")+"Dead_Tank.png", new Vector2(50, 50));
-let battleGroundBG = new imageData("battle_ground_BG", levelsPath("tw")+"Tank_War_Background_1.png", new Vector2(1280, 720));
+let explosion = imageD("explosion", effectsPath("tw")+"Explosion_Frame_1.png", Vec2(45, 45));
+let dirtRing = imageD("dirt_ring", effectsPath("tw")+"Dirt_Ring.png", Vec2(50, 50));
+let dirtTracks = imageD("dirt_tracks", effectsPath("tw")+"Dirt_Tracks.png", Vec2(50, 50));
+let blueTank = imageD("blue_tank", playersPath("tw")+"Blue_Tank.png", Vec2(50, 50));
+let redTank = imageD("red_tank", playersPath("tw")+"Red_Tank.png", Vec2(50, 50));
+let yellowTank = imageD("yellow_tank", playersPath("tw")+"Yellow_Tank.png", Vec2(50, 50));
+let greenTank = imageD("green_tank", playersPath("tw")+"Green_Tank.png", Vec2(50, 50));
+let deadTank = imageD("dead_tank", playersPath("tw")+"Dead_Tank.png", Vec2(50, 50));
+let battleGroundBG = imageD("battle_ground_BG", levelsPath("tw")+"Tank_War_Background_1.png", Vec2(1280, 720));
+
+/*Map doc
+	tag("Bounce") - bouncy wall
+	tag("Wall") - wall (collisions enabled)
+	tag("obZone") - obstacle zone tag
+	tag("goZone") - goal zone tag
+	tag("puZone") - power-up zone tag
+	tag("Exclude") - Exclude from obstacle/goal spawn check
+*/
 
 //Maps
-let map_abyss = new Map("Abyss", "black", [new Vector2(35, 35, -degToRad(90), -degToRad(90)), new Vector2(1245, 685, degToRad(90), -degToRad(90)), new Vector2(35, 685, degToRad(90), -degToRad(90)), new Vector2(1245, 35, -degToRad(90), -degToRad(90))], [/*objects*/]);
+let map_abyss = new Map("Abyss", "black",
+[
+	Vec2(40, 40, -degToRad(90), -degToRad(90)),
+	Vec2(1240, 680, degToRad(90), -degToRad(90)),
+	Vec2(40, 680, degToRad(90), -degToRad(90)),
+	Vec2(1240, 40, -degToRad(90), -degToRad(90))
+],
+[/*objects*/],
+[
+	rectangle(8, base(false, tag("obZone"), Vec2(1120, 720), screen.halfResolution.dup(), colorD()))
+],
+[
+	rectangle(8, base(false, tag("goZone"), Vec2(1120, 720), screen.halfResolution.dup(), colorD()))
+],
+[
+	rectangle(8, base(false, tag("puZone"), Vec2(1120, 720), screen.halfResolution.dup(), colorD()))
+]);
+
+let neon_blend = 0;
+let neon_blend_state = Vec2(0, 1);
+let neon_color = "rgb(0, 0, 0)";
+let neon_color_list = {
+	0:"rgb(73, 253, 2)",
+	1:"rgb(246, 254, 24)",
+	2:"rgb(0, 252, 252)",
+	3:"rgb(255, 52, 232)",
+};
+
+let map_neon = new Map("Neon", "black",
+[
+	//Spawn points
+	Vec2(40, 40, -degToRad(90), -degToRad(90)), //Left/Top Corner (Player 1)
+	Vec2(1240, 680, degToRad(90), -degToRad(90)), //Right/Bottom Corner (Player 2)
+	Vec2(40, 680, degToRad(90), -degToRad(90)), //Left/Bottom Corner (Player 3)
+	Vec2(1240, 40, -degToRad(90), -degToRad(90)) //Right/Top Corner (Player 4)
+],
+[
+	//Level objects
+	rectangle(1, base(false, nt("Left_Border_Wall", "Wall_ChColor"), Vec2(10, 720), Vec2(5, 360), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Right_Border_Wall", "Wall_ChColor"), Vec2(10, 720), Vec2(1275, 360), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Top_Border_Wall", "Wall_ChColor"), Vec2(1280, 10), Vec2(640, 5), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Bottom_Border_Wall", "Wall_ChColor"), Vec2(1280, 10), Vec2(640, 715), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Left_Top_Side_Wall", "Wall_ChColor"), Vec2(100, 210), Vec2(250, 180), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Left_Bottom_Side_Wall", "Wall_ChColor"), Vec2(100, 210), Vec2(250, 540), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Right_Top_Side_Wall", "Wall_ChColor"), Vec2(100, 210), Vec2(1030, 180), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Right_Bottom_Side_Wall", "Wall_ChColor"), Vec2(100, 210), Vec2(1030, 540), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	
+	rectangle(1, base(false, nt("Left_Top_Top_Corner", "Wall_ChColor"), Vec2(100, 25), Vec2(540, 180), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Left_Top_Side_Corner", "Wall_ChColor"), Vec2(25, 110), Vec2(490, 222.5), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Left_Bottom_Bottom_Corner", "Wall_ChColor"), Vec2(100, 25), Vec2(740, 180), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Left_Bottom_Side_Corner", "Wall_ChColor"), Vec2(25, 110), Vec2(790, 222.5), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Right_Top_Top_Corner", "Wall_ChColor"), Vec2(100, 25), Vec2(540, 540), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Right_Top_Side_Corner", "Wall_ChColor"), Vec2(25, 110), Vec2(490, 497.5), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Right_Bottom_Bottom_Corner", "Wall_ChColor"), Vec2(100, 25), Vec2(740, 540), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+	rectangle(1, base(false, nt("Right_Bottom_Side_Corner", "Wall_ChColor"), Vec2(25, 110), Vec2(790, 497.5), colorD("rgb("+neon_color[0]+","+neon_color[1]+","+neon_color[2]+")"))),
+],
+[
+	//Obstacle zone
+	rectangle(8, base(false, tag("obZone"), Vec2(405, 705), Vec2(275, 360), colorD())),
+	rectangle(8, base(false, tag("obZone"), Vec2(405, 705), Vec2(1005, 360), colorD())),
+	rectangle(8, base(false, tag("obZone"), Vec2(325, 162.5), Vec2(640, 88.75), colorD())),
+	rectangle(8, base(false, tag("obZone"), Vec2(325, 162.5), Vec2(640, 631.25), colorD())),
+],
+[
+	//Goal zone
+	rectangle(8, base(false, tag("goZone"), Vec2(275, 335), Vec2(640, 360), colorD()))
+],
+[
+	//Power-up zone
+	rectangle(8, base(false, tag("puZone"), Vec2(405, 705), Vec2(275, 360), colorD())),
+	rectangle(8, base(false, tag("puZone"), Vec2(405, 705), Vec2(1005, 360), colorD())),
+	rectangle(8, base(false, tag("puZone"), Vec2(325, 162.5), Vec2(640, 88.75), colorD())),
+	rectangle(8, base(false, tag("puZone"), Vec2(325, 162.5), Vec2(640, 631.25), colorD())),
+],
+() => {
+	if (neon_blend_state.x > 3) {
+		neon_blend_state.x = 0;
+	}
+	if (neon_blend_state.x < 0) {
+		neon_blend_state.x = 3;
+	}
+	if (neon_blend_state.y > 3) {
+		neon_blend_state.y = 0;
+	}
+	if (neon_blend_state.y < 0) {
+		neon_blend_state.y = 3;
+	}
+	neon_color = colorBlend(neon_color_list[neon_blend_state.x], neon_color_list[neon_blend_state.y], neon_blend);
+	neon_blend += 1.5 * delta;
+	if (neon_blend > 100) {
+		neon_blend_state = neon_blend_state.add(1);
+		neon_blend = 0;
+	}
+	let colorWalls = getByNameTag(tag("ChColor"), 2, false, true);
+	if (colorWalls != null) {
+		for (let i=0,length=colorWalls.length;i<length;i++) {
+			colorWalls[i].base.color.color = neon_color;
+		}
+	}
+});
+
+let map_fourColors = new Map("Four Colors", "black",
+[
+	//Spawn points
+	Vec2(40, 40, -degToRad(90), -degToRad(90)), //Left/Top Corner (Player 1)
+	Vec2(1240, 680, degToRad(90), -degToRad(90)), //Right/Bottom Corner (Player 2)
+	Vec2(40, 680, degToRad(90), -degToRad(90)), //Left/Bottom Corner (Player 3)
+	Vec2(1240, 40, -degToRad(90), -degToRad(90)) //Right/Top Corner (Player 4)
+],
+[
+	sprite(1, base(false, nt("background", "Exclude"), Vec2(1280, 720), screen.halfResolution, distortionBG.getColor(0.9, 0, "invert(100%)"))),
+	rectangle(2, base(false, nt("left_top_wall", "Bounce"), Vec2(40, 300), Vec2(250, 200, degToRad(-55)), colorD("blue", 0.75, 15), shadow(Vec2(), "blue", 100))),
+	rectangle(2, base(false, nt("left_bottom_wall", "Bounce"), Vec2(40, 300), Vec2(250, 520, degToRad(55)), colorD("yellow", 0.75, 15), shadow(Vec2(), "yellow", 100))),
+	rectangle(2, base(false, nt("right_top_wall", "Bounce"), Vec2(40, 300), Vec2(1030, 200, degToRad(55)), colorD("green", 0.75, 15), shadow(Vec2(), "green", 100))),
+	rectangle(2, base(false, nt("right_bottom_wall", "Bounce"), Vec2(40, 300), Vec2(1030, 520, degToRad(-55)), colorD("red", 0.75, 15), shadow(Vec2(), "red", 100))),
+	rectangle(2, base(false, nt("center_wall", "Wall"), Vec2(150, 150), Vec2(640, 360, degToRad(45)), colorD("white", 0.75, 20, shadow(Vec2(), "white", 100)))),
+],
+[
+	rectangle(8, base(false, tag("obZone"), Vec2(1120, 720), screen.halfResolution.dup(), colorD()))
+],
+[
+	rectangle(8, base(false, tag("goZone"), Vec2(400, 400), screen.halfResolution.dup(), colorD()))
+],
+[
+	rectangle(8, base(false, tag("puZone"), Vec2(1120, 720), screen.halfResolution.dup(), colorD()))
+],
+() => {
+	let linePieces = getByNameTag(name("line"), 1, false, true);
+	if (linePieces != null) {
+		if (Array.isArray(linePieces)) {
+			for (let i=0,length=linePieces.length;i<length;i++) {
+				if (linePieces[i].base.color.comp != "lighten") {
+					linePieces[i].base.color.comp = "lighten";
+				}
+			}
+		}
+	}
+});
+
+let map_portals = new Map("Portals", "rgb(70, 66, 69)",
+[
+	//Spawn points
+	Vec2(40, 110, degToRad(180), -degToRad(90)), //Left/Top Corner (Player 1)
+	Vec2(1240, 610, 0, -degToRad(90)), //Right/Bottom Corner (Player 2)
+	Vec2(40, 610, degToRad(180), -degToRad(90)), //Left/Bottom Corner (Player 3)
+	Vec2(1240, 110, 0, -degToRad(90)) //Right/Top Corner (Player 4)
+],
+[
+	rectangle(7, base(false, nt("left_wall", "Wall"), Vec2(10, 720), Vec2(5, 360), colorD("grey"))),
+	rectangle(7, base(false, nt("right_wall", "Wall"), Vec2(10, 720), Vec2(1275, 360), colorD("grey"))),
+	rectangle(7, base(false, nt("left_center_1", "Wall"), Vec2(150, 100), Vec2(80, 360), colorD("grey"))),
+	rectangle(7, base(false, nt("right_center_1", "Wall"), Vec2(150, 100), Vec2(1200, 360), colorD("grey"))),
+	rectangle(7, base(false, nt("left_center_2", "Wall"), Vec2(200, 300), Vec2(355, 360), colorD("grey"))),
+	rectangle(7, base(false, nt("right_center_2", "Wall"), Vec2(200, 300), Vec2(925, 360), colorD("grey"))),
+	rectangle(7, base(false, nt("center_top", "Wall"), Vec2(372, 30), Vec2(640, 225), colorD("grey"))),
+	rectangle(7, base(false, nt("center_bottom", "Wall"), Vec2(372, 30), Vec2(640, 495), colorD("grey"))),
+	rectangle(7, base(false, nt("left_top", "Wall"), Vec2(75, 225), Vec2(455, 112.5), colorD("grey"))),
+	rectangle(7, base(false, nt("left_bottom", "Wall"), Vec2(75, 225), Vec2(455, 607.5), colorD("grey"))),
+	rectangle(7, base(false, nt("right_top", "Wall"), Vec2(75, 225), Vec2(825, 112.5), colorD("grey"))),
+	rectangle(7, base(false, nt("right_bottom", "Wall"), Vec2(75, 225), Vec2(825, 607.5), colorD("grey"))),
+	rectangle(7, base(false, nt("top_wall", "Wall"), Vec2(1280, 10), Vec2(640, 5), colorD("grey"))),
+	rectangle(7, base(false, nt("bottom_wall", "Wall"), Vec2(1280, 10), Vec2(640, 715), colorD("grey"))),
+	rectangle(7, base(false, nt("left_center_3", "Wall"), Vec2(160, 100), Vec2(61.5, 320, degToRad(25)), colorD("grey"))),
+	rectangle(7, base(false, nt("left_center_4", "Wall"), Vec2(160, 100), Vec2(61.5, 400, degToRad(-25)), colorD("grey"))),
+	rectangle(7, base(false, nt("right_center_3", "Wall"), Vec2(160, 100), Vec2(1218.5, 320, degToRad(-25)), colorD("grey"))),
+	rectangle(7, base(false, nt("right_center_4", "Wall"), Vec2(160, 100), Vec2(1218.5, 400, degToRad(25)), colorD("grey"))),
+	
+	//Portals
+	rectangle(7, base(false, nt("blue_portal_1", "Portal"), Vec2(20, 200), Vec2(407.5, 110), colorD("blue", 0.50), shadow(Vec2(-10, 0), "blue", 25))),
+	rectangle(7, base(false, nt("blue_portal_2", "Portal"), Vec2(20, 200), Vec2(502.5, 610), colorD("blue", 0.50), shadow(Vec2(10, 0), "blue", 25))),
+	rectangle(7, base(false, nt("red_portal_1", "Portal"), Vec2(20, 200), Vec2(872.5, 610), colorD("red", 0.50), shadow(Vec2(10, 0), "red", 25))),
+	rectangle(7, base(false, nt("red_portal_2", "Portal"), Vec2(20, 200), Vec2(777.5, 110), colorD("red", 0.50), shadow(Vec2(-10, 0), "red", 25))),
+	rectangle(7, base(false, nt("yellow_portal_1", "Portal"), Vec2(20, 200), Vec2(407.5, 610), colorD("yellow", 0.50), shadow(Vec2(-10, 0), "yellow", 25))),
+	rectangle(7, base(false, nt("yellow_portal_2", "Portal"), Vec2(20, 200), Vec2(502.5, 110), colorD("yellow", 0.50), shadow(Vec2(10, 0), "yellow", 25))),
+	rectangle(7, base(false, nt("green_portal_1", "Portal"), Vec2(20, 200), Vec2(872.5, 110), colorD("green", 0.50), shadow(Vec2(10, 0), "green", 25))),
+	rectangle(7, base(false, nt("green_portal_2", "Portal"), Vec2(20, 200), Vec2(777.5, 610), colorD("green", 0.50), shadow(Vec2(-10, 0), "green", 25))),
+	rectangle(7, base(false, nt("cyan_portal_1", "Portal"), Vec2(20, 20), Vec2(640, 110), colorD("cyan", 0.50), shadow(Vec2(), "cyan", 25))),
+	rectangle(7, base(false, nt("cyan_portal_1_vis", "Portal"), Vec2(20, 20), Vec2(640, 110, degToRad(45)), colorD("lightcyan", 0.50), shadow(Vec2(), "lightcyan", 25))),
+	rectangle(7, base(false, nt("cyan_portal_2", "Portal"), Vec2(20, 240), Vec2(465, 360), colorD("cyan", 0.50), shadow(Vec2(10, 0), "lightcyan", 25))),
+	rectangle(7, base(false, nt("purple_portal_1", "Portal"), Vec2(20, 20), Vec2(640, 610), colorD("purple", 0.50), shadow(Vec2(), "purple", 25))),
+	rectangle(7, base(false, nt("purple_portal_1_vis", "Portal"), Vec2(20, 20), Vec2(640, 610, degToRad(45)), colorD("#CB59EB", 0.50), shadow(Vec2(), "#CB59EB", 25))),
+	rectangle(7, base(false, nt("purple_portal_2", "Portal"), Vec2(20, 240), Vec2(815, 360), colorD("purple", 0.50), shadow(Vec2(-10, 0), "#CB59EB", 25))),
+],
+[
+	rectangle(7, base(false, tag("obZone"), Vec2(255, 200), Vec2(640, 110), colorD())),
+	rectangle(7, base(false, tag("obZone"), Vec2(255, 200), Vec2(640, 610), colorD())),
+	rectangle(7, base(false, tag("obZone"), Vec2(245, 400), Vec2(132.5, 360), colorD())),
+	rectangle(7, base(false, tag("obZone"), Vec2(245, 400), Vec2(1147.5, 360), colorD())),
+	rectangle(7, base(false, tag("obZone"), Vec2(145, 200), Vec2(327.5, 110), colorD())),
+	rectangle(7, base(false, tag("obZone"), Vec2(145, 200), Vec2(327.5, 610), colorD())),
+	rectangle(7, base(false, tag("obZone"), Vec2(145, 200), Vec2(952.5, 110), colorD())),
+	rectangle(7, base(false, tag("obZone"), Vec2(145, 200), Vec2(952.5, 610), colorD())),
+],
+[
+	rectangle(7, base(false, tag("goZone"), Vec2(255, 200), Vec2(640, 110), colorD())),
+	rectangle(7, base(false, tag("goZone"), Vec2(255, 200), Vec2(640, 610), colorD())),
+	rectangle(7, base(false, tag("goZone"), Vec2(330, 240), Vec2(640, 360), colorD())),
+],
+[
+	rectangle(7, base(false, tag("puZone"), Vec2(255, 200), Vec2(640, 110), colorD())),
+	rectangle(7, base(false, tag("puZone"), Vec2(255, 200), Vec2(640, 610), colorD())),
+	rectangle(7, base(false, tag("puZone"), Vec2(245, 400), Vec2(132.5, 360), colorD())),
+	rectangle(7, base(false, tag("puZone"), Vec2(245, 400), Vec2(1147.5, 360), colorD())),
+	rectangle(7, base(false, tag("puZone"), Vec2(145, 200), Vec2(327.5, 110), colorD())),
+	rectangle(7, base(false, tag("puZone"), Vec2(145, 200), Vec2(327.5, 610), colorD())),
+	rectangle(7, base(false, tag("puZone"), Vec2(145, 200), Vec2(952.5, 110), colorD())),
+	rectangle(7, base(false, tag("puZone"), Vec2(145, 200), Vec2(952.5, 610), colorD())),
+],
+() => {
+	let ps = [pM.getPlayer(1).player_obj, pM.getPlayer(2).player_obj, pM.getPlayer(3).player_obj, pM.getPlayer(4).player_obj]
+	let portals = getByNameTag(tag("Portal"), 2, false, true);
+	if (portals != null) {
+		for (let i=0,length=portals.length;i<length;i++) {
+			let thisPortal = portals[i];
+			for (let p=0;p<4;p++) {
+				if (ps[p] != null) {
+					let thisP = ps[p];
+					if (cVpCollision(thisP, thisPortal)) {
+						switch (thisPortal.base.nameTag.name) {
+							case "blue_portal_1":
+								thisP.base.position.x = 502.5+LBGM.data.player_size.x;
+								thisP.base.position.y = 500+thisP.base.position.y;
+							break;
+							case "blue_portal_2":
+								thisP.base.position.x = 407.5-LBGM.data.player_size.x;
+								thisP.base.position.y = (thisP.base.position.y-500);
+							break;
+							case "red_portal_1":
+								thisP.base.position.x = 777.5-LBGM.data.player_size.x;
+								thisP.base.position.y = (thisP.base.position.y-500);
+							break;
+							case "red_portal_2":
+								thisP.base.position.x = 872.5+LBGM.data.player_size.x;
+								thisP.base.position.y = 500+thisP.base.position.y;
+							break;
+							case "yellow_portal_1":
+								thisP.base.position.x = 502.5+LBGM.data.player_size.x;
+								thisP.base.position.y = (thisP.base.position.y-500);
+							break;
+							case "yellow_portal_2":
+								thisP.base.position.x = 407.5-LBGM.data.player_size.x;
+								thisP.base.position.y = 500+thisP.base.position.y;
+							break;
+							case "green_portal_1":
+								thisP.base.position.x = 777.5-LBGM.data.player_size.x;
+								thisP.base.position.y = 500+thisP.base.position.y;
+							break;
+							case "green_portal_2":
+								thisP.base.position.x = 872.5+LBGM.data.player_size.x;
+								thisP.base.position.y = (thisP.base.position.y-500);
+							break;
+							case "cyan_portal_1":
+								if (thisP.base.position.x > 640) {
+									thisP.base.position.s *= -1;
+								}
+								thisP.base.position.x = 465+LBGM.data.player_size.x;
+								thisP.base.position.y = 360;
+							break;
+							case "cyan_portal_2":
+								let outVec1 = Vec2(640, 110).rotateVector2(Vec2(640+LBGM.data.player_size.x, 110), thisP.base.position.r-degToRad(90));
+								thisP.base.position.x = outVec1.x;
+								thisP.base.position.y = outVec1.y;
+								thisP.base.position.s *= -1;
+							break;
+							case "purple_portal_1":
+								if (thisP.base.position.x < 640) {
+									thisP.base.position.s *= -1;
+								}
+								thisP.base.position.x = 815-LBGM.data.player_size.x;
+								thisP.base.position.y = 360;
+							break;
+							case "purple_portal_2":
+								let outVec2 = Vec2(640, 610).rotateVector2(Vec2(640+LBGM.data.player_size.x, 610), thisP.base.position.r-degToRad(90));
+								thisP.base.position.x = outVec2.x;
+								thisP.base.position.y = outVec2.y;
+								thisP.base.position.s *= -1;
+							break;
+						}
+					}
+				}
+			}
+			switch (thisPortal.base.nameTag.name) {
+				case "cyan_portal_1":
+					thisPortal.base.position.r += 0.05 * delta;
+				break;
+				case "cyan_portal_1_vis":
+					thisPortal.base.position.r -= 0.025 * delta;
+				break;
+				case "purple_portal_1":
+					thisPortal.base.position.r += 0.05 * delta;
+				break;
+				case "purple_portal_1_vis":
+					thisPortal.base.position.r -= 0.025 * delta;
+				break;
+			}
+		}
+	}
+});
+
+let map_test = new Map("Test", "black",
+[
+	Vec2(40, 40, -degToRad(90), -degToRad(90)),
+	Vec2(1240, 680, degToRad(90), -degToRad(90)),
+	Vec2(40, 680, degToRad(90), -degToRad(90)),
+	Vec2(1240, 40, -degToRad(90), -degToRad(90))
+],
+[
+	circle(1, base(false, nt("TEST", "Wall"), Vec2(100, 40), screen.halfResolution.dup(), colorD("cyan")))
+],
+[
+	rectangle(8, base(false, tag("obZone"), Vec2(1120, 720), screen.halfResolution.dup(), colorD()))
+],
+[
+	rectangle(8, base(false, tag("goZone"), Vec2(1120, 720), screen.halfResolution.dup(), colorD()))
+],
+[
+	rectangle(8, base(false, tag("puZone"), Vec2(1120, 720), screen.halfResolution.dup(), colorD()))
+]);
 
 //Controls
-let Player1Left = new key(
+let Player1Left = K(
 	"P1 Left",
 	[
-		new keyData("a", 0)
+		keyD("a", 0)
 	],
-	new Vector2(null, null)
+	Vec2(null, null)
 );
-let Player1Right = new key(
+let Player1Right = K(
 	"P1 Right",
 	[
-		new keyData("d", 0)
+		keyD("d", 0)
 	],
-	new Vector2(null, null)
+	Vec2(null, null)
 );
-let Player2Left = new key(
+let Player1Powerup = K(
+	"P1 Use Power-up",
+	[
+		keyD("q", 0)
+	],
+	Vec2(() => {
+		if (!isPaused) {
+			switch (gameData.gameMode) {
+				case 1:
+					LBGM.usePowerup(1);
+				break;
+			}
+		}
+	}, null)
+);
+let Player2Left = K(
 	"P2 Left",
 	[
-		new keyData("ArrowLeft", 0)
+		keyD("ArrowLeft", 0)
 	],
-	new Vector2(null, null)
+	Vec2(null, null)
 );
-let Player2Right = new key(
+let Player2Right = K(
 	"P2 Right",
 	[
-		new keyData("ArrowRight", 0)
+		keyD("ArrowRight", 0)
 	],
-	new Vector2(null, null)
+	Vec2(null, null)
 );
-let Player3Left = new key(
+let Player2Powerup = K(
+	"P2 Use Power-up",
+	[
+		keyD("Delete", 0)
+	],
+	Vec2(() => {
+		if (!isPaused) {
+			switch (gameData.gameMode) {
+				case 1:
+					LBGM.usePowerup(2);
+				break;
+			}
+		}
+	}, null)
+);
+let Player3Left = K(
 	"P3 Left",
 	[
-		new keyData("j", 0)
+		keyD("j", 0)
 	],
-	new Vector2(null, null)
+	Vec2(null, null)
 );
-let Player3Right = new key(
+let Player3Right = K(
 	"P3 Right",
 	[
-		new keyData("l", 0)
+		keyD("l", 0)
 	],
-	new Vector2(null, null)
+	Vec2(null, null)
 );
-let Player4Left = new key(
+let Player3Powerup = K(
+	"P3 Use Power-up",
+	[
+		keyD("u", 0)
+	],
+	Vec2(() => {
+		if (!isPaused) {
+			switch (gameData.gameMode) {
+				case 1:
+					LBGM.usePowerup(3);
+				break;
+			}
+		}
+	}, null)
+);
+let Player4Left = K(
 	"P4 Left",
 	[
-		new keyData("4", 3)
+		keyD("4", 3)
 	],
-	new Vector2(null, null)
+	Vec2(null, null)
 );
-let Player4Right = new key(
+let Player4Right = K(
 	"P4 Right",
 	[
-		new keyData("6", 3)
+		keyD("6", 3)
 	],
-	new Vector2(null, null)
+	Vec2(null, null)
+);
+let Player4Powerup = K(
+	"P4 Use Power-up",
+	[
+		keyD("7", 3)
+	],
+	Vec2(() => {
+		if (!isPaused) {
+			switch (gameData.gameMode) {
+				case 1:
+					LBGM.usePowerup(4);
+				break;
+			}
+		}
+	}, null)
 );
 
 //Controller setup
 controllerManager.players = 4;
-let Player1Movement = new controllerAxesBinding(1, (e) => {
+let Player1Movement = new controllerAxisBinding(1, (e) => {
 	if (!e.r && !isPaused) {
 		if (gameData.gameMode == 1) {
-			let thisNameTag = new nameTag(("player_"+(1)), "lineBattle");
+			let thisNameTag = nt(("player_"+(1)), "lineBattle");
 			let player = getByNameTag(thisNameTag);
-			if (player != null) {
-				player.base.position.r = degToRad(e.angle(false)-270);
+
+			const s_sign = (player.base.position.s > 0) ? 0 : -180;
+
+			if (player != null && typeof player.ai == "undefined") {
+				player.base.position.r = degToRad(e.angle(false) + s_sign);
 			}
 		}
 	}
 }, "Movement", 0);
 let Player1Menu = new controllerBttnBinding(1, menuToggle, "Menu", "Start");
 let Player1ResetGame = new controllerBttnBinding(1, (e) => {
-	if (LBGM.data.win_state && !isPaused) {
+	if (pointMG.winState && !isPaused) {
 		switch (gameData.gameMode) {
 			case 1:
 				LBGM.resetGame(true);
@@ -145,78 +557,145 @@ let Player1ResetGame = new controllerBttnBinding(1, (e) => {
 		}
 	}
 }, "Reset Game", "Menu");
-let Player2Movement = new controllerAxesBinding(2, (e) => {
+let Player1PowerupUse = new controllerBttnBinding(1, (e) => {
+	if (!isPaused) {
+		switch (gameData.gameMode) {
+				case 1:
+					LBGM.usePowerup(1);
+				break;
+			}
+	}
+}, "Use Power-up", "L1");
+let Player2Movement = new controllerAxisBinding(2, (e) => {
 	if (!e.r && !isPaused) {
 		if (gameData.gameMode == 1) {
-			let thisNameTag = new nameTag(("player_"+(2)), "lineBattle");
+			let thisNameTag = nt(("player_"+(2)), "lineBattle");
 			let player = getByNameTag(thisNameTag);
-			if (player != null) {
-				player.base.position.r = degToRad(e.angle(false)-270);
+			if (player != null && typeof player.ai == "undefined") {
+				player.base.position.r = degToRad(e.angle(false));
 			}
 		}
 	}
 }, "Movement", 0);
-let Player2Menu = new controllerBttnBinding(2, menuToggle, "Menu", "Start");
+let Player2Menu = new controllerBttnBinding(2, () => {
+	let thisNameTag = nt(("player_"+(2)), "lineBattle");
+	let player = getByNameTag(thisNameTag);
+	if (player != null && typeof player.ai == "undefined") {
+		menuToggle();
+	}
+}, "Menu", "Start");
 let Player2ResetGame = new controllerBttnBinding(2, (e) => {
-	if (LBGM.data.win_state && !isPaused) {
+	if (pointMG.winState && !isPaused) {
 		switch (gameData.gameMode) {
 			case 1:
-				LBGM.resetGame(true);
-				winScreen.hide();
+				let thisNameTag = nt(("player_"+(2)), "lineBattle");
+				let player = getByNameTag(thisNameTag);
+				if (player != null && typeof player.ai == "undefined") {
+					LBGM.resetGame(true);
+					winScreen.hide();
+				}
 			break;
 		}
 	}
 }, "Reset Game", "Menu");
-let Player3Movement = new controllerAxesBinding(3, (e) => {
+let Player2PowerupUse = new controllerBttnBinding(2, (e) => {
+	if (!isPaused) {
+		switch (gameData.gameMode) {
+				case 1:
+					LBGM.usePowerup(2);
+				break;
+			}
+	}
+}, "Use Power-up", "L1");
+let Player3Movement = new controllerAxisBinding(3, (e) => {
 	if (!e.r && !isPaused) {
 		if (gameData.gameMode == 1) {
-			let thisNameTag = new nameTag(("player_"+(3)), "lineBattle");
+			let thisNameTag = nt(("player_"+(3)), "lineBattle");
 			let player = getByNameTag(thisNameTag);
-			if (player != null) {
-				player.base.position.r = degToRad(e.angle(false)-270);
+			if (player != null && typeof player.ai == "undefined") {
+				player.base.position.r = degToRad(e.angle(false));
 			}
 		}
 	}
 }, "Movement", 0);
-let Player3Menu = new controllerBttnBinding(3, menuToggle, "Menu", "Start");
+let Player3Menu = new controllerBttnBinding(3, () => {
+	let thisNameTag = nt(("player_"+(3)), "lineBattle");
+	let player = getByNameTag(thisNameTag);
+	if (player != null && typeof player.ai == "undefined") {
+		menuToggle();
+	}
+}, "Menu", "Start");
 let Player3ResetGame = new controllerBttnBinding(3, (e) => {
-	if (LBGM.data.win_state && !isPaused) {
+	if (pointMG.winState && !isPaused) {
 		switch (gameData.gameMode) {
 			case 1:
-				LBGM.resetGame(true);
-				winScreen.hide();
+				let thisNameTag = nt(("player_"+(3)), "lineBattle");
+				let player = getByNameTag(thisNameTag);
+				if (player != null && typeof player.ai == "undefined") {
+					LBGM.resetGame(true);
+					winScreen.hide();
+				}
 			break;
 		}
 	}
 }, "Reset Game", "Menu");
-let Player4Movement = new controllerAxesBinding(4, (e) => {
+let Player3PowerupUse = new controllerBttnBinding(3, (e) => {
+	if (!isPaused) {
+		switch (gameData.gameMode) {
+				case 1:
+					LBGM.usePowerup(3);
+				break;
+			}
+	}
+}, "Use Power-up", "L1");
+let Player4Movement = new controllerAxisBinding(4, (e) => {
 	if (!e.r && !isPaused) {
 		if (gameData.gameMode == 1) {
-			let thisNameTag = new nameTag(("player_"+(4)), "lineBattle");
+			let thisNameTag = nt(("player_"+(4)), "lineBattle");
 			let player = getByNameTag(thisNameTag);
-			if (player != null) {
-				player.base.position.r = degToRad(e.angle(false)-270);
+			if (player != null && typeof player.ai == "undefined") {
+				player.base.position.r = degToRad(e.angle(false));
 			}
 		}
 	}
 }, "Movement", 0);
-let Player4Menu = new controllerBttnBinding(4, menuToggle, "Menu", "Start");
+let Player4Menu = new controllerBttnBinding(4, () => {
+	let thisNameTag = nt(("player_"+(4)), "lineBattle");
+	let player = getByNameTag(thisNameTag);
+	if (player != null && typeof player.ai == "undefined") {
+		menuToggle();
+	}
+}, "Menu", "Start");
 let Player4ResetGame = new controllerBttnBinding(4, (e) => {
-	if (LBGM.data.win_state && !isPaused) {
+	if (pointMG.winState && !isPaused) {
 		switch (gameData.gameMode) {
 			case 1:
-				LBGM.resetGame(true);
-				winScreen.hide();
+				let thisNameTag = nt(("player_"+(4)), "lineBattle");
+				let player = getByNameTag(thisNameTag);
+				if (player != null && typeof player.ai == "undefined") {
+					LBGM.resetGame(true);
+					winScreen.hide();
+				}
 			break;
 		}
 	}
 }, "Reset Game", "Menu");
+let Player4PowerupUse = new controllerBttnBinding(4, (e) => {
+	if (!isPaused) {
+		switch (gameData.gameMode) {
+				case 1:
+					LBGM.usePowerup(4);
+				break;
+			}
+	}
+}, "Use Power-up", "L1");
 
 //Game data
 let gameData = {
 	"gameMode":-1, //-1: Menus / 0: Tank War / 1: Line Battle / 2: Ball Bouncers
-	"maxPlayers":new Vector2(2, 4), //x: players / y: max players
-	"showName":true
+	"maxPlayers":Vec2(2, 4), //x: players / y: max players
+	"showName":true,
+	"uiAlpha":0.5,
 };
 
 let gameModeData = {
@@ -226,13 +705,13 @@ let gameModeData = {
 			"winning_points":10, //total points needed to win
 			"players":1, //amount of real players
 			"ai":true, //enemy ai
-			"mode":new Vector2(0,0), //x-current mode, y-total modes
+			"mode":Vec2(0, 0), //x-current mode, y-total modes
 			"modes":{
 				0:{
 					"name":"Normal" //Normal tank mode
 				}
 			},
-			"map":new Vector2(0,0), //x-current map, y-total maps
+			"map":Vec2(0, 0), //x-current map, y-total maps
 			"maps":[] //map array
 		}
 	},
@@ -242,27 +721,23 @@ let gameModeData = {
 			"winning_points":10, //total points needed to win
 			"players":1, //amount of real players
 			"ai":true, //enemy ai
+			"teams":false, //2v2 (only for 4 player matches)
 			"line_length":50, //max line length (longer line makes the game harder but slows down the game!)
 			"line_fade":true, //fades line
 			"line_alpha_cutoff":0, //only detects collisions at or above this value
 			"invert_time":5, //How long in seconds the controls will be inverted
 			"object_amount":0, //amount of obstacles to spawn
-			"mode":new Vector2(0,3), //x-current mode, y-total modes
+			"powerups":false, //enables power-ups
+			"mode":Vec2(0, 1), //x-current mode, y-total modes
 			"modes":{
 				0:{
 					"name":"Normal" //Normal Tron like mode
 				},
 				1:{
 					"name":"Point Collector" //Collect points to win
-				},
-				2:{
-					"name":"Normal 2v2" //Normal Tron like mode but with teams
-				},
-				3:{
-					"name":"Point Collector 2v2" //Collect points to win with teams
 				}//Slither.io mode?
 			},
-			"map":new Vector2(0,0), //x-current map, y-total maps
+			"map":Vec2(0, 0), //x-current map, y-total maps
 			"maps":[] //map array
 		}
 	},
@@ -272,19 +747,18 @@ let gameModeData = {
 			"winning_points":10, //total points needed to win
 			"players":1, //amount of real players
 			"ai":true, //enemy ai
-			"mode":new Vector2(0,0), //x-current mode, y-total modes
+			"mode":Vec2(0, 0), //x-current mode, y-total modes
 			"modes":{
 				0:{
 					"name":"Normal" //Normal mode
 				}
 			},
-			"map":new Vector2(0,0), //x-current map, y-total maps
+			"map":Vec2(0, 0), //x-current map, y-total maps
 			"maps":[] //map array
 		}
 	},
 	"length":3
 };
-
 
 let modeData = gameModeData[gameData.gameMode];
 let currentMap = null;
@@ -293,6 +767,127 @@ let currentMap = null;
 const optionAddon = new optionMenuAddon();
 
 function optionMenuAddon() {
+	//Debug Settings
+	//Show Obstacle Zones option
+	this.showObstacleZonesDiv = document.createElement('div');
+	this.showObstacleZonesDiv.style.marginLeft = "0px";
+	this.showObstacleZonesDiv.style.marginRight = "0px";
+	this.showObstacleZonesDiv.style.marginTop = "0px";
+	this.showObstacleZonesDiv.style.marginBottom = "0px";
+	this.showObstacleZonesDiv.style.width = "100%";
+	this.showObstacleZonesDiv.style.height = "50px";
+	this.showObstacleZonesDiv.style.backgroundColor = "darkgrey";
+	OptionsMenu.optionsSep.appendChild(this.showObstacleZonesDiv);
+	this.showObstacleZonesTxt = document.createElement('p');
+	this.showObstacleZonesTxt.innerHTML = "Show Obstacle Zones:";
+	this.showObstacleZonesTxt.style.fontSize = "35px";
+	this.showObstacleZonesTxt.style.marginLeft = "0px";
+	this.showObstacleZonesTxt.style.marginRight = "0px";
+	this.showObstacleZonesTxt.style.marginTop = "0px";
+	this.showObstacleZonesTxt.style.marginBottom = "0px";
+	this.showObstacleZonesTxt.style.width = "100%";
+	this.showObstacleZonesTxt.style.height = "100%";
+	this.showObstacleZonesTxt.style.color = "white";
+	this.showObstacleZonesTxt.style.display = "inline";
+	this.showObstacleZonesDiv.appendChild(this.showObstacleZonesTxt);
+	this.showObstacleZonesChkBx = document.createElement('input');
+	this.showObstacleZonesChkBx.type = "checkbox";
+	this.showObstacleZonesChkBx.style.marginLeft = "0px";
+	this.showObstacleZonesChkBx.style.marginRight = "0px";
+	this.showObstacleZonesChkBx.style.marginTop = "0px";
+	this.showObstacleZonesChkBx.style.marginBottom = "0px";
+	this.showObstacleZonesChkBx.style.width = "50px";
+	this.showObstacleZonesChkBx.style.height = "100%";
+	this.showObstacleZonesChkBx.style.float = "right";
+	this.showObstacleZonesChkBx.style.display = "inline";
+	this.showObstacleZonesChkBx.checked = false;
+	if (localStorage.getItem("Obstacle_Zones_Show") != null) {
+		this.showObstacleZonesChkBx.checked = JSON.parse(localStorage.getItem("Obstacle_Zones_Show"));
+	}
+	this.showObstacleZonesChkBx.onchange = () => {
+		localStorage.setItem("Obstacle_Zones_Show", JSON.stringify(this.showObstacleZonesChkBx.checked));
+	};
+	this.showObstacleZonesDiv.appendChild(this.showObstacleZonesChkBx);
+	//Show Goal Zones option
+	this.showGoalZonesDiv = document.createElement('div');
+	this.showGoalZonesDiv.style.marginLeft = "0px";
+	this.showGoalZonesDiv.style.marginRight = "0px";
+	this.showGoalZonesDiv.style.marginTop = "0px";
+	this.showGoalZonesDiv.style.marginBottom = "0px";
+	this.showGoalZonesDiv.style.width = "100%";
+	this.showGoalZonesDiv.style.height = "50px";
+	this.showGoalZonesDiv.style.backgroundColor = "darkgrey";
+	OptionsMenu.optionsSep.appendChild(this.showGoalZonesDiv);
+	this.showGoalZonesTxt = document.createElement('p');
+	this.showGoalZonesTxt.innerHTML = "Show Goal Zones:";
+	this.showGoalZonesTxt.style.fontSize = "35px";
+	this.showGoalZonesTxt.style.marginLeft = "0px";
+	this.showGoalZonesTxt.style.marginRight = "0px";
+	this.showGoalZonesTxt.style.marginTop = "0px";
+	this.showGoalZonesTxt.style.marginBottom = "0px";
+	this.showGoalZonesTxt.style.width = "100%";
+	this.showGoalZonesTxt.style.height = "100%";
+	this.showGoalZonesTxt.style.color = "white";
+	this.showGoalZonesTxt.style.display = "inline";
+	this.showGoalZonesDiv.appendChild(this.showGoalZonesTxt);
+	this.showGoalZonesChkBx = document.createElement('input');
+	this.showGoalZonesChkBx.type = "checkbox";
+	this.showGoalZonesChkBx.style.marginLeft = "0px";
+	this.showGoalZonesChkBx.style.marginRight = "0px";
+	this.showGoalZonesChkBx.style.marginTop = "0px";
+	this.showGoalZonesChkBx.style.marginBottom = "0px";
+	this.showGoalZonesChkBx.style.width = "50px";
+	this.showGoalZonesChkBx.style.height = "100%";
+	this.showGoalZonesChkBx.style.float = "right";
+	this.showGoalZonesChkBx.style.display = "inline";
+	this.showGoalZonesChkBx.checked = false;
+	if (localStorage.getItem("Goal_Zones_Show") != null) {
+		this.showGoalZonesChkBx.checked = JSON.parse(localStorage.getItem("Goal_Zones_Show"));
+	}
+	this.showGoalZonesChkBx.onchange = () => {
+		localStorage.setItem("Goal_Zones_Show", JSON.stringify(this.showGoalZonesChkBx.checked));
+	};
+	this.showGoalZonesDiv.appendChild(this.showGoalZonesChkBx);
+	//Show Power-up Zones option
+	this.showPowerupZonesDiv = document.createElement('div');
+	this.showPowerupZonesDiv.style.marginLeft = "0px";
+	this.showPowerupZonesDiv.style.marginRight = "0px";
+	this.showPowerupZonesDiv.style.marginTop = "0px";
+	this.showPowerupZonesDiv.style.marginBottom = "0px";
+	this.showPowerupZonesDiv.style.width = "100%";
+	this.showPowerupZonesDiv.style.height = "50px";
+	this.showPowerupZonesDiv.style.backgroundColor = "darkgrey";
+	OptionsMenu.optionsSep.appendChild(this.showPowerupZonesDiv);
+	this.showPowerupZonesTxt = document.createElement('p');
+	this.showPowerupZonesTxt.innerHTML = "Show Power-up Zones:";
+	this.showPowerupZonesTxt.style.fontSize = "35px";
+	this.showPowerupZonesTxt.style.marginLeft = "0px";
+	this.showPowerupZonesTxt.style.marginRight = "0px";
+	this.showPowerupZonesTxt.style.marginTop = "0px";
+	this.showPowerupZonesTxt.style.marginBottom = "0px";
+	this.showPowerupZonesTxt.style.width = "100%";
+	this.showPowerupZonesTxt.style.height = "100%";
+	this.showPowerupZonesTxt.style.color = "white";
+	this.showPowerupZonesTxt.style.display = "inline";
+	this.showPowerupZonesDiv.appendChild(this.showPowerupZonesTxt);
+	this.showPowerupZonesChkBx = document.createElement('input');
+	this.showPowerupZonesChkBx.type = "checkbox";
+	this.showPowerupZonesChkBx.style.marginLeft = "0px";
+	this.showPowerupZonesChkBx.style.marginRight = "0px";
+	this.showPowerupZonesChkBx.style.marginTop = "0px";
+	this.showPowerupZonesChkBx.style.marginBottom = "0px";
+	this.showPowerupZonesChkBx.style.width = "50px";
+	this.showPowerupZonesChkBx.style.height = "100%";
+	this.showPowerupZonesChkBx.style.float = "right";
+	this.showPowerupZonesChkBx.style.display = "inline";
+	this.showPowerupZonesChkBx.checked = false;
+	if (localStorage.getItem("Powerup_Zones_Show") != null) {
+		this.showPowerupZonesChkBx.checked = JSON.parse(localStorage.getItem("Powerup_Zones_Show"));
+	}
+	this.showPowerupZonesChkBx.onchange = () => {
+		localStorage.setItem("Powerup_Zones_Show", JSON.stringify(this.showPowerupZonesChkBx.checked));
+	};
+	this.showPowerupZonesDiv.appendChild(this.showPowerupZonesChkBx);
 	//Line Battle Settings
 	this.lineBattleSettingsDiv = document.createElement('div');
 	this.lineBattleSettingsDiv.style.marginLeft = "0px";
@@ -472,6 +1067,87 @@ function optionMenuAddon() {
 	this.lineCollCutoffValueTxt.style.color = "white";
 	this.lineCollCutoffValueTxt.style.display = "inline";
 	this.lineCollCutoffDiv.appendChild(this.lineCollCutoffValueTxt);
+	//UI Settings
+	this.UISettingsDiv = document.createElement('div');
+	this.UISettingsDiv.style.marginLeft = "0px";
+	this.UISettingsDiv.style.marginRight = "0px";
+	this.UISettingsDiv.style.marginTop = "0px";
+	this.UISettingsDiv.style.marginBottom = "0px";
+	this.UISettingsDiv.style.width = "100%";
+	this.UISettingsDiv.style.height = "50px";
+	this.UISettingsDiv.style.backgroundColor = "darkgrey";
+	this.lineBattleSettingsDiv.appendChild(this.UISettingsDiv);
+	this.UISettingsTxt = document.createElement('p');
+	this.UISettingsTxt.innerHTML = "UI";
+	this.UISettingsTxt.style.fontSize = "35px";
+	this.UISettingsTxt.style.marginLeft = "0px";
+	this.UISettingsTxt.style.marginRight = "0px";
+	this.UISettingsTxt.style.marginTop = "0px";
+	this.UISettingsTxt.style.marginBottom = "0px";
+	this.UISettingsTxt.style.width = "100%";
+	this.UISettingsTxt.style.height = "100%";
+	this.UISettingsTxt.style.textAlign = "center";
+	this.UISettingsTxt.style.color = "white";
+	this.UISettingsDiv.appendChild(this.UISettingsTxt);
+	//UI opacity option
+	this.UIAlphaDiv = document.createElement('div');
+	this.UIAlphaDiv.style.marginLeft = "0px";
+	this.UIAlphaDiv.style.marginRight = "0px";
+	this.UIAlphaDiv.style.marginTop = "0px";
+	this.UIAlphaDiv.style.marginBottom = "0px";
+	this.UIAlphaDiv.style.width = "100%";
+	this.UIAlphaDiv.style.height = "50px";
+	this.UIAlphaDiv.style.backgroundColor = "darkgrey";
+	this.lineBattleSettingsDiv.appendChild(this.UIAlphaDiv);
+	this.UIAlphaTxt = document.createElement('p');
+	this.UIAlphaTxt.innerHTML = "UI Alpha:";
+	this.UIAlphaTxt.style.fontSize = "35px";
+	this.UIAlphaTxt.style.marginLeft = "0px";
+	this.UIAlphaTxt.style.marginRight = "0px";
+	this.UIAlphaTxt.style.marginTop = "0px";
+	this.UIAlphaTxt.style.marginBottom = "0px";
+	this.UIAlphaTxt.style.width = "100%";
+	this.UIAlphaTxt.style.height = "100%";
+	this.UIAlphaTxt.style.color = "white";
+	this.UIAlphaTxt.style.display = "inline";
+	this.UIAlphaDiv.appendChild(this.UIAlphaTxt);
+	this.UIAlphaSlider = document.createElement("input");
+	this.UIAlphaSlider.classList.add("slider");
+	this.UIAlphaSlider.type = "range";
+	this.UIAlphaSlider.min = "0";
+	this.UIAlphaSlider.max = "1";
+	this.UIAlphaSlider.step = "0.01";
+	this.UIAlphaSlider.value = gameData.uiAlpha.toString();
+	this.UIAlphaSlider.style.width = "35%";
+	this.UIAlphaSlider.style.height = "50%";
+	this.UIAlphaSlider.style.marginLeft = "10px";
+	this.UIAlphaSlider.style.marginRight = "0px";
+	this.UIAlphaSlider.style.marginTop = "0px";
+	this.UIAlphaSlider.style.marginBottom = "0px";
+	this.UIAlphaSlider.style.appearance = "none";
+	this.UIAlphaSlider.style.background = "lightgrey";
+	this.UIAlphaSlider.style.outline = "none";
+	this.UIAlphaSlider.style.borderRadius = "90px";
+	this.UIAlphaSlider.style.display = "inline";
+	if (localStorage.getItem("UI_Alpha") != null) {
+		this.UIAlphaSlider.value = JSON.parse(localStorage.getItem("UI_Alpha"));
+	}
+	this.UIAlphaSlider.onchange = () => {
+		localStorage.setItem("UI_Alpha", JSON.stringify(this.UIAlphaSlider.value));
+	};
+	this.UIAlphaDiv.appendChild(this.UIAlphaSlider);
+	this.UIAlphaValueTxt = document.createElement('p');
+	this.UIAlphaValueTxt.innerHTML = "OFF";
+	this.UIAlphaValueTxt.style.fontSize = "35px";
+	this.UIAlphaValueTxt.style.marginLeft = "10px";
+	this.UIAlphaValueTxt.style.marginRight = "0px";
+	this.UIAlphaValueTxt.style.marginTop = "0px";
+	this.UIAlphaValueTxt.style.marginBottom = "0px";
+	this.UIAlphaValueTxt.style.width = "100%";
+	this.UIAlphaValueTxt.style.height = "100%";
+	this.UIAlphaValueTxt.style.color = "white";
+	this.UIAlphaValueTxt.style.display = "inline";
+	this.UIAlphaDiv.appendChild(this.UIAlphaValueTxt);
 	//Player Options
 	this.playerSettingsDiv = document.createElement('div');
 	this.playerSettingsDiv.style.marginLeft = "0px";
@@ -549,7 +1225,7 @@ function optionMenuAddon() {
 	this.gameJoltNameSettingsDiv.style.display = "block";
 	this.lineBattleSettingsDiv.appendChild(this.gameJoltNameSettingsDiv);
 	this.gameJoltNameSettingsTxt = document.createElement('p');
-	this.gameJoltNameSettingsTxt.innerHTML = "Use GameJolt Name?:";
+	this.gameJoltNameSettingsTxt.innerHTML = "Use GameJolt Name?";
 	this.gameJoltNameSettingsTxt.style.fontSize = "35px";
 	this.gameJoltNameSettingsTxt.style.marginLeft = "0px";
 	this.gameJoltNameSettingsTxt.style.marginRight = "0px";
@@ -636,7 +1312,7 @@ function optionMenuAddon() {
 	this.gameJoltAvatarSettingsDiv.style.display = "block";
 	this.lineBattleSettingsDiv.appendChild(this.gameJoltAvatarSettingsDiv);
 	this.gameJoltAvatarSettingsTxt = document.createElement('p');
-	this.gameJoltAvatarSettingsTxt.innerHTML = "Use GameJolt Avatar?:";
+	this.gameJoltAvatarSettingsTxt.innerHTML = "Use GameJolt Avatar?";
 	this.gameJoltAvatarSettingsTxt.style.fontSize = "35px";
 	this.gameJoltAvatarSettingsTxt.style.marginLeft = "0px";
 	this.gameJoltAvatarSettingsTxt.style.marginRight = "0px";
@@ -969,6 +1645,88 @@ function optionMenuAddon() {
 	};
 	this.showNameDiv.appendChild(this.showNameChkBx);
 	const update = () => {
+		if (isPaused) {
+			this.showObstacleZonesTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.showGoalZonesTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.showPowerupZonesTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.lineBattleSettingsTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.lineFadeTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.lineLengthTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.lineLengthValueTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.lineCollCutoffTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.lineCollCutoffValueTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.UISettingsTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.UIAlphaTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.UIAlphaValueTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.playerSettingsTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.player1NameSettingsTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.gameJoltNameSettingsTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.player1AvatarSettingsTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.gameJoltAvatarSettingsTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.player2NameSettingsTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.player2AvatarSettingsTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.player3NameSettingsTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.player3AvatarSettingsTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.player4NameSettingsTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.player4AvatarSettingsTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+			this.showNameTxt.style.fontSize = ((35*OptionsMenu.menuScale)*screen.getScale().x)+"px";
+		}
+		if (currentMap != null) {
+			let obstacleZones = getByNameTag(tag("obZone"), 2, false, true);
+			if (!Array.isArray(obstacleZones)) {
+				obstacleZones = [obstacleZones];
+			}
+			if (this.showObstacleZonesChkBx.checked) {
+				if (obstacleZones[0] == null) {
+					for (let i=0,length=currentMap.obstacleZones.length;i<length;i++) {
+						currentMap.obstacleZones[i].layerNumber = 8;
+						currentMap.obstacleZones[i].base.color.color = "red";
+						currentMap.obstacleZones[i].base.color.alpha = 0.1;
+						addObject(currentMap.obstacleZones[i], 8);
+					}
+				}
+			} else {
+				if (obstacleZones[0] != null) {
+					deleteByNameTag(tag("obZone"), 2, true);
+				}
+			}
+			let goalZones = getByNameTag(tag("goZone"), 2, false, true);
+			if (!Array.isArray(goalZones)) {
+				goalZones = [goalZones];
+			}
+			if (this.showGoalZonesChkBx.checked) {
+				if (goalZones[0] == null) {
+					for (let i=0,length=currentMap.goalZones.length;i<length;i++) {
+						currentMap.goalZones[i].layerNumber = 8;
+						currentMap.goalZones[i].base.color.color = "lightgreen";
+						currentMap.goalZones[i].base.color.alpha = 0.1;
+						addObject(currentMap.goalZones[i], 8);
+					}
+				}
+			} else {
+				if (goalZones[0] != null) {
+					deleteByNameTag(tag("goZone"), 2, true);
+				}
+			}
+			let powerupZones = getByNameTag(tag("puZone"), 2, false, true);
+			if (!Array.isArray(powerupZones)) {
+				powerupZones = [powerupZones];
+			}
+			if (this.showPowerupZonesChkBx.checked) {
+				if (powerupZones[0] == null) {
+					for (let i=0,length=currentMap.powerupZones.length;i<length;i++) {
+						currentMap.powerupZones[i].layerNumber = 8;
+						currentMap.powerupZones[i].base.color.color = "cyan";
+						currentMap.powerupZones[i].base.color.alpha = 0.1;
+						addObject(currentMap.powerupZones[i], 8);
+					}
+				}
+			} else {
+				if (powerupZones[0] != null) {
+					deleteByNameTag(tag("puZone"), 2, true);
+				}
+			}
+		}
 		gameModeData[1].settings.line_fade = this.lineFadeChkBx.checked;
 		gameModeData[1].settings.line_length = this.lineLengthSlider.value;
 		this.lineLengthValueTxt.innerHTML = this.lineLengthSlider.value;
@@ -977,6 +1735,12 @@ function optionMenuAddon() {
 			this.lineCollCutoffValueTxt.innerHTML = "OFF";
 		} else {
 			this.lineCollCutoffValueTxt.innerHTML = Math.round(this.lineCollCutoffSlider.value*100)+"%";
+		}
+		gameData.uiAlpha = parseFloat(this.UIAlphaSlider.value);
+		if (this.UIAlphaSlider.value == 0) {
+			this.UIAlphaValueTxt.innerHTML = "OFF";
+		} else {
+			this.UIAlphaValueTxt.innerHTML = Math.round(this.UIAlphaSlider.value*100)+"%";
 		}
 		if (this.player1NameTextBox.value.length > 8) {
 			this.player1NameTextBox.value = this.player1NameTextBox.value.substring(0, 8);
@@ -1085,7 +1849,7 @@ function settingsAddons() {
 	SettingsMenu.buttonsSep.insertBefore(this.backBttn, SettingsMenu.quitBttn);
 	const update = () => this.update();
 	this.update = function() {
-		this.backBttn.style.fontSize = (35*screen.getScale().x)+"px";
+		this.backBttn.style.fontSize = ((35*SettingsMenu.menuScale)*screen.getScale().x)+"px";
 		if (gameData.gameMode != -1) {
 			this.backBttn.style.display = "block";
 		} else {
@@ -1099,7 +1863,7 @@ function settingsAddons() {
 const winScreen = new winScreenObj();
 
 function winScreenObj() {
-	this.size = new Vector2(500, 100);
+	this.size = Vec2(500, 100);
 	this.icon = greyBall.getSrc();
 	this.name = "BLANK";
 	this.show = function(id=1) {
@@ -1192,7 +1956,8 @@ const menuMG = new menuManager();
 
 function menuManager() {
 	this.menuState = 0; //0: main menu, 1-3: game menus
-	this.menuSize = new Vector2();
+	this.menuSize = Vec2();
+	this.menuScale = 0.8;
 	let userName = "";
 	let token = "";
 	//Main menu
@@ -1206,29 +1971,33 @@ function menuManager() {
 	this.gjLoginBttnLink = null;
 	this.gjLoginCloseBttnLink = null;
 	this.spawnGJLogin = function() {
-		this.gjLoginBG = new Rectangle(4, new baseObject(true, new nameTag("Background", gjLoginTag), new Vector2(300, 200), screen.halfResolution, new colorData("darkgrey"), new Shadow(new Vector2(5, 5), "black", 5)));
-		this.gjLoginTitle = new Text(5, "Game Jolt Login", new baseObject(true, new nameTag("Title", gjLoginTag), new Vector2("30px Arial", false, "center"), screen.halfResolution.subV(new Vector2(0, 82.5)), new colorData("white")));
-		this.userNameTxt = new Text(5, "Username:", new baseObject(true, new nameTag("Username_Text", gjLoginTag), new Vector2("20px Arial", false, "center"), screen.halfResolution.subV(new Vector2(75, 35)), new colorData("white")));
-		this.userNameTxtBox = new TextBox(5, "30px Arial", "white", new baseObject(true, new nameTag("Username", gjLoginTag), new Vector2(125, 50), screen.halfResolution.subV(new Vector2(-50, 35)), new colorData("black")));
+		this.gjLoginBG = rectangle(4, base(true, nt("Background", gjLoginTag), Vec2(300, 200), screen.halfResolution, colorD("darkgrey"), shadow(Vec2(5, 5), "black", 5)));
+		this.gjLoginTitle = text(5, "Game Jolt Login", base(true, nt("Title", gjLoginTag), Vec2("30px Arial", false, "center"), screen.halfResolution.subV(Vec2(0, 82.5)), colorD("white")));
+		this.userNameTxt = text(5, "Username:", base(true, nt("Username_Text", gjLoginTag), Vec2("20px Arial", false, "center"), screen.halfResolution.subV(Vec2(75, 35)), colorD("white")));
+		this.userNameTxtBox = textBox(5, "30px Arial", "white", base(true, nt("Username", gjLoginTag), Vec2(125, 50), screen.halfResolution.subV(Vec2(-50, 35)), colorD("black")));
 		this.userNameTxtBox.value = userName;
-		this.tokenTxt = new Text(5, "Token:", new baseObject(true, new nameTag("Token_Text", gjLoginTag), new Vector2("20px Arial", false, "center"), screen.halfResolution.subV(new Vector2(75, -20)), new colorData("white")));
-		this.tokenTxtBox = new TextBox(5, "30px Arial", "white", new baseObject(true, new nameTag("Token", gjLoginTag), new Vector2(125, 50), screen.halfResolution.subV(new Vector2(-50, -20)), new colorData("black")));
+		this.tokenTxt = text(5, "Token:", base(true, nt("Token_Text", gjLoginTag), Vec2("20px Arial", false, "center"), screen.halfResolution.subV(Vec2(75, -20)), colorD("white")));
+		this.tokenTxtBox = textBox(5, "30px Arial", "white", base(true, nt("Token", gjLoginTag), Vec2(125, 50), screen.halfResolution.subV(Vec2(-50, -20)), colorD("black")));
 		this.tokenTxtBox.value = token;
-		this.gjLoginBttn = new Rectangle(5, new baseObject(true, new nameTag("Login_Bttn", gjLoginTag), new Vector2(75, 35), screen.halfResolution.subV(new Vector2(0, -75)), new colorData("black"), new Shadow(new Vector2(5, 5), "black", 7)));
-		this.gjLoginBttnTxt = new Text(6, "Login", new baseObject(true, new nameTag("Login_Bttn_Txt", gjLoginTag), new Vector2("20px Arial", false, "center"), screen.halfResolution.subV(new Vector2(0, -75)), new colorData("white")));
-		this.gjLoginBttnLink = new buttonLink(this.gjLoginBttn, this.gjLoginBttnTxt, recCollision, () => {
-			if (user != null) {
-				GJAPI.UserLogout();
-				user = null;
-			} else {
-				login(this.userNameTxtBox.value, this.tokenTxtBox.value);
+		this.gjLoginBttn = rectangle(5, base(true, nt("Login_Bttn", gjLoginTag), Vec2(75, 35), screen.halfResolution.subV(Vec2(0, -75)), colorD("black"), shadow(Vec2(5, 5), "black", 7)));
+		this.gjLoginBttnTxt = text(6, "Login", base(true, nt("Login_Bttn_Txt", gjLoginTag), Vec2("20px Arial", false, "center"), screen.halfResolution.subV(Vec2(0, -75)), colorD("white")));
+		this.gjLoginBttnLink = bttnL(this.gjLoginBttn, this.gjLoginBttnTxt, recCollision, () => {
+			if (!isPaused) {
+				if (user != null) {
+					GJAPI.UserLogout();
+					user = null;
+				} else {
+					login(this.userNameTxtBox.value, this.tokenTxtBox.value);
+				}
 			}
-		}, new Vector2(new colorData("black"), new colorData("grey")));
+		}, Vec2(colorD("black"), colorD("grey")));
 		this.gjLoginBttnLink.link();
-		this.gjLoginCloseBttn = new Sprite(5, new baseObject(true, new nameTag("Close_Bttn", gjLoginTag), new Vector2(15, 15), screen.halfResolution.subV(new Vector2(-140, 90)), Close_UI.getColor(), new Shadow(new Vector2(5, 5), "black", 7)));
-		this.gjLoginCloseBttnLink = new buttonLink(this.gjLoginCloseBttn, null, recCollision, () => {
-			this.deleteGJLogin();
-		}, new Vector2(Close_UI.getColor(), Close_UI_Hover.getColor()));
+		this.gjLoginCloseBttn = sprite(5, base(true, nt("Close_Bttn", gjLoginTag), Vec2(15, 15), screen.halfResolution.subV(Vec2(-140, 90)), Close_UI.getColor(), shadow(Vec2(5, 5), "black", 7)));
+		this.gjLoginCloseBttnLink = bttnL(this.gjLoginCloseBttn, null, recCollision, () => {
+			if (!isPaused) {
+				this.deleteGJLogin();
+			}
+		}, Vec2(Close_UI.getColor(), Close_UI_Hover.getColor()));
 		this.gjLoginCloseBttnLink.link();
 	}
 	this.deleteGJLogin = function() {
@@ -1236,7 +2005,7 @@ function menuManager() {
 		token = this.tokenTxtBox.value;
 		this.gjLoginBttnLink.unlink();
 		this.gjLoginCloseBttnLink.unlink();
-		deleteByNameTag(new nameTag("", gjLoginTag), 2);
+		deleteByNameTag(nt("", gjLoginTag), 2);
 		this.gjLoginBG = null;
 		this.gjLoginBttnTxt = null;
 		this.gjLoginBttnLink = null;
@@ -1246,35 +2015,35 @@ function menuManager() {
 		}
 	}
 	this.spawnMainMenu = function() {
-		this.mainMenuBG = new Sprite(1, new baseObject(true, new nameTag("Background", mainMenuTag), screen.resolution, screen.halfResolution, mainMenuBG.getColor()));
-		this.mainMenuTitle = new Text(2, "Minigame Collection", new baseObject(true, new nameTag("Title", mainMenuTag), new Vector2("60px Arial", false, "center"), new Vector2(screen.halfResolution.x, 40), new colorData("white"), new Shadow(new Vector2(2.5, 2.5), "black", 0)));
-		this.mainMenuLineBattleBttn = new Rectangle(2, new baseObject(true, new nameTag("LineBattleBttn", mainMenuTag), new Vector2(200, 100), screen.halfResolution, new colorData("black"), new Shadow(new Vector2(5, 5), "black", 7)));
-		this.mainMenuLineBattleBttnTxt = new Text(3, "Line Battle", new baseObject(true, new nameTag("LineBattleBttnTxt", mainMenuTag), new Vector2("40px Arial", false, "center"), screen.halfResolution, new colorData("white")));
-		this.mainMenuLineBattleBttnLink = new buttonLink(this.mainMenuLineBattleBttn, this.mainMenuLineBattleBttnTxt, recCollision, () => {
-			if (this.gjLoginBG == null) {
+		this.mainMenuBG = sprite(1, base(true, nt("Background", mainMenuTag), screen.resolution, screen.halfResolution, mainMenuBG.getColor()));
+		this.mainMenuTitle = text(2, "Minigame Collection", base(true, nt("Title", mainMenuTag), Vec2("60px Arial", false, "center"), Vec2(screen.halfResolution.x, 40), colorD("white"), shadow(Vec2(2.5, 2.5), "black", 0)));
+		this.mainMenuLineBattleBttn = rectangle(2, base(true, nt("LineBattleBttn", mainMenuTag), Vec2(200, 100), screen.halfResolution, colorD("black"), shadow(Vec2(5, 5), "black", 7)));
+		this.mainMenuLineBattleBttnTxt = text(3, "Line Battle", base(true, nt("LineBattleBttnTxt", mainMenuTag), Vec2("40px Arial", false, "center"), screen.halfResolution, colorD("white")));
+		this.mainMenuLineBattleBttnLink = bttnL(this.mainMenuLineBattleBttn, this.mainMenuLineBattleBttnTxt, recCollision, () => {
+			if (this.gjLoginBG == null && !isPaused) {
 				this.menuState = 2;
 				this.lbBackground.play();
 			}
-		}, new Vector2(new colorData("black"), new colorData("grey")));
+		}, Vec2(colorD("black"), colorD("grey")));
 		this.mainMenuLineBattleBttnLink.link();
 		if (!window.location.href.includes("gamejolt")) {
-			this.mainGjLoginBttn = new Rectangle(2, new baseObject(true, new nameTag("Login_Bttn", mainMenuTag), new Vector2(100, 50), new Vector2(1225, 690), new colorData("black"), new Shadow(new Vector2(0, 0), "white", 5)));
-			this.mainGjLoginTxt = new Text(6, "Login", new baseObject(true, new nameTag("Login_Bttn_Txt", mainMenuTag), new Vector2("20px Arial", false, "center"), new Vector2(1225, 690), new colorData("white")));
-			this.mainLoginBttnLink = new buttonLink(this.mainGjLoginBttn, this.mainGjLoginTxt, recCollision, () => {
-				console.log();
-				if (this.gjLoginBG == null) {
+			this.mainGjLoginBttn = rectangle(2, base(true, nt("Login_Bttn", mainMenuTag), Vec2(100, 50), Vec2(1225, 690), colorD("black"), shadow(Vec2(0, 0), "white", 5)));
+			this.mainGjLoginTxt = text(6, "Login", base(true, nt("Login_Bttn_Txt", mainMenuTag), Vec2("20px Arial", false, "center"), Vec2(1225, 690), colorD("white")));
+			this.mainLoginBttnLink = bttnL(this.mainGjLoginBttn, this.mainGjLoginTxt, recCollision, () => {
+				if (this.gjLoginBG == null && !isPaused) {
 					this.spawnGJLogin();
 				}
-			}, new Vector2(new colorData("black"), new colorData("grey")));
+			}, Vec2(colorD("black"), colorD("grey")));
 			this.mainLoginBttnLink.link();
 		}
+		this.mainMenuVersionNum = text(2, version, base(true, nt("Version", mainMenuTag), Vec2("20px Arial", false, "left"), Vec2(5, screen.resolution.y-10), colorD("white"), shadow(Vec2(2.5, 2.5), "black", 0)));
 	}
 	this.deleteMainMenu = function() {
 		this.mainMenuLineBattleBttnLink.unlink();
 		if (!window.location.href.includes("gamejolt")) {
 			this.mainLoginBttnLink.unlink();
 		}
-		deleteByNameTag(new nameTag("", mainMenuTag), 2);
+		deleteByNameTag(nt("", mainMenuTag), 2);
 		this.mainMenuBG = null;
 	}
 	//Line Battle Menu
@@ -1338,7 +2107,7 @@ function menuManager() {
 	this.lbModeSlider = document.createElement("input");
 	this.lbModeSlider.classList.add("slider");
 	this.lbModeSlider.type = "range";
-	this.lbModeSlider.max = "1";//gameModeData[1].settings.mode.y;// Change this
+	this.lbModeSlider.max = gameModeData[1].settings.mode.y;
 	this.lbModeSlider.value = "0";
 	this.lbModeSlider.style.margin = "0px";
 	this.lbModeSlider.style.position = "fixed";
@@ -1427,6 +2196,111 @@ function menuManager() {
 	this.lbInvertTimeSlider.style.outline = "none";
 	this.lbInvertTimeSlider.style.borderRadius = "90px";
 	this.lbMenu.appendChild(this.lbInvertTimeSlider);
+	//AI enable
+	this.powerupBttn = document.createElement("button");
+	this.powerupBttn.innerHTML = "Power-ups";
+	this.powerupBttn.style.textAlign = "center";
+	this.powerupBttn.style.backgroundColor = "red";
+	this.powerupBttn.style.color = "white";
+	this.powerupBttn.style.margin = "0px";
+	this.powerupBttn.style.position = "fixed";
+	this.powerupBttn.onmouseover = () => {
+		switch (gameModeData[1].settings.powerups) {
+			case false:
+				this.powerupBttn.style.backgroundColor = "lightred";
+			break;
+			case true:
+				this.powerupBttn.style.backgroundColor = "lightgreen";
+			break;
+		}
+	};
+	this.powerupBttn.onmouseout = () => {
+		switch (gameModeData[1].settings.powerups) {
+			case false:
+				this.powerupBttn.style.backgroundColor = "red";
+			break;
+			case true:
+				this.powerupBttn.style.backgroundColor = "green";
+			break;
+		}
+	};
+	this.powerupBttn.onclick = () => {
+		gameModeData[1].settings.powerups = !gameModeData[1].settings.powerups;
+		switch (gameModeData[1].settings.powerups) {
+			case false:
+				this.powerupBttn.style.backgroundColor = "red";
+			break;
+			case true:
+				this.powerupBttn.style.backgroundColor = "green";
+			break;
+		}
+	};
+	this.lbMenu.appendChild(this.powerupBttn);
+	//AI enable
+	let aiState = 0;
+	this.aiBttn = document.createElement("button");
+	this.aiBttn.innerHTML = "AI Enable";
+	this.aiBttn.style.textAlign = "center";
+	this.aiBttn.style.backgroundColor = "red"; //Change later
+	this.aiBttn.style.color = "white";
+	this.aiBttn.style.margin = "0px";
+	this.aiBttn.style.position = "fixed";
+	this.aiBttn.onmouseover = () => {
+		switch (aiState) {
+			case 0:
+				this.aiBttn.style.backgroundColor = "lightred";
+			break;
+			case 1:
+				this.aiBttn.style.backgroundColor = "lightgreen";
+			break;
+		}
+	};
+	this.aiBttn.onmouseout = () => {
+		switch (aiState) {
+			case 0:
+				this.aiBttn.style.backgroundColor = "red";
+			break;
+			case 1:
+				this.aiBttn.style.backgroundColor = "green";
+			break;
+		}
+	};
+	this.aiBttn.onclick = () => {
+		aiState++;
+		if (aiState > 1) {
+			aiState = 0;
+		}
+		switch (aiState) {
+			case 0:
+				this.aiBttn.style.backgroundColor = "red";
+			break;
+			case 1:
+				this.aiBttn.style.backgroundColor = "green";
+			break;
+		}
+	};
+	this.lbMenu.appendChild(this.aiBttn);
+	//Real players
+	this.aiPlayersTitle = document.createElement("p");
+	this.aiPlayersTitle.innerHTML = "AI Players: ";
+	this.aiPlayersTitle.style.textAlign = "center";
+	this.aiPlayersTitle.style.color = "white";
+	this.aiPlayersTitle.style.margin = "0px";
+	this.aiPlayersTitle.style.position = "fixed";
+	this.lbMenu.appendChild(this.aiPlayersTitle);
+	this.aiPlayersSlider = document.createElement("input");
+	this.aiPlayersSlider.classList.add("slider");
+	this.aiPlayersSlider.type = "range";
+	this.aiPlayersSlider.max = "4";
+	this.aiPlayersSlider.min = "1";
+	this.aiPlayersSlider.value = "1";
+	this.aiPlayersSlider.style.margin = "0px";
+	this.aiPlayersSlider.style.position = "fixed";
+	this.aiPlayersSlider.style.appearance = "none";
+	this.aiPlayersSlider.style.background = "lightgrey";
+	this.aiPlayersSlider.style.outline = "none";
+	this.aiPlayersSlider.style.borderRadius = "90px";
+	this.lbMenu.appendChild(this.aiPlayersSlider);
 	//Play
 	this.lbPlayBttn = document.createElement("button");
 	this.lbPlayBttn.innerHTML = "Play";
@@ -1474,34 +2348,34 @@ function menuManager() {
 			}
 		}
 		//Scale/Positioning
-		this.menuSize = new Vector2(screen.getDeviceRes().x, screen.getDeviceRes().y);
+		this.menuSize = Vec2(screen.getDeviceRes().x, screen.getDeviceRes().y);
 		let halfSize = this.menuSize.div(2);
 		//lb menu
 		this.lbBackground.style.top = (halfSize.y-(this.lbBackground.getBoundingClientRect().height/2))+"px";
 		this.lbBackground.style.left = (halfSize.x-(this.lbBackground.getBoundingClientRect().width/2))+"px";
 		this.lbTitle.style.left = (halfSize.x-(this.lbTitle.getBoundingClientRect().width/2))+"px";
-		this.lbTitle.style.fontSize = (60*screen.getScale().x)+"px";
-		this.lbPlayersTitle.style.top = parseFloat(this.lbPlayersSlider.style.top)-(40*screen.getScale().y)+"px";
+		this.lbTitle.style.fontSize = ((60*this.menuScale)*screen.getScale().x)+"px";
+		this.lbPlayersTitle.style.top = parseFloat(this.lbPlayersSlider.style.top)-(25*screen.getScale().y)+"px";
 		this.lbPlayersTitle.style.left = (halfSize.x-(this.lbPlayersTitle.getBoundingClientRect().width/2))+"px";
-		this.lbPlayersTitle.style.fontSize = (30*screen.getScale().x)+"px";
+		this.lbPlayersTitle.style.fontSize = ((30*this.menuScale)*screen.getScale().x)+"px";
 		this.lbPlayersTitle.innerHTML = "Players: "+gameData.maxPlayers.x;
 		this.lbPlayersSlider.style.top = (120*screen.getScale().y)+"px";
 		this.lbPlayersSlider.style.left = (halfSize.x-(this.lbPlayersSlider.getBoundingClientRect().width/2))+"px";
 		this.lbPlayersSlider.style.width = (300*screen.getScale().x)+"px";
 		this.lbPlayersSlider.style.height = (20*screen.getScale().y)+"px";
 		gameData.maxPlayers.x = parseInt(this.lbPlayersSlider.value);
-		this.lbModeTitle.style.top = parseFloat(this.lbModeSlider.style.top)-(40*screen.getScale().y)+"px";
+		this.lbModeTitle.style.top = parseFloat(this.lbModeSlider.style.top)-(25*screen.getScale().y)+"px";
 		this.lbModeTitle.style.left = (halfSize.x-(this.lbModeTitle.getBoundingClientRect().width/2))+"px";
-		this.lbModeTitle.style.fontSize = (30*screen.getScale().x)+"px";
+		this.lbModeTitle.style.fontSize = ((30*this.menuScale)*screen.getScale().x)+"px";
 		this.lbModeTitle.innerHTML = "Mode: "+gameModeData[1].settings.modes[gameModeData[1].settings.mode.x].name;
 		this.lbModeSlider.style.top = (180*screen.getScale().y)+"px";
 		this.lbModeSlider.style.left = (halfSize.x-(this.lbModeSlider.getBoundingClientRect().width/2))+"px";
 		this.lbModeSlider.style.width = (300*screen.getScale().x)+"px";
 		this.lbModeSlider.style.height = (20*screen.getScale().y)+"px";
 		gameModeData[1].settings.mode.x = parseInt(this.lbModeSlider.value);
-		this.lbMapTitle.style.top = parseFloat(this.lbMapSlider.style.top)-(40*screen.getScale().y)+"px";
+		this.lbMapTitle.style.top = parseFloat(this.lbMapSlider.style.top)-(25*screen.getScale().y)+"px";
 		this.lbMapTitle.style.left = (halfSize.x-(this.lbMapTitle.getBoundingClientRect().width/2))+"px";
-		this.lbMapTitle.style.fontSize = (30*screen.getScale().x)+"px";
+		this.lbMapTitle.style.fontSize = ((30*this.menuScale)*screen.getScale().x)+"px";
 		this.lbMapTitle.innerHTML = "Map: "+gameModeData[1].settings.maps[gameModeData[1].settings.map.x].id;
 		this.lbMapSlider.style.top = (240*screen.getScale().y)+"px";
 		this.lbMapSlider.style.left = (halfSize.x-(this.lbMapSlider.getBoundingClientRect().width/2))+"px";
@@ -1509,43 +2383,105 @@ function menuManager() {
 		this.lbMapSlider.style.height = (20*screen.getScale().y)+"px";
 		this.lbMapSlider.max = gameModeData[1].settings.map.y;
 		gameModeData[1].settings.map.x = parseInt(this.lbMapSlider.value);
-		this.lbWinPointsTitle.style.top = parseFloat(this.lbWinPointsSlider.style.top)-(40*screen.getScale().y)+"px";
+		this.lbWinPointsTitle.style.top = parseFloat(this.lbWinPointsSlider.style.top)-(25*screen.getScale().y)+"px";
 		this.lbWinPointsTitle.style.left = (halfSize.x-(this.lbWinPointsTitle.getBoundingClientRect().width/2))+"px";
-		this.lbWinPointsTitle.style.fontSize = (30*screen.getScale().x)+"px";
+		this.lbWinPointsTitle.style.fontSize = ((30*this.menuScale)*screen.getScale().x)+"px";
 		this.lbWinPointsTitle.innerHTML = "Winning Points: "+gameModeData[1].settings.winning_points;
 		this.lbWinPointsSlider.style.top = (300*screen.getScale().y)+"px";
 		this.lbWinPointsSlider.style.left = (halfSize.x-(this.lbWinPointsSlider.getBoundingClientRect().width/2))+"px";
 		this.lbWinPointsSlider.style.width = (300*screen.getScale().x)+"px";
 		this.lbWinPointsSlider.style.height = (20*screen.getScale().y)+"px";
 		gameModeData[1].settings.winning_points = parseInt(this.lbWinPointsSlider.value);
-		this.lbObjAmountTitle.style.top = parseFloat(this.lbObjAmountSlider.style.top)-(40*screen.getScale().y)+"px";
+		this.lbObjAmountTitle.style.top = parseFloat(this.lbObjAmountSlider.style.top)-(25*screen.getScale().y)+"px";
 		this.lbObjAmountTitle.style.left = (halfSize.x-(this.lbObjAmountTitle.getBoundingClientRect().width/2))+"px";
-		this.lbObjAmountTitle.style.fontSize = (30*screen.getScale().x)+"px";
+		this.lbObjAmountTitle.style.fontSize = ((30*this.menuScale)*screen.getScale().x)+"px";
 		this.lbObjAmountTitle.innerHTML = "Obstacles: "+gameModeData[1].settings.object_amount;
 		this.lbObjAmountSlider.style.top = (360*screen.getScale().y)+"px";
 		this.lbObjAmountSlider.style.left = (halfSize.x-(this.lbObjAmountSlider.getBoundingClientRect().width/2))+"px";
 		this.lbObjAmountSlider.style.width = (300*screen.getScale().x)+"px";
 		this.lbObjAmountSlider.style.height = (20*screen.getScale().y)+"px";
 		gameModeData[1].settings.object_amount = parseInt(this.lbObjAmountSlider.value);
-		this.lbInvertTimeTitle.style.top = parseFloat(this.lbInvertTimeSlider.style.top)-(40*screen.getScale().y)+"px";
+		this.lbInvertTimeTitle.style.top = parseFloat(this.lbInvertTimeSlider.style.top)-(25*screen.getScale().y)+"px";
 		this.lbInvertTimeTitle.style.left = (halfSize.x-(this.lbInvertTimeTitle.getBoundingClientRect().width/2))+"px";
-		this.lbInvertTimeTitle.style.fontSize = (30*screen.getScale().x)+"px";
+		this.lbInvertTimeTitle.style.fontSize = ((30*this.menuScale)*screen.getScale().x)+"px";
 		this.lbInvertTimeTitle.innerHTML = "Invert Time: "+gameModeData[1].settings.invert_time;
 		this.lbInvertTimeSlider.style.top = (420*screen.getScale().y)+"px";
 		this.lbInvertTimeSlider.style.left = (halfSize.x-(this.lbInvertTimeSlider.getBoundingClientRect().width/2))+"px";
 		this.lbInvertTimeSlider.style.width = (300*screen.getScale().x)+"px";
 		this.lbInvertTimeSlider.style.height = (20*screen.getScale().y)+"px";
 		gameModeData[1].settings.invert_time = parseInt(this.lbInvertTimeSlider.value);
+		this.powerupBttn.style.left = (halfSize.x-(this.aiBttn.getBoundingClientRect().width/2))+"px";
+		this.powerupBttn.style.top = (460*screen.getScale().y)+"px";
+		this.powerupBttn.style.width = (200*screen.getScale().x)+"px";
+		this.powerupBttn.style.height = (35*screen.getScale().y)+"px";
+		this.powerupBttn.style.fontSize = ((30*this.menuScale)*screen.getScale().x)+"px";
+		this.aiBttn.style.left = (halfSize.x-(this.aiBttn.getBoundingClientRect().width/2))+"px";
+		this.aiBttn.style.top = (500*screen.getScale().y)+"px";
+		this.aiBttn.style.width = (200*screen.getScale().x)+"px";
+		this.aiBttn.style.height = (35*screen.getScale().y)+"px";
+		this.aiBttn.style.fontSize = ((30*this.menuScale)*screen.getScale().x)+"px";
+		//Change this after mod is finished
+		if (gameModeData[1].settings.mode.x != 0 || gameModeData[1].settings.object_amount != 0) {
+			aiState = 0;
+			this.aiBttn.style.backgroundColor = "red";
+			if (ModLoader.mods.some((m)=>{return m.id == "AI_TEST_FOR_LB"})) {
+				ModLoader.deleteMod("AI_TEST_FOR_LB");
+			}
+		} else {
+			switch (aiState) {
+				case 0:
+					if (ModLoader.mods.some((m)=>{return m.id == "AI_TEST_FOR_LB"})) {
+						ModLoader.deleteMod("AI_TEST_FOR_LB");
+						gameModeData[1].settings.ai = false;
+					}
+				break;
+				case 1:
+					if (!ModLoader.mods.some((m)=>{return m.id == "AI_TEST_FOR_LB"})) {
+						ModLoader.path = "./Mods/AI_TEST_FOR_LB.js";
+						ModLoader.loadBttn.onclick();
+						ModLoader.path = "";
+						gameModeData[1].settings.ai = true;
+					}
+				break;
+			}
+		}
+		if (aiState == 0) {
+			this.aiPlayersTitle.style.display = "none";
+			this.aiPlayersSlider.style.display = "none";
+		}
+		if (aiState == 1) {
+			this.aiPlayersTitle.style.display = "inline";
+			this.aiPlayersSlider.style.display = "inline";
+		}
+		this.aiPlayersTitle.style.top = parseFloat(this.aiPlayersSlider.style.top)-(25*screen.getScale().y)+"px";
+		this.aiPlayersTitle.style.left = (halfSize.x-(this.aiPlayersTitle.getBoundingClientRect().width/2))+"px";
+		this.aiPlayersTitle.style.fontSize = ((30*this.menuScale)*screen.getScale().x)+"px";
+		this.aiPlayersTitle.innerHTML = "AI Players: "+this.aiPlayersSlider.value;
+		this.aiPlayersSlider.style.top = (530*screen.getScale().y)+"px";
+		this.aiPlayersSlider.style.left = (halfSize.x-(this.aiPlayersSlider.getBoundingClientRect().width/2))+"px";
+		this.aiPlayersSlider.style.width = (300*screen.getScale().x)+"px";
+		this.aiPlayersSlider.style.height = (20*screen.getScale().y)+"px";
+		this.aiPlayersSlider.max = gameData.maxPlayers.x.toString();
+		gameModeData[1].settings.players = gameData.maxPlayers.x-parseInt(this.aiPlayersSlider.value);
+		if (parseInt(this.aiPlayersSlider.value) > gameData.maxPlayers.x) {
+			this.aiPlayersSlider.value = gameData.maxPlayers.x.toString();
+		}
 		this.lbPlayBttn.style.left = (halfSize.x-(this.lbPlayBttn.getBoundingClientRect().width/2))+"px";
-		this.lbPlayBttn.style.top = (520*screen.getScale().y)+"px";
 		this.lbPlayBttn.style.width = (300*screen.getScale().x)+"px";
 		this.lbPlayBttn.style.height = (50*screen.getScale().y)+"px";
-		this.lbPlayBttn.style.fontSize = (40*screen.getScale().x)+"px";
+		this.lbPlayBttn.style.fontSize = ((40*this.menuScale)*screen.getScale().x)+"px";
 		this.lbBackBttn.style.left = (halfSize.x-(this.lbBackBttn.getBoundingClientRect().width/2))+"px";
-		this.lbBackBttn.style.top = (580*screen.getScale().y)+"px";
 		this.lbBackBttn.style.width = (300*screen.getScale().x)+"px";
 		this.lbBackBttn.style.height = (50*screen.getScale().y)+"px";
-		this.lbBackBttn.style.fontSize = (40*screen.getScale().x)+"px";
+		this.lbBackBttn.style.fontSize = ((40*this.menuScale)*screen.getScale().x)+"px";
+		if (aiState == 0) {
+			this.lbPlayBttn.style.top = (560*screen.getScale().y)+"px";
+			this.lbBackBttn.style.top = (620*screen.getScale().y)+"px";
+		}
+		if (aiState == 1) {
+			this.lbPlayBttn.style.top = (620*screen.getScale().y)+"px";
+			this.lbBackBttn.style.top = (680*screen.getScale().y)+"px";
+		}
 		//State
 		if (gameData.gameMode != -1) {
 			if (this.mainMenuBG != null) {
@@ -1553,6 +2489,7 @@ function menuManager() {
 			}
 			this.lbMenu.style.display = "none";
 		} else {
+			pointMG.reset(true);
 			switch (this.menuState) {
 				case 0:
 					if (this.mainMenuBG == null) {
@@ -1650,7 +2587,6 @@ function playerManager() {
 		if (players.length < gameData.maxPlayers.y) {
 			player.controls = playerControls[players.length+1];
 			players.push(player);
-			console.log(players.length);
 		}
 	}
 	this.deletePlayer = function(number=2) {
@@ -1662,7 +2598,7 @@ function playerManager() {
 		if (id < 1) {
 			id = 1;
 		}
-		let thisNameTag = new nameTag(("player_"+id), "lineBattle");
+		let thisNameTag = nt(("player_"+id), "lineBattle");
 		let player = getByNameTag(thisNameTag);
 		return {"player_info":players[id-1], "player_obj":player};
 	}
@@ -1708,23 +2644,19 @@ function playerManager() {
 			}
 			p.controls.left.functions.x = () => {
 				if (gameData.gameMode != -1) {
-					let thisNameTag = new nameTag(("player_"+(p.index+1)), "lineBattle");
+					let thisNameTag = nt(("player_"+(p.index+1)), "lineBattle");
 					let player = getByNameTag(thisNameTag);
-					if (player.base.position.s >= 0) {
-						player.base.position.r -= 0.1*delta;
-					} else {
-						player.base.position.r += 0.1*delta;
+					if (typeof player.ai == "undefined") {
+						player.base.position.r -= 0.1 * delta;
 					}
 				}
 			}
 			p.controls.right.functions.x = () => {
 				if (gameData.gameMode != -1) {
-					let thisNameTag = new nameTag(("player_"+(p.index+1)), "lineBattle");
+					let thisNameTag = nt(("player_"+(p.index+1)), "lineBattle");
 					let player = getByNameTag(thisNameTag);
-					if (player.base.position.s >= 0) {
-						player.base.position.r += 0.1*delta;
-					} else {
-						player.base.position.r -= 0.1*delta;
+					if (typeof player.ai == "undefined") {
+						player.base.position.r += 0.1 * delta;
 					}
 				}
 			}
@@ -1742,17 +2674,156 @@ function playerManager() {
 	addUpdate(update, "player manager");
 }
 
+//Points manager
+function pointManager() {
+	this.points = [];
+	this.newPoints = (name="") => {
+		this.points.push({"name":name, "points":0});
+	}
+	this.getPoints = (name="") => {
+		return this.points.find((p) => {return p.name == name});
+	}
+	this.indexToName = (index=0) => {
+		return this.points[index].name;
+	}
+	this.changePoints = (name="", command="set", input=0, exclude=false) => {
+		for (let i=0,l=this.points.length;i<l;i++) {
+			let thisPoints = this.points[i];
+			if (!Array.isArray(name)) {
+				if (thisPoints.name == name) {
+					switch (command) {
+						case "set":
+							thisPoints.points = input;
+						break;
+						case "add":
+							thisPoints.points += input;
+						break;
+						case "sub":
+							if (thisPoints.points != 0) {
+								thisPoints.points -= input;
+							}
+						break;
+						case "mul":
+							if (thisPoints.points != 0) {
+								thisPoints.points *= input;
+							} else {
+								thisPoints.points += 1;
+							}
+						break;
+						case "div":
+							if (thisPoints.points != 0) {
+								thisPoints.points /= input;
+							}
+						break;
+					}
+					thisPoints.points = Math.floor(thisPoints.points);
+				}
+			} else {
+				if (!exclude) {
+					if (name.includes(thisPoints.name)) {
+						switch (command) {
+							case "set":
+								thisPoints.points = input;
+							break;
+							case "add":
+								thisPoints.points += input;
+							break;
+							case "sub":
+								if (thisPoints.points != 0) {
+									thisPoints.points -= input;
+								}
+							break;
+							case "mul":
+								if (thisPoints.points != 0) {
+									thisPoints.points *= input;
+								} else {
+									thisPoints.points += 1;
+								}
+							break;
+							case "div":
+								if (thisPoints.points != 0) {
+									thisPoints.points /= input;
+								}
+							break;
+						}
+						thisPoints.points = Math.floor(thisPoints.points);
+					}
+				} else {
+					if (!name.includes(thisPoints.name)) {
+						switch (command) {
+							case "set":
+								thisPoints.points = input;
+							break;
+							case "add":
+								thisPoints.points += input;
+							break;
+							case "sub":
+								if (thisPoints.points != 0) {
+									thisPoints.points -= input;
+								}
+							break;
+							case "mul":
+								if (thisPoints.points != 0) {
+									thisPoints.points *= input;
+								} else {
+									thisPoints.points += 1;
+								}
+							break;
+							case "div":
+								if (thisPoints.points != 0) {
+									thisPoints.points /= input;
+								}
+							break;
+						}
+						thisPoints.points = Math.floor(thisPoints.points);
+					}
+				}
+			}
+		}
+	}
+	this.targetPoints = 0;
+	this.winState = false;
+	this.tiedState = false;
+	this.winner = null;
+	this.reset = (hardReset=false) => {
+		if (hardReset) {
+			this.points = [];
+			this.targetPoints = 0;
+			this.winState = false;
+		this.tiedState = false;
+		} else {
+			for (let i=0,l=this.points.length;i<l;i++) {
+				this.points[i].points = 0;
+			}
+		}
+		this.winner = null;
+	}
+	const update = () => {
+		let sortedPoints = this.points.toSorted((a, b) => {return b.points - a.points});
+		if (sortedPoints.length != 0 && sortedPoints[0].points >= this.targetPoints) {
+			if (sortedPoints[0].points == sortedPoints[1].points) {
+				this.winState = false;
+				this.tiedState = true;
+			} else {
+				this.winState = true;
+				this.tiedState = false;
+				this.winner = sortedPoints[0].name;
+			}
+		}
+	}
+	addUpdate(update, "pointMG");
+}
+
+const pointMG = new pointManager();
+
 //Tank War game manager
 const TWGM = new tankWarGM();
 function tankWarGM() {
 	let localMap = currentMap;
 	this.data = {
-		"player_speed":new Vector2(2.5, 5), //Every players base speed/boost speed
+		"player_speed":Vec2(2.5, 5), //Every players base speed/boost speed
 		//More advanced tank sprites for upgrades (split full sprite into multiple)
 		//Tread mark size and fading speed
-		"player_points":[], //An array that stores each players points (is also upgrade points)
-		"end_of_match":false, //True when someone wins a match
-		"win_state":false, //True when someone wins the game
 		"players_loaded":false, //True when all players are loaded
 		"game_loaded":false, //True when the players, obstacles, and goal is loaded
 		"teams":false,
@@ -1766,12 +2837,10 @@ function lineBattleGM() {
 	let localMap = currentMap;
 	this.data = {
 		"player_speed":5, //Every players speed
-		"player_size":new Vector2(50, 50), //Every players size
-		"line_size":new Vector2(15, 15), //Every players line size
+		"player_size":Vec2(50, 50), //Every players size
+		"line_size":Vec2(15, 15), //Every players line size
 		"obstacle":false,
-		"player_points":[], //An array that stores each players points
 		"end_of_match":false, //True when someone wins a match
-		"win_state":false, //True when someone wins the game
 		"players_loaded":false, //True when all players are loaded
 		"obstacles_loaded":false, //True when all obstacles are loaded
 		"goal_loaded":false, //True when the goal is loaded
@@ -1781,165 +2850,164 @@ function lineBattleGM() {
 		"player_image":{
 			0:{
 				"img":blueBall.getColor(),
-				"color":new colorData("blue")
+				"color":colorD("blue")
 			},
 			1:{
 				"img":redBall.getColor(),
-				"color":new colorData("red")
+				"color":colorD("red")
 			},
 			2:{
 				"img":yellowBall.getColor(),
-				"color":new colorData("yellow")
+				"color":colorD("yellow")
 			},
 			3:{
 				"img":greenBall.getColor(),
-				"color":new colorData("green")
+				"color":colorD("green")
 			}
 		},
 		"obstacles_data":{
 			0:{
-				"color":new colorData("darkred", 0.6),
-				"size":new Vector2(5, 5),
-				"points":new Vector2(1, null, "-"),
+				"color":colorD("darkred"),
+				"size":Vec2(5, 5, 8),
+				"points":Vec2(1, null, "sub"),
 				"description":"Takes a point away from you."
 			},
 			1:{
-				"color":new colorData("#FF4A00", 0.6),
-				"size":new Vector2(7, 7),
-				"points":new Vector2(1, 1, "-", "-"),
+				"color":colorD("#FF4A00"),
+				"size":Vec2(7, 7, 10),
+				"points":Vec2(1, 1, "sub", "sub"),
 				"description":"Takes a point away from everyone."
 			},
 			"length":2
 		},
 		"points_data":{
 			0:{
-				"color":new colorData("green", 0.75),
-				"size":new Vector2(10, 10),
-				"points":new Vector2(1, null, "+"),
+				"color":colorD("green"),
+				"size":Vec2(10, 10, 13),
+				"points":Vec2(1, null, "add"),
 				"description":"Gives you 1 point"
 			},
 			1:{
-				"color":new colorData("#FFFD00", 0.75),
-				"size":new Vector2(10, 10),
-				"points":new Vector2(2, null, "+"),
+				"color":colorD("#FFFD00"),
+				"size":Vec2(10, 10, 13),
+				"points":Vec2(2, null, "add"),
 				"description":"Gives you 2 point"
 			},
 			2:{
-				"color":new colorData("purple", 0.75),
-				"size":new Vector2(10, 10),
-				"points":new Vector2(1, 1, "+", "-"),
+				"color":colorD("purple"),
+				"size":Vec2(10, 10, 13),
+				"points":Vec2(1, 1, "add", "sub"),
 				"description":"Steals 1 point from opponents and gives you 1 point"
 			},
 			3:{
-				"color":new colorData("lightblue", 0.75),
-				"size":new Vector2(10, 10),
-				"points":new Vector2(2, null, "*"),
+				"color":colorD("lightblue"),
+				"size":Vec2(10, 10, 13),
+				"points":Vec2(2, null, "mul"),
 				"description":"Doubles your points"
 			},
 			4:{
-				"color":new colorData("darkblue", 0.75),
-				"size":new Vector2(10, 10),
-				"points":new Vector2(1, 2, "+", "/"),
+				"color":colorD("darkblue"),
+				"size":Vec2(10, 10, 13),
+				"points":Vec2(1, 2, "add", "div"),
 				"description":"Halves your opponents points and gives you 1 point"
 			},
 			"length":5
-		}
-	};
-	this.getObstacleTypeData = function(type) {
-		return this.data.obstacles_data[type];
-	}
-	this.getGoalTypeData = function(type) {
-		return this.data.points_data[type];
-	}
-	this.changePointsFromOpponents = function(exceptions=null, points=0, experesion="-") {
-		for (let i=0;i<gameData.maxPlayers.x;i++) {
-			let thisNameTag = new nameTag(("player_"+(i+1)), "lineBattle");
-			let thisPoints = this.getPoints(thisNameTag);
-			let player = getByNameTag(thisNameTag);
-			if (exceptions != null) {
-				let check = exceptions.some(e => e.same(thisNameTag));
-				if (!check) {
-					if (thisPoints.points > 0) {
-						switch (experesion) {
-							case "+":
-								thisPoints.points += points;
-							break;
-							case "-":
-								thisPoints.points -= points;
-							break;
-							case "*":
-								if (thisPoints.points == 1) {
-									thisPoints.points += 1;
-								} else {
-									thisPoints.points *= points;
-								}
-							break;
-							case "/":
-								thisPoints.points /= points;
-							break;
-						}
-					} else {
-						switch (experesion) {
-							case "+":
-								thisPoints.points += points;
-							break;
-							case "*":
-								thisPoints.points += 1;
-							break;
-						}
-					}
-				}
-			} else {
-				if (thisPoints.points > 0) {
-					switch (experesion) {
-						case "+":
-							thisPoints.points += points;
-						break;
-						case "-":
-							thisPoints.points -= points;
-						break;
-						case "*":
-							if (thisPoints.points == 1) {
-								thisPoints.points += 1;
-							} else {
-								thisPoints.points *= points;
-							}
-						break;
-						case "/":
-							thisPoints.points /= points;
-						break;
-					}
-				} else {
-					switch (experesion) {
-						case "+":
-							thisPoints.points += points;
-						break;
-						case "*":
-							thisPoints.points += 1;
-						break;
-					}
-				}
+		},
+		"powerup_data":{
+			0:{
+				"img":powerups.getColor(),
+				"glow":"#6abe30",
+				"img_pos":Vec2(),
+				"size":Vec2(25, 25),
+				"scale":1.5,
+				"modifier":7,
+				"timer":Vec2(1, 10),
+				"description":"Boosts holding players speed"
+			},
+			1:{
+				"img":powerups.getColor(),
+				"glow":"#beba30",
+				"img_pos":Vec2(25, 0),
+				"size":Vec2(25, 25),
+				"scale":1.5,
+				"modifier":3,
+				"timer":Vec2(1, 10),
+				"description":"Slows down a random player"
+			},
+			2:{
+				"img":powerups.getColor(),
+				"glow":"#a60da8",
+				"img_pos":Vec2(50, 0),
+				"size":Vec2(25, 25),
+				"scale":1.5,
+				"modifier":null,
+				"timer":Vec2(1, 10),
+				"description":"Inverts a random player's controls"
+			},
+			3:{
+				"img":powerups.getColor(),
+				"glow":"#0fa9c5",
+				"img_pos":Vec2(0, 25),
+				"size":Vec2(25, 25),
+				"scale":1.5,
+				"modifier":null,
+				"timer":null,
+				"description":"Switches holding player places with a random player"
+			},
+			4:{
+				"img":powerups.getColor(),
+				"glow":"#0f1dc5",
+				"img_pos":Vec2(25, 25),
+				"size":Vec2(25, 25),
+				"scale":1.5,
+				"modifier":null,
+				"timer":Vec2(1, 10),
+				"description":"Makes holding player invincible for a short time"
+			},
+			//Random (has to be last)
+			5:{
+				"img":powerups.getColor(),
+				"glow":"#bdbdbd",
+				"img_pos":Vec2(50, 25),
+				"size":Vec2(25, 25),
+				"scale":1.5,
+				"modifier":null,
+				"timer":null,
+				"description":"Uses a random power-up effect"
+			},
+			"length":6,
+			"blank":{
+				"img":powerups.getColor(),
+				"img_pos":Vec2(0, 50),
+				"size":Vec2(25, 25),
+				"scale":1.5,
 			}
 		}
-	}
-	this.checkPoints = function(nameTag) {
-		if ( this.data.player_points.filter((p) => nameTag.same(p.nameTag)).length == 0) {
-			this.data.player_points.push({"points":0,"nameTag":nameTag});
+	};
+	this.powerupTimer = T(MSecond(10), true, false, false, () => {
+		let check = getByNameTag(tag("power-up"), 2, false, true);
+		if (check == null && gameModeData[1].settings.powerups && gameData.gameMode == 1) {
+			this.spawnPowerup();
 		}
+	}, "power-up_timer", "lineBattle");
+	this.getObstacleTypeData = (type) => {
+		return this.data.obstacles_data[type];
 	}
-	this.getPoints = function(nameTag) {
-		this.checkPoints(nameTag);
-		return this.data.player_points.filter((p) => nameTag.same(p.nameTag))[0];
+	this.getGoalTypeData = (type) => {
+		return this.data.points_data[type];
 	}
-	this.spawnPlayers = function() {
+	this.spawnPlayers = () => {
 		this.data.players_loaded = false;
 		for (let i=0;i<gameData.maxPlayers.x;i++) {
 			const data = this.data;
-			let thisNameTag = new nameTag(("player_"+(i+1)), "lineBattle");
+			let thisNameTag = nt(("player_"+(i+1)), "lineBattle");
+			if (pointMG.points.length != gameData.maxPlayers.x+1) {
+				pointMG.newPoints(thisNameTag.name);
+			}
 			deleteByNameTag(thisNameTag);
-			let thisTextNameTag = new nameTag(("player_"+(i+1)+"_points"), "lineBattle");
+			let thisTextNameTag = nt(("player_"+(i+1)+"_points"), "lineBattle");
 			deleteByNameTag(thisTextNameTag);
-			let thisLineNameTag = new nameTag(("player_"+(i+1)+"_line"), "lineBattle");
+			let thisLineNameTag = nt(("player_"+(i+1)+"_line"), "lineBattle");
 			deleteByNameTag(thisLineNameTag);
 			let spawns = currentMap.spawns;
 			let spawnPoint = ZERO;
@@ -1948,122 +3016,366 @@ function lineBattleGM() {
 			} else {
 				spawnPoint = spawns[i];
 			}
-			let newPlayer = new Sprite(5, new baseObject(true, thisNameTag.duplicate(), data.player_size, spawnPoint.duplicate(), data.player_image[i].img.duplicate()));
-			let thisPoints = this.data.player_points.filter((p) => thisNameTag.same(p.nameTag));
-			if (thisPoints.length == 0) {
-				thisPoints[0] = {"points":0,"nameTag":thisNameTag};
-			}
-			let playerPoints = new Text(5, thisPoints[0].points, new baseObject(true, thisTextNameTag.duplicate(), new Vector2("25px Arial", false, "center"), spawnPoint.duplicate().subV(new Vector2(0, newPlayer.base.size.div(2).y)), new colorData("white")));
+			let newPlayer = sprite(5, base(true, thisNameTag.duplicate(), data.player_size, spawnPoint.duplicate(), data.player_image[i].img.duplicate()));
+			let playerPoints = text(5, pointMG.points[i].points, base(true, thisTextNameTag.duplicate(), Vec2("25px Arial", false, "center"), spawnPoint.duplicate().subV(Vec2(0, newPlayer.base.size.div(2).y)), colorD("white")));
 			newPlayer.collectedPoints = false;
 			newPlayer.dead = false;
+			newPlayer.powerup = null;
+			newPlayer.invincible = false;
 			newPlayer.base.position.s = this.data.player_speed;
-			newPlayer.timer = new timer(Second(gameModeData[1].settings.invert_time), false, false, () => {
-				newPlayer.base.position.s = this.data.player_speed;
-			}, "player_"+(i+1)+"_timer");
 			newPlayer.hitPlayer = false;
 			newPlayer.linePieces = [];
 			newPlayer.lineNameTag = thisLineNameTag.duplicate();
 			newPlayer.drawLine = () => {
-				let position = new Vector2(newPlayer.base.position.x, newPlayer.base.position.y, newPlayer.base.position.r, newPlayer.base.position.o)
-				let linePiece = new Rectangle(4, new baseObject(false, newPlayer.lineNameTag.duplicate(), data.line_size, position, data.
+				let position = Vec2(newPlayer.base.position.x, newPlayer.base.position.y, newPlayer.base.position.r, newPlayer.base.position.o)
+				let linePiece = rectangle(4, base(false, newPlayer.lineNameTag.duplicate(), data.line_size, position, data.
 				player_image[i].color.duplicate()));
 				linePiece.time = 0;
 				newPlayer.linePieces.push(linePiece.duplicate());
 				addObject(newPlayer.linePieces[newPlayer.linePieces.length-1]);
 			};
+			newPlayer.deleteLine = () => {
+				deleteByNameTag(newPlayer.lineNameTag);
+				newPlayer.linePieces = [];
+			};
 		}
-		setTimeout(() => {
-			this.data.players_loaded = true;
-		}, 1000);
+		this.data.players_loaded = true;
 	}
-	this.spawnObstacles = function(silent=false) {
+	this.spawnObstacles = (silent=false, avoid=false) => {
 		if (!silent) {
 			this.data.obstacles_loaded = false;
 		}
 		for (let i=0;i<gameModeData[1].settings.object_amount;i++) {
-			let thisNameTag = new nameTag(("obstacle_"+(i+1)), "lineBattle_obstacles");
+			let thisNameTag = nt(("obstacle_"+(i+1)), "lineBattle_obstacles");
 			if (!silent) {
 				deleteByNameTag(thisNameTag);
 			}
 			if (getByNameTag(thisNameTag) == null) {
 				let obstacleType = rangeInt(0, this.data.obstacles_data.length-1);
-				let spawnPoint = new Vector2(rangeFloat(100, 1180), rangeFloat(10, 710));
-				let newObstacle = new Circle(2, new baseObject(true, thisNameTag.duplicate(), this.getObstacleTypeData(obstacleType).size, spawnPoint.duplicate(), this.getObstacleTypeData(obstacleType).color));
+				let zoneIndex = rangeInt(0, currentMap.obstacleZones.length-1);
+				let zone = currentMap.obstacleZones[zoneIndex];
+				let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+this.getObstacleTypeData(obstacleType).size.x, (zone.base.position.x+(zone.base.size.x/2))-this.getObstacleTypeData(obstacleType).size.x);
+				let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+this.getObstacleTypeData(obstacleType).size.y, (zone.base.position.y+(zone.base.size.y/2))-this.getObstacleTypeData(obstacleType).size.y);
+				let spawnPoint = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+				let newObstacle = light(3, base(true, thisNameTag.duplicate(), this.getObstacleTypeData(obstacleType).size, spawnPoint.duplicate(), this.getObstacleTypeData(obstacleType).color), 0.5);
 				newObstacle.obstacleType = obstacleType;
 			}
 		}
-		if (!silent) {
-			let obstacleArray = getByNameTag(new nameTag("", "obstacles"), 2, false, true);
+		if (!silent || avoid) {
+			let obstacleArray = getByNameTag(tag("lineBattle_obstacles"), 2);
 			if (obstacleArray != null) {
+				let currentPowerup = getByNameTag(nt("power-up", "lineBattle_power-up"));
 				if (Array.isArray(obstacleArray)) {
-					objectArray.forEach((o) => {
-						obstacleArray.forEach((o2) => {
-							if (cirCollision(o, o2)) {
-								o.base.position = new Vector2(rangeFloat(0, 1180), rangeFloat(0, 710));
+					//Avoid objects
+					for (let o=0,length=obstacleArray.length;o<length;o++) {
+						//Avoid other obstacles
+						for (let o2=0,length=obstacleArray.length;o2<length;o2++) {
+							if (o == o2) {
+								o2++;
 							}
-						});
-					});
-				} else {
-					objectArray.forEach((o) => {
-						if (cirCollision(o, obstacleArray)) {
-							o.base.position = new Vector2(rangeFloat(0, 1180), rangeFloat(0, 710));
+							if (o2 > length) {
+								o2 = 0;
+							}
+							if (obstacleArray[o2] != undefined) {
+								if (cirCollision(obstacleArray[o], obstacleArray[o2]) || obstacleArray[o].base.position.distance(obstacleArray[o2].base.position) < 25) {
+									let zoneIndex = rangeInt(0, currentMap.obstacleZones.length-1);
+									let zone = currentMap.obstacleZones[zoneIndex];
+									let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+this.getObstacleTypeData(obstacleArray[o2].obstacleType).size.x, (zone.base.position.x+(zone.base.size.x/2))-this.getObstacleTypeData(obstacleArray[o2].obstacleType).size.x);
+									let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+this.getObstacleTypeData(obstacleArray[o2].obstacleType).size.y, (zone.base.position.y+(zone.base.size.y/2))-this.getObstacleTypeData(obstacleArray[o2].obstacleType).size.y);
+									obstacleArray[o2].base.position = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+								}
+							}
 						}
-					});
+						for (let ob=0,length=currentMap.objects.length;ob<length;ob++) {
+							if (obstacleArray[o] != undefined) {
+								if (cirPolyCollision(obstacleArray[o], currentMap.objects[ob], null, true, true) && !currentMap.objects[ob].base.nameTag.tag.includes("Exclude")) {
+									let zoneIndex = rangeInt(0, currentMap.obstacleZones.length-1);
+									let zone = currentMap.obstacleZones[zoneIndex];
+									let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+this.getObstacleTypeData(obstacleArray[o].obstacleType).size.x, (zone.base.position.x+(zone.base.size.x/2))-this.getObstacleTypeData(obstacleArray[o].obstacleType).size.x);
+									let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+this.getObstacleTypeData(obstacleArray[o].obstacleType).size.y, (zone.base.position.y+(zone.base.size.y/2))-this.getObstacleTypeData(obstacleArray[o].obstacleType).size.y);
+									obstacleArray[o].base.position = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+								}
+							}
+						}
+						if (currentPowerup != null) {
+							if (obstacleArray[o] != undefined) {
+								if (cirCollision(obstacleArray[o], currentPowerup) || currentPowerup.base.position.distance(obstacleArray[o].base.position) < 25) {
+									let zoneIndex = rangeInt(0, currentMap.obstacleZones.length-1);
+									let zone = currentMap.obstacleZones[zoneIndex];
+									let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+this.getObstacleTypeData(obstacleArray[o].obstacleType).size.x, (zone.base.position.x+(zone.base.size.x/2))-this.getObstacleTypeData(obstacleArray[o].obstacleType).size.x);
+									let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+this.getObstacleTypeData(obstacleArray[o].obstacleType).size.y, (zone.base.position.y+(zone.base.size.y/2))-this.getObstacleTypeData(obstacleArray[o].obstacleType).size.y);
+									obstacleArray[o].base.position = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+								}
+							}
+						}
+						for (let ob=0,length=currentMap.objects.length;ob<length;ob++) {
+							if (obstacleArray[o] != undefined) {
+								if (cirPolyCollision(obstacleArray[o], currentMap.objects[ob], null, true, true) && !currentMap.objects[ob].base.nameTag.tag.includes("Exclude")) {
+									let zoneIndex = rangeInt(0, currentMap.obstacleZones.length-1);
+									let zone = currentMap.obstacleZones[zoneIndex];
+									let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+this.getObstacleTypeData(obstacleArray[o].obstacleType).size.x, (zone.base.position.x+(zone.base.size.x/2))-this.getObstacleTypeData(obstacleArray[o].obstacleType).size.x);
+									let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+this.getObstacleTypeData(obstacleArray[o].obstacleType).size.y, (zone.base.position.y+(zone.base.size.y/2))-this.getObstacleTypeData(obstacleArray[o].obstacleType).size.y);
+									obstacleArray[o].base.position = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+								}
+							}
+						}
+					}
+				} else {
+					for (let ob=0,length=currentMap.objects.length;ob<length;ob++) {
+						if (obstacleArray != undefined) {
+							if (cirPolyCollision(obstacleArray, currentMap.objects[ob], null, true, true) && !currentMap.objects[ob].base.nameTag.tag.includes("Exclude")) {
+								let zoneIndex = rangeInt(0, currentMap.obstacleZones.length-1);
+								let zone = currentMap.obstacleZones[zoneIndex];
+								let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+this.getObstacleTypeData(obstacleArray.obstacleType).size.x, (zone.base.position.x+(zone.base.size.x/2))-this.getObstacleTypeData(obstacleArray.obstacleType).size.x);
+								let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+this.getObstacleTypeData(obstacleArray.obstacleType).size.y, (zone.base.position.y+(zone.base.size.y/2))-this.getObstacleTypeData(obstacleArray.obstacleType).size.y);
+								obstacleArray.base.position = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+							}
+						}
+					}
 				}
 			}
-			setTimeout(() => {
-				this.data.obstacles_loaded = true;
-			}, 1000);
+			this.data.obstacles_loaded = true;
 		}
 	}
-	this.spawnGoal = function(silent=false) {
+	this.spawnGoal = (silent=false, avoid=false) => {
 		if (!silent) {
-		this.data.goal_loaded = false;
+			this.data.goal_loaded = false;
 		}
-		if (this.data.pointCollector) {
-			let thisNameTag = new nameTag("goal", "lineBattle_goal");
+		if (this.data.pointCollector && !avoid) {
+			let thisNameTag = nt("goal", "lineBattle_goal");
 			deleteByNameTag(thisNameTag);
 			let goalType = rangeInt(0, this.data.points_data.length-1);
-			let spawnPoint = new Vector2(rangeFloat(100, 1180), rangeFloat(10, 710));
-			let newGoal = new Circle(3, new baseObject(true, thisNameTag.duplicate(), this.getGoalTypeData(goalType).size, spawnPoint.duplicate(), this.getGoalTypeData(goalType).color));
+			let zoneIndex = rangeInt(0, currentMap.goalZones.length-1);
+			let zone = currentMap.goalZones[zoneIndex];
+			let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+this.getGoalTypeData(goalType).size.x, (zone.base.position.x+(zone.base.size.x/2))-this.getGoalTypeData(goalType).size.x);
+			let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+this.getGoalTypeData(goalType).size.y, (zone.base.position.y+(zone.base.size.y/2))-this.getGoalTypeData(goalType).size.y);
+			let spawnPoint = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+			let newGoal = light(3, base(true, thisNameTag.duplicate(), this.getGoalTypeData(goalType).size, spawnPoint.duplicate(), this.getGoalTypeData(goalType).color), 0.5);
 			newGoal.goalType = goalType;
 		}
-		
-		if (!silent) {
-			setTimeout(() => {
-				this.data.goal_loaded = true;
-			}, 1000);
+		if (!silent || avoid) {
+			let goal = getByNameTag(nt("goal", "lineBattle_goal"));
+			for (let ob=0,length=currentMap.objects.length;ob<length;ob++) {
+				if (goal != undefined) {
+					if (cirPolyCollision(goal, currentMap.objects[ob], null, true, true) && !currentMap.objects[ob].base.nameTag.tag.includes("Exclude")) {
+						let zoneIndex = rangeInt(0, currentMap.goalZones.length-1);
+						let zone = currentMap.goalZones[zoneIndex];
+						let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+this.getGoalTypeData(goal.goalType).size.x, (zone.base.position.x+(zone.base.size.x/2))-this.getGoalTypeData(goal.goalType).size.x);
+						let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+this.getGoalTypeData(goal.goalType).size.y, (zone.base.position.y+(zone.base.size.y/2))-this.getGoalTypeData(goal.goalType).size.y);
+						goal.base.position = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+					}
+				}
+			}
+			let obstacleArray = getByNameTag(tag("lineBattle_obstacles"), 2);
+			if (obstacleArray != null) {
+				if (Array.isArray(obstacleArray)) {
+					for (let o=0,length=obstacleArray.length;o<length;o++) {
+						if (goal != undefined) {
+							if (cirCollision(goal, obstacleArray[o]) || obstacleArray[o].base.position.distance(goal.base.position) < 25) {
+								let zoneIndex = rangeInt(0, currentMap.goalZones.length-1);
+								let zone = currentMap.goalZones[zoneIndex];
+								let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+this.getGoalTypeData(goal.goalType).size.x, (zone.base.position.x+(zone.base.size.x/2))-this.getGoalTypeData(goal.goalType).size.x);
+								let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+this.getGoalTypeData(goal.goalType).size.y, (zone.base.position.y+(zone.base.size.y/2))-this.getGoalTypeData(goal.goalType).size.y);
+								goal.base.position = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+							}
+						}
+					}
+				} else {
+					if (goal != undefined) {
+						if (cirCollision(goal, obstacleArray) || obstacleArray.base.position.distance(goal.base.position) < 25) {
+							let zoneIndex = rangeInt(0, currentMap.goalZones.length-1);
+							let zone = currentMap.goalZones[zoneIndex];
+							let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+this.getGoalTypeData(goal.goalType).size.x, (zone.base.position.x+(zone.base.size.x/2))-this.getGoalTypeData(goal.goalType).size.x);
+							let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+this.getGoalTypeData(goal.goalType).size.y, (zone.base.position.y+(zone.base.size.y/2))-this.getGoalTypeData(goal.goalType).size.y);
+							goal.base.position = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+						}
+					}
+				}
+			}
+			let currentPowerup = getByNameTag(nt("power-up", "lineBattle_power-up"));
+			if (currentPowerup != null) {
+				if (goal != undefined) {
+					if (cirCollision(goal, currentPowerup) || currentPowerup.base.position.distance(goal.base.position) < 25) {
+						let zoneIndex = rangeInt(0, currentMap.goalZones.length-1);
+						let zone = currentMap.goalZones[zoneIndex];
+						let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+this.getGoalTypeData(goal.goalType).size.x, (zone.base.position.x+(zone.base.size.x/2))-this.getGoalTypeData(goal.goalType).size.x);
+						let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+this.getGoalTypeData(goal.goalType).size.y, (zone.base.position.y+(zone.base.size.y/2))-this.getGoalTypeData(goal.goalType).size.y);
+						goal.base.position = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+					}
+				}
+			}
+		}
+		if (!silent) {this.data.obstacles_loaded
+			this.data.goal_loaded = true;
+		}
+	}
+	this.spawnPowerup = () => {
+		let randomNum = rangeInt(0, this.data.powerup_data.length-1);
+		let thisPowerupData = this.data.powerup_data[randomNum];
+		let zoneIndex = rangeInt(0, currentMap.powerupZones.length-1);;
+		let spawnPoint = null;
+		if (currentMap.powerupZones[zoneIndex] != undefined) {
+			if (currentMap.powerupZones[zoneIndex].type != "vector2") {
+				let zone = currentMap.powerupZones[zoneIndex];
+				let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+thisPowerupData.size.x, (zone.base.position.x+(zone.base.size.x/2))-thisPowerupData.size.x);
+				let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+thisPowerupData.size.y, (zone.base.position.y+(zone.base.size.y/2))-thisPowerupData.size.y);
+				spawnPoint = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+			} else {
+				spawnPoint = currentMap.powerupZones[zoneIndex];
+			}
+			let newPowerup = sprite(3, base(true, nt("power-up", "lineBattle_power-up"), thisPowerupData.size.multi(thisPowerupData.scale), spawnPoint, thisPowerupData.img, shadow(Vec2(), thisPowerupData.glow, 10)), spriteM(thisPowerupData.img_pos, thisPowerupData.size));
+			newPowerup.type = randomNum;
+			if (currentMap.powerupZones[zoneIndex].type != "vector2") {
+				for (let ob=0,length=currentMap.objects.length;ob<length;ob++) {
+					if (newPowerup != undefined) {
+						if (cirPolyCollision(newPowerup, currentMap.objects[ob], null, true, true) && !currentMap.objects[ob].base.nameTag.tag.includes("Exclude")) {
+							let zoneIndex = rangeInt(0, currentMap.powerupZones.length-1);
+							let zone = currentMap.powerupZones[zoneIndex];
+							let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+thisPowerupData.size.x, (zone.base.position.x+(zone.base.size.x/2))-thisPowerupData.size.x);
+							let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+thisPowerupData.size.y, (zone.base.position.y+(zone.base.size.y/2))-thisPowerupData.size.y);
+							newPowerup.base.position = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+						}
+					}
+				}
+				let obstacleArray = getByNameTag(tag("lineBattle_obstacles"), 2);
+				if (obstacleArray != null) {
+					if (Array.isArray(obstacleArray)) {
+						for (let o=0,length=obstacleArray.length;o<length;o++) {
+							if (cirCollision(newPowerup, obstacleArray[o]) || obstacleArray[o].base.position.distance(newPowerup.base.position) < 25) {
+								let zoneIndex = rangeInt(0, currentMap.powerupZones.length-1);
+								let zone = currentMap.powerupZones[zoneIndex];
+								let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+thisPowerupData.size.x, (zone.base.position.x+(zone.base.size.x/2))-thisPowerupData.size.x);
+								let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+thisPowerupData.size.y, (zone.base.position.y+(zone.base.size.y/2))-thisPowerupData.size.y);
+								newPowerup.base.position = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+							}
+						}
+					} else {
+						if (cirCollision(newPowerup, obstacleArray) || obstacleArray.base.position.distance(newPowerup.base.position) < 25) {
+							let zoneIndex = rangeInt(0, currentMap.powerupZones.length-1);
+							let zone = currentMap.powerupZones[zoneIndex];
+							let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+thisPowerupData.size.x, (zone.base.position.x+(zone.base.size.x/2))-thisPowerupData.size.x);
+							let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+thisPowerupData.size.y, (zone.base.position.y+(zone.base.size.y/2))-thisPowerupData.size.y);
+							newPowerup.base.position = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+						}
+					}
+				}
+				let currentGoal = getByNameTag(nt("goal", "lineBattle_goal"));
+				if (currentGoal != null) {
+					if (cirCollision(newPowerup, currentGoal) || currentGoal.base.position.distance(newPowerup.base.position) < 25) {
+						let zoneIndex = rangeInt(0, currentMap.powerupZones.length-1);
+						let zone = currentMap.powerupZones[zoneIndex];
+						let boundsX = Vec2((zone.base.position.x-(zone.base.size.x/2))+thisPowerupData.size.x, (zone.base.position.x+(zone.base.size.x/2))-thisPowerupData.size.x);
+						let boundsY = Vec2((zone.base.position.y-(zone.base.size.y/2))+thisPowerupData.size.y, (zone.base.position.y+(zone.base.size.y/2))-thisPowerupData.size.y);
+						newPowerup.base.position = Vec2(rangeFloat(boundsX.x, boundsX.y), rangeFloat(boundsY.x, boundsY.y));
+					}
+				}
+			}
+		}
+	}
+	this.usePowerup = (id=1) => {
+		let player = pM.getPlayer(id).player_obj;
+		if (player.powerup != null) {
+			let randomNum = rangeInt(1, gameData.maxPlayers.x);
+			if (randomNum == id) {
+				this.usePowerup(id);
+			} else {
+				let target = pM.getPlayer(randomNum).player_obj;
+				let powerupData = this.data.powerup_data[player.powerup];
+				switch (player.powerup) {
+					case 0:
+						player.timer.pause();
+						player.timer.mSeconds = Second(rangeInt(powerupData.timer.dup().x, powerupData.timer.dup().y));
+						player.base.position.s = powerupData.modifier;
+						player.timer.start(true);
+						player.powerup = null;
+					break;
+					case 1:
+						if (target != null) {
+							target.timer.pause();
+							target.timer.mSeconds = Second(rangeInt(powerupData.timer.dup().x, powerupData.timer.dup().y));
+							target.base.position.s = -player.base.position.s;
+							target.timer.start(true);
+							player.powerup = null;
+						}
+					break;
+					case 2:
+						target.timer.pause();
+						target.timer.mSeconds = Second(rangeInt(powerupData.timer.dup().x, powerupData.timer.dup().y));
+						target.base.position.s = -player.base.position.s;
+						target.timer.start(true);
+						player.powerup = null;
+					break;
+					case 3:
+						if (target != null) {
+							var oldPos = player.base.position.dup();
+							player.base.position.x = target.base.position.x;
+							player.base.position.y = target.base.position.y;
+							target.base.position.x = oldPos.x;
+							target.base.position.y = oldPos.y;
+							player.deleteLine();
+							target.deleteLine();
+							player.powerup = null;
+						}
+					break;
+					case 4:
+						player.timer.pause();
+						player.invincible = true;
+						player.timer.mSeconds = Second(rangeInt(powerupData.timer.dup().x, powerupData.timer.dup().y));
+						player.timer.start(true);
+						player.powerup = null;
+					break;
+					case 5:
+						var randNum = rangeInt(0, this.data.powerup_data.length-2);
+						player.powerup = randNum;
+						this.usePowerup(id);
+					break;
+				}
+			}
 		}
 	}
 	const resetGame = () => {this.resetGame()};
-	this.resetGame = function(resetPoints=false) {
+	this.resetGame = (resetPoints=false) => {
 		//Add points
-		for (let i=0;i<gameData.maxPlayers.x;i++) {
-			let thisNameTag = new nameTag(("player_"+(i+1)), "lineBattle");
-			let player = getByNameTag(thisNameTag);
-			this.checkPoints(thisNameTag);
-			if (player != undefined && !player.dead && !player.collectedPoints && !this.data.obstacle) {
-				this.getPoints(thisNameTag).points++;
-				player.collectedPoints = true;
+		if (!resetPoints) {
+			for (let i=0;i<gameData.maxPlayers.x;i++) {
+				let thisNameTag = nt(("player_"+(i+1)), "lineBattle");
+				let player = getByNameTag(thisNameTag);
+				if (player != undefined && player.collectedPoints && !this.data.obstacle) {
+					pointMG.changePoints(thisNameTag.name, "add", 1);
+					player.collectedPoints = false;
+				}
 			}
 		}
 		//Reset points
 		if (resetPoints) {
-			this.data.player_points = [];
-			this.data.win_state = false;
+			pointMG.reset(true);
 		}
-		setTimeout(() => {
+		if (!resetPoints) {
+			setTimeout(() => {
+				this.data.end_of_match = false;
+				//Reset players
+				this.spawnPlayers();
+				//Reset obstacles
+				this.spawnObstacles();
+				//Reset goal
+				this.spawnGoal();
+			}, 500);
+		} else {
 			this.data.end_of_match = false;
-			//Reset players
-			this.spawnPlayers();
-			//Reset obstacles
-			this.spawnObstacles();
-			//Reset goal
-			this.spawnGoal();
-		}, 1000);
+			if (currentMap != null) {
+				//Reset players
+				this.spawnPlayers();
+				//Reset obstacles
+				this.spawnObstacles();
+				//Reset goal
+				this.spawnGoal();
+			}
+		}
 	}
-	this.update = function() {
+	this.update = () => {
 		if (gameData.gameMode == 1) {
+			//Set target
+			pointMG.targetPoints = gameModeData[1].settings.winning_points;
 			//Sets vars for each mode
 			switch (gameModeData[1].settings.mode.x) {
 				case 0:
@@ -2089,15 +3401,10 @@ function lineBattleGM() {
 			} else {
 				this.data.game_loaded = false;
 			}
-			//Check for tie
-			let hasTied = this.data.player_points.filter(p => p.points == gameModeData[1].settings.winning_points).length > 1;
 			//Check game win
-			this.data.player_points.forEach((p, i) => {
-				if (p.points >= gameModeData[1].settings.winning_points && !hasTied) {
-					this.data.win_state = true;
-					winScreen.show(parseInt(p.nameTag.name.replace("player_", "")));
-				}
-			});
+			if (pointMG.winState) {
+				winScreen.show(parseInt(pointMG.winner.replace("player_", "")));
+			}
 			//Set local map
 			if (localMap == null && currentMap != null && currentMap != undefined) {
 				localMap = currentMap;
@@ -2105,41 +3412,128 @@ function lineBattleGM() {
 			if (localMap != null && localMap.id != currentMap.id) {
 				localMap = currentMap;
 			}
+			//UI for power-ups
+			const powerupUI_NT = (id=1) => { return nt("Player_"+id+"_powerup_ui", "lineBattle") };
+			let p1_powerup_ui = getByNameTag(powerupUI_NT(1));
+			let p2_powerup_ui = getByNameTag(powerupUI_NT(2));
+			let p3_powerup_ui = getByNameTag(powerupUI_NT(3));
+			let p4_powerup_ui = getByNameTag(powerupUI_NT(4));
+			if (gameModeData[1].settings.powerups) {
+				if (p1_powerup_ui == null) {
+					let newP1PowerupUI = sprite(8, base(true, powerupUI_NT(1), Vec2(25, 25).multi(this.data.powerup_data.blank.scale), Vec2(30, 30), this.data.powerup_data.blank.img, shadow(Vec2(), "white", 5)), spriteM(this.data.powerup_data.blank.img_pos, this.data.powerup_data.blank.size));
+				}
+				if (p2_powerup_ui == null) {
+					let newP2PowerupUI = sprite(8, base(true, powerupUI_NT(2), Vec2(25, 25).multi(this.data.powerup_data.blank.scale), Vec2(1250, 690), this.data.powerup_data.blank.img, shadow(Vec2(), "white", 5)), spriteM(this.data.powerup_data.blank.img_pos, this.data.powerup_data.blank.size));
+				}
+				if (p3_powerup_ui == null && gameData.maxPlayers.x >= 3) {
+					let newP3PowerupUI = sprite(8, base(true, powerupUI_NT(3), Vec2(25, 25).multi(this.data.powerup_data.blank.scale), Vec2(30, 690), this.data.powerup_data.blank.img, shadow(Vec2(), "white", 5)), spriteM(this.data.powerup_data.blank.img_pos, this.data.powerup_data.blank.size));
+				}
+				if (p3_powerup_ui != null && gameData.maxPlayers.x < 3) {
+					p3_powerup_ui.base.destroy();
+				}
+				if (p4_powerup_ui == null && gameData.maxPlayers.x == 4) {
+					let newP4PowerupUI = sprite(8, base(true, powerupUI_NT(4), Vec2(25, 25).multi(this.data.powerup_data.blank.scale), Vec2(1250, 30), this.data.powerup_data.blank.img, shadow(Vec2(), "white", 5)), spriteM(this.data.powerup_data.blank.img_pos, this.data.powerup_data.blank.size));
+				}
+				if (p4_powerup_ui != null && gameData.maxPlayers.x < 4) {
+					p4_powerup_ui.base.destroy();
+				}
+				if (p1_powerup_ui != null) {
+					let thisP1 = pM.getPlayer(1).player_obj;
+					if (thisP1 != null) {
+						if (thisP1.powerup != null) {
+							p1_powerup_ui.base.color = this.data.powerup_data[thisP1.powerup].img.dup();
+							p1_powerup_ui.animator.setClipPos(this.data.powerup_data[thisP1.powerup].img_pos);
+							p1_powerup_ui.animator.setClipSize(this.data.powerup_data[thisP1.powerup].size);
+						} else {
+							p1_powerup_ui.base.color = this.data.powerup_data.blank.img.dup();
+							p1_powerup_ui.animator.setClipPos(this.data.powerup_data.blank.img_pos);
+							p1_powerup_ui.animator.setClipSize(this.data.powerup_data.blank.size);
+						}
+					}
+					p1_powerup_ui.base.color.alpha = gameData.uiAlpha;
+				}
+				if (p2_powerup_ui != null) {
+					let thisP2 = pM.getPlayer(2).player_obj;
+					if (thisP2 != null) {
+						if (thisP2.powerup != null) {
+							p2_powerup_ui.base.color = this.data.powerup_data[thisP2.powerup].img.dup();
+							p2_powerup_ui.animator.setClipPos(this.data.powerup_data[thisP2.powerup].img_pos);
+							p2_powerup_ui.animator.setClipSize(this.data.powerup_data[thisP2.powerup].size);
+						} else {
+							p2_powerup_ui.base.color = this.data.powerup_data.blank.img.dup();
+							p2_powerup_ui.animator.setClipPos(this.data.powerup_data.blank.img_pos);
+							p2_powerup_ui.animator.setClipSize(this.data.powerup_data.blank.size);
+						}
+					}
+					p2_powerup_ui.base.color.alpha = gameData.uiAlpha;
+				}
+				if (p3_powerup_ui != null) {
+					let thisP3 = pM.getPlayer(3).player_obj;
+					if (thisP3 != null) {
+						if (thisP3.powerup != null) {
+							p3_powerup_ui.base.color = this.data.powerup_data[thisP3.powerup].img.dup();
+							p3_powerup_ui.animator.setClipPos(this.data.powerup_data[thisP3.powerup].img_pos);
+							p3_powerup_ui.animator.setClipSize(this.data.powerup_data[thisP3.powerup].size);
+						} else {
+							p3_powerup_ui.base.color = this.data.powerup_data.blank.img.dup();
+							p3_powerup_ui.animator.setClipPos(this.data.powerup_data.blank.img_pos);
+							p3_powerup_ui.animator.setClipSize(this.data.powerup_data.blank.size);
+						}
+					}
+					p3_powerup_ui.base.color.alpha = gameData.uiAlpha;
+				}
+				if (p4_powerup_ui != null) {
+					let thisP4 = pM.getPlayer(4).player_obj;
+					if (thisP4 != null) {
+						if (thisP4.powerup != null) {
+							p4_powerup_ui.base.color = this.data.powerup_data[thisP4.powerup].img.dup();
+							p4_powerup_ui.animator.setClipPos(this.data.powerup_data[thisP4.powerup].img_pos);
+							p4_powerup_ui.animator.setClipSize(this.data.powerup_data[thisP4.powerup].size);
+						} else {
+							p4_powerup_ui.base.color = this.data.powerup_data.blank.img.dup();
+							p4_powerup_ui.animator.setClipPos(this.data.powerup_data.blank.img_pos);
+							p4_powerup_ui.animator.setClipSize(this.data.powerup_data.blank.size);
+						}
+					}
+					p4_powerup_ui.base.color.alpha = gameData.uiAlpha;
+				}
+			} else {
+				if (p1_powerup_ui != null) {
+					p1_powerup_ui.base.destroy();
+				}
+				if (p2_powerup_ui != null) {
+					p2_powerup_ui.base.destroy();
+				}
+				if (p3_powerup_ui != null) {
+					p3_powerup_ui.base.destroy();
+				}
+				if (p4_powerup_ui != null) {
+					p4_powerup_ui.base.destroy();
+				}
+			}
 			//Player spawn
 			for (let i=0;i<gameData.maxPlayers.x;i++) {
 				if (localMap != null && localMap.id == currentMap.id) {
-					let thisNameTag = new nameTag(("player_"+(i+1)), "lineBattle");
-					let thisPoints = this.getPoints(thisNameTag);
-					thisPoints.points = Math.floor(thisPoints.points);
+					let thisNameTag = nt(("player_"+(i+1)), "lineBattle");
 					let player = getByNameTag(thisNameTag);
 					if (player != undefined) {
-						//invert timer
-						if (player.base.position.s < 0) {
-							if (!player.timer.active && player.timer.currentTime.second == 0) {
-								player.timer.start(true);
-							}
-							if (isPaused) {
-								player.timer.pause();
-							} else {
-								if (!player.timer.active && player.timer.currentTime.second > 0) {
-									player.timer.start();
-								}
-							}
+						player.rotOffset = (player.base.position.s > 0) ? 0 : degToRad(180)
+
+						if (player.invincible) {
+							player.base.shadow = shadow(Vec2(), "cyan", 10);
+						} else {
+							player.base.shadow = DEFAULT_SHADOW;
 						}
 						//Dead
 						if (player.dead) {
 							player.base.color = greyBall.getColor();
+							if (!this.data.pointCollector) {
+								this.data.end_of_match = true;
+							}
 						}
 						//Win state
-						if (this.data.end_of_match || isPaused) {
+						if (this.data.end_of_match) {
 							player.base.position.s = 0;
-						}
-						if (!this.data.end_of_match && player.base.position.s == 0 && !isPaused) {
-							if (player.timer.currentTime.second == 0) {
-								player.base.position.s = this.data.player_speed;
-							} else {
-								player.base.position.s = -this.data.player_speed;
-							}
 						}
 						//Wrap effect
 						if (player.base.position.x < 0) {
@@ -2155,83 +3549,38 @@ function lineBattleGM() {
 							player.base.position.y = 0;
 						}
 						//Obstacle/Goal collisions
-						let obstacleArray = getByNameTag(new nameTag("", "obstacles"), 2, false, true);
-						let goalObj = getByNameTag(new nameTag("", "goal"), 2, false, true);
+						let obstacleArray = getByNameTag(tag("obstacles"), 2, false, true);
+						this.spawnObstacles(true, true);
+						let goalObj = getByNameTag(tag("goal"), 2, false, true);
+						this.spawnGoal(false, true);
+						let powerupObj = getByNameTag(tag("power-up"), 2, false, true);
 						if (this.data.game_loaded && !isPaused) {
 							if (obstacleArray != null) {
 								if (Array.isArray(obstacleArray)) {
 									obstacleArray.forEach((object) => {
 										let obstData = this.getObstacleTypeData(object.obstacleType);
-										if (cirCollision(player, object)) {
-											if (!this.data.win_state) {
+										if (cirCollision(player, object) && !player.invincible) {
+											if (!pointMG.winState) {
 												if (obstData.points.x != null) {
-													switch (obstData.points.r) {
-														case "+":
-															this.checkPoints(thisNameTag);
-															thisPoints.points += obstData.points.x;
-														break;
-														case "-":
-															if (thisPoints.points > 0) {
-																thisPoints.points -= obstData.points.x;
-															}
-														break;
-														case "*":
-															if (thisPoints.points > 1) {
-																thisPoints.points *= obstData.points.x;
-															}
-															if (thisPoints.points == 0 || thisPoints.points == 1) {
-																thisPoints.points += 1;
-															}
-														break;
-														case "/":
-															if (thisPoints.points > 0) {
-																thisPoints.points /= obstData.points.x;
-															}
-														break;
-													}
+													pointMG.changePoints(thisNameTag.name, obstData.points.r, obstData.points.x);
 												}
 												if (obstData.points.y != null) {
-													this.changePointsFromOpponents([thisNameTag], obstData.points.y, obstData.points.r);
-													
+													pointMG.changePoints([thisNameTag.name], obstData.points.o, obstData.points.y, true);
 												}
 											}
 											deleteByNameTag(object.base.nameTag);
-											this.spawnObstacles(true);
+											this.spawnObstacles(true, true);
 										}
 									});
 								} else {
 									let obstData = this.data.obstacles_data[obstacleArray.obstacleType];
 									if (cirCollision(player, obstacleArray)) {
-										if (!this.data.win_state) {
+										if (!pointMG.winState) {
 											if (obstData.points.x != null) {
-												switch (obstData.points.r) {
-													case "+":
-														this.checkPoints(thisNameTag);
-														thisPoints.points += obstData.points.x;
-													break;
-													case "-":
-														if (thisPoints.points > 0) {
-															thisPoints.points -= obstData.points.x;
-														}
-													break;
-													case "*":
-														if (thisPoints.points > 1) {
-															thisPoints.points *= obstData.points.x;
-														}
-														if (thisPoints.points == 0 || thisPoints.points == 1) {
-															thisPoints.points += 1;
-														}
-													break;
-													case "/":
-														if (thisPoints.points > 0) {
-															thisPoints.points /= obstData.points.x;
-														}
-													break;
-												}
+												pointMG.changePoints(thisNameTag.name, obstData.points.r, obstData.points.x);
 											}
 											if (obstData.points.y != null) {
-												this.changePointsFromOpponents([thisNameTag], obstData.points.y, obstData.points.r);
-												
+												pointMG.changePoints([thisNameTag.name], obstData.points.o, obstData.points.y, true);
 											}
 										}
 										deleteByNameTag(obstacleArray.base.nameTag);
@@ -2242,36 +3591,12 @@ function lineBattleGM() {
 							if (goalObj != null) {
 								let goalData = this.getGoalTypeData(goalObj.goalType);
 								if (cirCollision(player, goalObj)) {
-									if (!this.data.win_state) {
+									if (!pointMG.winState) {
 										if (goalData.points.x != null) {
-											switch (goalData.points.r) {
-												case "+":
-													this.checkPoints(thisNameTag);
-													thisPoints.points += goalData.points.x;
-												break;
-												case "-":
-													if (thisPoints.points > 0) {
-														thisPoints.points -= goalData.points.x;
-													}
-												break;
-												case "*":
-													console.log(thisPoints.points);
-													if (thisPoints.points > 1) {
-														thisPoints.points *= goalData.points.x;
-													}
-													if (thisPoints.points == 0 || thisPoints.points == 1) {
-														thisPoints.points += 1;
-													}
-												break;
-												case "/":
-													if (thisPoints.points > 0) {
-														thisPoints.points /= goalData.points.x;
-													}
-												break;
-											}
+											pointMG.changePoints(thisNameTag.name, goalData.points.r, goalData.points.x);
 										}
 										if (goalData.points.y != null) {
-											this.changePointsFromOpponents([thisNameTag], goalData.points.y, goalData.points.o);
+											pointMG.changePoints([thisNameTag.name], goalData.points.o, goalData.points.y, true);
 										}
 									}
 									deleteByNameTag(goalObj.base.nameTag);
@@ -2279,19 +3604,31 @@ function lineBattleGM() {
 							} else {
 								this.spawnGoal(true);
 							}
+							if (powerupObj != null) {
+								if (cirCollision(player, powerupObj) && player.powerup == null) {
+									player.powerup = powerupObj.type;
+									deleteByNameTag(powerupObj.base.nameTag);
+								}
+							} else {
+								if (!this.powerupTimer.active) {
+									this.powerupTimer.start();
+								}
+							}
 						}
 						//Player collisions
 						for (let i=0;i<gameData.maxPlayers.x;i++) {
-							if (!this.data.win_state && !isPaused) {
-								let thisNameTag2 = new nameTag(("player_"+(i+1)), "lineBattle");
+							if (!pointMG.winState && !isPaused) {
+								let thisNameTag2 = nt(("player_"+(i+1)), "lineBattle");
 								let player2 = getByNameTag(thisNameTag2);
 								let isSame = player.base.nameTag.same(thisNameTag2);
 								if (!isSame) {
 									//Ball physics hitPlayer
 									if (!this.data.end_of_match) {
-										if (cirCollision(player, player2)){
+										if (cirPolyCollision(player, player2)){
 											if (!player.hitPlayer) {
+												cirPolyCollision(player, player2, null, false)
 												player.base.position.s = -player.base.position.s;
+												player2.base.position.s = -player2.base.position.s;
 												player.hitPlayer = true;
 												player2.hitPlayer = true;
 											}
@@ -2301,32 +3638,48 @@ function lineBattleGM() {
 										}
 									}
 									//Line collide check
-									player2.linePieces.forEach((l, i) => {
-										if (cirPolyCollision(player, l)) {
-											if (!this.data.pointCollector) {
-												if (l.base.color.alpha >= gameModeData[1].settings.line_alpha_cutoff) {
-													this.data.end_of_match = true;
-													player.dead = true;
+									const p2_linepieces = player2.linePieces;
+
+									for (let i=0,l=p2_linepieces.length; i<l; i++) {
+										const linePiece = p2_linepieces[i];
+
+										if (linePiece != undefined) {
+											let lineBase = linePiece.base;
+
+											if (cirPolyCollision(player, linePiece)) {
+												if (!this.data.pointCollector && !player.invincible) {
+													if (lineBase.color.alpha >= gameModeData[1].settings.line_alpha_cutoff) {
+														if (!player.dead) {
+															getByNameTag(name(lineBase.nameTag.name.slice(0, 8)), 1).collectedPoints = true;
+															player.dead = true;
+														}
+													}
+												} else {
+													for (let v=0; v<l; v++) {
+														const linePiece2 = p2_linepieces[v];
+														const lineBase2 = linePiece2.base;
+
+														if (v <= i) {
+															lineBase2.marked = true;
+														}
+													}
+													p2_linepieces.splice(0, i);
+													deleteByMarked();
 												}
-											} else {
-												player.base.position.s = -player.base.position.s;
-												l.base.marked = true;
-												player2.linePieces.splice(i, 1);
-												deleteByMarked();
 											}
 										}
-									});
+									}
 								}
 							}
 						}
 						//Points text
-						let thisNameTag2 = new nameTag(("player_"+(i+1)+"_points"), "lineBattle");
+						let thisNameTag2 = nt(("player_"+(i+1)+"_points"), "lineBattle");
 						let playerPoints = getByNameTag(thisNameTag2);
-						playerPoints.base.position = player.base.position.duplicate().subV(new Vector2(0, player.base.size.div(2).y));
+						playerPoints.base.position = player.base.position.duplicate().subV(Vec2(0, player.base.size.div(2).y));
 						if (gameData.showName) {
-							playerPoints.text = pM.getPlayer(i+1).player_info.name.slice(0, 8)+": "+thisPoints.points;
+							playerPoints.text = pM.getPlayer(i+1).player_info.name.slice(0, 8)+": "+pointMG.getPoints(thisNameTag.name).points;
 						} else {
-							playerPoints.text = thisPoints.points;
+							playerPoints.text = pointMG.getPoints(thisNameTag.name).points;
 						}
 						//Line code
 						let line = player.linePieces;
@@ -2364,19 +3717,22 @@ function lineBattleGM() {
 				resetGame();
 			}
 		} else {
-			deleteByNameTag(new nameTag("", "lineBattle"), 2, true);
+			deleteByNameTag(nt("", "lineBattle"), 2, true);
 		}
 	}
 }
 
 //Map creator
 const BLANK_MAP = new Map();
-function Map(id="#", backgroundColor="black", spawns=[new Vector2(),new Vector2(),new Vector2(),new Vector2()], objects=[], script=null, modded=false) {
+function Map(id="#", backgroundColor="black", spawns=[Vec2(),Vec2(),Vec2(),Vec2()], objects=[], obstacleZones=[], goalZones=[], powerupZones=[], script=null, modded=false) {
 	this.id = id; //id for map (so you can have scripts for certain maps)
 	this.originalBGColor = backgroundColor;
 	this.backgroundColor = backgroundColor; //canvas color
 	this.spawns = spawns; //Array of vectors | 4 spawns | x/y/r | use r to set spawn rotation
 	this.objects = objects; //Array of objects
+	this.obstacleZones = obstacleZones; //Array of squares for the obstacles to spawn in
+	this.goalZones = goalZones; //Array of squares for the goals to spawn in
+	this.powerupZones = powerupZones; //Array of square or points for power-ups to spawn in
 	this.script = script; //external map function
 	this.modded = modded;
 	let loaded = false;
@@ -2391,7 +3747,7 @@ function Map(id="#", backgroundColor="black", spawns=[new Vector2(),new Vector2(
 				return o.type == "sprite";
 			});
 			for (let i=0;i<players.length;i++) {
-				let thisLineNameTag = new nameTag(("player_"+(i+1)+"_line"), "lineBattle");
+				let thisLineNameTag = nt(("player_"+(i+1)+"_line"), "lineBattle");
 				deleteByNameTag(thisLineNameTag);
 				players[i].base.position.s = 0;
 				players[i].base.color.alpha = 0;
@@ -2409,6 +3765,9 @@ function Map(id="#", backgroundColor="black", spawns=[new Vector2(),new Vector2(
 	this.unload = function() {
 		if (loaded) {
 			this.objects.forEach((x) => {deleteByNameTag(x.base.nameTag)});
+			this.obstacleZones.forEach((x) => {deleteByNameTag(x.base.nameTag)});
+			this.goalZones.forEach((x) => {deleteByNameTag(x.base.nameTag)});
+			this.powerupZones.forEach((x) => {deleteByNameTag(x.base.nameTag)});
 			deleteUpdate(1, "map:"+id);
 			console.log("%cMap:'"+id+"' Unloaded!", "color:orange");
 			loaded = false;
@@ -2424,7 +3783,7 @@ function Map(id="#", backgroundColor="black", spawns=[new Vector2(),new Vector2(
 		if (this.script != null) {
 			this.script();
 		}
-		const currentPlayers = [getByNameTag(name("player_1"), 1),getByNameTag(new nameTag("player_2"), 1),getByNameTag(new nameTag("player_3"), 1),getByNameTag(new nameTag("player_4"), 1)].filter((p) => {return p != null;});
+		const currentPlayers = [getByNameTag(name("player_1"), 1),getByNameTag(nt("player_2"), 1),getByNameTag(nt("player_3"), 1),getByNameTag(nt("player_4"), 1)].filter((p) => {return p != null;});
 		let walls = getByNameTag(tag("Wall"), 2, false, true);
 		if (!Array.isArray(walls) && walls != null) {
 			walls = [walls];
@@ -2441,23 +3800,23 @@ function Map(id="#", backgroundColor="black", spawns=[new Vector2(),new Vector2(
 		}
 		for (let p=0,length=currentPlayers.length;p<length;p++) {
 			let player = currentPlayers[p];
+
 			for (let w=0,length=walls.length;w<length;w++) {
 				let wall = walls[w];
 				cirPolyCollision(player, wall, null, false);
 			}
-		}
-		if (gameData.gameMode == 1) {
-			for (let p=0,length=currentPlayers.length;p<length;p++) {
-				let player = currentPlayers[p];
+
+			if (gameData.gameMode == 1) {
 				for (let w=0,length=bouncyWalls.length;w<length;w++) {
 					let wall = bouncyWalls[w];
 					if (cirPolyCollision(player, wall)) {
+						cirPolyCollision(player, wall, null, false);
 						player.base.position.s = -player.base.position.s;
 					}
 				}
 			}
 		}
-		if (currentMap.id != this.id && loaded) {
+		if (currentMap != null && currentMap.id != this.id && loaded) {
 			this.unload();
 		}
 	}
@@ -2466,7 +3825,6 @@ function Map(id="#", backgroundColor="black", spawns=[new Vector2(),new Vector2(
 
 function addMap(map=BLANK_MAP, mode=0) {
 	gameModeData[mode].settings.maps.push(map);
-	//gameModeData[mode].settings.map.y++;
 }
 
 function deleteMap(id="", mode=0, include=false, modded=false) {
@@ -2508,7 +3866,16 @@ function updateMap() {
 		if (newMap != undefined) {
 			currentMap = newMap;
 		}
-		currentMap.load();
+		if (gameData.gameMode == -1) {
+			currentMap.unload();
+		} else {
+			currentMap.load();
+		}
+	} else {
+		if (currentMap != null) {
+			currentMap.unload();
+			currentMap = null;
+		}
 	}
 }
 
@@ -2527,9 +3894,13 @@ function gameUpdateLoop() {
 	if (gameData.maxPlayers.x > gameData.maxPlayers.y) {
 		gameData.maxPlayers.x = gameData.maxPlayers.y;
 	}
-	deleteByNameTag(new nameTag("delete"), 1);
+	deleteByNameTag(nt("delete"), 1);
 }
 
 //Init
 addMap(map_abyss, 1);
+addMap(map_neon, 1);
+addMap(map_fourColors, 1);
+addMap(map_portals, 1);
+addMap(map_test, 1);
 addUpdate(gameUpdateLoop, "mainGameLoop", "main");

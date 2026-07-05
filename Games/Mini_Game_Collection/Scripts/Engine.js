@@ -1,5 +1,14 @@
+//Image smoothing quality
+const imgSmoothQlty = {
+	0:"low",
+	1:"medium",
+	2:"high"
+}
+
+/*Engine setup*/
 const engineSettings = {
 	"Image_Smoothing":false,
+	"Image_Smoothing_Quality":imgSmoothQlty[0],
 	"Allow_Shadows":true,
 	"Debug":{
 		"Show_FPS_Counter":false,
@@ -7,21 +16,28 @@ const engineSettings = {
 		"Show_Debug_Cursor":false
 	},
 	"Settings_Menu":{
-		"Image_Smoothing":true,
+		"Image_Smoothing":false,
 		"Shadows":true,
 		"Debug":true,
 		"Show_FPS":true,
 		"Show_DELTA":true,
-		"Show_Debug_Cursor":true
+		"Show_Debug_Cursor":false
 	},
 	"Addons":[]
 };
 
+//Page setup
+document.body.style.userSelect = "none";
+document.body.allow = "clipboard-read; clipboard-write";
+document.documentElement.style.fontFamily = "Arial";
+
+//Engine global variables
 let isPaused = false;
 
 //Image folder path
 const audioPath = "./Audio/";
 const imagePath = "./Images/";
+const resourcePath = "./Images/Resources/";
 const videoPath = "./Videos/";
 const scriptPath = "./Scripts/";
 const addonPath = scriptPath+"Addons/";
@@ -39,464 +55,6 @@ const loadAddons = () => {
 	});
 }
 loadAddons();
-
-//Engine resources
-let Close_UI = new imageData("close_ui", imagePath+"Close_Icon.png", new Vector2(64, 64));
-let Close_UI_Hover = new imageData("close_ui_hover", imagePath+"Close_Icon_Hover.png", new Vector2(64, 64));
-let Settings_Icon = new imageData("settings_icon", imagePath+"Settings.png", new Vector2(50, 50));
-
-//Variables used for mods
-const modVars = new globalVars();
-
-function globalVars() {
-	this.modVarIndex = {};
-	this.deleteMod = (id="") => {
-		delete this.modVarIndex[id];
-	}
-	this.addMod = (id="") => {
-		if (this.modVarIndex[id] == undefined) {
-			this.modVarIndex[id] = {};
-		} else {
-			this.deleteMod(id);
-			this.modVarIndex[id] = {};
-		}
-	}
-	this.addVar = (id="", name="", value="") => {
-		if (this.modVarIndex[id] != undefined) {
-			this.modVarIndex[id][name] = value;
-		} else {
-			this.addMod(id);
-			this.modVarIndex[id][name] = value;
-		}
-	}
-	this.deleteVar = (id="", name="") => {
-		if (this.modVarIndex[id] != undefined) {
-			delete this.modVarIndex[id][name];
-		}
-	}
-}
-
-const getModVar = (id="", name="") => {
-	return modVars.modVarIndex[id][name];
-}
-
-const setModVar = (id="", name="", value="") => {
-	modVars.modVarIndex[id][name] = value;
-}
-
-//Checks number to see if it's even or odd
-function isEven(num=0) {
-	if ((num % 2) == 0) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-//Clamp to a range
-function clamp(value=0, min=0, max=10) {
-	if (value < min) {
-		value = min;
-	}
-	if (value > max) {
-		value = max;
-	}
-	return value;
-}
-
-//Radians to Degrees
-function radToDeg(rad=0) {
-	return ((rad*(180/Math.PI))+360)%360;
-}
-
-//Degrees to Radians
-function degToRad(deg=0) {
-	return ((deg/(180/Math.PI))+PI2)%PI2;
-}
-
-//Average
-function average(nums=[0,0]) {
-	return nums.reduce((a, b) => a+b,0)/nums.length;
-}
-
-//Gets closest point in an array of points
-function getClosestPoint(pXy, aXys) {
-	let minDist;
-	let fTo;
-	let x;
-	let y;
-	let i;
-	let dist;
-		if (aXys.length > 1) {
-			for (let n = 1 ; n < aXys.length ; n++) {
-				if (aXys[n] != undefined) {
-					if (aXys[n].x != aXys[n - 1].x) {
-					let a = (aXys[n].y - aXys[n - 1].y) / (aXys[n].x - aXys[n - 1].x);
-					let b = aXys[n].y - a * aXys[n].x;
-					dist = Math.abs(a * pXy.x + b - pXy.y) / Math.sqrt(a * a + 1);
-					}
-					else
-					dist = Math.abs(pXy.x - aXys[n].x)
-					let rl2 = Math.pow(aXys[n].y - aXys[n - 1].y, 2) + Math.pow(aXys[n].x - aXys[n - 1].x, 2);
-					let ln2 = Math.pow(aXys[n].y - pXy.y, 2) + Math.pow(aXys[n].x - pXy.x, 2);
-					let lnm12 = Math.pow(aXys[n - 1].y - pXy.y, 2) + Math.pow(aXys[n - 1].x - pXy.x, 2);
-					let dist2 = Math.pow(dist, 2);
-					let calcrl2 = ln2 - dist2 + lnm12 - dist2;
-					if (calcrl2 > rl2)
-						dist = Math.sqrt(Math.min(ln2, lnm12));
-					if ((minDist == null) || (minDist > dist)) {
-						if (calcrl2 > rl2) {
-							if (lnm12 < ln2) {
-							fTo = 0;
-							}
-							else {
-							fTo = 1;
-							}
-						}
-						else {
-						fTo = ((Math.sqrt(lnm12 - dist2)) / Math.sqrt(rl2));
-						}
-					minDist = dist;
-					i = n;
-					}
-				}
-			}
-		let dx = aXys[i - 1].x - aXys[i].x;
-		let dy = aXys[i - 1].y - aXys[i].y;
-		x = aXys[i - 1].x - (dx * fTo);
-		y = aXys[i - 1].y - (dy * fTo);
-		}
-	return new Vector2(x, y);
-}
-
-function getPolarDir(startPoint, endPoint) {
-	let rot = Math.round(startPoint.getRotation(endPoint, false));
-	if (rot == 0 || rot == 360) {
-		return "North";
-	}
-	if ((rot > 0 && rot <= 45) || (rot > 45 && rot < 90)) {
-		return "NorthEast";
-	}
-	if (rot == 90) {
-		return "East";
-	}
-	if ((rot > 90 && rot <= 135) || (rot > 135 && rot < 180)) {
-		return "SouthEast";
-	}
-	if (rot == 180) {
-		return "South";
-	}
-	if ((rot > 180 && rot <= 225) || (rot > 225 && rot < 270)) {
-		return "SouthWest";
-	}
-	if (rot == 270) {
-		return "West";
-	}
-	if ((rot > 270 && rot <= 315) || (rot > 315 && rot < 360)) {
-		return "NorthWest";
-	}
-}
-
-//Helper function for random ints same as range just with less steps
-//Range functions can take Vector2's in the min argument
-function rangeInt(min=0, max=1) {
-	if (typeof min == "number") {
-		return Range(min, max, 0, false);
-	} else {
-		return Range(min.x, min.y, 0, false);
-	}
-}
-
-//Helper function for random floats same as range just with less steps
-//Range functions can take Vector2's in the min argument
-function rangeFloat(min=0, max=1, dec_place=1) {
-	if (typeof min == "number") {
-		return Range(min, max, dec_place);
-	} else {
-		return Range(min.x, min.y, min.r);
-	}
-}
-
-//Returns a random number between min and max
-//Range functions can take Vector2's in the min argument
-function Range(min=0, max=1, dec_place=1, is_float=true) {
-	let result = 0;
-	if (typeof min == "number") {
-		let factor = Math.pow(10, dec_place);
-		if (is_float) {
-			result = Math.random()*(max-min)+min;
-		} else {
-			result = Math.round(Math.random()*(max-min)+min);
-		}
-		return Math.round(result*factor)/factor;
-	} else {
-		let factor = Math.pow(10, min.r);
-		if (min.o) {
-			result = Math.random()*(min.y-min.x)+min.x;
-		} else {
-			result = Math.round(Math.random()*(min.y-min.x)+min.x);
-		}
-		return Math.round(result*factor)/factor;
-	}
-}
-
-//Checks if an array has everything from another
-function arrayCompare(arr=[], target=[], all=true) {
-	if (all) {
-		return target.every((item) => {
-			return arr.includes(item);
-		});
-	} else {
-		return target.some((item) => {
-			return arr.includes(item);
-		});
-	}
-}
-
-//Returns matches in 2 arrays
-function arrayMatch(arr1=[], arr2=[]) {
-  var arr = [];
-  for(var i=0 ; i<arr1.length ; ++i) {
-    for(var j=0 ; j<arr2.length ; ++j) {
-      if(arr1[i] == arr2[j]) {
-        arr.push(arr1[i]);
-      }
-    }
-  }
-  return arr;
-}
-
-//Math variables
-const PI2 = Math.PI*2;
-
-//Vector class
-const ZERO = new Vector2();
-const ONE = new Vector2(1, 1);
-const UP = new Vector2(0, -1);
-const UP_LEFT = new Vector2(-1, -1);
-const UP_RIGHT = new Vector2(1, -1);
-const DOWN = new Vector2(0, 1);
-const DOWN_LEFT = new Vector2(-1, 1);
-const DOWN_RIGHT = new Vector2(1, 1);
-const LEFT = new Vector2(-1, 0);
-const RIGHT = new Vector2(1, 0);
-function Vector2(x=0, y=0, r=0, o=0, s=0) {
-	this.x = x; //x
-	this.y = y; //y
-	this.r = r; //angle
-	this.o = o; //offset angle
-	this.s = s; //speed
-	//Set vector
-	this.set = function(vector2) {
-		this.x = vector2.x;
-		this.y = vector2.y;
-		this.r = vector2.r;
-		this.o = vector2.o;
-		this.s = vector2.s;
-	}
-	//Vector2 to array
-	this.array = function() {
-		return [this.x, this.y];
-	}
-	//Vector2 to angle
-	this.angle = function(rad=true) {
-		let calR = parseFloat(Math.atan2(this.y, this.x).toFixed(2));
-		if (rad) {
-			return calR;
-		} else {
-			let calD = Math.round(radToDeg(calR+1.57079633));
-			if (calR == 0) {
-				return 0;
-			} else {
-				return calD;
-			}
-		}
-	}
-	//Vector2 duplicate
-	this.duplicate = function() {
-		return new Vector2(this.x, this.y, this.r, this.o, this.s);
-	}
-	this.dup = this.duplicate;
-	//Compare vectors
-	this.same = function(vector2=ZERO) {
-		let result = false;
-		if (this.x == vector2.x && this.y == vector2.y) {
-			result = true;
-		}
-		return result;
-	}
-	//Get rotation between 2 vectors
-	this.getRotation = function(vector2, rad=true) {
-		this.vector2 = vector2;
-		if (rad) {
-			return ((Math.atan2(-this.y+this.vector2.y, -this.x+this.vector2.x)+degToRad(90))+PI2)%(PI2);
-		} else {
-			return radToDeg((Math.atan2(-this.y+this.vector2.y, -this.x+this.vector2.x)+degToRad(90)));
-		}
-	}
-	//Simple math
-	this.add = function(num) {
-		return new Vector2(this.x+num, this.y+num);
-	}
-	this.addV = function(vector2) {
-		return new Vector2(this.x+vector2.x, this.y+vector2.y);
-	}
-	this.sub = function(num) {
-		return new Vector2(this.x-num, this.y-num);
-	}
-	this.subV = function(vector2) {
-		return new Vector2(this.x-vector2.x, this.y-vector2.y);
-	}
-	this.neg = function(place="x") { //"x" or "y"
-		place = place.toLowerCase();
-		if (place == "x") {
-			return new Vector2(-this.x, this.y);
-		}
-		if (place == "y") {
-			return new Vector2(this.x, -this.y);
-		}
-	}
-	this.multi = function(num) {
-		return new Vector2(this.x*num, this.y*num);
-	}
-	this.multiV = function(vector2) {
-		return new Vector2(this.x*vector2.x, this.y*vector2.y);
-	}
-	this.div = function(num) {
-		if (num == 0) {
-			num == 1;
-		}
-		return new Vector2(this.x/num, this.y/num);
-	}
-	this.divV = function(vector2) {
-		if (vector2.x == 0) {
-			vector2.x == 1;
-		}
-		if (vector2.y == 0) {
-			vector2.y == 1;
-		}
-		return new Vector2(this.x/vector2.x, this.y/vector2.y);
-	}
-	this.min = function(vector2) {
-		return new Vector2(Math.min(this.x, vector2.x), Math.min(this.y, vector2.y));
-	}
-	this.max = function(vector2) {
-		return new Vector2(Math.max(this.x, vector2.x), Math.max(this.y, vector2.y));
-	}
-	//Returns distance between 2 vectors
-	this.distance = function(vector2=ZERO) {
-		let dx = vector2.x-this.x;
-		let dy = vector2.y-this.y;
-		return Math.sqrt(dx*dx+dy*dy);
-	}
-	//Rotate point by this vector
-	this.rotateVector2 = function(vector2, rotation) {
-		return new Vector2(Math.cos(rotation)*(vector2.x-this.x)-Math.sin(rotation)*(vector2.y-this.y)+this.x, Math.sin(rotation)*(vector2.x-this.x)+Math.cos(rotation)*(vector2.y-this.y)+this.y);
-	}
-	//Clamp x and or y values
-	//min = number or vector2
-	//max = number or vector2
-	//opt = both, x, y
-	this.clamp = function(min, max, opt="both") {
-		switch (opt) {
-			case "x":
-			case "X":
-				this.x = clamp(this.x, min, max);
-			break;
-			case "y":
-			case "Y":
-				this.y = clamp(this.y, min, max);
-			break;
-			case "both":
-			case "Both":
-				this.x = clamp(this.x, min, max);
-				this.y = clamp(this.y, min, max);
-			break;
-		}
-	}
-}
-
-//Fills a vector2's x and y values with a single number
-//Useful shortcut for making square objects
-function FillVec2(xy=0) {
-	return new Vector2(xy, xy);
-}
-
-//Creates canvas
-const screen = new Screen();
-const ctx = screen.ctx;
-function Screen(id="canvas", size=new Vector2(800,450), mode=0) {
-	document.documentElement.style.overflow = "hidden";
-	this.resolution = size;
-	this.halfResolution = this.resolution.div(2);
-	this.setResolution = function(size=new Vector2(800,450)) {
-		this.resolution = size;
-		this.halfResolution = this.resolution.div(2);
-		this.scale();
-	}
-	this.canvas = document.createElement("CANVAS");
-	this.canvas.id = id;
-	this.canvas.style.backgroundColor = "black";
-    this.canvas.style.width = "100%";
-    this.canvas.style.height = "100%";
-    this.canvas.style.marginLeft = "0px";
-    this.canvas.style.marginRight = "0px";
-	this.canvas.style.marginTop = "0px";
-    this.canvas.style.marginBottom = "0px";
-	this.canvas.style.border = "0px";
-    this.canvas.style.display = "block";
-    this.canvas.style.position = "fixed";
-    this.canvas.style.top = "0px";
-    this.canvas.style.left = "0px";
-	this.canvas.style.zIndex = "0";
-	this.renderMode = {
-		0:"pixelated",
-		1:"crisp-edges"
-	};
-	this.canvas.style.imageRendering = this.renderMode[mode];
-    this.setRenderMode = function(mode=0) {
-        this.canvas.style.imageRendering = this.renderMode[mode];
-    }
-	this.setColor = function(c="black") {
-		this.canvas.style.backgroundColor = c;
-	}
-	this.setImage = function(i) {
-		this.canvas.style.backgroundImage = i;
-	}
-	document.body.appendChild(this.canvas);
-	this.ctx = this.canvas.getContext("2d");
-	//Scale canvas
-    let scaleFactor = new Vector2();
-    this.getScale = function() {
-        return scaleFactor;
-    }
-	let deviceResolution = new Vector2(window.innerWidth,window.innerHeight);
-    this.getDeviceRes = function() {
-        return deviceResolution;
-    }
-	this.getHalfDeviceRes = function() {
-		return deviceResolution.div(2);
-	}
-	const scaler = () => {this.scale()};
-    window.addEventListener("resize", scaler);
-    window.addEventListener("keydown", function(e){
-		switch(e.Key){
-			case "ArrowUp": case "ArrowDown": case "ArrowLeft":  case "ArrowRight": case "Shift": case "Tab":
-				e.preventDefault(); 
-			break;
-			default: 
-			break;
-		}
-	});
-    this.scale = function() {
-        deviceResolution = new Vector2(window.innerWidth,window.innerHeight);
-        scaleFactor = new Vector2(deviceResolution.x/this.resolution.x,deviceResolution.y/this.resolution.y);
-        this.canvas.width = deviceResolution.x;
-        this.canvas.height = deviceResolution.y;
-        this.ctx.setTransform(scaleFactor.x,0,0,scaleFactor.y,0,0);
-    }
-    scaler();
-}
 
 //FPS Counter
 const FPS = {
@@ -581,11 +139,12 @@ const DELTA = {
 
 //Update loop
 let updateArray = [];
-function addUpdate(func, id, tag) {
+
+const addUpdate = (func, id, tag) => {
 	updateArray.push({"function":func,"id":id,"tag":tag});
 }
 
-function deleteUpdate(mode=1, op1, op2) {
+const deleteUpdate = (mode=1, op1, op2) => {
 	if (mode < 0) {
 		mode = 0;
 	}
@@ -600,12 +159,12 @@ function deleteUpdate(mode=1, op1, op2) {
 			updateArray = updateArray.filter((u) => !(u.id == op1));
 		break;
 		case 2:
-			updateArray = updateArray.filter((u) => !(u.tag == op1));
+			updateArray = updateArray.filter((u) => !(u.tag == op2));
 		break;
 	}
 }
 
-function getUpdate(id=null, tag=null) {
+const getUpdate = (id=null, tag=null) => {
 	if (id != null && tag == null) {
 		return updateArray.filter((u) => {return u.id == id})[0];
 	}
@@ -632,7 +191,7 @@ const layer = {
 };
 
 let delta = 0;
-function Updater() {
+const Updater = () => {
 	FPS.updateFPS();
 	DELTA.updateDelta();
 	delta = DELTA.delta;
@@ -652,19 +211,726 @@ function Updater() {
 
 const updateInterval = setInterval(Updater, 1000/60);
 
-//Rendering Classes
+/*Math & Numbers*/
+//Math global variables
+const PI2 = Math.PI*2;
+const PIr = (Math.PI/180)*180;
+
+//Vector class
+const Vector2 = function(x=0, y=0, r=0, o=0, s=0) {
+	this.x = x; //x
+	this.y = y; //y
+	this.r = r; //angle
+	this.o = o; //offset angle
+	this.s = s; //speed
+	this.type = "vector2";
+	//Set vector
+	this.set = (vector2) => {
+		this.x = vector2.x;
+		this.y = vector2.y;
+		this.r = vector2.r;
+		this.o = vector2.o;
+		this.s = vector2.s;
+	}
+	//Vector2 to array
+	this.array = () => {
+		return [this.x, this.y];
+	}
+	//Vector2 to angle
+	this.angle = (rad=true) => {
+		let calR = parseFloat(Math.atan2(this.y, this.x).toFixed(2))+PIr;
+		if (rad) {
+			return calR;
+		} else {
+			let calD = Math.round(radToDeg(calR));
+			if (calR == 0) {
+				return 0;
+			} else {
+				return calD;
+			}
+		}
+	}
+	//Vector2 duplicate
+	this.duplicate = () => {
+		return new Vector2(this.x, this.y, this.r, this.o, this.s);
+	}
+	this.dup = this.duplicate;
+	//Compare vectors
+	this.same = (vector2=ZERO) => {
+		let result = false;
+		if (this.x == vector2.x && this.y == vector2.y) {
+			result = true;
+		}
+		return result;
+	}
+	//Get rotation between 2 vectors
+	this.getRotation = (vector2, rad=true) => {
+		this.vector2 = vector2;
+		if (rad) {
+			return ((Math.atan2(-this.y+this.vector2.y, -this.x+this.vector2.x)+degToRad(90))+PI2)%(PI2);
+		} else {
+			return radToDeg((Math.atan2(-this.y+this.vector2.y, -this.x+this.vector2.x)+degToRad(90)));
+		}
+	}
+	//Get polar directions
+	this.getPolarDir = (endVar) => {
+		let rot = Math.round(this.getRotation(endVar, false));
+		if (rot == 0 || rot == 360) {
+			return "North";
+		}
+		if ((rot > 0 && rot <= 45) || (rot > 45 && rot < 90)) {
+			return "NorthEast";
+		}
+		if (rot == 90) {
+			return "East";
+		}
+		if ((rot > 90 && rot <= 135) || (rot > 135 && rot < 180)) {
+			return "SouthEast";
+		}
+		if (rot == 180) {
+			return "South";
+		}
+		if ((rot > 180 && rot <= 225) || (rot > 225 && rot < 270)) {
+			return "SouthWest";
+		}
+		if (rot == 270) {
+			return "West";
+		}
+		if ((rot > 270 && rot <= 315) || (rot > 315 && rot < 360)) {
+			return "NorthWest";
+		}
+	}
+	//Gets closest point in an array of points
+	this.getClosestPoint = (points) => {
+		let bestDistSq = Infinity;
+		let bestX = 0;
+		let bestY = 0;
+
+		for (let i = 1; i < points.length; i++) {
+			const ax = points[i - 1].x;
+			const ay = points[i - 1].y;
+			const bx = points[i].x;
+			const by = points[i].y;
+
+			const abx = bx - ax;
+			const aby = by - ay;
+
+			const apx = this.x - ax;
+			const apy = this.y - ay;
+
+			const abLenSq = abx * abx + aby * aby;
+
+			let t = (apx * abx + apy * aby) / abLenSq;
+			t = Math.max(0, Math.min(1, t));
+
+			const px = ax + abx * t;
+			const py = ay + aby * t;
+
+			const dx = this.x - px;
+			const dy = this.y - py;
+			const distSq = dx * dx + dy * dy;
+
+			if (distSq < bestDistSq) {
+				bestDistSq = distSq;
+				bestX = px;
+				bestY = py;
+			}
+		}
+
+		return new Vector2(bestX, bestY);
+	}
+	//Simple math
+	this.add = (num) => {
+		return new Vector2(this.x+num, this.y+num);
+	}
+	this.addV = (vector2) => {
+		return new Vector2(this.x+vector2.x, this.y+vector2.y);
+	}
+	this.sub = (num) => {
+		return new Vector2(this.x-num, this.y-num);
+	}
+	this.subV = (vector2) => {
+		return new Vector2(this.x-vector2.x, this.y-vector2.y);
+	}
+	this.neg = (place="x") => { //"x" or "y"
+		place = place.toLowerCase();
+		if (place == "x") {
+			return new Vector2(-this.x, this.y);
+		}
+		if (place == "y") {
+			return new Vector2(this.x, -this.y);
+		}
+	}
+	this.multi = (num) => {
+		return new Vector2(this.x*num, this.y*num);
+	}
+	this.multiV = (vector2) => {
+		return new Vector2(this.x*vector2.x, this.y*vector2.y);
+	}
+	this.div = (num) => {
+		if (num == 0) {
+			num == 1;
+		}
+		return new Vector2(this.x/num, this.y/num);
+	}
+	this.divV = (vector2) => {
+		if (vector2.x == 0) {
+			vector2.x == 1;
+		}
+		if (vector2.y == 0) {
+			vector2.y == 1;
+		}
+		return new Vector2(this.x/vector2.x, this.y/vector2.y);
+	}
+	this.min = (vector2) => {
+		return new Vector2(Math.min(this.x, vector2.x), Math.min(this.y, vector2.y));
+	}
+	this.max = (vector2) => {
+		return new Vector2(Math.max(this.x, vector2.x), Math.max(this.y, vector2.y));
+	}
+	//Returns distance between 2 vectors
+	this.distance = (vector2=ZERO) => {
+		let dx = vector2.x-this.x;
+		let dy = vector2.y-this.y;
+		return Math.sqrt(dx*dx+dy*dy);
+	}
+	//Rotate point by this vector
+	this.rotateVector2 = (vector2, rotation) => {
+		return new Vector2(Math.cos(rotation)*(vector2.x-this.x)-Math.sin(rotation)*(vector2.y-this.y)+this.x, Math.sin(rotation)*(vector2.x-this.x)+Math.cos(rotation)*(vector2.y-this.y)+this.y);
+	}
+	//Clamp x and or y values
+	//min = number or vector2
+	//max = number or vector2
+	//opt = both, x, y
+	this.clamp = (min, max, opt="both") => {
+		switch (opt) {
+			case "x":
+			case "X":
+				this.x = clamp(this.x, min, max);
+			break;
+			case "y":
+			case "Y":
+				this.y = clamp(this.y, min, max);
+			break;
+			case "both":
+			case "Both":
+				this.x = clamp(this.x, min, max);
+				this.y = clamp(this.y, min, max);
+			break;
+		}
+	}
+}
+
+//Vector global variables
+const ZERO = new Vector2();
+const ONE = new Vector2(1, 1);
+const UP = new Vector2(0, -1);
+const UP_LEFT = new Vector2(-1, -1);
+const UP_RIGHT = new Vector2(1, -1);
+const DOWN = new Vector2(0, 1);
+const DOWN_LEFT = new Vector2(-1, 1);
+const DOWN_RIGHT = new Vector2(1, 1);
+const LEFT = new Vector2(-1, 0);
+const RIGHT = new Vector2(1, 0);
+
+//Fills a vector2's x and y values with a single number
+//Useful shortcut for making square objects
+const FillVec2 = (xy=0) => {
+	return new Vector2(xy, xy);
+}
+
+//Makes a new vector2 using x (y is 0)
+const VecX = (x=0) => {
+	return new Vector2(x, 0);
+}
+
+//Makes a new vector2 using y (x is 0)
+const VecY = (y=0) => {
+	return new Vector2(0, y);
+}
+
+//Shorthand function for creating vectors
+const Vec2 = (x=0, y=0, r=0, o=0, s=0) => {
+	return new Vector2(x, y, r, o, s);
+}
+
+//Checks number to see if it's even or odd
+const isEven = (num=0) => {
+	if ((num % 2) == 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+//Clamp to a range
+const clamp = (value=0, min=0, max=10) => {
+	if (value < min) {
+		value = min;
+	}
+	if (value > max) {
+		value = max;
+	}
+	return value;
+}
+
+//Radians to Degrees
+const radToDeg = (rad=0) => {
+	return ((rad*(180/Math.PI))+360)%360;
+}
+
+//Degrees to Radians
+const degToRad = (deg=0) => {
+	return (((Math.PI/180)*deg)+PI2)%PI2;
+}
+
+//Average
+const average = (nums=[0,0]) => {
+	return nums.reduce((a, b) => a+b,0)/nums.length;
+}
+
+//Valuates vars to see if they are true of false
+const valuate = (val) => {
+	if (typeof val != "undefined" && val != null) {
+		return (val == 1 || val == true || (typeof val == "string" && val.toLowerCase() == "true"));
+	} else {
+		return false;
+	}
+}
+
+//Helper function for random ints same as range just with less steps
+//Range functions can take Vector2's in the min argument
+const rangeInt = (min=0, max=1) => {
+	if (typeof min == "number") {
+		return Range(min, max, 0, false);
+	} else {
+		return Range(min.x, min.y, 0, false);
+	}
+}
+
+//Helper function for random floats same as range just with less steps
+//Range functions can take Vector2's in the min argument
+const rangeFloat = (min=0, max=1, dec_place=1) => {
+	if (typeof min == "number") {
+		return Range(min, max, dec_place);
+	} else {
+		return Range(min.x, min.y, min.r);
+	}
+}
+
+//Returns a random number between min and max
+//Range functions can take Vector2's in the min argument
+const Range = (min=0, max=1, dec_place=1, is_float=true) => {
+	let result = 0;
+	if (typeof min == "number") {
+		let factor = Math.pow(10, dec_place);
+		if (is_float) {
+			result = Math.random()*(max-min)+min;
+		} else {
+			result = Math.round(Math.random()*(max-min)+min);
+		}
+		return Math.round(result*factor)/factor;
+	} else {
+		let factor = Math.pow(10, min.r);
+		if (min.o) {
+			result = Math.random()*(min.y-min.x)+min.x;
+		} else {
+			result = Math.round(Math.random()*(min.y-min.x)+min.x);
+		}
+		return Math.round(result*factor)/factor;
+	}
+}
+
+//Timer
+const Hour = (h=0) => {
+	return h*1120;
+}
+
+const Minute = (m=0) => {
+	return m*1060;
+}
+
+const Second = (s=0) => {
+	return s*1000;
+}
+
+const MSecond = (ms=0) => {
+	return ms;
+}
+
+const timer = function(mSeconds_=10, active_=true, loop_=false, zeroStart_=false, func_=null, id_="", tag_="") {
+	this.mSeconds = mSeconds_;
+	let startTime = Date.now();
+	this.active = active_;
+	let loop = loop_;
+	let zeroStart = zeroStart_;
+	if (!zeroStart) {
+		this.currentTime = 0;
+	} else {
+		this.currentTime = this.mSeconds;
+	}
+	this.func = func_;
+	let id = id_;
+	let tag = tag_;
+	this.reset = () => {
+		startTime = Date.now();
+	}
+	this.start = (reset=false) => {
+		this.active = true;
+		if (reset) {
+			this.reset();
+		}
+	}
+	this.pause = () => {
+		this.active = false;
+	}
+	const update = () => {
+		if (this.active) {
+			this.currentTime = Date.now() - startTime;
+			if (this.currentTime >= this.mSeconds) {
+				if (this.func != null) {
+					this.func();
+				}
+				this.reset();
+				if (!loop) {
+					this.pause();
+				}
+			}
+		}
+	}
+	addUpdate(update, "timer_"+id, tag);
+}
+
+//Shorthand function for a timer
+const T = (time_=TIME(), active_=true, loop_=false, zeroStart_=false, func_=null, id_="", tag_="") => {
+	return new timer(time_, active_, loop_, zeroStart_, func_, id_, tag_);
+}
+
+/*Resources*/
+//Image data
+const imageData = function(id="", src="", size=new Vector2()) {
+	let data = document.createElement("img");
+	data.id = id;
+	data.src = src;
+	data.width = size.x;
+	data.height = size.y;
+	data.style.display = "none";
+	data.onerror = () => {
+		data.broken = true;
+	};
+	document.body.appendChild(data);
+	this.getColor = function(alpha=1, comp=0, filter="") {
+		return new colorData(data.id, alpha, comp, filter);
+	}
+	this.getSrc = function() {
+		return data.src;
+	}
+	this.setSrc = function(src="") {
+		data.src = src;
+	}
+	this.getSize = function() {
+		return new Vector2(data.width, data.height);
+	}
+	this.setSize = function(size=new Vector2()) {
+		data.width = size.x;
+		data.height = size.y;
+	}
+	this.getId = function() {
+		return data.id;
+	}
+	this.getElement = function() {
+		return data;
+	}
+}
+
+const imageD = (id="", src="", size=new Vector2()) => {
+	return new imageData(id, src, size);
+}
+
+//Engine resources
+let Close_UI = new imageData("close_ui", resourcePath+"Close_Icon.png", new Vector2(64, 64));
+let Close_UI_Hover = new imageData("close_ui_hover", resourcePath+"Close_Icon_Hover.png", new Vector2(64, 64));
+let Settings_Icon = new imageData("settings_icon", resourcePath+"Settings.png", new Vector2(50, 50));
+let Controller_Icons = new imageData("controller_icons", resourcePath+"Controller_Icons.png", new Vector2(96, 120));
+
+/*Utilities*/
+//variables used for mods
+const globalVars = function() {
+	this.modVarIndex = {};
+	this.deleteMod = (id="") => {
+		delete this.modVarIndex[id];
+	}
+	this.addMod = (id="") => {
+		if (this.modVarIndex[id] == undefined) {
+			this.modVarIndex[id] = {};
+		} else {
+			this.deleteMod(id);
+			this.modVarIndex[id] = {};
+		}
+	}
+	this.addVar = (id="", name="", value="") => {
+		if (this.modVarIndex[id] != undefined) {
+			this.modVarIndex[id][name] = value;
+		} else {
+			this.addMod(id);
+			this.modVarIndex[id][name] = value;
+		}
+	}
+	this.deleteVar = (id="", name="") => {
+		if (this.modVarIndex[id] != undefined) {
+			delete this.modVarIndex[id][name];
+		}
+	}
+}
+
+//GlobalVars global variables
+const modVars = new globalVars();
+
+//Gets a modVar
+const getModVar = (id="", name="") => {
+	if (modVars.modVarIndex[id] != undefined) {
+		return modVars.modVarIndex[id][name];
+	}
+	return null;
+}
+
+//Sets a modVar
+const setModVar = (id="", name="", value="") => {
+	modVars.modVarIndex[id][name] = value;
+}
+
+//Checks if an array has everything from another
+const arrayCompare = (arr=[], target=[], all=true) => {
+	if (all) {
+		return target.every((item) => {
+			return arr.includes(item);
+		});
+	} else {
+		return target.some((item) => {
+			return arr.includes(item);
+		});
+	}
+}
+
+//Returns matches in 2 arrays
+const arrayMatch = (arr1=[], arr2=[]) => {
+  let arr = [];
+  for(let i=0 ; i<arr1.length ; ++i) {
+    for(let j=0 ; j<arr2.length ; ++j) {
+      if(arr1[i] == arr2[j]) {
+        arr.push(arr1[i]);
+      }
+    }
+  }
+  return arr;
+}
+
+//Splits a string into an array of strings based on length
+function splitStringByLength(str, len) {
+    const result = [];
+    for (let i = 0; i < str.length; i += len) {
+        result.push(str.substr(i, len));
+    }
+    return result;
+}
+
+//Splits a string into an array of strings based on width
+function splitStringByWidth(str, width) {
+  const words = str.split(' ');
+  let line = '';
+  const lines = [];
+  for (let i = 0; i < words.length; i++) {
+    const testLine = line + words[i] + ' ';
+    if (ctx.measureText(testLine).width > width && i > 0) {
+      lines.push(line.trim());
+      line = words[i] + ' ';
+    } else {
+      line = testLine;
+    }
+  }
+  lines.push(line.trim());
+  return lines;
+}
+
+/*Core*/
+//Creates canvas
+const Screen = function(id="canvas", size=new Vector2(800,450), mode=0) {
+	document.documentElement.style.overflow = "hidden";
+	this.resolution = size;
+	this.halfResolution = this.resolution.div(2);
+	this.setResolution = function(size=new Vector2(800,450)) {
+		this.resolution = size;
+		this.halfResolution = this.resolution.div(2);
+		this.scale();
+	}
+	this.canvas = document.createElement("CANVAS");
+	this.canvas.id = id;
+	this.canvas.style.backgroundColor = "black";
+    this.canvas.style.width = "100%";
+    this.canvas.style.height = "100%";
+    this.canvas.style.marginLeft = "0px";
+    this.canvas.style.marginRight = "0px";
+	this.canvas.style.marginTop = "0px";
+    this.canvas.style.marginBottom = "0px";
+	this.canvas.style.border = "0px";
+    this.canvas.style.display = "block";
+    this.canvas.style.position = "fixed";
+    this.canvas.style.top = "0px";
+    this.canvas.style.left = "0px";
+	this.canvas.style.zIndex = "0";
+	this.renderMode = {
+		0:"pixelated",
+		1:"crisp-edges"
+	};
+	this.canvas.style.imageRendering = this.renderMode[mode];
+    this.setRenderMode = function(mode=0) {
+        this.canvas.style.imageRendering = this.renderMode[mode];
+    }
+	this.setColor = function(c="black") {
+		this.canvas.style.backgroundColor = c;
+	}
+	this.setImage = function(i) {
+		this.canvas.style.backgroundImage = i;
+	}
+	document.body.appendChild(this.canvas);
+	this.ctx = this.canvas.getContext("2d");
+	//Scale canvas
+    let scaleFactor = new Vector2();
+    this.getScale = function() {
+        return scaleFactor;
+    }
+	let deviceResolution = new Vector2(window.innerWidth,window.innerHeight);
+    this.getDeviceRes = function() {
+        return deviceResolution;
+    }
+	this.getHalfDeviceRes = function() {
+		return deviceResolution.div(2);
+	}
+	this.resized = false;
+	const resetResize = T(MSecond(1), false, false, true, ()=>{this.resized = false;}, "reset_resize_timer");
+    this.scale = function() {
+        deviceResolution = new Vector2(window.innerWidth,window.innerHeight);
+        scaleFactor = new Vector2(deviceResolution.x/this.resolution.x,deviceResolution.y/this.resolution.y);
+        this.canvas.width = deviceResolution.x;
+        this.canvas.height = deviceResolution.y;
+        this.ctx.setTransform(scaleFactor.x,0,0,scaleFactor.y,0,0);
+		this.resized = true;
+		resetResize.start(true);
+    }
+	const scale = () => {this.scale()};
+    window.addEventListener("resize", scale);
+    window.addEventListener("keydown", function(e){
+		switch(e.Key){
+			case "ArrowUp": case "ArrowDown": case "ArrowLeft":  case "ArrowRight": case "Shift": case "Tab":
+				e.preventDefault(); 
+			break;
+			default: 
+			break;
+		}
+	});
+    scale();
+	let oldFocus = false;
+	this.isFocused = false;
+	let focusTime = 0;
+	addUpdate(()=>{
+		let currentFocus = document.hasFocus();
+		if (oldFocus != currentFocus && !oldFocus) {
+			focusTime++;
+			if (focusTime >= 10) {
+				oldFocus = true;
+				this.isFocused = true;
+				focusTime = 0;
+			}
+		}
+		if (!currentFocus) {
+			oldFocus = false;
+			this.isFocused = false;
+		}
+	}, "Screen_Update", "Engine");
+}
+
+//Screen global variables
+const screen = new Screen();
+const ctx = screen.ctx;
+
+//Converts hex colors to rgba
+const hexToRgba = (hexCode, opacity = 1) => {  
+    let hex = hexCode.replace('#', '');
+    
+    if (hex.length === 3) {
+        hex = `${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}`;
+    }    
+    
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    
+    if (opacity > 1 && opacity <= 100) {
+        opacity = opacity / 100;   
+    }
+
+    return `rgba(${r},${g},${b},${opacity})`;
+};
+
+//Converts colors to hex
+const colorToHex = (color) => {
+    ctx.fillStyle = color;
+    return ctx.fillStyle;
+}
+
+const colorBlend = (color1="rgb(0, 0, 0)", color2="rgb(255, 255, 255)", percent=0) => {
+	let color1RGB = hexToRgba(colorToHex(color1)).replace("rgba(", "").replace(")", "").split(",");
+	if (color1.includes("rgb")) {
+		color1RGB = color1.replace("rgb(", "").replace(")", "").split(",");
+		color1RGB[3] = 1;
+	}
+	if (color1.includes("rgba")) {
+		color1RGB = color1.replace("rgba(", "").replace(")", "").split(",");
+	}
+	let color1R = parseFloat(color1RGB[0]);
+	let color1G = parseFloat(color1RGB[1]);
+	let color1B = parseFloat(color1RGB[2]);
+	let color1A = parseFloat(color1RGB[3]);
+	let color2RGB = hexToRgba(colorToHex(color2)).replace("rgba(", "").replace(")", "").split(",");
+	if (color2.includes("rgb")) {
+		color2RGB = color2.replace("rgb(", "").replace(")", "").split(",");
+		color2RGB[3] = 1;
+	}
+	if (color2.includes("rgba")) {
+		color2RGB = color2.replace("rgba(", "").replace(")", "").split(",");
+	}
+	let color2R = parseFloat(color2RGB[0]);
+	let color2G = parseFloat(color2RGB[1]);
+	let color2B = parseFloat(color2RGB[2]);
+	let color2A = parseFloat(color2RGB[3]);
+	let r = color1R + (color2R - color1R) * (percent / 100);
+	let g = color1G + (color2G - color1G) * (percent / 100);
+	let b = color1B + (color2B - color1B) * (percent / 100);
+	let a = color1A + (color2A - color1A) * (percent / 100);
+	return "rgba("+r+","+g+","+b+","+a+")";
+}
+
+/*Renderer & Supporting functions*/
 //Shadow data
-const NO_SHADOW = new Shadow();
-const DEFAULT_SHADOW = new Shadow(ZERO, "black", 5);
-function Shadow(offset=ZERO, color="", blur=0) {
+const Shadow = function(offset=ZERO, color="", blur=0) {
 	this.offset = offset;
 	this.color = color;
 	this.blur = blur;
+	this.type = "shadow";
 	this.duplicate = function() {
 		return new Shadow(this.offset, this.color, this.blur);
 	}
 	this.dup = this.duplicate;
 }
+
+//Shorthand function for shadow data
+const shadow = (offset=ZERO, color="", blur=0) => {
+	return new Shadow(offset, color, blur);
+}
+
+//Shadow global variables
+const NO_SHADOW = shadow();
+const DEFAULT_SHADOW = shadow(ZERO, "black", 5);
 
 //NameTag
 /**
@@ -678,10 +944,10 @@ same:
 	includes-
 		checks if the inputed data is included in the base nameTag
 **/
-const BLANK_NAMETAG = new nameTag();
-function nameTag(name="",tag="") {
+const nameTag = function(name="", tag="") {
 	this.name = name;
 	this.tag = tag;
+	this.type = "nametag";
 	this.same = function(nameTag=new nameTag(), mode=0, include=false) {
 		if (mode < 0) {
 			mode = 0;
@@ -718,16 +984,27 @@ function nameTag(name="",tag="") {
 	}
 	this.dup = this.duplicate;
 }
+
+//Shorthand function for a nameTag
+const nt = (name="",tag="") => {
+	return new nameTag(name, tag);
+}
+
+//Makes a nametag only with a name
 const name = (name="") => {
 	return new nameTag(name);
 }
+
+//Makes a nametag only with a tag
 const tag = (tag="") => {
 	return new nameTag("", tag);
 }
 
+//Nametag global variables
+const BLANK_NAMETAG = nt();
+
 //Line data
-const DEFAULT_LINE = new lineData();
-function lineData(stroked=false, cap=0, width=1, dashOffset=0, pattern=[]) {
+const lineData = function(stroked=false, cap=0, width=1, dashOffset=0, pattern=[]) {
 	let caps = {
 		0:"butt",
 		1:"round",
@@ -744,20 +1021,28 @@ function lineData(stroked=false, cap=0, width=1, dashOffset=0, pattern=[]) {
 	this.width = width;
 	this.dashOffset = dashOffset;
 	this.pattern = pattern;
+	this.type = "linedata";
 	this.duplicate = function() {
 		return new lineData(this.stroked, this.cap, this.width, this.dashOffset, this.pattern);
 	}
 	this.dup = this.duplicate;
 }
 
+//Shorthand function for line data
+const lineD = (stroked=false, cap=0, width=1, dashOffset=0, pattern=[]) => {
+	return new lineData(stroked, cap, width, dashOffset, pattern);
+}
+
+//Line data global variables
+const DEFAULT_LINE = lineD();
+
 //Color data
-const NO_COLOR = new colorData("");
-const DEFAULT_COLOR = new colorData();
-function colorData(color="white", alpha=1, comp=0) {
+const colorData = function(color="white", alpha=1, comp=0, filter="none") {
 	this.color = color;
 	this.alpha = alpha;
 	this.compMode = comp;
-	this.imageData = imageData;
+	this.filter = filter;
+	this.type = "colordata";
 	this.mode = {
 		0:"source-over",
 		1:"source-in",
@@ -787,7 +1072,7 @@ function colorData(color="white", alpha=1, comp=0) {
 		25:"luminosity"
 	};
 	this.duplicate = function() {
-		return new colorData(this.color, this.alpha, this.compMode);
+		return new colorData(this.color, this.alpha, this.compMode, this.filter);
 	}
 	this.dup = this.duplicate;
 	this.same = function(data, mode=0) {
@@ -839,12 +1124,23 @@ function colorData(color="white", alpha=1, comp=0) {
 	}
 }
 
+//Shorthand function for color data
+const colorD = (color="white", alpha=1, comp=0, filter="none") => {
+	return new colorData(color, alpha, comp, filter);
+}
+
+//Color data global variables
+const NO_COLOR = new colorData("");
+const DEFAULT_COLOR = new colorData();
+
+/*REDO THIS SHIT*/
 //Gradient data
-function gradientData(type=0, start=new Vector2(), end=new Vector2(), colors=[]) {
+const gradientData = function(type=0, start=new Vector2(), end=new Vector2(), colors=[]) {
 	this.type = type;
 	this.start = start;
 	this.end = end;
 	this.colors = colors;
+	this.type = "gradientdata";
 	let data = null;
 	if (this.type > 1) {
 		this.type = 1;
@@ -872,35 +1168,8 @@ function gradientData(type=0, start=new Vector2(), end=new Vector2(), colors=[])
 	this.dup = this.duplicate;
 }
 
-//Image data
-function imageData(id="", src="", size=new Vector2()) {
-	let data = document.createElement("img");
-	data.id = id;
-	data.src = src;
-	data.width = size.x;
-	data.height = size.y;
-	data.style.display = "none";
-	document.body.appendChild(data);
-	this.getColor = function(alpha=1, comp=0) {
-		return new colorData(data.id, alpha, comp);
-	}
-	this.getSrc = function() {
-		return data.src;
-	}
-	this.setSrc = function(src="") {
-		data.src = src;
-	}
-	this.getSize = function() {
-		return new Vector2(data.width, data.height);
-	}
-	this.setSize = function(size=new Vector2()) {
-		data.width = size.x;
-		data.height = size.y;
-	}
-}
-
 //Collision data
-/**
+/** NOT FINISHED
 	thisTag- the objects tag for others to search for
 	collideTagList- the list of tags to collide with
 	collisionType- the type of object it will rep in the collision function 
@@ -916,15 +1185,15 @@ function imageData(id="", src="", size=new Vector2()) {
 	check for collision and resolve
 	**End**
 **/
-function collisionData(thisTag=null, collideTagList=null, collisionType="rec") {
+const collisionData = function(thisTag=null, collideTagList=null, collisionType="rec") {
 	this.thisTag = thisTag;
 	this.collideTagList = collideTagList;
 	this.collisionType = collisionType;
+	this.type = "collisiondata";
 }
 
 //Base for objects
-const EMPTY_OBJECT = new baseObject();
-function baseObject(autoAdd=true, nameTag=BLANK_NAMETAG, size=ZERO, position=ZERO, color=DEFAULT_COLOR, shadow=NO_SHADOW, rotOrigin=null) {
+const baseObject = function(autoAdd=true, nameTag=BLANK_NAMETAG, size=ZERO, position=ZERO, color=DEFAULT_COLOR, shadow=NO_SHADOW, rotOrigin=null) {
 	this.autoAdd = autoAdd;
 	this.nameTag = nameTag;
 	this.size = size;
@@ -935,14 +1204,35 @@ function baseObject(autoAdd=true, nameTag=BLANK_NAMETAG, size=ZERO, position=ZER
 	this.startPosition = position.duplicate();
 	this.marked = false;
 	this.overridePositionUpdateFunction = false; //Always runs the update position function even when the speed is 0 if true;
+	this.overrideRadius = false;
+	this.velocity = Vec2();
+	this.type = "base";
 	if (this.rotOrigin == null) {
 		this.rotOrigin = this.position;
 	}
+	this.getColor = () => {
+		return this.color.color;
+	}
+	this.setColor = (color) => {
+		this.color.color = color;
+	}
+	this.getAlpha = () => {
+		return this.color.alpha;
+	}
+	this.setAlpha = (alpha) => {
+		this.color.alpha = alpha;
+	}
+	this.getComp = () => {
+		return this.color.compMode;
+	}
+	this.setComp = (comp) => {
+		this.color.compMode = comp;
+	}
 	this.updatePosition = function() {
 		if (!isPaused) {
-			let velocity = new Vector2(this.position.s*Math.sin(this.position.r+this.position.o)*delta, this.position.s*Math.cos(this.position.r+this.position.o)*delta);
-			this.position.x += velocity.x;
-			this.position.y -= velocity.y;
+			this.velocity = Vec2(this.position.s*Math.sin(this.position.r+this.position.o)*delta, this.position.s*Math.cos(this.position.r+this.position.o)*delta);
+			this.position.x += this.velocity.x;
+			this.position.y -= this.velocity.y;
 		}
 	}
 	this.destroy = function() {
@@ -954,11 +1244,21 @@ function baseObject(autoAdd=true, nameTag=BLANK_NAMETAG, size=ZERO, position=ZER
 	this.dup = this.duplicate;
 }
 
+//Shorthand function for creating a base object
+const base = (autoAdd=true, nameTag=BLANK_NAMETAG, size=ZERO, position=ZERO, color=DEFAULT_COLOR, shadow=NO_SHADOW, rotOrigin=null) => {
+	return new baseObject(autoAdd, nameTag, size, position, color, shadow, rotOrigin);
+}
+
+//Base global variables
+const EMPTY_OBJECT = base();
+
 //Sets up object
-function setupObject(base=EMPTY_OBJECT, line=DEFAULT_LINE) {
+const setupObject = (base=EMPTY_OBJECT, line=DEFAULT_LINE) => {
 	ctx.imageSmoothingEnabled = engineSettings.Image_Smoothing;
+	ctx.imageSmoothingQuality = engineSettings.Image_Smoothing_Quality;
 	ctx.globalAlpha = base.color.alpha;
 	ctx.globalCompositeOperation = base.color.comp;
+	ctx.filter = base.color.filter;
 	if (engineSettings.Allow_Shadows) {
 		ctx.shadowColor = base.shadow.color;
 		ctx.shadowBlur = base.shadow.blur;
@@ -980,13 +1280,13 @@ function setupObject(base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 }
 
 //Rectangle class
-const BLANK_OBJECT = new Rectangle(0, new baseObject(false));
-function Rectangle(layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) {
+const Rectangle = function(layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 	this.layerNumber = layerNumber;
 	this.base = base;
 	this.line = line;
 	this.type = "rectangle";
 	let points = [];
+	this.convex = false;
 	this.getPoints = function() {
 		return points;
 	}
@@ -997,13 +1297,13 @@ function Rectangle(layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 	this.draw = function() {
 		setupObject(this.base, this.line);
 		points = [
-			this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r),
-			this.base.rotOrigin.rotateVector2(new Vector2(this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r),
-			this.base.rotOrigin.rotateVector2(new Vector2(this.base.size.x/2+this.base.position.x, this.base.size.y/2+this.base.position.y), this.base.position.r),
-			this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, this.base.size.y/2+this.base.position.y), this.base.position.r),
-			this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r)];
+			this.base.rotOrigin.rotateVector2(Vec2(-this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r),
+			this.base.rotOrigin.rotateVector2(Vec2(this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r),
+			this.base.rotOrigin.rotateVector2(Vec2(this.base.size.x/2+this.base.position.x, this.base.size.y/2+this.base.position.y), this.base.position.r),
+			this.base.rotOrigin.rotateVector2(Vec2(-this.base.size.x/2+this.base.position.x, this.base.size.y/2+this.base.position.y), this.base.position.r),
+			this.base.rotOrigin.rotateVector2(Vec2(-this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r)];
 		ctx.beginPath();
-		ctx.moveTo(this.base.position.x, this.base.position.y);
+		ctx.moveTo(points[0].x, points[0].y);
 		for (let i=0;i<points.length;i++) {
 			ctx.lineTo(points[i].x, points[i].y);
 		}
@@ -1016,21 +1316,63 @@ function Rectangle(layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 	if (this.base.autoAdd && this.layerNumber >= 1 && this.layerNumber <= 8) {
 		layer[this.layerNumber].push(this);
 		loaded = false;
-	}
+		}
+}
+
+//Shorthand function for creating a rectangle object
+const rectangle = (layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) => {
+	return new Rectangle(layerNumber, base, line);
 }
 
 //Circle class
-function Circle(layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) {
+const Circle = function(layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 	this.layerNumber = layerNumber;
 	this.base = base;
 	this.line = line;
 	this.type = "circle";
-	this.duplicate = function() {
+	this.precision = 50;
+
+	let points = [];
+	let old_size = Vec2()
+	let old_pos = Vec2()
+	let old_rot = 0
+
+	this.getPoints = () => {
+        return points;
+    }
+
+	this.duplicate = () => {
 		return new Circle(this.layerNumber, this.base.duplicate(), this.line.duplicate());
 	}
 	this.dup = this.duplicate;
-	this.draw = function() {
+
+	this.updatePoints = () => {
+		points.length = 0;
+
+		let cosTheta = Math.cos(this.base.position.r);
+		let sinTheta = Math.sin(this.base.position.r);
+
+		for (let i = 0; i < this.precision; i++) {
+			let angle = (i / this.precision) * 2 * Math.PI;
+			let x = this.base.size.x * Math.cos(angle);
+			let y = this.base.size.y * Math.sin(angle);
+
+			let rotatedX = cosTheta * x - sinTheta * y;
+			let rotatedY = sinTheta * x + cosTheta * y;
+
+			points.push(Vec2(rotatedX + this.base.position.x, rotatedY + this.base.position.y));
+		}
+	}
+	this.draw = () => {
 		setupObject(this.base, this.line);
+
+		if (!this.base.position.same(old_pos) || this.base.size.same(old_size) || this.base.position.r != old_rot) {
+			this.updatePoints();
+			old_pos.set(this.base.position.x, this.base.position.y);
+			old_size.set(this.base.size.x, this.base.size.y);
+			old_rot = this.base.position.r;
+		}
+
 		ctx.beginPath();
 		ctx.ellipse(this.base.position.x, this.base.position.y, this.base.size.x, this.base.size.y, this.base.position.r, 0, 2*Math.PI);
 		if (!this.line.stroked) {
@@ -1045,23 +1387,34 @@ function Circle(layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 	}
 }
 
+//Shorthand function for creating a circle object
+const circle = (layerNumber=1, base=EMPTY_OBJECT, line=DEFAULT_LINE) => {
+	return new Circle(layerNumber, base, line);
+}
+
 //Circle Lighting
-function Light(layerNumber=1, base=EMPTY_OBJECT, lightIntensity=new Vector2(), line=DEFAULT_LINE) {
+const Light = function(layerNumber=1, base=EMPTY_OBJECT, lightIntensity=1, line=DEFAULT_LINE) {
 	this.layerNumber = layerNumber;
 	this.base = base;
 	this.lightIntensity = lightIntensity;
 	this.line = line;
 	this.type = "light";
-	this.base.color.push("rgba(0,0,0,0)")
-	this.gradientData = new gradientData(1, new Vector2(this.base.position.x, this.base.position.y, this.lightIntensity.x), new Vector2(this.base.position.x, this.base.position.y, this.lightIntensity.y), this.base.color);
-	this.base.color = this.gradientData.getColor(this.lightIntensity.r, this.lightIntensity.o);
+	this.gradient = ctx.createRadialGradient(this.base.position.x, this.base.position.y, this.lightIntensity, this.base.position.x, this.base.position.y, this.base.size.r);
+	this.gradient.addColorStop(0, hexToRgba(colorToHex(this.base.color.color), 1));
+	this.gradient.addColorStop(0.5, hexToRgba(colorToHex(this.base.color.color), 0.5));
+	this.gradient.addColorStop(1, hexToRgba(colorToHex(this.base.color.color), 0));
 	this.duplicate = function() {
-		return new Light(this.layerNumber, this.base.duplicate(), this.lightIntensity.duplicate(), this.line.duplicate());
+		return new Light(this.layerNumber, this.base.duplicate(), this.lightIntensity, this.line.duplicate());
 	}
 	this.dup = this.duplicate;
 	this.draw = function() {
 		setupObject(this.base, this.line);
 		ctx.beginPath();
+		this.gradient = ctx.createRadialGradient(this.base.position.x, this.base.position.y, this.lightIntensity, this.base.position.x, this.base.position.y, this.base.size.r);
+		this.gradient.addColorStop(0, hexToRgba(colorToHex(this.base.color.color), 1));
+		this.gradient.addColorStop(0.5, hexToRgba(colorToHex(this.base.color.color), 0.5));
+		this.gradient.addColorStop(1, hexToRgba(colorToHex(this.base.color.color), 0));
+		ctx.fillStyle = this.gradient;
 		ctx.ellipse(this.base.position.x, this.base.position.y, this.base.size.x, this.base.size.y, this.base.position.r, 0, 2*Math.PI);
 		if (!this.line.stroked) {
 			ctx.fill();
@@ -1069,27 +1422,19 @@ function Light(layerNumber=1, base=EMPTY_OBJECT, lightIntensity=new Vector2(), l
 			ctx.stroke();
 		}
 	}
-	this.setColor = function(color=[]) {
-		if (Array.isArray(this.base.color) && !arrayCompare(color, this.base.color, all=true)) {
-			this.base.color = color;
-			this.base.color.push("rgba(0,0,0,0)")
-			this.gradientData = new gradientData(1, new Vector2(this.base.position.x, this.base.position.y, this.lightIntensity.x), new Vector2(this.base.position.x, this.base.position.y, this.lightIntensity.y), this.base.color);
-			this.base.color = this.gradientData.getColor(this.lightIntensity.r, this.lightIntensity.o);
-		}
-	}
-	this.setIntensity = function(lightIntensity=new Vector2()) {
-		this.lightIntensity = lightIntensity;
-		this.gradientData = new gradientData(1, new Vector2(this.base.position.x, this.base.position.y, this.lightIntensity.x), new Vector2(this.base.position.x, this.base.position.y, this.lightIntensity.y), this.base.color);
-		this.base.color = this.gradientData.getColor(this.lightIntensity.r, this.lightIntensity.o);
-	}
 	if (this.base.autoAdd && this.layerNumber >= 1 && this.layerNumber <= 8) {
 		layer[this.layerNumber].push(this);
 		loaded = false;
 	}
 }
 
-//Circle class
-function Sprite(layerNumber=1, base=EMPTY_OBJECT, animator=null) {
+//Shorthand function for creating circle Lighting
+const light = (layerNumber=1, base=EMPTY_OBJECT, lightIntensity=1, line=DEFAULT_LINE) => {
+	return new Light(layerNumber, base, lightIntensity, line);
+}
+
+//Sprite class
+const Sprite = function(layerNumber=1, base=EMPTY_OBJECT, animator=null) {
 	this.layerNumber = layerNumber;
 	this.base = base;
 	this.animator = animator;
@@ -1098,7 +1443,9 @@ function Sprite(layerNumber=1, base=EMPTY_OBJECT, animator=null) {
 	this.dPosition = new Vector2();
 	this.dSize = new Vector2(sprite.width, sprite.height);
 	this.scale = new Vector2(1, 1);
+	this.rotOffset = 0;
 	let points = [];
+	this.convex = false;
 	this.getPoints = function() {
 		return points;
 	}
@@ -1111,39 +1458,49 @@ function Sprite(layerNumber=1, base=EMPTY_OBJECT, animator=null) {
 	}
 	this.dup = this.duplicate;
 	this.draw = function() {
-		setupObject(this.base, DEFAULT_LINE);
-		let newSprite = document.getElementById(this.base.color.color);
-		if (sprite.id != newSprite.id) {
-			sprite = newSprite;
+		if (sprite != null && !sprite.broken) {
+			setupObject(this.base, DEFAULT_LINE);
+			let newSprite = document.getElementById(this.base.color.color);
+			if (sprite.id != newSprite.id) {
+				sprite = newSprite;
+			}
+			if (this.animator != null) {
+				if (this.animator.object == null) {
+					this.animator.setObject(this);
+				} 
+				this.animator.update();
+			}
+			points = [
+				this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r + this.rotOffset),
+				this.base.rotOrigin.rotateVector2(new Vector2(this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r + this.rotOffset),
+				this.base.rotOrigin.rotateVector2(new Vector2(this.base.size.x/2+this.base.position.x, this.base.size.y/2+this.base.position.y), this.base.position.r + this.rotOffset),
+				this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, this.base.size.y/2+this.base.position.y), this.base.position.r + this.rotOffset),
+				this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r + this.rotOffset)];
+			let pos = this.base.rotOrigin.rotateVector2(new Vector2(this.base.position.x, this.base.position.y), this.base.position.r + this.rotOffset)
+			ctx.save();
+			ctx.translate(pos.x, pos.y);
+			ctx.rotate(this.base.position.r + this.rotOffset);
+			ctx.scale(this.scale.x, this.scale.y);
+			ctx.drawImage(sprite, this.dPosition.x, this.dPosition.y, this.dSize.x, this.dSize.y, this.base.size.x/-2, this.base.size.y/-2, this.base.size.x, this.base.size.y);
+			ctx.restore();
 		}
-		if (this.animator != null) {
-			if (this.animator.object == null) {
-				this.animator.setObject(this);
-			} 
-			this.animator.update();
-		}
-		points = [
-			this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r),
-			this.base.rotOrigin.rotateVector2(new Vector2(this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r),
-			this.base.rotOrigin.rotateVector2(new Vector2(this.base.size.x/2+this.base.position.x, this.base.size.y/2+this.base.position.y), this.base.position.r),
-			this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, this.base.size.y/2+this.base.position.y), this.base.position.r),
-			this.base.rotOrigin.rotateVector2(new Vector2(-this.base.size.x/2+this.base.position.x, -this.base.size.y/2+this.base.position.y), this.base.position.r)];
-		let pos = this.base.rotOrigin.rotateVector2(new Vector2(this.base.position.x, this.base.position.y), this.base.position.r)
-		ctx.save();
-		ctx.translate(pos.x, pos.y);
-		ctx.rotate(this.base.position.r);
-		ctx.scale(this.scale.x, this.scale.y);
-		ctx.drawImage(sprite, this.dPosition.x, this.dPosition.y, this.dSize.x, this.dSize.y, this.base.size.x/-2, this.base.size.y/-2, this.base.size.x, this.base.size.y);
-		ctx.restore();
 	}
 	if (this.base.autoAdd && this.layerNumber >= 1 && this.layerNumber <= 8) {
 		layer[this.layerNumber].push(this);
 		loaded = false;
 	}
+	if (sprite == null || sprite.broken) {
+		console.log('%cImage "'+this.base.color.color+'" does not exist!', "color:red");
+	}
+}
+
+//Shorthand function for creating a sprite object
+const sprite = (layerNumber=1, base=EMPTY_OBJECT, animator=null) => {
+	return new Sprite(layerNumber, base, animator);
 }
 
 //Sprite controller
-function spriteMind(clipPos=new Vector2(), clipSize=null) {
+const spriteMind = function(clipPos=new Vector2(), clipSize=null) {
 	this.clipPos = clipPos;
 	this.clipSize = clipSize;
 	this.object = null;
@@ -1171,8 +1528,13 @@ function spriteMind(clipPos=new Vector2(), clipSize=null) {
 	this.dup = this.duplicate;
 }
 
+//Shorthand function for creating a sprite mind
+const spriteM = (clipPos=new Vector2(), clipSize=null) => {
+	return new spriteMind(clipPos, clipSize);
+}
+
 //Sprite animator
-function spriteAnimator(image=null, size=ZERO, speed=1, loop=false, autoPlay=true) {
+const spriteAnimator = function(image=null, size=ZERO, speed=1, loop=false, autoPlay=true) {
 	this.image = image;
 	this.size = size;
 	this.speed = speed;
@@ -1225,8 +1587,13 @@ function spriteAnimator(image=null, size=ZERO, speed=1, loop=false, autoPlay=tru
 	this.dup = this.duplicate;
 }
 
+//Shorthand function for creating a sprite animator
+const spriteA = (image=null, size=ZERO, speed=1, loop=false, autoPlay=true) => {
+	return new spriteAnimator(image, size, speed, loop, autoPlay);
+}
+
 //Frame data for multi image animator
-function frameData(frameNumber=1, size=new Vector2(), scale=new Vector2(1, 1)) {
+const frameData = function(frameNumber=1, size=new Vector2(), scale=new Vector2(1, 1)) {
 	if (frameNumber < 1) {
 		frameNumber = 1;
 	}
@@ -1235,8 +1602,13 @@ function frameData(frameNumber=1, size=new Vector2(), scale=new Vector2(1, 1)) {
 	this.scale = scale;
 }
 
+//Shorthand function for creating frame data
+const frameD = (frameNumber=1, size=new Vector2(), scale=new Vector2(1, 1)) => {
+	return new frameData(frameNumber, size, scale);
+}
+
 //Multi Image animator
-function multiImgAnimator(frameDataArray=[], imageNameBase="", imageType="png", animLength=0, speed=1, loop=false, autoPlay=true, path=imagePath) {
+const multiImgAnimator = function(frameDataArray=[], imageNameBase="", imageType="png", animLength=0, speed=1, loop=false, autoPlay=true, path=imagePath) {
 	this.frameDataArray = frameDataArray;
 	this.imageNameBase = imageNameBase;
 	this.imageType = imageType;
@@ -1291,10 +1663,15 @@ function multiImgAnimator(frameDataArray=[], imageNameBase="", imageType="png", 
 	this.dup = this.duplicate;
 }
 
+//Shorthand function for creating multi-image animator
+const multiImgA = (frameDataArray=[], imageNameBase="", imageType="png", animLength=0, speed=1, loop=false, autoPlay=true, path=imagePath) => {
+	return new multiImgAnimator(frameDataArray, imageNameBase, imageType, animLength, speed, loop, autoPlay, path);
+}
+
 //Text class
 //base.size = new Vector2(font: number, autoAlign: true|false, textAlign: left|right|center);
 //Add text scaling
-function Text(layerNumber=1, text="", base=EMPTY_OBJECT, line=DEFAULT_LINE) {
+const Text = function(layerNumber=1, text="", base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 	this.layerNumber = layerNumber;
 	this.text = text;
 	this.base = base;
@@ -1336,9 +1713,12 @@ function Text(layerNumber=1, text="", base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 	}
 }
 
-document.body.allow = "clipboard-read; clipboard-write";
+//Shorthand function for creating a text object
+const text = (layerNumber=1, text="", base=EMPTY_OBJECT, line=DEFAULT_LINE) => {
+	return new Text(layerNumber, text, base, line);
+}
 
-function TextBox(layerNumber=1, font="30px Arial", textColor="white", base=EMPTY_OBJECT, line=DEFAULT_LINE) {
+const TextBox = function(layerNumber=1, font="30px Arial", textColor="white", base=EMPTY_OBJECT, line=DEFAULT_LINE) {
 	this.layerNumber = layerNumber;
 	this.font = font;
 	this.textColor = textColor;
@@ -1357,7 +1737,7 @@ function TextBox(layerNumber=1, font="30px Arial", textColor="white", base=EMPTY
 	this.scrollSpeed = 0.25;
 	let scrollIndexReal = 0;
 	
-	//Scroll vars
+	//Scroll lets
 	this.scroll = true;
 	this.scrollMaxWaitTime = 10;
 	let scrollState = 0;
@@ -1536,8 +1916,13 @@ function TextBox(layerNumber=1, font="30px Arial", textColor="white", base=EMPTY
 	}
 }
 
+//Shorthand function for creating a text box object
+const textBox = (layerNumber=1, font="30px Arial", textColor="white", base=EMPTY_OBJECT, line=DEFAULT_LINE) => {
+	return new TextBox(layerNumber, font, textColor, base, line);
+}
+
 //Helper function to add objects (Basic)
-function addObject(object, layerNum=null) {
+const addObject = (object, layerNum=null) => {
 	object.base.autoAdd = true;
 	if (layerNum == null) { 
 		layer[object.layerNumber].push(object);
@@ -1548,7 +1933,7 @@ function addObject(object, layerNum=null) {
 }
 
 //Helper function to delete objects by nameTag 
-function deleteByNameTag(nameTag=BLANK_NAMETAG, mode=0, include=false) {
+const deleteByNameTag = (nameTag=BLANK_NAMETAG, mode=0, include=false) => {
 	for (let i=1;i<=layer.length;i++) {
 		layer[i] = layer[i].filter((o) => {
 			return !o.base.nameTag.same(nameTag, mode, include);
@@ -1558,15 +1943,16 @@ function deleteByNameTag(nameTag=BLANK_NAMETAG, mode=0, include=false) {
 }
 
 //Helper function to delete objects by nameTag 
-function deleteByMarked() {
-	for (let i=1;i<layer.length;i++) {
+const deleteByMarked = () => {
+	for (let i=1;i<=layer.length;i++) {
 		layer[i] = layer[i].filter((o) => !o.base.marked);
 	}
 	loaded = false;
 }
 
+/* NEEDS OPTIMIZED */
 //Helper function to get objects by nameTag
-function getByNameTag(nameTag=BLANK_NAMETAG, mode=0, returnIndex=false, include=false, getMode=0) {
+const getByNameTag = (nameTag=BLANK_NAMETAG, mode=0, returnIndex=false, include=false, getMode=1) => {
 	let results = [];
 	let result = null;
 	if (getMode < 0) {
@@ -1621,7 +2007,7 @@ function getByNameTag(nameTag=BLANK_NAMETAG, mode=0, returnIndex=false, include=
 }
 
 //Helper function to get objects by nameTag (and color)
-function getByColorData(colorData=NO_COLOR, colorMode=0, returnIndex=false, getMode=0) {
+const getByColorData = (colorData=NO_COLOR, colorMode=0, returnIndex=false, getMode=0) => {
 	let results = [];
 	let result = null;
 	if (getMode < 0) {
@@ -1676,7 +2062,7 @@ function getByColorData(colorData=NO_COLOR, colorMode=0, returnIndex=false, getM
 }
 
 //Renderer
-function Renderer() {
+const Renderer = () => {
 	ctx.clearRect(0, 0, screen.resolution.x, screen.resolution.y);
 	objectArray.forEach((i) => {
 		if (typeof i.base.size.x == "string" || (i.base.position.x-(i.base.size.x/2) <= screen.resolution.x && i.base.position.x+(i.base.size.x/2) >= 0 && i.base.position.y-(i.base.size.y/2) <= screen.resolution.y && i.base.position.y+(i.base.size.y/2) >= 0)) {
@@ -1688,9 +2074,9 @@ function Renderer() {
 	});
 }
 
-//collisions
-//rectangle vs. rectangle
-function recCollision(object_1, object_2) {
+/*Collisions*/
+//rectangle vs. rectangle **Add reaction, controller, and data**
+const recCollision = (object_1, object_2) => {
 	let obj1pos = object_1.base.position;
 	let obj1size = object_1.base.size;
 	let obj2pos = object_2.base.position;
@@ -1706,105 +2092,166 @@ function recCollision(object_1, object_2) {
 	}
 }
 
-//circle vs. circle
-function cirCollision(object_1, object_2) {
-	let obj1pos = object_1.base.position;
-	let obj1size = object_1.base.size;
-	let obj1radius = average(obj1size.array())/2;
-	let obj2pos = object_2.base.position;
-	let obj2size = object_2.base.size;
-	let obj2radius = average(obj2size.array())/2;
-	let a = obj1radius+obj2radius;
-	let x = (obj2pos.x-obj1pos.x);
-	let y = (obj2pos.y-obj1pos.y);
-	let distance = Math.sqrt(x*x+y*y);
-	if (a > distance) { 
-		return true;
-	} else {
+//circle vs. circle **Add reaction, controller, and data**
+const cirCollision = (object_1, object_2, returnBool=true) => {
+	var a = (object_1.base.size.x / 2) + (object_2.base.size.x / 2);
+	var dVec = object_2.base.position.subV(object_1.base.position);
+	var distance = Math.sqrt(dVec.x * dVec.x + dVec.y * dVec.y);
+	if (a > distance) {
+		if (returnBool) {
+			return true;
+		}
+		var overlap = a - distance;
+		var nx = dVec.x / distance;
+		var ny = dVec.y / distance;
+		if (object_1.base.position.s != 0) {
+			object_1.base.position.x -= nx * overlap / 2;
+			object_1.base.position.y -= ny * overlap / 2;
+		}
+		if (object_2.base.position.s != 0) {
+			object_2.base.position.x += nx * overlap / 2;
+			object_2.base.position.y += ny * overlap / 2;
+		}
+	}
+	if (returnBool) {
 		return false;
 	}
 }
 
-//circle vs. polygon
-function cirPolyCollision(object_1, object_2, controller_1=null, returnBool=true) {
-	let controller1 = controller_1;
-	let obj1pos = object_1.base.position;
-	let obj1size = object_1.base.size;
-	let obj1radius = average(obj1size.array())/2;
-	let t = getClosestPoint(obj1pos, object_2.getPoints());
-	let distance = t.distance(obj1pos);
-	let dir = getPolarDir(obj1pos, t);
-		if (distance <= obj1radius) {
-			if (returnBool) {
-				return true;
-			} else {
-				switch (dir) {
-					case "North":
-						obj1pos.y = obj1pos.y+(obj1radius-distance);
-						if (controller1 != null) {
-							controller1.lockDir.y = -1;
-						}
-					break;
-					case "NorthEast":
-						obj1pos.x = obj1pos.x-(obj1radius-distance);
-						obj1pos.y = obj1pos.y+(obj1radius-distance);
-						if (controller1 != null) {
-							controller1.lockDir.x = 1;
-							controller1.lockDir.y = -1;
-						}
-					break;
-					case "East":
-						obj1pos.x = obj1pos.x-(obj1radius-distance);
-						if (controller1 != null) {
-							controller1.lockDir.x = 1;
-						}
-					break;
-					case "SouthEast":
-						obj1pos.x = obj1pos.x-(obj1radius-distance);
-						obj1pos.y = obj1pos.y-(obj1radius-distance);
-						if (controller1 != null) {
-							controller1.lockDir.x = 1;
-							controller1.lockDir.y = 1;
-						}
-					break;
-					case "South":
-						obj1pos.y = obj1pos.y-(obj1radius-distance);
-						if (controller1 != null) {
-							controller1.lockDir.y = 1;
-						}
-					break;
-					case "SouthWest":
-						obj1pos.x = obj1pos.x+(obj1radius-distance);
-						obj1pos.y = obj1pos.y-(obj1radius-distance);
-						if (controller1 != null) {
-							controller1.lockDir.x = -1;
-							controller1.lockDir.y = 1;
-						}
-					break;
-					case "West":
-						obj1pos.x = obj1pos.x+(obj1radius-distance);
-						if (controller1 != null) {
-							controller1.lockDir.x = -1;
-						}
-					break;
-					case "NorthWest":
-						obj1pos.x = obj1pos.x+(obj1radius-distance);
-						obj1pos.y = obj1pos.y+(obj1radius-distance);
-						if (controller1 != null) {
-							controller1.lockDir.x = -1;
-							controller1.lockDir.y = -1;
-						}
-					break;
-				}
-			}
-		}
-		if (returnBool) {
-			return false;
-		}
+//point vs. polygon
+const pointInsidePolygon = (vec, polygon) => {
+    let intersections = 0;
+    for (let i = polygon.getPoints().length;i--;) {
+        let xpos = polygon.getPoints()[i].x - vec.x;//the polygon is translated with the test point in origo
+        let ypos = polygon.getPoints()[i].y - vec.y;
+		let xpos2 = 0;
+		let ypos2 = 0;
+        if (i != 0) {
+            xpos2 = polygon.getPoints()[i - 1].x - vec.x;
+            ypos2 = polygon.getPoints()[i - 1].y - vec.y;
+        } else {//the last side of the polygon wraps around to the first point of the corner list, it requires special handling.
+            xpos2 = polygon.getPoints()[polygon.getPoints().length - 1].x - vec.x;
+            ypos2 = polygon.getPoints()[polygon.getPoints().length - 1].y - vec.y;
+        };
+        //each side of the polygon does potentially intersect the ray. I skip the iteration for those that do not.
+        if(xpos < 0 && xpos2 < 0){//the ray can not cross a side starting and ending at negative x, so no intersection then
+            continue;
+        }
+        else if(ypos * ypos2 > 0){//still no intersection if both y's have the same sign
+            continue;
+        }
+        else if(xpos + (xpos2 - xpos) * ypos/(ypos - ypos2) < 0){//intersections of the x-axis before x=0 do not count
+            continue;
+        }
+        else if(ypos === 0){//a corner may be exactly at the ray
+            continue;
+        };
+        intersections++;
+        if(polygon.convex && intersections === 2){//a ray through a convex polygon can intersect at most 2 times
+            return false;
+        };
+    };
+    if(intersections % 2 === 0){
+        return false;
+    };
+    return true;
+};
+
+//circle vs. edge/polygon
+const cirPolyCollision = (object_1, object_2, controller_1 = null, returnBool = true, checkInside = false) => {
+	const pos = object_1.base.position;
+	const size = object_1.base.size;
+
+	const rx = size.x * 0.5;
+	const ry = size.y * 0.5;
+
+	const invRx = 1 / rx;
+	const invRy = 1 / ry;
+
+	const points = object_2.getPoints();
+
+	const closest = pos.getClosestPoint(points);
+
+	const dx = closest.x - pos.x;
+	const dy = closest.y - pos.y;
+
+	//ellipse space transform
+	const ex = dx * invRx;
+	const ey = dy * invRy;
+
+	const distSq = ex * ex + ey * ey;
+
+	const inside = checkInside && pointInsidePolygon(pos, object_2);
+
+	const colliding = (distSq <= 1) || inside;
+
+	if (returnBool) {
+		return colliding;
+	}
+
+	if (!colliding) {
+		return false;
+	}
+
+	let dist = Math.sqrt(distSq);
+
+	let nx = 0, ny = 0;
+
+	if (dist > 1e-8) {
+		nx = ex / dist;
+		ny = ey / dist;
+	}
+
+	//convert normal back to world space
+	nx *= invRx;
+	ny *= invRy;
+
+	const len = Math.sqrt(nx * nx + ny * ny);
+	if (len > 1e-8) {
+		nx /= len;
+		ny /= len;
+	}
+
+	let penetration = (1 - dist);
+
+	if (inside) {
+		penetration = 1;
+		nx = -nx;
+		ny = -ny;
+	}
+
+	pos.x -= nx * penetration * rx;
+	pos.y -= ny * penetration * ry;
+
+	if (controller_1) {
+		controller_1.lockDir.x = Math.sign(nx);
+		controller_1.lockDir.y = Math.sign(ny);
+	}
+
+	return true;
+};
+
+//circle vs. edge [return bool: true, edge: true, controller: false]
+const cVeCollision = (object_1, object_2, bool=true, controller=null) => {
+	if (bool) {
+		return cirPolyCollision(object_1, object_2, controller, true);
+	} else {
+		cirPolyCollision(object_1, object_2, controller, false);
+	}
 }
 
+//circle vs. polygon [return bool: true, edge: false, controller: false]
+const cVpCollision = (object_1, object_2, bool=true, controller=null) => {
+	if (bool) {
+		return cirPolyCollision(object_1, object_2, controller, true, true);
+	} else {
+		cirPolyCollision(object_1, object_2, controller, false, true);
+	}
+}
+
+/*More Utilities*/
 //Simple player movement controller
-function playerController(autoAdd=true, id="", object=null, maxSpeed=5, accel=new Vector2(0.1, 0.2), horizontalEdges=new Vector2(), verticalEdges=new Vector2()) {
+const playerController = function(autoAdd=true, id="", object=null, maxSpeed=5, accel=new Vector2(0.1, 0.2), horizontalEdges=new Vector2(), verticalEdges=new Vector2()) {
 	this.id = id;
 	this.object = object;
 	this.maxSpeed = maxSpeed;
@@ -1971,111 +2418,14 @@ function playerController(autoAdd=true, id="", object=null, maxSpeed=5, accel=ne
 	}
 }
 
-document.documentElement.style.fontFamily = "Arial";
-
-//Timer
-const TIME = (hour=0, minute=0, second=0, millisecond=0) => {
-	return {"hour":hour, "minute":minute, "second":second, "millisecond":millisecond};
-}
-const Hour = (h=0) => {
-	return TIME(h);
-}
-const Minute = (m=0) => {
-	return TIME(0, m);
-}
-const Second = (s=0) => {
-	return TIME(0, 0, s);
-}
-const MSecond = (ms=0) => {
-	return TIME(0, 0, 0, ms);
-}
-function timer(time_=TIME(), active_=true, loop_=false, func_=null, id_="") {
-	this.time_ = time_;
-	this.currentTime = TIME();
-	let startTime = Date.now();
-	this.active = active_;
-	let loop = loop_;
-	this.func = func_;
-	let id = id_;
-	this.start = (reset=false) => {
-		console.log("fuck");
-		this.active = true;
-		if (reset) {
-			this.reset();
-		}
-	}
-	this.pause = () => {
-		this.active = false;
-	}
-	this.reset = () => {
-		startTime = Date.now();
-	}
-	const update = () => {
-		if (this.active) {
-			this.currentTime.millisecond = Date.now() - startTime;
-			this.currentTime.second = Math.floor(this.currentTime.millisecond / 1000);
-			this.currentTime.minute = Math.floor(this.currentTime.second / 60);
-			this.currentTime.hour = Math.floor(this.currentTime.minute / 60);
-			if (this.currentTime.hour >= this.time_.hour && this.currentTime.minute >= this.time_.minute && this.currentTime.second >= this.time_.second && this.currentTime.millisecond >= this.time_.millisecond) {
-				if (this.func != null) {
-					this.func();
-				}
-				this.reset();
-				if (!loop) {
-					this.pause();
-				}
-			}
-		}
-	}
-	addUpdate(update, "timer_"+id);
+//Shorthand function for player controller
+const playerC = (autoAdd=true, id="", object=null, maxSpeed=5, accel=new Vector2(0.1, 0.2), horizontalEdges=new Vector2(), verticalEdges=new Vector2()) => {
+	return new playerController(autoAdd, id, object, maxSpeed, accel, horizontalEdges, verticalEdges);
 }
 
-//Mod loader helper function
-const ModLoader = new modLoader();
-
-function mod(path="", id="") {
-	this.path = path;
-	this.id = id;
-	this.load = function() {
-		let script = document.createElement('script');
-		script.id = this.id;
-		script.src = this.path;
-		ModLoader.modDiv.appendChild(script);
-		ModLoader.addVisual(this.id+"V");
-	}
-	this.unload = function() {
-		deleteUpdate(2, this.id);
-		deleteByNameTag(new nameTag("", this.id), 2, true);
-		for (let i=0;i<gameModeData.length;i++) {
-			deleteMap(this.id, i, true, true);
-		}
-		let domElements = Array.from(document.getElementsByClassName(this.id));
-		domElements.forEach((e) => {
-			e.remove();
-		});
-		try {
-			eval(this.id+"_unload()");
-		} catch (e) {}
-		try {
-			eval(this.id+"_Unload()");
-		} catch (e) {}
-		try {
-			getModVar(this.id, "unload")();
-		} catch (e) {}
-		try {
-			getModVar(this.id, "Unload")();
-		} catch (e) {}
-		modVars.deleteMod(this.id);
-		let script = document.getElementById(this.id);
-		let scriptV = document.getElementById(this.id+"V");
-		ModLoader.modDiv.removeChild(script);
-		ModLoader.modSep.removeChild(scriptV);
-	}
-	this.load();
-}
-
+/*Mods*/
 //Mod loader
-function modLoader() {
+const modLoader = function() {
 	this.menu = null;
 	this.title = null;
 	this.input = null;
@@ -2133,6 +2483,9 @@ function modLoader() {
 		this.input.style.marginTop = "0px";
 		this.input.style.marginBottom = "0px";
 		this.input.style.position = "fixed";
+		this.input.onchange = () => {
+			this.path = this.input.value.replace(/\\/g, "/").replace("C:/fakepath", "./Mods");
+		};
 		this.menu.appendChild(this.input);
 		//Load button
 		this.loadBttn = document.createElement('button');
@@ -2162,8 +2515,8 @@ function modLoader() {
 		this.closeBttn = document.createElement('input');
 		this.closeBttn.type = "image";
 		this.closeBttn.src = Close_UI.getSrc();
-		this.closeBttn.style.width = "32px";
-		this.closeBttn.style.height = "32px";
+		this.closeBttn.style.width = "27px";
+		this.closeBttn.style.height = "27px";
 		this.closeBttn.style.marginLeft = "0px";
 		this.closeBttn.style.marginRight = "5px";
 		this.closeBttn.style.marginTop = "5px";
@@ -2207,10 +2560,10 @@ function modLoader() {
 		this.modSep.style.left = this.menu.style.left;
 		this.closeBttn.style.marginRight = ((5*this.menuScale)*screen.getScale().x)+"px";
 		this.closeBttn.style.marginTop = ((5*this.menuScale)*screen.getScale().y)+"px";
-		this.closeBttn.style.width = ((32*this.menuScale)*screen.getScale().x)+"px";
-		this.closeBttn.style.height = ((32*this.menuScale)*screen.getScale().x)+"px";
+		this.closeBttn.style.width = ((27*this.menuScale)*screen.getScale().x)+"px";
+		this.closeBttn.style.height = ((27*this.menuScale)*screen.getScale().x)+"px";
 		//Gets path
-		this.path = this.input.value.replace(/\\/g, "/").replace("C:/fakepath", "./Mods");
+		//this.path = this.input.value.replace(/\\/g, "/").replace("C:/fakepath", "./Mods");
 		if (this.path.includes("Mods")) {
 			this.path = "./"+this.path.slice(this.path.indexOf("Mods"), this.path.length);
 		}
@@ -2296,11 +2649,189 @@ function modLoader() {
 	}
 }
 
-//Controller stuff
-let controllers = {};
+//Mod loader global variables
+const ModLoader = new modLoader();
+
+//Mod loader helper function
+const mod = function(path="", id="") {
+	this.path = path;
+	this.id = id;
+	this.load = function() {
+		let script = document.createElement('script');
+		script.id = this.id;
+		script.src = this.path;
+		ModLoader.modDiv.appendChild(script);
+		ModLoader.addVisual(this.id+"V");
+	}
+	this.unload = function() {
+		deleteUpdate(2, this.id);
+		deleteByNameTag(new nameTag("", this.id), 2, true);
+		for (let i=0;i<gameModeData.length;i++) {
+			deleteMap(this.id, i, true, true);
+		}
+		let domElements = Array.from(document.getElementsByClassName(this.id));
+		domElements.forEach((e) => {
+			e.remove();
+		});
+		try {
+			eval(this.id+"_unload()");
+		} catch (e) {}
+		try {
+			eval(this.id+"_Unload()");
+		} catch (e) {}
+		try {
+			getModlet(this.id, "unload")();
+		} catch (e) {}
+		try {
+			getModlet(this.id, "Unload")();
+		} catch (e) {}
+		modVars.deleteMod(this.id);
+		let script = document.getElementById(this.id);
+		let scriptV = document.getElementById(this.id+"V");
+		ModLoader.modDiv.removeChild(script);
+		ModLoader.modSep.removeChild(scriptV);
+	}
+	this.load();
+}
+
+/*Controls*/
+//Controllers
+let controllers = [];
+let bttnLock = false;
+
+//Controller manager
+const controllerMG = function() {
+	this.divElements = [];
+	this.players = 0; //0- no support
+	this.connected = 0;
+	let enableControls = true;
+	let enableTimer = T(Second(1), false, false, false, () => { enableControls = true; }, "controller_enable_timer");
+	
+	this.config = {};
+	this.getBttnConfig = (player=1, funcName="") => {
+		return controllerManager.config[player].controls.find((i) => {return i.funcName == funcName});
+	}
+	this.getAxisConfig = (player=1, funcName="") => {
+		return controllerManager.config[player].axis.find((i) => {return i.funcName == funcName});
+	}
+	
+	this.assignControllers = () => {
+		for (let i=1;i<=this.players;i++) {
+			if (this.config[i] != undefined) {
+				if (this.config[i].controllerId == undefined) {
+					this.config[i].controllerId = i-1;
+				}
+			}
+		} 
+	}
+	this.assignControllers();
+	
+	this.calDeadzone = (vec, deadzone) => {
+		let m = Math.sqrt(vec.x*vec.x+vec.y*vec.y);
+		if (m < deadzone) {
+			return new Vector2(0, 0, true);
+		}
+		let over = m-deadzone;
+		let nover = over/(1-deadzone);
+		let nx = vec.x/m;
+		let ny = vec.y/m;
+		return new Vector2(clamp(nx*nover, -1, 1), clamp(ny*nover, -1, 1), (vec.x==0 && vec.y==0));
+	}
+	
+	const update = () => {
+		if (bttnLock) {
+			enableControls = false;
+		} else {
+			if (!enableControls && !enableTimer.active) {
+				enableTimer.start(true);
+			}
+		}
+		controllers = (navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []));
+		if (Array.isArray(controllers)) {
+			this.connected = controllers.filter((i)=>{return i!=null}).length;
+		} else {
+			this.connected = 0;
+			for (let i=0,length=controllers.length;i<length;i++) {
+				if (controllers[i] != null) {
+					this.connected++;
+				}
+			} 
+		}
+		if (this.players == 0) {
+			if (keybinder.controllerDiv.style.display != "none") {
+				keybinder.controllerDiv.style.display = "none";
+			}
+			for (let i=0,length=this.divElements.length;i<length;i++) {
+				let thisElement = this.divElements[i];
+				thisElement.style.display = "none";
+			}
+		} else {//keybinder.currentPlayerIndex
+			if (keybinder.controllerDiv.style.display != "block") {
+				keybinder.controllerDiv.style.display = "block";
+			}
+			for (let i=0,length=this.divElements.length;i<length;i++) {
+				let thisElement = this.divElements[i];
+				if (thisElement.classList.contains("Player_"+keybinder.currentPlayerIndex)) {
+					thisElement.style.display = "block";
+				} else {
+					thisElement.style.display = "none";
+				}
+			}
+			for (let i=1;i<=this.players;i++) {
+				if (this.config[i] != undefined) {
+					let playerControls = this.config[i];
+					if (playerControls.axis != undefined) {
+						for (let a=0,length=playerControls.axis.length;a<length;a++) {
+							let axisData = playerControls.axis[a];
+							if (controllers[playerControls.controllerId] != undefined && controllers[playerControls.controllerId] != null) {
+								switch (axisData.bttn) {
+									case 0:
+										let calLeft = this.calDeadzone(new Vector2(controllers[playerControls.controllerId].axes[0], controllers[playerControls.controllerId].axes[1]), axisData.deadzone);
+										playerControls.leftStick = calLeft;
+										axisData.func(playerControls.leftStick);
+									break;
+									case 1:
+										let calRight = this.calDeadzone(new Vector2(controllers[playerControls.controllerId].axes[2], controllers[playerControls.controllerId].axes[3]), axisData.deadzone);
+										playerControls.rightStick = calRight;
+										axisData.func(playerControls.rightStick);
+									break;
+								}
+							}
+						}
+					}
+					if (playerControls.controls != undefined) {
+						for (let c=0,length=playerControls.controls.length;c<length;c++) {
+							let bttnData = playerControls.controls[c];
+							if (controllers[playerControls.controllerId] != undefined && controllers[playerControls.controllerId] != null) {
+								let data = controllers[playerControls.controllerId].buttons[bttnData.bttn];
+								if (enableControls) {
+									if (bttnData.single) {
+										if (data.pressed && !bttnData.lock) {
+											bttnData.func({"pressed":data.pressed,"touched":data.touched,"value":data.value});
+											bttnData.lock = true;
+										}
+										if (!data.pressed && bttnData.lock) {
+											bttnData.lock = false;
+										}
+									} else {
+										bttnData.func({"pressed":data.pressed,"touched":data.touched,"value":data.value});
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	addUpdate(update, "controller_manager");
+}
+
+//Controller manager global variables
 const controllerManager = new controllerMG();
 
-function controllerBttnBinding(player=1, func=null, funcName="", bttn=0, single=true) {
+//Button Binding function
+const controllerBttnBinding = function(player=1, func=null, funcName="", bttn=0, single=true) {
 	this.player = player;
 	this.func = func;
 	this.funcName = funcName;
@@ -2469,6 +3000,9 @@ function controllerBttnBinding(player=1, func=null, funcName="", bttn=0, single=
 	this.lock = false;
 	this.bttn = this.bttnMap(bttn);
 	this.single = single;
+	let pickBttn = false;
+	let thisController = null;
+	let newBttn = null;
 	if (controllerManager.config[this.player] == undefined) {
 		controllerManager.config[this.player] = {"controls":[]};
 		controllerManager.config[this.player].controls.push({"funcName":this.funcName,"func":this.func,"bttn":this.bttn, "lock":this.lock, "single":this.single});
@@ -2480,133 +3014,232 @@ function controllerBttnBinding(player=1, func=null, funcName="", bttn=0, single=
 			controllerManager.config[this.player].controls.push({"funcName":this.funcName,"func":this.func,"bttn":this.bttn, "lock":this.lock, "single":this.single});
 		}
 	}
+	//Create menu items
+	this.div = document.createElement('div');
+	this.div.id = funcName+this.player;
+	this.div.classList.add("Player_"+this.player);
+	this.div.style.backgroundColor = "darkgrey";
+	this.div.style.marginLeft = "0px";
+	this.div.style.marginRight = "0px";
+	this.div.style.marginTop = "0px";
+	this.div.style.marginBottom = "0px";
+	this.div.style.width = "100%";
+	this.div.style.height = "50px";
+	this.div.style.boxShadow = "0px 5px black";
+	keybinder.keySep.appendChild(this.div);
+	controllerManager.divElements.push(this.div);
+	this.name = document.createElement('h1');
+	this.name.id = funcName+"_name"+this.player;
+	this.name.innerHTML = funcName+":"; //Display player number for testing
+	this.name.style.color = "white";
+	this.name.style.marginLeft = "0px";
+	this.name.style.marginRight = "0px";
+	this.name.style.marginTop = "2.5px";
+	this.name.style.marginBottom = "0px";
+	this.name.style.fontSize = "35px";
+	this.name.style.display = "inline-block";
+	this.div.appendChild(this.name);
+	this.bttnV = document.createElement('button');
+	this.bttnV.id = funcName+"_bttn"+this.player;
+	this.bttnV.style.fontSize = "35px";
+	this.bttnV.style.marginLeft = "0px";
+	this.bttnV.style.marginRight = "0px";
+	this.bttnV.style.marginTop = "0px";
+	this.bttnV.style.marginBottom = "0px";
+	this.bttnV.style.width = "100px";
+	this.bttnV.style.height = "100%";
+	this.bttnV.style.float = "right";
+	this.bttnV.style.display = "inline-block";
+	this.bttnV.onclick = () => {
+		if (!bttnLock && thisController != null) {
+			pickBttn = true;
+			bttnLock = true;
+		}
+	};
+	this.div.appendChild(this.bttnV);
+	this.iconCanvas = document.createElement('canvas');
+	this.iconCanvas.id = funcName+"_bttn_icon"+this.player;
+	this.iconCanvas.width = "32";
+	this.iconCanvas.height = "32";
+	this.iconCanvas.style.backgroundColor = "rgba(0,0,0,0)";
+	this.iconCanvas.style.display = "inline-block";
+	let iconCTX = this.iconCanvas.getContext("2d");
+	this.bttnV.appendChild(this.iconCanvas);
+	if (localStorage.getItem("Player_"+this.player+"_"+funcName+"_Bttn") != null) {
+		controllerManager.getBttnConfig(this.player, funcName).bttn = JSON.parse(localStorage.getItem("Player_"+this.player+"_"+funcName+"_Bttn"));
+	}
+	this.getFrame = {
+		0:Vec2(0, 0),
+		1:Vec2(24, 0),
+		2:Vec2(48, 0),
+		3:Vec2(72, 0),
+		4:Vec2(0, 24),
+		5:Vec2(24, 24),
+		6:Vec2(48, 24),
+		7:Vec2(72, 24),
+		8:Vec2(0, 48),
+		9:Vec2(24, 48),
+		10:Vec2(48, 48),
+		11:Vec2(72, 48),
+		12:Vec2(0, 72),
+		13:Vec2(24, 72),
+		14:Vec2(48, 72),
+		15:Vec2(72, 72),
+		16:Vec2(0, 96),
+		17:Vec2(24, 96)
+	}
+	const update = () => {
+		thisController = controllers[this.player-1];
+		if (!bttnLock || !pickBttn) {
+			newBttn = null;
+		}
+		if (isPaused) {
+			iconCTX.clearRect(0, 0, 32, 32);
+			iconCTX.shadowBlur = 3;
+			iconCTX.shadowColor = "black";
+			iconCTX.shadowOffsetX = 0.5;
+			iconCTX.shadowOffsetY = 0.5;
+			if (!bttnLock || !pickBttn) {
+				let iconframe = this.getFrame[controllerManager.getBttnConfig(this.player, funcName).bttn];
+				iconCTX.drawImage(Controller_Icons.getElement(), iconframe.x, iconframe.y, 24, 24, 6, 6, 24, 24);
+			}
+			document.getElementById(funcName+"_name"+this.player).style.fontSize = ((35*keybinder.menuScale)*screen.getScale().x)+"px";
+			if (bttnLock && pickBttn) {
+				let iconframe = this.getFrame[17];
+				iconCTX.drawImage(Controller_Icons.getElement(), iconframe.x, iconframe.y, 24, 24, 6, 6, 24, 24);
+				for (let i=0,length=thisController.buttons.length;i<length;i++) {
+					let thisBttn = thisController.buttons[i];
+					if (thisBttn.pressed) {
+						newBttn = i;
+					}
+				}
+			}
+			if (newBttn != null) {
+				console.log(newBttn);
+				controllerManager.getBttnConfig(this.player, funcName).bttn = newBttn;
+				localStorage.setItem("Player_"+this.player+"_"+funcName+"_Bttn", JSON.stringify(newBttn));
+				this.iconCanvas.style.display = "inline-block";
+				pickBttn = false;
+				bttnLock = false;
+			}
+		}
+	}
+	addUpdate(update, "Controls_"+funcName+this.player+"Element_Updater");
 	this.duplicate = () => {
 		return new controllerBttnBinding(this.player, this.func, this.funcName, this.bttn, this.single);
 	}
 	this.dup = this.duplicate;
 }
 
-function controllerAxesBinding(player=1, func=null, funcName="", axes=0, deadzone=0.2) {
+//Shorthand function for controller button binding
+const contBttnB = (player=1, func=null, funcName="", bttn=0, single=true) => {
+	return new controllerBttnBinding(player, func, funcName, bttn, single);
+}
+
+//Axis Binding function
+const controllerAxisBinding = function(player=1, func=null, funcName="", axis=0, deadzone=0.2) {
 	this.player = player;
 	this.func = func;
 	this.funcName = funcName;
-	this.axes = axes; //0- left stick, 1- right stick
+	this.axis = axis; //0- left stick, 1- right stick
 	this.deadzone = deadzone;
-	if (axes > 1) {
-		this.axes = 1;
+	if (axis > 1) {
+		this.axis = 1;
 	}
-	if (axes < 0) {
-		this.axes = 0;
+	if (axis < 0) {
+		this.axis = 0;
 	}
 	if (controllerManager.config[this.player] == undefined) {
-		controllerManager.config[this.player] = {"axes":[]};
-		controllerManager.config[this.player].axes.push({"funcName":this.funcName,"func":this.func,"bttn":this.axes,"deadzone":this.deadzone});
+		controllerManager.config[this.player] = {"axis":[]};
+		controllerManager.config[this.player].axis.push({"funcName":this.funcName,"func":this.func,"bttn":this.axis,"deadzone":this.deadzone});
 	} else {
-		if (controllerManager.config[this.player].axes == undefined) {
-			controllerManager.config[this.player].axes = [];
-			controllerManager.config[this.player].axes.push({"funcName":this.funcName,"func":this.func,"bttn":this.axes,"deadzone":this.deadzone});
+		if (controllerManager.config[this.player].axis == undefined) {
+			controllerManager.config[this.player].axis = [];
+			controllerManager.config[this.player].axis.push({"funcName":this.funcName,"func":this.func,"bttn":this.axis,"deadzone":this.deadzone});
 		} else {
-			controllerManager.config[this.player].axes.push({"funcName":this.funcName,"func":this.func,"bttn":this.axes,"deadzone":this.deadzone});
+			controllerManager.config[this.player].axis.push({"funcName":this.funcName,"func":this.func,"bttn":this.axis,"deadzone":this.deadzone});
 		}
 	}
+	//Create menu items
+	this.div = document.createElement('div');
+	this.div.id = funcName+this.player;
+	this.div.classList.add("Player_"+this.player);
+	this.div.style.backgroundColor = "darkgrey";
+	this.div.style.marginLeft = "0px";
+	this.div.style.marginRight = "0px";
+	this.div.style.marginTop = "0px";
+	this.div.style.marginBottom = "0px";
+	this.div.style.width = "100%";
+	this.div.style.height = "50px";
+	this.div.style.boxShadow = "0px 5px black";
+	keybinder.keySep.appendChild(this.div);
+	controllerManager.divElements.push(this.div);
+	this.name = document.createElement('h1');
+	this.name.id = funcName+"_name"+this.player;
+	this.name.innerHTML = funcName+" Deadzone: 0.2"; //Display player number for testing
+	this.name.style.color = "white";
+	this.name.style.marginLeft = "0px";
+	this.name.style.marginRight = "0px";
+	this.name.style.marginTop = "2.5px";
+	this.name.style.marginBottom = "0px";
+	this.name.style.fontSize = "35px";
+	this.name.style.display = "inline-block";
+	this.div.appendChild(this.name);
+	this.slider = document.createElement('input');
+	this.slider.id = funcName+"_slider"+this.player;
+	this.slider.type = "range";
+	this.slider.step = "0.1";
+	this.slider.value = "0.2";
+	this.slider.max = "1";
+	this.slider.min = "0";
+	this.slider.style.marginLeft = "0px";
+	this.slider.style.marginRight = "0px";
+	this.slider.style.marginTop = "12.5px";
+	this.slider.style.marginBottom = "0px";
+	this.slider.style.width = "25%";
+	this.slider.style.height = "25px";
+	this.slider.style.float = "right";
+	this.slider.style.appearance = "none";
+	this.slider.style.background = "lightgrey";
+	this.slider.style.outline = "none";
+	this.slider.style.borderRadius = "90px";
+	this.slider.style.display = "inline-block";
+	if (localStorage.getItem("Player_"+this.player+"_"+funcName+"_Dead_Zone") != null) {
+		this.slider.value = JSON.parse(localStorage.getItem("Player_"+this.player+"_"+funcName+"_Dead_Zone"));
+		this.name.innerHTML = funcName+" Deadzone: "+this.slider.value;
+		controllerManager.getAxisConfig(this.player, funcName).deadzone = parseFloat(this.slider.value);
+	}
+	this.slider.onmousemove = () => {
+		this.name.innerHTML = funcName+" Deadzone: "+this.slider.value;
+	};
+	this.slider.onchange = () => {
+		localStorage.setItem("Player_"+this.player+"_"+funcName+"_Dead_Zone", JSON.stringify(this.slider.value));
+		controllerManager.getAxisConfig(this.player, funcName).deadzone = parseFloat(this.slider.value);
+	};
+	this.div.appendChild(this.slider);
+	const update = () => {
+		if (isPaused) {
+			document.getElementById(funcName+"_name"+this.player).style.fontSize = ((35*keybinder.menuScale)*screen.getScale().x)+"px";
+		}
+	}
+	addUpdate(update, "Axis_"+funcName+this.player+"Element_Updater");
 	this.duplicate = () => {
-		return new controllerBttnBinding(this.player, this.func, this.funcName, this.axes, this.deadzone);
+		return new controllerBttnBinding(this.player, this.func, this.funcName, this.axis, this.deadzone);
 	}
 	this.dup = this.duplicate;
 }
 
-function controllerMG() {
-	this.players = 0; //0- no support
-	this.connected = 0;
-	
-	this.config = {};
-	
-	this.assignControllers = () => {
-		for (let i=1;i<=this.players;i++) {
-			if (this.config[i] != undefined) {
-				if (this.config[i].controllerId == undefined) {
-					this.config[i].controllerId = i-1;
-				}
-			}
-		} 
-	}
-	this.assignControllers();
-	
-	this.calDeadzone = (vec, deadzone) => {
-		let m = Math.sqrt(vec.x*vec.x+vec.y*vec.y);
-		if (m < deadzone) {
-			return new Vector2(0, 0, true);
-		}
-		let over = m-deadzone;
-		let nover = over/(1-deadzone);
-		let nx = vec.x/m;
-		let ny = vec.y/m;
-		return new Vector2(clamp(nx*nover, -1, 1), clamp(ny*nover, -1, 1), (vec.x==0 && vec.y==0));
-	}
-	
-	const update = () => {
-		controllers = (navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []));
-		this.connected = controllers.filter((i)=>{return i!=null}).length;
-		if (this.players == 0) {
-			if (keybinder.controllerDiv.style.display != "none") {
-				keybinder.controllerDiv.style.display = "none";
-			}
-		} else {
-			if (keybinder.controllerDiv.style.display != "block") {
-				keybinder.controllerDiv.style.display = "block";
-			}
-			for (let i=1;i<=this.players;i++) {
-				if (this.config[i] != undefined) {
-					let playerControls = this.config[i];
-					if (playerControls.axes != undefined) {
-						for (let a=0,length=playerControls.axes.length;a<length;a++) {
-							let axesData = playerControls.axes[a];
-							if (controllers[playerControls.controllerId] != undefined && controllers[playerControls.controllerId] != null) {
-								switch (axesData.bttn) {
-									case 0:
-										let calLeft = this.calDeadzone(new Vector2(controllers[playerControls.controllerId].axes[0], controllers[playerControls.controllerId].axes[1]), axesData.deadzone);
-										playerControls.leftStick = calLeft;
-										axesData.func(playerControls.leftStick);
-									break;
-									case 1:
-										let calRight = this.calDeadzone(new Vector2(controllers[playerControls.controllerId].axes[2], controllers[playerControls.controllerId].axes[3]), axesData.deadzone);
-										playerControls.rightStick = calRight;
-										axesData.func(playerControls.rightStick);
-									break;
-								}
-							}
-						}
-					}
-					if (playerControls.controls != undefined) {
-						for (let c=0,length=playerControls.controls.length;c<length;c++) {
-							let bttnData = playerControls.controls[c];
-							if (controllers[playerControls.controllerId] != undefined && controllers[playerControls.controllerId] != null) {
-								let data = controllers[playerControls.controllerId].buttons[bttnData.bttn];
-								if (bttnData.single) {
-									if (data.pressed && !bttnData.lock) {
-										bttnData.func({"pressed":data.pressed,"touched":data.touched,"value":data.value});
-										bttnData.lock = true;
-									}
-									if (!data.pressed && bttnData.lock) {
-										bttnData.lock = false;
-									}
-								} else {
-									bttnData.func({"pressed":data.pressed,"touched":data.touched,"value":data.value});
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	addUpdate(update, "controller_manager");
+//Shorthand function for controller axis binding
+const contAxisB = (player=1, func=null, funcName="", axis=0, deadzone=0.2) => {
+	return new controllerAxisBinding(player, func, funcName, axis, deadzone);
 }
 
+//Controller connected function
 window.addEventListener("gamepadconnected", (e) => {
   controllerManager.assignControllers();
 });
 
+//Controller disconnected function
 window.addEventListener("gamepaddisconnected", (e) => {
   controllerManager.assignControllers();
 });
@@ -2616,9 +3249,7 @@ const keys = [];
 const keyBuffer = [];
 let keyLock = false;
 
-const keybinder = new keyBinder();
-
-function keyBinder() {
+const keyBinder = function() {
 	this.menu = null;
 	this.title = null;
 	this.keySep = null;
@@ -2681,8 +3312,8 @@ function keyBinder() {
 		this.closeBttn = document.createElement('input');
 		this.closeBttn.type = "image";
 		this.closeBttn.src = Close_UI.getSrc();
-		this.closeBttn.style.width = "32px";
-		this.closeBttn.style.height = "32px";
+		this.closeBttn.style.width = "27px";
+		this.closeBttn.style.height = "27px";
 		this.closeBttn.style.marginLeft = "0px";
 		this.closeBttn.style.marginRight = "5px";
 		this.closeBttn.style.marginTop = "5px";
@@ -2697,7 +3328,9 @@ function keyBinder() {
 			this.closeBttn.src = Close_UI.getSrc();
 		};
 		this.closeBttn.onclick = () => {
-			this.hide();
+			if (!keyLock && !bttnLock) {
+				this.hide();
+			}
 		};
 		this.menu.appendChild(this.closeBttn);
 		addUpdate(updater, "key_binder");
@@ -2871,8 +3504,8 @@ function keyBinder() {
 		this.keySep.style.left = this.menu.style.left;
 		this.closeBttn.style.marginRight = ((5*this.menuScale)*screen.getScale().x)+"px";
 		this.closeBttn.style.marginTop = ((5*this.menuScale)*screen.getScale().y)+"px";
-		this.closeBttn.style.width = ((32*this.menuScale)*screen.getScale().x)+"px";
-		this.closeBttn.style.height = ((32*this.menuScale)*screen.getScale().x)+"px";
+		this.closeBttn.style.width = ((27*this.menuScale)*screen.getScale().x)+"px";
+		this.closeBttn.style.height = ((27*this.menuScale)*screen.getScale().x)+"px";
 		keys.forEach((k) => {
 			let idElement_1 = document.getElementById(k.id+"_name");
 			idElement_1.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
@@ -2888,6 +3521,22 @@ function keyBinder() {
 			});
 		});
 		//Controller stuff
+		this.controllerTitle.style.fontSize = ((25*this.menuScale)*screen.getScale().x)+"px";
+		this.leftPlayerIndexBttn.style.fontSize = ((20*this.menuScale)*screen.getScale().x)+"px";
+		this.leftPlayerIndexBttn.style.width = ((30*this.menuScale)*screen.getScale().x)+"px";
+		this.leftPlayerIndexBttn.style.height = ((30*this.menuScale)*screen.getScale().y)+"px";
+		this.currentPlayer.style.fontSize = ((25*this.menuScale)*screen.getScale().x)+"px";
+		this.rightPlayerIndexBttn.style.fontSize = ((20*this.menuScale)*screen.getScale().x)+"px";
+		this.rightPlayerIndexBttn.style.width = ((30*this.menuScale)*screen.getScale().x)+"px";
+		this.rightPlayerIndexBttn.style.height = ((30*this.menuScale)*screen.getScale().y)+"px";
+		this.leftPlayerControllerIndexBttn.style.fontSize = ((20*this.menuScale)*screen.getScale().x)+"px";
+		this.leftPlayerControllerIndexBttn.style.width = ((30*this.menuScale)*screen.getScale().x)+"px";
+		this.leftPlayerControllerIndexBttn.style.height = ((30*this.menuScale)*screen.getScale().y)+"px";
+		this.currentPlayerController.style.fontSize = ((25*this.menuScale)*screen.getScale().x)+"px";
+		this.rightPlayerControllerIndexBttn.style.fontSize = ((20*this.menuScale)*screen.getScale().x)+"px";
+		this.rightPlayerControllerIndexBttn.style.width = ((30*this.menuScale)*screen.getScale().x)+"px";
+		this.rightPlayerControllerIndexBttn.style.height = ((30*this.menuScale)*screen.getScale().y)+"px";
+		this.currentControllerConnected.style.fontSize = ((25*this.menuScale)*screen.getScale().x)+"px";
 		this.currentPlayer.innerHTML = "Player: "+this.currentPlayerIndex;
 		if (this.currentPlayerIndex < 1) {
 			this.currentPlayerIndex = 1;
@@ -2924,12 +3573,22 @@ function keyBinder() {
 	this.createMenu();
 }
 
-function keyData(key="", location=0) {
+//Keybinder global variables
+const keybinder = new keyBinder();
+
+//Key data
+const keyData = function(key="", location=0) {
 	this.key = key;
 	this.location = location;
 }
 
-function key(id="", thisKeys=[], functions=new Vector2(), ifPaused=true) {
+//Shorthand function for key data
+const keyD = (key="", location=0) => {
+	return new keyData(key, location);
+}
+
+//Key
+const key = function(id="", thisKeys=[], functions=new Vector2(), ifPaused=true) {
 	this.id = id;
 	this.keys = thisKeys;
 	this.functions = functions;
@@ -2944,7 +3603,7 @@ function key(id="", thisKeys=[], functions=new Vector2(), ifPaused=true) {
 	kV.style.backgroundColor = "darkgrey";
 	kV.style.marginLeft = "0px";
 	kV.style.marginRight = "0px";
-	kV.style.marginTop = "0px";
+	kV.style.marginTop = "2.5pxpx";
 	kV.style.marginBottom = "1px";
 	kV.style.width = "100%";
 	kV.style.height = "50px";
@@ -3052,7 +3711,12 @@ function key(id="", thisKeys=[], functions=new Vector2(), ifPaused=true) {
 	keys.push(this);
 }
 
-function updateKey() {
+//Shorthand function for key
+const K = (id="", thisKeys=[], functions=new Vector2(), ifPaused=true) => {
+	return new key(id, thisKeys, functions, ifPaused);
+}
+
+const updateKey = () => {
 	if (!keyLock) {
 		keys.forEach((k) => {
 			if (k.compare(keyBuffer)) {
@@ -3071,12 +3735,15 @@ function updateKey() {
 }
 addUpdate(updateKey, "key_updater");
 
+//Key down function
 document.addEventListener("keydown",(e) => {
 	let check = keyBuffer.every((i) => i.key.toUpperCase() != e.key.toUpperCase());
 	if (check && !keyLock) {
 		keyBuffer.push({"key":e.key,"location":e.location});
 	}
 }, false);	
+
+//Key up function
 document.addEventListener("keyup",(e) => {
 	if (!keyLock) {
 		keys.forEach((k) => {
@@ -3098,10 +3765,206 @@ document.addEventListener("keyup",(e) => {
 	}
 }, false);
 
-//Options menu
-const OptionsMenu = new optionsMenu();
+//Cursor
+const cursor = function() {
+	this.offset = new Vector2();
+	this.cursor = new Rectangle(8, new baseObject(true, new nameTag("cursor", "Engine"), new Vector2(5, 5), new Vector2(-100, -100), new colorData("red")));
+	this.setImage = function(data=null) {
+		if (data != null) {
+			deleteByNameTag(this.cursor.base.nameTag);
+			this.cursor = new Sprite(8, new baseObject(true, new nameTag("cursor", "Engine"), new Vector2(5, 5), new Vector2(-100, -100), data));
+		}
+	}
+	const update = () => {
+		if (this.cursor.type == "rectangle" && engineSettings.Debug.Show_Debug_Cursor) {
+			this.cursor.base.color.alpha = 1;
+			if (mouseData().b0 && !mouseData().b1 && !mouseData().b2) {
+				this.cursor.base.color = new colorData("green");
+			}
+			if (mouseData().b1 && !mouseData().b0 && !mouseData().b2) {
+				this.cursor.base.color = new colorData("yellow");
+			}
+			if (mouseData().b2 && !mouseData().b0 && !mouseData().b1) {
+				this.cursor.base.color = new colorData("orange");
+			}
+			if (!mouseData().b0 && !mouseData().b1 && !mouseData().b2) {
+				this.cursor.base.color = new colorData("red");
+			}
+		}
+		if (this.cursor.type == "rectangle" && !engineSettings.Debug.Show_Debug_Cursor) {
+			this.cursor.base.color.alpha = 0; 
+		}
+		if (getByNameTag(this.cursor.base.nameTag) != null) {
+			this.cursor.base.position = mouseData().pos.addV(this.offset);
+		} else {
+			addObject(this.cursor);
+		}
+		if (!layer[8][layer[8].length-1].base.nameTag.same(this.cursor.base.nameTag)) {
+			let index = getByNameTag(this.cursor.base.nameTag, 0, true);
+			layer[8].push(layer[8].splice(index, 1)[0]);
+			loaded = false;
+		}
+	}
+	addUpdate(update, "cursor");
+}
 
-function optionsMenu() {
+//Cursor global variables
+const Cursor = new cursor();
+
+//Gets the cursor
+const getCursor = () => {
+	return Cursor.cursor;
+}
+
+//Mouse
+let mousePos = new Vector2();
+let mousePressed = [false,false,false];
+let mouseWheel = 0;
+
+//Gets the mouse data
+const mouseData = () => {
+	return {"pos":new Vector2((mousePos.x/screen.getScale().x), (mousePos.y/screen.getScale().y)), "b0":mousePressed[0], "b1":mousePressed[1], "b2":mousePressed[2], "wheel":mouseWheel};
+};
+
+//Mouse move function
+window.addEventListener("mousemove", function(event) {
+	mousePos = new Vector2(event.clientX, event.clientY);
+});
+
+//Double click ignore
+window.addEventListener("dblclick", function(event) {
+	event.preventDefault();
+});
+
+//Mouse wheel function
+window.addEventListener("wheel", (e) => {
+	mouseWheel = clamp(e.deltaY, -1, 1);
+});
+
+//Mouse down function
+window.onmousedown = function(event){
+	if (screen.isFocused) {
+		switch(event.button) {
+			case 0:
+				mousePressed[0] = true;
+			break;
+			case 1:
+				mousePressed[1] = true;
+				event.preventDefault();
+			break;
+			case 2:
+				mousePressed[2] = true;
+				event.preventDefault();
+			break;
+		}
+	}
+}
+
+//Context menu ignore
+window.addEventListener("contextmenu", function(e){
+	e.preventDefault();
+}, false);
+
+//Mouse up function
+window.onmouseup = function(event){
+	switch(event.button) {
+		case 0:
+			mousePressed[0] = false;
+		break;
+		case 1:
+			mousePressed[1] = false;
+		break;
+		case 2:
+			mousePressed[2] = false;
+		break;
+	}
+}
+
+//Touch
+//Touch start function
+window.addEventListener("touchstart", function(event) {
+	if (screen.isFocused) {
+		mousePressed[0] = true;
+		mousePos = new Vector2(event.touches[0].clientX, event.touches[0].clientY);
+	}
+});
+
+//Touch end function
+window.addEventListener("touchend", function(event) {
+	mousePressed[0] = false;
+});
+
+//Touch move function
+window.addEventListener("touchmove", function(event) {
+	mousePos = new Vector2(event.touches[0].clientX, event.touches[0].clientY);
+});
+
+//UI Button class
+const buttonLink = function(object=null, textObj=null, collision=null, func=null, hoverColor=null, hoverTextColor=null, hoverShadowColor=null, hoverShadowTextColor=null) {
+	this.object = object; //Button object
+	this.textObj = textObj; //Button text object
+	this.collision = collision; //Collision function
+	this.func = func; //Function to run when clicked
+	this.hoverColor = hoverColor; //Vector2 used for changing color on hover | x- normal color, y- hover color | null if not used
+	this.hoverTextColor = hoverTextColor; //Vector2 used for changing color on hover | x- normal color, y- hover color | null if not used
+	this.hoverShadowColor = hoverShadowColor; //Vector2 used for changing shadow color on hover | x- normal color, y- hover color | null if not used
+	this.hoverShadowTextColor = hoverShadowTextColor; //Vector2 used for changing shadow color on hover | x- normal color, y- hover color | null if not used
+	let execute = false;
+	const update = () => this.update();
+	this.link = function() {
+		addUpdate(update, "button_"+this.object.base.nameTag.name);
+	}
+	this.unlink = function() {
+		deleteUpdate(1, "button_"+this.object.base.nameTag.name);
+	}
+	this.update = function() {
+		if (collision(Cursor.cursor, this.object)) {
+			//Hover code
+			if (this.hoverColor != null) {
+				this.object.base.color = this.hoverColor.y;
+			}
+			if (this.hoverTextColor != null) {
+				this.textObj.base.color = this.hoverTextColor.y;
+			}
+			if (this.hoverShadowColor != null) {
+				this.object.base.shadow.color = this.hoverShadowColor.y;
+			}
+			if (this.hoverShadowTextColor != null) {
+				this.textObj.base.shadow.color = this.hoverShadowTextColor.y;
+			}
+			//On click code
+			if (mouseData().b0 && !execute) {
+				func();
+				execute = true;
+			}
+		} else {
+			if (this.hoverColor != null) {
+				this.object.base.color = this.hoverColor.x;
+			}
+			if (this.hoverTextColor != null) {
+				this.textObj.base.color = this.hoverTextColor.x;
+			}
+			if (this.hoverShadowColor != null) {
+				this.object.base.shadow.color = this.hoverShadowColor.x;
+			}
+			if (this.hoverShadowTextColor != null) {
+				this.textObj.base.shadow.color = this.hoverShadowTextColor.x;
+			}
+		}
+		if (!mouseData().b0) {
+			execute = false;
+		}
+	}
+} 
+
+//Shorthand function for a button link
+const bttnL = (object=null, textObj=null, collision=null, func=null, hoverColor=null, hoverTextColor=null, hoverShadowColor=null, hoverShadowTextColor=null) => {
+	return new buttonLink(object, textObj, collision, func, hoverColor, hoverTextColor, hoverShadowColor, hoverShadowTextColor);
+}
+
+/*Menus (Most of them)*/
+//Options menu
+const optionsMenu = function() {
 	this.active = false;
 	this.menuSize = new Vector2(800, 600);
 	this.menuScale = 1;
@@ -3131,8 +3994,8 @@ function optionsMenu() {
 	this.closeBttn = document.createElement('input');
 	this.closeBttn.type = "image";
 	this.closeBttn.src = Close_UI.getSrc();
-	this.closeBttn.style.width = "32px";
-	this.closeBttn.style.height = "32px";
+	this.closeBttn.style.width = "27px";
+	this.closeBttn.style.height = "27px";
 	this.closeBttn.style.marginLeft = "0px";
 	this.closeBttn.style.marginRight = "5px";
 	this.closeBttn.style.marginTop = "5px";
@@ -3224,6 +4087,52 @@ function optionsMenu() {
 		localStorage.setItem("Image_Smoothing", JSON.stringify(this.imageSmoothingChkBx.checked));
 	};
 	this.imageSmoothingDiv.appendChild(this.imageSmoothingChkBx);
+	//Image smoothing quality option
+	this.imageSmoothingQltyDiv = document.createElement('div');
+	this.imageSmoothingQltyDiv.style.marginLeft = "0px";
+	this.imageSmoothingQltyDiv.style.marginRight = "0px";
+	this.imageSmoothingQltyDiv.style.marginTop = "0px";
+	this.imageSmoothingQltyDiv.style.marginBottom = "0px";
+	this.imageSmoothingQltyDiv.style.width = "100%";
+	this.imageSmoothingQltyDiv.style.height = "50px";
+	this.imageSmoothingQltyDiv.style.backgroundColor = "darkgrey";
+	this.optionsSep.appendChild(this.imageSmoothingQltyDiv);
+	this.imageSmoothingQltyTxt = document.createElement('p');
+	this.imageSmoothingQltyTxt.innerHTML = "Image Smoothing Quality:";
+	this.imageSmoothingQltyTxt.style.fontSize = "35px";
+	this.imageSmoothingQltyTxt.style.marginLeft = "0px";
+	this.imageSmoothingQltyTxt.style.marginRight = "0px";
+	this.imageSmoothingQltyTxt.style.marginTop = "0px";
+	this.imageSmoothingQltyTxt.style.marginBottom = "0px";
+	this.imageSmoothingQltyTxt.style.width = "100%";
+	this.imageSmoothingQltyTxt.style.height = "100%";
+	this.imageSmoothingQltyTxt.style.color = "white";
+	this.imageSmoothingQltyTxt.style.display = "inline";
+	this.imageSmoothingQltyDiv.appendChild(this.imageSmoothingQltyTxt);
+	this.imageSmoothingQltySlider = document.createElement('input');
+	this.imageSmoothingQltySlider.type = "range";
+	this.imageSmoothingQltySlider.value = "1";
+	this.imageSmoothingQltySlider.min = "1";
+	this.imageSmoothingQltySlider.max = "3";
+	this.imageSmoothingQltySlider.style.width = "35%";
+	this.imageSmoothingQltySlider.style.height = "50%";
+	this.imageSmoothingQltySlider.style.marginLeft = "10px";
+	this.imageSmoothingQltySlider.style.marginRight = "0px";
+	this.imageSmoothingQltySlider.style.marginTop = "12.5px";
+	this.imageSmoothingQltySlider.style.marginBottom = "0px";
+	this.imageSmoothingQltySlider.style.appearance = "none";
+	this.imageSmoothingQltySlider.style.background = "lightgrey";
+	this.imageSmoothingQltySlider.style.outline = "none";
+	this.imageSmoothingQltySlider.style.borderRadius = "90px";
+	this.imageSmoothingQltySlider.style.float = "right";
+	this.imageSmoothingQltySlider.style.display = "inline";
+	if (localStorage.getItem("Image_Smoothing_Quality") != null) {
+		this.imageSmoothingQltySlider.value = JSON.parse(localStorage.getItem("Image_Smoothing_Quality"));
+	}
+	this.imageSmoothingQltySlider.onchange = () => {
+		localStorage.setItem("Image_Smoothing_Quality", JSON.stringify(this.imageSmoothingQltySlider.value));
+	};
+	this.imageSmoothingQltyDiv.appendChild(this.imageSmoothingQltySlider);
 	//Shadows option
 	this.shadowsDiv = document.createElement('div');
 	this.shadowsDiv.style.marginLeft = "0px";
@@ -3424,8 +4333,8 @@ function optionsMenu() {
 		this.title.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
 		this.closeBttn.style.marginRight = ((5*this.menuScale)*screen.getScale().x)+"px";
 		this.closeBttn.style.marginTop = ((5*this.menuScale)*screen.getScale().y)+"px";
-		this.closeBttn.style.width = ((32*this.menuScale)*screen.getScale().x)+"px";
-		this.closeBttn.style.height = ((32*this.menuScale)*screen.getScale().x)+"px";
+		this.closeBttn.style.width = ((27*this.menuScale)*screen.getScale().x)+"px";
+		this.closeBttn.style.height = ((27*this.menuScale)*screen.getScale().x)+"px";
 		this.optionsSep.style.width = this.menu.style.width;
 		this.optionsSep.style.height = (parseFloat(this.menu.style.height)-(40*screen.getScale().y))+"px";
 		this.optionsSep.style.top = (parseFloat(this.menu.style.top)+(40*screen.getScale().y))+"px";
@@ -3433,6 +4342,9 @@ function optionsMenu() {
 		this.gfxTxt.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
 		this.imageSmoothingTxt.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
 		engineSettings.Image_Smoothing = this.imageSmoothingChkBx.checked;
+		this.imageSmoothingQltyTxt.innerHTML = "Image Smoothing Quality: "+this.imageSmoothingQltySlider.value;
+		this.imageSmoothingQltyTxt.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
+		engineSettings.Image_Smoothing_Quality = imgSmoothQlty[this.imageSmoothingQltySlider.value-1];
 		this.shadowsTxt.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
 		engineSettings.Allow_Shadows = this.shadowsChkBx.checked;
 		this.debugTxt.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
@@ -3444,8 +4356,10 @@ function optionsMenu() {
 		engineSettings.Debug.Show_Debug_Cursor = this.debugCursorChkBx.checked;
 		if (engineSettings.Settings_Menu.Image_Smoothing) {
 			this.imageSmoothingDiv.style.display = "inherit";
+			this.imageSmoothingQltyDiv.style.display = "inherit";
 		} else {
 			this.imageSmoothingDiv.style.display = "none";
+			this.imageSmoothingQltyDiv.style.display = "none";
 		}
 		if (engineSettings.Settings_Menu.Shadows) {
 			this.shadowsDiv.style.display = "inherit";
@@ -3476,21 +4390,11 @@ function optionsMenu() {
 	addUpdate(update, "settings menu");
 }
 
+//Options menu global variables
+const OptionsMenu = new optionsMenu();
+
 //Settings menu
-const SettingsMenu = new settingsMenu();
-
-function menuToggle() {
-	if (keyLock) {
-		return;
-	}
-	if (!SettingsMenu.active && !keyLock) {
-		SettingsMenu.show();
-	} else {
-		SettingsMenu.hide();
-	}
-}
-
-function settingsMenu() {
+const settingsMenu = function() {
 	this.active = false;
 	this.iconHovered = false;
 	this.menuSize = new Vector2(800, 600);
@@ -3549,8 +4453,8 @@ function settingsMenu() {
 	this.closeBttn = document.createElement('input');
 	this.closeBttn.type = "image";
 	this.closeBttn.src = Close_UI.getSrc();
-	this.closeBttn.style.width = "32px";
-	this.closeBttn.style.height = "32px";
+	this.closeBttn.style.width = "27px";
+	this.closeBttn.style.height = "27px";
 	this.closeBttn.style.marginLeft = "0px";
 	this.closeBttn.style.marginRight = "5px";
 	this.closeBttn.style.marginTop = "5px";
@@ -3654,6 +4558,7 @@ function settingsMenu() {
 		this.settingsIcon.style.display = "block";
 		ModLoader.hide();
 		keybinder.hide();
+		OptionsMenu.hide();
 		isPaused = false;
 		this.active = false;
 	}
@@ -3666,13 +4571,14 @@ function settingsMenu() {
 		this.title.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
 		this.closeBttn.style.marginRight = ((5*this.menuScale)*screen.getScale().x)+"px";
 		this.closeBttn.style.marginTop = ((5*this.menuScale)*screen.getScale().y)+"px";
-		this.closeBttn.style.width = ((32*this.menuScale)*screen.getScale().x)+"px";
-		this.closeBttn.style.height = ((32*this.menuScale)*screen.getScale().x)+"px";
+		this.closeBttn.style.width = ((27*this.menuScale)*screen.getScale().x)+"px";
+		this.closeBttn.style.height = ((27*this.menuScale)*screen.getScale().x)+"px";
 		this.buttonsSep.style.width = this.menu.style.width;
 		this.buttonsSep.style.height = (parseFloat(this.menu.style.height)-(40*screen.getScale().y))+"px";
 		this.buttonsSep.style.top = (parseFloat(this.menu.style.top)+(40*screen.getScale().y))+"px";
 		this.buttonsSep.style.left = this.menu.style.left;
 		this.keybinderBttn.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
+		this.optionsBttn.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
 		this.modsBttn.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
 		if (ModLoader.loaded) {
 			this.modsBttn.style.fontSize = ((35*this.menuScale)*screen.getScale().x)+"px";
@@ -3690,193 +4596,36 @@ function settingsMenu() {
 	addUpdate(update, "settings menu");
 }
 
+//Settings menu global variables
+const SettingsMenu = new settingsMenu();
+
+const menuToggle = () => {
+	if (keyLock || bttnLock) {
+		return;
+	}
+	if (!keyLock && !bttnLock) {
+		if (!SettingsMenu.active) {
+			SettingsMenu.show();
+		} else {
+			SettingsMenu.hide();
+		}
+	}
+}
+
 //Engine Controls
-let MenuBttn = new key(
+let MenuBttn = K(
 	"Menu",
 	[
-		new keyData("Escape", 0)
+		keyD("Escape", 0)
 	],
 	new Vector2(null, menuToggle)
 );
 
-//UI Button class
-function buttonLink(object=null, textObj=null, collision=null, func=null, hoverColor=null, hoverTextColor=null, hoverShadowColor=null, hoverShadowTextColor=null) {
-	this.object = object; //Button object
-	this.textObj = textObj; //Button text object
-	this.collision = collision; //Collision function
-	this.func = func; //Function to run when clicked
-	this.hoverColor = hoverColor; //Vector2 used for changing color on hover | x- normal color, y- hover color | null if not used
-	this.hoverTextColor = hoverTextColor; //Vector2 used for changing color on hover | x- normal color, y- hover color | null if not used
-	this.hoverShadowColor = hoverShadowColor; //Vector2 used for changing shadow color on hover | x- normal color, y- hover color | null if not used
-	this.hoverShadowTextColor = hoverShadowTextColor; //Vector2 used for changing shadow color on hover | x- normal color, y- hover color | null if not used
-	let execute = false;
-	const update = () => this.update();
-	this.link = function() {
-		addUpdate(update, "button_"+this.object.base.nameTag.name);
-	}
-	this.unlink = function() {
-		deleteUpdate(1, "button_"+this.object.base.nameTag.name);
-	}
-	this.update = function() {
-		if (collision(Cursor.cursor, this.object)) {
-			//Hover code
-			if (this.hoverColor != null) {
-				this.object.base.color = this.hoverColor.y;
-			}
-			if (this.hoverTextColor != null) {
-				this.textObj.base.color = this.hoverTextColor.y;
-			}
-			if (this.hoverShadowColor != null) {
-				this.object.base.shadow.color = this.hoverShadowColor.y;
-			}
-			if (this.hoverShadowTextColor != null) {
-				this.textObj.base.shadow.color = this.hoverShadowTextColor.y;
-			}
-			//On click code
-			if (mouseData().b0 && !execute) {
-				func();
-				execute = true;
-			}
-		} else {
-			if (this.hoverColor != null) {
-				this.object.base.color = this.hoverColor.x;
-			}
-			if (this.hoverTextColor != null) {
-				this.textObj.base.color = this.hoverTextColor.x;
-			}
-			if (this.hoverShadowColor != null) {
-				this.object.base.shadow.color = this.hoverShadowColor.x;
-			}
-			if (this.hoverShadowTextColor != null) {
-				this.textObj.base.shadow.color = this.hoverShadowTextColor.x;
-			}
-		}
-		if (!mouseData().b0) {
-			execute = false;
-		}
-	}
-} 
-
-//Cursor
-const Cursor = new cursor();
-
-function cursor() {
-	this.offset = new Vector2();
-	this.cursor = new Rectangle(8, new baseObject(true, new nameTag("cursor", "Engine"), new Vector2(5, 5), new Vector2(-100, -100), new colorData("red")));
-	this.setImage = function(data=null) {
-		if (data != null) {
-			deleteByNameTag(this.cursor.base.nameTag);
-			this.cursor = new Sprite(8, new baseObject(true, new nameTag("cursor", "Engine"), new Vector2(5, 5), new Vector2(-100, -100), data));
-		}
-	}
-	const update = () => {
-		if (this.cursor.type == "rectangle" && engineSettings.Debug.Show_Debug_Cursor) {
-			this.cursor.base.color.alpha = 1;
-			if (mouseData().b0 && !mouseData().b1 && !mouseData().b2) {
-				this.cursor.base.color = new colorData("green");
-			}
-			if (mouseData().b1 && !mouseData().b0 && !mouseData().b2) {
-				this.cursor.base.color = new colorData("yellow");
-			}
-			if (mouseData().b2 && !mouseData().b0 && !mouseData().b1) {
-				this.cursor.base.color = new colorData("orange");
-			}
-			if (!mouseData().b0 && !mouseData().b1 && !mouseData().b2) {
-				this.cursor.base.color = new colorData("red");
-			}
-		}
-		if (this.cursor.type == "rectangle" && !engineSettings.Debug.Show_Debug_Cursor) {
-			this.cursor.base.color.alpha = 0; 
-		}
-		if (getByNameTag(this.cursor.base.nameTag) != null) {
-			this.cursor.base.position = mouseData().pos.addV(this.offset);
-		} else {
-			addObject(this.cursor);
-		}
-		if (!layer[8][layer[8].length-1].base.nameTag.same(this.cursor.base.nameTag)) {
-			let index = getByNameTag(this.cursor.base.nameTag, 0, true);
-			layer[8].push(layer[8].splice(index, 1)[0]);
-			loaded = false;
-		}
-	}
-	addUpdate(update, "cursor");
-}
-
-//Mouse
-let mousePos = new Vector2();
-let mousePressed = [false,false,false];
-let mouseWheel = 0;
-
-function mouseData() {
-	return {"pos":new Vector2((mousePos.x/screen.getScale().x), (mousePos.y/screen.getScale().y)), "b0":mousePressed[0], "b1":mousePressed[1], "b2":mousePressed[2], "wheel":mouseWheel};
-};
-
-window.addEventListener("mousemove", function(event) {
-	mousePos = new Vector2(event.clientX, event.clientY);
-});
-
-window.addEventListener("dblclick", function(event) {
-	event.preventDefault();
-});
-
-window.addEventListener("wheel", (e) => {
-	mouseWheel = e.deltaY;
-});
-
-document.body.style.userSelect = "none";
-
-window.onmousedown = function(event){
-	switch(event.button) {
-		case 0:
-			mousePressed[0] = true;
-		break;
-		case 1:
-			mousePressed[1] = true;
-			event.preventDefault();
-		break;
-		case 2:
-			mousePressed[2] = true;
-			event.preventDefault();
-		break;
-	}
-}
-
-window.addEventListener("contextmenu", function(e){
-	e.preventDefault();
-}, false);
-
-window.onmouseup = function(event){
-	switch(event.button) {
-		case 0:
-			mousePressed[0] = false;
-		break;
-		case 1:
-			mousePressed[1] = false;
-		break;
-		case 2:
-			mousePressed[2] = false;
-		break;
-	}
-}
-
-//Touch
-window.addEventListener("touchstart", function(event) {
-	mousePressed[0] = true;
-	mousePos = new Vector2(event.touches[0].clientX, event.touches[0].clientY);
-});
-
-window.addEventListener("touchend", function(event) {
-	mousePressed[0] = false;
-});
-
-window.addEventListener("touchmove", function(event) {
-	mousePos = new Vector2(event.touches[0].clientX, event.touches[0].clientY);
-});
-
+/*File stuff*/
 if (typeof require != "undefined") {
 	const { existsSync } = require('fs');
 
-	function checkDirectory(path) {
+	const checkDirectory = (path) => {
 		if (existsSync(path)) {
 			return true;
 		} else {
@@ -3885,16 +4634,17 @@ if (typeof require != "undefined") {
 	}
 }
 
-function getExtension(filePath) {
+const getExtension = (filePath) => {
     return filePath.split('.').pop();
 }
 
+/*Online*/
 //Server
 if (typeof require != "undefined") {
 	const { Server } = require("socket.io");
 	let gameServer = null;
 
-	function startServer(port=3000) {
+	const startServer = (port=3000) => {
 		gameServer = new Server(port);
 		gameServer.on('connection', (socket) => {
 		  console.log('a user connected');
@@ -3905,6 +4655,6 @@ if (typeof require != "undefined") {
 //Client
 let socket = null;
 
-function connect(ip="localhost", port="3000") {
+const connect = (ip="localhost", port="3000") => {
 	socket = io("ws://"+ip+":"+port);
 }

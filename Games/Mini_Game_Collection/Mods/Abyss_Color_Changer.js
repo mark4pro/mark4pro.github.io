@@ -3,7 +3,7 @@ modVars.addVar("Abyss_Color_Changer", "previewToggle", false);
 
 //Allowed maps
 modVars.addVar("Abyss_Color_Changer", "isOnAllowed", false);
-modVars.addVar("Abyss_Color_Changer", "allowedMaps", ["Abyss"]);
+modVars.addVar("Abyss_Color_Changer", "allowedMaps", ["Abyss", "Neon", "Portals"]);
 
 //Color vector
 modVars.addVar("Abyss_Color_Changer", "abyssColorVec", new Vector2(0, 0, 0));
@@ -105,7 +105,7 @@ modVars.addVar("Abyss_Color_Changer", "updateLoop", () => {
 	let abyssColor = "rgb("+getModVar("Abyss_Color_Changer", "abyssColorVec").x+","+getModVar("Abyss_Color_Changer", "abyssColorVec").y+","+getModVar("Abyss_Color_Changer", "abyssColorVec").r+")";
 	//Checks map and sets bg color
 	if (currentMap != null) {
-		if (currentMap.id == "Abyss") {
+		if (getModVar("Abyss_Color_Changer", "allowedMaps").includes(currentMap.id)) {
 			currentMap.backgroundColor = abyssColor;
 		}
 	}
